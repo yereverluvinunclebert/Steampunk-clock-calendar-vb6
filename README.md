@@ -1,4 +1,4 @@
-# Diesel-Volume-Control-VB6
+# Steampunk Clock Calendar-VB6
  
   A FOSS Desktop Utility VB6 WoW64 Widget for Windows Vista, Win7, 8 and 10/11+. 
 
