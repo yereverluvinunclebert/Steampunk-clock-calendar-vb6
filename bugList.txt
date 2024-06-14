@@ -1,0 +1,80 @@
+
+dealing with increased density shadows, the simple PSD parser function seems to increase to opacity of shadows in the transparent regions. Sent PSD to Olaf - done
+
+help image cut off - done
+help pin added - done
+mute button balloon text - done
+mute button code - done
+about us PNG updated - done
+mute button on startup - done
+add percentage in text - done
+sliderset - constrain within current Y axis - done
+sliderset - constrain within bounds left/right - done
+stretch the cable to match the sliderset - done
+slider in relation to external sound changes - done
+add frequent timer to detect change to system volume state and set button state automatically - done
+add keypress commands L/R U & D - done
+create HTML documentation - done
+create CHM documentation - done
+width of the help in low dpi mode - done
+removal of prefs positioning to top, bottom &c - done
+update html code documentation using MZTools code documenter  - done
+setup2go create setup.exe  - done
+Prefs scale altered from 5-100 - done
+fmrMessage unloaded - done
+startup - done
+
+' -oOo-
+
+Create a XP /ReactOS version using old APIs - wip
+obtain a XP test system
+create two new functions as below
+https://www.tek-tips.com/viewthread.cfm?qid=258233
+this is overly complex and beyond scope of a volume control
+https://www.vbforums.com/showthread.php?841819-RESOLVED-Changing-system-volume-from-VB6
+
+create
+
+' add second monitor - wip find cable!
+' sync. E6410 win 7
+' sync. Fast Dell laptop
+
+' test on Dell win 11 high DPI with slicence = 0
+
+' test usage of RC6 for monitor awareness - wip
+With New_c.Displays(OneBasedIndex_Or_DeviceName) 'hands out an instance of cDisplay
+  'output as LeftOffs, TopOffs, Width, Height
+  Debug.Print .WorkLeft , .WorkTop, (.WorkRight - .WorkLeft), (.WorkBottom - .WorkTop)
+End With
+
+' https://www.vbforums.com/showthread.php?900892-VB6-Simple-way-to-make-your-VB6-application-quot-Per-Monitor-DPI-Aware-quot
+
+' adjustFormPositionToCorrectMonitor, make it work and observe the result as per FCW - wip
+
+' adjustFormPositionToCorrectMonitor - licence form
+' adjustFormPositionToCorrectMonitor - about form
+' adjustFormPositionToCorrectMonitor - help form
+
+
+
+' -oOo-
+
+' Later tasks after testing
+
+' test the icon sizes on 32bit Win7, XP and ReactOS, find out if 48x48 causes a crash
+' 32x32 (24 bit)
+' 16x16 (24 bit)
+' 48x48 (32 bit)
+' 32x32 (32 bit)
+' 16x16 (32 bit)
+
+' patch a 256 bit icon into the VB6 binary
+' https://www.vbforums.com/showthread.php?858347-RESOLVED-How-to-create-and-connect-quality-icon-group-to-your-VB6-app
+
+' RC BUGS & LIMITATIONS
+' =====================
+
+' tooltips also resize when the whole thing is resized, code received from Olaf tested - resizing results in missing text and blank tooltips, using non-standard font centurion light
+' RC6 needs a static tooltip option.
+
+
