@@ -2,8 +2,9 @@
  
   A FOSS Desktop Utility VB6 WoW64 Widget for Windows Vista, Win7, 8 and 10/11+. 
 
- My current VB6/RC6 PSD program being worked upon now, in progress, you can download as it is complete and operating - except for testing and changes for multi monitor systems.
- This is based upon the Yahoo widget of the same design. 
+ My current VB6/RC6 PSD program being worked upon now, in progress, don't download it yet as it is far from complete. This Steampunk Clock Calendar widget is an attractive steampunk widget for your desktop. It is a deliberately complex clock. Functional and gorgeous at the 
+same time. This Widget is a moveable widget that you can move anywhere around the 
+desktop as you require. This is based upon the Yahoo widget of the same design. 
  
  If you just want to install, there is a setup.exe that you download and run. If you want to compile this yourself, clone/download the lot. You will of course, need the VB6 IDE.
 
@@ -12,9 +13,7 @@
  ![vb6-logo-200](https://github.com/yereverluvinunclebert/Panzer-JustClock-VB6/assets/2788342/7986e544-0b94-4a10-90bb-2d9fb60c294a)
  
  I created this as a development from the original Yahoo widget/ Konfabulator version I had previously created for the steampunk 
- communities. This Yahoo widget inspired the Xwidget version which has now been replaced by this VB6 version.
- 
-This widget is an attractive dieselpunk VB6 widget for your desktop. Functional and gorgeous at the same time. The graphics are my own, it is almost all my code with some help from the chaps at VBForums (credits given). This Widget is a moveable widget that you can move anywhere around the desktop as you require.
+ communities. This widget is an attractive steampunk VB6 widget for your desktop. It is almost all my code with some help from the chaps at VBForums (credits given).
  
 ![wotw-clock-help-preview](https://github.com/yereverluvinunclebert/Steampunk-clock-calendar-version-2.9/assets/2788342/81d32fa2-5b79-4615-b31b-ce46c767ee87)
 
@@ -37,6 +36,11 @@ This widget is an attractive dieselpunk VB6 widget for your desktop. Functional 
 
  This version was developed on Windows 10 64bit using 32 bit VisualBasic 6 as a FOSS 
  project creating a WoW64 widget for the desktop. 
+
+ The tool has two modes, Clock mode and Alarm mode. n clock mode the clock ticks, the calendar shows the date.
+In alarm mode you can set alarms and when the time has passed the alarm will sound.
+
+Instructions for use:
  
 ![lookatme](https://github.com/yereverluvinunclebert/Steampunk-clock-calendar-version-2.9/assets/2788342/d8878f9f-a95a-46f0-8fad-d3cf2573aa1a)
 
@@ -49,7 +53,66 @@ This widget is an attractive dieselpunk VB6 widget for your desktop. Functional 
 
 ![wotw-clock-help-image](https://github.com/yereverluvinunclebert/Steampunk-clock-calendar-version-2.9/assets/2788342/00887907-e663-448a-b322-7d6584d95512)
 
- 
+ By the left of the calendar are five brass toggles/keys. Pressing on each will have the following effect:
+
+H Key - will show the first help canvas indicated by the brass number 1 on the top left of the wooden
+bar. clicking on the brassnumber 1 will select the next drop down help canvas.
+Clicking on the ring pull at the bottom will make the current canvas go away.
+
+A Key - will activate the alarm mode and will also show the help canvas the first time
+it is pressed. Click on the ring pull at the bottom to make the canvas go away
+(f you do this note that it will still be in alarm mode). Clicking on the bell set will also cause
+the clock to go into alarm mode.
+
+When you have pressed the A key it will release the slider and you may move it to the right
+or left and change time. When you have selected the date/time you want then move the slider
+to the central position and click on the bell set. The alarm will set. You can set up to five alarms.
+
+Alarm mode -  Normal operation is this: When the slider is released the further you move the slider from the
+centre position the more quickly the date/time will change.
+
+When you are ready to set the alarm, click the bellset, two bells will sound and the alarm is set.
+
+* Please note that while the timepiece in Alarm Mode all clock functions are switched off *
+* Alarms will not sound whilst in alarm mode *
+
+To cancel an alarm setting or viewing operation just click on the clock face.
+To cancel a ringing alarm - just click on the bellset.
+
+![wotw-clock-help-image](https://github.com/yereverluvinunclebert/Steampunk-clock-calendar-version-2.9/assets/2788342/00887907-e663-448a-b322-7d6584d95512)
+
+Each time you press the alarm bell to set an alarm, a pop-up will display indicating
+which alarm you are going to set. Each time you press the A key, it will select the next alarm.
+To the right of the clock there are from zero to five alarm toggles depending on how many alarms you
+have previously set. f you click on the toggle it will display the date and time set for this alarm.
+If you then click on the associated 'cash-register-style' pop-up it will allow you to delete this alarm.
+
+L Key - gently quietens the whole clock: ticking, chimes, alarm sounds all reduced by 21db.
+
+M Key - leaves all other sounds alone but turns off only the chimes. Another click turns the
+         chimes back on again. You will see the bell clapper move to/from the bell set.
+
+P Key - Turns off the pendulum. Another click turns it on again. Single-click on the pendulum itself
+         also turns off the pendulum.
+
+Crank - The hand crank is the master volume control. Crank it down to mute all sounds and crank
+         it up to restore the sound back to the level it was prior to muting.
+
+To the left of the digital clock is another brass toggle:
+
+S Key - Raises the transparent screen logging the various controls you select. Because the screen is
+         transparent the text may be hard to see when used on a dark desktop background. A new 'B' key
+         will also appear on the right of the screen frame that allows you to raise/lower the back screen.
+         This will allow you to read the text.
+	 
+![wotw-clock-help-imageII](https://github.com/yereverluvinunclebert/Steampunk-clock-calendar-version-2.9/assets/2788342/ca4d4f68-ee8c-4d93-a684-3ee90907192a)
+
+The screen currently only displays clock/calendar operations but may do more in the future.
+
+At the back-end there are more preferences that may be changed, all are documented by an associated description.
+
+
+
  This utility is one of a set of steampunk and dieselpunk widgets. That you can 
  find here on Deviantart: https://www.deviantart.com/yereverluvinuncleber/gallery
  
@@ -75,9 +138,6 @@ This widget is an attractive dieselpunk VB6 widget for your desktop. Functional 
 	Persistent debug code http://www.vbforums.com/member.php?234143-Elroy  
 	Open File common dialog code without dependent OCX - http://forums.codeguru.com/member.php?92278-rxbagain  
 	VBAdvance  
-
-  
-![wotw-clock-help-imageII](https://github.com/yereverluvinunclebert/Steampunk-clock-calendar-version-2.9/assets/2788342/ca4d4f68-ee8c-4d93-a684-3ee90907192a)
  
  Tested on :
  
