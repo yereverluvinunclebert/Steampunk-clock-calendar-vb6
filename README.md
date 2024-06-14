@@ -79,8 +79,6 @@ When you are ready to set the alarm, click the bellset, two bells will sound and
 To cancel an alarm setting or viewing operation just click on the clock face.
 To cancel a ringing alarm - just click on the bellset.
 
-![wotw-clock-help-image](https://github.com/yereverluvinunclebert/Steampunk-clock-calendar-version-2.9/assets/2788342/00887907-e663-448a-b322-7d6584d95512)
-
 Each time you press the alarm bell to set an alarm, a pop-up will display indicating
 which alarm you are going to set. Each time you press the A key, it will select the next alarm.
 To the right of the clock there are from zero to five alarm toggles depending on how many alarms you
