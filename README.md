@@ -16,7 +16,7 @@
  
 This widget is an attractive dieselpunk VB6 widget for your desktop. Functional and gorgeous at the same time. The graphics are my own, it is almost all my code with some help from the chaps at VBForums (credits given). This Widget is a moveable widget that you can move anywhere around the desktop as you require.
  
-![dieselpunk-volume-400](https://github.com/yereverluvinunclebert/Diesel-Volume-Control-VB6/assets/2788342/61063cce-eeb7-4552-ac96-ab2a192eb14f)
+![wotw-clock-help-preview](https://github.com/yereverluvinunclebert/Steampunk-clock-calendar-version-2.9/assets/2788342/81d32fa2-5b79-4615-b31b-ce46c767ee87)
 
  This widget can be increased in size, animation speed can be changed, 
  opacity/transparency may be set as to the users discretion. The widget can 
@@ -29,7 +29,7 @@ This widget is an attractive dieselpunk VB6 widget for your desktop. Functional 
  windows. Mouse hover over the widget and press CTRL+mousewheel up/down to resize. It works well on Windows Vista
  to Windows 11. There will be another version for ReactOS and Windows XP, not yet built, watch this space.
 
-![gifcaptured001](https://github.com/yereverluvinunclebert/Diesel-Volume-Control-VB6/assets/2788342/85ab56f6-30bb-4d6c-98cd-ee47b2604e31)
+![steampunk_clock_calendar_mkii__2_9__rc_by_yereverluvinuncleber-d4l5xny](https://github.com/yereverluvinunclebert/Steampunk-clock-calendar-version-2.9/assets/2788342/f2dc5337-0c98-418c-9b68-2374ae7c4222)
 
 
  The Volume widget is currently Beta-grade software, under development, not yet 
@@ -38,7 +38,7 @@ This widget is an attractive dieselpunk VB6 widget for your desktop. Functional 
  This version was developed on Windows 10 64bit using 32 bit VisualBasic 6 as a FOSS 
  project creating a WoW64 widget for the desktop. 
  
-![diesel-volume-help](https://github.com/yereverluvinunclebert/Diesel-Volume-Control-VB6/assets/2788342/d2546c52-de2a-4b0e-b6eb-e21e3bd836b3)
+![lookatme](https://github.com/yereverluvinunclebert/Steampunk-clock-calendar-version-2.9/assets/2788342/d8878f9f-a95a-46f0-8fad-d3cf2573aa1a)
 
  It is open source to allow easy configuration, bug-fixing, enhancement and 
  community contribution towards free-and-useful VB6 utilities that can be created
@@ -47,7 +47,7 @@ This widget is an attractive dieselpunk VB6 widget for your desktop. Functional 
  are new VB6 widgets with more functionality and then hopefully, conversion of 
  each to RADBasic/TwinBasic for future-proofing and 64bit-ness. 
 
-![dieselpunk-volume-menu001](https://github.com/yereverluvinunclebert/Diesel-Volume-Control-VB6/assets/2788342/20284008-b0a6-4ed9-bef4-4a2d954b221b)
+![wotw-clock-help-image](https://github.com/yereverluvinunclebert/Steampunk-clock-calendar-version-2.9/assets/2788342/00887907-e663-448a-b322-7d6584d95512)
 
  
  This utility is one of a set of steampunk and dieselpunk widgets. That you can 
@@ -77,7 +77,7 @@ This widget is an attractive dieselpunk VB6 widget for your desktop. Functional 
 	VBAdvance  
 
   
-![diesel-volume](https://github.com/yereverluvinunclebert/Diesel-Volume-Control-VB6/assets/2788342/026b1722-7bfa-429f-ab4a-1dae5f8f9f18)
+![wotw-clock-help-imageII](https://github.com/yereverluvinunclebert/Steampunk-clock-calendar-version-2.9/assets/2788342/ca4d4f68-ee8c-4d93-a684-3ee90907192a)
  
  Tested on :
  
