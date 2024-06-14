@@ -1,8 +1,8 @@
-DIESELPUNK VOLUME CONTROL DESKTOP WIDGET
+STEAMPUNK CLOCK CALENDAR DESKTOP WIDGET
 
-The Dieselpunk Volume Control is a utility for changing or muting the system audio volume via a dieselpunk design on your desktop. It can be resized and placed anywhere on your desktop. It uses minimal resources and helps give your desktop a dieselpunk make-over.
+The Steampunk Clock Calendar is a clock/calendar/alarm utility via a steampunk design on your desktop. It can be resized and placed anywhere on your desktop. It uses minimal resources and helps give your desktop a dieselpunk make-over.
 
-This VB6 version of the Dieselpunk Volume Control replaces the XWidget version that is now obsolete.
+This VB6 version of the Steampunk Clock Calendar replaces the Yahoo/Konfabulator Widget version that is now obsolete.
 
 This widgets UI functionality is 'complex' as I am using my complex template for this widget and widgets yet to come, it allows the user to interact with the graphical elements of the widget.
 
