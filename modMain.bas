@@ -451,14 +451,14 @@ Public Sub adjustMainControls()
 
     With fClock.clockForm.Widgets("backgrounditems").Widget
         .HoverColor = 0
-        .MousePointer = IDC_HAND
+        .MousePointer = IDC_ARROW
         .Alpha = Val(gblOpacity) / 100
         .Tag = 0.01
     End With
 
     With fClock.clockForm.Widgets("bottombox").Widget
         .HoverColor = 0
-        .MousePointer = IDC_HAND
+        .MousePointer = IDC_ARROW
         .Alpha = Val(gblOpacity) / 100
         .Tag = 0.01
     End With
@@ -473,28 +473,28 @@ Public Sub adjustMainControls()
 
     With fClock.clockForm.Widgets("heatercoil").Widget
         .HoverColor = 0
-        .MousePointer = IDC_HAND
+        .MousePointer = IDC_ARROW
         .Alpha = Val(gblOpacity) / 100
         .Tag = 0.01
     End With
 
 '    With fClock.clockForm.Widgets("orangeheaterglow").Widget
 '        .HoverColor = 0
-'        .MousePointer = IDC_HAND
+'        .MousePointer = IDC_ARROW
 '        .Alpha = Val(gblOpacity) / 100
 '        .Tag = 0.01
 '    End With
     
     With fClock.clockForm.Widgets("meridien").Widget
         .HoverColor = 0
-        .MousePointer = IDC_HAND
+        .MousePointer = IDC_ARROW
         .Alpha = Val(gblOpacity) / 100
         .Tag = 0.01
     End With
 
     With fClock.clockForm.Widgets("anti").Widget
         .HoverColor = 0
-        .MousePointer = IDC_HAND
+        .MousePointer = IDC_ARROW
         .Alpha = Val(gblOpacity) / 100
         .Tag = 0.01
     End With
@@ -520,7 +520,7 @@ Public Sub adjustMainControls()
         .Tag = 0.01
     End With
 
-    With fClock.clockForm.Widgets("btoggle").Widget
+    With fClock.clockForm.Widgets("backtoggle").Widget
         .HoverColor = 0
         .MousePointer = IDC_HAND
         .Alpha = Val(gblOpacity) / 100
@@ -564,7 +564,7 @@ Public Sub adjustMainControls()
 
     With fClock.clockForm.Widgets("day2").Widget
         .HoverColor = 0
-        .MousePointer = IDC_HAND
+        .MousePointer = IDC_ARROW
         .Alpha = Val(gblOpacity) / 100
         .Tag = 0.01
     End With
@@ -609,14 +609,14 @@ Public Sub adjustMainControls()
 
     With fClock.clockForm.Widgets("topshelf").Widget
         .HoverColor = 0
-        .MousePointer = IDC_HAND
+        .MousePointer = IDC_ARROW
         .Alpha = Val(gblOpacity) / 100
         .Tag = 0.01
     End With
 
     With fClock.clockForm.Widgets("maincasingsurround").Widget
         .HoverColor = 0
-        .MousePointer = IDC_HAND
+        .MousePointer = IDC_ARROW
         .Alpha = Val(gblOpacity) / 100
         .Tag = 0.01
     End With
@@ -639,7 +639,7 @@ Public Sub adjustMainControls()
 
     With fClock.clockForm.Widgets("hinges").Widget
         .HoverColor = 0
-        .MousePointer = IDC_HAND
+        .MousePointer = IDC_ARROW
         .Alpha = Val(gblOpacity) / 100
         .Tag = 0.01
     End With
@@ -648,7 +648,7 @@ Public Sub adjustMainControls()
 
     With fClock.clockForm.Widgets("cablecorner").Widget
         .HoverColor = 0
-        .MousePointer = IDC_HAND
+        .MousePointer = IDC_ARROW
         .Alpha = Val(gblOpacity) / 100
         .Tag = 0.01
     End With
@@ -673,8 +673,51 @@ Public Sub adjustMainControls()
         .Alpha = Val(gblOpacity) / 100
         .Tag = 0.01
     End With
+
+    With fClock.clockForm.Widgets("timetoggle").Widget
+        .HoverColor = 0
+        .MousePointer = IDC_HAND
+        .Alpha = Val(gblOpacity) / 100
+        .Tag = 0.01
+    End With
     
     With fClock.clockForm.Widgets("weekdaytoggle").Widget
+        .HoverColor = 0
+        .MousePointer = IDC_HAND
+        .Alpha = Val(gblOpacity) / 100
+        .Tag = 0.01
+    End With
+    
+    
+    With fClock.clockForm.Widgets("alarmtoggle").Widget
+        .HoverColor = 0
+        .MousePointer = IDC_HAND
+        .Alpha = Val(gblOpacity) / 100
+        .Tag = 0.01
+    End With
+
+    With fClock.clockForm.Widgets("helptoggle").Widget
+        .HoverColor = 0
+        .MousePointer = IDC_HAND
+        .Alpha = Val(gblOpacity) / 100
+        .Tag = 0.01
+    End With
+    
+    With fClock.clockForm.Widgets("loudtoggle").Widget
+        .HoverColor = 0
+        .MousePointer = IDC_HAND
+        .Alpha = Val(gblOpacity) / 100
+        .Tag = 0.01
+    End With
+    
+    With fClock.clockForm.Widgets("mutetoggle").Widget
+        .HoverColor = 0
+        .MousePointer = IDC_HAND
+        .Alpha = Val(gblOpacity) / 100
+        .Tag = 0.01
+    End With
+    
+    With fClock.clockForm.Widgets("pendulumtoggle").Widget
         .HoverColor = 0
         .MousePointer = IDC_HAND
         .Alpha = Val(gblOpacity) / 100
@@ -690,7 +733,7 @@ Public Sub adjustMainControls()
 
     With fClock.clockForm.Widgets("topdigitalclock").Widget
         .HoverColor = 0
-        .MousePointer = IDC_HAND
+        .MousePointer = IDC_ARROW
         .Alpha = Val(gblOpacity) / 100
         .Tag = 0.01
     End With
@@ -725,7 +768,7 @@ Public Sub adjustMainControls()
 
     With fClock.clockForm.Widgets("cablewheel").Widget
         .HoverColor = 0
-        .MousePointer = IDC_HAND
+        .MousePointer = IDC_ARROW
         .Alpha = Val(gblOpacity) / 100
         .Tag = 0.01
     End With
@@ -739,28 +782,28 @@ Public Sub adjustMainControls()
 
     With fClock.clockForm.Widgets("bar").Widget
         .HoverColor = 0
-        .MousePointer = IDC_HAND
+        .MousePointer = IDC_ARROW
         .Alpha = Val(gblOpacity) / 100
         .Tag = 0.01
     End With
 
     With fClock.clockForm.Widgets("glow").Widget
         .HoverColor = 0
-        .MousePointer = IDC_HAND
+        .MousePointer = IDC_ARROW
         .Alpha = Val(gblOpacity) / 100
         .Tag = 0.01
     End With
 
     With fClock.clockForm.Widgets("sliderset").Widget
         .HoverColor = 0
-        .MousePointer = IDC_HAND
+        .MousePointer = IDC_SIZEALL
         .Alpha = Val(gblOpacity) / 100
         .Tag = 0.01
     End With
 
     With fClock.clockForm.Widgets("cablehiders").Widget
         .HoverColor = 0
-        .MousePointer = IDC_HAND
+        .MousePointer = IDC_ARROW
         .Alpha = Val(gblOpacity) / 100
         .Tag = 0.01
     End With
@@ -774,61 +817,66 @@ Public Sub adjustMainControls()
 
     With fClock.clockForm.Widgets("clockset").Widget
         .HoverColor = 0
-        .MousePointer = IDC_HAND
+        .MousePointer = IDC_ARROW
         .Alpha = Val(gblOpacity) / 100
         .Tag = 0.01
     End With
     
     With fClock.clockForm.Widgets("hourhand").Widget
         .HoverColor = 0
-        .MousePointer = IDC_HAND
+        .MousePointer = IDC_ARROW
         .Alpha = Val(gblOpacity) / 100
         .Tag = 0.01
     End With
     
     With fClock.clockForm.Widgets("secondhand").Widget
         .HoverColor = 0
-        .MousePointer = IDC_HAND
+        .MousePointer = IDC_ARROW
         .Alpha = Val(gblOpacity) / 100
         .Tag = 0.01
     End With
 
     With fClock.clockForm.Widgets("minutehand").Widget
         .HoverColor = 0
-        .MousePointer = IDC_HAND
+        .MousePointer = IDC_ARROW
         .Alpha = Val(gblOpacity) / 100
         .Tag = 0.01
     End With
 
     With fClock.clockForm.Widgets("hole").Widget
         .HoverColor = 0
-        .MousePointer = IDC_HAND
+        .MousePointer = IDC_ARROW
         .Alpha = Val(gblOpacity) / 100
         .Tag = 0.01
     End With
 
     With fClock.clockForm.Widgets("bellset").Widget
         .HoverColor = 0
-        .MousePointer = IDC_HAND
+        .MousePointer = IDC_ARROW
         .Alpha = Val(gblOpacity) / 100
         .Tag = 0.01
     End With
 
     With fClock.clockForm.Widgets("labellayer").Widget
         .HoverColor = 0
-        .MousePointer = IDC_HAND
+        .MousePointer = IDC_ARROW
         .Alpha = Val(gblOpacity) / 100
         .Tag = 0.01
     End With
 
+    With fClock.clockForm.Widgets("lockingpin").Widget
+        .HoverColor = 0
+        .MousePointer = IDC_ARROW
+        .Alpha = Val(gblOpacity) / 100
+        .Tag = 0.01
+    End With
 
-'    With fClock.clockForm.Widgets("cable").Widget
-'        .HoverColor = 0
-'        .MousePointer = IDC_HAND
-'        .Alpha = Val(gblOpacity) / 100
-'        .Tag = 0.01
-'    End With
-
+    With fClock.clockForm.Widgets("grommet").Widget
+        .HoverColor = 0
+        .MousePointer = IDC_ARROW
+        .Alpha = Val(gblOpacity) / 100
+        .Tag = 0.01
+    End With
 
     
         
@@ -874,7 +922,8 @@ Public Sub adjustMainControls()
 
 adjustMainControls_Error:
 
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure adjustMainControls of Module modMain"
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure adjustMainControls of Module modMain " _
+        & " Most likely one of the layers above is named incorrectly."
 
 End Sub
 
