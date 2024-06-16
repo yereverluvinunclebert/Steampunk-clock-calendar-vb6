@@ -2,7 +2,7 @@
  
   A FOSS Desktop Utility VB6 WoW64 Widget for Windows Vista, Win7, 8 and 10/11+. 
 
- My current VB6/RC6 PSD program being worked upon now, in progress, don't download it yet as it is far from complete. This Steampunk Clock Calendar widget is an attractive steampunk widget for your desktop. It is a deliberately complex clock. Functional and gorgeous at the 
+ My current VB6/RC6 PSD program being worked upon now, in progress, don't download it yet as it is far from complete. Estimated at 98% graphically complete but only 10% code-ready. This Steampunk Clock Calendar widget is an attractive steampunk widget for your desktop. It is a deliberately complex clock. Functional and gorgeous at the 
 same time. This Widget is a moveable widget that you can move anywhere around the 
 desktop as you require. This is based upon the Yahoo widget of the same design. 
  
