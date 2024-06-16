@@ -1577,46 +1577,7 @@ aboutClickEvent_Error:
 
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure aboutClickEvent of Module Module1"
 End Sub
-'---------------------------------------------------------------------------------------
-' Procedure : helpSplash
-' Author    : beededea
-' Date      : 03/08/2023
-' Purpose   :
-'---------------------------------------------------------------------------------------
-'
-Public Sub helpSplash()
 
-    Dim fileToPlay As String: fileToPlay = vbNullString
-
-    On Error GoTo helpSplash_Error
-
-    fileToPlay = "till.wav"
-    If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
-        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
-    End If
-
-    fMain.helpForm.Top = (screenHeightPixels / 2) - (fMain.helpForm.Height / 2)
-    fMain.helpForm.Left = (screenWidthPixels / 2) - (fMain.helpForm.Width / 2)
-     
-    'helpWidget.MyOpacity = 0
-    helpWidget.ShowMe = True
-    helpWidget.Widget.Refresh
-    
-    fMain.helpForm.Load
-    fMain.helpForm.Show
-    
-     If (fMain.helpForm.WindowState = 1) Then
-         fMain.helpForm.WindowState = 0
-     End If
-
-   On Error GoTo 0
-   Exit Sub
-
-helpSplash_Error:
-
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure helpSplash of Form menuForm"
-     
-End Sub
 '---------------------------------------------------------------------------------------
 ' Procedure : licenceSplash
 ' Author    : beededea
@@ -1757,7 +1718,7 @@ Public Sub setMainTooltips()
     If gblEnableTooltips = "1" Then
 
         overlayWidget.Widget.ToolTip = "Use CTRL+mouse scrollwheel up/down to resize."
-        helpWidget.Widget.ToolTip = "Click on me to make me go away."
+        'helpWidget.Widget.ToolTip = "Click on me to make me go away."
         aboutWidget.Widget.ToolTip = "Click on me to make me go away."
         
         'fClock.clockForm.Widgets("tickbutton").Widget.ToolTip = "Choose smooth movement or regular ticks"
@@ -1771,7 +1732,7 @@ Public Sub setMainTooltips()
         
     Else
         overlayWidget.Widget.ToolTip = vbNullString
-        helpWidget.Widget.ToolTip = vbNullString
+        'helpWidget.Widget.ToolTip = vbNullString
         aboutWidget.Widget.ToolTip = vbNullString
         
         'fClock.clockForm.Widgets("tickbutton").Widget.ToolTip = vbNullString
@@ -2104,6 +2065,9 @@ Public Sub mainScreen()
         gblhLocationPercPrefValue = Str$(fClock.clockForm.Left / screenWidthPixels * 100)
         gblvLocationPercPrefValue = Str$(fClock.clockForm.Top / screenHeightPixels * 100)
     End If
+    
+    fClock.clockForm.Left = 100
+    fClock.clockForm.Top = 100
 
    On Error GoTo 0
    Exit Sub
@@ -2156,7 +2120,7 @@ Public Sub unloadAllForms(ByVal endItAll As Boolean)
     'unload the RC6 widgets on the RC6 forms first
     
     aboutWidget.Widgets.RemoveAll
-    helpWidget.Widgets.RemoveAll
+    'helpWidget.Widgets.RemoveAll
     fClock.clockForm.Widgets.RemoveAll
     
     ' unload the native VB6 and RC6 forms
@@ -2167,14 +2131,14 @@ Public Sub unloadAllForms(ByVal endItAll As Boolean)
     Unload menuForm
 
     fMain.aboutForm.Unload  ' RC6's own method for killing forms
-    fMain.helpForm.Unload
+    'fMain.helpForm.Unload
     fClock.clockForm.Unload
     fMain.licenceForm.Unload
     
     ' remove all variable references to each form in turn
     
     Set fMain.aboutForm = Nothing
-    Set fMain.helpForm = Nothing
+    'Set fMain.helpForm = Nothing
     Set fClock.clockForm = Nothing
     Set fMain.licenceForm = Nothing
     
@@ -2450,16 +2414,16 @@ End Sub
 
 
 '---------------------------------------------------------------------------------------
-' Procedure : lockWidget
+' Procedure : toggleWidgetLock
 ' Author    : beededea
 ' Date      : 03/08/2023
 ' Purpose   :
 '---------------------------------------------------------------------------------------
 '
-Public Sub lockWidget()
+Public Sub toggleWidgetLock()
     Dim fileToPlay As String: fileToPlay = vbNullString
 
-    On Error GoTo lockWidget_Error
+    On Error GoTo toggleWidgetLock_Error
 
     fileToPlay = "lock.wav"
     
@@ -2488,9 +2452,9 @@ Public Sub lockWidget()
     On Error GoTo 0
    Exit Sub
 
-lockWidget_Error:
+toggleWidgetLock_Error:
 
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure lockWidget of Module Module1"
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure toggleWidgetLock of Module Module1"
 
 End Sub
 

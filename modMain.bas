@@ -6,7 +6,7 @@ Option Explicit
 
 '------------------------------------------------------ STARTS
 ' for SetWindowPos z-ordering
-Public Declare Function SetWindowPos Lib "user32" (ByVal hwnd As Long, ByVal hWndInsertAfter As Long, ByVal x As Long, ByVal y As Long, ByVal cx As Long, ByVal cy As Long, ByVal wFlags As Long) As Long
+Public Declare Function SetWindowPos Lib "user32" (ByVal hwnd As Long, ByVal hWndInsertAfter As Long, ByVal x As Long, ByVal Y As Long, ByVal cx As Long, ByVal cy As Long, ByVal wFlags As Long) As Long
 
 Public Const HWND_TOP As Long = 0 ' for SetWindowPos z-ordering
 Public Const HWND_TOPMOST As Long = -1
@@ -31,7 +31,6 @@ Private Const LWA_ALPHA  As Long = &H2          'to semi transparent
 
 Public fMain As New cfMain
 Public aboutWidget As cwAbout
-Public helpWidget As cwHelp
 Public licenceWidget As cwLicence
 
 Public revealWidgetTimerCount As Integer
@@ -1294,10 +1293,6 @@ Private Sub createRCFormsOnCurrentDisplay()
 
     With New_c.Displays(1) 'get the current Display
       Call fMain.initAndShowAboutForm(.WorkLeft, .WorkTop, 1000, 1000, widgetName)
-    End With
-    
-    With New_c.Displays(1) 'get the current Display
-      Call fMain.initAndShowHelpForm(.WorkLeft, .WorkTop, 1000, 1000, widgetName)
     End With
 
     With New_c.Displays(1) 'get the current Display

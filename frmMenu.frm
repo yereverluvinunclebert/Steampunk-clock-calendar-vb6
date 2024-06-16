@@ -268,7 +268,7 @@ End Sub
 Private Sub mnuHelpSplash_Click()
    On Error GoTo mnuHelpSplash_Click_Error
 
-    Call helpSplash
+    'Call helpSplash
 
    On Error GoTo 0
    Exit Sub
@@ -320,7 +320,7 @@ Private Sub mnuLockWidget_Click()
 
     On Error GoTo mnuLockWidget_Click_Error
     
-    Call lockWidget
+    Call toggleWidgetLock
 
    On Error GoTo 0
    Exit Sub

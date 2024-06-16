@@ -12,6 +12,7 @@ Attribute VB_Creatable = True
 Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
 '@IgnoreModule IntegerDataType, ModuleWithoutFolder
+' clockForm_BubblingEvent
 '---------------------------------------------------------------------------------------
 ' Module    : cfMain
 ' Author    : beededea
@@ -23,8 +24,6 @@ Option Explicit
 
 Public WithEvents aboutForm As cWidgetForm
 Attribute aboutForm.VB_VarHelpID = -1
-Public WithEvents helpForm As cWidgetForm
-Attribute helpForm.VB_VarHelpID = -1
 Public WithEvents licenceForm As cWidgetForm
 Attribute licenceForm.VB_VarHelpID = -1
 
@@ -50,7 +49,7 @@ Attribute lblDeclineOrNot.VB_VarHelpID = -1
 ' Purpose   :
 '---------------------------------------------------------------------------------------
 '
-Public Sub initAndShowAboutForm(ByVal x As Long, ByVal y As Long, Optional ByVal dx As Long, Optional ByVal dy As Long, Optional ByVal Caption As String)
+Public Sub initAndShowAboutForm(ByVal x As Long, ByVal Y As Long, Optional ByVal dx As Long, Optional ByVal dy As Long, Optional ByVal Caption As String)
     
     Dim aboutFormWidth As Long: aboutFormWidth = 0
     Dim aboutFormHeight As Long: aboutFormHeight = 0
@@ -111,83 +110,13 @@ initAndShowAboutForm_Error:
 End Sub
 
 '---------------------------------------------------------------------------------------
-' Procedure : initAndShowHelpForm
-' Author    :
-' Date      : 27/04/2023
-' Purpose   :
-'---------------------------------------------------------------------------------------
-'
-Public Sub initAndShowHelpForm(ByVal x As Long, ByVal y As Long, Optional ByVal dx As Long, Optional ByVal dy As Long, Optional ByVal Caption As String)
-    
-    Dim helpFormWidth As Long: helpFormWidth = 0
-    Dim helpFormHeight As Long: helpFormHeight = 0
-    Dim helpWidgetWidth As Long: helpWidgetWidth = 0
-    Dim helpWidgetHeight As Long: helpWidgetHeight = 0
-    
-    Dim helpWidgetZoomValue As Double: helpWidgetZoomValue = 1
-    
-    Const WFFStyleTool As Integer = 7 ' additional styles above the normal five  WFFStyleTool = 7 makes the taskbar button go away
-    
-    On Error GoTo initAndShowHelpForm_Error
-    
-    If gblDpiAwareness = "0" Then
-        helpFormWidth = 1000
-        helpFormHeight = 800
-        If helpFormWidth > screenWidthPixels Then helpFormWidth = screenWidthPixels
-        If helpFormHeight > screenHeightPixels Then helpFormHeight = screenHeightPixels
-        helpWidgetZoomValue = 0.8
-    Else
-        helpFormWidth = 1700
-        helpFormHeight = 1300
-        If helpFormWidth > screenWidthPixels Then
-            helpFormWidth = screenWidthPixels
-            helpWidgetZoomValue = 1
-        Else
-            helpWidgetZoomValue = 1.4
-        End If
-        
-        If helpFormHeight > screenHeightPixels Then
-            helpFormHeight = screenHeightPixels
-            helpWidgetZoomValue = 1
-        Else
-            helpWidgetZoomValue = 1.4
-        End If
-        
-    End If
-    helpWidgetWidth = helpFormWidth - 100
-    helpWidgetHeight = helpFormHeight - 100
-    
-    ' create an invisible form using a Cairo Widget Form with a predefined caption and sizing
-    Set helpForm = Cairo.WidgetForms.Create(WFFStyleTool, Caption, , helpFormWidth, helpFormHeight)
-    
-    ' make the help form transparent
-    helpForm.WidgetRoot.BackColor = -1
-         
-    ' create a new help widget image with a name, position and size
-    Set helpWidget = helpForm.Widgets.Add(New cwHelp, "help", 0, 0, helpWidgetWidth, helpWidgetHeight)
-       
-     If gblDpiAwareness = "0" Then
-        helpWidget.Zoom = helpWidgetZoomValue
-    Else
-        helpWidget.Zoom = helpWidgetZoomValue
-    End If
-
-   On Error GoTo 0
-   Exit Sub
-
-initAndShowHelpForm_Error:
-
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure initAndShowHelpForm of Class Module cfMain"
-    
-End Sub
-'---------------------------------------------------------------------------------------
 ' Procedure : initAndShowLicenceForm
 ' Author    :
 ' Date      : 27/04/2023
 ' Purpose   :
 '---------------------------------------------------------------------------------------
 '
-Public Sub initAndShowLicenceForm(ByVal x As Long, ByVal y As Long, Optional ByVal dx As Long, Optional ByVal dy As Long, Optional ByVal Caption As String)
+Public Sub initAndShowLicenceForm(ByVal x As Long, ByVal Y As Long, Optional ByVal dx As Long, Optional ByVal dy As Long, Optional ByVal Caption As String)
     
     Dim licenceFormWidth As Long: licenceFormWidth = 0
     Dim licenceFormHeight As Long: licenceFormHeight = 0
@@ -382,8 +311,8 @@ End Sub
 ' Purpose   :
 '---------------------------------------------------------------------------------------
 '
-Private Sub licenceForm_MouseMove(ByRef Button As Integer, ByRef Shift As Integer, ByRef x As Single, ByRef y As Single)
-  Static x0 As Single, y0 As Single: If Button = 0 Then x0 = x: y0 = y 'just store the offsets when no button is down
+Private Sub licenceForm_MouseMove(ByRef Button As Integer, ByRef Shift As Integer, ByRef x As Single, ByRef Y As Single)
+  Static x0 As Single, y0 As Single: If Button = 0 Then x0 = x: y0 = Y 'just store the offsets when no button is down
   
    On Error GoTo licenceForm_MouseMove_Error
     
@@ -393,7 +322,7 @@ Private Sub licenceForm_MouseMove(ByRef Button As Integer, ByRef Shift As Intege
     If Button = vbLeftButton And Not licenceForm.ActiveWidget Is Nothing Then 'Form-Dragging (under certain conditions)
 
       licenceFormX = (x - x0) * licenceForm.WidgetRoot.Zoom + licenceForm.Left
-      licenceFormY = (y - y0) * licenceForm.WidgetRoot.Zoom + licenceForm.Top
+      licenceFormY = (Y - y0) * licenceForm.WidgetRoot.Zoom + licenceForm.Top
       licenceForm.Move licenceFormX, licenceFormY
     End If
 

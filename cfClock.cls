@@ -34,6 +34,13 @@ Private mMute As Integer ' property
 'Slider-related Private-Vars
 Private WithEvents SliderSet As cWidgetBase
 Attribute SliderSet.VB_VarHelpID = -1
+Private WithEvents screentoggle As cWidgetBase
+Attribute screentoggle.VB_VarHelpID = -1
+Private WithEvents weekdaytoggle As cWidgetBase
+Attribute weekdaytoggle.VB_VarHelpID = -1
+Private WithEvents helptoggle As cWidgetBase
+Attribute helptoggle.VB_VarHelpID = -1
+
 Private sldFixedTop As Double
 Private sldXMax As Double
 Private sldXMin As Double
@@ -152,6 +159,10 @@ Public Sub InitFromPSD(ByRef PSD_FileNameOrByteArray As Variant)
     sldFixedTop = SliderSet.Top   'and store the initial position-data for y-direction (which will not be changed)
     sldXMax = SliderSet.Left      'as well as the x-direction related pos (which is initially at the "100%-Volume, right-endswitch" )
     sldXMin = sldXMax - 300       'the Min-Value is simply the Max-Value minus Slider-Range (the 300pxl-range was determined by "probing")
+
+    Set screentoggle = clockForm.Widgets("screentoggle").Widget
+    Set weekdaytoggle = clockForm.Widgets("weekdaytoggle").Widget
+    Set helptoggle = clockForm.Widgets("helptoggle").Widget
 
    On Error GoTo 0
    Exit Sub
@@ -274,24 +285,35 @@ Private Sub clockForm_BubblingEvent(ByRef Sender As Object, ByRef EventName As S
                      TTIconInfo, widgetName & " Crank Help", , , , True
             Case "lockingpinlocked"
                 If gblEnableBalloonTooltips = "1" Then CreateToolTip clockForm.hwnd, "Click here to unlock the clock and make it moveable using mouse.", _
-                     TTIconInfo, widgetName & " Crank Help", , , , True
+                     TTIconInfo, widgetName & " Locking Pin Help", , , , True
             Case "lockingpin"
                 If gblEnableBalloonTooltips = "1" Then CreateToolTip clockForm.hwnd, "Click here to lock the clock in place on the desktop.", _
-                     TTIconInfo, widgetName & " Crank Help", , , , True
-             
-
-
+                     TTIconInfo, widgetName & " Locking Pin  Help", , , , True
         End Select
     End If
     
     If EventName = "W_MouseDown" Then
         Select Case LCase$(Sender.Widget.Key)
             Case "lockingpin"
-                Call lockingpin_mouseDown(Sender)
-'            Case "helppin"
-'                Call helppin_mouseDown(Sender)
-            Case "lockingpinunlocked"
-                Call lockingpin_mouseDown(Sender)
+                If overlayWidget.Locked = True Then
+                    Call unlockit
+                Else
+                    Call lockit
+                End If
+'            Case "lockingpinlocked"
+'                If overlayWidget.Locked = True Then Call unlockit
+             Case "grommet"
+                If overlayWidget.Locked = True Then
+                    Call unlockit
+                Else
+                    Call lockit
+                End If
+            Case "screentoggle"
+                Call screentoggle_myMouseDown
+            Case "weekdaytoggle"
+                Call weekdaytoggle_myMouseDown
+            Case "helptoggle"
+                Call helptoggle_myMouseDown
             Case "helpbottom"
                 Call helpbottom_mouseDown(Sender)
             Case "sliderset"
@@ -313,7 +335,17 @@ Private Sub clockForm_BubblingEvent(ByRef Sender As Object, ByRef EventName As S
                 Debug.Print Sender.Widget.Key
         End Select
     End If
-   
+            
+'    If EventName = "W_MouseClick" Then
+'        Select Case LCase$(Sender.Widget.Key)
+'            Case "screentoggle"
+'                Call screentoggle_mouseClick
+'                'screentoggle.Moveable = False
+'            Case Else
+'                Debug.Print Sender.Widget.Key
+'        End Select
+'   End If
+'
    On Error GoTo 0
    Exit Sub
 
@@ -326,31 +358,216 @@ End Sub
 
 
 '---------------------------------------------------------------------------------------
+' Procedure : screentoggle_myMouseDown
+' Author    : beededea
+' Date      : 03/08/2023
+' Purpose   : toggles the main screen on/off
+'---------------------------------------------------------------------------------------
+'
+Private Sub screentoggle_myMouseDown()
+   On Error GoTo screentoggle_myMouseDown_Error
+   
+    Dim fileToPlay As String: fileToPlay = vbNullString
+    Dim screentoggleTop As Long: screentoggleTop = 0
+    Dim screentoggleLeft As Long: screentoggleLeft = 0
+    Dim alphaVal As Integer: alphaVal = 0
+    
+    screentoggleTop = screentoggle.Top
+    screentoggleLeft = screentoggle.Left
+    alphaVal = Val(gblOpacity) / 100
+
+    fileToPlay = "clunk.wav"
+    If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
+        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
+    End If
+    
+    If clockForm.Widgets("screen").Widget.Alpha = 0 Then
+        screentoggle.Move screentoggleLeft + 5, screentoggleTop
+        clockForm.Widgets("screen").Widget.Alpha = alphaVal
+        clockForm.Widgets("screentop").Widget.Alpha = 0
+        clockForm.Widgets("hinges").Widget.Alpha = alphaVal
+        clockForm.Widgets("timetoggle").Widget.Alpha = alphaVal
+        clockForm.Widgets("backtoggle").Widget.Alpha = alphaVal
+    Else
+        screentoggle.Move screentoggleLeft - 5, screentoggleTop
+        clockForm.Widgets("screen").Widget.Alpha = 0
+        clockForm.Widgets("screentop").Widget.Alpha = alphaVal
+        clockForm.Widgets("hinges").Widget.Alpha = 0
+        clockForm.Widgets("timetoggle").Widget.Alpha = 0
+        clockForm.Widgets("backtoggle").Widget.Alpha = 0
+    End If
+    clockForm.Refresh
+    
+   On Error GoTo 0
+   Exit Sub
+
+screentoggle_myMouseDown_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure screentoggle_myMouseDown of Class Module cfClock"
+
+End Sub
+
+
+
+
+'---------------------------------------------------------------------------------------
+' Procedure : weekdaytoggle_myMouseDown
+' Author    : beededea
+' Date      : 03/08/2023
+' Purpose   : toggles the main screen on/off
+'---------------------------------------------------------------------------------------
+'
+Private Sub weekdaytoggle_myMouseDown()
+   On Error GoTo weekdaytoggle_myMouseDown_Error
+
+    Dim fileToPlay As String: fileToPlay = vbNullString
+    Dim weekdaytoggleTop As Long: weekdaytoggleTop = 0
+    Dim weekdaytoggleLeft As Long: weekdaytoggleLeft = 0
+    Dim alphaVal As Integer: alphaVal = 0
+    Static weekdayToggleEnabled As Boolean
+    Dim thisDayOfWeek As String: thisDayOfWeek = vbNullString
+
+    weekdaytoggleTop = weekdaytoggle.Top
+    weekdaytoggleLeft = weekdaytoggle.Left
+    alphaVal = Val(gblOpacity) / 100
+    thisDayOfWeek = dayOfWeek
+
+    fileToPlay = "till01.wav"
+    If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
+        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
+    End If
+
+    If weekdayToggleEnabled = False Then
+        weekdaytoggle.Move weekdaytoggleLeft + 5, weekdaytoggleTop
+        clockForm.Widgets(thisDayOfWeek).Widget.Alpha = alphaVal
+        weekdayToggleEnabled = True
+    Else
+        weekdaytoggle.Move weekdaytoggleLeft - 5, weekdaytoggleTop
+        clockForm.Widgets(thisDayOfWeek).Widget.Alpha = 0
+        weekdayToggleEnabled = False
+    End If
+
+    clockForm.Refresh
+
+   On Error GoTo 0
+   Exit Sub
+
+weekdaytoggle_myMouseDown_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure weekdaytoggle_myMouseDown of Class Module cfClock"
+
+End Sub
+
+
+
+'---------------------------------------------------------------------------------------
+' Procedure : helptoggle_myMouseDown
+' Author    : beededea
+' Date      : 03/08/2023
+' Purpose   : toggles the main screen on/off
+'---------------------------------------------------------------------------------------
+'
+Private Sub helptoggle_myMouseDown()
+   On Error GoTo helptoggle_myMouseDown_Error
+
+    Dim fileToPlay As String: fileToPlay = vbNullString
+    Dim helptoggleTop As Long: helptoggleTop = 0
+    Dim helptoggleLeft As Long: helptoggleLeft = 0
+    Dim alphaVal As Integer: alphaVal = 0
+    Static helptoggleEnabled As Boolean
+    Dim thisDayOfWeek As String: thisDayOfWeek = vbNullString
+
+    helptoggleTop = helptoggle.Top
+    helptoggleLeft = helptoggle.Left
+    alphaVal = Val(gblOpacity) / 100
+    thisDayOfWeek = dayOfWeek
+
+    fileToPlay = "rollerblinddown.wav"
+    If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
+        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
+    End If
+    
+    If helptoggleEnabled = False Then
+        helptoggle.Alpha = 0
+        clockForm.Widgets("woodenbar").Widget.Alpha = alphaVal
+        clockForm.Widgets("help1toggle").Widget.Alpha = alphaVal
+        clockForm.Widgets("helpdropdown").Widget.Alpha = alphaVal
+        clockForm.Widgets("txthelp").Widget.Alpha = alphaVal
+        helptoggleEnabled = True
+    Else
+        helptoggle.Alpha = alphaVal
+        clockForm.Widgets("woodenbar").Widget.Alpha = 0
+        clockForm.Widgets("help1toggle").Widget.Alpha = 0
+        clockForm.Widgets("helpdropdown").Widget.Alpha = 0
+        clockForm.Widgets("txthelp").Widget.Alpha = 0
+        helptoggleEnabled = False
+    End If
+    clockForm.Refresh
+
+   On Error GoTo 0
+   Exit Sub
+
+helptoggle_myMouseDown_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure helptoggle_myMouseDown of Class Module cfClock"
+
+End Sub
+'---------------------------------------------------------------------------------------
 ' Procedure : lockingpin_mouseDown
 ' Author    : beededea
 ' Date      : 03/08/2023
 ' Purpose   :
 '---------------------------------------------------------------------------------------
 '
-Private Sub lockingpin_mouseDown(ByRef Sender As Object)
+Private Sub lockit()
    On Error GoTo lockingpin_mouseDown_Error
-   
-    Dim fileToPlay As String: fileToPlay = vbNullString
 
-    fileToPlay = "lock.wav"
-    If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
-        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
-    End If
     
-    If overlayWidget.Locked = False Then
-        Sender.Widget.Alpha = 0
-        fClock.clockForm.Widgets("lockingpinunlocked").Widget.Alpha = Val(gblOpacity) / 100
-    Else
-        Sender.Widget.Alpha = Val(gblOpacity) / 100
-        fClock.clockForm.Widgets("lockingpinunlocked").Widget.Alpha = 0
-    End If
-    Sender.Widget.Refresh ' this removes the delay in the lockingpin depressing
-    Call lockWidget
+    clockForm.Widgets("lockingpinlocked").Widget.Alpha = Val(gblOpacity) / 100
+    clockForm.Widgets("lockingpin").Widget.Alpha = Val(gblOpacity) / 100
+    
+'    If overlayWidget.Locked = False Then
+'        clockForm.Widgets("lockingpinlocked").Widget.Visible = True
+'        clockForm.Widgets("lockingpin").Widget.Visible = False
+'    Else
+        clockForm.Widgets("lockingpinlocked").Widget.Visible = True
+        clockForm.Widgets("lockingpin").Widget.Visible = False
+'    End If
+    clockForm.Refresh
+    Call toggleWidgetLock
+    
+   On Error GoTo 0
+   Exit Sub
+
+lockingpin_mouseDown_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure lockingpin_mouseDown of Class Module cfClock"
+
+End Sub
+
+'---------------------------------------------------------------------------------------
+' Procedure : lockingpin_mouseDown
+' Author    : beededea
+' Date      : 03/08/2023
+' Purpose   :
+'---------------------------------------------------------------------------------------
+'
+Private Sub unlockit()
+   On Error GoTo lockingpin_mouseDown_Error
+
+    
+    clockForm.Widgets("lockingpinlocked").Widget.Alpha = Val(gblOpacity) / 100
+    clockForm.Widgets("lockingpin").Widget.Alpha = Val(gblOpacity) / 100
+    
+'    If overlayWidget.Locked = False Then
+'        clockForm.Widgets("lockingpinlocked").Widget.Visible = True
+'        clockForm.Widgets("lockingpin").Widget.Visible = False
+'    Else
+        clockForm.Widgets("lockingpinlocked").Widget.Visible = False
+        clockForm.Widgets("lockingpin").Widget.Visible = True
+'    End If
+    clockForm.Refresh
+    Call toggleWidgetLock
     
    On Error GoTo 0
    Exit Sub
@@ -372,7 +589,7 @@ Private Sub helpbottom_mouseDown(ByRef Sender As Object)
    
     Dim fileToPlay As String: fileToPlay = vbNullString
 
-    fileToPlay = "page-fumble.wav"
+    fileToPlay = "pagefumble.wav"
     If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
         PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
     End If
@@ -383,10 +600,8 @@ Private Sub helpbottom_mouseDown(ByRef Sender As Object)
     clockForm.Widgets("alarm1till").Widget.Alpha = 0
     clockForm.Widgets("redarlarmcover").Widget.Alpha = 0
 
-    Sender.Widget.Refresh ' this removes the delay in the helppin depressing
-    
-    'Call helpSplash
-    
+    Sender.Widget.Refresh
+        
    On Error GoTo 0
    Exit Sub
 
@@ -541,7 +756,7 @@ End Sub
 ' Purpose   : save the form x,y position when ever the globe/form is dragged
 '---------------------------------------------------------------------------------------
 '
-Private Sub clockForm_MouseUp(ByRef Button As Integer, ByRef Shift As Integer, ByRef x As Single, ByRef y As Single)
+Private Sub clockForm_MouseUp(ByRef Button As Integer, ByRef Shift As Integer, ByRef x As Single, ByRef Y As Single)
     On Error GoTo clockForm_MouseUp_Error
     
     Call savePosition
@@ -566,8 +781,8 @@ End Sub
 ' Purpose   :
 '---------------------------------------------------------------------------------------
 '
-Private Sub clockForm_MouseMove(ByRef Button As Integer, ByRef Shift As Integer, ByRef x As Single, ByRef y As Single)
-  Static x0 As Single, y0 As Single: If Button = 0 Then x0 = x: y0 = y 'just store the offsets when no button is down
+Private Sub clockForm_MouseMove(ByRef Button As Integer, ByRef Shift As Integer, ByRef x As Single, ByRef Y As Single)
+  Static x0 As Single, y0 As Single: If Button = 0 Then x0 = x: y0 = Y 'just store the offsets when no button is down
   
    On Error GoTo clockForm_MouseMove_Error
     
@@ -577,7 +792,7 @@ Private Sub clockForm_MouseMove(ByRef Button As Integer, ByRef Shift As Integer,
     If Button = vbLeftButton And Not clockForm.ActiveWidget Is Nothing Then 'Form-Dragging (under certain conditions)
 
       FX = (x - x0) * clockForm.WidgetRoot.Zoom + clockForm.Left
-      FY = (y - y0) * clockForm.WidgetRoot.Zoom + clockForm.Top
+      FY = (Y - y0) * clockForm.WidgetRoot.Zoom + clockForm.Top
       clockForm.Move FX, FY
     End If
 
@@ -657,7 +872,7 @@ End Sub
 ' Purpose   :
 '---------------------------------------------------------------------------------------
 '
-Private Sub clockForm_MouseDown(ByRef Button As Integer, ByRef Shift As Integer, ByRef x As Single, ByRef y As Single)
+Private Sub clockForm_MouseDown(ByRef Button As Integer, ByRef Shift As Integer, ByRef x As Single, ByRef Y As Single)
    On Error GoTo W_MouseDown_Error
 
     If Button = vbRightButton Then
@@ -962,3 +1177,29 @@ setLamps_Error:
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure setLamps, line " & Erl & "."
 
 End Sub
+
+
+Private Function dayOfWeek() As String
+     Dim vb6DateTime As Date
+     
+     vb6DateTime = Date
+
+     Select Case DatePart("w", vb6DateTime)
+         Case vbSunday
+             dayOfWeek = "Sunday"
+         Case vbMonday
+             dayOfWeek = "Monday"
+         Case vbTuesday
+             dayOfWeek = "Tuesday"
+         Case vbWednesday
+             dayOfWeek = "Wednesday"
+         Case vbThursday
+             dayOfWeek = "Thursday"
+         Case vbFriday
+             dayOfWeek = "Friday"
+         Case vbSaturday
+             dayOfWeek = "Saturday"
+     End Select
+     
+End Function
+     
