@@ -40,6 +40,14 @@ Private WithEvents weekdaytoggle As cWidgetBase
 Attribute weekdaytoggle.VB_VarHelpID = -1
 Private WithEvents helptoggle As cWidgetBase
 Attribute helptoggle.VB_VarHelpID = -1
+Private WithEvents pendulumtoggle As cWidgetBase
+Attribute pendulumtoggle.VB_VarHelpID = -1
+Private WithEvents mutetoggle As cWidgetBase
+Attribute mutetoggle.VB_VarHelpID = -1
+Private WithEvents alarmtoggle As cWidgetBase
+Attribute alarmtoggle.VB_VarHelpID = -1
+Private WithEvents loudtoggle As cWidgetBase
+Attribute loudtoggle.VB_VarHelpID = -1
 
 Private sldFixedTop As Double
 Private sldXMax As Double
@@ -163,6 +171,10 @@ Public Sub InitFromPSD(ByRef PSD_FileNameOrByteArray As Variant)
     Set screentoggle = clockForm.Widgets("screentoggle").Widget
     Set weekdaytoggle = clockForm.Widgets("weekdaytoggle").Widget
     Set helptoggle = clockForm.Widgets("helptoggle").Widget
+    Set pendulumtoggle = clockForm.Widgets("pendulumtoggle").Widget
+    Set mutetoggle = clockForm.Widgets("mutetoggle").Widget
+    Set alarmtoggle = clockForm.Widgets("alarmtoggle").Widget
+    Set loudtoggle = clockForm.Widgets("loudtoggle").Widget
 
    On Error GoTo 0
    Exit Sub
@@ -300,8 +312,6 @@ Private Sub clockForm_BubblingEvent(ByRef Sender As Object, ByRef EventName As S
                 Else
                     Call lockit
                 End If
-'            Case "lockingpinlocked"
-'                If overlayWidget.Locked = True Then Call unlockit
              Case "grommet"
                 If overlayWidget.Locked = True Then
                     Call unlockit
@@ -310,6 +320,14 @@ Private Sub clockForm_BubblingEvent(ByRef Sender As Object, ByRef EventName As S
                 End If
             Case "screentoggle"
                 Call screentoggle_myMouseDown
+            Case "pendulumtoggle"
+                Call pendulumtoggle_myMouseDown
+            Case "mutetoggle"
+                Call mutetoggle_myMouseDown
+            Case "alarmtoggle"
+                Call alarmtoggle_myMouseDown
+            Case "loudtoggle"
+                Call loudtoggle_myMouseDown
             Case "weekdaytoggle"
                 Call weekdaytoggle_myMouseDown
             Case "helptoggle"
@@ -355,6 +373,179 @@ clockForm_BubblingEvent_Error:
 End Sub
 
 
+    
+'---------------------------------------------------------------------------------------
+' Procedure : alarmtoggle_myMouseDown
+' Author    : beededea
+' Date      : 03/08/2023
+' Purpose   : toggles the main screen on/off
+'---------------------------------------------------------------------------------------
+'
+Private Sub alarmtoggle_myMouseDown()
+   On Error GoTo alarmtoggle_myMouseDown_Error
+
+    Dim fileToPlay As String: fileToPlay = vbNullString
+    Dim alarmtoggleTop As Long: alarmtoggleTop = 0
+    Dim alarmtoggleLeft As Long: alarmtoggleLeft = 0
+    Dim alphaVal As Integer: alphaVal = 0
+    Static alarmtoggleEnabled As Boolean
+
+    alarmtoggleTop = alarmtoggle.Top
+    alarmtoggleLeft = alarmtoggle.Left
+    alphaVal = Val(gblOpacity) / 100
+
+    fileToPlay = "clunk.wav"
+    If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
+        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
+    End If
+    
+    If alarmtoggleEnabled = False Then
+        alarmtoggle.Move alarmtoggleLeft + 5, alarmtoggleTop
+        alarmtoggleEnabled = True
+    Else
+        alarmtoggle.Move alarmtoggleLeft - 5, alarmtoggleTop
+        alarmtoggleEnabled = False
+    End If
+    clockForm.Refresh
+
+   On Error GoTo 0
+   Exit Sub
+
+alarmtoggle_myMouseDown_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure alarmtoggle_myMouseDown of Class Module cfClock"
+
+End Sub
+    
+    
+'---------------------------------------------------------------------------------------
+' Procedure : loudtoggle_myMouseDown
+' Author    : beededea
+' Date      : 03/08/2023
+' Purpose   : toggles the main screen on/off
+'---------------------------------------------------------------------------------------
+'
+Private Sub loudtoggle_myMouseDown()
+   On Error GoTo loudtoggle_myMouseDown_Error
+
+    Dim fileToPlay As String: fileToPlay = vbNullString
+    Dim loudtoggleTop As Long: loudtoggleTop = 0
+    Dim loudtoggleLeft As Long: loudtoggleLeft = 0
+    Dim alphaVal As Integer: alphaVal = 0
+    Static loudtoggleEnabled As Boolean
+
+    loudtoggleTop = loudtoggle.Top
+    loudtoggleLeft = loudtoggle.Left
+    alphaVal = Val(gblOpacity) / 100
+
+    fileToPlay = "clunk.wav"
+    If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
+        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
+    End If
+    
+    If loudtoggleEnabled = False Then
+        loudtoggle.Move loudtoggleLeft + 5, loudtoggleTop
+        loudtoggleEnabled = True
+    Else
+        loudtoggle.Move loudtoggleLeft - 5, loudtoggleTop
+        loudtoggleEnabled = False
+    End If
+    clockForm.Refresh
+
+   On Error GoTo 0
+   Exit Sub
+
+loudtoggle_myMouseDown_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure loudtoggle_myMouseDown of Class Module cfClock"
+
+End Sub
+    
+'---------------------------------------------------------------------------------------
+' Procedure : mutetoggle_myMouseDown
+' Author    : beededea
+' Date      : 03/08/2023
+' Purpose   : toggles the main screen on/off
+'---------------------------------------------------------------------------------------
+'
+Private Sub mutetoggle_myMouseDown()
+   On Error GoTo mutetoggle_myMouseDown_Error
+
+    Dim fileToPlay As String: fileToPlay = vbNullString
+    Dim mutetoggleTop As Long: mutetoggleTop = 0
+    Dim mutetoggleLeft As Long: mutetoggleLeft = 0
+    Dim alphaVal As Integer: alphaVal = 0
+    Static mutetoggleEnabled As Boolean
+
+    mutetoggleTop = mutetoggle.Top
+    mutetoggleLeft = mutetoggle.Left
+    alphaVal = Val(gblOpacity) / 100
+
+    fileToPlay = "clunk.wav"
+    If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
+        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
+    End If
+    
+    If mutetoggleEnabled = False Then
+        mutetoggle.Move mutetoggleLeft + 5, mutetoggleTop
+        mutetoggleEnabled = True
+    Else
+        mutetoggle.Move mutetoggleLeft - 5, mutetoggleTop
+        mutetoggleEnabled = False
+    End If
+    clockForm.Refresh
+
+   On Error GoTo 0
+   Exit Sub
+
+mutetoggle_myMouseDown_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure mutetoggle_myMouseDown of Class Module cfClock"
+
+End Sub
+
+'---------------------------------------------------------------------------------------
+' Procedure : pendulumtoggle_myMouseDown
+' Author    : beededea
+' Date      : 03/08/2023
+' Purpose   : toggles the main screen on/off
+'---------------------------------------------------------------------------------------
+'
+Private Sub pendulumtoggle_myMouseDown()
+   On Error GoTo pendulumtoggle_myMouseDown_Error
+
+    Dim fileToPlay As String: fileToPlay = vbNullString
+    Dim pendulumtoggleTop As Long: pendulumtoggleTop = 0
+    Dim pendulumtoggleLeft As Long: pendulumtoggleLeft = 0
+    Dim alphaVal As Integer: alphaVal = 0
+    Static pendulumtoggleEnabled As Boolean
+
+    pendulumtoggleTop = pendulumtoggle.Top
+    pendulumtoggleLeft = pendulumtoggle.Left
+    alphaVal = Val(gblOpacity) / 100
+
+    fileToPlay = "clunk.wav"
+    If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
+        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
+    End If
+    
+    If pendulumtoggleEnabled = False Then
+        pendulumtoggle.Move pendulumtoggleLeft + 5, pendulumtoggleTop
+        pendulumtoggleEnabled = True
+    Else
+        pendulumtoggle.Move pendulumtoggleLeft - 5, pendulumtoggleTop
+        pendulumtoggleEnabled = False
+    End If
+    clockForm.Refresh
+
+   On Error GoTo 0
+   Exit Sub
+
+pendulumtoggle_myMouseDown_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure pendulumtoggle_myMouseDown of Class Module cfClock"
+
+End Sub
 
 
 '---------------------------------------------------------------------------------------
@@ -475,12 +666,10 @@ Private Sub helptoggle_myMouseDown()
     Dim helptoggleLeft As Long: helptoggleLeft = 0
     Dim alphaVal As Integer: alphaVal = 0
     Static helptoggleEnabled As Boolean
-    Dim thisDayOfWeek As String: thisDayOfWeek = vbNullString
 
     helptoggleTop = helptoggle.Top
     helptoggleLeft = helptoggle.Left
     alphaVal = Val(gblOpacity) / 100
-    thisDayOfWeek = dayOfWeek
 
     fileToPlay = "rollerblinddown.wav"
     If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
