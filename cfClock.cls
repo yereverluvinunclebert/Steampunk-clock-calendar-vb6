@@ -86,6 +86,8 @@ Private WithEvents crankup As cWidgetBase
 Attribute crankup.VB_VarHelpID = -1
 Private WithEvents crankdown As cWidgetBase
 Attribute crankdown.VB_VarHelpID = -1
+Private WithEvents weekdayredcover As cWidgetBase
+Attribute weekdayredcover.VB_VarHelpID = -1
 
 Private sldFixedTop As Double
 Private sldXMax As Double
@@ -233,6 +235,7 @@ Public Sub InitFromPSD(ByRef PSD_FileNameOrByteArray As Variant)
     Set chain = clockForm.Widgets("chain").Widget
     Set crankup = clockForm.Widgets("crankup").Widget
     Set crankdown = clockForm.Widgets("crankdown").Widget
+    Set weekdayredcover = clockForm.Widgets("weekdayredcover").Widget
 
    On Error GoTo 0
    Exit Sub
@@ -363,32 +366,32 @@ Private Sub clockForm_BubblingEvent(ByRef Sender As Object, ByRef EventName As S
             Case "monday"
                 If gblEnableBalloonTooltips = "1" Then CreateToolTip clockForm.hwnd, "Click here to lower the weekday flag.", _
                      TTIconInfo, widgetName & " Weekday Indicator Help", , , , True
-                If clockForm.Widgets("monday").Widget.Alpha <> 0 Then clockForm.Widgets("weekdaycover").Widget.Alpha = Val(gblOpacity) / 100
+                If clockForm.Widgets("monday").Widget.Alpha <> 0 Then weekdayredcover.Alpha = Val(gblOpacity) / 100
             Case "tuesday"
                 If gblEnableBalloonTooltips = "1" Then CreateToolTip clockForm.hwnd, "Click here to lower the weekday flag.", _
                      TTIconInfo, widgetName & " Weekday Indicator Help", , , , True
-                If clockForm.Widgets("tuesday").Widget.Alpha <> 0 Then clockForm.Widgets("weekdaycover").Widget.Alpha = Val(gblOpacity) / 100
+                If clockForm.Widgets("tuesday").Widget.Alpha <> 0 Then weekdayredcover.Alpha = Val(gblOpacity) / 100
             Case "wednesday"
                 If gblEnableBalloonTooltips = "1" Then CreateToolTip clockForm.hwnd, "Click here to lower the weekday flag.", _
                      TTIconInfo, widgetName & " Weekday Indicator Help", , , , True
-                If clockForm.Widgets("wednesday").Widget.Alpha <> 0 Then clockForm.Widgets("weekdaycover").Widget.Alpha = Val(gblOpacity) / 100
+                If clockForm.Widgets("wednesday").Widget.Alpha <> 0 Then weekdayredcover.Alpha = Val(gblOpacity) / 100
             Case "thursday"
                 If gblEnableBalloonTooltips = "1" Then CreateToolTip clockForm.hwnd, "Click here to lower the weekday flag.", _
                      TTIconInfo, widgetName & " Weekday Indicator Help", , , , True
-                If clockForm.Widgets("thursday").Widget.Alpha <> 0 Then clockForm.Widgets("weekdaycover").Widget.Alpha = Val(gblOpacity) / 100
+                If clockForm.Widgets("thursday").Widget.Alpha <> 0 Then weekdayredcover.Alpha = Val(gblOpacity) / 100
             Case "friday"
                 If gblEnableBalloonTooltips = "1" Then CreateToolTip clockForm.hwnd, "Click here to lower the weekday flag.", _
                      TTIconInfo, widgetName & " Weekday Indicator Help", , , , True
-                If clockForm.Widgets("friday").Widget.Alpha <> 0 Then clockForm.Widgets("weekdaycover").Widget.Alpha = Val(gblOpacity) / 100
+                If clockForm.Widgets("friday").Widget.Alpha <> 0 Then weekdayredcover.Alpha = Val(gblOpacity) / 100
             Case "saturday"
                 If gblEnableBalloonTooltips = "1" Then CreateToolTip clockForm.hwnd, "Click here to lower the weekday flag.", _
                      TTIconInfo, widgetName & " Weekday Indicator Help", , , , True
-                If clockForm.Widgets("saturday").Widget.Alpha <> 0 Then clockForm.Widgets("weekdaycover").Widget.Alpha = Val(gblOpacity) / 100
+                If clockForm.Widgets("saturday").Widget.Alpha <> 0 Then weekdayredcover.Alpha = Val(gblOpacity) / 100
             Case "sunday"
                 If gblEnableBalloonTooltips = "1" Then CreateToolTip clockForm.hwnd, "Click here to lower the weekday flag.", _
                      TTIconInfo, widgetName & " Weekday Indicator Help", , , , True
-                If clockForm.Widgets("sunday").Widget.Alpha <> 0 Then clockForm.Widgets("weekdaycover").Widget.Alpha = Val(gblOpacity) / 100
-           Case "weekdaycover"
+                If clockForm.Widgets("sunday").Widget.Alpha <> 0 Then weekdayredcover.Alpha = Val(gblOpacity) / 100
+           Case "weekdayredcover"
                 If gblEnableBalloonTooltips = "1" Then CreateToolTip clockForm.hwnd, "Click here to lower the weekday flag.", _
                      TTIconInfo, widgetName & " Weekday Indicator Help", , , , True
         End Select
@@ -397,19 +400,19 @@ Private Sub clockForm_BubblingEvent(ByRef Sender As Object, ByRef EventName As S
     If EventName = "W_MouseLeave" Then
         Select Case LCase$(Sender.Widget.Key)
         Case "monday"
-            clockForm.Widgets("weekdaycover").Widget.Alpha = 0
+            weekdayredcover.Alpha = 0
         Case "tuesday"
-            clockForm.Widgets("weekdaycover").Widget.Alpha = 0
+            weekdayredcover.Alpha = 0
         Case "wednesday"
-            clockForm.Widgets("weekdaycover").Widget.Alpha = 0
+            weekdayredcover.Alpha = 0
         Case "thursday"
-            clockForm.Widgets("weekdaycover").Widget.Alpha = 0
+            weekdayredcover.Alpha = 0
         Case "friday"
-            clockForm.Widgets("weekdaycover").Widget.Alpha = 0
+            weekdayredcover.Alpha = 0
         Case "satday"
-            clockForm.Widgets("weekdaycover").Widget.Alpha = 0
+            weekdayredcover.Alpha = 0
         Case "sunday"
-            clockForm.Widgets("weekdaycover").Widget.Alpha = 0
+            weekdayredcover.Alpha = 0
         End Select
     End If
  
@@ -485,7 +488,22 @@ Private Sub clockForm_BubblingEvent(ByRef Sender As Object, ByRef EventName As S
             Case "crankdown"
                 Call crankdown_myMouseDown
                 
+            Case "monday"
+                Call weekdayredcover_myMouseDown
+            Case "tuesday"
+                Call weekdayredcover_myMouseDown
+            Case "wednesday"
+                Call weekdayredcover_myMouseDown
+            Case "thursday"
+                Call weekdayredcover_myMouseDown
+            Case "friday"
+                Call weekdayredcover_myMouseDown
+            Case "saturday"
+                Call weekdayredcover_myMouseDown
+            Case "sunday"
+                Call weekdayredcover_myMouseDown
                 
+
             Case "sliderset"
                 overlayWidget.Locked = True
                 'fClock.tmrSampleAudioVolume.Enabled = False
@@ -522,6 +540,57 @@ Private Sub clockForm_BubblingEvent(ByRef Sender As Object, ByRef EventName As S
 clockForm_BubblingEvent_Error:
 
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure clockForm_BubblingEvent of Class Module cfClock"
+End Sub
+
+
+
+
+
+'---------------------------------------------------------------------------------------
+' Procedure : weekdayredcover_myMouseDown
+' Author    : beededea
+' Date      : 03/08/2023
+' Purpose   :  - note: - can't use a std MouseDown as
+'             declaring a widget as cWidgetBase 'WithEvents' does not provide a std MouseDown with a sender object
+'---------------------------------------------------------------------------------------
+'
+Private Sub weekdayredcover_myMouseDown()
+
+    Dim fileToPlay As String: fileToPlay = vbNullString
+    Dim alphaVal As Integer: alphaVal = 0
+    Dim thisDayOfWeek As String: thisDayOfWeek = vbNullString
+    
+    Dim weekdaytoggleTop As Long: weekdaytoggleTop = 0
+    Dim weekdaytoggleLeft As Long: weekdaytoggleLeft = 0
+    
+    On Error GoTo weekdayredcover_myMouseDown_Error
+    
+    weekdaytoggleTop = weekdaytoggle.Top
+    weekdaytoggleLeft = weekdaytoggle.Left
+    
+    thisDayOfWeek = fDayOfWeek
+        
+    alphaVal = Val(gblOpacity) / 100
+    
+    fileToPlay = "clunk.wav"
+    If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
+        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
+    End If
+    
+    weekdayredcover.Alpha = 0
+    clockForm.Widgets(thisDayOfWeek).Widget.Alpha = 0
+    Call weekdaytoggle_myMouseDown(0, False)
+    'weekdaytoggle.Move weekdaytoggleLeft - 5, weekdaytoggleTop
+
+    clockForm.Refresh
+
+   On Error GoTo 0
+   Exit Sub
+
+weekdayredcover_myMouseDown_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure weekdayredcover_myMouseDown of Class Module cfClock"
+
 End Sub
 
 ' Note: We do not implement a middle position for the crank as the layers would be on top of each other and would interrupt a mouse through
@@ -657,17 +726,18 @@ Private Sub clapperleft_myMouseDown()
     
     alphaVal = Val(gblOpacity) / 100
     
-    fileToPlay = "clunk.wav"
-    If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
-        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
-    End If
-    
     If clapperleft.Alpha <> 0 Then
+        fileToPlay = "clunk.wav"
         clapperleft.Alpha = 0
         clapperright.Alpha = alphaVal
     Else
+        fileToPlay = "singleBell.wav"
         clapperleft.Alpha = alphaVal
         clapperright.Alpha = 0
+    End If
+    
+    If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
+        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
     End If
     
     clockForm.Refresh
@@ -698,7 +768,7 @@ Private Sub clapperright_myMouseDown()
     
     alphaVal = Val(gblOpacity) / 100
     
-    fileToPlay = "clunk.wav"
+    fileToPlay = "singleBell.wav"
     If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
         PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
     End If
@@ -1483,24 +1553,43 @@ End Sub
 ' Purpose   :
 '---------------------------------------------------------------------------------------
 '
-Private Sub weekdaytoggle_myMouseDown()
+Private Sub weekdaytoggle_myMouseDown(Optional overrideAlphaValue As String, Optional overrideToggleEnabled As String)
    On Error GoTo weekdaytoggle_myMouseDown_Error
 
     Dim fileToPlay As String: fileToPlay = vbNullString
     Dim weekdaytoggleTop As Long: weekdaytoggleTop = 0
     Dim weekdaytoggleLeft As Long: weekdaytoggleLeft = 0
     Dim alphaVal As Integer: alphaVal = 0
-    Static weekdayToggleEnabled As Boolean
     Dim thisDayOfWeek As String: thisDayOfWeek = vbNullString
+    
+    Static weekdayToggleEnabled As Boolean
+    
+    If overrideToggleEnabled <> vbNullString Then weekdayToggleEnabled = CBool(overrideToggleEnabled)
 
     weekdaytoggleTop = weekdaytoggle.Top
     weekdaytoggleLeft = weekdaytoggle.Left
+    
     alphaVal = Val(gblOpacity) / 100
-    thisDayOfWeek = dayOfWeek
+    thisDayOfWeek = fDayOfWeek
 
     fileToPlay = "till01.wav"
     If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
         PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
+    End If
+
+    If overrideAlphaValue <> vbNullString Then alphaVal = CInt(overrideAlphaValue)
+
+    If overrideToggleEnabled <> vbNullString Then
+        weekdayToggleEnabled = CBool(overrideToggleEnabled)
+
+        If CBool(overrideToggleEnabled) = False Then
+            weekdaytoggle.Move weekdaytoggleLeft - 5, weekdaytoggleTop
+            clockForm.Widgets(thisDayOfWeek).Widget.Alpha = 0
+            weekdayToggleEnabled = False
+        
+            clockForm.Refresh
+            Exit Sub
+        End If
     End If
 
     If weekdayToggleEnabled = False Then
@@ -2264,27 +2353,45 @@ setLamps_Error:
 End Sub
 
 
-Private Function dayOfWeek() As String
+' ----------------------------------------------------------------
+' Procedure Name: fDayOfWeek
+' Purpose:
+' Procedure Kind: Function
+' Procedure Access: Private
+' Return Type: String
+' Author: beededea
+' Date: 17/06/2024
+' ----------------------------------------------------------------
+Private Function fDayOfWeek() As String
+    On Error GoTo fDayOfWeek_Error
      Dim vb6DateTime As Date
      
      vb6DateTime = Date
 
      Select Case DatePart("w", vb6DateTime)
          Case vbSunday
-             dayOfWeek = "Sunday"
+             fDayOfWeek = "Sunday"
          Case vbMonday
-             dayOfWeek = "Monday"
+             fDayOfWeek = "Monday"
          Case vbTuesday
-             dayOfWeek = "Tuesday"
+             fDayOfWeek = "Tuesday"
          Case vbWednesday
-             dayOfWeek = "Wednesday"
+             fDayOfWeek = "Wednesday"
          Case vbThursday
-             dayOfWeek = "Thursday"
+             fDayOfWeek = "Thursday"
          Case vbFriday
-             dayOfWeek = "Friday"
+             fDayOfWeek = "Friday"
          Case vbSaturday
-             dayOfWeek = "Saturday"
+             fDayOfWeek = "Saturday"
      End Select
      
+    
+    On Error GoTo 0
+    Exit Function
+
+fDayOfWeek_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure fDayOfWeek, line " & Erl & "."
+
 End Function
      
