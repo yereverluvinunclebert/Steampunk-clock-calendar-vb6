@@ -72,6 +72,14 @@ Private WithEvents alarmtoggle5 As cWidgetBase
 Attribute alarmtoggle5.VB_VarHelpID = -1
 Private WithEvents alarmtoggle5armed As cWidgetBase
 Attribute alarmtoggle5armed.VB_VarHelpID = -1
+Private WithEvents clapperleft As cWidgetBase
+Attribute clapperleft.VB_VarHelpID = -1
+Private WithEvents clapperright As cWidgetBase
+Attribute clapperright.VB_VarHelpID = -1
+Private WithEvents labellayer As cWidgetBase
+Attribute labellayer.VB_VarHelpID = -1
+Private WithEvents chain As cWidgetBase
+Attribute chain.VB_VarHelpID = -1
 
 Private sldFixedTop As Double
 Private sldXMax As Double
@@ -211,6 +219,11 @@ Public Sub InitFromPSD(ByRef PSD_FileNameOrByteArray As Variant)
     Set alarmtoggle4 = clockForm.Widgets("alarmtoggle4").Widget
     Set alarmtoggle5armed = clockForm.Widgets("alarmtoggle5armed").Widget
     Set alarmtoggle5 = clockForm.Widgets("alarmtoggle5").Widget
+    Set clapperleft = clockForm.Widgets("clapperleft").Widget
+    Set clapperright = clockForm.Widgets("clapperright").Widget
+    Set labellayer = clockForm.Widgets("labellayer").Widget
+    Set chain = clockForm.Widgets("chain").Widget
+    
 
    On Error GoTo 0
    Exit Sub
@@ -283,6 +296,9 @@ Private Sub clockForm_BubblingEvent(ByRef Sender As Object, ByRef EventName As S
             Case "clapperleft"
                 If gblEnableBalloonTooltips = "1" Then CreateToolTip clockForm.hwnd, "Mute the chimes.", _
                      TTIconInfo, widgetName & " Chime Mute Toggle Help", , , , True
+            Case "clapperleft"
+                If gblEnableBalloonTooltips = "1" Then CreateToolTip clockForm.hwnd, "Enable the chimes.", _
+                     TTIconInfo, widgetName & " Chime Enable Toggle Help", , , , True
             Case "dropdown"
                 If gblEnableBalloonTooltips = "1" Then CreateToolTip clockForm.hwnd, "Click me for information.", _
                      TTIconInfo, widgetName & " Dropdown Toggle Help", , , , True
@@ -451,6 +467,12 @@ Private Sub clockForm_BubblingEvent(ByRef Sender As Object, ByRef EventName As S
                 Call helptoggle_myMouseDown
             Case "helpbottom"
                 Call helpbottom_mouseDown(Sender)
+            Case "clapperleft"
+                Call clapperleft_myMouseDown
+            Case "clapperright"
+                Call clapperright_myMouseDown
+            Case "chain"
+                Call chain_myMouseDown
             Case "sliderset"
                 overlayWidget.Locked = True
                 'fClock.tmrSampleAudioVolume.Enabled = False
@@ -488,11 +510,138 @@ clockForm_BubblingEvent_Error:
 
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure clockForm_BubblingEvent of Class Module cfClock"
 End Sub
+
+'---------------------------------------------------------------------------------------
+' Procedure : chain_myMouseDown
+' Author    : beededea
+' Date      : 03/08/2023
+' Purpose   :  - note: - can't use a std MouseDown as
+'             declaring a widget as cWidgetBase 'WithEvents' does not provide a std MouseDown with a sender object
+'---------------------------------------------------------------------------------------
+'
+Private Sub chain_myMouseDown()
+   On Error GoTo chain_myMouseDown_Error
+
+    Dim fileToPlay As String: fileToPlay = vbNullString
+    Dim chainTop As Long: chainTop = 0
+    Dim chainLeft As Long: chainLeft = 0
+
+    Static chainEnabled As Boolean
+
+    chainTop = chain.Top
+    chainLeft = chain.Left
+    
+
+    fileToPlay = "clunk.wav"
+    If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
+        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
+    End If
+    
+    If chainEnabled = False Then
+        chain.Move chainLeft, chainTop + 10
+        chainEnabled = True
+    Else
+        chain.Move chainLeft, chainTop - 10
+        chainEnabled = False
+    End If
+    
+    clockForm.Refresh
+
+   On Error GoTo 0
+   Exit Sub
+
+chain_myMouseDown_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure chain_myMouseDown of Class Module cfClock"
+
+End Sub
+
+'---------------------------------------------------------------------------------------
+' Procedure : clapperleft_myMouseDown
+' Author    : beededea
+' Date      : 03/08/2023
+' Purpose   :  - note: - can't use a std MouseDown as
+'             declaring a widget as cWidgetBase 'WithEvents' does not provide a std MouseDown with a sender object
+'---------------------------------------------------------------------------------------
+'
+Private Sub clapperleft_myMouseDown()
+   On Error GoTo clapperleft_myMouseDown_Error
+
+    Dim fileToPlay As String: fileToPlay = vbNullString
+
+    Dim alphaVal As Integer: alphaVal = 0
+    
+    alphaVal = Val(gblOpacity) / 100
+    
+    fileToPlay = "clunk.wav"
+    If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
+        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
+    End If
+    
+    If clapperleft.Alpha <> 0 Then
+        clapperleft.Alpha = 0
+        clapperright.Alpha = alphaVal
+    Else
+        clapperleft.Alpha = alphaVal
+        clapperright.Alpha = 0
+    End If
+    
+    clockForm.Refresh
+
+   On Error GoTo 0
+   Exit Sub
+
+clapperleft_myMouseDown_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure clapperleft_myMouseDown of Class Module cfClock"
+
+End Sub
+
+'---------------------------------------------------------------------------------------
+' Procedure : clapperright_myMouseDown
+' Author    : beededea
+' Date      : 03/08/2023
+' Purpose   :  - note: - can't use a std MouseDown as
+'             declaring a widget as cWidgetBase 'WithEvents' does not provide a std MouseDown with a sender object
+'---------------------------------------------------------------------------------------
+'
+Private Sub clapperright_myMouseDown()
+   On Error GoTo clapperright_myMouseDown_Error
+
+    Dim fileToPlay As String: fileToPlay = vbNullString
+
+    Dim alphaVal As Integer: alphaVal = 0
+    
+    alphaVal = Val(gblOpacity) / 100
+    
+    fileToPlay = "clunk.wav"
+    If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
+        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
+    End If
+    
+    If clapperright.Alpha <> 0 Then
+        clapperright.Alpha = 0
+        clapperleft.Alpha = alphaVal
+    Else
+        clapperright.Alpha = alphaVal
+        clapperleft.Alpha = 0
+    End If
+    
+    clockForm.Refresh
+
+   On Error GoTo 0
+   Exit Sub
+
+clapperright_myMouseDown_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure clapperright_myMouseDown of Class Module cfClock"
+
+End Sub
 '---------------------------------------------------------------------------------------
 ' Procedure : alarmtoggle1_myMouseDown
 ' Author    : beededea
 ' Date      : 03/08/2023
-' Purpose   : toggles the main screen on/off - note: - can't use a std MouseDown as
+' Purpose   :  - note: - can't use a std MouseDown as
 '             declaring a widget as cWidgetBase 'WithEvents' does not provide a std MouseDown with a sender object
 '---------------------------------------------------------------------------------------
 '
@@ -537,7 +686,7 @@ End Sub
 ' Procedure : alarmtoggle1armed_myMouseDown
 ' Author    : beededea
 ' Date      : 03/08/2023
-' Purpose   : toggles the main screen on/off - note: - can't use a std MouseDown as
+' Purpose   :  - note: - can't use a std MouseDown as
 '             declaring a widget as cWidgetBase 'WithEvents' does not provide a std MouseDown with a sender object
 '---------------------------------------------------------------------------------------
 '
@@ -581,7 +730,7 @@ End Sub
 ' Procedure : alarmtoggle2_myMouseDown
 ' Author    : beededea
 ' Date      : 03/08/2023
-' Purpose   : toggles the main screen on/off - note: - can't use a std MouseDown as
+' Purpose   :  - note: - can't use a std MouseDown as
 '             declaring a widget as cWidgetBase 'WithEvents' does not provide a std MouseDown with a sender object
 '---------------------------------------------------------------------------------------
 '
@@ -626,7 +775,7 @@ End Sub
 ' Procedure : alarmtoggle2armed_myMouseDown
 ' Author    : beededea
 ' Date      : 03/08/2023
-' Purpose   : toggles the main screen on/off - note: - can't use a std MouseDown as
+' Purpose   :  - note: - can't use a std MouseDown as
 '             declaring a widget as cWidgetBase 'WithEvents' does not provide a std MouseDown with a sender object
 '---------------------------------------------------------------------------------------
 '
@@ -671,7 +820,7 @@ End Sub
 ' Procedure : alarmtoggle3_myMouseDown
 ' Author    : beededea
 ' Date      : 03/08/2023
-' Purpose   : toggles the main screen on/off - note: - can't use a std MouseDown as
+' Purpose   :  - note: - can't use a std MouseDown as
 '             declaring a widget as cWidgetBase 'WithEvents' does not provide a std MouseDown with a sender object
 '---------------------------------------------------------------------------------------
 '
@@ -716,7 +865,7 @@ End Sub
 ' Procedure : alarmtoggle3armed_myMouseDown
 ' Author    : beededea
 ' Date      : 03/08/2023
-' Purpose   : toggles the main screen on/off - note: - can't use a std MouseDown as
+' Purpose   :  - note: - can't use a std MouseDown as
 '             declaring a widget as cWidgetBase 'WithEvents' does not provide a std MouseDown with a sender object
 '---------------------------------------------------------------------------------------
 '
@@ -761,7 +910,7 @@ End Sub
 ' Procedure : alarmtoggle4_myMouseDown
 ' Author    : beededea
 ' Date      : 03/08/2023
-' Purpose   : toggles the main screen on/off - note: - can't use a std MouseDown as
+' Purpose   :  - note: - can't use a std MouseDown as
 '             declaring a widget as cWidgetBase 'WithEvents' does not provide a std MouseDown with a sender object
 '---------------------------------------------------------------------------------------
 '
@@ -806,7 +955,7 @@ End Sub
 ' Procedure : alarmtoggle4armed_myMouseDown
 ' Author    : beededea
 ' Date      : 03/08/2023
-' Purpose   : toggles the main screen on/off - note: - can't use a std MouseDown as
+' Purpose   :  - note: - can't use a std MouseDown as
 '             declaring a widget as cWidgetBase 'WithEvents' does not provide a std MouseDown with a sender object
 '---------------------------------------------------------------------------------------
 '
@@ -851,7 +1000,7 @@ End Sub
 ' Procedure : alarmtoggle5_myMouseDown
 ' Author    : beededea
 ' Date      : 03/08/2023
-' Purpose   : toggles the main screen on/off - note: - can't use a std MouseDown as
+' Purpose   :  - note: - can't use a std MouseDown as
 '             declaring a widget as cWidgetBase 'WithEvents' does not provide a std MouseDown with a sender object
 '---------------------------------------------------------------------------------------
 '
@@ -896,7 +1045,7 @@ End Sub
 ' Procedure : alarmtoggle5armed_myMouseDown
 ' Author    : beededea
 ' Date      : 03/08/2023
-' Purpose   : toggles the main screen on/off - note: - can't use a std MouseDown as
+' Purpose   :  - note: - can't use a std MouseDown as
 '             declaring a widget as cWidgetBase 'WithEvents' does not provide a std MouseDown with a sender object
 '---------------------------------------------------------------------------------------
 '
@@ -939,7 +1088,7 @@ End Sub
 ' Procedure : backtoggle_myMouseDown
 ' Author    : beededea
 ' Date      : 03/08/2023
-' Purpose   : toggles the main screen on/off - note: - can't use a std MouseDown as
+' Purpose   :  - note: - can't use a std MouseDown as
 '             declaring a widget as cWidgetBase 'WithEvents' does not provide a std MouseDown with a sender object
 '---------------------------------------------------------------------------------------
 '
@@ -983,7 +1132,7 @@ End Sub
 ' Procedure : timetoggle_myMouseDown
 ' Author    : beededea
 ' Date      : 03/08/2023
-' Purpose   : toggles the main screen on/off - note: - can't use a std MouseDown as
+' Purpose   :  - note: - can't use a std MouseDown as
 '             declaring a widget as cWidgetBase 'WithEvents' does not provide a std MouseDown with a sender object
 '---------------------------------------------------------------------------------------
 '
@@ -1027,7 +1176,7 @@ End Sub
 ' Procedure : alarmtoggle_myMouseDown
 ' Author    : beededea
 ' Date      : 03/08/2023
-' Purpose   : toggles the main screen on/off - note: - can't use a std MouseDown as
+' Purpose   :  - note: - can't use a std MouseDown as
 '             declaring a widget as cWidgetBase 'WithEvents' does not provide a std MouseDown with a sender object
 '---------------------------------------------------------------------------------------
 '
@@ -1070,7 +1219,7 @@ End Sub
 ' Procedure : loudtoggle_myMouseDown
 ' Author    : beededea
 ' Date      : 03/08/2023
-' Purpose   : toggles the main screen on/off
+' Purpose   :
 '---------------------------------------------------------------------------------------
 '
 Private Sub loudtoggle_myMouseDown()
@@ -1111,7 +1260,7 @@ End Sub
 ' Procedure : mutetoggle_myMouseDown
 ' Author    : beededea
 ' Date      : 03/08/2023
-' Purpose   : toggles the main screen on/off
+' Purpose   :
 '---------------------------------------------------------------------------------------
 '
 Private Sub mutetoggle_myMouseDown()
@@ -1152,7 +1301,7 @@ End Sub
 ' Procedure : pendulumtoggle_myMouseDown
 ' Author    : beededea
 ' Date      : 03/08/2023
-' Purpose   : toggles the main screen on/off
+' Purpose   :
 '---------------------------------------------------------------------------------------
 '
 Private Sub pendulumtoggle_myMouseDown()
@@ -1194,7 +1343,7 @@ End Sub
 ' Procedure : screentoggle_myMouseDown
 ' Author    : beededea
 ' Date      : 03/08/2023
-' Purpose   : toggles the main screen on/off
+' Purpose   :
 '---------------------------------------------------------------------------------------
 '
 Private Sub screentoggle_myMouseDown()
@@ -1247,7 +1396,7 @@ End Sub
 ' Procedure : weekdaytoggle_myMouseDown
 ' Author    : beededea
 ' Date      : 03/08/2023
-' Purpose   : toggles the main screen on/off
+' Purpose   :
 '---------------------------------------------------------------------------------------
 '
 Private Sub weekdaytoggle_myMouseDown()
@@ -1297,7 +1446,7 @@ End Sub
 ' Procedure : helptoggle_myMouseDown
 ' Author    : beededea
 ' Date      : 03/08/2023
-' Purpose   : toggles the main screen on/off
+' Purpose   :
 '---------------------------------------------------------------------------------------
 '
 Private Sub helptoggle_myMouseDown()
@@ -1412,26 +1561,41 @@ End Sub
 ' Procedure : helpbottom_mouseDown
 ' Author    : beededea
 ' Date      : 03/08/2023
-' Purpose   : make the elements that are displayed on startup disappear
+' Purpose   : make the elements that are displayed on startup seem to disappear (moved)
 '---------------------------------------------------------------------------------------
 '
 Private Sub helpbottom_mouseDown(ByRef Sender As Object)
-   On Error GoTo helpbottom_mouseDown_Error
-   
+    Dim labellayerTop As Long: labellayerTop = 0
+    Dim labellayerLeft As Long: labellayerLeft = 0
+    Dim alphaVal As Integer: alphaVal = 0
     Dim fileToPlay As String: fileToPlay = vbNullString
-
-    fileToPlay = "pagefumble.wav"
-    If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
-        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
-    End If
     
-    Sender.Widget.Alpha = 0
-    clockForm.Widgets("labellayer").Widget.Alpha = 0
-    clockForm.Widgets("monday").Widget.Alpha = 0
-    clockForm.Widgets("alarm1till").Widget.Alpha = 0
-    clockForm.Widgets("redarlarmcover").Widget.Alpha = 0
+    On Error GoTo helpbottom_mouseDown_Error
 
-    Sender.Widget.Refresh
+    labellayerTop = labellayer.Top
+    labellayerLeft = labellayer.Left
+
+    If Sender.Widget.Alpha <> 0 Then ' cope with the click on the invisible helpbottom layer
+        fileToPlay = "pagefumble.wav"
+        If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
+            PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
+        End If
+        
+        Sender.Widget.Alpha = 0
+        
+        ' the next two lines are a temporary hack.
+        ' when widgets are made lapha = 0 they are still clickable, I can move these to the overlay or I
+        ' can just move them out of the way so that any click on an invisible element does not interfere with one 'underneath'
+        
+        labellayer.Move labellayerLeft + 400, labellayerTop ' the 400 is a magical number that moves them just out of the way without causing tearing
+        labellayer.Alpha = 0
+    
+        clockForm.Widgets("monday").Widget.Alpha = 0
+        clockForm.Widgets("alarm1till").Widget.Alpha = 0
+        clockForm.Widgets("redarlarmcover").Widget.Alpha = 0
+    
+        Sender.Widget.Refresh
+    End If
         
    On Error GoTo 0
    Exit Sub
