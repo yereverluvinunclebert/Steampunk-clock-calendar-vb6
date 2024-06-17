@@ -32,6 +32,8 @@ Private mMute As Integer ' property
 'Private lblPercentShadow As cwLabel
 
 'Slider-related Private-Vars
+Private WithEvents helpbottom As cWidgetBase
+Attribute helpbottom.VB_VarHelpID = -1
 Private WithEvents SliderSet As cWidgetBase
 Attribute SliderSet.VB_VarHelpID = -1
 Private WithEvents screentoggle As cWidgetBase
@@ -80,6 +82,10 @@ Private WithEvents labellayer As cWidgetBase
 Attribute labellayer.VB_VarHelpID = -1
 Private WithEvents chain As cWidgetBase
 Attribute chain.VB_VarHelpID = -1
+Private WithEvents crankup As cWidgetBase
+Attribute crankup.VB_VarHelpID = -1
+Private WithEvents crankdown As cWidgetBase
+Attribute crankdown.VB_VarHelpID = -1
 
 Private sldFixedTop As Double
 Private sldXMax As Double
@@ -200,6 +206,8 @@ Public Sub InitFromPSD(ByRef PSD_FileNameOrByteArray As Variant)
     sldXMax = SliderSet.Left      'as well as the x-direction related pos (which is initially at the "100%-Volume, right-endswitch" )
     sldXMin = sldXMax - 300       'the Min-Value is simply the Max-Value minus Slider-Range (the 300pxl-range was determined by "probing")
 
+
+    Set helpbottom = clockForm.Widgets("helpbottom").Widget
     Set screentoggle = clockForm.Widgets("screentoggle").Widget
     Set weekdaytoggle = clockForm.Widgets("weekdaytoggle").Widget
     Set helptoggle = clockForm.Widgets("helptoggle").Widget
@@ -223,7 +231,8 @@ Public Sub InitFromPSD(ByRef PSD_FileNameOrByteArray As Variant)
     Set clapperright = clockForm.Widgets("clapperright").Widget
     Set labellayer = clockForm.Widgets("labellayer").Widget
     Set chain = clockForm.Widgets("chain").Widget
-    
+    Set crankup = clockForm.Widgets("crankup").Widget
+    Set crankdown = clockForm.Widgets("crankdown").Widget
 
    On Error GoTo 0
    Exit Sub
@@ -339,9 +348,6 @@ Private Sub clockForm_BubblingEvent(ByRef Sender As Object, ByRef EventName As S
                 If gblEnableBalloonTooltips = "1" Then CreateToolTip clockForm.hwnd, "Pulling the chain will silence the ticks.", _
                      TTIconInfo, widgetName & " Chain Help", , , , True
             Case "crankup"
-                If gblEnableBalloonTooltips = "1" Then CreateToolTip clockForm.hwnd, "Crank me down to quieten the whole clock.", _
-                     TTIconInfo, widgetName & " Crank Help", , , , True
-            Case "crankmiddle"
                 If gblEnableBalloonTooltips = "1" Then CreateToolTip clockForm.hwnd, "Crank me down to quieten the whole clock.", _
                      TTIconInfo, widgetName & " Crank Help", , , , True
             Case "crankdown"
@@ -466,13 +472,20 @@ Private Sub clockForm_BubblingEvent(ByRef Sender As Object, ByRef EventName As S
             Case "helptoggle"
                 Call helptoggle_myMouseDown
             Case "helpbottom"
-                Call helpbottom_mouseDown(Sender)
+                Call helpbottom_myMouseDown
             Case "clapperleft"
                 Call clapperleft_myMouseDown
             Case "clapperright"
                 Call clapperright_myMouseDown
             Case "chain"
                 Call chain_myMouseDown
+                
+            Case "crankup"
+                Call crankup_myMouseDown
+            Case "crankdown"
+                Call crankdown_myMouseDown
+                
+                
             Case "sliderset"
                 overlayWidget.Locked = True
                 'fClock.tmrSampleAudioVolume.Enabled = False
@@ -511,6 +524,77 @@ clockForm_BubblingEvent_Error:
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure clockForm_BubblingEvent of Class Module cfClock"
 End Sub
 
+' Note: We do not implement a middle position for the crank as the layers would be on top of each other and would interrupt a mouse through
+' it could be done with an overlay but I really can't be bothered.
+
+'---------------------------------------------------------------------------------------
+' Procedure : crankdown_myMouseDown
+' Author    : beededea
+' Date      : 03/08/2023
+' Purpose   :  - note: - can't use a std MouseDown as
+'             declaring a widget as cWidgetBase 'WithEvents' does not provide a std MouseDown with a sender object
+'---------------------------------------------------------------------------------------
+'
+Private Sub crankdown_myMouseDown()
+   On Error GoTo crankdown_myMouseDown_Error
+
+    Dim fileToPlay As String: fileToPlay = vbNullString
+    Dim alphaVal As Integer: alphaVal = 0
+        
+    alphaVal = Val(gblOpacity) / 100
+    
+    fileToPlay = "crank.wav"
+    If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
+        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
+    End If
+    
+    crankup.Alpha = alphaVal
+    crankdown.Alpha = 0
+
+    clockForm.Refresh
+
+   On Error GoTo 0
+   Exit Sub
+
+crankdown_myMouseDown_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure crankdown_myMouseDown of Class Module cfClock"
+
+End Sub
+'---------------------------------------------------------------------------------------
+' Procedure : crankup_myMouseDown
+' Author    : beededea
+' Date      : 03/08/2023
+' Purpose   :  - note: - can't use a std MouseDown as
+'             declaring a widget as cWidgetBase 'WithEvents' does not provide a std MouseDown with a sender object
+'---------------------------------------------------------------------------------------
+'
+Private Sub crankup_myMouseDown()
+   On Error GoTo crankup_myMouseDown_Error
+
+    Dim fileToPlay As String: fileToPlay = vbNullString
+    Dim alphaVal As Integer: alphaVal = 0
+        
+    alphaVal = Val(gblOpacity) / 100
+    
+    fileToPlay = "crank.wav"
+    If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
+        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
+    End If
+    
+    crankup.Alpha = 0
+    crankdown.Alpha = alphaVal
+
+    clockForm.Refresh
+
+   On Error GoTo 0
+   Exit Sub
+
+crankup_myMouseDown_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure crankup_myMouseDown of Class Module cfClock"
+
+End Sub
 '---------------------------------------------------------------------------------------
 ' Procedure : chain_myMouseDown
 ' Author    : beededea
@@ -1564,7 +1648,9 @@ End Sub
 ' Purpose   : make the elements that are displayed on startup seem to disappear (moved)
 '---------------------------------------------------------------------------------------
 '
-Private Sub helpbottom_mouseDown(ByRef Sender As Object)
+Private Sub helpbottom_myMouseDown()
+    Dim helpbottomTop As Long: helpbottomTop = 0
+    Dim helpbottomLeft As Long: helpbottomLeft = 0
     Dim labellayerTop As Long: labellayerTop = 0
     Dim labellayerLeft As Long: labellayerLeft = 0
     Dim alphaVal As Integer: alphaVal = 0
@@ -1572,16 +1658,20 @@ Private Sub helpbottom_mouseDown(ByRef Sender As Object)
     
     On Error GoTo helpbottom_mouseDown_Error
 
+    helpbottomTop = helpbottom.Top
+    helpbottomLeft = helpbottom.Left
+    
     labellayerTop = labellayer.Top
     labellayerLeft = labellayer.Left
 
-    If Sender.Widget.Alpha <> 0 Then ' cope with the click on the invisible helpbottom layer
+    If helpbottom.Alpha <> 0 Then ' cope with the click on the invisible helpbottom layer
         fileToPlay = "pagefumble.wav"
         If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
             PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
         End If
         
-        Sender.Widget.Alpha = 0
+        helpbottom.Alpha = 0
+        helpbottom.Move helpbottomLeft + 700, helpbottomTop ' the 400 is a magical number that moves them just out of the way without causing tearing
         
         ' the next two lines are a temporary hack.
         ' when widgets are made lapha = 0 they are still clickable, I can move these to the overlay or I
@@ -1594,7 +1684,7 @@ Private Sub helpbottom_mouseDown(ByRef Sender As Object)
         clockForm.Widgets("alarm1till").Widget.Alpha = 0
         clockForm.Widgets("redarlarmcover").Widget.Alpha = 0
     
-        Sender.Widget.Refresh
+        helpbottom.Refresh
     End If
         
    On Error GoTo 0

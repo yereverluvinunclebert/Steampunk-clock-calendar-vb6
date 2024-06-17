@@ -627,6 +627,13 @@ Public Sub adjustMainControls()
         .Tag = 0.01
     End With
 
+    With fClock.clockForm.Widgets("crankup").Widget
+        .HoverColor = 0
+        .MousePointer = IDC_HAND
+        .Alpha = 0
+        .Tag = 0.01
+    End With
+
     With fClock.clockForm.Widgets("screen").Widget
         .HoverColor = 0
         .MousePointer = IDC_HAND
