@@ -62,13 +62,13 @@ Public Sub initAndShowAboutForm(ByVal x As Long, ByVal Y As Long, Optional ByVal
     On Error GoTo initAndShowAboutForm_Error
     
     If gblDpiAwareness = "0" Then
-        aboutFormWidth = 900
-        aboutFormHeight = 850
+        aboutFormWidth = 500
+        aboutFormHeight = 450
         If aboutFormWidth > screenWidthPixels Then aboutFormWidth = screenWidthPixels
         If aboutFormHeight > screenHeightPixels Then aboutFormHeight = screenHeightPixels
     Else
-        aboutFormWidth = 1800
-        aboutFormHeight = 1600
+        aboutFormWidth = 1000
+        aboutFormHeight = 1000
         If aboutFormWidth > screenWidthPixels Then
             aboutFormWidth = screenWidthPixels
             aboutWidgetZoomValue = 1.5

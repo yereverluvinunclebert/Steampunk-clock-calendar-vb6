@@ -102,6 +102,8 @@ Private sldXMin As Double
 Private sldX As Double
 Private mVolumePerc As Currency
 
+Private backtoggleEnabled As Boolean
+
 'Public WithEvents tmrSampleAudioVolume As cTimer
 'Public WithEvents tmrSampleAudioMute As cTimer
 
@@ -1319,7 +1321,7 @@ Private Sub backtoggle_myMouseDown()
     Dim backtoggleTop As Long: backtoggleTop = 0
     Dim backtoggleLeft As Long: backtoggleLeft = 0
 
-    Static backtoggleEnabled As Boolean
+    'Static backtoggleEnabled As Boolean
     Dim alphaVal As Integer: alphaVal = 0
     
     alphaVal = Val(gblOpacity) / 100
@@ -1595,6 +1597,7 @@ Private Sub screentoggle_myMouseDown()
         clockForm.Widgets("hinges").Widget.Alpha = alphaVal
         clockForm.Widgets("timetoggle").Widget.Alpha = alphaVal
         clockForm.Widgets("backtoggle").Widget.Alpha = alphaVal
+        If backtoggleEnabled = True Then clockForm.Widgets("screenbackground").Widget.Alpha = alphaVal
     Else
         screentoggle.Move screentoggleLeft - 5, screentoggleTop
         clockForm.Widgets("screen").Widget.Alpha = 0
@@ -1602,6 +1605,7 @@ Private Sub screentoggle_myMouseDown()
         clockForm.Widgets("hinges").Widget.Alpha = 0
         clockForm.Widgets("timetoggle").Widget.Alpha = 0
         clockForm.Widgets("backtoggle").Widget.Alpha = 0
+        clockForm.Widgets("screenbackground").Widget.Alpha = 0
     End If
     clockForm.Refresh
     
