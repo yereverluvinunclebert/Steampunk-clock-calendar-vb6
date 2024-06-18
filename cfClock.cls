@@ -92,6 +92,9 @@ Private WithEvents dropdown As cWidgetBase
 Attribute dropdown.VB_VarHelpID = -1
 Private WithEvents bellset As cWidgetBase
 Attribute bellset.VB_VarHelpID = -1
+Private WithEvents helpdropdown As cWidgetBase
+Attribute helpdropdown.VB_VarHelpID = -1
+
 
 Private sldFixedTop As Double
 Private sldXMax As Double
@@ -242,6 +245,8 @@ Public Sub InitFromPSD(ByRef PSD_FileNameOrByteArray As Variant)
     Set weekdayredcover = clockForm.Widgets("weekdayredcover").Widget
     Set dropdown = clockForm.Widgets("dropdown").Widget
     Set bellset = clockForm.Widgets("bellset").Widget
+    Set helpdropdown = clockForm.Widgets("helpdropdown").Widget
+    
 
    On Error GoTo 0
    Exit Sub
@@ -368,7 +373,10 @@ Private Sub clockForm_BubblingEvent(ByRef sender As Object, ByRef EventName As S
             Case "lockingpin"
                 If gblEnableBalloonTooltips = "1" Then CreateToolTip clockForm.hwnd, "Click here to lock the clock in place on the desktop.", _
                      TTIconInfo, widgetName & " Locking Pin Help", , , , True
-                     
+             Case "helpdropdown"
+                If gblEnableBalloonTooltips = "1" Then CreateToolTip clockForm.hwnd, "Click here to lock the clock in place on the desktop.", _
+                     TTIconInfo, widgetName & " Dropdown Pin Help", , , , True
+                    
             Case "monday"
                 If gblEnableBalloonTooltips = "1" Then CreateToolTip clockForm.hwnd, "Click here to lower the weekday flag.", _
                      TTIconInfo, widgetName & " Weekday Indicator Help", , , , True
@@ -401,6 +409,8 @@ Private Sub clockForm_BubblingEvent(ByRef sender As Object, ByRef EventName As S
     
     If EventName = "W_MouseDown" Then
         Select Case LCase$(sender.Widget.Key)
+            Case "helpdropdown"
+                Call helpdropdown_myMouseDown
             Case "lockingpin"
                 If overlayWidget.Locked = True Then
                     Call unlockit
@@ -417,27 +427,22 @@ Private Sub clockForm_BubblingEvent(ByRef sender As Object, ByRef EventName As S
                 Call alarmtoggle1armed_myMouseDown
             Case "alarmtoggle1"
                 Call alarmtoggle1_myMouseDown
-                
             Case "alarmtoggle2armed"
                 Call alarmtoggle2armed_myMouseDown
             Case "alarmtoggle2"
                 Call alarmtoggle2_myMouseDown
-                
             Case "alarmtoggle3armed"
                 Call alarmtoggle3armed_myMouseDown
             Case "alarmtoggle3"
                 Call alarmtoggle3_myMouseDown
-                
             Case "alarmtoggle4armed"
                 Call alarmtoggle4armed_myMouseDown
             Case "alarmtoggle4"
                 Call alarmtoggle4_myMouseDown
-                
             Case "alarmtoggle5armed"
                 Call alarmtoggle5armed_myMouseDown
             Case "alarmtoggle5"
                 Call alarmtoggle5_myMouseDown
-            
             Case "alarmtoggle"
                 Call alarmtoggle_myMouseDown
             Case "backtoggle"
@@ -1315,6 +1320,9 @@ Private Sub backtoggle_myMouseDown()
     Dim backtoggleLeft As Long: backtoggleLeft = 0
 
     Static backtoggleEnabled As Boolean
+    Dim alphaVal As Integer: alphaVal = 0
+    
+    alphaVal = Val(gblOpacity) / 100
 
     backtoggleTop = backtoggle.Top
     backtoggleLeft = backtoggle.Left
@@ -1328,9 +1336,11 @@ Private Sub backtoggle_myMouseDown()
     If backtoggleEnabled = False Then
         backtoggle.Move backtoggleLeft - 5, backtoggleTop
         backtoggleEnabled = True
+        clockForm.Widgets("screenbackground").Widget.Alpha = alphaVal
     Else
         backtoggle.Move backtoggleLeft + 5, backtoggleTop
         backtoggleEnabled = False
+        clockForm.Widgets("screenbackground").Widget.Alpha = 0
     End If
     clockForm.Refresh
 
@@ -1690,31 +1700,28 @@ Private Sub helptoggle_myMouseDown()
     Dim helptoggleTop As Long: helptoggleTop = 0
     Dim helptoggleLeft As Long: helptoggleLeft = 0
     Dim alphaVal As Integer: alphaVal = 0
-    Static helptoggleEnabled As Boolean
 
     helptoggleTop = helptoggle.Top
     helptoggleLeft = helptoggle.Left
     alphaVal = Val(gblOpacity) / 100
-
-    fileToPlay = "rollerblinddown.wav"
-    If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
-        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
-    End If
     
-    If helptoggleEnabled = False Then
+    If helpdropdown.Alpha = 0 Then
+        fileToPlay = "rollerblinddown.wav"
         helptoggle.Alpha = 0
         clockForm.Widgets("woodenbar").Widget.Alpha = alphaVal
         clockForm.Widgets("help1toggle").Widget.Alpha = alphaVal
         clockForm.Widgets("helpdropdown").Widget.Alpha = alphaVal
         clockForm.Widgets("txthelp").Widget.Alpha = alphaVal
-        helptoggleEnabled = True
     Else
+        fileToPlay = "rollerblindup.wav"
         helptoggle.Alpha = alphaVal
         clockForm.Widgets("woodenbar").Widget.Alpha = 0
         clockForm.Widgets("help1toggle").Widget.Alpha = 0
         clockForm.Widgets("helpdropdown").Widget.Alpha = 0
         clockForm.Widgets("txthelp").Widget.Alpha = 0
-        helptoggleEnabled = False
+    End If
+    If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
+        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
     End If
     clockForm.Refresh
 
@@ -1724,6 +1731,48 @@ Private Sub helptoggle_myMouseDown()
 helptoggle_myMouseDown_Error:
 
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure helptoggle_myMouseDown of Class Module cfClock"
+
+End Sub
+'---------------------------------------------------------------------------------------
+' Procedure : helptoggle_myMouseDown
+' Author    : beededea
+' Date      : 03/08/2023
+' Purpose   :
+'---------------------------------------------------------------------------------------
+'
+Private Sub helpdropdown_myMouseDown()
+   On Error GoTo helpdropdown_myMouseDown_Error
+
+    Dim fileToPlay As String: fileToPlay = vbNullString
+    Dim helpdropdownTop As Long: helpdropdownTop = 0
+    Dim helpdropdownLeft As Long: helpdropdownLeft = 0
+    Dim alphaVal As Integer: alphaVal = 0
+
+    If helpdropdown.Alpha <> 0 Then
+        helpdropdownTop = helpdropdown.Top
+        helpdropdownLeft = helpdropdown.Left
+        alphaVal = Val(gblOpacity) / 100
+    
+        fileToPlay = "rollerblindup.wav"
+        If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
+            PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
+        End If
+        
+        clockForm.Widgets("woodenbar").Widget.Alpha = 0
+        clockForm.Widgets("help1toggle").Widget.Alpha = 0
+        clockForm.Widgets("helpdropdown").Widget.Alpha = 0
+        clockForm.Widgets("txthelp").Widget.Alpha = 0
+        helptoggle.Alpha = alphaVal
+        
+        clockForm.Refresh
+    End If
+
+   On Error GoTo 0
+   Exit Sub
+
+helpdropdown_myMouseDown_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure helpdropdown_myMouseDown of Class Module cfClock"
 
 End Sub
 '---------------------------------------------------------------------------------------
@@ -1815,26 +1864,28 @@ Private Sub helpbottom_myMouseDown()
     labellayerLeft = labellayer.Left
 
     If helpbottom.Alpha <> 0 Then ' cope with the click on the invisible helpbottom layer
-        fileToPlay = "pagefumble.wav"
-        If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
-            PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
-        End If
         
         helpbottom.Alpha = 0
-        helpbottom.Move helpbottomLeft + 700, helpbottomTop ' the 400 is a magical number that moves them just out of the way without causing tearing
         
         ' the next two lines are a temporary hack.
         ' when widgets are made lapha = 0 they are still clickable, I can move these to the overlay or I
         ' can just move them out of the way so that any click on an invisible element does not interfere with one 'underneath'
         
-        labellayer.Move labellayerLeft + 400, labellayerTop ' the 400 is a magical number that moves them just out of the way without causing tearing
         labellayer.Alpha = 0
     
         clockForm.Widgets("monday").Widget.Alpha = 0
         clockForm.Widgets("alarm1till").Widget.Alpha = 0
         clockForm.Widgets("redarlarmcover").Widget.Alpha = 0
+        
+        fileToPlay = "pagefumble.wav"
+        If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
+            PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
+        End If
+        
+        helpbottom.Move helpbottomLeft + 700, helpbottomTop ' the 400 is a magical number that moves them just out of the way without causing tearing
+        labellayer.Move labellayerLeft + 400, labellayerTop ' the 400 is a magical number that moves them just out of the way without causing tearing
     
-        helpbottom.Refresh
+        clockForm.Refresh
     End If
         
    On Error GoTo 0

@@ -884,8 +884,14 @@ Public Sub adjustMainControls()
         .Tag = 0.01
     End With
 
-    
-        
+    With fClock.clockForm.Widgets("helpdropdown").Widget
+        .HoverColor = 0
+        .MousePointer = IDC_ARROW
+        .Alpha = 0
+        .Tag = 0.01
+    End With
+
+
 '    If gblPreventDragging = "0" Then
 '        menuForm.mnuLockWidget.Checked = False
 '        overlayWidget.Locked = False

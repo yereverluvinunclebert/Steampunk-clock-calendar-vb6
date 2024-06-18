@@ -193,7 +193,7 @@ End Property
 '             For this Overlay-Widget alone, we make everything "fully click-through"
 '---------------------------------------------------------------------------------------------
 '
-Private Sub W_HitTest(ByVal x As Single, ByVal y As Single, HitResultHit As Boolean) 'ensure ClickThrough-behaviour in ImagePixels which are "fully Alpha"
+Private Sub W_HitTest(ByVal x As Single, ByVal Y As Single, HitResultHit As Boolean) 'ensure ClickThrough-behaviour in ImagePixels which are "fully Alpha"
    On Error GoTo W_HitTest_Error
 
    HitResultHit = False
@@ -241,7 +241,6 @@ Private Sub W_Paint(CC As RC6.cCairoContext, ByVal xAbs As Single, ByVal yAbs As
     End With
 
     someOpacity = (Val(gblOpacity) / 100) * 0.75
-    'thisVolumeLevel = Int(fClock.SystemAudioLevel * 100)
     
     For I = 0 To cCollOverlayImages.Count - 1 ' this is the ExcludedPaths collection populated in cfClock by duplicating collPSDNonUIElements.
       Arr = cCollOverlayImages.ItemByIndex(I)
@@ -256,22 +255,7 @@ Private Sub W_Paint(CC As RC6.cCairoContext, ByVal xAbs As Single, ByVal yAbs As
              Select Case Key
                 Case "cable"
                     Set Pat = Cairo.ImageList(Key).CropSurface(10, 0, 140, 27).CreateSurfacePattern 'cut-out a nice (repeatable) part of the original "cable"-image (via CropSurface)
-                   
-                    If gblNumericDisplay = "1" Then
-                    
-'                        ' volume level text shadow
-'                        CC.DrawText 253, 18, 200, 200, thisVolumeLevel & "%", , , 2, True, , someOpacity
-'
-'                        With W
-'                            .ForeColor = cream
-'                            .SelectFontSettingsInto CC
-'                            .Refresh
-'                        End With
-'
-'                        ' volume level text
-'                        CC.DrawText 250, 15, 200, 200, thisVolumeLevel & "%", , , 2, True, , someOpacity
-                    End If
-                    
+                                       
                     Set Pat.Matrix = Pat.Matrix.TranslateCoords(sldCurWidth, -Arr(1)) 'sldCurWidth in the x-Coord will ensure that nice "spooling-effect"
                         Pat.Extend = CAIRO_EXTEND_REPEAT
                     
