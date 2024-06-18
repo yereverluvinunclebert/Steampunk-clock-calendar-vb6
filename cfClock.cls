@@ -88,6 +88,10 @@ Private WithEvents crankdown As cWidgetBase
 Attribute crankdown.VB_VarHelpID = -1
 Private WithEvents weekdayredcover As cWidgetBase
 Attribute weekdayredcover.VB_VarHelpID = -1
+Private WithEvents dropdown As cWidgetBase
+Attribute dropdown.VB_VarHelpID = -1
+Private WithEvents bellset As cWidgetBase
+Attribute bellset.VB_VarHelpID = -1
 
 Private sldFixedTop As Double
 Private sldXMax As Double
@@ -236,6 +240,8 @@ Public Sub InitFromPSD(ByRef PSD_FileNameOrByteArray As Variant)
     Set crankup = clockForm.Widgets("crankup").Widget
     Set crankdown = clockForm.Widgets("crankdown").Widget
     Set weekdayredcover = clockForm.Widgets("weekdayredcover").Widget
+    Set dropdown = clockForm.Widgets("dropdown").Widget
+    Set bellset = clockForm.Widgets("bellset").Widget
 
    On Error GoTo 0
    Exit Sub
@@ -252,7 +258,7 @@ End Sub
 ' Purpose   : central handling of all Click-Events
 '---------------------------------------------------------------------------------------
 '
-Private Sub clockForm_BubblingEvent(ByRef Sender As Object, ByRef EventName As String, ByRef P1 As Variant, ByRef P2 As Variant, ByRef P3 As Variant, ByRef P4 As Variant, ByRef P5 As Variant, ByRef P6 As Variant, ByRef P7 As Variant)
+Private Sub clockForm_BubblingEvent(ByRef sender As Object, ByRef EventName As String, ByRef P1 As Variant, ByRef P2 As Variant, ByRef P3 As Variant, ByRef P4 As Variant, ByRef P5 As Variant, ByRef P6 As Variant, ByRef P7 As Variant)
    
     Dim stdMessage As String: stdMessage = vbNullString
     Dim stdSubject As String: stdSubject = vbNullString
@@ -265,7 +271,7 @@ Private Sub clockForm_BubblingEvent(ByRef Sender As Object, ByRef EventName As S
     stdSubject = "You can turn off the balloon tooltips in the preferences."
     
     If EventName = "W_MouseMove" Then
-        Select Case LCase$(Sender.Widget.Key)
+        Select Case LCase$(sender.Widget.Key)
             Case "sliderset"
                 If gblEnableBalloonTooltips = "1" Then CreateToolTip clockForm.hwnd, "This is the Time Slider. Click and drag me left/right to alter time.", _
                      TTIconInfo, widgetName & " Locking pin Help", , , , True
@@ -316,7 +322,7 @@ Private Sub clockForm_BubblingEvent(ByRef Sender As Object, ByRef EventName As S
                      TTIconInfo, widgetName & " Dropdown Toggle Help", , , , True
             Case "backtoggle"
                 If gblEnableBalloonTooltips = "1" Then CreateToolTip clockForm.hwnd, "Toggle the Back Screen to make the text easier to read.", _
-                     TTIconInfo, widgetName & " Dropdown Toggle Help", , , , True
+                     TTIconInfo, widgetName & " Back Screen Toggle Help", , , , True
             Case "alarmtoggle1armed"
                 If gblEnableBalloonTooltips = "1" Then CreateToolTip clockForm.hwnd, "Click to view alarm number one.", _
                      TTIconInfo, widgetName & " Alarm 1 Toggle Help", , , , True
@@ -366,31 +372,7 @@ Private Sub clockForm_BubblingEvent(ByRef Sender As Object, ByRef EventName As S
             Case "monday"
                 If gblEnableBalloonTooltips = "1" Then CreateToolTip clockForm.hwnd, "Click here to lower the weekday flag.", _
                      TTIconInfo, widgetName & " Weekday Indicator Help", , , , True
-                If clockForm.Widgets("monday").Widget.Alpha <> 0 Then weekdayredcover.Alpha = Val(gblOpacity) / 100
-            Case "tuesday"
-                If gblEnableBalloonTooltips = "1" Then CreateToolTip clockForm.hwnd, "Click here to lower the weekday flag.", _
-                     TTIconInfo, widgetName & " Weekday Indicator Help", , , , True
-                If clockForm.Widgets("tuesday").Widget.Alpha <> 0 Then weekdayredcover.Alpha = Val(gblOpacity) / 100
-            Case "wednesday"
-                If gblEnableBalloonTooltips = "1" Then CreateToolTip clockForm.hwnd, "Click here to lower the weekday flag.", _
-                     TTIconInfo, widgetName & " Weekday Indicator Help", , , , True
-                If clockForm.Widgets("wednesday").Widget.Alpha <> 0 Then weekdayredcover.Alpha = Val(gblOpacity) / 100
-            Case "thursday"
-                If gblEnableBalloonTooltips = "1" Then CreateToolTip clockForm.hwnd, "Click here to lower the weekday flag.", _
-                     TTIconInfo, widgetName & " Weekday Indicator Help", , , , True
-                If clockForm.Widgets("thursday").Widget.Alpha <> 0 Then weekdayredcover.Alpha = Val(gblOpacity) / 100
-            Case "friday"
-                If gblEnableBalloonTooltips = "1" Then CreateToolTip clockForm.hwnd, "Click here to lower the weekday flag.", _
-                     TTIconInfo, widgetName & " Weekday Indicator Help", , , , True
-                If clockForm.Widgets("friday").Widget.Alpha <> 0 Then weekdayredcover.Alpha = Val(gblOpacity) / 100
-            Case "saturday"
-                If gblEnableBalloonTooltips = "1" Then CreateToolTip clockForm.hwnd, "Click here to lower the weekday flag.", _
-                     TTIconInfo, widgetName & " Weekday Indicator Help", , , , True
-                If clockForm.Widgets("saturday").Widget.Alpha <> 0 Then weekdayredcover.Alpha = Val(gblOpacity) / 100
-            Case "sunday"
-                If gblEnableBalloonTooltips = "1" Then CreateToolTip clockForm.hwnd, "Click here to lower the weekday flag.", _
-                     TTIconInfo, widgetName & " Weekday Indicator Help", , , , True
-                If clockForm.Widgets("sunday").Widget.Alpha <> 0 Then weekdayredcover.Alpha = Val(gblOpacity) / 100
+                If clockForm.Widgets(fDayOfWeek).Widget.Alpha <> 0 Then weekdayredcover.Alpha = Val(gblOpacity) / 100
            Case "weekdayredcover"
                 If gblEnableBalloonTooltips = "1" Then CreateToolTip clockForm.hwnd, "Click here to lower the weekday flag.", _
                      TTIconInfo, widgetName & " Weekday Indicator Help", , , , True
@@ -398,7 +380,7 @@ Private Sub clockForm_BubblingEvent(ByRef Sender As Object, ByRef EventName As S
     End If
     
     If EventName = "W_MouseLeave" Then
-        Select Case LCase$(Sender.Widget.Key)
+        Select Case LCase$(sender.Widget.Key)
         Case "monday"
             weekdayredcover.Alpha = 0
         Case "tuesday"
@@ -418,7 +400,7 @@ Private Sub clockForm_BubblingEvent(ByRef Sender As Object, ByRef EventName As S
  
     
     If EventName = "W_MouseDown" Then
-        Select Case LCase$(Sender.Widget.Key)
+        Select Case LCase$(sender.Widget.Key)
             Case "lockingpin"
                 If overlayWidget.Locked = True Then
                     Call unlockit
@@ -482,12 +464,10 @@ Private Sub clockForm_BubblingEvent(ByRef Sender As Object, ByRef EventName As S
                 Call clapperright_myMouseDown
             Case "chain"
                 Call chain_myMouseDown
-                
             Case "crankup"
                 Call crankup_myMouseDown
             Case "crankdown"
                 Call crankdown_myMouseDown
-                
             Case "monday"
                 Call weekdayredcover_myMouseDown
             Case "tuesday"
@@ -502,25 +482,27 @@ Private Sub clockForm_BubblingEvent(ByRef Sender As Object, ByRef EventName As S
                 Call weekdayredcover_myMouseDown
             Case "sunday"
                 Call weekdayredcover_myMouseDown
-                
-
-            Case "sliderset"
+            Case "dropdown"
+                Call dropdown_myMouseDown
+            Case "bellset"
+                Call bellset_myMouseDown
+           Case "sliderset"
                 overlayWidget.Locked = True
                 'fClock.tmrSampleAudioVolume.Enabled = False
             Case Else
-                Debug.Print Sender.Widget.Key
+                Debug.Print sender.Widget.Key
         End Select
     End If
     
     If EventName = "W_MouseUp" Then
-        Select Case LCase$(Sender.Widget.Key)
+        Select Case LCase$(sender.Widget.Key)
             Case "bell"
                 'Call bell_mouseUp(Sender)
             Case "sliderset"
                 overlayWidget.Locked = False
                 'fClock.tmrSampleAudioVolume.Enabled = True
             Case Else
-                Debug.Print Sender.Widget.Key
+                Debug.Print sender.Widget.Key
         End Select
     End If
             
@@ -543,6 +525,85 @@ clockForm_BubblingEvent_Error:
 End Sub
 
 
+
+'---------------------------------------------------------------------------------------
+' Procedure : bellset_myMouseDown
+' Author    : beededea
+' Date      : 03/08/2023
+' Purpose   :  - note: - can't use a std MouseDown as
+'             declaring a widget as cWidgetBase 'WithEvents' does not provide a std MouseDown with a sender object
+'---------------------------------------------------------------------------------------
+'
+Private Sub bellset_myMouseDown()
+   On Error GoTo bellset_myMouseDown_Error
+
+    Dim fileToPlay As String: fileToPlay = vbNullString
+    
+    fileToPlay = "singleBell.wav"
+    If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
+        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
+    End If
+
+   On Error GoTo 0
+   Exit Sub
+
+bellset_myMouseDown_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure bellset_myMouseDown of Class Module cfClock"
+
+End Sub
+
+'---------------------------------------------------------------------------------------
+' Procedure : dropdown_MouseDown
+' Author    : beededea
+' Date      : 03/08/2023
+' Purpose   :  - note: - can't use a std MouseDown as
+'             declaring a widget as cWidgetBase 'WithEvents' does not provide a std MouseDown with a sender object
+'---------------------------------------------------------------------------------------
+'
+Private Sub dropdown_myMouseDown()
+
+    Dim fileToPlay As String: fileToPlay = vbNullString
+    Dim alphaVal As Integer: alphaVal = 0
+    Dim thisDayOfWeek As String: thisDayOfWeek = vbNullString
+    
+    Dim dropdownTop As Long: dropdownTop = 0
+    Dim dropdownLeft As Long: dropdownLeft = 0
+    
+    Static dropdownEnabled As Boolean
+    
+    On Error GoTo dropdown_MouseDown_Error
+    
+    dropdownTop = dropdown.Top
+    dropdownLeft = dropdown.Left
+            
+    alphaVal = Val(gblOpacity) / 100
+    
+    If dropdownEnabled = False Then
+        fileToPlay = "rollerblind.wav"
+        dropdown.Move dropdownLeft, dropdownTop + 175
+        dropdownEnabled = True
+    Else
+        fileToPlay = "rollerblindup.wav"
+        dropdown.Move dropdownLeft, dropdownTop - 175
+        dropdownEnabled = False
+    End If
+    
+    If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
+        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
+    End If
+    
+
+    clockForm.Refresh
+
+   On Error GoTo 0
+   Exit Sub
+
+dropdown_MouseDown_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure dropdown_MouseDown of Class Module cfClock"
+
+End Sub
 
 
 
