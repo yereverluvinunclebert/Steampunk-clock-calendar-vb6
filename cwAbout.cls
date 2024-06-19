@@ -154,7 +154,7 @@ End Property
 ' Purpose   :
 '---------------------------------------------------------------------------------------
 '
-Private Sub W_MouseDown(Button As Integer, Shift As Integer, ByVal x As Single, ByVal y As Single)
+Private Sub W_MouseDown(Button As Integer, Shift As Integer, ByVal x As Single, ByVal Y As Single)
    Dim fileToPlay As String: fileToPlay = vbNullString
    On Error GoTo W_MouseDown_Error
     
@@ -358,13 +358,14 @@ Private Sub Draw(ByRef CC As cCairoContext, ByVal dx As Single, ByVal dy As Sing
     W.FontName = gblClockFont
     W.ForeColor = vbBlack
     W.SelectFontSettingsInto CC
+    
    
     If gblDpiAwareness = "0" Then
-        CC.DrawText 350, 0, dx, dy - 275, "version " & App.Major & "." & App.Minor & "." & App.Revision & " Alpha", , , 2, True, , mMyOpacity
+        CC.DrawText 250, 0, dx, dy, "version " & App.Major & "." & App.Minor & "." & App.Revision & " Alpha", , , 2, True, , mMyOpacity
     Else
-        CC.DrawText 350, 0, dx, dy - 1020, "version " & App.Major & "." & App.Minor & "." & App.Revision & " Alpha", , , 2, True, , mMyOpacity
+        CC.DrawText 240, -285, dx, dy, "v." & App.Major & "." & App.Minor & "." & App.Revision, , , 2, True, , mMyOpacity
     End If
-    'W.Refresh
+    W.Refresh
 
    On Error GoTo 0
    Exit Sub

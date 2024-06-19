@@ -200,8 +200,8 @@ Public Sub InitFromPSD(ByRef PSD_FileNameOrByteArray As Variant)
         
     Set overlayWidget = clockForm.Widgets.Add(New cwOverlay, "Overlay", 0, 0, PSDWidth, PSDHeight)
     Set overlayWidget.cCollOverlayImages = collPSDNonUIElements 'make the excluded PSD-Surface-Paths known to the Overlay-Widget
-        overlayWidget.cxPerc = 0.4940476 'define the relative center (within cwOverlay, which has the same size as the Form and the PSD...) this is used for clock-hand-positioning
-        overlayWidget.cyPerc = 0.4727272
+        overlayWidget.cxPerc = 0.645 'define the relative center (within cwOverlay, which has the same size as the Form and the PSD...) this is used for clock-hand-positioning
+        overlayWidget.cyPerc = 0.334
         
     'the next 5 lines will init a "moving Slider" (which was defined as "sliderset"-layer in the PSD)
     Set SliderSet = clockForm.Widgets("sliderset").Widget 'store the already (in PSD-Loop created) Widget-reference in an explicit "WithEvents-Variable"

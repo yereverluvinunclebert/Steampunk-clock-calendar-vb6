@@ -828,33 +828,33 @@ Public Sub adjustMainControls()
         .Tag = 0.01
     End With
     
-    With fClock.clockForm.Widgets("hourhand").Widget
-        .HoverColor = 0
-        .MousePointer = IDC_ARROW
-        .Alpha = Val(gblOpacity) / 100
-        .Tag = 0.01
-    End With
-    
-    With fClock.clockForm.Widgets("secondhand").Widget
-        .HoverColor = 0
-        .MousePointer = IDC_ARROW
-        .Alpha = Val(gblOpacity) / 100
-        .Tag = 0.01
-    End With
+'    With fClock.clockForm.Widgets("hourhand").Widget
+'        .HoverColor = 0
+'        .MousePointer = IDC_ARROW
+'        .Alpha = Val(gblOpacity) / 100
+'        .Tag = 0.01
+'    End With
+'
+'    With fClock.clockForm.Widgets("secondhand").Widget
+'        .HoverColor = 0
+'        .MousePointer = IDC_ARROW
+'        .Alpha = Val(gblOpacity) / 100
+'        .Tag = 0.01
+'    End With
+'
+'    With fClock.clockForm.Widgets("minutehand").Widget
+'        .HoverColor = 0
+'        .MousePointer = IDC_ARROW
+'        .Alpha = Val(gblOpacity) / 100
+'        .Tag = 0.01
+'    End With
 
-    With fClock.clockForm.Widgets("minutehand").Widget
-        .HoverColor = 0
-        .MousePointer = IDC_ARROW
-        .Alpha = Val(gblOpacity) / 100
-        .Tag = 0.01
-    End With
-
-    With fClock.clockForm.Widgets("hole").Widget
-        .HoverColor = 0
-        .MousePointer = IDC_ARROW
-        .Alpha = Val(gblOpacity) / 100
-        .Tag = 0.01
-    End With
+'    With fClock.clockForm.Widgets("hole").Widget
+'        .HoverColor = 0
+'        .MousePointer = IDC_ARROW
+'        .Alpha = Val(gblOpacity) / 100
+'        .Tag = 0.01
+'    End With
 
     With fClock.clockForm.Widgets("bellset").Widget
         .HoverColor = 0
@@ -1373,6 +1373,10 @@ Private Sub loadExcludePathCollection()
 
     With fClock.collPSDNonUIElements ' the exclude list
 
+        .Add Empty, "secondhand"
+        .Add Empty, "hourhand"
+        .Add Empty, "minutehand"
+        .Add Empty, "hole"
         .Add Empty, "cable"
 
     End With

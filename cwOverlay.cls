@@ -29,6 +29,13 @@ Public sldCurWidth As Double
 Public cxPerc As Single
 Public cyPerc As Single
 
+Private HDeg As Double
+Private MDeg As Double
+Private SDeg As Double
+Private Sec As Integer
+
+Private WithEvents tmrClock As cTimer
+Attribute tmrClock.VB_VarHelpID = -1
 Private WithEvents W As cWidgetBase
 Attribute W.VB_VarHelpID = -1
 
@@ -51,6 +58,13 @@ Private Sub Class_Initialize()
         W.BackColor = -1  'we don't use any BackColor here, transparent
         W.ImplementsHitTest = True 'when at False, no HitTest-Event would be triggered
 
+    intervalValue = 1000
+    
+    Set tmrClock = Nothing
+    Set tmrClock = New_c.Timer(intervalValue, True)
+    
+    tmrClock.Enabled = True
+        
    On Error GoTo 0
    Exit Sub
 
@@ -156,6 +170,44 @@ HiddenGet_Error:
 
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property Hidden of Class Module cwGlobe"
 End Property
+
+    
+'---------------------------------------------------------------------------------------
+' Procedure : tmrClock_Timer
+' Author    : olaf schmidt
+' Date      : 30/07/2023
+' Purpose   : update the degree-Variables for the clock Hour, Minute and Second Hands
+'---------------------------------------------------------------------------------------
+'
+Private Sub tmrClock_Timer()
+ 
+    Static T As Date: T = Time
+    
+    On Error GoTo tmrClock_Timer_Error
+    
+    ' time calc for main gauge
+    HDeg = 30 * (Hour(T) Mod 12 + (Minute(T) + tzDelta) / 60)
+    MDeg = 6 * ((Minute(T) + tzDelta) + (Second(T) / 60))
+    
+    Sec = Second(T)
+
+    If SDeg <> 6 * Sec Then
+        SDeg = 6 * Sec
+    Else
+        Exit Sub  'only refresh when SDeg has changed to a new value
+    End If
+    
+    W.Parent.Refresh ' causes a paint event to fire
+
+   On Error GoTo 0
+   Exit Sub
+
+tmrClock_Timer_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure tmrClock_Timer of Class Module cwOverlay"
+End Sub
+
+
 '---------------------------------------------------------------------------------------
 ' Property  : Hidden
 ' Author    : beededea
@@ -219,29 +271,9 @@ Private Sub W_Paint(CC As RC6.cCairoContext, ByVal xAbs As Single, ByVal yAbs As
     Dim Arr As Variant
     Dim Key As String: Key = vbNullString
     Dim Pat As cCairoPattern
-    Dim someOpacity As Double: someOpacity = 0
-    Dim cream As String: cream = vbNullString
-    'Dim thisVolumeLevel As Integer: thisVolumeLevel = 0
        
     On Error GoTo W_Paint_Error
-    
-    cream = RGB(235, 217, 179) ' cannot create a constant from an RGB value
-    
-    'set some Font- and ForeColor-Properties and draw some Text on the Widget
-    With W
-        .FontSize = 38
-        .FontName = "times new roman"
-        .FontBold = True
-        .ForeColor = vbBlack
-        .BackColor = -1
-        .Tag = 0.01
-        .HoverColor = 0
-        .SelectFontSettingsInto CC
-        .Refresh
-    End With
-
-    someOpacity = (Val(gblOpacity) / 100) * 0.75
-    
+  
     For I = 0 To cCollOverlayImages.Count - 1 ' this is the ExcludedPaths collection populated in cfClock by duplicating collPSDNonUIElements.
       Arr = cCollOverlayImages.ItemByIndex(I)
       Key = cCollOverlayImages.KeyByIndex(I)
@@ -253,6 +285,36 @@ Private Sub W_Paint(CC As RC6.cCairoContext, ByVal xAbs As Single, ByVal yAbs As
             
             ' for specific keys perform actions &c
              Select Case Key
+                 
+                 
+                 Case "hourhand"
+                    Set Pat = Cairo.ImageList(Key).CreateSurfacePattern
+                    Set Pat.Matrix = Pat.Matrix.TranslateCoords(4, 4) 'shift to the "rotation-point" within the Pattern
+                    CC.TranslateDrawings W.Width * cxPerc, W.Height * cyPerc 'shift to the center-point of the Overlay-Widget-area
+                    
+                    'CC.TranslateDrawings 645, 333 'shift to the center-point of the Overlay-Widget-area
+                    CC.RotateDrawingsDeg -90 + HDeg  'now we can rotate (the leading negative degrees are the rotation-offsets for 12 o'clock)
+                 
+                 Case "minutehand"  'minutes-shadow- and minutes-hand
+                    Set Pat = Cairo.ImageList(Key).CreateSurfacePattern
+                    Set Pat.Matrix = Pat.Matrix.TranslateCoords(3, 3) 'shift to the "rotation-point" within the Pattern
+                    CC.TranslateDrawings 646.5, 332 'shift to the center-point of the Overlay-Widget-area
+                    
+                    CC.RotateDrawingsDeg -90 + MDeg 'now we can rotate (the leading negative degrees are the rotation-offsets for 12 o'clock)
+                    
+                 Case "secondhand" 'seconds-shadow- and seconds-hand
+                    Set Pat = Cairo.ImageList(Key).CreateSurfacePattern
+                    Set Pat.Matrix = Pat.Matrix.TranslateCoords(3, 3) 'shift to the "rotation-point" within the Pattern
+                    CC.TranslateDrawings 646.5, 332 'shift to the center-point of the Overlay-Widget-area
+
+                    CC.RotateDrawingsDeg -90 + SDeg 'now we can rotate (the leading negative degrees are the rotation-offsets for 12 o'clock)
+                 
+                 Case "hole"
+                    Set Pat = Cairo.ImageList(Key).CreateSurfacePattern
+                    Set Pat.Matrix = Pat.Matrix.TranslateCoords(4, 4) 'shift to the "rotation-point" within the Pattern
+                    
+                    CC.TranslateDrawings 646, 332 'shift to the center-point of the Overlay-Widget-area
+                
                 Case "cable"
                     Set Pat = Cairo.ImageList(Key).CropSurface(10, 0, 140, 27).CreateSurfacePattern 'cut-out a nice (repeatable) part of the original "cable"-image (via CropSurface)
                                        
