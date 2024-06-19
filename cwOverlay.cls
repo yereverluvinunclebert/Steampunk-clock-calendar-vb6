@@ -186,8 +186,8 @@ Private Sub tmrClock_Timer()
     On Error GoTo tmrClock_Timer_Error
     
     ' time calc for main gauge
-    HDeg = 30 * (Hour(T) Mod 12 + (Minute(T) + tzDelta) / 60)
-    MDeg = 6 * ((Minute(T) + tzDelta) + (Second(T) / 60))
+    HDeg = 30 * (Hour(T) Mod 12 + (Minute(T)) / 60)
+    MDeg = 6 * ((Minute(T)) + (Second(T) / 60))
     
     Sec = Second(T)
 
@@ -285,7 +285,6 @@ Private Sub W_Paint(CC As RC6.cCairoContext, ByVal xAbs As Single, ByVal yAbs As
             
             ' for specific keys perform actions &c
              Select Case Key
-                 
                  
                  Case "hourhand"
                     Set Pat = Cairo.ImageList(Key).CreateSurfacePattern

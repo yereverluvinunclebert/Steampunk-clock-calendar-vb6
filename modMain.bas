@@ -85,9 +85,6 @@ Public Sub mainRoutine(ByVal restart As Boolean)
     prefsCurrentWidth = 9075
     prefsCurrentHeight = 16450
     
-    tzDelta = 0
-    tzDelta1 = 0
-    
     extractCommand = Command$ ' capture any parameter passed, remove if a soft reload
     If restart = True Then extractCommand = vbNullString
     
@@ -743,34 +740,299 @@ Public Sub adjustMainControls()
         .Alpha = Val(gblOpacity) / 100
         .Tag = 0.01
     End With
+    
+    
 
-    With fClock.clockForm.Widgets("num6time").Widget
+    With fClock.clockForm.Widgets("numhour1/num0hour1").Widget
         .HoverColor = 0
         .MousePointer = IDC_HAND
         .Alpha = Val(gblOpacity) / 100
         .Tag = 0.01
     End With
 
-    With fClock.clockForm.Widgets("num3time").Widget
+    With fClock.clockForm.Widgets("numhour1/num1hour1").Widget
         .HoverColor = 0
         .MousePointer = IDC_HAND
         .Alpha = Val(gblOpacity) / 100
         .Tag = 0.01
     End With
 
-    With fClock.clockForm.Widgets("num1time").Widget
+    With fClock.clockForm.Widgets("numhour1/num2hour1").Widget
         .HoverColor = 0
         .MousePointer = IDC_HAND
         .Alpha = Val(gblOpacity) / 100
         .Tag = 0.01
     End With
 
-    With fClock.clockForm.Widgets("num0time").Widget
+    With fClock.clockForm.Widgets("numhour1/num3hour1").Widget
         .HoverColor = 0
         .MousePointer = IDC_HAND
         .Alpha = Val(gblOpacity) / 100
         .Tag = 0.01
     End With
+
+    With fClock.clockForm.Widgets("numhour1/num4hour1").Widget
+        .HoverColor = 0
+        .MousePointer = IDC_HAND
+        .Alpha = Val(gblOpacity) / 100
+        .Tag = 0.01
+    End With
+
+    With fClock.clockForm.Widgets("numhour1/num5hour1").Widget
+        .HoverColor = 0
+        .MousePointer = IDC_HAND
+        .Alpha = Val(gblOpacity) / 100
+        .Tag = 0.01
+    End With
+
+    With fClock.clockForm.Widgets("numhour1/num6hour1").Widget
+        .HoverColor = 0
+        .MousePointer = IDC_HAND
+        .Alpha = Val(gblOpacity) / 100
+        .Tag = 0.01
+    End With
+
+    With fClock.clockForm.Widgets("numhour1/num7hour1").Widget
+        .HoverColor = 0
+        .MousePointer = IDC_HAND
+        .Alpha = Val(gblOpacity) / 100
+        .Tag = 0.01
+    End With
+
+    With fClock.clockForm.Widgets("numhour1/num8hour1").Widget
+        .HoverColor = 0
+        .MousePointer = IDC_HAND
+        .Alpha = Val(gblOpacity) / 100
+        .Tag = 0.01
+    End With
+
+    With fClock.clockForm.Widgets("numhour1/num9hour1").Widget
+        .HoverColor = 0
+        .MousePointer = IDC_HAND
+        .Alpha = Val(gblOpacity) / 100
+        .Tag = 0.01
+    End With
+
+
+
+
+    With fClock.clockForm.Widgets("numhour2/num0hour2").Widget
+        .HoverColor = 0
+        .MousePointer = IDC_HAND
+        .Alpha = Val(gblOpacity) / 100
+        .Tag = 0.01
+    End With
+
+    With fClock.clockForm.Widgets("numhour2/num1hour2").Widget
+        .HoverColor = 0
+        .MousePointer = IDC_HAND
+        .Alpha = Val(gblOpacity) / 100
+        .Tag = 0.01
+    End With
+
+    With fClock.clockForm.Widgets("numhour2/num2hour2").Widget
+        .HoverColor = 0
+        .MousePointer = IDC_HAND
+        .Alpha = Val(gblOpacity) / 100
+        .Tag = 0.01
+    End With
+
+    With fClock.clockForm.Widgets("numhour2/num3hour2").Widget
+        .HoverColor = 0
+        .MousePointer = IDC_HAND
+        .Alpha = Val(gblOpacity) / 100
+        .Tag = 0.01
+    End With
+
+    With fClock.clockForm.Widgets("numhour2/num4hour2").Widget
+        .HoverColor = 0
+        .MousePointer = IDC_HAND
+        .Alpha = Val(gblOpacity) / 100
+        .Tag = 0.01
+    End With
+
+    With fClock.clockForm.Widgets("numhour2/num5hour2").Widget
+        .HoverColor = 0
+        .MousePointer = IDC_HAND
+        .Alpha = Val(gblOpacity) / 100
+        .Tag = 0.01
+    End With
+
+    With fClock.clockForm.Widgets("numhour2/num6hour2").Widget
+        .HoverColor = 0
+        .MousePointer = IDC_HAND
+        .Alpha = Val(gblOpacity) / 100
+        .Tag = 0.01
+    End With
+
+    With fClock.clockForm.Widgets("numhour2/num7hour2").Widget
+        .HoverColor = 0
+        .MousePointer = IDC_HAND
+        .Alpha = Val(gblOpacity) / 100
+        .Tag = 0.01
+    End With
+
+    With fClock.clockForm.Widgets("numhour2/num8hour2").Widget
+        .HoverColor = 0
+        .MousePointer = IDC_HAND
+        .Alpha = Val(gblOpacity) / 100
+        .Tag = 0.01
+    End With
+
+    With fClock.clockForm.Widgets("numhour2/num9hour2").Widget
+        .HoverColor = 0
+        .MousePointer = IDC_HAND
+        .Alpha = Val(gblOpacity) / 100
+        .Tag = 0.01
+    End With
+    
+    
+       
+
+    With fClock.clockForm.Widgets("nummin1/num0min1").Widget
+        .HoverColor = 0
+        .MousePointer = IDC_HAND
+        .Alpha = Val(gblOpacity) / 100
+        .Tag = 0.01
+    End With
+
+    With fClock.clockForm.Widgets("nummin1/num1min1").Widget
+        .HoverColor = 0
+        .MousePointer = IDC_HAND
+        .Alpha = Val(gblOpacity) / 100
+        .Tag = 0.01
+    End With
+
+    With fClock.clockForm.Widgets("nummin1/num2min1").Widget
+        .HoverColor = 0
+        .MousePointer = IDC_HAND
+        .Alpha = Val(gblOpacity) / 100
+        .Tag = 0.01
+    End With
+
+    With fClock.clockForm.Widgets("nummin1/num3min1").Widget
+        .HoverColor = 0
+        .MousePointer = IDC_HAND
+        .Alpha = Val(gblOpacity) / 100
+        .Tag = 0.01
+    End With
+
+    With fClock.clockForm.Widgets("nummin1/num4min1").Widget
+        .HoverColor = 0
+        .MousePointer = IDC_HAND
+        .Alpha = Val(gblOpacity) / 100
+        .Tag = 0.01
+    End With
+
+    With fClock.clockForm.Widgets("nummin1/num5min1").Widget
+        .HoverColor = 0
+        .MousePointer = IDC_HAND
+        .Alpha = Val(gblOpacity) / 100
+        .Tag = 0.01
+    End With
+
+    With fClock.clockForm.Widgets("nummin1/num6min1").Widget
+        .HoverColor = 0
+        .MousePointer = IDC_HAND
+        .Alpha = Val(gblOpacity) / 100
+        .Tag = 0.01
+    End With
+
+    With fClock.clockForm.Widgets("nummin1/num7min1").Widget
+        .HoverColor = 0
+        .MousePointer = IDC_HAND
+        .Alpha = Val(gblOpacity) / 100
+        .Tag = 0.01
+    End With
+
+    With fClock.clockForm.Widgets("nummin1/num8min1").Widget
+        .HoverColor = 0
+        .MousePointer = IDC_HAND
+        .Alpha = Val(gblOpacity) / 100
+        .Tag = 0.01
+    End With
+
+    With fClock.clockForm.Widgets("nummin1/num9min1").Widget
+        .HoverColor = 0
+        .MousePointer = IDC_HAND
+        .Alpha = Val(gblOpacity) / 100
+        .Tag = 0.01
+    End With
+
+
+
+
+    With fClock.clockForm.Widgets("nummin2/num0min2").Widget
+        .HoverColor = 0
+        .MousePointer = IDC_HAND
+        .Alpha = Val(gblOpacity) / 100
+        .Tag = 0.01
+    End With
+
+    With fClock.clockForm.Widgets("nummin2/num1min2").Widget
+        .HoverColor = 0
+        .MousePointer = IDC_HAND
+        .Alpha = Val(gblOpacity) / 100
+        .Tag = 0.01
+    End With
+
+    With fClock.clockForm.Widgets("nummin2/num2min2").Widget
+        .HoverColor = 0
+        .MousePointer = IDC_HAND
+        .Alpha = Val(gblOpacity) / 100
+        .Tag = 0.01
+    End With
+
+    With fClock.clockForm.Widgets("nummin2/num3min2").Widget
+        .HoverColor = 0
+        .MousePointer = IDC_HAND
+        .Alpha = Val(gblOpacity) / 100
+        .Tag = 0.01
+    End With
+
+    With fClock.clockForm.Widgets("nummin2/num4min2").Widget
+        .HoverColor = 0
+        .MousePointer = IDC_HAND
+        .Alpha = Val(gblOpacity) / 100
+        .Tag = 0.01
+    End With
+
+    With fClock.clockForm.Widgets("nummin2/num5min2").Widget
+        .HoverColor = 0
+        .MousePointer = IDC_HAND
+        .Alpha = Val(gblOpacity) / 100
+        .Tag = 0.01
+    End With
+
+    With fClock.clockForm.Widgets("nummin2/num6min2").Widget
+        .HoverColor = 0
+        .MousePointer = IDC_HAND
+        .Alpha = Val(gblOpacity) / 100
+        .Tag = 0.01
+    End With
+
+    With fClock.clockForm.Widgets("nummin2/num7min2").Widget
+        .HoverColor = 0
+        .MousePointer = IDC_HAND
+        .Alpha = Val(gblOpacity) / 100
+        .Tag = 0.01
+    End With
+
+    With fClock.clockForm.Widgets("nummin2/num8min2").Widget
+        .HoverColor = 0
+        .MousePointer = IDC_HAND
+        .Alpha = Val(gblOpacity) / 100
+        .Tag = 0.01
+    End With
+
+    With fClock.clockForm.Widgets("nummin2/num9min2").Widget
+        .HoverColor = 0
+        .MousePointer = IDC_HAND
+        .Alpha = Val(gblOpacity) / 100
+        .Tag = 0.01
+    End With
+
+    
 
     With fClock.clockForm.Widgets("cablewheel").Widget
         .HoverColor = 0
