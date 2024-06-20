@@ -112,6 +112,7 @@ Private WithEvents num8hour1 As cWidgetBase
 Attribute num8hour1.VB_VarHelpID = -1
 Private WithEvents num9hour1 As cWidgetBase
 Attribute num9hour1.VB_VarHelpID = -1
+
 Private WithEvents num0hour2 As cWidgetBase
 Attribute num0hour2.VB_VarHelpID = -1
 Private WithEvents num1hour2 As cWidgetBase
@@ -132,6 +133,7 @@ Private WithEvents num8hour2 As cWidgetBase
 Attribute num8hour2.VB_VarHelpID = -1
 Private WithEvents num9hour2 As cWidgetBase
 Attribute num9hour2.VB_VarHelpID = -1
+
 Private WithEvents num0min1 As cWidgetBase
 Attribute num0min1.VB_VarHelpID = -1
 Private WithEvents num1min1 As cWidgetBase
@@ -152,6 +154,7 @@ Private WithEvents num8min1 As cWidgetBase
 Attribute num8min1.VB_VarHelpID = -1
 Private WithEvents num9min1 As cWidgetBase
 Attribute num9min1.VB_VarHelpID = -1
+
 Private WithEvents num0min2 As cWidgetBase
 Attribute num0min2.VB_VarHelpID = -1
 Private WithEvents num1min2 As cWidgetBase
@@ -173,6 +176,35 @@ Attribute num8min2.VB_VarHelpID = -1
 Private WithEvents num9min2 As cWidgetBase
 Attribute num9min2.VB_VarHelpID = -1
 
+Private WithEvents num0day1 As cWidgetBase
+Attribute num0day1.VB_VarHelpID = -1
+Private WithEvents num1day1 As cWidgetBase
+Attribute num1day1.VB_VarHelpID = -1
+Private WithEvents num2day1 As cWidgetBase
+Attribute num2day1.VB_VarHelpID = -1
+Private WithEvents num3day1 As cWidgetBase
+Attribute num3day1.VB_VarHelpID = -1
+
+Private WithEvents num0day2 As cWidgetBase
+Attribute num0day2.VB_VarHelpID = -1
+Private WithEvents num1day2 As cWidgetBase
+Attribute num1day2.VB_VarHelpID = -1
+Private WithEvents num2day2 As cWidgetBase
+Attribute num2day2.VB_VarHelpID = -1
+Private WithEvents num3day2 As cWidgetBase
+Attribute num3day2.VB_VarHelpID = -1
+Private WithEvents num4day2 As cWidgetBase
+Attribute num4day2.VB_VarHelpID = -1
+Private WithEvents num5day2 As cWidgetBase
+Attribute num5day2.VB_VarHelpID = -1
+Private WithEvents num6day2 As cWidgetBase
+Attribute num6day2.VB_VarHelpID = -1
+Private WithEvents num7day2 As cWidgetBase
+Attribute num7day2.VB_VarHelpID = -1
+Private WithEvents num8day2 As cWidgetBase
+Attribute num8day2.VB_VarHelpID = -1
+Private WithEvents num9day2 As cWidgetBase
+Attribute num9day2.VB_VarHelpID = -1
 
 Private sldFixedTop As Double
 Private sldXMax As Double
@@ -231,7 +263,7 @@ Public Sub InitFromPSD(ByRef PSD_FileNameOrByteArray As Variant)
   
     Dim I As Long: I = 0
     Dim W As cWidgetBase
-   
+    
     On Error GoTo InitFromPSD_Error
 
     'create the Alpha-capable Top-Level-Form
@@ -266,7 +298,7 @@ Public Sub InitFromPSD(ByRef PSD_FileNameOrByteArray As Variant)
                         W.HoverColor = -1 ' task: might change this later when new ver or RC6 arrives
                         If gblEnableTooltips = "1" Then W.ToolTip = "Ctrl + mouse scrollwheel up/down to resize, you can also drag me to a new position."
                         W.MousePointer = IDC_SIZEALL
-
+                        
                     End If
                 End If
             End If
@@ -368,8 +400,23 @@ Public Sub InitFromPSD(ByRef PSD_FileNameOrByteArray As Variant)
     Set num7min2 = clockForm.Widgets("nummin2/num7min2").Widget
     Set num8min2 = clockForm.Widgets("nummin2/num8min2").Widget
     Set num9min2 = clockForm.Widgets("nummin2/num9min2").Widget
-'
-'
+    
+    Set num0day1 = clockForm.Widgets("numday1/num0day1").Widget
+    Set num1day1 = clockForm.Widgets("numday1/num1day1").Widget
+    Set num2day1 = clockForm.Widgets("numday1/num2day1").Widget
+    Set num3day1 = clockForm.Widgets("numday1/num3day1").Widget
+    
+    Set num0day2 = clockForm.Widgets("numday2/num0day2").Widget
+    Set num1day2 = clockForm.Widgets("numday2/num1day2").Widget
+    Set num2day2 = clockForm.Widgets("numday2/num2day2").Widget
+    Set num3day2 = clockForm.Widgets("numday2/num3day2").Widget
+    Set num4day2 = clockForm.Widgets("numday2/num4day2").Widget
+    Set num5day2 = clockForm.Widgets("numday2/num5day2").Widget
+    Set num6day2 = clockForm.Widgets("numday2/num6day2").Widget
+    Set num7day2 = clockForm.Widgets("numday2/num7day2").Widget
+    Set num8day2 = clockForm.Widgets("numday2/num8day2").Widget
+    Set num9day2 = clockForm.Widgets("numday2/num9day2").Widget
+        
 
    On Error GoTo 0
    Exit Sub
@@ -2643,21 +2690,38 @@ End Function
 '
 Private Sub tmrClock_Timer()
  
+    Dim dDigit1 As String
+    Dim dDigit2 As String
     Dim hDigit1 As String
     Dim hDigit2 As String
     Dim mDigit1 As String
     Dim mDigit2 As String
     Dim hourString As String
+    Dim dayString As String
+    Dim thisDay As Integer
     Dim thisHour As Integer
     Dim minString As String
     Dim thisMin As Integer
     
-    Static T As Date: T = Time
+    Static T As Date: T = Now
     
+    thisDay = Day(T)
     thisHour = Hour(T)
     thisMin = Minute(T)
     
     On Error GoTo tmrClock_Timer_Error
+    
+    
+    If thisDay < 10 Then
+        dayString = "0" & CStr(thisDay)
+    Else
+        dayString = CStr(thisDay)
+    End If
+
+    dDigit1 = Left$(dayString, 1)
+    dDigit2 = Mid$(dayString, 2, 1)
+    
+    'num0day1
     
     ' hour digits for digital display
     
@@ -2686,7 +2750,12 @@ Private Sub tmrClock_Timer()
 
     Call showMin1(mDigit1)
     Call showMin2(mDigit2)
+    
+    Call showday1(dDigit1)
+    Call showday2(dDigit2)
 
+    'clockForm.Refresh
+    
    On Error GoTo 0
    Exit Sub
 
@@ -2694,10 +2763,46 @@ tmrClock_Timer_Error:
 
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure tmrClock_Timer of Class Module cwOverlay"
 End Sub
+Sub showday1(ByVal hDigit1 As Integer)
 
+    num0day1.Alpha = 0
+    num1day1.Alpha = 0
+    num2day1.Alpha = 0
+    num3day1.Alpha = 0
+
+    If hDigit1 = 0 Then num0day1.Alpha = 255: Exit Sub
+    If hDigit1 = 1 Then num1day1.Alpha = 255: Exit Sub
+    If hDigit1 = 2 Then num2day1.Alpha = 255: Exit Sub
+    If hDigit1 = 3 Then num3day1.Alpha = 255: Exit Sub
+End Sub
+
+Sub showday2(ByVal hDigit2 As Integer)
+
+    num0day2.Alpha = 0
+    num1day2.Alpha = 0
+    num2day2.Alpha = 0
+    num3day2.Alpha = 0
+    num4day2.Alpha = 0
+    num5day2.Alpha = 0
+    num6day2.Alpha = 0
+    num7day2.Alpha = 0
+    num8day2.Alpha = 0
+    num9day2.Alpha = 0
+
+    If hDigit2 = 0 Then num0day2.Alpha = 255
+    If hDigit2 = 1 Then num1day2.Alpha = 255
+    If hDigit2 = 2 Then num2day2.Alpha = 255
+    If hDigit2 = 3 Then num3day2.Alpha = 255
+    If hDigit2 = 4 Then num4day2.Alpha = 255
+    If hDigit2 = 5 Then num5day2.Alpha = 255
+    If hDigit2 = 6 Then num6day2.Alpha = 255
+    If hDigit2 = 7 Then num7day2.Alpha = 255
+    If hDigit2 = 8 Then num8day2.Alpha = 255
+    If hDigit2 = 9 Then num9day2.Alpha = 255
+
+End Sub
 Sub showHour1(ByVal hDigit1 As Integer)
 
-    num0hour1.Alpha = 0
     num0hour1.Alpha = 0
     num1hour1.Alpha = 0
     num2hour1.Alpha = 0
@@ -2723,7 +2828,6 @@ End Sub
 
 Sub showHour2(ByVal hDigit2 As Integer)
 
-    num0hour2.Alpha = 0
     num0hour2.Alpha = 0
     num1hour2.Alpha = 0
     num2hour2.Alpha = 0
@@ -2751,7 +2855,6 @@ End Sub
 Sub showMin1(ByVal mDigit1 As Integer)
 
     num0min1.Alpha = 0
-    num0min1.Alpha = 0
     num1min1.Alpha = 0
     num2min1.Alpha = 0
     num3min1.Alpha = 0
@@ -2776,7 +2879,6 @@ End Sub
 
 Sub showMin2(ByVal mDigit2 As Integer)
 
-    num0min2.Alpha = 0
     num0min2.Alpha = 0
     num1min2.Alpha = 0
     num2min2.Alpha = 0
