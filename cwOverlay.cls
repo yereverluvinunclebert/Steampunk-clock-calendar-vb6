@@ -29,8 +29,8 @@ Public sldCurWidth As Double
 Public cxPerc As Single
 Public cyPerc As Single
 
-Private HDeg As Double
-Private MDeg As Double
+Private hdeg As Double
+Private mdeg As Double
 Private SDeg As Double
 Private Sec As Integer
 
@@ -64,6 +64,8 @@ Private Sub Class_Initialize()
     Set tmrClock = New_c.Timer(intervalValue, True)
     
     tmrClock.Enabled = True
+    
+  
         
    On Error GoTo 0
    Exit Sub
@@ -174,7 +176,7 @@ End Property
     
 '---------------------------------------------------------------------------------------
 ' Procedure : tmrClock_Timer
-' Author    : olaf schmidt
+' Author    :
 ' Date      : 30/07/2023
 ' Purpose   : update the degree-Variables for the clock Hour, Minute and Second Hands
 '---------------------------------------------------------------------------------------
@@ -186,8 +188,8 @@ Private Sub tmrClock_Timer()
     On Error GoTo tmrClock_Timer_Error
     
     ' time calc for main gauge
-    HDeg = 30 * (Hour(T) Mod 12 + (Minute(T)) / 60)
-    MDeg = 6 * ((Minute(T)) + (Second(T) / 60))
+    hdeg = 30 * (Hour(T) Mod 12 + (Minute(T)) / 60)
+    mdeg = 6 * ((Minute(T)) + (Second(T) / 60))
     
     Sec = Second(T)
 
@@ -285,21 +287,20 @@ Private Sub W_Paint(CC As RC6.cCairoContext, ByVal xAbs As Single, ByVal yAbs As
             
             ' for specific keys perform actions &c
              Select Case Key
-                 
                  Case "hourhand"
                     Set Pat = Cairo.ImageList(Key).CreateSurfacePattern
                     Set Pat.Matrix = Pat.Matrix.TranslateCoords(4, 4) 'shift to the "rotation-point" within the Pattern
                     CC.TranslateDrawings W.Width * cxPerc, W.Height * cyPerc 'shift to the center-point of the Overlay-Widget-area
                     
                     'CC.TranslateDrawings 645, 333 'shift to the center-point of the Overlay-Widget-area
-                    CC.RotateDrawingsDeg -90 + HDeg  'now we can rotate (the leading negative degrees are the rotation-offsets for 12 o'clock)
+                    CC.RotateDrawingsDeg -90 + hdeg  'now we can rotate (the leading negative degrees are the rotation-offsets for 12 o'clock)
                  
                  Case "minutehand"  'minutes-shadow- and minutes-hand
                     Set Pat = Cairo.ImageList(Key).CreateSurfacePattern
                     Set Pat.Matrix = Pat.Matrix.TranslateCoords(3, 3) 'shift to the "rotation-point" within the Pattern
                     CC.TranslateDrawings 646.5, 332 'shift to the center-point of the Overlay-Widget-area
                     
-                    CC.RotateDrawingsDeg -90 + MDeg 'now we can rotate (the leading negative degrees are the rotation-offsets for 12 o'clock)
+                    CC.RotateDrawingsDeg -90 + mdeg 'now we can rotate (the leading negative degrees are the rotation-offsets for 12 o'clock)
                     
                  Case "secondhand" 'seconds-shadow- and seconds-hand
                     Set Pat = Cairo.ImageList(Key).CreateSurfacePattern

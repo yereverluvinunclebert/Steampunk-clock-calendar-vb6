@@ -23,13 +23,10 @@ Private PSDWidth As Long
 Private PSDHeight As Long
 
 Private mMute As Integer ' property
-'Private mSystemAudioLevel As Currency ' property
-'
-'Private RenderDev As cMMDevice
-'Private WithEvents SystemVolume As cSimpleAudioVolume 'use cSimpleAudioVoume with events
 
-'Private lblPercent As cwLabel
-'Private lblPercentShadow As cwLabel
+Private WithEvents tmrClock As cTimer
+Attribute tmrClock.VB_VarHelpID = -1
+
 
 'Slider-related Private-Vars
 Private WithEvents helpbottom As cWidgetBase
@@ -95,6 +92,87 @@ Attribute bellset.VB_VarHelpID = -1
 Private WithEvents helpdropdown As cWidgetBase
 Attribute helpdropdown.VB_VarHelpID = -1
 
+Private WithEvents num0hour1 As cWidgetBase
+Attribute num0hour1.VB_VarHelpID = -1
+Private WithEvents num1hour1 As cWidgetBase
+Attribute num1hour1.VB_VarHelpID = -1
+Private WithEvents num2hour1 As cWidgetBase
+Attribute num2hour1.VB_VarHelpID = -1
+Private WithEvents num3hour1 As cWidgetBase
+Attribute num3hour1.VB_VarHelpID = -1
+Private WithEvents num4hour1 As cWidgetBase
+Attribute num4hour1.VB_VarHelpID = -1
+Private WithEvents num5hour1 As cWidgetBase
+Attribute num5hour1.VB_VarHelpID = -1
+Private WithEvents num6hour1 As cWidgetBase
+Attribute num6hour1.VB_VarHelpID = -1
+Private WithEvents num7hour1 As cWidgetBase
+Attribute num7hour1.VB_VarHelpID = -1
+Private WithEvents num8hour1 As cWidgetBase
+Attribute num8hour1.VB_VarHelpID = -1
+Private WithEvents num9hour1 As cWidgetBase
+Attribute num9hour1.VB_VarHelpID = -1
+Private WithEvents num0hour2 As cWidgetBase
+Attribute num0hour2.VB_VarHelpID = -1
+Private WithEvents num1hour2 As cWidgetBase
+Attribute num1hour2.VB_VarHelpID = -1
+Private WithEvents num2hour2 As cWidgetBase
+Attribute num2hour2.VB_VarHelpID = -1
+Private WithEvents num3hour2 As cWidgetBase
+Attribute num3hour2.VB_VarHelpID = -1
+Private WithEvents num4hour2 As cWidgetBase
+Attribute num4hour2.VB_VarHelpID = -1
+Private WithEvents num5hour2 As cWidgetBase
+Attribute num5hour2.VB_VarHelpID = -1
+Private WithEvents num6hour2 As cWidgetBase
+Attribute num6hour2.VB_VarHelpID = -1
+Private WithEvents num7hour2 As cWidgetBase
+Attribute num7hour2.VB_VarHelpID = -1
+Private WithEvents num8hour2 As cWidgetBase
+Attribute num8hour2.VB_VarHelpID = -1
+Private WithEvents num9hour2 As cWidgetBase
+Attribute num9hour2.VB_VarHelpID = -1
+Private WithEvents num0min1 As cWidgetBase
+Attribute num0min1.VB_VarHelpID = -1
+Private WithEvents num1min1 As cWidgetBase
+Attribute num1min1.VB_VarHelpID = -1
+Private WithEvents num2min1 As cWidgetBase
+Attribute num2min1.VB_VarHelpID = -1
+Private WithEvents num3min1 As cWidgetBase
+Attribute num3min1.VB_VarHelpID = -1
+Private WithEvents num4min1 As cWidgetBase
+Attribute num4min1.VB_VarHelpID = -1
+Private WithEvents num5min1 As cWidgetBase
+Attribute num5min1.VB_VarHelpID = -1
+Private WithEvents num6min1 As cWidgetBase
+Attribute num6min1.VB_VarHelpID = -1
+Private WithEvents num7min1 As cWidgetBase
+Attribute num7min1.VB_VarHelpID = -1
+Private WithEvents num8min1 As cWidgetBase
+Attribute num8min1.VB_VarHelpID = -1
+Private WithEvents num9min1 As cWidgetBase
+Attribute num9min1.VB_VarHelpID = -1
+Private WithEvents num0min2 As cWidgetBase
+Attribute num0min2.VB_VarHelpID = -1
+Private WithEvents num1min2 As cWidgetBase
+Attribute num1min2.VB_VarHelpID = -1
+Private WithEvents num2min2 As cWidgetBase
+Attribute num2min2.VB_VarHelpID = -1
+Private WithEvents num3min2 As cWidgetBase
+Attribute num3min2.VB_VarHelpID = -1
+Private WithEvents num4min2 As cWidgetBase
+Attribute num4min2.VB_VarHelpID = -1
+Private WithEvents num5min2 As cWidgetBase
+Attribute num5min2.VB_VarHelpID = -1
+Private WithEvents num6min2 As cWidgetBase
+Attribute num6min2.VB_VarHelpID = -1
+Private WithEvents num7min2 As cWidgetBase
+Attribute num7min2.VB_VarHelpID = -1
+Private WithEvents num8min2 As cWidgetBase
+Attribute num8min2.VB_VarHelpID = -1
+Private WithEvents num9min2 As cWidgetBase
+Attribute num9min2.VB_VarHelpID = -1
+
 
 Private sldFixedTop As Double
 Private sldXMax As Double
@@ -115,21 +193,18 @@ Private backtoggleEnabled As Boolean
 '---------------------------------------------------------------------------------------
 '
 Private Sub Class_Initialize()
-   On Error GoTo Class_Initialize_Error
+    Dim intervalValue As Integer: intervalValue = 0
+   
+    On Error GoTo Class_Initialize_Error
 
     Set collPSDNonUIElements = New_c.Collection(False)
     
-    'retrieve (and Set) the Default-Renderdevice
-'    Set RenderDev = New_c.MMDeviceEnumerator.GetDefaultAudioEndpoint(eRender, eMultimedia)
-'
-'    'retrieve (and Set) a cSimpleAudioVolume instance, to get access to Volume-Handling
-'    Set SystemVolume = RenderDev.Activate(AudioEndpointVolume)
-'
-'    Set tmrSampleAudioVolume = Nothing
-'    Set tmrSampleAudioVolume = New_c.Timer(1000, True) ' interval is one second.
-'
-'    Set tmrSampleAudioMute = Nothing
-'    Set tmrSampleAudioMute = New_c.Timer(1000, True) ' interval is one second.
+    intervalValue = 1000
+    
+    Set tmrClock = Nothing
+    Set tmrClock = New_c.Timer(intervalValue, True)
+    
+    tmrClock.Enabled = True
 
    On Error GoTo 0
    Exit Sub
@@ -249,6 +324,52 @@ Public Sub InitFromPSD(ByRef PSD_FileNameOrByteArray As Variant)
     Set bellset = clockForm.Widgets("bellset").Widget
     Set helpdropdown = clockForm.Widgets("helpdropdown").Widget
     
+    
+    Set num0hour1 = clockForm.Widgets("numhour1/num0hour1").Widget
+    Set num1hour1 = clockForm.Widgets("numhour1/num1hour1").Widget
+    Set num2hour1 = clockForm.Widgets("numhour1/num2hour1").Widget
+    Set num3hour1 = clockForm.Widgets("numhour1/num3hour1").Widget
+    Set num4hour1 = clockForm.Widgets("numhour1/num4hour1").Widget
+    Set num5hour1 = clockForm.Widgets("numhour1/num5hour1").Widget
+    Set num6hour1 = clockForm.Widgets("numhour1/num6hour1").Widget
+    Set num7hour1 = clockForm.Widgets("numhour1/num7hour1").Widget
+    Set num8hour1 = clockForm.Widgets("numhour1/num8hour1").Widget
+    Set num9hour1 = clockForm.Widgets("numhour1/num9hour1").Widget
+
+    Set num0hour2 = clockForm.Widgets("numhour2/num0hour2").Widget
+    Set num1hour2 = clockForm.Widgets("numhour2/num1hour2").Widget
+    Set num2hour2 = clockForm.Widgets("numhour2/num2hour2").Widget
+    Set num3hour2 = clockForm.Widgets("numhour2/num3hour2").Widget
+    Set num4hour2 = clockForm.Widgets("numhour2/num4hour2").Widget
+    Set num5hour2 = clockForm.Widgets("numhour2/num5hour2").Widget
+    Set num6hour2 = clockForm.Widgets("numhour2/num6hour2").Widget
+    Set num7hour2 = clockForm.Widgets("numhour2/num7hour2").Widget
+    Set num8hour2 = clockForm.Widgets("numhour2/num8hour2").Widget
+    Set num9hour2 = clockForm.Widgets("numhour2/num9hour2").Widget
+
+    Set num0min1 = clockForm.Widgets("nummin1/num0min1").Widget
+    Set num1min1 = clockForm.Widgets("nummin1/num1min1").Widget
+    Set num2min1 = clockForm.Widgets("nummin1/num2min1").Widget
+    Set num3min1 = clockForm.Widgets("nummin1/num3min1").Widget
+    Set num4min1 = clockForm.Widgets("nummin1/num4min1").Widget
+    Set num5min1 = clockForm.Widgets("nummin1/num5min1").Widget
+    Set num6min1 = clockForm.Widgets("nummin1/num6min1").Widget
+    Set num7min1 = clockForm.Widgets("nummin1/num7min1").Widget
+    Set num8min1 = clockForm.Widgets("nummin1/num8min1").Widget
+    Set num9min1 = clockForm.Widgets("nummin1/num9min1").Widget
+
+    Set num0min2 = clockForm.Widgets("nummin2/num0min2").Widget
+    Set num1min2 = clockForm.Widgets("nummin2/num1min2").Widget
+    Set num2min2 = clockForm.Widgets("nummin2/num2min2").Widget
+    Set num3min2 = clockForm.Widgets("nummin2/num3min2").Widget
+    Set num4min2 = clockForm.Widgets("nummin2/num4min2").Widget
+    Set num5min2 = clockForm.Widgets("nummin2/num5min2").Widget
+    Set num6min2 = clockForm.Widgets("nummin2/num6min2").Widget
+    Set num7min2 = clockForm.Widgets("nummin2/num7min2").Widget
+    Set num8min2 = clockForm.Widgets("nummin2/num8min2").Widget
+    Set num9min2 = clockForm.Widgets("nummin2/num9min2").Widget
+'
+'
 
    On Error GoTo 0
    Exit Sub
@@ -2511,3 +2632,171 @@ fDayOfWeek_Error:
 
 End Function
      
+
+    
+'---------------------------------------------------------------------------------------
+' Procedure : tmrClock_Timer
+' Author    : olaf schmidt
+' Date      : 30/07/2023
+' Purpose   : update the degree-Variables for the digital clock Hour, Minutes
+'---------------------------------------------------------------------------------------
+'
+Private Sub tmrClock_Timer()
+ 
+    Dim hDigit1 As String
+    Dim hDigit2 As String
+    Dim mDigit1 As String
+    Dim mDigit2 As String
+    Dim hourString As String
+    Dim thisHour As Integer
+    Dim minString As String
+    Dim thisMin As Integer
+    
+    Static T As Date: T = Time
+    
+    thisHour = Hour(T)
+    thisMin = Minute(T)
+    
+    On Error GoTo tmrClock_Timer_Error
+    
+    ' hour digits for digital display
+    
+    If thisHour < 10 Then
+        hourString = "0" & CStr(thisHour)
+    Else
+        hourString = CStr(thisHour)
+    End If
+    
+    hDigit1 = Left$(hourString, 1)
+    hDigit2 = Mid$(hourString, 2, 1)
+    
+    ' min digits for digital display
+    
+    If thisMin < 10 Then
+        minString = "0" & CStr(thisMin)
+    Else
+        minString = CStr(thisMin)
+    End If
+   
+    mDigit1 = Left$(minString, 1)
+    mDigit2 = Mid$(minString, 2, 1)
+    
+    Call showHour1(hDigit1)
+    Call showHour2(hDigit2)
+
+    Call showMin1(mDigit1)
+    Call showMin2(mDigit2)
+
+   On Error GoTo 0
+   Exit Sub
+
+tmrClock_Timer_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure tmrClock_Timer of Class Module cwOverlay"
+End Sub
+
+Sub showHour1(ByVal hDigit1 As Integer)
+
+    num0hour1.Alpha = 0
+    num0hour1.Alpha = 0
+    num1hour1.Alpha = 0
+    num2hour1.Alpha = 0
+    num3hour1.Alpha = 0
+    num4hour1.Alpha = 0
+    num5hour1.Alpha = 0
+    num6hour1.Alpha = 0
+    num7hour1.Alpha = 0
+    num8hour1.Alpha = 0
+    num9hour1.Alpha = 0
+
+    If hDigit1 = 0 Then num0hour1.Alpha = 255: Exit Sub
+    If hDigit1 = 1 Then num1hour1.Alpha = 255: Exit Sub
+    If hDigit1 = 2 Then num2hour1.Alpha = 255: Exit Sub
+    If hDigit1 = 3 Then num3hour1.Alpha = 255: Exit Sub
+    If hDigit1 = 4 Then num4hour1.Alpha = 255: Exit Sub
+    If hDigit1 = 5 Then num5hour1.Alpha = 255: Exit Sub
+    If hDigit1 = 6 Then num6hour1.Alpha = 255: Exit Sub
+    If hDigit1 = 7 Then num7hour1.Alpha = 255: Exit Sub
+    If hDigit1 = 8 Then num8hour1.Alpha = 255: Exit Sub
+    If hDigit1 = 9 Then num9hour1.Alpha = 255: Exit Sub
+End Sub
+
+Sub showHour2(ByVal hDigit2 As Integer)
+
+    num0hour2.Alpha = 0
+    num0hour2.Alpha = 0
+    num1hour2.Alpha = 0
+    num2hour2.Alpha = 0
+    num3hour2.Alpha = 0
+    num4hour2.Alpha = 0
+    num5hour2.Alpha = 0
+    num6hour2.Alpha = 0
+    num7hour2.Alpha = 0
+    num8hour2.Alpha = 0
+    num9hour2.Alpha = 0
+
+    If hDigit2 = 0 Then num0hour2.Alpha = 255
+    If hDigit2 = 1 Then num1hour2.Alpha = 255
+    If hDigit2 = 2 Then num2hour2.Alpha = 255
+    If hDigit2 = 3 Then num3hour2.Alpha = 255
+    If hDigit2 = 4 Then num4hour2.Alpha = 255
+    If hDigit2 = 5 Then num5hour2.Alpha = 255
+    If hDigit2 = 6 Then num6hour2.Alpha = 255
+    If hDigit2 = 7 Then num7hour2.Alpha = 255
+    If hDigit2 = 8 Then num8hour2.Alpha = 255
+    If hDigit2 = 9 Then num9hour2.Alpha = 255
+
+End Sub
+
+Sub showMin1(ByVal mDigit1 As Integer)
+
+    num0min1.Alpha = 0
+    num0min1.Alpha = 0
+    num1min1.Alpha = 0
+    num2min1.Alpha = 0
+    num3min1.Alpha = 0
+    num4min1.Alpha = 0
+    num5min1.Alpha = 0
+    num6min1.Alpha = 0
+    num7min1.Alpha = 0
+    num8min1.Alpha = 0
+    num9min1.Alpha = 0
+
+    If mDigit1 = 0 Then num0min1.Alpha = 255: Exit Sub
+    If mDigit1 = 1 Then num1min1.Alpha = 255: Exit Sub
+    If mDigit1 = 2 Then num2min1.Alpha = 255: Exit Sub
+    If mDigit1 = 3 Then num3min1.Alpha = 255: Exit Sub
+    If mDigit1 = 4 Then num4min1.Alpha = 255: Exit Sub
+    If mDigit1 = 5 Then num5min1.Alpha = 255: Exit Sub
+    If mDigit1 = 6 Then num6min1.Alpha = 255: Exit Sub
+    If mDigit1 = 7 Then num7min1.Alpha = 255: Exit Sub
+    If mDigit1 = 8 Then num8min1.Alpha = 255: Exit Sub
+    If mDigit1 = 9 Then num9min1.Alpha = 255: Exit Sub
+End Sub
+
+Sub showMin2(ByVal mDigit2 As Integer)
+
+    num0min2.Alpha = 0
+    num0min2.Alpha = 0
+    num1min2.Alpha = 0
+    num2min2.Alpha = 0
+    num3min2.Alpha = 0
+    num4min2.Alpha = 0
+    num5min2.Alpha = 0
+    num6min2.Alpha = 0
+    num7min2.Alpha = 0
+    num8min2.Alpha = 0
+    num9min2.Alpha = 0
+
+    If mDigit2 = 0 Then num0min2.Alpha = 255: Exit Sub
+    If mDigit2 = 1 Then num1min2.Alpha = 255: Exit Sub
+    If mDigit2 = 2 Then num2min2.Alpha = 255: Exit Sub
+    If mDigit2 = 3 Then num3min2.Alpha = 255: Exit Sub
+    If mDigit2 = 4 Then num4min2.Alpha = 255: Exit Sub
+    If mDigit2 = 5 Then num5min2.Alpha = 255: Exit Sub
+    If mDigit2 = 6 Then num6min2.Alpha = 255: Exit Sub
+    If mDigit2 = 7 Then num7min2.Alpha = 255: Exit Sub
+    If mDigit2 = 8 Then num8min2.Alpha = 255: Exit Sub
+    If mDigit2 = 9 Then num9min2.Alpha = 255: Exit Sub
+End Sub
+

@@ -741,7 +741,7 @@ Public Sub adjustMainControls()
         .Tag = 0.01
     End With
     
-    
+'
 
     With fClock.clockForm.Widgets("numhour1/num0hour1").Widget
         .HoverColor = 0
@@ -885,9 +885,9 @@ Public Sub adjustMainControls()
         .Alpha = Val(gblOpacity) / 100
         .Tag = 0.01
     End With
-    
-    
-       
+
+
+
 
     With fClock.clockForm.Widgets("nummin1/num0min1").Widget
         .HoverColor = 0
@@ -1640,8 +1640,49 @@ Private Sub loadExcludePathCollection()
         .Add Empty, "minutehand"
         .Add Empty, "hole"
         .Add Empty, "cable"
-
+'        .Add Empty, "numhour1/num0hour1"
+'        .Add Empty, "numhour1/num1hour1"
+'        .Add Empty, "numhour1/num2hour1"
+'        .Add Empty, "numhour1/num3hour1"
+'        .Add Empty, "numhour1/num4hour1"
+'        .Add Empty, "numhour1/num5hour1"
+'        .Add Empty, "numhour1/num6hour1"
+'        .Add Empty, "numhour1/num7hour1"
+'        .Add Empty, "numhour1/num8hour1"
+'        .Add Empty, "numhour1/num9hour1"
+'        .Add Empty, "numhour2/num0hour2"
+'        .Add Empty, "numhour2/num1hour2"
+'        .Add Empty, "numhour2/num2hour2"
+'        .Add Empty, "numhour2/num3hour2"
+'        .Add Empty, "numhour2/num4hour2"
+'        .Add Empty, "numhour2/num5hour2"
+'        .Add Empty, "numhour2/num6hour2"
+'        .Add Empty, "numhour2/num7hour2"
+'        .Add Empty, "numhour2/num8hour2"
+'        .Add Empty, "numhour2/num9hour2"
+'        .Add Empty, "nummin1/num0min1"
+'        .Add Empty, "nummin1/num1min1"
+'        .Add Empty, "nummin1/num2min1"
+'        .Add Empty, "nummin1/num3min1"
+'        .Add Empty, "nummin1/num4min1"
+'        .Add Empty, "nummin1/num5min1"
+'        .Add Empty, "nummin1/num6min1"
+'        .Add Empty, "nummin1/num7min1"
+'        .Add Empty, "nummin1/num8min1"
+'        .Add Empty, "nummin1/num9min1"
+'        .Add Empty, "nummin2/num0min2"
+'        .Add Empty, "nummin2/num1min2"
+'        .Add Empty, "nummin2/num2min2"
+'        .Add Empty, "nummin2/num3min2"
+'        .Add Empty, "nummin2/num4min2"
+'        .Add Empty, "nummin2/num5min2"
+'        .Add Empty, "nummin2/num6min2"
+'        .Add Empty, "nummin2/num7min2"
+'        .Add Empty, "nummin2/num8min2"
+'        .Add Empty, "nummin2/num9min2"
+    
     End With
+    
 
    On Error GoTo 0
    Exit Sub
