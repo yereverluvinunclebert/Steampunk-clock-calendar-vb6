@@ -2065,8 +2065,10 @@ Public Sub mainScreen()
         gblvLocationPercPrefValue = Str$(fClock.clockForm.Top / screenHeightPixels * 100)
     End If
     
-'    fClock.clockForm.Left = 100
-'    fClock.clockForm.Top = 100
+    If InIDE Then
+        fClock.clockForm.Left = 100
+        fClock.clockForm.Top = 100
+    End If
 
    On Error GoTo 0
    Exit Sub
