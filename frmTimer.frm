@@ -20,7 +20,7 @@ Begin VB.Form frmTimer
    End
    Begin VB.Timer rotationTimer 
       Enabled         =   0   'False
-      Interval        =   2500
+      Interval        =   4500
       Left            =   90
       Top             =   615
    End

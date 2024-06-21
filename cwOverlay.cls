@@ -291,39 +291,39 @@ Private Sub W_Paint(CC As RC6.cCairoContext, ByVal xAbs As Single, ByVal yAbs As
                     Set Pat = Cairo.ImageList(Key).CreateSurfacePattern
                     Set Pat.Matrix = Pat.Matrix.TranslateCoords(4, 4) 'shift to the "rotation-point" within the Pattern
                     CC.TranslateDrawings W.Width * cxPerc, W.Height * cyPerc 'shift to the center-point of the Overlay-Widget-area
-                    
+
                     'CC.TranslateDrawings 645, 333 'shift to the center-point of the Overlay-Widget-area
                     CC.RotateDrawingsDeg -90 + hdeg  'now we can rotate (the leading negative degrees are the rotation-offsets for 12 o'clock)
-                 
+
                  Case "minutehand"  'minutes-shadow- and minutes-hand
                     Set Pat = Cairo.ImageList(Key).CreateSurfacePattern
                     Set Pat.Matrix = Pat.Matrix.TranslateCoords(3, 3) 'shift to the "rotation-point" within the Pattern
                     CC.TranslateDrawings 646.5, 332 'shift to the center-point of the Overlay-Widget-area
-                    
+
                     CC.RotateDrawingsDeg -90 + mdeg 'now we can rotate (the leading negative degrees are the rotation-offsets for 12 o'clock)
-                    
+
                  Case "secondhand" 'seconds-shadow- and seconds-hand
                     Set Pat = Cairo.ImageList(Key).CreateSurfacePattern
                     Set Pat.Matrix = Pat.Matrix.TranslateCoords(3, 3) 'shift to the "rotation-point" within the Pattern
                     CC.TranslateDrawings 646.5, 332 'shift to the center-point of the Overlay-Widget-area
 
                     CC.RotateDrawingsDeg -90 + SDeg 'now we can rotate (the leading negative degrees are the rotation-offsets for 12 o'clock)
-                 
+
                  Case "hole"
                     Set Pat = Cairo.ImageList(Key).CreateSurfacePattern
                     Set Pat.Matrix = Pat.Matrix.TranslateCoords(4, 4) 'shift to the "rotation-point" within the Pattern
-                    
+
                     CC.TranslateDrawings 646, 332 'shift to the center-point of the Overlay-Widget-area
-                
+
                 Case "cable"
                     Set Pat = Cairo.ImageList(Key).CropSurface(10, 0, 140, 27).CreateSurfacePattern 'cut-out a nice (repeatable) part of the original "cable"-image (via CropSurface)
-                                       
+
                     Set Pat.Matrix = Pat.Matrix.TranslateCoords(sldCurWidth, -Arr(1)) 'sldCurWidth in the x-Coord will ensure that nice "spooling-effect"
                         Pat.Extend = CAIRO_EXTEND_REPEAT
-                    
+
                     'since we've set CAIRO_EXTEND_REPEAT, we now have to clip the range it is "allowed to extend to"
                     CC.ClipExplicit Arr(0) + 10 - sldCurWidth, Arr(1), 249 + sldCurWidth, 27
-                   
+
                 Case Else 'plain output for everything else ... this includes the reflection-layers,
                        
                     Set Pat.Matrix = Pat.Matrix.TranslateCoords(-Arr(0), -Arr(1)) 'here we only shift the Pattern via the original PSD-Offsets (stored in Arr(0) and Arr(1))

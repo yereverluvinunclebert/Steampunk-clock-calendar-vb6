@@ -26,7 +26,7 @@ Private mMute As Integer ' property
 
 Private WithEvents tmrClock As cTimer
 Attribute tmrClock.VB_VarHelpID = -1
-
+Private firstRun As Boolean
 
 'Slider-related Private-Vars
 Private WithEvents helpbottom As cWidgetBase
@@ -206,6 +206,94 @@ Attribute num8day2.VB_VarHelpID = -1
 Private WithEvents num9day2 As cWidgetBase
 Attribute num9day2.VB_VarHelpID = -1
 
+
+
+    
+Private WithEvents num0year2 As cWidgetBase '2/num0year2").Widget
+Attribute num0year2.VB_VarHelpID = -1
+Private WithEvents num1year2 As cWidgetBase '2/num1year2").Widget
+Attribute num1year2.VB_VarHelpID = -1
+Private WithEvents num2year2 As cWidgetBase '2/num2year2").Widget
+Attribute num2year2.VB_VarHelpID = -1
+Private WithEvents num3year2 As cWidgetBase '2/num3year2").Widget
+Attribute num3year2.VB_VarHelpID = -1
+Private WithEvents num4year2 As cWidgetBase '2/num4year2").Widget
+Attribute num4year2.VB_VarHelpID = -1
+Private WithEvents num5year2 As cWidgetBase '2/num5year2").Widget
+Attribute num5year2.VB_VarHelpID = -1
+Private WithEvents num6year2 As cWidgetBase '2/num6year2").Widget
+Attribute num6year2.VB_VarHelpID = -1
+Private WithEvents num7year2 As cWidgetBase '2/num7year2").Widget
+Attribute num7year2.VB_VarHelpID = -1
+Private WithEvents num8year2 As cWidgetBase '2/num8year2").Widget
+Attribute num8year2.VB_VarHelpID = -1
+Private WithEvents num9year2 As cWidgetBase '2/num9year2").Widget
+Attribute num9year2.VB_VarHelpID = -1
+       
+Private WithEvents num0year1 As cWidgetBase '1/num0year1").Widget
+Attribute num0year1.VB_VarHelpID = -1
+Private WithEvents num1year1 As cWidgetBase '1/num1year1").Widget
+Attribute num1year1.VB_VarHelpID = -1
+Private WithEvents num2year1 As cWidgetBase '1/num2year1").Widget
+Attribute num2year1.VB_VarHelpID = -1
+Private WithEvents num3year1 As cWidgetBase '1/num3year1").Widget
+Attribute num3year1.VB_VarHelpID = -1
+Private WithEvents num4year1 As cWidgetBase '1/num4year1").Widget
+Attribute num4year1.VB_VarHelpID = -1
+Private WithEvents num5year1 As cWidgetBase '1/num5year1").Widget
+Attribute num5year1.VB_VarHelpID = -1
+Private WithEvents num6year1 As cWidgetBase '1/num6year1").Widget
+Attribute num6year1.VB_VarHelpID = -1
+Private WithEvents num7year1 As cWidgetBase '1/num7year1").Widget
+Attribute num7year1.VB_VarHelpID = -1
+Private WithEvents num8year1 As cWidgetBase '1/num8year1").Widget
+Attribute num8year1.VB_VarHelpID = -1
+Private WithEvents num9year1 As cWidgetBase '1/num9year1").Widget
+Attribute num9year1.VB_VarHelpID = -1
+        
+Private WithEvents num0year4 As cWidgetBase '4/num0year4").Widget
+Attribute num0year4.VB_VarHelpID = -1
+Private WithEvents num1year4 As cWidgetBase '4/num1year4").Widget
+Attribute num1year4.VB_VarHelpID = -1
+Private WithEvents num2year4 As cWidgetBase '4/num2year4").Widget
+Attribute num2year4.VB_VarHelpID = -1
+Private WithEvents num3year4 As cWidgetBase '4/num3year4").Widget
+Attribute num3year4.VB_VarHelpID = -1
+Private WithEvents num4year4 As cWidgetBase '4/num4year4").Widget
+Attribute num4year4.VB_VarHelpID = -1
+Private WithEvents num5year4 As cWidgetBase '4/num5year4").Widget
+Attribute num5year4.VB_VarHelpID = -1
+Private WithEvents num6year4 As cWidgetBase '4/num6year4").Widget
+Attribute num6year4.VB_VarHelpID = -1
+Private WithEvents num7year4 As cWidgetBase '4/num7year4").Widget
+Attribute num7year4.VB_VarHelpID = -1
+Private WithEvents num8year4 As cWidgetBase '4/num8year4").Widget
+Attribute num8year4.VB_VarHelpID = -1
+Private WithEvents num9year4 As cWidgetBase '4/num9year4").Widget
+Attribute num9year4.VB_VarHelpID = -1
+        
+Private WithEvents num0year3 As cWidgetBase '3/num0year3").Widget
+Attribute num0year3.VB_VarHelpID = -1
+Private WithEvents num1year3 As cWidgetBase '3/num1year3").Widget
+Attribute num1year3.VB_VarHelpID = -1
+Private WithEvents num2year3 As cWidgetBase '3/num2year3").Widget
+Attribute num2year3.VB_VarHelpID = -1
+Private WithEvents num3year3 As cWidgetBase '3/num3year3").Widget
+Attribute num3year3.VB_VarHelpID = -1
+Private WithEvents num4year3 As cWidgetBase '3/num4year3").Widget
+Attribute num4year3.VB_VarHelpID = -1
+Private WithEvents num5year3 As cWidgetBase '3/num5year3").Widget
+Attribute num5year3.VB_VarHelpID = -1
+Private WithEvents num6year3 As cWidgetBase '3/num6year3").Widget
+Attribute num6year3.VB_VarHelpID = -1
+Private WithEvents num7year3 As cWidgetBase '3/num7year3").Widget
+Attribute num7year3.VB_VarHelpID = -1
+Private WithEvents num8year3 As cWidgetBase '3/num8year3").Widget
+Attribute num8year3.VB_VarHelpID = -1
+Private WithEvents num9year3 As cWidgetBase '3/num9year3").Widget
+Attribute num9year3.VB_VarHelpID = -1
+ 
+
 Private sldFixedTop As Double
 Private sldXMax As Double
 Private sldXMin As Double
@@ -232,11 +320,14 @@ Private Sub Class_Initialize()
     Set collPSDNonUIElements = New_c.Collection(False)
     
     intervalValue = 1000
+    firstRun = True
     
     Set tmrClock = Nothing
     Set tmrClock = New_c.Timer(intervalValue, True)
     
     tmrClock.Enabled = True
+    
+
 
    On Error GoTo 0
    Exit Sub
@@ -417,7 +508,62 @@ Public Sub InitFromPSD(ByRef PSD_FileNameOrByteArray As Variant)
     Set num8day2 = clockForm.Widgets("numday2/num8day2").Widget
     Set num9day2 = clockForm.Widgets("numday2/num9day2").Widget
         
-
+'
+'    Set num0year2 = clockForm.Widgets("numday2/num0day2").Widget
+'    Set num1year2 = clockForm.Widgets("numday2/num1day2").Widget
+'    Set num2year2 = clockForm.Widgets("numday2/num2day2").Widget
+'    Set num3year2 = clockForm.Widgets("numday2/num3day2").Widget
+'    Set num4year2 = clockForm.Widgets("numday2/num4day2").Widget
+'    Set num5year2 = clockForm.Widgets("numday2/num5day2").Widget
+'    Set num6year2 = clockForm.Widgets("numday2/num6day2").Widget
+'    Set num7year2 = clockForm.Widgets("numday2/num7day2").Widget
+'    Set num8year2 = clockForm.Widgets("numday2/num8day2").Widget
+'    Set num9year2 = clockForm.Widgets("numday2/num9day2").Widget
+    
+    Set num0year2 = clockForm.Widgets("numyear2/num0year2").Widget
+    Set num1year2 = clockForm.Widgets("numyear2/num1year2").Widget
+    Set num2year2 = clockForm.Widgets("numyear2/num2year2").Widget
+    Set num3year2 = clockForm.Widgets("numyear2/num3year2").Widget
+    Set num4year2 = clockForm.Widgets("numyear2/num4year2").Widget
+    Set num5year2 = clockForm.Widgets("numyear2/num5year2").Widget
+    Set num6year2 = clockForm.Widgets("numyear2/num6year2").Widget
+    Set num7year2 = clockForm.Widgets("numyear2/num7year2").Widget
+    Set num8year2 = clockForm.Widgets("numyear2/num8year2").Widget
+    Set num9year2 = clockForm.Widgets("numyear2/num9year2").Widget
+       
+    Set num0year1 = clockForm.Widgets("numyear1/num0year1").Widget
+    Set num1year1 = clockForm.Widgets("numyear1/num1year1").Widget
+    Set num2year1 = clockForm.Widgets("numyear1/num2year1").Widget
+    Set num3year1 = clockForm.Widgets("numyear1/num3year1").Widget
+    Set num4year1 = clockForm.Widgets("numyear1/num4year1").Widget
+    Set num5year1 = clockForm.Widgets("numyear1/num5year1").Widget
+    Set num6year1 = clockForm.Widgets("numyear1/num6year1").Widget
+    Set num7year1 = clockForm.Widgets("numyear1/num7year1").Widget
+    Set num8year1 = clockForm.Widgets("numyear1/num8year1").Widget
+    Set num9year1 = clockForm.Widgets("numyear1/num9year1").Widget
+        
+    Set num0year4 = clockForm.Widgets("numyear4/num0year4").Widget
+    Set num1year4 = clockForm.Widgets("numyear4/num1year4").Widget
+    Set num2year4 = clockForm.Widgets("numyear4/num2year4").Widget
+    Set num3year4 = clockForm.Widgets("numyear4/num3year4").Widget
+    Set num4year4 = clockForm.Widgets("numyear4/num4year4").Widget
+    Set num5year4 = clockForm.Widgets("numyear4/num5year4").Widget
+    Set num6year4 = clockForm.Widgets("numyear4/num6year4").Widget
+    Set num7year4 = clockForm.Widgets("numyear4/num7year4").Widget
+    Set num8year4 = clockForm.Widgets("numyear4/num8year4").Widget
+    Set num9year4 = clockForm.Widgets("numyear4/num9year4").Widget
+        
+    Set num0year3 = clockForm.Widgets("numyear3/num0year3").Widget
+    Set num1year3 = clockForm.Widgets("numyear3/num1year3").Widget
+    Set num2year3 = clockForm.Widgets("numyear3/num2year3").Widget
+    Set num3year3 = clockForm.Widgets("numyear3/num3year3").Widget
+    Set num4year3 = clockForm.Widgets("numyear3/num4year3").Widget
+    Set num5year3 = clockForm.Widgets("numyear3/num5year3").Widget
+    Set num6year3 = clockForm.Widgets("numyear3/num6year3").Widget
+    Set num7year3 = clockForm.Widgets("numyear3/num7year3").Widget
+    Set num8year3 = clockForm.Widgets("numyear3/num8year3").Widget
+    Set num9year3 = clockForm.Widgets("numyear3/num9year3").Widget
+    
    On Error GoTo 0
    Exit Sub
 
@@ -2681,36 +2827,87 @@ End Function
      
 
     
-'---------------------------------------------------------------------------------------
-' Procedure : tmrClock_Timer
-' Author    : olaf schmidt
-' Date      : 30/07/2023
-' Purpose   : update the degree-Variables for the digital clock Hour, Minutes
-'---------------------------------------------------------------------------------------
-'
+
+' ----------------------------------------------------------------
+' Procedure Name: tmrClock_Timer
+' Purpose:
+' Procedure Kind: Sub
+' Procedure Access: Private
+' Author: beededea
+' Date: 21/06/2024
+' ----------------------------------------------------------------
 Private Sub tmrClock_Timer()
- 
-    Dim dDigit1 As String
-    Dim dDigit2 As String
-    Dim hDigit1 As String
-    Dim hDigit2 As String
-    Dim mDigit1 As String
-    Dim mDigit2 As String
-    Dim hourString As String
-    Dim dayString As String
-    Dim thisDay As Integer
-    Dim thisHour As Integer
-    Dim minString As String
-    Dim thisMin As Integer
-    
-    Static T As Date: T = Now
-    
-    thisDay = Day(T)
-    thisHour = Hour(T)
-    thisMin = Minute(T)
+
+    Static hourString As String
+    Static minString As String
+    Static thisHour As String
+    Static thisMin As String
+    Static thisSec As String
     
     On Error GoTo tmrClock_Timer_Error
     
+    thisHour = Hour(Now)
+    thisMin = Minute(Now)
+    thisSec = Second(Now)
+
+     ' only check whether to change the minute within the last second of the minute
+    If thisSec > 59 Or firstRun = True Then
+       ' min digits for digital display
+        
+        If thisMin < 10 Then
+            minString = "0" & thisMin ' uses vb6 coerce a string to a numeric without calling a cast function, quicker?
+        Else
+            minString = thisMin
+        End If
+    
+        Call showMin1(Left$(minString, 1))
+        Call showMin2(Mid$(minString, 2, 1))
+        
+        ' only check the hour within the last second of the 59th minute
+        If thisMin > 59 Or firstRun = True Then
+        
+            ' hour digits for digital display
+            
+            If thisHour < 10 Then ' uses vb6 coerce a string to a numeric without calling a cast function, quicker?
+                hourString = "0" & thisHour '
+            Else
+                hourString = thisHour
+            End If
+                
+            Call showHour1(Left$(hourString, 1))
+            Call showHour2(Mid$(hourString, 2, 1))
+            
+            ' only check the month and year within the last second of the day
+            If thisHour > 23 Or firstRun = True Then
+            
+                Call displayDigitalDay
+                Call displayDigitalYear
+                firstRun = False
+                
+            End If
+            
+        End If
+        
+    End If
+    
+    
+   On Error GoTo 0
+   Exit Sub
+
+tmrClock_Timer_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure tmrClock_Timer of Class Module cwOverlay"
+End Sub
+
+Private Sub displayDigitalDay()
+    ' day digits for digital display
+    Dim dDigit1 As String: dDigit1 = vbNullString
+    Dim dDigit2 As String: dDigit2 = vbNullString
+    Dim dayString As String: dayString = vbNullString
+    Dim thisDay As Integer: thisDay = 0
+    Static thisDate As Date: thisDate = Now
+    
+    thisDay = Day(thisDate)
     
     If thisDay < 10 Then
         dayString = "0" & CStr(thisDay)
@@ -2721,184 +2918,448 @@ Private Sub tmrClock_Timer()
     dDigit1 = Left$(dayString, 1)
     dDigit2 = Mid$(dayString, 2, 1)
     
-    'num0day1
-    
-    ' hour digits for digital display
-    
-    If thisHour < 10 Then
-        hourString = "0" & CStr(thisHour)
-    Else
-        hourString = CStr(thisHour)
-    End If
-    
-    hDigit1 = Left$(hourString, 1)
-    hDigit2 = Mid$(hourString, 2, 1)
-    
-    ' min digits for digital display
-    
-    If thisMin < 10 Then
-        minString = "0" & CStr(thisMin)
-    Else
-        minString = CStr(thisMin)
-    End If
-   
-    mDigit1 = Left$(minString, 1)
-    mDigit2 = Mid$(minString, 2, 1)
-    
-    Call showHour1(hDigit1)
-    Call showHour2(hDigit2)
-
-    Call showMin1(mDigit1)
-    Call showMin2(mDigit2)
-    
     Call showday1(dDigit1)
     Call showday2(dDigit2)
+End Sub
 
-    'clockForm.Refresh
+Private Sub displayDigitalYear()
+
+    Dim yDigit1 As String: yDigit1 = vbNullString
+    Dim yDigit2 As String: yDigit2 = vbNullString
+    Dim yDigit3 As String: yDigit3 = vbNullString
+    Dim yDigit4 As String: yDigit4 = vbNullString
+    Dim thisYear As Integer: thisYear = 0
+    Dim yearString As String: yearString = vbNullString
+    Static thisDate As Date: thisDate = Now
     
-   On Error GoTo 0
-   Exit Sub
+    ' year digits for digital display
+    
+    yearString = Year(thisDate)
 
-tmrClock_Timer_Error:
+    yDigit1 = Left$(yearString, 1)
+    yDigit2 = Mid$(yearString, 2, 1)
+    yDigit3 = Mid$(yearString, 3, 1)
+    yDigit4 = Mid$(yearString, 4, 1)
+    
+    Call showyear1(yDigit1)
+    Call showyear2(yDigit2)
+    Call showyear3(yDigit3)
+    Call showyear4(yDigit4)
+End Sub
 
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure tmrClock_Timer of Class Module cwOverlay"
+Sub showyear1(ByVal hDigit1 As Integer)
+
+    num0year1.Alpha = 0
+    num1year1.Alpha = 0
+    num2year1.Alpha = 0
+    num3year1.Alpha = 0
+    num4year1.Alpha = 0
+    num5year1.Alpha = 0
+    num6year1.Alpha = 0
+    num7year1.Alpha = 0
+    num8year1.Alpha = 0
+    num9year1.Alpha = 0
+
+    If hDigit1 = 0 Then num0year1.Alpha = 255
+    If hDigit1 = 1 Then num1year1.Alpha = 255
+    If hDigit1 = 2 Then num2year1.Alpha = 255
+    If hDigit1 = 3 Then num3year1.Alpha = 255
+    If hDigit1 = 4 Then num4year1.Alpha = 255
+    If hDigit1 = 5 Then num5year1.Alpha = 255
+    If hDigit1 = 6 Then num6year1.Alpha = 255
+    If hDigit1 = 7 Then num7year1.Alpha = 255
+    If hDigit1 = 8 Then num8year1.Alpha = 255
+    If hDigit1 = 9 Then num9year1.Alpha = 255
+
+End Sub
+Sub showyear2(ByVal hDigit2 As Integer)
+
+    num0year2.Alpha = 0
+    num1year2.Alpha = 0
+    num2year2.Alpha = 0
+    num3year2.Alpha = 0
+    num4year2.Alpha = 0
+    num5year2.Alpha = 0
+    num6year2.Alpha = 0
+    num7year2.Alpha = 0
+    num8year2.Alpha = 0
+    num9year2.Alpha = 0
+
+    If hDigit2 = 0 Then num0year2.Alpha = 255
+    If hDigit2 = 1 Then num1year2.Alpha = 255
+    If hDigit2 = 2 Then num2year2.Alpha = 255
+    If hDigit2 = 3 Then num3year2.Alpha = 255
+    If hDigit2 = 4 Then num4year2.Alpha = 255
+    If hDigit2 = 5 Then num5year2.Alpha = 255
+    If hDigit2 = 6 Then num6year2.Alpha = 255
+    If hDigit2 = 7 Then num7year2.Alpha = 255
+    If hDigit2 = 8 Then num8year2.Alpha = 255
+    If hDigit2 = 9 Then num9year2.Alpha = 255
+
+End Sub
+Sub showyear3(ByVal hDigit3 As Integer)
+
+    num0year3.Alpha = 0
+    num1year3.Alpha = 0
+    num2year3.Alpha = 0
+    num3year3.Alpha = 0
+    num4year3.Alpha = 0
+    num5year3.Alpha = 0
+    num6year3.Alpha = 0
+    num7year3.Alpha = 0
+    num8year3.Alpha = 0
+    num9year3.Alpha = 0
+
+    If hDigit3 = 0 Then num0year3.Alpha = 255
+    If hDigit3 = 1 Then num1year3.Alpha = 255
+    If hDigit3 = 2 Then num2year3.Alpha = 255
+    If hDigit3 = 3 Then num3year3.Alpha = 255
+    If hDigit3 = 4 Then num4year3.Alpha = 255
+    If hDigit3 = 5 Then num5year3.Alpha = 255
+    If hDigit3 = 6 Then num6year3.Alpha = 255
+    If hDigit3 = 7 Then num7year3.Alpha = 255
+    If hDigit3 = 8 Then num8year3.Alpha = 255
+    If hDigit3 = 9 Then num9year3.Alpha = 255
+
+End Sub
+
+Sub showyear4(ByVal hDigit4 As Integer)
+
+    num0year4.Alpha = 0
+    num1year4.Alpha = 0
+    num2year4.Alpha = 0
+    num3year4.Alpha = 0
+    num4year4.Alpha = 0
+    num5year4.Alpha = 0
+    num6year4.Alpha = 0
+    num7year4.Alpha = 0
+    num8year4.Alpha = 0
+    num9year4.Alpha = 0
+
+    If hDigit4 = 0 Then num0year4.Alpha = 255
+    If hDigit4 = 1 Then num1year4.Alpha = 255
+    If hDigit4 = 2 Then num2year4.Alpha = 255
+    If hDigit4 = 3 Then num3year4.Alpha = 255
+    If hDigit4 = 4 Then num4year4.Alpha = 255
+    If hDigit4 = 5 Then num5year4.Alpha = 255
+    If hDigit4 = 6 Then num6year4.Alpha = 255
+    If hDigit4 = 7 Then num7year4.Alpha = 255
+    If hDigit4 = 8 Then num8year4.Alpha = 255
+    If hDigit4 = 9 Then num9year4.Alpha = 255
+
 End Sub
 Sub showday1(ByVal hDigit1 As Integer)
 
-    num0day1.Alpha = 0
-    num1day1.Alpha = 0
-    num2day1.Alpha = 0
-    num3day1.Alpha = 0
-
-    If hDigit1 = 0 Then num0day1.Alpha = 255: Exit Sub
-    If hDigit1 = 1 Then num1day1.Alpha = 255: Exit Sub
-    If hDigit1 = 2 Then num2day1.Alpha = 255: Exit Sub
-    If hDigit1 = 3 Then num3day1.Alpha = 255: Exit Sub
+    If firstRun = True Then
+        num0day1.Alpha = 0
+        num1day1.Alpha = 0
+        num2day1.Alpha = 0
+        num3day1.Alpha = 0
+    End If
+    
+    Select Case hDigit1
+        Case 0
+            num3day1.Alpha = 0
+            num0day1.Alpha = 255
+        Case 1
+            num0day1.Alpha = 0
+            num1day1.Alpha = 255
+        Case 2
+            num1day1.Alpha = 0
+            num2day1.Alpha = 255
+        Case 3
+            num2day1.Alpha = 0
+            num3day1.Alpha = 255
+        End Select
 End Sub
 
 Sub showday2(ByVal hDigit2 As Integer)
 
-    num0day2.Alpha = 0
-    num1day2.Alpha = 0
-    num2day2.Alpha = 0
-    num3day2.Alpha = 0
-    num4day2.Alpha = 0
-    num5day2.Alpha = 0
-    num6day2.Alpha = 0
-    num7day2.Alpha = 0
-    num8day2.Alpha = 0
-    num9day2.Alpha = 0
+    If firstRun = True Then
+        num0day2.Alpha = 0
+        num1day2.Alpha = 0
+        num2day2.Alpha = 0
+        num3day2.Alpha = 0
+        num4day2.Alpha = 0
+        num5day2.Alpha = 0
+        num6day2.Alpha = 0
+        num7day2.Alpha = 0
+        num8day2.Alpha = 0
+        num9day2.Alpha = 0
+    End If
 
-    If hDigit2 = 0 Then num0day2.Alpha = 255
-    If hDigit2 = 1 Then num1day2.Alpha = 255
-    If hDigit2 = 2 Then num2day2.Alpha = 255
-    If hDigit2 = 3 Then num3day2.Alpha = 255
-    If hDigit2 = 4 Then num4day2.Alpha = 255
-    If hDigit2 = 5 Then num5day2.Alpha = 255
-    If hDigit2 = 6 Then num6day2.Alpha = 255
-    If hDigit2 = 7 Then num7day2.Alpha = 255
-    If hDigit2 = 8 Then num8day2.Alpha = 255
-    If hDigit2 = 9 Then num9day2.Alpha = 255
+    Select Case hDigit2
+        Case 0
+            num9day2.Alpha = 0
+            num0day2.Alpha = 255
+        Case 1
+            num0day2.Alpha = 0
+            num1day2.Alpha = 255
+        Case 2
+            num1day2.Alpha = 0
+            num2day2.Alpha = 255
+        Case 3
+            num2day2.Alpha = 0
+            num3day2.Alpha = 255
+        Case 4
+            num3day2.Alpha = 0
+            num4day2.Alpha = 255
+        Case 5
+            num4day2.Alpha = 0
+            num5day2.Alpha = 255
+        Case 6
+            num5day2.Alpha = 0
+            num6day2.Alpha = 255
+        Case 7
+            num6day2.Alpha = 0
+            num7day2.Alpha = 255
+        Case 8
+            num7day2.Alpha = 0
+            num8day2.Alpha = 255
+        Case 9
+            num8day2.Alpha = 0
+            num9day2.Alpha = 255
+    End Select
 
 End Sub
 Sub showHour1(ByVal hDigit1 As Integer)
 
-    num0hour1.Alpha = 0
-    num1hour1.Alpha = 0
-    num2hour1.Alpha = 0
-    num3hour1.Alpha = 0
-    num4hour1.Alpha = 0
-    num5hour1.Alpha = 0
-    num6hour1.Alpha = 0
-    num7hour1.Alpha = 0
-    num8hour1.Alpha = 0
-    num9hour1.Alpha = 0
+    If firstRun = True Then
+        num0hour1.Alpha = 0
+        num1hour1.Alpha = 0
+        num2hour1.Alpha = 0
+        num3hour1.Alpha = 0
+        num4hour1.Alpha = 0
+        num5hour1.Alpha = 0
+        num6hour1.Alpha = 0
+        num7hour1.Alpha = 0
+        num8hour1.Alpha = 0
+        num9hour1.Alpha = 0
+    End If
 
-    If hDigit1 = 0 Then num0hour1.Alpha = 255: Exit Sub
-    If hDigit1 = 1 Then num1hour1.Alpha = 255: Exit Sub
-    If hDigit1 = 2 Then num2hour1.Alpha = 255: Exit Sub
-    If hDigit1 = 3 Then num3hour1.Alpha = 255: Exit Sub
-    If hDigit1 = 4 Then num4hour1.Alpha = 255: Exit Sub
-    If hDigit1 = 5 Then num5hour1.Alpha = 255: Exit Sub
-    If hDigit1 = 6 Then num6hour1.Alpha = 255: Exit Sub
-    If hDigit1 = 7 Then num7hour1.Alpha = 255: Exit Sub
-    If hDigit1 = 8 Then num8hour1.Alpha = 255: Exit Sub
-    If hDigit1 = 9 Then num9hour1.Alpha = 255: Exit Sub
+    Select Case hDigit1
+        Case 0
+            num9hour1.Alpha = 0
+            num0hour1.Alpha = 255
+
+        Case 1
+            num0hour1.Alpha = 0
+            num1hour1.Alpha = 255
+        
+        Case 2
+            num1hour1.Alpha = 0
+            num2hour1.Alpha = 255
+        
+        Case 3
+            num2hour1.Alpha = 0
+            num3hour1.Alpha = 255
+        
+        Case 4
+            num3hour1.Alpha = 0
+            num4hour1.Alpha = 255
+        
+        Case 5
+            num4hour1.Alpha = 0
+            num5hour1.Alpha = 255
+    
+        Case 6
+            num5hour1.Alpha = 0
+            num6hour1.Alpha = 255
+    
+        Case 7
+            num6hour1.Alpha = 0
+            num7hour1.Alpha = 255
+    
+        Case 8
+            num7hour1.Alpha = 0
+            num8hour1.Alpha = 255
+    
+        Case 9
+            num8hour1.Alpha = 0
+            num9hour1.Alpha = 255
+            
+    End Select
+    
+    
 End Sub
 
 Sub showHour2(ByVal hDigit2 As Integer)
 
-    num0hour2.Alpha = 0
-    num1hour2.Alpha = 0
-    num2hour2.Alpha = 0
-    num3hour2.Alpha = 0
-    num4hour2.Alpha = 0
-    num5hour2.Alpha = 0
-    num6hour2.Alpha = 0
-    num7hour2.Alpha = 0
-    num8hour2.Alpha = 0
-    num9hour2.Alpha = 0
-
-    If hDigit2 = 0 Then num0hour2.Alpha = 255
-    If hDigit2 = 1 Then num1hour2.Alpha = 255
-    If hDigit2 = 2 Then num2hour2.Alpha = 255
-    If hDigit2 = 3 Then num3hour2.Alpha = 255
-    If hDigit2 = 4 Then num4hour2.Alpha = 255
-    If hDigit2 = 5 Then num5hour2.Alpha = 255
-    If hDigit2 = 6 Then num6hour2.Alpha = 255
-    If hDigit2 = 7 Then num7hour2.Alpha = 255
-    If hDigit2 = 8 Then num8hour2.Alpha = 255
-    If hDigit2 = 9 Then num9hour2.Alpha = 255
+    If firstRun = True Then
+        num0hour2.Alpha = 0
+        num1hour2.Alpha = 0
+        num2hour2.Alpha = 0
+        num3hour2.Alpha = 0
+        num4hour2.Alpha = 0
+        num5hour2.Alpha = 0
+        num6hour2.Alpha = 0
+        num7hour2.Alpha = 0
+        num8hour2.Alpha = 0
+        num9hour2.Alpha = 0
+    End If
+    
+    Select Case hDigit2
+        Case 0
+            num9hour2.Alpha = 0
+            num0hour2.Alpha = 255
+        
+        Case 1
+            num1hour2.Alpha = 0
+            num0hour2.Alpha = 255
+        
+        Case 2
+            num2hour2.Alpha = 0
+            num1hour2.Alpha = 255
+        
+        Case 3
+            num2hour2.Alpha = 0
+            num3hour2.Alpha = 255
+        
+        Case 4
+            num3hour2.Alpha = 0
+            num4hour2.Alpha = 255
+        
+        Case 5
+            num4hour2.Alpha = 0
+            num5hour2.Alpha = 255
+        
+        Case 6
+            num5hour2.Alpha = 0
+            num6hour2.Alpha = 255
+        
+        Case 7
+            num6hour2.Alpha = 0
+            num7hour2.Alpha = 255
+        
+        Case 8
+            num7hour2.Alpha = 0
+            num8hour2.Alpha = 255
+        
+        Case 9
+            num8hour2.Alpha = 0
+            num9hour2.Alpha = 255
+            
+    End Select
 
 End Sub
 
 Sub showMin1(ByVal mDigit1 As Integer)
 
-    num0min1.Alpha = 0
-    num1min1.Alpha = 0
-    num2min1.Alpha = 0
-    num3min1.Alpha = 0
-    num4min1.Alpha = 0
-    num5min1.Alpha = 0
-    num6min1.Alpha = 0
-    num7min1.Alpha = 0
-    num8min1.Alpha = 0
-    num9min1.Alpha = 0
+    If firstRun = True Then
+        num0min1.Alpha = 0
+        num1min1.Alpha = 0
+        num2min1.Alpha = 0
+        num3min1.Alpha = 0
+        num4min1.Alpha = 0
+        num5min1.Alpha = 0
+        num6min1.Alpha = 0
+        num7min1.Alpha = 0
+        num8min1.Alpha = 0
+        num9min1.Alpha = 0
+    End If
+    
+    Select Case mDigit1
+        Case 0
+            num9min1.Alpha = 0
+            num0min1.Alpha = 255
+        
+        Case 1
+            num1min1.Alpha = 0
+            num0min1.Alpha = 255
+        
+        Case 2
+            num2min1.Alpha = 0
+            num1min1.Alpha = 255
+        
+        Case 3
+            num2min1.Alpha = 0
+            num3min1.Alpha = 255
+        
+        Case 4
+            num3min1.Alpha = 0
+            num4min1.Alpha = 255
+        
+        Case 5
+            num4min1.Alpha = 0
+            num5min1.Alpha = 255
+        
+        Case 6
+            num5min1.Alpha = 0
+            num6min1.Alpha = 255
+        
+        Case 7
+            num6min1.Alpha = 0
+            num7min1.Alpha = 255
+        
+        Case 8
+            num7min1.Alpha = 0
+            num8min1.Alpha = 255
+        
+        Case 9
+            num8min1.Alpha = 0
+            num9min1.Alpha = 255
+            
+    End Select
 
-    If mDigit1 = 0 Then num0min1.Alpha = 255: Exit Sub
-    If mDigit1 = 1 Then num1min1.Alpha = 255: Exit Sub
-    If mDigit1 = 2 Then num2min1.Alpha = 255: Exit Sub
-    If mDigit1 = 3 Then num3min1.Alpha = 255: Exit Sub
-    If mDigit1 = 4 Then num4min1.Alpha = 255: Exit Sub
-    If mDigit1 = 5 Then num5min1.Alpha = 255: Exit Sub
-    If mDigit1 = 6 Then num6min1.Alpha = 255: Exit Sub
-    If mDigit1 = 7 Then num7min1.Alpha = 255: Exit Sub
-    If mDigit1 = 8 Then num8min1.Alpha = 255: Exit Sub
-    If mDigit1 = 9 Then num9min1.Alpha = 255: Exit Sub
 End Sub
 
 Sub showMin2(ByVal mDigit2 As Integer)
+    
+    If firstRun = True Then
+        num0min2.Alpha = 0
+        num1min2.Alpha = 0
+        num2min2.Alpha = 0
+        num3min2.Alpha = 0
+        num4min2.Alpha = 0
+        num5min2.Alpha = 0
+        num6min2.Alpha = 0
+        num7min2.Alpha = 0
+        num8min2.Alpha = 0
+        num9min2.Alpha = 0
+    End If
+    
+    Select Case mDigit2
+        Case 0
+            num9min2.Alpha = 0
+            num0min2.Alpha = 255
+        
+        Case 1
+            num1min2.Alpha = 0
+            num0min2.Alpha = 255
+        
+        Case 2
+            num2min2.Alpha = 0
+            num1min2.Alpha = 255
+        
+        Case 3
+            num2min2.Alpha = 0
+            num3min2.Alpha = 255
+        
+        Case 4
+            num3min2.Alpha = 0
+            num4min2.Alpha = 255
+        
+        Case 5
+            num4min2.Alpha = 0
+            num5min2.Alpha = 255
+        
+        Case 6
+            num5min2.Alpha = 0
+            num6min2.Alpha = 255
+        
+        Case 7
+            num6min2.Alpha = 0
+            num7min2.Alpha = 255
+        
+        Case 8
+            num7min2.Alpha = 0
+            num8min2.Alpha = 255
+        
+        Case 9
+            num8min2.Alpha = 0
+            num9min2.Alpha = 255
+            
+    End Select
 
-    num0min2.Alpha = 0
-    num1min2.Alpha = 0
-    num2min2.Alpha = 0
-    num3min2.Alpha = 0
-    num4min2.Alpha = 0
-    num5min2.Alpha = 0
-    num6min2.Alpha = 0
-    num7min2.Alpha = 0
-    num8min2.Alpha = 0
-    num9min2.Alpha = 0
-
-    If mDigit2 = 0 Then num0min2.Alpha = 255: Exit Sub
-    If mDigit2 = 1 Then num1min2.Alpha = 255: Exit Sub
-    If mDigit2 = 2 Then num2min2.Alpha = 255: Exit Sub
-    If mDigit2 = 3 Then num3min2.Alpha = 255: Exit Sub
-    If mDigit2 = 4 Then num4min2.Alpha = 255: Exit Sub
-    If mDigit2 = 5 Then num5min2.Alpha = 255: Exit Sub
-    If mDigit2 = 6 Then num6min2.Alpha = 255: Exit Sub
-    If mDigit2 = 7 Then num7min2.Alpha = 255: Exit Sub
-    If mDigit2 = 8 Then num8min2.Alpha = 255: Exit Sub
-    If mDigit2 = 9 Then num9min2.Alpha = 255: Exit Sub
 End Sub
 
