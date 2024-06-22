@@ -2,7 +2,7 @@
  
   A FOSS Desktop Utility VB6 WoW64 Widget for Windows Vista, Win7, 8 and 10/11+. 
 
- My current VB6/RC6 PSD program being worked upon now, in progress, don't download it yet as it is far from complete. Estimated at 98% graphically complete but only 10% code-ready. This Steampunk Clock Calendar widget is an attractive steampunk widget for your desktop. It is a deliberately complex clock. Functional and gorgeous at the 
+ My current VB6/RC6 PSD program being worked upon now, in progress, don't download it yet as it is far from complete. Estimated at 99% graphically complete but only 20% code-ready. This Steampunk Clock Calendar widget is an attractive steampunk widget for your desktop. It is a deliberately complex clock. Functional and gorgeous at the 
 same time. This Widget is a moveable widget that you can move anywhere around the 
 desktop as you require. This is based upon the Yahoo widget of the same design. 
  
@@ -15,7 +15,7 @@ desktop as you require. This is based upon the Yahoo widget of the same design.
  I created this as a development from the original Yahoo widget/ Konfabulator version I had previously created for the steampunk 
  communities. This widget is an attractive steampunk VB6 widget for your desktop. It is almost all my code with some help from the chaps at VBForums (credits given).
  
-![wotw-clock-help-preview](https://github.com/yereverluvinunclebert/Steampunk-clock-calendar-version-2.9/assets/2788342/81d32fa2-5b79-4615-b31b-ce46c767ee87)
+ ![about-image001](https://github.com/yereverluvinunclebert/Steampunk-clock-calendar-vb6/assets/2788342/c6a5962d-ccc3-43ad-8316-607c122026ee)
 
  This widget can be increased in size, animation speed can be changed, 
  opacity/transparency may be set as to the users discretion. The widget can 
@@ -262,6 +262,8 @@ At the back-end there are more preferences that may be changed, all are document
  original artist using my name or one of my pseudonyms and a link to my site. 
  With regard to the commercial use of incorporated images, permission and a 
  licence would need to be obtained from the original owner and creator, ie. me.
+
+ ![wotw-clock-help-preview](https://github.com/yereverluvinunclebert/Steampunk-clock-calendar-version-2.9/assets/2788342/81d32fa2-5b79-4615-b31b-ce46c767ee87)
 
 ![desktop](https://github.com/yereverluvinunclebert/Panzer-JustClock-VB6/assets/2788342/8cf592a3-968f-4bf1-ab98-c734ff1cc261)
 
