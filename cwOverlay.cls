@@ -225,11 +225,6 @@ End Property
 ' Date: 21/06/2024
 ' ----------------------------------------------------------------
 Private Sub tmrClock_Timer()
-
-
-'    Static thisHour As Integer
-'    Static thisMin As Integer
-'    Static thisSec As Integer
     
     On Error GoTo tmrClock_Timer_Error
     
@@ -248,10 +243,7 @@ Private Sub tmrClock_Timer()
     Else
         Exit Sub  'only refresh when SDeg has changed to a new value
     End If
-
-
-
-    
+  
     W.Parent.Refresh ' causes a paint event to fire
     
    On Error GoTo 0
@@ -407,6 +399,7 @@ Private Sub Draw(ByRef CC As cCairoContext, ByVal dx As Single, ByVal dy As Sing
 
     Static hourString As String
     Static minString As String
+    Dim thisMonth As Integer
     
     On Error GoTo Draw_Error
     
@@ -452,13 +445,20 @@ Private Sub Draw(ByRef CC As cCairoContext, ByVal dx As Single, ByVal dy As Sing
 '        End If
 '    End If
     
-    CC.RenderSurfaceContent "jan", 442, 312, , , , 1
-'    CC.RenderSurfaceContent "num2large", 423, 310, , , , 1
-'
-'    CC.RenderSurfaceContent "num1large", 511, 310, , , , 1
-'    CC.RenderSurfaceContent "num8large", 530, 310, , , , 1
-'    CC.RenderSurfaceContent "num8large", 549, 310, , , , 1
-'    CC.RenderSurfaceContent "num9large", 568, 310, , , , 1
+    thisMonth = Month(Now) ' coerce date variant to integer
+    
+    If thisMonth = 1 Then CC.RenderSurfaceContent "jan", 442, 312, , , , 1
+    If thisMonth = 2 Then CC.RenderSurfaceContent "feb", 442, 312, , , , 1
+    If thisMonth = 3 Then CC.RenderSurfaceContent "mar", 442, 312, , , , 1
+    If thisMonth = 4 Then CC.RenderSurfaceContent "apr", 442, 312, , , , 1
+    If thisMonth = 5 Then CC.RenderSurfaceContent "may", 442, 312, , , , 1
+    If thisMonth = 6 Then CC.RenderSurfaceContent "jun", 442, 312, , , , 1
+    If thisMonth = 7 Then CC.RenderSurfaceContent "jul", 442, 312, , , , 1
+    If thisMonth = 8 Then CC.RenderSurfaceContent "aug", 442, 312, , , , 1
+    If thisMonth = 9 Then CC.RenderSurfaceContent "sep", 442, 312, , , , 1
+    If thisMonth = 10 Then CC.RenderSurfaceContent "oct", 442, 312, , , , 1
+    If thisMonth = 11 Then CC.RenderSurfaceContent "nov", 442, 312, , , , 1
+    If thisMonth = 11 Then CC.RenderSurfaceContent "dec", 442, 312, , , , 1
 
     W.Parent.Refresh
     

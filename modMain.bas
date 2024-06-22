@@ -394,6 +394,16 @@ Private Sub addImagesToImageList()
     
     Cairo.ImageList.AddImage "jan", App.path & "\Resources\images\jan.png"
     Cairo.ImageList.AddImage "feb", App.path & "\Resources\images\feb.png"
+    Cairo.ImageList.AddImage "mar", App.path & "\Resources\images\mar.png"
+    Cairo.ImageList.AddImage "apr", App.path & "\Resources\images\apr.png"
+    Cairo.ImageList.AddImage "may", App.path & "\Resources\images\may.png"
+    Cairo.ImageList.AddImage "jun", App.path & "\Resources\images\jun.png"
+    Cairo.ImageList.AddImage "jul", App.path & "\Resources\images\jul.png"
+    Cairo.ImageList.AddImage "aug", App.path & "\Resources\images\aug.png"
+    Cairo.ImageList.AddImage "sep", App.path & "\Resources\images\sep.png"
+    Cairo.ImageList.AddImage "oct", App.path & "\Resources\images\oct.png"
+    Cairo.ImageList.AddImage "nov", App.path & "\Resources\images\nov.png"
+    Cairo.ImageList.AddImage "dec", App.path & "\Resources\images\dec.png"
    
     
    On Error GoTo 0
@@ -401,7 +411,7 @@ Private Sub addImagesToImageList()
 
 addImagesToImageList_Error:
 
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure addImagesToImageList of Module modMain"
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure addImagesToImageList of Module modMain, an image has probably been accidentally deleted from the resources/images folder."
 
 End Sub
 '---------------------------------------------------------------------------------------

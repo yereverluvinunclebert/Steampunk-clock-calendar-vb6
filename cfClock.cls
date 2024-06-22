@@ -367,7 +367,10 @@ Private Sub clockForm_BubblingEvent(ByRef sender As Object, ByRef EventName As S
             Case "monday"
                 If gblEnableBalloonTooltips = "1" Then CreateToolTip clockForm.hwnd, "Click here to lower the weekday flag.", _
                      TTIconInfo, widgetName & " Weekday Indicator Help", , , , True
+                
+                ' I know this seems strange to only have this here but the way that RC6 works, even when alpha = 0 the top layer takes the clicks
                 If clockForm.Widgets(fDayOfWeek).Widget.Alpha <> 0 Then weekdayredcover.Alpha = Val(gblOpacity) / 100
+           
            Case "weekdayredcover"
                 If gblEnableBalloonTooltips = "1" Then CreateToolTip clockForm.hwnd, "Click here to lower the weekday flag.", _
                      TTIconInfo, widgetName & " Weekday Indicator Help", , , , True
