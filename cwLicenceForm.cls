@@ -260,7 +260,7 @@ Private Sub tmrLicenceFadeIn_Timer()
       
    On Error GoTo tmrLicenceFadeIn_Timer_Error
     
-    fMain.licenceForm.show
+    fMain.licenceForm.Show
     MyOpacity = MyOpacity + 0.05
     If MyOpacity >= 1 Then
         MyOpacity = 1
