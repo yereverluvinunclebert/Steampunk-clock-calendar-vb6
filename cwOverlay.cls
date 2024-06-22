@@ -215,44 +215,6 @@ End Property
 
 
 
-
-' ----------------------------------------------------------------
-' Procedure Name: tmrClock_Timer
-' Purpose:
-' Procedure Kind: Sub
-' Procedure Access: Private
-' Author: beededea
-' Date: 21/06/2024
-' ----------------------------------------------------------------
-Private Sub tmrClock_Timer()
-    
-    On Error GoTo tmrClock_Timer_Error
-    
-    thisHour = Hour(Now)
-    thisMin = Minute(Now)
-    thisSec = Second(Now)
-    
-    ' time calc for main gauge
-    hdeg = 30 * (thisHour Mod 12 + (thisMin) / 60)
-    mdeg = 6 * ((thisMin) + (thisSec / 60))
-    
-    Sec = thisSec
-
-    If SDeg <> 6 * Sec Then
-        SDeg = 6 * Sec
-    Else
-        Exit Sub  'only refresh when SDeg has changed to a new value
-    End If
-  
-    W.Parent.Refresh ' causes a paint event to fire
-    
-   On Error GoTo 0
-   Exit Sub
-
-tmrClock_Timer_Error:
-
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure tmrClock_Timer of Class Module cwOverlay"
-End Sub
 '---------------------------------------------------------------------------------------
 ' Property  : Hidden
 ' Author    : beededea
@@ -399,14 +361,17 @@ Private Sub Draw(ByRef CC As cCairoContext, ByVal dx As Single, ByVal dy As Sing
 
     Static hourString As String
     Static minString As String
-    Dim thisMonth As Integer
     
     On Error GoTo Draw_Error
     
     ' only check whether to change the minute within the last second of the minute
     ' due to CPU usage and delay, we use a 3 sec window at the top of the minute
+    
     Call displayDigitalDayofMonth(CC)
+    Call displayDigitalMonth(CC)
     Call displayDigitalYear(CC)
+    Call displayDigitalHours(CC)
+    Call displayDigitalMins(CC)
      
 '    If (thisSec >= 59 Or thisSec <= 1) Or firstRun = True Then
 '       ' min digits for digital display
@@ -444,23 +409,8 @@ Private Sub Draw(ByRef CC As cCairoContext, ByVal dx As Single, ByVal dy As Sing
 '            End If
 '        End If
 '    End If
-    
-    thisMonth = Month(Now) ' coerce date variant to integer
-    
-    If thisMonth = 1 Then CC.RenderSurfaceContent "jan", 442, 312, , , , 1
-    If thisMonth = 2 Then CC.RenderSurfaceContent "feb", 442, 312, , , , 1
-    If thisMonth = 3 Then CC.RenderSurfaceContent "mar", 442, 312, , , , 1
-    If thisMonth = 4 Then CC.RenderSurfaceContent "apr", 442, 312, , , , 1
-    If thisMonth = 5 Then CC.RenderSurfaceContent "may", 442, 312, , , , 1
-    If thisMonth = 6 Then CC.RenderSurfaceContent "jun", 442, 312, , , , 1
-    If thisMonth = 7 Then CC.RenderSurfaceContent "jul", 442, 312, , , , 1
-    If thisMonth = 8 Then CC.RenderSurfaceContent "aug", 442, 312, , , , 1
-    If thisMonth = 9 Then CC.RenderSurfaceContent "sep", 442, 312, , , , 1
-    If thisMonth = 10 Then CC.RenderSurfaceContent "oct", 442, 312, , , , 1
-    If thisMonth = 11 Then CC.RenderSurfaceContent "nov", 442, 312, , , , 1
-    If thisMonth = 11 Then CC.RenderSurfaceContent "dec", 442, 312, , , , 1
 
-    W.Parent.Refresh
+    'W.Parent.Refresh
     
    On Error GoTo 0
    Exit Sub
@@ -472,13 +422,179 @@ Draw_Error:
 End Sub
 
 
+Private Sub displayDigitalHours(ByRef CC As cCairoContext)
+        
+'    Dim hDigit1 As Integer: hDigit1 = 0
+'    Dim hDigit2 As Integer: hDigit2 = 0
+    Dim hourString As String: hourString = vbNullString
+   
+    If thisHour < 10 Then ' uses vb6 coerce a string to a numeric without calling a cast function, quicker?
+        hourString = "0" & thisHour '
+    Else
+        hourString = thisHour
+    End If
+
+'    hDigit1 = Left$(hourString, 1)
+'    hDigit2 = Mid$(hourString, 2, 1)
+
+    ' hour digits for digital display
+    
+    Select Case Left$(hourString, 1)
+        Case 0
+            CC.RenderSurfaceContent "small0", 453, 266, , , , 1
+        Case 1
+            CC.RenderSurfaceContent "small1", 453, 266, , , , 1
+        Case 2
+            CC.RenderSurfaceContent "small2", 453, 266, , , , 1
+        Case 3
+            CC.RenderSurfaceContent "small3", 453, 266, , , , 1
+        Case 4
+            CC.RenderSurfaceContent "small4", 453, 266, , , , 1
+        Case 5
+            CC.RenderSurfaceContent "small5", 453, 266, , , , 1
+        Case 6
+            CC.RenderSurfaceContent "small6", 453, 266, , , , 1
+        Case 7
+            CC.RenderSurfaceContent "small7", 453, 266, , , , 1
+        Case 8
+            CC.RenderSurfaceContent "small8", 453, 266, , , , 1
+        Case 9
+            CC.RenderSurfaceContent "small9", 453, 266, , , , 1
+    End Select
+        
+    Select Case Mid$(hourString, 2, 1)
+        Case 0
+            CC.RenderSurfaceContent "small0", 474, 266, , , , 1
+        Case 1
+            CC.RenderSurfaceContent "small1", 474, 266, , , , 1
+        Case 2
+            CC.RenderSurfaceContent "small2", 474, 266, , , , 1
+        Case 3
+            CC.RenderSurfaceContent "small3", 474, 266, , , , 1
+        Case 4
+            CC.RenderSurfaceContent "small4", 474, 266, , , , 1
+        Case 5
+            CC.RenderSurfaceContent "small5", 474, 266, , , , 1
+        Case 6
+            CC.RenderSurfaceContent "small6", 474, 266, , , , 1
+        Case 7
+            CC.RenderSurfaceContent "small7", 474, 266, , , , 1
+        Case 8
+            CC.RenderSurfaceContent "small8", 474, 266, , , , 1
+        Case 9
+            CC.RenderSurfaceContent "small9", 474, 266, , , , 1
+    End Select
+    
+
+End Sub
+
+Private Sub displayDigitalMins(ByRef CC As cCairoContext)
+        
+    Dim minString As String: minString = vbNullString
+   
+    If thisMin < 10 Then ' uses vb6 coerce a string to a numeric without calling a cast function, quicker?
+        minString = "0" & thisMin '
+    Else
+        minString = thisMin
+    End If
+
+'    mDigit1 = Left$(MinString, 1)
+'    mDigit2 = Mid$(MinString, 2, 1)
+
+    ' Min digits for digital display
+    
+    Select Case Left$(minString, 1)
+        Case 0
+            CC.RenderSurfaceContent "small0", 502, 266, , , , 1
+        Case 1
+            CC.RenderSurfaceContent "small1", 502, 266, , , , 1
+        Case 2
+            CC.RenderSurfaceContent "small2", 502, 266, , , , 1
+        Case 3
+            CC.RenderSurfaceContent "small3", 502, 266, , , , 1
+        Case 4
+            CC.RenderSurfaceContent "small4", 502, 266, , , , 1
+        Case 5
+            CC.RenderSurfaceContent "small5", 502, 266, , , , 1
+        Case 6
+            CC.RenderSurfaceContent "small6", 502, 266, , , , 1
+        Case 7
+            CC.RenderSurfaceContent "small7", 502, 266, , , , 1
+        Case 8
+            CC.RenderSurfaceContent "small8", 502, 266, , , , 1
+        Case 9
+            CC.RenderSurfaceContent "small9", 502, 266, , , , 1
+    End Select
+        
+    Select Case Mid$(minString, 2, 1)
+        Case 0
+            CC.RenderSurfaceContent "small0", 523, 266, , , , 1
+        Case 1
+            CC.RenderSurfaceContent "small1", 523, 266, , , , 1
+        Case 2
+            CC.RenderSurfaceContent "small2", 523, 266, , , , 1
+        Case 3
+            CC.RenderSurfaceContent "small3", 523, 266, , , , 1
+        Case 4
+            CC.RenderSurfaceContent "small4", 523, 266, , , , 1
+        Case 5
+            CC.RenderSurfaceContent "small5", 523, 266, , , , 1
+        Case 6
+            CC.RenderSurfaceContent "small6", 523, 266, , , , 1
+        Case 7
+            CC.RenderSurfaceContent "small7", 523, 266, , , , 1
+        Case 8
+            CC.RenderSurfaceContent "small8", 523, 266, , , , 1
+        Case 9
+            CC.RenderSurfaceContent "small9", 523, 266, , , , 1
+    End Select
+    
+
+End Sub
+Private Sub displayDigitalMonth(ByRef CC As cCairoContext)
+
+    Dim thisMonth As Integer: thisMonth = 0
+    
+    ' day digits for digital display
+    
+    thisMonth = Month(Now) ' coerce date variant to integer
+    Select Case thisMonth
+        Case 1
+            CC.RenderSurfaceContent "jan", 442, 312, , , , 1
+        Case 2
+            CC.RenderSurfaceContent "feb", 442, 312, , , , 1
+        Case 3
+            CC.RenderSurfaceContent "mar", 442, 312, , , , 1
+        Case 4
+            CC.RenderSurfaceContent "apr", 442, 312, , , , 1
+        Case 5
+            CC.RenderSurfaceContent "may", 442, 312, , , , 1
+        Case 6
+            CC.RenderSurfaceContent "jun", 442, 312, , , , 1
+        Case 7
+            CC.RenderSurfaceContent "jul", 442, 312, , , , 1
+        Case 8
+            CC.RenderSurfaceContent "aug", 442, 312, , , , 1
+        Case 9
+            CC.RenderSurfaceContent "sep", 442, 312, , , , 1
+        Case 10
+            CC.RenderSurfaceContent "oct", 442, 312, , , , 1
+        Case 11
+            CC.RenderSurfaceContent "nov", 442, 312, , , , 1
+        Case 12
+            CC.RenderSurfaceContent "dec", 442, 312, , , , 1
+    End Select
+    
+
+End Sub
+
 
 Private Sub displayDigitalDayofMonth(ByRef CC As cCairoContext)
 
-'    ' day digits for digital display
+    ' day digits for digital display
 
-    Dim dDigit1 As String: dDigit1 = vbNullString
-    Dim dDigit2 As String: dDigit2 = vbNullString
+'    Dim dDigit1 As String: dDigit1 = vbNullString
+'    Dim dDigit2 As String: dDigit2 = vbNullString
     Dim dayString As String: dayString = vbNullString
     Dim thisDay As Integer: thisDay = 0
 
@@ -490,10 +606,10 @@ Private Sub displayDigitalDayofMonth(ByRef CC As cCairoContext)
         dayString = thisDay
     End If
 
-    dDigit1 = Left$(dayString, 1)
-    dDigit2 = Mid$(dayString, 2, 1)
+'    dDigit1 = Left$(dayString, 1)
+'    dDigit2 = Mid$(dayString, 2, 1)
 '
-    Select Case dDigit1
+    Select Case Left$(dayString, 1)
         Case 0
             CC.RenderSurfaceContent "num0large", 404, 312, , , , 1
         Case 1
@@ -516,7 +632,7 @@ Private Sub displayDigitalDayofMonth(ByRef CC As cCairoContext)
             CC.RenderSurfaceContent "num9large", 404, 312, , , , 1
     End Select
     
-    Select Case dDigit2
+    Select Case Mid$(dayString, 2, 1)
         Case 0
             CC.RenderSurfaceContent "num0large", 423, 312, , , , 1
         Case 1
@@ -542,24 +658,24 @@ End Sub
 
 Private Sub displayDigitalYear(ByRef CC As cCairoContext)
 
-    Dim yDigit1 As String: yDigit1 = vbNullString
-    Dim yDigit2 As String: yDigit2 = vbNullString
-    Dim yDigit3 As String: yDigit3 = vbNullString
-    Dim yDigit4 As String: yDigit4 = vbNullString
+'    Dim yDigit1 As String: yDigit1 = vbNullString
+'    Dim yDigit2 As String: yDigit2 = vbNullString
+'    Dim yDigit3 As String: yDigit3 = vbNullString
+'    Dim yDigit4 As String: yDigit4 = vbNullString
     Dim thisYear As Integer: thisYear = 0
     Dim yearString As String: yearString = vbNullString
-    Static thisDate As Date: thisDate = Now
+    'Static thisDate As Date: thisDate = Now
 
     ' year digits for digital display
 
-    yearString = Year(thisDate)
+    yearString = Year(Now)
 
-    yDigit1 = Left$(yearString, 1)
-    yDigit2 = Mid$(yearString, 2, 1)
-    yDigit3 = Mid$(yearString, 3, 1)
-    yDigit4 = Mid$(yearString, 4, 1)
+'    yDigit1 = Left$(yearString, 1)
+'    yDigit2 = Mid$(yearString, 2, 1)
+'    yDigit3 = Mid$(yearString, 3, 1)
+'    yDigit4 = Mid$(yearString, 4, 1)
 
-    Select Case yDigit1
+    Select Case Left$(yearString, 1)
         Case 0
             CC.RenderSurfaceContent "num0large", 510, 312, , , , 1
         Case 1
@@ -582,7 +698,7 @@ Private Sub displayDigitalYear(ByRef CC As cCairoContext)
             CC.RenderSurfaceContent "num9large", 510, 312, , , , 1
     End Select
     
-    Select Case yDigit2
+    Select Case Mid$(yearString, 2, 1)
         Case 0
             CC.RenderSurfaceContent "num0large", 529, 312, , , , 1
         Case 1
@@ -605,7 +721,7 @@ Private Sub displayDigitalYear(ByRef CC As cCairoContext)
             CC.RenderSurfaceContent "num9large", 529, 312, , , , 1
     End Select
         
-    Select Case yDigit3
+    Select Case Mid$(yearString, 3, 1)
         Case 0
             CC.RenderSurfaceContent "num0large", 548, 312, , , , 1
         Case 1
@@ -628,7 +744,7 @@ Private Sub displayDigitalYear(ByRef CC As cCairoContext)
             CC.RenderSurfaceContent "num9large", 548, 312, , , , 1
     End Select
     
-    Select Case yDigit4
+    Select Case Mid$(yearString, 4, 1)
         Case 0
             CC.RenderSurfaceContent "num0large", 567, 312, , , , 1
         Case 1
@@ -680,3 +796,44 @@ End Sub
 '    End Select
 '
 'End Sub
+
+
+
+
+' ----------------------------------------------------------------
+' Procedure Name: tmrClock_Timer
+' Purpose:
+' Procedure Kind: Sub
+' Procedure Access: Private
+' Author: beededea
+' Date: 21/06/2024
+' ----------------------------------------------------------------
+Private Sub tmrClock_Timer()
+    
+    On Error GoTo tmrClock_Timer_Error
+    
+    thisHour = Hour(Now)
+    thisMin = Minute(Now)
+    thisSec = Second(Now)
+    
+    ' time calc for main gauge
+    hdeg = 30 * (thisHour Mod 12 + (thisMin) / 60)
+    mdeg = 6 * ((thisMin) + (thisSec / 60))
+    
+    Sec = thisSec
+
+    If SDeg <> 6 * Sec Then
+        SDeg = 6 * Sec
+    Else
+        Exit Sub  'only refresh when SDeg has changed to a new value
+    End If
+  
+    W.Parent.Refresh ' causes a paint event to fire
+    
+   On Error GoTo 0
+   Exit Sub
+
+tmrClock_Timer_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure tmrClock_Timer of Class Module cwOverlay"
+End Sub

@@ -404,6 +404,19 @@ Private Sub addImagesToImageList()
     Cairo.ImageList.AddImage "oct", App.path & "\Resources\images\oct.png"
     Cairo.ImageList.AddImage "nov", App.path & "\Resources\images\nov.png"
     Cairo.ImageList.AddImage "dec", App.path & "\Resources\images\dec.png"
+    
+    Cairo.ImageList.AddImage "small0", App.path & "\Resources\images\small0.png"
+    Cairo.ImageList.AddImage "small1", App.path & "\Resources\images\small1.png"
+    Cairo.ImageList.AddImage "small2", App.path & "\Resources\images\small2.png"
+    Cairo.ImageList.AddImage "small3", App.path & "\Resources\images\small3.png"
+    Cairo.ImageList.AddImage "small4", App.path & "\Resources\images\small4.png"
+    Cairo.ImageList.AddImage "small5", App.path & "\Resources\images\small5.png"
+    Cairo.ImageList.AddImage "small6", App.path & "\Resources\images\small6.png"
+    Cairo.ImageList.AddImage "small7", App.path & "\Resources\images\small7.png"
+    Cairo.ImageList.AddImage "small8", App.path & "\Resources\images\small8.png"
+    Cairo.ImageList.AddImage "small9", App.path & "\Resources\images\small9.png"
+
+   
    
     
    On Error GoTo 0
