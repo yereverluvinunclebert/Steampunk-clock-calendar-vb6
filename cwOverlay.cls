@@ -16,7 +16,7 @@ Attribute VB_Exposed = False
 ' Module    : cwOverlay
 ' Author    : beededea
 ' Date      : 31/07/2023
-' Purpose   : create a fully click-through Widget, which allows for all kind of
+' Purpose   : create a single fully click-through Widget, which allows for all kind of
 '             things to render on top of the PSD-generated Widgets created in cfClock
 '---------------------------------------------------------------------------------------
 
@@ -44,7 +44,7 @@ Private thisHour As Integer
 Private thisMin As Integer
 Private thisSec As Integer
 
-Private mTicking As Boolean ' property Ticking
+
 Private mLocked As Boolean ' property Locked
 Private mHidden As Boolean ' property Hidden
 
@@ -60,8 +60,8 @@ Private Sub Class_Initialize()
     On Error GoTo Class_Initialize_Error
 
     Set W = Cairo.WidgetBase
-        W.BackColor = -1  'we don't use any BackColor here, transparent
-        W.ImplementsHitTest = True 'when at False, no HitTest-Event would be triggered
+        W.BackColor = -1            ' we don't use any BackColor here, transparent
+        W.ImplementsHitTest = True  ' essential
 
     intervalValue = 1000
     firstRun = True
@@ -178,41 +178,6 @@ HiddenGet_Error:
 End Property
 
     
-''---------------------------------------------------------------------------------------
-'' Procedure : tmrClock_Timer
-'' Author    :
-'' Date      : 30/07/2023
-'' Purpose   : update the degree-Variables for the clock Hour, Minute and Second Hands
-''---------------------------------------------------------------------------------------
-''
-'Private Sub tmrClock_Timer()
-'
-'    Static T As Date: T = Time
-'
-'    On Error GoTo tmrClock_Timer_Error
-'
-'    ' time calc for main gauge
-'    hdeg = 30 * (Hour(T) Mod 12 + (Minute(T)) / 60)
-'    mdeg = 6 * ((Minute(T)) + (Second(T) / 60))
-'
-'    Sec = Second(T)
-'
-'    If SDeg <> 6 * Sec Then
-'        SDeg = 6 * Sec
-'    Else
-'        Exit Sub  'only refresh when SDeg has changed to a new value
-'    End If
-'
-'    W.Parent.Refresh ' causes a paint event to fire
-'
-'   On Error GoTo 0
-'   Exit Sub
-'
-'tmrClock_Timer_Error:
-'
-'    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure tmrClock_Timer of Class Module cwOverlay"
-'End Sub
-
 
 
 '---------------------------------------------------------------------------------------
@@ -321,13 +286,13 @@ Private Sub W_Paint(CC As RC6.cCairoContext, ByVal xAbs As Single, ByVal yAbs As
                     CC.TranslateDrawings 646, 332 'shift to the center-point of the Overlay-Widget-area
 
                 Case "cable"
-                    Set Pat = Cairo.ImageList(Key).CropSurface(10, 0, 140, 27).CreateSurfacePattern 'cut-out a nice (repeatable) part of the original "cable"-image (via CropSurface)
+                    Set Pat = Cairo.ImageList(Key).CropSurface(0, 0, 100, 27).CreateSurfacePattern 'cut-out a nice (repeatable) part of the original "cable"-image (via CropSurface)
 
                     Set Pat.Matrix = Pat.Matrix.TranslateCoords(sldCurWidth, -Arr(1)) 'sldCurWidth in the x-Coord will ensure that nice "spooling-effect"
                         Pat.Extend = CAIRO_EXTEND_REPEAT
 
                     'since we've set CAIRO_EXTEND_REPEAT, we now have to clip the range it is "allowed to extend to"
-                    CC.ClipExplicit Arr(0) + 10 - sldCurWidth, Arr(1), 249 + sldCurWidth, 27
+                    CC.ClipExplicit Arr(0) - sldCurWidth, Arr(1), 20 + sldCurWidth, 27
 
                 Case Else 'plain output for everything else ... this includes the reflection-layers,
                        
@@ -359,8 +324,8 @@ End Sub
 '
 Private Sub Draw(ByRef CC As cCairoContext, ByVal dx As Single, ByVal dy As Single)
 
-    Static hourString As String
-    Static minString As String
+'    Static hourString As String
+'    Static minString As String
     
     On Error GoTo Draw_Error
     
@@ -372,45 +337,6 @@ Private Sub Draw(ByRef CC As cCairoContext, ByVal dx As Single, ByVal dy As Sing
     Call displayDigitalYear(CC)
     Call displayDigitalHours(CC)
     Call displayDigitalMins(CC)
-     
-'    If (thisSec >= 59 Or thisSec <= 1) Or firstRun = True Then
-'       ' min digits for digital display
-'        Debug.Print "thissec - " & thisSec
-'
-'        If thisMin < 10 Then
-'            minString = "0" & thisMin ' uses vb6 coerce a string to a numeric without calling a cast function, quicker?
-'        Else
-'            minString = thisMin
-'        End If
-'
-''        Call showMin1(CC, Left$(minString, 1))
-''        Call showMin2(Mid$(minString, 2, 1))
-'
-'        ' only check the hour within the last second of the 59th minute
-'        If thisMin > 59 Or firstRun = True Then
-'
-'            ' hour digits for digital display
-'
-'            If thisHour < 10 Then ' uses vb6 coerce a string to a numeric without calling a cast function, quicker?
-'                hourString = "0" & thisHour '
-'            Else
-'                hourString = thisHour
-'            End If
-'
-''            Call showHour1(Left$(hourString, 1))
-''            Call showHour2(Mid$(hourString, 2, 1))
-'
-'            ' only check the month and year within the last second of the day
-'            If thisHour > 23 Or firstRun = True Then
-'
-'                Call displayDigitalDay(CC)
-''                Call displayDigitalYear
-'                firstRun = False
-'            End If
-'        End If
-'    End If
-
-    'W.Parent.Refresh
     
    On Error GoTo 0
    Exit Sub
@@ -424,8 +350,6 @@ End Sub
 
 Private Sub displayDigitalHours(ByRef CC As cCairoContext)
         
-'    Dim hDigit1 As Integer: hDigit1 = 0
-'    Dim hDigit2 As Integer: hDigit2 = 0
     Dim hourString As String: hourString = vbNullString
    
     If thisHour < 10 Then ' uses vb6 coerce a string to a numeric without calling a cast function, quicker?
@@ -433,10 +357,7 @@ Private Sub displayDigitalHours(ByRef CC As cCairoContext)
     Else
         hourString = thisHour
     End If
-
-'    hDigit1 = Left$(hourString, 1)
-'    hDigit2 = Mid$(hourString, 2, 1)
-
+    
     ' hour digits for digital display
     
     Select Case Left$(hourString, 1)

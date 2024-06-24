@@ -431,7 +431,7 @@ Public gblWindowLevelWasChanged As Boolean
 ' Flag for debug mode '.06 DAEB 19/04/2021 common.bas moved to the common area so that it can be used by each of the utilities
 Private mbDebugMode As Boolean ' .30 DAEB 03/03/2021 frmMain.frm replaced the inIDE function that used a variant to one without
 
-
+Public startupFlg As Boolean
 
 Public msgBoxADynamicSizingFlg As Boolean
 
@@ -1945,10 +1945,10 @@ Public Sub getKeyPress(ByVal KeyCode As Integer, ByVal Shift As Integer)
             SHIFT_1 = True
         Case 37, 40 ' Left and down cursor key
             ' move the slider left
-            fClock.VolumePerc = fClock.VolumePerc - 0.05
+            fClock.timeShiftPercent = fClock.timeShiftPercent - 0.05
         Case 39, 38 ' Right and Up cursor key
             ' move the slider right
-            fClock.VolumePerc = fClock.VolumePerc + 0.05
+            fClock.timeShiftPercent = fClock.timeShiftPercent + 0.05
         Case 82 ' Shift+R for a hard Restart
             If Shift = 1 Then Call hardRestart
         Case 116

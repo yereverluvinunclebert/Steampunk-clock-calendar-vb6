@@ -267,8 +267,8 @@ End Sub
 '
 Private Sub mnuHelpSplash_Click()
    On Error GoTo mnuHelpSplash_Click_Error
-
-    'Call helpSplash
+   
+   fClock.ShowHelp = True
 
    On Error GoTo 0
    Exit Sub

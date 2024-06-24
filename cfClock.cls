@@ -12,7 +12,7 @@ Attribute VB_Creatable = True
 Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
 '@IgnoreModule IntegerDataType, ModuleWithoutFolder
-Option Explicit 'simple Alpha-Form (...to be filled with (mostly Img-) Content via .Widgets.Add)
+Option Explicit
 
 Public WithEvents clockForm As cWidgetForm
 Attribute clockForm.VB_VarHelpID = -1
@@ -87,19 +87,15 @@ Attribute bellset.VB_VarHelpID = -1
 Private WithEvents helpdropdown As cWidgetBase
 Attribute helpdropdown.VB_VarHelpID = -1
 
-
- 
-
 Private sldFixedTop As Double
 Private sldXMax As Double
 Private sldXMin As Double
 Private sldX As Double
-Private mVolumePerc As Currency
+Private mTimeShiftPercent As Currency
 
 Private backtoggleEnabled As Boolean
-
-'Public WithEvents tmrSampleAudioVolume As cTimer
-'Public WithEvents tmrSampleAudioMute As cTimer
+Public mShowHelp As Boolean
+Private helpMoved As Boolean
 
 '---------------------------------------------------------------------------------------
 ' Procedure : Class_Initialize
@@ -123,6 +119,93 @@ Class_Initialize_Error:
 
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure Class_Initialize of Class Module cfClock"
 End Sub
+
+'---------------------------------------------------------------------------------------
+' Property : ShowHelp
+' Author    : beededea
+' Date      : 17/05/2023
+' Purpose   :
+'---------------------------------------------------------------------------------------
+'
+Public Property Get ShowHelp() As Boolean
+   On Error GoTo ShowHelpGet_Error
+
+   ShowHelp = mShowHelp
+
+   On Error GoTo 0
+   Exit Property
+
+ShowHelpGet_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property ShowHelp of Class Module cwGlobe"
+End Property
+'---------------------------------------------------------------------------------------
+' Property  : ShowHelp
+' Author    : beededea
+' Date      : 17/05/2023
+' Purpose   :
+'---------------------------------------------------------------------------------------
+'
+Public Property Let ShowHelp(ByVal newValue As Boolean)
+
+    Static helpbottomTop As Long
+    Static helpbottomLeft As Long
+    Static labellayerTop As Long
+    Static labellayerLeft As Long
+    Dim fileToPlay As String: fileToPlay = vbNullString
+
+    On Error GoTo ShowHelpLet_Error
+
+    If mShowHelp <> newValue Then mShowHelp = newValue Else Exit Property
+        
+    If mShowHelp = True Then
+         helpbottomTop = helpbottom.Top
+         helpbottomLeft = helpbottom.Left
+         
+         labellayerTop = labellayer.Top
+         labellayerLeft = labellayer.Left
+        
+         If helpMoved = True Then
+             helpbottom.Move helpbottomLeft - 700, helpbottomTop
+             labellayer.Move labellayerLeft - 400, labellayerTop ' the 400 is a magical number that moves them just out of the way without causing tearing
+             helpMoved = False
+         End If
+         
+         helpbottom.Alpha = Val(gblOpacity) / 100
+         labellayer.Alpha = Val(gblOpacity) / 100
+         
+    Else
+
+        
+        ' the next two lines are a temporary hack.
+        ' when widgets are made lapha = 0 they are still clickable, I can move these to the overlay or I
+        ' can just move them out of the way so that any click on an invisible element does not interfere with one 'underneath'
+        
+         helpbottom.Alpha = 0
+         labellayer.Alpha = 0
+
+        If helpMoved = False Then
+            helpbottom.Move helpbottomLeft + 700, helpbottomTop
+            labellayer.Move labellayerLeft + 400, labellayerTop ' the 400 is a magical number that moves them just out of the way without causing tearing
+            helpMoved = True
+        End If
+    
+    End If
+    
+    clockForm.Refresh
+   
+    fileToPlay = "pagefumble.wav"
+    If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
+        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
+    End If
+
+   On Error GoTo 0
+   Exit Property
+
+ShowHelpLet_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property ShowHelp of Class Module cwGlobe"
+End Property
 
 '---------------------------------------------------------------------------------------
 ' Procedure : InitFromPSD
@@ -200,8 +283,7 @@ Public Sub InitFromPSD(ByRef PSD_FileNameOrByteArray As Variant)
     
     sldFixedTop = SliderSet.Top   'and store the initial position-data for y-direction (which will not be changed)
     sldXMax = SliderSet.Left      'as well as the x-direction related pos (which is initially at the "100%-Volume, right-endswitch" )
-    sldXMin = sldXMax - 300       'the Min-Value is simply the Max-Value minus Slider-Range (the 300pxl-range was determined by "probing")
-
+    sldXMin = sldXMax - 116       'the Min-Value is simply the Max-Value minus Slider-Range (the 300pxl-range was determined by "probing")
 
     Set helpbottom = clockForm.Widgets("helpbottom").Widget
     Set screentoggle = clockForm.Widgets("screentoggle").Widget
@@ -1836,44 +1918,38 @@ End Sub
 '---------------------------------------------------------------------------------------
 '
 Private Sub helpbottom_myMouseDown()
-    Dim helpbottomTop As Long: helpbottomTop = 0
-    Dim helpbottomLeft As Long: helpbottomLeft = 0
-    Dim labellayerTop As Long: labellayerTop = 0
-    Dim labellayerLeft As Long: labellayerLeft = 0
-    Dim alphaVal As Integer: alphaVal = 0
-    Dim fileToPlay As String: fileToPlay = vbNullString
+'    Dim helpbottomTop As Long: helpbottomTop = 0
+'    Dim helpbottomLeft As Long: helpbottomLeft = 0
+'    Dim labellayerTop As Long: labellayerTop = 0
+'    Dim labellayerLeft As Long: labellayerLeft = 0
+'    Dim alphaVal As Integer: alphaVal = 0
+
+'    Dim fileToPlay As String: fileToPlay = vbNullString
     
     On Error GoTo helpbottom_mouseDown_Error
-
-    helpbottomTop = helpbottom.Top
-    helpbottomLeft = helpbottom.Left
-    
-    labellayerTop = labellayer.Top
-    labellayerLeft = labellayer.Left
+'
+'    helpbottomTop = helpbottom.Top
+'    helpbottomLeft = helpbottom.Left
+'
+'    labellayerTop = labellayer.Top
+'    labellayerLeft = labellayer.Left
 
     If helpbottom.Alpha <> 0 Then ' cope with the click on the invisible helpbottom layer
         
-        helpbottom.Alpha = 0
-        
-        ' the next two lines are a temporary hack.
-        ' when widgets are made lapha = 0 they are still clickable, I can move these to the overlay or I
-        ' can just move them out of the way so that any click on an invisible element does not interfere with one 'underneath'
-        
-        labellayer.Alpha = 0
-    
-        clockForm.Widgets("monday").Widget.Alpha = 0
-        clockForm.Widgets("alarm1till").Widget.Alpha = 0
-        clockForm.Widgets("redarlarmcover").Widget.Alpha = 0
-        
-        fileToPlay = "pagefumble.wav"
-        If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
-            PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
+        ShowHelp = False
+                
+        If startupFlg = True Then
+            clockForm.Widgets("monday").Widget.Alpha = 0
+            clockForm.Widgets("alarm1till").Widget.Alpha = 0
+            clockForm.Widgets("redarlarmcover").Widget.Alpha = 0
         End If
         
-        helpbottom.Move helpbottomLeft + 700, helpbottomTop ' the 400 is a magical number that moves them just out of the way without causing tearing
-        labellayer.Move labellayerLeft + 400, labellayerTop ' the 400 is a magical number that moves them just out of the way without causing tearing
-    
-        clockForm.Refresh
+'        fileToPlay = "pagefumble.wav"
+'        If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
+'            PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
+'        End If
+                
+        'clockForm.Refresh
     End If
         
    On Error GoTo 0
@@ -2177,7 +2253,7 @@ Private Sub SliderSet_Moving() 'this is an explcit Event-Handler on the single W
      sldX = SliderSet.Left
      If sldX < sldXMin Then sldX = sldXMin Else If sldX > sldXMax Then sldX = sldXMax 'keep sldX "in range"
     
-     VolumePerc = (sldX - sldXMin) / (sldXMax - sldXMin) 'assign the new Value to the Public Prop, to trigger all the necessary refreshs
+     timeShiftPercent = (sldX - sldXMin) / (sldXMax - sldXMin) 'assign the new Value to the Public Prop, to trigger all the necessary refreshs
     
     On Error GoTo 0
     Exit Sub
@@ -2285,7 +2361,7 @@ End Sub
 
 
 ' ----------------------------------------------------------------
-' Procedure Name: VolumePerc
+' Procedure Name: timeShiftPercent
 ' Purpose:
 ' Procedure Kind: Property (Get)
 ' Procedure Access: Public
@@ -2293,23 +2369,23 @@ End Sub
 ' Author: beededea
 ' Date: 26/05/2024
 ' ----------------------------------------------------------------
-Public Property Get VolumePerc() As Currency
+Public Property Get timeShiftPercent() As Currency
     
-    On Error GoTo VolumePerc_Error
+    On Error GoTo timeShiftPercent_Error
     
-    VolumePerc = mVolumePerc
+    timeShiftPercent = mTimeShiftPercent
     
     On Error GoTo 0
     Exit Property
 
-VolumePerc_Error:
+timeShiftPercent_Error:
 
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure VolumePerc, line " & Erl & "."
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure timeShiftPercent, line " & Erl & "."
 
 End Property
 
 ' ----------------------------------------------------------------
-' Procedure Name: VolumePerc
+' Procedure Name: timeShiftPercent
 ' Purpose:
 ' Procedure Kind: Property (Let)
 ' Procedure Access: Public
@@ -2317,14 +2393,14 @@ End Property
 ' Author: beededea
 ' Date: 26/05/2024
 ' ----------------------------------------------------------------
-Public Property Let VolumePerc(ByVal RHS As Currency)
-    On Error GoTo VolumePerc_Error
+Public Property Let timeShiftPercent(ByVal RHS As Currency)
+    On Error GoTo timeShiftPercent_Error
     
     If RHS < 0 Then RHS = 0 Else If RHS > 1 Then RHS = 1 'keep RHS "in range"
     sldX = RHS * (sldXMax - sldXMin) + sldXMin
     overlayWidget.sldCurWidth = sldXMax - sldX 'inform the Overlay about the new current "Cable-Width"
     SliderSet.Move sldX, sldFixedTop 'move the SliderSet-widget accordingly
-    If mVolumePerc <> RHS Then mVolumePerc = RHS Else Exit Property  'only refresh, when there was a change to the previous value
+    If mTimeShiftPercent <> RHS Then mTimeShiftPercent = RHS Else Exit Property  'only refresh, when there was a change to the previous value
     
     If Not Cairo.ToolTipForm Is Nothing Then Cairo.ToolTipForm.Visible = False
     clockForm.Refresh
@@ -2334,9 +2410,9 @@ Public Property Let VolumePerc(ByVal RHS As Currency)
     On Error GoTo 0
     Exit Property
 
-VolumePerc_Error:
+timeShiftPercent_Error:
 
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure VolumePerc, line " & Erl & "."
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure timeShiftPercent, line " & Erl & "."
 
 End Property
 
@@ -2353,7 +2429,7 @@ End Property
 '
 '    On Error GoTo HandleVolumeChangeForHardware_Error
 '
-'    SystemVolume.SetMasterVolume VolumePerc
+'    SystemVolume.SetMasterVolume timeShiftPercent
 '
 '    On Error GoTo 0
 '    Exit Sub
