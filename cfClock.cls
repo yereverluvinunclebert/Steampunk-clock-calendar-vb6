@@ -1713,7 +1713,7 @@ Private Sub weekdaytoggle_myMouseDown(Optional overrideAlphaValue As String, Opt
     alphaVal = Val(gblOpacity) / 100
     thisDayOfWeek = fDayOfWeek
 
-    fileToPlay = "till01.wav"
+    fileToPlay = "till.wav"
     If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
         PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
     End If

@@ -608,6 +608,8 @@ Private Sub mnuWidgets_Click()
     If answer = vbYes Then
         Call ShellExecute(Me.hwnd, "Open", "https://www.deviantart.com/yereverluvinuncleber/gallery/59981269/yahoo-widgets", vbNullString, App.path, 1)
     End If
+    
+    
 
     On Error GoTo 0
     Exit Sub
