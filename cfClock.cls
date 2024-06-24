@@ -23,6 +23,7 @@ Private PSDWidth As Long
 Private PSDHeight As Long
 
 Private mMute As Integer ' property
+Private mSliderFreed As Boolean
 
 Private WithEvents helpbottom As cWidgetBase
 Attribute helpbottom.VB_VarHelpID = -1
@@ -275,7 +276,7 @@ Public Sub InitFromPSD(ByRef PSD_FileNameOrByteArray As Variant)
     Set SliderSet = clockForm.Widgets("sliderset").Widget 'store the already (in PSD-Loop created) Widget-reference in an explicit "WithEvents-Variable"
         
     With SliderSet
-        .Moveable = True 'make it moveable
+        .Moveable = False 'make it moveable
         .HoverColor = 0
         .MousePointer = IDC_HAND
         .Tag = 0.01
@@ -956,9 +957,11 @@ Private Sub alarmtoggle1_myMouseDown()
     If alarmtoggle1Enabled = False Then
         alarmtoggle1.Move alarmtoggle1Left - 5, alarmtoggle1Top
         alarmtoggle1Enabled = True
+        SliderFreed = True
     Else
         alarmtoggle1.Move alarmtoggle1Left + 5, alarmtoggle1Top
         alarmtoggle1Enabled = False
+        SliderFreed = False
     End If
     
     clockForm.Refresh
@@ -1496,9 +1499,11 @@ Private Sub alarmtoggle_myMouseDown()
     If alarmtoggleEnabled = False Then
         alarmtoggle.Move alarmtoggleLeft + 5, alarmtoggleTop
         alarmtoggleEnabled = True
+        SliderFreed = True
     Else
         alarmtoggle.Move alarmtoggleLeft - 5, alarmtoggleTop
         alarmtoggleEnabled = False
+        SliderFreed = False
     End If
     clockForm.Refresh
 
@@ -2252,6 +2257,9 @@ End Sub
 ' ----------------------------------------------------------------
 Private Sub SliderSet_Moving() 'this is an explcit Event-Handler on the single Widget-instance (derived in the routine above)
     On Error GoTo SliderSet_Moving_Error
+    
+
+     
      sldX = SliderSet.Left
      If sldX < sldXMin Then sldX = sldXMin Else If sldX > sldXMax Then sldX = sldXMax 'keep sldX "in range"
     
@@ -2361,6 +2369,53 @@ End Sub
 '    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property Mute of Class Module cwGlobe"
 'End Property
 
+'---------------------------------------------------------------------------------------
+' Property  : SliderFreed
+' Author    : beededea
+' Date      : 10/05/2023
+' Purpose   :
+'---------------------------------------------------------------------------------------
+'
+Public Property Let SliderFreed(ByVal newValue As Boolean)
+   On Error GoTo SliderFreedLet_Error
+
+    If mSliderFreed <> newValue Then mSliderFreed = newValue Else Exit Property
+
+    SliderFreed = mSliderFreed
+   
+    If mSliderFreed = True Then
+        SliderSet.Moveable = True
+    Else
+        SliderSet.Moveable = False
+    End If
+   
+   On Error GoTo 0
+   Exit Property
+
+SliderFreedLet_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property SliderFreed of Class Module cwGlobe"
+End Property
+
+'---------------------------------------------------------------------------------------
+' Property  : SliderFreed
+' Author    : beededea
+' Date      : 17/05/2023
+' Purpose   :
+'---------------------------------------------------------------------------------------
+'
+Public Property Get SliderFreed() As Boolean
+   On Error GoTo SliderFreedGet_Error
+
+    SliderFreed = mSliderFreed
+
+   On Error GoTo 0
+   Exit Property
+
+SliderFreedGet_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property SliderFreed of Class Module cwGlobe"
+End Property
 
 ' ----------------------------------------------------------------
 ' Procedure Name: timeShiftPercent
@@ -2401,6 +2456,8 @@ Public Property Let timeShiftPercent(ByVal RHS As Currency)
     If RHS < 0 Then RHS = 0 Else If RHS > 1 Then RHS = 1 'keep RHS "in range"
     sldX = RHS * (sldXMax - sldXMin) + sldXMin
     overlayWidget.sldCurWidth = sldXMax - sldX 'inform the Overlay about the new current "Cable-Width"
+    
+    
     SliderSet.Move sldX, sldFixedTop 'move the SliderSet-widget accordingly
     If mTimeShiftPercent <> RHS Then mTimeShiftPercent = RHS Else Exit Property  'only refresh, when there was a change to the previous value
     

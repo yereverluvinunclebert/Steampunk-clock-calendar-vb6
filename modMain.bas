@@ -794,6 +794,9 @@ Public Sub adjustMainControls()
     ' obtain the system volume and set the slider position accordingly
     fClock.timeShiftPercent = 0
 
+'    ' lock the slider on startup
+'    fClock.SliderFreed = False
+
     ' refresh the form in order to show the above changes immediately
     fClock.clockForm.Refresh
     
