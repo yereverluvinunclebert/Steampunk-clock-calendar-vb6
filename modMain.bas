@@ -754,13 +754,6 @@ Public Sub adjustMainControls()
         .Tag = 0.01
     End With
 
-    With fClock.clockForm.Widgets("lockingpinlocked").Widget
-        .HoverColor = 0
-        .MousePointer = IDC_ARROW
-        .Alpha = Val(gblOpacity) / 100
-        .Tag = 0.01
-    End With
-
     With fClock.clockForm.Widgets("grommet").Widget
         .HoverColor = 0
         .MousePointer = IDC_ARROW
@@ -791,11 +784,8 @@ Public Sub adjustMainControls()
     ' ensure the background help displays on startup
     fClock.ShowHelp = True
 
-    ' obtain the system volume and set the slider position accordingly
+    ' set the slider position to the start point
     fClock.timeShiftPercent = 0
-
-'    ' lock the slider on startup
-'    fClock.SliderFreed = False
 
     ' refresh the form in order to show the above changes immediately
     fClock.clockForm.Refresh
