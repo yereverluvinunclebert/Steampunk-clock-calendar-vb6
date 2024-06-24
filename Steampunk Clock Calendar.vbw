@@ -1,6 +1,6 @@
 modMain = 182, 182, 1350, 931, Z
 cfClock = 312, 312, 1292, 1061, 
-modRegFree = 0, 0, 0, 0, C
+modRegFree = 26, 26, 1274, 618, 
 cwOverlay = 26, 26, 1006, 775, 
 frmTimer = 104, 104, 881, 700, , 104, 104, 1084, 853, C
 modTooltips = 0, 0, 0, 0, C
@@ -9,7 +9,7 @@ Module2 = 0, 0, 0, 0, C
 cwAbout = 260, 260, 917, 856, 
 cfMain = 78, 78, 1058, 827, 
 widgetPrefs = 260, 260, 1240, 1009, , 52, 52, 1032, 801, C
-menuForm = 0, 0, 0, 0, C, 156, 156, 1136, 905, C
+menuForm = 0, 0, 985, 592, , 156, 156, 1136, 905, C
 cwLicence = 234, 234, 891, 830, 
 frmMessage = 0, 0, 0, 0, C, 182, 182, 1162, 931, C
 modResize = 0, 0, 0, 0, C

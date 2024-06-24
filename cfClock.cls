@@ -157,17 +157,18 @@ Public Property Let ShowHelp(ByVal newValue As Boolean)
     On Error GoTo ShowHelpLet_Error
 
     If mShowHelp <> newValue Then mShowHelp = newValue Else Exit Property
+    
+    helpbottomTop = helpbottom.Top ' 36
+    helpbottomLeft = helpbottom.Left '220
+    
+    labellayerTop = labellayer.Top ' 10
+    labellayerLeft = labellayer.Left '2
         
     If mShowHelp = True Then
-         helpbottomTop = helpbottom.Top
-         helpbottomLeft = helpbottom.Left
-         
-         labellayerTop = labellayer.Top
-         labellayerLeft = labellayer.Left
-        
-         If helpMoved = True Then
-             helpbottom.Move helpbottomLeft - 700, helpbottomTop
-             labellayer.Move labellayerLeft - 400, labellayerTop ' the 400 is a magical number that moves them just out of the way without causing tearing
+
+         If helpMoved = True Then  ' now copes with f5 reloads
+             helpbottom.Move 220, helpbottomTop
+             labellayer.Move 2, labellayerTop
              helpMoved = False
          End If
          
@@ -176,7 +177,6 @@ Public Property Let ShowHelp(ByVal newValue As Boolean)
          
     Else
 
-        
         ' the next two lines are a temporary hack.
         ' when widgets are made lapha = 0 they are still clickable, I can move these to the overlay or I
         ' can just move them out of the way so that any click on an invisible element does not interfere with one 'underneath'
@@ -1938,11 +1938,11 @@ Private Sub helpbottom_myMouseDown()
         
         ShowHelp = False
                 
-        If startupFlg = True Then
+        'If startupFlg = True Then
             clockForm.Widgets("monday").Widget.Alpha = 0
             clockForm.Widgets("alarm1till").Widget.Alpha = 0
             clockForm.Widgets("redarlarmcover").Widget.Alpha = 0
-        End If
+        'End If
         
 '        fileToPlay = "pagefumble.wav"
 '        If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
