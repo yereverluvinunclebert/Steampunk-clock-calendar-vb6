@@ -167,8 +167,6 @@ Public Sub mainRoutine(ByVal restart As Boolean)
     ' configure any global timers here
     Call configureTimers
     
-    fClock.ShowHelp = True
-    
     startupFlg = False
         
     ' RC message pump will auto-exit when Cairo Forms > 0 so we run it only when 0, this prevents message interruption
@@ -486,13 +484,6 @@ Public Sub adjustMainControls()
         .Tag = 0.01
     End With
 
-'    With fClock.clockForm.Widgets("backgrounditems").Widget
-'        .HoverColor = 0
-'        .MousePointer = IDC_ARROW
-'        .Alpha = Val(gblOpacity) / 100
-'        .Tag = 0.01
-'    End With
-
     With fClock.clockForm.Widgets("bottombox").Widget
         .HoverColor = 0
         .MousePointer = IDC_ARROW
@@ -536,16 +527,12 @@ Public Sub adjustMainControls()
         .Tag = 0.01
     End With
 
-
     With fClock.clockForm.Widgets("backtoggle").Widget
         .HoverColor = 0
         .MousePointer = IDC_HAND
         .Alpha = Val(gblOpacity) / 100
         .Tag = 0.01
     End With
-    
-
-
 
     With fClock.clockForm.Widgets("alarmtoggle3").Widget
         .HoverColor = 0
@@ -582,14 +569,6 @@ Public Sub adjustMainControls()
         .Alpha = Val(gblOpacity) / 100
         .Tag = 0.01
     End With
-
-
-'    With fClock.clockForm.Widgets("topshelf").Widget
-'        .HoverColor = 0
-'        .MousePointer = IDC_ARROW
-'        .Alpha = Val(gblOpacity) / 100
-'        .Tag = 0.01
-'    End With
 
     With fClock.clockForm.Widgets("maincasingsurround").Widget
         .HoverColor = 0
@@ -753,34 +732,6 @@ Public Sub adjustMainControls()
         .Alpha = Val(gblOpacity) / 100
         .Tag = 0.01
     End With
-    
-'    With fClock.clockForm.Widgets("hourhand").Widget
-'        .HoverColor = 0
-'        .MousePointer = IDC_ARROW
-'        .Alpha = Val(gblOpacity) / 100
-'        .Tag = 0.01
-'    End With
-'
-'    With fClock.clockForm.Widgets("secondhand").Widget
-'        .HoverColor = 0
-'        .MousePointer = IDC_ARROW
-'        .Alpha = Val(gblOpacity) / 100
-'        .Tag = 0.01
-'    End With
-'
-'    With fClock.clockForm.Widgets("minutehand").Widget
-'        .HoverColor = 0
-'        .MousePointer = IDC_ARROW
-'        .Alpha = Val(gblOpacity) / 100
-'        .Tag = 0.01
-'    End With
-
-'    With fClock.clockForm.Widgets("hole").Widget
-'        .HoverColor = 0
-'        .MousePointer = IDC_ARROW
-'        .Alpha = Val(gblOpacity) / 100
-'        .Tag = 0.01
-'    End With
 
     With fClock.clockForm.Widgets("bellset").Widget
         .HoverColor = 0
@@ -803,6 +754,14 @@ Public Sub adjustMainControls()
         .Tag = 0.01
     End With
 
+'
+'    With fClock.clockForm.Widgets("lockingpinlocked").Widget
+'        .HoverColor = 0
+'        .MousePointer = IDC_ARROW
+'        .Alpha = Val(gblOpacity) / 100
+'        .Tag = 0.01
+'    End With
+
     With fClock.clockForm.Widgets("grommet").Widget
         .HoverColor = 0
         .MousePointer = IDC_ARROW
@@ -817,29 +776,23 @@ Public Sub adjustMainControls()
         .Tag = 0.01
     End With
 
-
-'    If gblPreventDragging = "0" Then
-'        menuForm.mnuLockWidget.Checked = False
-'        overlayWidget.Locked = False
-'        fClock.clockForm.Widgets("lockingpin").Widget.Alpha = Val(gblOpacity) / 100
-'        fClock.clockForm.Widgets("lockingpinunlocked").Widget.Alpha = 0
-'    Else
-'        menuForm.mnuLockWidget.Checked = True
-'        overlayWidget.Locked = True ' this is just here for continuity's sake, it is also set at the time the control is selected
-'        fClock.clockForm.Widgets("lockingpin").Widget.Alpha = 0
-'        fClock.clockForm.Widgets("lockingpinunlocked").Widget.Alpha = Val(gblOpacity) / 100
-'    End If
+    If gblPreventDragging = "0" Then
+        menuForm.mnuLockWidget.Checked = False
+        overlayWidget.Locked = False
+        fClock.clockForm.Widgets("lockingpin").Widget.Alpha = Val(gblOpacity) / 100
+        fClock.clockForm.Widgets("lockingpinlocked").Widget.Alpha = 0
+    Else
+        menuForm.mnuLockWidget.Checked = True
+        overlayWidget.Locked = True ' this is just here for continuity's sake, it is also set at the time the control is selected
+        fClock.clockForm.Widgets("lockingpin").Widget.Alpha = 0
+        fClock.clockForm.Widgets("lockingpinlocked").Widget.Alpha = Val(gblOpacity) / 100
+    End If
     
-'    If fClock.Mute = True Then
-'        fClock.clockForm.Widgets("indicatorgreen").Widget.Alpha = 0
-'        fClock.clockForm.Widgets("indicatorred").Widget.Alpha = Val(gblOpacity) / 100
-'    Else
-'        fClock.clockForm.Widgets("indicatorgreen").Widget.Alpha = Val(gblOpacity) / 100
-'        fClock.clockForm.Widgets("indicatorred").Widget.Alpha = 0
-'    End If
+    ' ensure the background help displays on startup
+    fClock.ShowHelp = True
 
     ' obtain the system volume and set the slider position accordingly
-    'fClock.timeShiftPercent = fClock.SystemAudioLevel
+    fClock.timeShiftPercent = 0
 
     ' refresh the form in order to show the above changes immediately
     fClock.clockForm.Refresh
