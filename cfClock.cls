@@ -1452,9 +1452,11 @@ Private Sub timetoggle_myMouseDown()
     If timetoggleEnabled = False Then
         timetoggle.Move timetoggleLeft + 5, timetoggleTop
         timetoggleEnabled = True
+        overlayWidget.TimeMachine = True
     Else
         timetoggle.Move timetoggleLeft - 5, timetoggleTop
         timetoggleEnabled = False
+        overlayWidget.TimeMachine = False
     End If
     clockForm.Refresh
 

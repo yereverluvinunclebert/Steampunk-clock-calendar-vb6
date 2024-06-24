@@ -754,13 +754,12 @@ Public Sub adjustMainControls()
         .Tag = 0.01
     End With
 
-'
-'    With fClock.clockForm.Widgets("lockingpinlocked").Widget
-'        .HoverColor = 0
-'        .MousePointer = IDC_ARROW
-'        .Alpha = Val(gblOpacity) / 100
-'        .Tag = 0.01
-'    End With
+    With fClock.clockForm.Widgets("lockingpinlocked").Widget
+        .HoverColor = 0
+        .MousePointer = IDC_ARROW
+        .Alpha = Val(gblOpacity) / 100
+        .Tag = 0.01
+    End With
 
     With fClock.clockForm.Widgets("grommet").Widget
         .HoverColor = 0
@@ -775,7 +774,8 @@ Public Sub adjustMainControls()
         .Alpha = 0
         .Tag = 0.01
     End With
-
+    
+    ' set the lock state of the clock
     If gblPreventDragging = "0" Then
         menuForm.mnuLockWidget.Checked = False
         overlayWidget.Locked = False

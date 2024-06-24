@@ -22,7 +22,6 @@ Attribute VB_Exposed = False
 
 Option Explicit
 
-'these Public Properties are set in the Parent (here, cfClock)
 Public cCollOverlayImages As cCollection
 Public sldCurWidth As Double
 
@@ -46,6 +45,7 @@ Private thisSec As Integer
 
 
 Private mLocked As Boolean ' property Locked
+Private mTimeMachine As Boolean
 Private mHidden As Boolean ' property Hidden
 
 '---------------------------------------------------------------------------------------
@@ -155,6 +155,47 @@ Public Property Let Locked(ByVal newValue As Boolean)
 LockedLet_Error:
 
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property Locked of Class Module cwGlobe"
+End Property
+
+
+
+'---------------------------------------------------------------------------------------
+' Property : TimeMachine
+' Author    : beededea
+' Date      : 17/05/2023
+' Purpose   :
+'---------------------------------------------------------------------------------------
+'
+Public Property Get TimeMachine() As Boolean
+   On Error GoTo TimeMachineGet_Error
+
+   TimeMachine = mTimeMachine
+
+   On Error GoTo 0
+   Exit Property
+
+TimeMachineGet_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property TimeMachine of Class Module cwGlobe"
+End Property
+'---------------------------------------------------------------------------------------
+' Property  : TimeMachine
+' Author    : beededea
+' Date      : 17/05/2023
+' Purpose   :
+'---------------------------------------------------------------------------------------
+'
+Public Property Let TimeMachine(ByVal newValue As Boolean)
+   On Error GoTo TimeMachineLet_Error
+
+   If mTimeMachine <> newValue Then mTimeMachine = newValue Else Exit Property
+
+   On Error GoTo 0
+   Exit Property
+
+TimeMachineLet_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property TimeMachine of Class Module cwGlobe"
 End Property
 
 '---------------------------------------------------------------------------------------
@@ -304,7 +345,9 @@ Private Sub W_Paint(CC As RC6.cCairoContext, ByVal xAbs As Single, ByVal yAbs As
       End If
      Next
      
-    Draw CC, dx_Aligned, dy_Aligned
+    Call drawDigitalClocks(CC)
+    
+    If mTimeMachine = True Then Call drawTimeMachineImages(CC)
 
    On Error GoTo 0
    Exit Sub
@@ -314,40 +357,48 @@ W_Paint_Error:
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure W_Paint of Class Module cwOverlay"
 End Sub
  
- 
 '---------------------------------------------------------------------------------------
-' Procedure : Draw
+' Procedure : drawTimeMachineImages
 ' Author    : beededea
 ' Date      : 17/05/2023
 ' Purpose   :
 '---------------------------------------------------------------------------------------
 '
-Private Sub Draw(ByRef CC As cCairoContext, ByVal dx As Single, ByVal dy As Single)
+Private Sub drawTimeMachineImages(ByRef CC As cCairoContext)
+    
+    
 
-'    Static hourString As String
-'    Static minString As String
-    
-    On Error GoTo Draw_Error
-    
-    ' only check whether to change the minute within the last second of the minute
-    ' due to CPU usage and delay, we use a 3 sec window at the top of the minute
+
+
+End Sub
+ 
+'---------------------------------------------------------------------------------------
+' Procedure : drawDigitalClocks
+' Author    : beededea
+' Date      : 17/05/2023
+' Purpose   :
+'---------------------------------------------------------------------------------------
+'
+Private Sub drawDigitalClocks(ByRef CC As cCairoContext)
     
     Call displayDigitalDayofMonth(CC)
     Call displayDigitalMonth(CC)
     Call displayDigitalYear(CC)
     Call displayDigitalHours(CC)
     Call displayDigitalMins(CC)
-    
-   On Error GoTo 0
-   Exit Sub
-
-Draw_Error:
-
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure Draw of Class Module cwLicence"
-
+   
 End Sub
 
 
+' ----------------------------------------------------------------
+' Procedure Name: displayDigitalHours
+' Purpose:
+' Procedure Kind: Sub
+' Procedure Access: Private
+' Parameter CC (cCairoContext):
+' Author: beededea
+' Date: 24/06/2024
+' ----------------------------------------------------------------
 Private Sub displayDigitalHours(ByRef CC As cCairoContext)
         
     Dim hourString As String: hourString = vbNullString
@@ -409,6 +460,15 @@ Private Sub displayDigitalHours(ByRef CC As cCairoContext)
 
 End Sub
 
+' ----------------------------------------------------------------
+' Procedure Name: displayDigitalMins
+' Purpose:
+' Procedure Kind: Sub
+' Procedure Access: Private
+' Parameter CC (cCairoContext):
+' Author: beededea
+' Date: 24/06/2024
+' ----------------------------------------------------------------
 Private Sub displayDigitalMins(ByRef CC As cCairoContext)
         
     Dim minString As String: minString = vbNullString
@@ -472,6 +532,15 @@ Private Sub displayDigitalMins(ByRef CC As cCairoContext)
     
 
 End Sub
+' ----------------------------------------------------------------
+' Procedure Name: displayDigitalMonth
+' Purpose:
+' Procedure Kind: Sub
+' Procedure Access: Private
+' Parameter CC (cCairoContext):
+' Author: beededea
+' Date: 24/06/2024
+' ----------------------------------------------------------------
 Private Sub displayDigitalMonth(ByRef CC As cCairoContext)
 
     Dim thisMonth As Integer: thisMonth = 0
@@ -510,6 +579,15 @@ Private Sub displayDigitalMonth(ByRef CC As cCairoContext)
 End Sub
 
 
+' ----------------------------------------------------------------
+' Procedure Name: displayDigitalDayofMonth
+' Purpose:
+' Procedure Kind: Sub
+' Procedure Access: Private
+' Parameter CC (cCairoContext):
+' Author: beededea
+' Date: 24/06/2024
+' ----------------------------------------------------------------
 Private Sub displayDigitalDayofMonth(ByRef CC As cCairoContext)
 
     ' day digits for digital display
@@ -577,6 +655,15 @@ Private Sub displayDigitalDayofMonth(ByRef CC As cCairoContext)
     End Select
 End Sub
 
+' ----------------------------------------------------------------
+' Procedure Name: displayDigitalYear
+' Purpose:
+' Procedure Kind: Sub
+' Procedure Access: Private
+' Parameter CC (cCairoContext):
+' Author: beededea
+' Date: 24/06/2024
+' ----------------------------------------------------------------
 Private Sub displayDigitalYear(ByRef CC As cCairoContext)
 
 '    Dim yDigit1 As String: yDigit1 = vbNullString
@@ -691,36 +778,6 @@ End Sub
 
 
 
-'Sub showMin1(ByRef CC As cCairoContext, ByVal mDigit1 As Integer)
-'
-'    Select Case mDigit1
-'        Case 0
-'            CC.RenderSurfaceContent "num0large", 404, 312, , , , 1
-'        Case 1
-'            CC.RenderSurfaceContent "num1large", 404, 312, , , , 1
-'        Case 2
-'            CC.RenderSurfaceContent "num2large", 404, 312, , , , 1
-'        Case 3
-'            CC.RenderSurfaceContent "num3large", 404, 312, , , , 1
-'        Case 4
-'            CC.RenderSurfaceContent "num4large", 404, 312, , , , 1
-'        Case 5
-'            CC.RenderSurfaceContent "num5large", 404, 312, , , , 1
-'        Case 6
-'            CC.RenderSurfaceContent "num6large", 404, 312, , , , 1
-'        Case 7
-'            CC.RenderSurfaceContent "num7large", 404, 312, , , , 1
-'        Case 8
-'            CC.RenderSurfaceContent "num8large", 404, 312, , , , 1
-'        Case 9
-'            CC.RenderSurfaceContent "num9large", 404, 312, , , , 1
-'    End Select
-'
-'End Sub
-
-
-
-
 ' ----------------------------------------------------------------
 ' Procedure Name: tmrClock_Timer
 ' Purpose:
@@ -758,3 +815,19 @@ tmrClock_Timer_Error:
 
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure tmrClock_Timer of Class Module cwOverlay"
 End Sub
+
+'
+'   // variables set for the pendulum
+'
+'   var gravity = -0.0110808; //originally -.005, tuned to -0.110808 as it approximates a 1 second interval
+'   var acceleration = 0.1;  //0.1
+'   var velocity = 0.18; //.18
+'   var angle = 8;  // 8   (.4 radians = 22.91 degrees)
+'
+' figure out how to rotate an image - we know, in the overlaym, convert to VB
+'    acceleration = gravity * angle;
+'    velocity += acceleration;
+'    angle += velocity;
+'    pendulumSet.rotation = angle +180;
+                             
+                             
