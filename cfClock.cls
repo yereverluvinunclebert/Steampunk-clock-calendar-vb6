@@ -24,6 +24,7 @@ Private PSDHeight As Long
 
 Private mMute As Integer ' property
 Private mSliderFreed As Boolean
+Private mLoudToggleEnabled As Boolean
 
 Private WithEvents helpbottom As cWidgetBase
 Attribute helpbottom.VB_VarHelpID = -1
@@ -1528,25 +1529,18 @@ Private Sub loudtoggle_myMouseDown()
    On Error GoTo loudtoggle_myMouseDown_Error
 
     Dim fileToPlay As String: fileToPlay = vbNullString
-    Dim loudtoggleTop As Long: loudtoggleTop = 0
-    Dim loudtoggleLeft As Long: loudtoggleLeft = 0
-    Static loudtoggleEnabled As Boolean
-
-    loudtoggleTop = loudtoggle.Top
-    loudtoggleLeft = loudtoggle.Left
 
     fileToPlay = "clunk.wav"
     If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
         PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
     End If
     
-    If loudtoggleEnabled = False Then
-        loudtoggle.Move loudtoggleLeft + 5, loudtoggleTop
-        loudtoggleEnabled = True
+    If gblLoudToggleEnabled = "False" Then
+        loudToggleEnabled = True
     Else
-        loudtoggle.Move loudtoggleLeft - 5, loudtoggleTop
-        loudtoggleEnabled = False
+        loudToggleEnabled = False
     End If
+        
     clockForm.Refresh
 
    On Error GoTo 0
@@ -2417,6 +2411,7 @@ SliderFreedGet_Error:
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property SliderFreed of Class Module cwGlobe"
 End Property
 
+
 ' ----------------------------------------------------------------
 ' Procedure Name: timeShiftPercent
 ' Purpose:
@@ -2476,6 +2471,65 @@ timeShiftPercent_Error:
 End Property
 
 
+'---------------------------------------------------------------------------------------
+' Property  : loudToggleEnabled
+' Author    : beededea
+' Date      : 10/05/2023
+' Purpose   :
+'---------------------------------------------------------------------------------------
+'
+Public Property Let loudToggleEnabled(ByVal newValue As Boolean)
+   
+    Dim loudtoggleTop As Long: loudtoggleTop = 0
+    Dim loudtoggleLeft As Long: loudtoggleLeft = 0
+    
+    On Error GoTo loudToggleEnabledLet_Error
+    
+    loudtoggleTop = loudtoggle.Top
+    loudtoggleLeft = loudtoggle.Left
+    
+    If newValue = "true" Then
+        loudtoggle.Move loudtoggleLeft + 2, loudtoggleTop
+        gblLoudToggleEnabled = "True"
+    Else
+        loudtoggle.Move loudtoggleLeft - 2, loudtoggleTop
+        gblLoudToggleEnabled = "False"
+    End If
+    
+    sPutINISetting "Software\SteampunkClockCalendar", "loudToggleEnabled", gblLoudToggleEnabled, gblSettingsFile
+
+    If mLoudToggleEnabled <> newValue Then mLoudToggleEnabled = newValue Else Exit Property
+    loudToggleEnabled = mLoudToggleEnabled
+
+    clockForm.Refresh
+      
+   On Error GoTo 0
+   Exit Property
+
+loudToggleEnabledLet_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property loudToggleEnabled of Class Module cwGlobe"
+End Property
+
+'---------------------------------------------------------------------------------------
+' Property  : loudtoggleEnabled
+' Author    : beededea
+' Date      : 17/05/2023
+' Purpose   :
+'---------------------------------------------------------------------------------------
+'
+Public Property Get loudToggleEnabled() As Boolean
+   On Error GoTo loudtoggleEnabledGet_Error
+
+    loudToggleEnabled = mLoudToggleEnabled
+
+   On Error GoTo 0
+   Exit Property
+
+loudtoggleEnabledGet_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property loudtoggleEnabled of Class Module cwGlobe"
+End Property
 '' ----------------------------------------------------------------
 '' Procedure Name: HandleVolumeChangeForHardware
 '' Purpose:

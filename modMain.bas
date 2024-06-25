@@ -292,6 +292,8 @@ Private Sub initialiseGlobalVars()
     gblLastSelectedTab = vbNullString
     gblSkinTheme = vbNullString
     
+    gblLoudToggleEnabled = vbNullString
+    
     ' general variables declared
     'toolSettingsFile = vbNullString
     classicThemeCapable = False
@@ -790,6 +792,11 @@ Public Sub adjustMainControls()
     ' refresh the form in order to show the above changes immediately
     fClock.clockForm.Refresh
     
+    ' set the position of the loudToggle at startup
+    If gblLoudToggleEnabled = "True" Then
+        fClock.loudToggleEnabled = True
+    End If
+    
     ' set the z-ordering of the window
     Call setAlphaFormZordering
     
@@ -926,6 +933,8 @@ Public Sub readSettingsFile(ByVal location As String, ByVal gblSettingsFile As S
          
         gblFirstTimeRun = fGetINISetting(location, "firstTimeRun", gblSettingsFile)
         
+        gblLoudToggleEnabled = fGetINISetting(location, "loudToggleEnabled", gblSettingsFile)
+        
     End If
 
    On Error GoTo 0
@@ -997,7 +1006,7 @@ Public Sub validateInputs()
                 
         ' development
         If gblDebug = vbNullString Then gblDebug = "0"
-        If gblDblClickCommand = vbNullString Then gblDblClickCommand = "mmsys.cpl"
+        If gblDblClickCommand = vbNullString And gblFirstTimeRun = "True" Then gblDblClickCommand = "mmsys.cpl"
         If gblOpenFile = vbNullString Then gblOpenFile = vbNullString
         If gblDefaultEditor = vbNullString Then gblDefaultEditor = vbNullString
         
@@ -1013,6 +1022,11 @@ Public Sub validateInputs()
         If gblFirstTimeRun = vbNullString Then gblFirstTimeRun = "true"
         If gblLastSelectedTab = vbNullString Then gblLastSelectedTab = "general"
         If gblSkinTheme = vbNullString Then gblSkinTheme = "dark"
+        
+        
+        ' clock UI element state
+        If gblLoudToggleEnabled = vbNullString Then gblLoudToggleEnabled = "False"
+        
         
    On Error GoTo 0
    Exit Sub
