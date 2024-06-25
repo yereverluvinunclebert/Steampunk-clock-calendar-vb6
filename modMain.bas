@@ -293,6 +293,9 @@ Private Sub initialiseGlobalVars()
     gblSkinTheme = vbNullString
     
     gblLoudToggleEnabled = vbNullString
+    gblMuteToggleEnabled = vbNullString
+    gblPendulumToggleEnabled = vbNullString
+    
     
     ' general variables declared
     'toolSettingsFile = vbNullString
@@ -797,6 +800,16 @@ Public Sub adjustMainControls()
         fClock.loudToggleEnabled = True
     End If
     
+    ' set the position of the muteToggle at startup
+    If gblMuteToggleEnabled = "True" Then
+        fClock.muteToggleEnabled = True
+    End If
+    
+    ' set the position of the muteToggle at startup
+    If gblPendulumToggleEnabled = "True" Then
+        fClock.pendulumToggleEnabled = True
+    End If
+    
     ' set the z-ordering of the window
     Call setAlphaFormZordering
     
@@ -934,6 +947,10 @@ Public Sub readSettingsFile(ByVal location As String, ByVal gblSettingsFile As S
         gblFirstTimeRun = fGetINISetting(location, "firstTimeRun", gblSettingsFile)
         
         gblLoudToggleEnabled = fGetINISetting(location, "loudToggleEnabled", gblSettingsFile)
+        gblMuteToggleEnabled = fGetINISetting(location, "muteToggleEnabled", gblSettingsFile)
+        gblPendulumToggleEnabled = fGetINISetting(location, "pendulumToggleEnabled", gblSettingsFile)
+        
+        
         
     End If
 
@@ -1026,6 +1043,9 @@ Public Sub validateInputs()
         
         ' clock UI element state
         If gblLoudToggleEnabled = vbNullString Then gblLoudToggleEnabled = "False"
+        If gblMuteToggleEnabled = vbNullString Then gblMuteToggleEnabled = "False"
+        If gblPendulumToggleEnabled = vbNullString Then gblPendulumToggleEnabled = "False"
+        
         
         
    On Error GoTo 0

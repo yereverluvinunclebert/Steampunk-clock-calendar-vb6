@@ -25,6 +25,8 @@ Private PSDHeight As Long
 Private mMute As Integer ' property
 Private mSliderFreed As Boolean
 Private mLoudToggleEnabled As Boolean
+Private mMuteToggleEnabled As Boolean
+Private mPendulumToggleEnabled As Boolean
 
 Private WithEvents helpbottom As cWidgetBase
 Attribute helpbottom.VB_VarHelpID = -1
@@ -1401,7 +1403,6 @@ Private Sub backtoggle_myMouseDown()
     backtoggleTop = backtoggle.Top
     backtoggleLeft = backtoggle.Left
     
-
     fileToPlay = "clunk.wav"
     If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
         PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
@@ -1447,7 +1448,6 @@ Private Sub timetoggle_myMouseDown()
     timetoggleTop = timetoggle.Top
     timetoggleLeft = timetoggle.Left
     
-
     fileToPlay = "clunk.wav"
     If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
         PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
@@ -1563,24 +1563,16 @@ Private Sub mutetoggle_myMouseDown()
    On Error GoTo mutetoggle_myMouseDown_Error
 
     Dim fileToPlay As String: fileToPlay = vbNullString
-    Dim mutetoggleTop As Long: mutetoggleTop = 0
-    Dim mutetoggleLeft As Long: mutetoggleLeft = 0
-    Static mutetoggleEnabled As Boolean
-
-    mutetoggleTop = mutetoggle.Top
-    mutetoggleLeft = mutetoggle.Left
-
+ 
     fileToPlay = "clunk.wav"
     If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
         PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
     End If
     
-    If mutetoggleEnabled = False Then
-        mutetoggle.Move mutetoggleLeft + 5, mutetoggleTop
-        mutetoggleEnabled = True
+    If gblMuteToggleEnabled = "False" Then
+        muteToggleEnabled = True
     Else
-        mutetoggle.Move mutetoggleLeft - 5, mutetoggleTop
-        mutetoggleEnabled = False
+        muteToggleEnabled = False
     End If
     clockForm.Refresh
 
@@ -1604,24 +1596,16 @@ Private Sub pendulumtoggle_myMouseDown()
    On Error GoTo pendulumtoggle_myMouseDown_Error
 
     Dim fileToPlay As String: fileToPlay = vbNullString
-    Dim pendulumtoggleTop As Long: pendulumtoggleTop = 0
-    Dim pendulumtoggleLeft As Long: pendulumtoggleLeft = 0
-    Static pendulumtoggleEnabled As Boolean
-
-    pendulumtoggleTop = pendulumtoggle.Top
-    pendulumtoggleLeft = pendulumtoggle.Left
 
     fileToPlay = "clunk.wav"
     If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
         PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
     End If
     
-    If pendulumtoggleEnabled = False Then
-        pendulumtoggle.Move pendulumtoggleLeft + 5, pendulumtoggleTop
-        pendulumtoggleEnabled = True
+    If gblPendulumToggleEnabled = "False" Then
+        pendulumToggleEnabled = True
     Else
-        pendulumtoggle.Move pendulumtoggleLeft - 5, pendulumtoggleTop
-        pendulumtoggleEnabled = False
+        pendulumToggleEnabled = False
     End If
     clockForm.Refresh
 
@@ -1856,17 +1840,12 @@ End Sub
 Private Sub lockit()
    On Error GoTo lockingpin_mouseDown_Error
 
-    
     clockForm.Widgets("lockingpinlocked").Widget.Alpha = Val(gblOpacity) / 100
     clockForm.Widgets("lockingpin").Widget.Alpha = Val(gblOpacity) / 100
-    
-'    If overlayWidget.Locked = False Then
-'        clockForm.Widgets("lockingpinlocked").Widget.Visible = True
-'        clockForm.Widgets("lockingpin").Widget.Visible = False
-'    Else
-        clockForm.Widgets("lockingpinlocked").Widget.Visible = True
-        clockForm.Widgets("lockingpin").Widget.Visible = False
-'    End If
+
+    clockForm.Widgets("lockingpinlocked").Widget.Visible = True
+    clockForm.Widgets("lockingpin").Widget.Visible = False
+
     clockForm.Refresh
     Call toggleWidgetLock
     
@@ -1892,14 +1871,10 @@ Private Sub unlockit()
     
     clockForm.Widgets("lockingpinlocked").Widget.Alpha = Val(gblOpacity) / 100
     clockForm.Widgets("lockingpin").Widget.Alpha = Val(gblOpacity) / 100
-    
-'    If overlayWidget.Locked = False Then
-'        clockForm.Widgets("lockingpinlocked").Widget.Visible = True
-'        clockForm.Widgets("lockingpin").Widget.Visible = False
-'    Else
-        clockForm.Widgets("lockingpinlocked").Widget.Visible = False
-        clockForm.Widgets("lockingpin").Widget.Visible = True
-'    End If
+
+    clockForm.Widgets("lockingpinlocked").Widget.Visible = False
+    clockForm.Widgets("lockingpin").Widget.Visible = True
+
     clockForm.Refresh
     Call toggleWidgetLock
     
@@ -2189,7 +2164,6 @@ clockForm_MouseWheel_Error:
 End Sub
 
 
-
 '---------------------------------------------------------------------------------------
 ' Procedure : AdjustZoom
 ' Author    : olaf schmidt
@@ -2216,6 +2190,7 @@ AdjustZoom_Error:
 
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure AdjustZoom of Class Module cfClock"
 End Sub
+
 '---------------------------------------------------------------------------------------
 ' Procedure : W_MouseDown
 ' Author    :
@@ -2251,8 +2226,6 @@ End Sub
 ' ----------------------------------------------------------------
 Private Sub SliderSet_Moving() 'this is an explcit Event-Handler on the single Widget-instance (derived in the routine above)
     On Error GoTo SliderSet_Moving_Error
-    
-
      
      sldX = SliderSet.Left
      If sldX < sldXMin Then sldX = sldXMin Else If sldX > sldXMax Then sldX = sldXMax 'keep sldX "in range"
@@ -2489,10 +2462,10 @@ Public Property Let loudToggleEnabled(ByVal newValue As Boolean)
     loudtoggleLeft = loudtoggle.Left
     
     If newValue = "true" Then
-        loudtoggle.Move loudtoggleLeft + 2, loudtoggleTop
+        loudtoggle.Move loudtoggleLeft + 3, loudtoggleTop
         gblLoudToggleEnabled = "True"
     Else
-        loudtoggle.Move loudtoggleLeft - 2, loudtoggleTop
+        loudtoggle.Move loudtoggleLeft - 3, loudtoggleTop
         gblLoudToggleEnabled = "False"
     End If
     
@@ -2530,6 +2503,133 @@ loudtoggleEnabledGet_Error:
 
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property loudtoggleEnabled of Class Module cwGlobe"
 End Property
+
+
+'---------------------------------------------------------------------------------------
+' Property  : muteToggleEnabled
+' Author    : beededea
+' Date      : 10/05/2023
+' Purpose   :
+'---------------------------------------------------------------------------------------
+'
+Public Property Let muteToggleEnabled(ByVal newValue As Boolean)
+   
+    Dim muteToggleTop As Long: muteToggleTop = 0
+    Dim muteToggleLeft As Long: muteToggleLeft = 0
+    
+    On Error GoTo muteToggleEnabledLet_Error
+    
+    muteToggleTop = mutetoggle.Top
+    muteToggleLeft = mutetoggle.Left
+    
+    If newValue = "true" Then
+        mutetoggle.Move muteToggleLeft + 3, muteToggleTop
+        gblMuteToggleEnabled = "True"
+    Else
+        mutetoggle.Move muteToggleLeft - 3, muteToggleTop
+        gblMuteToggleEnabled = "False"
+    End If
+    
+    sPutINISetting "Software\SteampunkClockCalendar", "muteToggleEnabled", gblMuteToggleEnabled, gblSettingsFile
+
+    If mMuteToggleEnabled <> newValue Then mMuteToggleEnabled = newValue Else Exit Property
+    muteToggleEnabled = mMuteToggleEnabled
+
+    clockForm.Refresh
+      
+   On Error GoTo 0
+   Exit Property
+
+muteToggleEnabledLet_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property muteToggleEnabled of Class Module cwGlobe"
+End Property
+
+'---------------------------------------------------------------------------------------
+' Property  : muteToggleEnabled
+' Author    : beededea
+' Date      : 17/05/2023
+' Purpose   :
+'---------------------------------------------------------------------------------------
+'
+Public Property Get muteToggleEnabled() As Boolean
+   On Error GoTo muteToggleEnabledGet_Error
+
+    muteToggleEnabled = mMuteToggleEnabled
+
+   On Error GoTo 0
+   Exit Property
+
+muteToggleEnabledGet_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property muteToggleEnabled of Class Module cwGlobe"
+End Property
+
+
+
+
+'---------------------------------------------------------------------------------------
+' Property  : pendulumToggleEnabled
+' Author    : beededea
+' Date      : 10/05/2023
+' Purpose   :
+'---------------------------------------------------------------------------------------
+'
+Public Property Let pendulumToggleEnabled(ByVal newValue As Boolean)
+   
+    Dim pendulumToggleTop As Long: pendulumToggleTop = 0
+    Dim pendulumToggleLeft As Long: pendulumToggleLeft = 0
+    
+    On Error GoTo pendulumToggleEnabledLet_Error
+    
+    pendulumToggleTop = pendulumtoggle.Top
+    pendulumToggleLeft = pendulumtoggle.Left
+    
+    If newValue = "true" Then
+        pendulumtoggle.Move pendulumToggleLeft + 3, pendulumToggleTop
+        gblPendulumToggleEnabled = "True"
+    Else
+        pendulumtoggle.Move pendulumToggleLeft - 3, pendulumToggleTop
+        gblPendulumToggleEnabled = "False"
+    End If
+    
+    sPutINISetting "Software\SteampunkClockCalendar", "pendulumToggleEnabled", gblPendulumToggleEnabled, gblSettingsFile
+
+    If mPendulumToggleEnabled <> newValue Then mPendulumToggleEnabled = newValue Else Exit Property
+    pendulumToggleEnabled = mPendulumToggleEnabled
+
+    clockForm.Refresh
+      
+   On Error GoTo 0
+   Exit Property
+
+pendulumToggleEnabledLet_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property pendulumToggleEnabled of Class Module cwGlobe"
+End Property
+
+'---------------------------------------------------------------------------------------
+' Property  : pendulumToggleEnabled
+' Author    : beededea
+' Date      : 17/05/2023
+' Purpose   :
+'---------------------------------------------------------------------------------------
+'
+Public Property Get pendulumToggleEnabled() As Boolean
+   On Error GoTo pendulumToggleGet_Error
+
+    pendulumToggleEnabled = mPendulumToggleEnabled
+
+   On Error GoTo 0
+   Exit Property
+
+pendulumToggleGet_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property pendulumToggleEnabled of Class Module cwGlobe"
+End Property
+
+
+
 '' ----------------------------------------------------------------
 '' Procedure Name: HandleVolumeChangeForHardware
 '' Purpose:
@@ -2611,35 +2711,6 @@ End Property
 'End Sub
 
 
-' ----------------------------------------------------------------
-' Procedure Name: setLamps
-' Purpose:
-' Procedure Kind: Sub
-' Procedure Access: Private
-' Author: beededea
-' Date: 28/05/2024
-' ----------------------------------------------------------------
-Private Sub setLamps()
-    
-    On Error GoTo setLamps_Error
-'    If mMute = 1 Then
-'        fClock.clockForm.Widgets("indicatorgreen").Widget.Alpha = 0
-'        fClock.clockForm.Widgets("indicatorred").Widget.Alpha = Val(gblOpacity) / 100
-'    Else
-'        fClock.clockForm.Widgets("indicatorgreen").Widget.Alpha = Val(gblOpacity) / 100
-'        fClock.clockForm.Widgets("indicatorred").Widget.Alpha = 0
-'    End If
-
-    fClock.clockForm.Refresh
-    
-    On Error GoTo 0
-    Exit Sub
-
-setLamps_Error:
-
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure setLamps, line " & Erl & "."
-
-End Sub
 
 
 ' ----------------------------------------------------------------

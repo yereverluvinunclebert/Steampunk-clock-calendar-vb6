@@ -3123,6 +3123,9 @@ Private Sub btnSave_Click()
         sPutINISetting "Software\SteampunkClockCalendar", "clockLowDpiYPos", gblClockLowDpiYPos, gblSettingsFile
         
         sPutINISetting "Software\SteampunkClockCalendar", "loudToggleEnabled", gblLoudToggleEnabled, gblSettingsFile
+        sPutINISetting "Software\SteampunkClockCalendar", "muteToggleEnabled", gblMuteToggleEnabled, gblSettingsFile
+        sPutINISetting "Software\SteampunkClockCalendar", "pendulumToggleEnabled", gblPendulumToggleEnabled, gblSettingsFile
+        
         
         
         'save the values from the Text Items
