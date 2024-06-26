@@ -481,6 +481,9 @@ Private Sub clockForm_BubblingEvent(ByRef sender As Object, ByRef EventName As S
         Case "sunday"
             weekdayredcover.Alpha = 0
         End Select
+        
+        weekdayredcover.Refresh
+        
     End If
     
     If EventName = "W_MouseDown" Then
@@ -1368,7 +1371,6 @@ Private Sub weekdayredcover_myMouseDown()
         PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
     End If
     
-    weekdayredcover.Alpha = 0
     clockForm.Widgets(thisDayOfWeek).Widget.Alpha = 0
     weekdayToggleEnabled = False
 
@@ -1382,6 +1384,9 @@ weekdayredcover_myMouseDown_Error:
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure weekdayredcover_myMouseDown of Class Module cfClock"
 
 End Sub
+
+
+
 
 
 
@@ -2543,7 +2548,6 @@ Public Property Let weekdayToggleEnabled(ByVal newValue As Boolean)
     alphaVal = Val(gblOpacity) / 100
     thisDayOfWeek = fDayOfWeek
 
-    
     If newValue = True Then
         weekdaytoggle.Move weekdayToggleLeft + 4, weekdayToggleTop
         clockForm.Widgets(thisDayOfWeek).Widget.Alpha = alphaVal
@@ -2551,6 +2555,7 @@ Public Property Let weekdayToggleEnabled(ByVal newValue As Boolean)
     Else
         weekdaytoggle.Move weekdayToggleLeft - 4, weekdayToggleTop
         clockForm.Widgets(thisDayOfWeek).Widget.Alpha = 0
+        weekdayredcover.Alpha = 0 ' sometimes you can fool the mouseleave, this recovers the situation
         gblWeekdayToggleEnabled = "False"
     End If
     

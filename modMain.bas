@@ -816,7 +816,6 @@ Public Sub adjustMainControls()
         fClock.weekdayToggleEnabled = True
     End If
         
-    
     ' set the z-ordering of the window
     Call setAlphaFormZordering
     
