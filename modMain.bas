@@ -295,6 +295,7 @@ Private Sub initialiseGlobalVars()
     gblLoudToggleEnabled = vbNullString
     gblMuteToggleEnabled = vbNullString
     gblPendulumToggleEnabled = vbNullString
+    gblWeekdayToggleEnabled = vbNullString
     
     
     ' general variables declared
@@ -810,6 +811,12 @@ Public Sub adjustMainControls()
         fClock.pendulumToggleEnabled = True
     End If
     
+    ' set the position of the muteToggle at startup
+    If gblWeekdayToggleEnabled = "True" Then
+        fClock.weekdayToggleEnabled = True
+    End If
+        
+    
     ' set the z-ordering of the window
     Call setAlphaFormZordering
     
@@ -949,9 +956,8 @@ Public Sub readSettingsFile(ByVal location As String, ByVal gblSettingsFile As S
         gblLoudToggleEnabled = fGetINISetting(location, "loudToggleEnabled", gblSettingsFile)
         gblMuteToggleEnabled = fGetINISetting(location, "muteToggleEnabled", gblSettingsFile)
         gblPendulumToggleEnabled = fGetINISetting(location, "pendulumToggleEnabled", gblSettingsFile)
-        
-        
-        
+        gblWeekdayToggleEnabled = fGetINISetting(location, "weekdayToggleEnabled", gblSettingsFile)
+                
     End If
 
    On Error GoTo 0
@@ -1045,8 +1051,7 @@ Public Sub validateInputs()
         If gblLoudToggleEnabled = vbNullString Then gblLoudToggleEnabled = "False"
         If gblMuteToggleEnabled = vbNullString Then gblMuteToggleEnabled = "False"
         If gblPendulumToggleEnabled = vbNullString Then gblPendulumToggleEnabled = "False"
-        
-        
+        If gblWeekdayToggleEnabled = vbNullString Then gblWeekdayToggleEnabled = "False"
         
    On Error GoTo 0
    Exit Sub

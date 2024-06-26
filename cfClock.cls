@@ -27,6 +27,7 @@ Private mSliderFreed As Boolean
 Private mLoudToggleEnabled As Boolean
 Private mMuteToggleEnabled As Boolean
 Private mPendulumToggleEnabled As Boolean
+Private mWeekdayToggleEnabled As Boolean
 
 Private WithEvents helpbottom As cWidgetBase
 Attribute helpbottom.VB_VarHelpID = -1
@@ -533,7 +534,7 @@ Private Sub clockForm_BubblingEvent(ByRef sender As Object, ByRef EventName As S
             Case "loudtoggle"
                 Call loudtoggle_myMouseDown
             Case "weekdaytoggle"
-                Call weekdaytoggle_myMouseDown
+                Call weekdayToggle_myMouseDown
             Case "helptoggle"
                 Call helptoggle_myMouseDown
             Case "helpbottom"
@@ -685,53 +686,6 @@ dropdown_MouseDown_Error:
 End Sub
 
 
-
-'---------------------------------------------------------------------------------------
-' Procedure : weekdayredcover_myMouseDown
-' Author    : beededea
-' Date      : 03/08/2023
-' Purpose   :  - note: - can't use a std MouseDown as
-'             declaring a widget as cWidgetBase 'WithEvents' does not provide a std MouseDown with a sender object
-'---------------------------------------------------------------------------------------
-'
-Private Sub weekdayredcover_myMouseDown()
-
-    Dim fileToPlay As String: fileToPlay = vbNullString
-    Dim alphaVal As Integer: alphaVal = 0
-    Dim thisDayOfWeek As String: thisDayOfWeek = vbNullString
-    
-    Dim weekdaytoggleTop As Long: weekdaytoggleTop = 0
-    Dim weekdaytoggleLeft As Long: weekdaytoggleLeft = 0
-    
-    On Error GoTo weekdayredcover_myMouseDown_Error
-    
-    weekdaytoggleTop = weekdaytoggle.Top
-    weekdaytoggleLeft = weekdaytoggle.Left
-    
-    thisDayOfWeek = fDayOfWeek
-        
-    alphaVal = Val(gblOpacity) / 100
-    
-    fileToPlay = "clunk.wav"
-    If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
-        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
-    End If
-    
-    weekdayredcover.Alpha = 0
-    clockForm.Widgets(thisDayOfWeek).Widget.Alpha = 0
-    Call weekdaytoggle_myMouseDown(0, False)
-    'weekdaytoggle.Move weekdaytoggleLeft - 5, weekdaytoggleTop
-
-    clockForm.Refresh
-
-   On Error GoTo 0
-   Exit Sub
-
-weekdayredcover_myMouseDown_Error:
-
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure weekdayredcover_myMouseDown of Class Module cfClock"
-
-End Sub
 
 ' Note: We do not implement a middle position for the crank as the layers would be on top of each other and would interrupt a mouse through
 ' it could be done with an overlay but I really can't be bothered.
@@ -1380,6 +1334,58 @@ alarmtoggle5armed_myMouseDown_Error:
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure alarmtoggle5armed_myMouseDown of Class Module cfClock"
 
 End Sub
+
+
+
+'---------------------------------------------------------------------------------------
+' Procedure : weekdayredcover_myMouseDown
+' Author    : beededea
+' Date      : 03/08/2023
+' Purpose   :  - note: - can't use a std MouseDown as
+'             declaring a widget as cWidgetBase 'WithEvents' does not provide a std MouseDown with a sender object
+'---------------------------------------------------------------------------------------
+'
+Private Sub weekdayredcover_myMouseDown()
+
+    Dim fileToPlay As String: fileToPlay = vbNullString
+    Dim alphaVal As Integer: alphaVal = 0
+    Dim thisDayOfWeek As String: thisDayOfWeek = vbNullString
+    
+    Dim weekdayToggleTop As Long: weekdayToggleTop = 0
+    Dim weekdayToggleLeft As Long: weekdayToggleLeft = 0
+    
+    On Error GoTo weekdayredcover_myMouseDown_Error
+    
+    weekdayToggleTop = weekdaytoggle.Top
+    weekdayToggleLeft = weekdaytoggle.Left
+    
+    thisDayOfWeek = fDayOfWeek
+        
+    alphaVal = Val(gblOpacity) / 100
+    
+    fileToPlay = "till.wav"
+    If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
+        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
+    End If
+    
+    weekdayredcover.Alpha = 0
+    clockForm.Widgets(thisDayOfWeek).Widget.Alpha = 0
+    weekdayToggleEnabled = False
+
+    clockForm.Refresh
+
+   On Error GoTo 0
+   Exit Sub
+
+weekdayredcover_myMouseDown_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure weekdayredcover_myMouseDown of Class Module cfClock"
+
+End Sub
+
+
+
+
 '---------------------------------------------------------------------------------------
 ' Procedure : backtoggle_myMouseDown
 ' Author    : beededea
@@ -1517,6 +1523,112 @@ alarmtoggle_myMouseDown_Error:
 
 End Sub
     
+    
+
+''---------------------------------------------------------------------------------------
+'' Procedure : weekdaytoggle_myMouseDown
+'' Author    : beededea
+'' Date      : 03/08/2023
+'' Purpose   :
+''---------------------------------------------------------------------------------------
+''
+'Private Sub weekdayToggle_myMouseDown(Optional overrideAlphaValue As String, Optional overrideToggleEnabled As String)
+'   On Error GoTo weekdayToggle_myMouseDown_Error
+'
+'    Dim fileToPlay As String: fileToPlay = vbNullString
+'    Dim weekdayToggleTop As Long: weekdayToggleTop = 0
+'    Dim weekdayToggleLeft As Long: weekdayToggleLeft = 0
+'    Dim alphaVal As Integer: alphaVal = 0
+'    Dim thisDayOfWeek As String: thisDayOfWeek = vbNullString
+'
+'    Static weekdayToggleEnabled As Boolean
+'
+'    If overrideToggleEnabled <> vbNullString Then weekdayToggleEnabled = CBool(overrideToggleEnabled)
+'
+'    weekdayToggleTop = weekdaytoggle.Top
+'    weekdayToggleLeft = weekdaytoggle.Left
+'
+'    alphaVal = Val(gblOpacity) / 100
+'    thisDayOfWeek = fDayOfWeek
+'
+'    fileToPlay = "till.wav"
+'    If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
+'        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
+'    End If
+'
+'    If overrideAlphaValue <> vbNullString Then alphaVal = CInt(overrideAlphaValue)
+'
+'    If overrideToggleEnabled <> vbNullString Then
+'        weekdayToggleEnabled = CBool(overrideToggleEnabled)
+'
+'        If CBool(overrideToggleEnabled) = False Then
+'            weekdaytoggle.Move weekdayToggleLeft - 5, weekdayToggleTop
+'            clockForm.Widgets(thisDayOfWeek).Widget.Alpha = 0
+'            weekdayToggleEnabled = False
+'
+'            clockForm.Refresh
+'            Exit Sub
+'        End If
+'    End If
+'
+'    If weekdayToggleEnabled = False Then
+'        weekdaytoggle.Move weekdayToggleLeft + 5, weekdayToggleTop
+'        clockForm.Widgets(thisDayOfWeek).Widget.Alpha = alphaVal
+'        weekdayToggleEnabled = True
+'    Else
+'        weekdaytoggle.Move weekdayToggleLeft - 5, weekdayToggleTop
+'        clockForm.Widgets(thisDayOfWeek).Widget.Alpha = 0
+'        weekdayToggleEnabled = False
+'    End If
+'
+'    clockForm.Refresh
+'
+'   On Error GoTo 0
+'   Exit Sub
+'
+'weekdayToggle_myMouseDown_Error:
+'
+'    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure weekdaytoggle_myMouseDown of Class Module cfClock"
+'
+'End Sub
+    
+
+
+'---------------------------------------------------------------------------------------
+' Procedure : weekdayToggle_myMouseDown
+' Author    : beededea
+' Date      : 03/08/2023
+' Purpose   :
+'---------------------------------------------------------------------------------------
+'
+Private Sub weekdayToggle_myMouseDown()
+   On Error GoTo weekdayToggle_myMouseDown_Error
+
+    Dim fileToPlay As String: fileToPlay = vbNullString
+
+    fileToPlay = "clunk.wav"
+    If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
+        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME
+    End If
+    
+    If gblWeekdayToggleEnabled = "False" Then
+        weekdayToggleEnabled = True
+    Else
+        weekdayToggleEnabled = False
+    End If
+        
+    clockForm.Refresh
+
+   On Error GoTo 0
+   Exit Sub
+
+weekdayToggle_myMouseDown_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure weekdayToggle_myMouseDown of Class Module cfClock"
+
+End Sub
+
+
     
 '---------------------------------------------------------------------------------------
 ' Procedure : loudtoggle_myMouseDown
@@ -1666,76 +1778,6 @@ Private Sub screentoggle_myMouseDown()
 screentoggle_myMouseDown_Error:
 
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure screentoggle_myMouseDown of Class Module cfClock"
-
-End Sub
-
-
-
-
-'---------------------------------------------------------------------------------------
-' Procedure : weekdaytoggle_myMouseDown
-' Author    : beededea
-' Date      : 03/08/2023
-' Purpose   :
-'---------------------------------------------------------------------------------------
-'
-Private Sub weekdaytoggle_myMouseDown(Optional overrideAlphaValue As String, Optional overrideToggleEnabled As String)
-   On Error GoTo weekdaytoggle_myMouseDown_Error
-
-    Dim fileToPlay As String: fileToPlay = vbNullString
-    Dim weekdaytoggleTop As Long: weekdaytoggleTop = 0
-    Dim weekdaytoggleLeft As Long: weekdaytoggleLeft = 0
-    Dim alphaVal As Integer: alphaVal = 0
-    Dim thisDayOfWeek As String: thisDayOfWeek = vbNullString
-    
-    Static weekdayToggleEnabled As Boolean
-    
-    If overrideToggleEnabled <> vbNullString Then weekdayToggleEnabled = CBool(overrideToggleEnabled)
-
-    weekdaytoggleTop = weekdaytoggle.Top
-    weekdaytoggleLeft = weekdaytoggle.Left
-    
-    alphaVal = Val(gblOpacity) / 100
-    thisDayOfWeek = fDayOfWeek
-
-    fileToPlay = "till.wav"
-    If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
-        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
-    End If
-
-    If overrideAlphaValue <> vbNullString Then alphaVal = CInt(overrideAlphaValue)
-
-    If overrideToggleEnabled <> vbNullString Then
-        weekdayToggleEnabled = CBool(overrideToggleEnabled)
-
-        If CBool(overrideToggleEnabled) = False Then
-            weekdaytoggle.Move weekdaytoggleLeft - 5, weekdaytoggleTop
-            clockForm.Widgets(thisDayOfWeek).Widget.Alpha = 0
-            weekdayToggleEnabled = False
-        
-            clockForm.Refresh
-            Exit Sub
-        End If
-    End If
-
-    If weekdayToggleEnabled = False Then
-        weekdaytoggle.Move weekdaytoggleLeft + 5, weekdaytoggleTop
-        clockForm.Widgets(thisDayOfWeek).Widget.Alpha = alphaVal
-        weekdayToggleEnabled = True
-    Else
-        weekdaytoggle.Move weekdaytoggleLeft - 5, weekdaytoggleTop
-        clockForm.Widgets(thisDayOfWeek).Widget.Alpha = 0
-        weekdayToggleEnabled = False
-    End If
-
-    clockForm.Refresh
-
-   On Error GoTo 0
-   Exit Sub
-
-weekdaytoggle_myMouseDown_Error:
-
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure weekdaytoggle_myMouseDown of Class Module cfClock"
 
 End Sub
 
@@ -2444,6 +2486,115 @@ timeShiftPercent_Error:
 End Property
 
 
+'    Dim alphaVal As Integer: alphaVal = 0
+'    Dim thisDayOfWeek As String: thisDayOfWeek = vbNullString
+'
+'    Static weekdayToggleEnabled As Boolean
+'
+'    If overrideToggleEnabled <> vbNullString Then weekdayToggleEnabled = CBool(overrideToggleEnabled)
+'
+'    weekdayToggleTop = weekdaytoggle.Top
+'    weekdayToggleLeft = weekdaytoggle.Left
+'
+'    alphaVal = Val(gblOpacity) / 100
+'    thisDayOfWeek = fDayOfWeek
+'
+'    fileToPlay = "till.wav"
+'    If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
+'        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
+'    End If
+'
+'    If overrideAlphaValue <> vbNullString Then alphaVal = CInt(overrideAlphaValue)
+'
+'    If overrideToggleEnabled <> vbNullString Then
+'        weekdayToggleEnabled = CBool(overrideToggleEnabled)
+'
+'        If CBool(overrideToggleEnabled) = False Then
+'            weekdaytoggle.Move weekdayToggleLeft - 5, weekdayToggleTop
+'            clockForm.Widgets(thisDayOfWeek).Widget.Alpha = 0
+'            weekdayToggleEnabled = False
+'
+'            clockForm.Refresh
+'            Exit Sub
+'        End If
+'    End If
+
+
+'---------------------------------------------------------------------------------------
+' Property  : weekdayToggleEnabled
+' Author    : beededea
+' Date      : 10/05/2023
+' Purpose   :
+'---------------------------------------------------------------------------------------
+'
+Public Property Let weekdayToggleEnabled(ByVal newValue As Boolean)
+   
+    Dim weekdayToggleTop As Long: weekdayToggleTop = 0
+    Dim weekdayToggleLeft As Long: weekdayToggleLeft = 0
+    Dim fileToPlay As String: fileToPlay = vbNullString
+    Dim alphaVal As Integer: alphaVal = 0
+    Dim thisDayOfWeek As String: thisDayOfWeek = vbNullString
+'
+    On Error GoTo weekdayToggleEnabledLet_Error
+    
+    weekdayToggleTop = weekdaytoggle.Top
+    weekdayToggleLeft = weekdaytoggle.Left
+    
+    alphaVal = Val(gblOpacity) / 100
+    thisDayOfWeek = fDayOfWeek
+
+    
+    If newValue = True Then
+        weekdaytoggle.Move weekdayToggleLeft + 4, weekdayToggleTop
+        clockForm.Widgets(thisDayOfWeek).Widget.Alpha = alphaVal
+        gblWeekdayToggleEnabled = "True"
+    Else
+        weekdaytoggle.Move weekdayToggleLeft - 4, weekdayToggleTop
+        clockForm.Widgets(thisDayOfWeek).Widget.Alpha = 0
+        gblWeekdayToggleEnabled = "False"
+    End If
+    
+    sPutINISetting "Software\SteampunkClockCalendar", "weekdayToggleEnabled", gblWeekdayToggleEnabled, gblSettingsFile
+
+    If mWeekdayToggleEnabled <> newValue Then mWeekdayToggleEnabled = newValue Else Exit Property
+    weekdayToggleEnabled = mWeekdayToggleEnabled
+    
+    clockForm.Refresh
+     
+    fileToPlay = "till.wav"
+    If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
+        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME
+    End If
+
+      
+   On Error GoTo 0
+   Exit Property
+
+weekdayToggleEnabledLet_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property weekdayToggleEnabled of Class Module cwGlobe"
+End Property
+
+'---------------------------------------------------------------------------------------
+' Property  : weekdayToggleEnabled
+' Author    : beededea
+' Date      : 17/05/2023
+' Purpose   :
+'---------------------------------------------------------------------------------------
+'
+Public Property Get weekdayToggleEnabled() As Boolean
+   On Error GoTo weekdayToggleEnabledGet_Error
+
+    weekdayToggleEnabled = mWeekdayToggleEnabled
+
+   On Error GoTo 0
+   Exit Property
+
+weekdayToggleEnabledGet_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property weekdayToggleEnabled of Class Module cwGlobe"
+End Property
+
 '---------------------------------------------------------------------------------------
 ' Property  : loudToggleEnabled
 ' Author    : beededea
@@ -2461,11 +2612,11 @@ Public Property Let loudToggleEnabled(ByVal newValue As Boolean)
     loudtoggleTop = loudtoggle.Top
     loudtoggleLeft = loudtoggle.Left
     
-    If newValue = "true" Then
-        loudtoggle.Move loudtoggleLeft + 3, loudtoggleTop
+    If newValue = True Then
+        loudtoggle.Move loudtoggleLeft + 4, loudtoggleTop
         gblLoudToggleEnabled = "True"
     Else
-        loudtoggle.Move loudtoggleLeft - 3, loudtoggleTop
+        loudtoggle.Move loudtoggleLeft - 4, loudtoggleTop
         gblLoudToggleEnabled = "False"
     End If
     
@@ -2522,11 +2673,11 @@ Public Property Let muteToggleEnabled(ByVal newValue As Boolean)
     muteToggleTop = mutetoggle.Top
     muteToggleLeft = mutetoggle.Left
     
-    If newValue = "true" Then
-        mutetoggle.Move muteToggleLeft + 3, muteToggleTop
+    If newValue = True Then
+        mutetoggle.Move muteToggleLeft + 4, muteToggleTop
         gblMuteToggleEnabled = "True"
     Else
-        mutetoggle.Move muteToggleLeft - 3, muteToggleTop
+        mutetoggle.Move muteToggleLeft - 4, muteToggleTop
         gblMuteToggleEnabled = "False"
     End If
     
@@ -2585,11 +2736,11 @@ Public Property Let pendulumToggleEnabled(ByVal newValue As Boolean)
     pendulumToggleTop = pendulumtoggle.Top
     pendulumToggleLeft = pendulumtoggle.Left
     
-    If newValue = "true" Then
-        pendulumtoggle.Move pendulumToggleLeft + 3, pendulumToggleTop
+    If newValue = True Then
+        pendulumtoggle.Move pendulumToggleLeft + 4, pendulumToggleTop
         gblPendulumToggleEnabled = "True"
     Else
-        pendulumtoggle.Move pendulumToggleLeft - 3, pendulumToggleTop
+        pendulumtoggle.Move pendulumToggleLeft - 4, pendulumToggleTop
         gblPendulumToggleEnabled = "False"
     End If
     

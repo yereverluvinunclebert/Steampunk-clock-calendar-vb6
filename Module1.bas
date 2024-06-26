@@ -366,9 +366,7 @@ Public gblUnhide As String
 Public gblLoudToggleEnabled As String
 Public gblMuteToggleEnabled As String
 Public gblPendulumToggleEnabled As String
-
-
-
+Public gblWeekdayToggleEnabled As String
 
 ' vars stored for positioning the prefs form
 Public gblFormHighDpiXPosTwips As String
