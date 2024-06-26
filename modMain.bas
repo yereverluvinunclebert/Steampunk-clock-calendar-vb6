@@ -296,6 +296,8 @@ Private Sub initialiseGlobalVars()
     gblMuteToggleEnabled = vbNullString
     gblPendulumToggleEnabled = vbNullString
     gblWeekdayToggleEnabled = vbNullString
+    gblDisplayScreenToggleEnabled = vbNullString
+    
     
     
     ' general variables declared
@@ -597,7 +599,7 @@ Public Sub adjustMainControls()
         .Tag = 0.01
     End With
 
-    With fClock.clockForm.Widgets("screen").Widget
+    With fClock.clockForm.Widgets("displayscreen").Widget
         .HoverColor = 0
         .MousePointer = IDC_HAND
         .Alpha = Val(gblOpacity) / 100
@@ -618,7 +620,7 @@ Public Sub adjustMainControls()
         .Tag = 0.01
     End With
 
-    With fClock.clockForm.Widgets("screentoggle").Widget
+    With fClock.clockForm.Widgets("displayscreentoggle").Widget
         .HoverColor = 0
         .MousePointer = IDC_HAND
         .Alpha = Val(gblOpacity) / 100
@@ -796,26 +798,27 @@ Public Sub adjustMainControls()
     ' refresh the form in order to show the above changes immediately
     fClock.clockForm.Refresh
     
-    ' set the position of the loudToggle at startup
+    ' set the position of the various UI toggles at startup
     If gblLoudToggleEnabled = "True" Then
         fClock.loudToggleEnabled = True
     End If
     
-    ' set the position of the muteToggle at startup
     If gblMuteToggleEnabled = "True" Then
         fClock.muteToggleEnabled = True
     End If
     
-    ' set the position of the muteToggle at startup
     If gblPendulumToggleEnabled = "True" Then
         fClock.pendulumToggleEnabled = True
     End If
     
-    ' set the position of the muteToggle at startup
     If gblWeekdayToggleEnabled = "True" Then
         fClock.weekdayToggleEnabled = True
     End If
-        
+    
+    If gblDisplayScreenToggleEnabled = "True" Then
+        fClock.displayScreenToggleEnabled = True
+    End If
+            
     ' set the z-ordering of the window
     Call setAlphaFormZordering
     
@@ -956,6 +959,8 @@ Public Sub readSettingsFile(ByVal location As String, ByVal gblSettingsFile As S
         gblMuteToggleEnabled = fGetINISetting(location, "muteToggleEnabled", gblSettingsFile)
         gblPendulumToggleEnabled = fGetINISetting(location, "pendulumToggleEnabled", gblSettingsFile)
         gblWeekdayToggleEnabled = fGetINISetting(location, "weekdayToggleEnabled", gblSettingsFile)
+        gblDisplayScreenToggleEnabled = fGetINISetting(location, "displayScreenToggleEnabled", gblSettingsFile)
+        
                 
     End If
 
@@ -1051,6 +1056,8 @@ Public Sub validateInputs()
         If gblMuteToggleEnabled = vbNullString Then gblMuteToggleEnabled = "False"
         If gblPendulumToggleEnabled = vbNullString Then gblPendulumToggleEnabled = "False"
         If gblWeekdayToggleEnabled = vbNullString Then gblWeekdayToggleEnabled = "False"
+        If gblDisplayScreenToggleEnabled = vbNullString Then gblDisplayScreenToggleEnabled = "True"
+        
         
    On Error GoTo 0
    Exit Sub

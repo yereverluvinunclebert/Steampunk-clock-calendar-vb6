@@ -28,13 +28,18 @@ Private mLoudToggleEnabled As Boolean
 Private mMuteToggleEnabled As Boolean
 Private mPendulumToggleEnabled As Boolean
 Private mWeekdayToggleEnabled As Boolean
+Private mDisplayScreenToggleEnabled As Boolean
 
 Private WithEvents helpbottom As cWidgetBase
 Attribute helpbottom.VB_VarHelpID = -1
 Private WithEvents SliderSet As cWidgetBase
 Attribute SliderSet.VB_VarHelpID = -1
-Private WithEvents screentoggle As cWidgetBase
-Attribute screentoggle.VB_VarHelpID = -1
+Private WithEvents screentop As cWidgetBase
+Attribute screentop.VB_VarHelpID = -1
+Private WithEvents displayscreen As cWidgetBase
+Attribute displayscreen.VB_VarHelpID = -1
+Private WithEvents displayscreentoggle As cWidgetBase
+Attribute displayscreentoggle.VB_VarHelpID = -1
 Private WithEvents weekdaytoggle As cWidgetBase
 Attribute weekdaytoggle.VB_VarHelpID = -1
 Private WithEvents helptoggle As cWidgetBase
@@ -291,7 +296,9 @@ Public Sub InitFromPSD(ByRef PSD_FileNameOrByteArray As Variant)
     sldXMin = sldXMax - 116       'the Min-Value is simply the Max-Value minus Slider-Range (the 300pxl-range was determined by "probing")
 
     Set helpbottom = clockForm.Widgets("helpbottom").Widget
-    Set screentoggle = clockForm.Widgets("screentoggle").Widget
+    Set screentop = clockForm.Widgets("screentop").Widget
+    Set displayscreen = clockForm.Widgets("displayscreen").Widget
+    Set displayscreentoggle = clockForm.Widgets("displayscreentoggle").Widget
     Set weekdaytoggle = clockForm.Widgets("weekdaytoggle").Widget
     Set helptoggle = clockForm.Widgets("helptoggle").Widget
     Set pendulumtoggle = clockForm.Widgets("pendulumtoggle").Widget
@@ -360,7 +367,7 @@ Private Sub clockForm_BubblingEvent(ByRef sender As Object, ByRef EventName As S
             Case "timetoggle"
                 If gblEnableBalloonTooltips = "1" Then CreateToolTip clockForm.hwnd, "Toggle the time machine images.", _
                      TTIconInfo, widgetName & " Time Toggle Help", , , , True
-            Case "screentoggle"
+            Case "displayscreentoggle"
                 If gblEnableBalloonTooltips = "1" Then CreateToolTip clockForm.hwnd, "Toggle back screen.", _
                      TTIconInfo, widgetName & " Back Screen Toggle Help", , , , True
             Case "weekdaytoggle"
@@ -384,7 +391,7 @@ Private Sub clockForm_BubblingEvent(ByRef sender As Object, ByRef EventName As S
             Case "pendulum"
                 If gblEnableBalloonTooltips = "1" Then CreateToolTip clockForm.hwnd, "Stop/start the pendulum.", _
                      TTIconInfo, widgetName & " Pendulum Help", , , , True
-            Case "screen"
+            Case "displayscreen"
                 If gblEnableBalloonTooltips = "1" Then CreateToolTip clockForm.hwnd, "To lower kinematoscope press S toggle.", _
                      TTIconInfo, widgetName & " Kinematoscope Toggle Help", , , , True
             Case "bellset"
@@ -528,8 +535,8 @@ Private Sub clockForm_BubblingEvent(ByRef sender As Object, ByRef EventName As S
                 Call backtoggle_myMouseDown
             Case "timetoggle"
                 Call timetoggle_myMouseDown
-            Case "screentoggle"
-                Call screentoggle_myMouseDown
+            Case "displayscreentoggle"
+                Call displayScreenToggle_myMouseDown
             Case "pendulumtoggle"
                 Call pendulumtoggle_myMouseDown
             Case "mutetoggle"
@@ -1528,75 +1535,6 @@ alarmtoggle_myMouseDown_Error:
 
 End Sub
     
-    
-
-''---------------------------------------------------------------------------------------
-'' Procedure : weekdaytoggle_myMouseDown
-'' Author    : beededea
-'' Date      : 03/08/2023
-'' Purpose   :
-''---------------------------------------------------------------------------------------
-''
-'Private Sub weekdayToggle_myMouseDown(Optional overrideAlphaValue As String, Optional overrideToggleEnabled As String)
-'   On Error GoTo weekdayToggle_myMouseDown_Error
-'
-'    Dim fileToPlay As String: fileToPlay = vbNullString
-'    Dim weekdayToggleTop As Long: weekdayToggleTop = 0
-'    Dim weekdayToggleLeft As Long: weekdayToggleLeft = 0
-'    Dim alphaVal As Integer: alphaVal = 0
-'    Dim thisDayOfWeek As String: thisDayOfWeek = vbNullString
-'
-'    Static weekdayToggleEnabled As Boolean
-'
-'    If overrideToggleEnabled <> vbNullString Then weekdayToggleEnabled = CBool(overrideToggleEnabled)
-'
-'    weekdayToggleTop = weekdaytoggle.Top
-'    weekdayToggleLeft = weekdaytoggle.Left
-'
-'    alphaVal = Val(gblOpacity) / 100
-'    thisDayOfWeek = fDayOfWeek
-'
-'    fileToPlay = "till.wav"
-'    If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
-'        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
-'    End If
-'
-'    If overrideAlphaValue <> vbNullString Then alphaVal = CInt(overrideAlphaValue)
-'
-'    If overrideToggleEnabled <> vbNullString Then
-'        weekdayToggleEnabled = CBool(overrideToggleEnabled)
-'
-'        If CBool(overrideToggleEnabled) = False Then
-'            weekdaytoggle.Move weekdayToggleLeft - 5, weekdayToggleTop
-'            clockForm.Widgets(thisDayOfWeek).Widget.Alpha = 0
-'            weekdayToggleEnabled = False
-'
-'            clockForm.Refresh
-'            Exit Sub
-'        End If
-'    End If
-'
-'    If weekdayToggleEnabled = False Then
-'        weekdaytoggle.Move weekdayToggleLeft + 5, weekdayToggleTop
-'        clockForm.Widgets(thisDayOfWeek).Widget.Alpha = alphaVal
-'        weekdayToggleEnabled = True
-'    Else
-'        weekdaytoggle.Move weekdayToggleLeft - 5, weekdayToggleTop
-'        clockForm.Widgets(thisDayOfWeek).Widget.Alpha = 0
-'        weekdayToggleEnabled = False
-'    End If
-'
-'    clockForm.Refresh
-'
-'   On Error GoTo 0
-'   Exit Sub
-'
-'weekdayToggle_myMouseDown_Error:
-'
-'    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure weekdaytoggle_myMouseDown of Class Module cfClock"
-'
-'End Sub
-    
 
 
 '---------------------------------------------------------------------------------------
@@ -1737,22 +1675,22 @@ End Sub
 
 
 '---------------------------------------------------------------------------------------
-' Procedure : screentoggle_myMouseDown
+' Procedure : displayScreenToggle_myMouseDown
 ' Author    : beededea
 ' Date      : 03/08/2023
 ' Purpose   :
 '---------------------------------------------------------------------------------------
 '
-Private Sub screentoggle_myMouseDown()
-   On Error GoTo screentoggle_myMouseDown_Error
+Private Sub displayScreenToggle_myMouseDown()
+   On Error GoTo displayScreenToggle_myMouseDown_Error
    
     Dim fileToPlay As String: fileToPlay = vbNullString
-    Dim screentoggleTop As Long: screentoggleTop = 0
-    Dim screentoggleLeft As Long: screentoggleLeft = 0
+    Dim displayScreenToggleTop As Long: displayScreenToggleTop = 0
+    Dim displayScreenToggleLeft As Long: displayScreenToggleLeft = 0
     Dim alphaVal As Integer: alphaVal = 0
     
-    screentoggleTop = screentoggle.Top
-    screentoggleLeft = screentoggle.Left
+    displayScreenToggleTop = displayscreentoggle.Top
+    displayScreenToggleLeft = displayscreentoggle.Left
     alphaVal = Val(gblOpacity) / 100
 
     fileToPlay = "clunk.wav"
@@ -1760,32 +1698,23 @@ Private Sub screentoggle_myMouseDown()
         PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
     End If
     
-    If clockForm.Widgets("screen").Widget.Alpha = 0 Then
-        screentoggle.Move screentoggleLeft + 5, screentoggleTop
-        clockForm.Widgets("screen").Widget.Alpha = alphaVal
-        clockForm.Widgets("screentop").Widget.Alpha = 0
-        clockForm.Widgets("timetoggle").Widget.Alpha = alphaVal
-        clockForm.Widgets("backtoggle").Widget.Alpha = alphaVal
-        If backtoggleEnabled = True Then clockForm.Widgets("screenbackground").Widget.Alpha = alphaVal
+  
+    If gblDisplayScreenToggleEnabled = "False" Then
+        displayScreenToggleEnabled = True
     Else
-        screentoggle.Move screentoggleLeft - 5, screentoggleTop
-        clockForm.Widgets("screen").Widget.Alpha = 0
-        clockForm.Widgets("screentop").Widget.Alpha = alphaVal
-        clockForm.Widgets("timetoggle").Widget.Alpha = 0
-        clockForm.Widgets("backtoggle").Widget.Alpha = 0
-        clockForm.Widgets("screenbackground").Widget.Alpha = 0
+        displayScreenToggleEnabled = False
     End If
+    
     clockForm.Refresh
     
    On Error GoTo 0
    Exit Sub
 
-screentoggle_myMouseDown_Error:
+displayScreenToggle_myMouseDown_Error:
 
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure screentoggle_myMouseDown of Class Module cfClock"
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure displayScreenToggle_myMouseDown of Class Module cfClock"
 
 End Sub
-
 
 
 '---------------------------------------------------------------------------------------
@@ -2523,6 +2452,90 @@ End Property
 '            Exit Sub
 '        End If
 '    End If
+
+
+
+
+'---------------------------------------------------------------------------------------
+' Property  : displayScreenToggleEnabled
+' Author    : beededea
+' Date      : 10/05/2023
+' Purpose   :
+'---------------------------------------------------------------------------------------
+'
+Public Property Let displayScreenToggleEnabled(ByVal newValue As Boolean)
+   
+    Dim displayScreenToggleTop As Long: displayScreenToggleTop = 0
+    Dim displayScreenToggleLeft As Long: displayScreenToggleLeft = 0
+    Dim fileToPlay As String: fileToPlay = vbNullString
+    Dim alphaVal As Integer: alphaVal = 0
+    Dim thisDayOfWeek As String: thisDayOfWeek = vbNullString
+'
+    On Error GoTo displayScreenToggleEnabledLet_Error
+    
+    displayScreenToggleTop = displayscreentoggle.Top
+    displayScreenToggleLeft = displayscreentoggle.Left
+    
+    alphaVal = Val(gblOpacity) / 100
+
+    If newValue = True Then
+        displayscreentoggle.Move displayScreenToggleLeft + 4, displayScreenToggleTop
+        displayscreen.Alpha = alphaVal
+        screentop.Alpha = 0
+        timetoggle.Alpha = alphaVal
+        backtoggle.Alpha = alphaVal
+        'If backtoggleEnabled = True Then screenbackground.Alpha = alphaVal
+        gblDisplayScreenToggleEnabled = "True"
+    Else
+        displayscreentoggle.Move displayScreenToggleLeft - 4, displayScreenToggleTop
+        displayscreen.Alpha = 0
+        screentop.Alpha = alphaVal
+        timetoggle.Alpha = 0
+        backtoggle.Alpha = 0
+        'If backtoggleEnabled = True Then screenbackground.Alpha = 0
+        gblDisplayScreenToggleEnabled = "False"
+    End If
+    
+    sPutINISetting "Software\SteampunkClockCalendar", "displayScreenToggleEnabled", gblDisplayScreenToggleEnabled, gblSettingsFile
+
+    If mDisplayScreenToggleEnabled <> newValue Then mDisplayScreenToggleEnabled = newValue Else Exit Property
+    displayScreenToggleEnabled = mDisplayScreenToggleEnabled
+    
+    clockForm.Refresh
+     
+    fileToPlay = "clunk.wav"
+    If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
+        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME
+    End If
+
+      
+   On Error GoTo 0
+   Exit Property
+
+displayScreenToggleEnabledLet_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property displayScreenToggleEnabled of Class Module cwGlobe"
+End Property
+
+'---------------------------------------------------------------------------------------
+' Property  : displayScreenToggleEnabled
+' Author    : beededea
+' Date      : 17/05/2023
+' Purpose   :
+'---------------------------------------------------------------------------------------
+'
+Public Property Get displayScreenToggleEnabled() As Boolean
+   On Error GoTo displayScreenToggleEnabledGet_Error
+
+    displayScreenToggleEnabled = mDisplayScreenToggleEnabled
+
+   On Error GoTo 0
+   Exit Property
+
+displayScreenToggleEnabledGet_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property displayScreenToggleEnabled of Class Module cwGlobe"
+End Property
 
 
 '---------------------------------------------------------------------------------------

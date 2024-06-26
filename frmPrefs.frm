@@ -3126,13 +3126,9 @@ Private Sub btnSave_Click()
         sPutINISetting "Software\SteampunkClockCalendar", "muteToggleEnabled", gblMuteToggleEnabled, gblSettingsFile
         sPutINISetting "Software\SteampunkClockCalendar", "pendulumToggleEnabled", gblPendulumToggleEnabled, gblSettingsFile
         sPutINISetting "Software\SteampunkClockCalendar", "weekdayToggleEnabled", gblWeekdayToggleEnabled, gblSettingsFile
-
+        sPutINISetting "Software\SteampunkClockCalendar", "displayScreenToggleEnabled", gblDisplayScreenToggleEnabled, gblSettingsFile
         
         
-        'save the values from the Text Items
-
-'        btnCnt = 0
-'        msgCnt = 0
     End If
     
     ' set the tooltips on the prefs screen
