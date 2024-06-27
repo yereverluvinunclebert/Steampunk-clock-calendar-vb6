@@ -29,6 +29,8 @@ Private mMuteToggleEnabled As Boolean
 Private mPendulumToggleEnabled As Boolean
 Private mWeekdayToggleEnabled As Boolean
 Private mDisplayScreenToggleEnabled As Boolean
+Private mTimeMachineToggle As Boolean
+
 
 Private WithEvents helpbottom As cWidgetBase
 Attribute helpbottom.VB_VarHelpID = -1
@@ -38,6 +40,8 @@ Private WithEvents screentop As cWidgetBase
 Attribute screentop.VB_VarHelpID = -1
 Private WithEvents displayscreen As cWidgetBase
 Attribute displayscreen.VB_VarHelpID = -1
+Private WithEvents screenbackground As cWidgetBase
+Attribute screenbackground.VB_VarHelpID = -1
 Private WithEvents displayscreentoggle As cWidgetBase
 Attribute displayscreentoggle.VB_VarHelpID = -1
 Private WithEvents weekdaytoggle As cWidgetBase
@@ -299,6 +303,7 @@ Public Sub InitFromPSD(ByRef PSD_FileNameOrByteArray As Variant)
     Set screentop = clockForm.Widgets("screentop").Widget
     Set displayscreen = clockForm.Widgets("displayscreen").Widget
     Set displayscreentoggle = clockForm.Widgets("displayscreentoggle").Widget
+    Set screenbackground = clockForm.Widgets("screenbackground").Widget
     Set weekdaytoggle = clockForm.Widgets("weekdaytoggle").Widget
     Set helptoggle = clockForm.Widgets("helptoggle").Widget
     Set pendulumtoggle = clockForm.Widgets("pendulumtoggle").Widget
@@ -457,7 +462,6 @@ Private Sub clockForm_BubblingEvent(ByRef sender As Object, ByRef EventName As S
              Case "helpdropdown"
                 If gblEnableBalloonTooltips = "1" Then CreateToolTip clockForm.hwnd, "Click here to lock the clock in place on the desktop.", _
                      TTIconInfo, widgetName & " Dropdown Pin Help", , , , True
-                    
             Case "monday"
                 If gblEnableBalloonTooltips = "1" Then CreateToolTip clockForm.hwnd, "Click here to lower the weekday flag.", _
                      TTIconInfo, widgetName & " Weekday Indicator Help", , , , True
@@ -1697,7 +1701,6 @@ Private Sub displayScreenToggle_myMouseDown()
     If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
         PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
     End If
-    
   
     If gblDisplayScreenToggleEnabled = "False" Then
         displayScreenToggleEnabled = True
@@ -2479,20 +2482,21 @@ Public Property Let displayScreenToggleEnabled(ByVal newValue As Boolean)
     alphaVal = Val(gblOpacity) / 100
 
     If newValue = True Then
-        displayscreentoggle.Move displayScreenToggleLeft + 4, displayScreenToggleTop
+        displayscreentoggle.Move displayScreenToggleLeft + 3, displayScreenToggleTop
         displayscreen.Alpha = alphaVal
         screentop.Alpha = 0
         timetoggle.Alpha = alphaVal
         backtoggle.Alpha = alphaVal
+        
         'If backtoggleEnabled = True Then screenbackground.Alpha = alphaVal
         gblDisplayScreenToggleEnabled = "True"
     Else
-        displayscreentoggle.Move displayScreenToggleLeft - 4, displayScreenToggleTop
+        displayscreentoggle.Move displayScreenToggleLeft - 3, displayScreenToggleTop
         displayscreen.Alpha = 0
         screentop.Alpha = alphaVal
         timetoggle.Alpha = 0
         backtoggle.Alpha = 0
-        'If backtoggleEnabled = True Then screenbackground.Alpha = 0
+        screenbackground.Alpha = 0
         gblDisplayScreenToggleEnabled = "False"
     End If
     
@@ -2516,6 +2520,7 @@ displayScreenToggleEnabledLet_Error:
 
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property displayScreenToggleEnabled of Class Module cwGlobe"
 End Property
+
 
 '---------------------------------------------------------------------------------------
 ' Property  : displayScreenToggleEnabled
@@ -2613,6 +2618,81 @@ weekdayToggleEnabledGet_Error:
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property weekdayToggleEnabled of Class Module cwGlobe"
 End Property
 
+
+'---------------------------------------------------------------------------------------
+' Property  : timeMachineToggle
+' Author    : beededea
+' Date      : 10/05/2023
+' Purpose   :
+'---------------------------------------------------------------------------------------
+'
+Public Property Let timeMachineToggle(ByVal newValue As Boolean)
+   
+    Dim weekdayToggleTop As Long: weekdayToggleTop = 0
+    Dim weekdayToggleLeft As Long: weekdayToggleLeft = 0
+    Dim fileToPlay As String: fileToPlay = vbNullString
+    Dim alphaVal As Integer: alphaVal = 0
+    Dim thisDayOfWeek As String: thisDayOfWeek = vbNullString
+'
+    On Error GoTo timeMachineToggleLet_Error
+    
+    weekdayToggleTop = weekdaytoggle.Top
+    weekdayToggleLeft = weekdaytoggle.Left
+    
+    alphaVal = Val(gblOpacity) / 100
+    thisDayOfWeek = fDayOfWeek
+
+    If newValue = True Then
+        weekdaytoggle.Move weekdayToggleLeft + 4, weekdayToggleTop
+'        clockForm.Widgets(thisDayOfWeek).Widget.Alpha = alphaVal
+        gblTimeMachineToggle = "True"
+    Else
+        weekdaytoggle.Move weekdayToggleLeft - 4, weekdayToggleTop
+'        clockForm.Widgets(thisDayOfWeek).Widget.Alpha = 0
+'        weekdayredcover.Alpha = 0 ' sometimes you can fool the mouseleave, this recovers the situation
+        gblTimeMachineToggle = "False"
+    End If
+    
+    sPutINISetting "Software\SteampunkClockCalendar", "timeMachineToggle", gblTimeMachineToggle, gblSettingsFile
+
+    If mTimeMachineToggle <> newValue Then mTimeMachineToggle = newValue Else Exit Property
+    timeMachineToggle = mTimeMachineToggle
+    
+    clockForm.Refresh
+     
+    fileToPlay = "till.wav"
+    If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
+        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME
+    End If
+
+      
+   On Error GoTo 0
+   Exit Property
+
+timeMachineToggleLet_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property timeMachineToggle of Class Module cwGlobe"
+End Property
+
+'---------------------------------------------------------------------------------------
+' Property  : timeMachineToggle
+' Author    : beededea
+' Date      : 17/05/2023
+' Purpose   :
+'---------------------------------------------------------------------------------------
+'
+Public Property Get timeMachineToggle() As Boolean
+   On Error GoTo timeMachineToggleGet_Error
+
+    timeMachineToggle = mTimeMachineToggle
+
+   On Error GoTo 0
+   Exit Property
+
+timeMachineToggleGet_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property timeMachineToggle of Class Module cwGlobe"
+End Property
 '---------------------------------------------------------------------------------------
 ' Property  : loudToggleEnabled
 ' Author    : beededea

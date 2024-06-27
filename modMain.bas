@@ -297,6 +297,8 @@ Private Sub initialiseGlobalVars()
     gblPendulumToggleEnabled = vbNullString
     gblWeekdayToggleEnabled = vbNullString
     gblDisplayScreenToggleEnabled = vbNullString
+    gblTimeMachineToggle = vbNullString
+    
     
     
     
@@ -818,7 +820,11 @@ Public Sub adjustMainControls()
     If gblDisplayScreenToggleEnabled = "True" Then
         fClock.displayScreenToggleEnabled = True
     End If
-            
+    
+    If gblTimeMachineToggle = "True" Then
+        fClock.timeMachineToggle = True
+    End If
+    
     ' set the z-ordering of the window
     Call setAlphaFormZordering
     
@@ -960,6 +966,7 @@ Public Sub readSettingsFile(ByVal location As String, ByVal gblSettingsFile As S
         gblPendulumToggleEnabled = fGetINISetting(location, "pendulumToggleEnabled", gblSettingsFile)
         gblWeekdayToggleEnabled = fGetINISetting(location, "weekdayToggleEnabled", gblSettingsFile)
         gblDisplayScreenToggleEnabled = fGetINISetting(location, "displayScreenToggleEnabled", gblSettingsFile)
+        gblTimeMachineToggle = fGetINISetting(location, "timeMachineToggle", gblSettingsFile)
         
                 
     End If
@@ -1057,6 +1064,7 @@ Public Sub validateInputs()
         If gblPendulumToggleEnabled = vbNullString Then gblPendulumToggleEnabled = "False"
         If gblWeekdayToggleEnabled = vbNullString Then gblWeekdayToggleEnabled = "False"
         If gblDisplayScreenToggleEnabled = vbNullString Then gblDisplayScreenToggleEnabled = "True"
+        If gblTimeMachineToggle = vbNullString Then gblTimeMachineToggle = "False"
         
         
    On Error GoTo 0

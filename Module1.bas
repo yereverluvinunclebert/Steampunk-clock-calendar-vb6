@@ -368,6 +368,8 @@ Public gblMuteToggleEnabled As String
 Public gblPendulumToggleEnabled As String
 Public gblWeekdayToggleEnabled As String
 Public gblDisplayScreenToggleEnabled As String
+Public gblTimeMachineToggle As String
+
 
 
 ' vars stored for positioning the prefs form
@@ -2128,7 +2130,6 @@ Public Sub unloadAllForms(ByVal endItAll As Boolean)
     'unload the RC6 widgets on the RC6 forms first
     
     aboutWidget.Widgets.RemoveAll
-    'helpWidget.Widgets.RemoveAll
     fClock.clockForm.Widgets.RemoveAll
     
     ' unload the native VB6 and RC6 forms
@@ -2139,14 +2140,12 @@ Public Sub unloadAllForms(ByVal endItAll As Boolean)
     Unload menuForm
 
     fMain.aboutForm.Unload  ' RC6's own method for killing forms
-    'fMain.helpForm.Unload
     fClock.clockForm.Unload
     fMain.licenceForm.Unload
     
     ' remove all variable references to each form in turn
     
     Set fMain.aboutForm = Nothing
-    'Set fMain.helpForm = Nothing
     Set fClock.clockForm = Nothing
     Set fMain.licenceForm = Nothing
     
