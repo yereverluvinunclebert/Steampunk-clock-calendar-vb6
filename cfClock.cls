@@ -29,7 +29,7 @@ Private mMuteToggleEnabled As Boolean
 Private mPendulumToggleEnabled As Boolean
 Private mWeekdayToggleEnabled As Boolean
 Private mDisplayScreenToggleEnabled As Boolean
-Private mTimeMachineToggle As Boolean
+Private mTimeMachineToggleEnabled As Boolean
 
 
 Private WithEvents helpbottom As cWidgetBase
@@ -2620,13 +2620,13 @@ End Property
 
 
 '---------------------------------------------------------------------------------------
-' Property  : timeMachineToggle
+' Property  : timeMachineToggleEnabled
 ' Author    : beededea
 ' Date      : 10/05/2023
 ' Purpose   :
 '---------------------------------------------------------------------------------------
 '
-Public Property Let timeMachineToggle(ByVal newValue As Boolean)
+Public Property Let timeMachineToggleEnabled(ByVal newValue As Boolean)
    
     Dim weekdayToggleTop As Long: weekdayToggleTop = 0
     Dim weekdayToggleLeft As Long: weekdayToggleLeft = 0
@@ -2634,7 +2634,7 @@ Public Property Let timeMachineToggle(ByVal newValue As Boolean)
     Dim alphaVal As Integer: alphaVal = 0
     Dim thisDayOfWeek As String: thisDayOfWeek = vbNullString
 '
-    On Error GoTo timeMachineToggleLet_Error
+    On Error GoTo timeMachineToggleEnabledLet_Error
     
     weekdayToggleTop = weekdaytoggle.Top
     weekdayToggleLeft = weekdaytoggle.Left
@@ -2645,18 +2645,18 @@ Public Property Let timeMachineToggle(ByVal newValue As Boolean)
     If newValue = True Then
         weekdaytoggle.Move weekdayToggleLeft + 4, weekdayToggleTop
 '        clockForm.Widgets(thisDayOfWeek).Widget.Alpha = alphaVal
-        gblTimeMachineToggle = "True"
+        gbltimeMachineToggleEnabled = "True"
     Else
         weekdaytoggle.Move weekdayToggleLeft - 4, weekdayToggleTop
 '        clockForm.Widgets(thisDayOfWeek).Widget.Alpha = 0
 '        weekdayredcover.Alpha = 0 ' sometimes you can fool the mouseleave, this recovers the situation
-        gblTimeMachineToggle = "False"
+        gbltimeMachineToggleEnabled = "False"
     End If
     
-    sPutINISetting "Software\SteampunkClockCalendar", "timeMachineToggle", gblTimeMachineToggle, gblSettingsFile
+    sPutINISetting "Software\SteampunkClockCalendar", "timeMachineToggleEnabled", gbltimeMachineToggleEnabled, gblSettingsFile
 
-    If mTimeMachineToggle <> newValue Then mTimeMachineToggle = newValue Else Exit Property
-    timeMachineToggle = mTimeMachineToggle
+    If mTimeMachineToggleEnabled <> newValue Then mTimeMachineToggleEnabled = newValue Else Exit Property
+    timeMachineToggleEnabled = mTimeMachineToggleEnabled
     
     clockForm.Refresh
      
@@ -2669,29 +2669,29 @@ Public Property Let timeMachineToggle(ByVal newValue As Boolean)
    On Error GoTo 0
    Exit Property
 
-timeMachineToggleLet_Error:
+timeMachineToggleEnabledLet_Error:
 
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property timeMachineToggle of Class Module cwGlobe"
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property timeMachineToggleEnabled of Class Module cwGlobe"
 End Property
 
 '---------------------------------------------------------------------------------------
-' Property  : timeMachineToggle
+' Property  : timeMachineToggleEnabled
 ' Author    : beededea
 ' Date      : 17/05/2023
 ' Purpose   :
 '---------------------------------------------------------------------------------------
 '
-Public Property Get timeMachineToggle() As Boolean
-   On Error GoTo timeMachineToggleGet_Error
+Public Property Get timeMachineToggleEnabled() As Boolean
+   On Error GoTo timeMachineToggleEnabledGet_Error
 
-    timeMachineToggle = mTimeMachineToggle
+    timeMachineToggleEnabled = mTimeMachineToggleEnabled
 
    On Error GoTo 0
    Exit Property
 
-timeMachineToggleGet_Error:
+timeMachineToggleEnabledGet_Error:
 
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property timeMachineToggle of Class Module cwGlobe"
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property timeMachineToggleEnabled of Class Module cwGlobe"
 End Property
 '---------------------------------------------------------------------------------------
 ' Property  : loudToggleEnabled

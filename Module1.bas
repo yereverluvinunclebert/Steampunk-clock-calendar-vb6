@@ -368,7 +368,7 @@ Public gblMuteToggleEnabled As String
 Public gblPendulumToggleEnabled As String
 Public gblWeekdayToggleEnabled As String
 Public gblDisplayScreenToggleEnabled As String
-Public gblTimeMachineToggle As String
+Public gblTimeMachineToggleEnabled As String
 
 
 

@@ -3127,7 +3127,7 @@ Private Sub btnSave_Click()
         sPutINISetting "Software\SteampunkClockCalendar", "pendulumToggleEnabled", gblPendulumToggleEnabled, gblSettingsFile
         sPutINISetting "Software\SteampunkClockCalendar", "weekdayToggleEnabled", gblWeekdayToggleEnabled, gblSettingsFile
         sPutINISetting "Software\SteampunkClockCalendar", "displayScreenToggleEnabled", gblDisplayScreenToggleEnabled, gblSettingsFile
-        sPutINISetting "Software\SteampunkClockCalendar", "timeMachineToggle", gblTimeMachineToggle, gblSettingsFile
+        sPutINISetting "Software\SteampunkClockCalendar", "timeMachineToggleEnabled", gbltimeMachineToggleEnabled, gblSettingsFile
         
         
         
