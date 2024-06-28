@@ -30,7 +30,7 @@ Private mPendulumToggleEnabled As Boolean
 Private mWeekdayToggleEnabled As Boolean
 Private mDisplayScreenToggleEnabled As Boolean
 Private mTimeMachineToggleEnabled As Boolean
-
+Private mBackToggleEnabled As Boolean
 
 Private WithEvents helpbottom As cWidgetBase
 Attribute helpbottom.VB_VarHelpID = -1
@@ -107,7 +107,7 @@ Private sldXMin As Double
 Private sldX As Double
 Private mTimeShiftPercent As Currency
 
-Private backtoggleEnabled As Boolean
+'Private backToggleEnabled As Boolean
 Public mShowHelp As Boolean
 Private helpMoved As Boolean
 
@@ -1414,31 +1414,20 @@ Private Sub backtoggle_myMouseDown()
    On Error GoTo backtoggle_myMouseDown_Error
 
     Dim fileToPlay As String: fileToPlay = vbNullString
-    Dim backtoggleTop As Long: backtoggleTop = 0
-    Dim backtoggleLeft As Long: backtoggleLeft = 0
-
-    'Static backtoggleEnabled As Boolean
-    Dim alphaVal As Integer: alphaVal = 0
-    
-    alphaVal = Val(gblOpacity) / 100
-
-    backtoggleTop = backtoggle.Top
-    backtoggleLeft = backtoggle.Left
+    Dim backToggleTop As Long: backToggleTop = 0
+    Dim backToggleLeft As Long: backToggleLeft = 0
     
     fileToPlay = "clunk.wav"
     If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
         PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
     End If
-    
-    If backtoggleEnabled = False Then
-        backtoggle.Move backtoggleLeft - 5, backtoggleTop
-        backtoggleEnabled = True
-        clockForm.Widgets("screenbackground").Widget.Alpha = alphaVal
+        
+    If gblBackToggleEnabled = "False" Then
+        backToggleEnabled = True
     Else
-        backtoggle.Move backtoggleLeft + 5, backtoggleTop
-        backtoggleEnabled = False
-        clockForm.Widgets("screenbackground").Widget.Alpha = 0
+        backToggleEnabled = False
     End If
+    
     clockForm.Refresh
 
    On Error GoTo 0
@@ -2481,7 +2470,7 @@ Public Property Let displayScreenToggleEnabled(ByVal newValue As Boolean)
         timemachinetoggle.Alpha = alphaVal
         backtoggle.Alpha = alphaVal
         
-        'If backtoggleEnabled = True Then screenbackground.Alpha = alphaVal
+        If backToggleEnabled = True Then screenbackground.Alpha = alphaVal
         gblDisplayScreenToggleEnabled = "True"
     Else
         displayscreentoggle.Move displayScreenToggleLeft - 3, displayScreenToggleTop
@@ -2533,6 +2522,74 @@ Public Property Get displayScreenToggleEnabled() As Boolean
 displayScreenToggleEnabledGet_Error:
 
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property displayScreenToggleEnabled of Class Module cwGlobe"
+End Property
+
+
+
+'---------------------------------------------------------------------------------------
+' Property  : backToggleEnabled
+' Author    : beededea
+' Date      : 10/05/2023
+' Purpose   :
+'---------------------------------------------------------------------------------------
+'
+Public Property Let backToggleEnabled(ByVal newValue As Boolean)
+   
+    Dim backToggleTop As Long: backToggleTop = 0
+    Dim backToggleLeft As Long: backToggleLeft = 0
+    Dim fileToPlay As String: fileToPlay = vbNullString
+    Dim alphaVal As Integer: alphaVal = 0
+
+    On Error GoTo backToggleEnabledLet_Error
+    
+    backToggleTop = backtoggle.Top
+    backToggleLeft = backtoggle.Left
+    
+    alphaVal = Val(gblOpacity) / 100
+
+    If newValue = True Then
+        backtoggle.Move backToggleLeft - 5, backToggleTop
+        gblBackToggleEnabled = "True"
+        clockForm.Widgets("screenbackground").Widget.Alpha = alphaVal
+    Else
+        backtoggle.Move backToggleLeft + 5, backToggleTop
+        gblBackToggleEnabled = "False"
+        clockForm.Widgets("screenbackground").Widget.Alpha = 0
+    End If
+    
+    sPutINISetting "Software\SteampunkClockCalendar", "backToggleEnabled", gblBackToggleEnabled, gblSettingsFile
+
+    If mBackToggleEnabled <> newValue Then mBackToggleEnabled = newValue Else Exit Property
+    backToggleEnabled = mBackToggleEnabled
+    
+    clockForm.Refresh
+     
+   On Error GoTo 0
+   Exit Property
+
+backToggleEnabledLet_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property backToggleEnabled of Class Module cwGlobe"
+End Property
+
+'---------------------------------------------------------------------------------------
+' Property  : backToggleEnabled
+' Author    : beededea
+' Date      : 17/05/2023
+' Purpose   :
+'---------------------------------------------------------------------------------------
+'
+Public Property Get backToggleEnabled() As Boolean
+   On Error GoTo backToggleEnabledGet_Error
+
+    backToggleEnabled = mBackToggleEnabled
+
+   On Error GoTo 0
+   Exit Property
+
+backToggleEnabledGet_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property backToggleEnabled of Class Module cwGlobe"
 End Property
 
 
@@ -2624,17 +2681,12 @@ Public Property Let timeMachineToggleEnabled(ByVal newValue As Boolean)
     Dim timeMachineToggleTop As Long: timeMachineToggleTop = 0
     Dim timeMachineToggleLeft As Long: timeMachineToggleLeft = 0
     Dim fileToPlay As String: fileToPlay = vbNullString
-    Dim alphaVal As Integer: alphaVal = 0
-    Dim thisDayOfWeek As String: thisDayOfWeek = vbNullString
-'
+
     On Error GoTo timeMachineToggleEnabledLet_Error
     
     timeMachineToggleTop = timemachinetoggle.Top
     timeMachineToggleLeft = timemachinetoggle.Left
     
-    alphaVal = Val(gblOpacity) / 100
-    thisDayOfWeek = fDayOfWeek
-
     If newValue = True Then
         timemachinetoggle.Move timeMachineToggleLeft + 4, timeMachineToggleTop
         overlayWidget.TimeMachine = True
@@ -2661,10 +2713,6 @@ timeMachineToggleEnabledLet_Error:
 End Property
 
 
-
-
-
-
 '---------------------------------------------------------------------------------------
 ' Property  : timeMachineToggleEnabled
 ' Author    : beededea
@@ -2684,6 +2732,7 @@ timeMachineToggleEnabledGet_Error:
 
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property timeMachineToggleEnabled of Class Module cwGlobe"
 End Property
+
 '---------------------------------------------------------------------------------------
 ' Property  : loudToggleEnabled
 ' Author    : beededea

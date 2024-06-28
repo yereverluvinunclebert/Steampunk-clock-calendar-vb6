@@ -3127,10 +3127,9 @@ Private Sub btnSave_Click()
         sPutINISetting "Software\SteampunkClockCalendar", "pendulumToggleEnabled", gblPendulumToggleEnabled, gblSettingsFile
         sPutINISetting "Software\SteampunkClockCalendar", "weekdayToggleEnabled", gblWeekdayToggleEnabled, gblSettingsFile
         sPutINISetting "Software\SteampunkClockCalendar", "displayScreenToggleEnabled", gblDisplayScreenToggleEnabled, gblSettingsFile
-        sPutINISetting "Software\SteampunkClockCalendar", "timeMachineToggleEnabled", gbltimeMachineToggleEnabled, gblSettingsFile
-        
-        
-        
+        sPutINISetting "Software\SteampunkClockCalendar", "timeMachineToggleEnabled", gblTimeMachineToggleEnabled, gblSettingsFile
+        sPutINISetting "Software\SteampunkClockCalendar", "backToggleEnabled", gblBackToggleEnabled, gblSettingsFile
+       
     End If
     
     ' set the tooltips on the prefs screen
