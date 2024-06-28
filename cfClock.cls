@@ -56,8 +56,8 @@ Private WithEvents alarmtoggle As cWidgetBase
 Attribute alarmtoggle.VB_VarHelpID = -1
 Private WithEvents loudtoggle As cWidgetBase
 Attribute loudtoggle.VB_VarHelpID = -1
-Private WithEvents timetoggle As cWidgetBase
-Attribute timetoggle.VB_VarHelpID = -1
+Private WithEvents timemachinetoggle As cWidgetBase
+Attribute timemachinetoggle.VB_VarHelpID = -1
 Private WithEvents backtoggle As cWidgetBase
 Attribute backtoggle.VB_VarHelpID = -1
 Private WithEvents alarmtoggle1 As cWidgetBase
@@ -310,7 +310,7 @@ Public Sub InitFromPSD(ByRef PSD_FileNameOrByteArray As Variant)
     Set mutetoggle = clockForm.Widgets("mutetoggle").Widget
     Set alarmtoggle = clockForm.Widgets("alarmtoggle").Widget
     Set loudtoggle = clockForm.Widgets("loudtoggle").Widget
-    Set timetoggle = clockForm.Widgets("timetoggle").Widget
+    Set timemachinetoggle = clockForm.Widgets("timemachinetoggle").Widget
     Set backtoggle = clockForm.Widgets("backtoggle").Widget
     Set alarmtoggle1armed = clockForm.Widgets("alarmtoggle1armed").Widget
     Set alarmtoggle1 = clockForm.Widgets("alarmtoggle1").Widget
@@ -369,7 +369,7 @@ Private Sub clockForm_BubblingEvent(ByRef sender As Object, ByRef EventName As S
             Case "helpbottom"
                 If gblEnableBalloonTooltips = "1" Then CreateToolTip clockForm.hwnd, "This is the Widget Help. Click on me to make me go away.", _
                      TTIconInfo, widgetName & " Help", , , , True
-            Case "timetoggle"
+            Case "timemachinetoggle"
                 If gblEnableBalloonTooltips = "1" Then CreateToolTip clockForm.hwnd, "Toggle the time machine images.", _
                      TTIconInfo, widgetName & " Time Toggle Help", , , , True
             Case "displayscreentoggle"
@@ -537,8 +537,8 @@ Private Sub clockForm_BubblingEvent(ByRef sender As Object, ByRef EventName As S
                 Call alarmtoggle_myMouseDown
             Case "backtoggle"
                 Call backtoggle_myMouseDown
-            Case "timetoggle"
-                Call timetoggle_myMouseDown
+            Case "timemachinetoggle"
+                Call timeMachineToggle_myMouseDown
             Case "displayscreentoggle"
                 Call displayScreenToggle_myMouseDown
             Case "pendulumtoggle"
@@ -1450,50 +1450,7 @@ backtoggle_myMouseDown_Error:
 
 End Sub
     
-'---------------------------------------------------------------------------------------
-' Procedure : timetoggle_myMouseDown
-' Author    : beededea
-' Date      : 03/08/2023
-' Purpose   :  - note: - can't use a std MouseDown as
-'             declaring a widget as cWidgetBase 'WithEvents' does not provide a std MouseDown with a sender object
-'---------------------------------------------------------------------------------------
-'
-Private Sub timetoggle_myMouseDown()
-   On Error GoTo timetoggle_myMouseDown_Error
 
-    Dim fileToPlay As String: fileToPlay = vbNullString
-    Dim timetoggleTop As Long: timetoggleTop = 0
-    Dim timetoggleLeft As Long: timetoggleLeft = 0
-
-    Static timetoggleEnabled As Boolean
-
-    timetoggleTop = timetoggle.Top
-    timetoggleLeft = timetoggle.Left
-    
-    fileToPlay = "clunk.wav"
-    If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
-        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
-    End If
-    
-    If timetoggleEnabled = False Then
-        timetoggle.Move timetoggleLeft + 5, timetoggleTop
-        timetoggleEnabled = True
-        overlayWidget.TimeMachine = True
-    Else
-        timetoggle.Move timetoggleLeft - 5, timetoggleTop
-        timetoggleEnabled = False
-        overlayWidget.TimeMachine = False
-    End If
-    clockForm.Refresh
-
-   On Error GoTo 0
-   Exit Sub
-
-timetoggle_myMouseDown_Error:
-
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure timetoggle_myMouseDown of Class Module cfClock"
-
-End Sub
     
 '---------------------------------------------------------------------------------------
 ' Procedure : alarmtoggle_myMouseDown
@@ -1539,6 +1496,42 @@ alarmtoggle_myMouseDown_Error:
 
 End Sub
     
+
+'---------------------------------------------------------------------------------------
+' Procedure : timeMachineToggle_myMouseDown
+' Author    : beededea
+' Date      : 03/08/2023
+' Purpose   :  - note: - can't use a std MouseDown as
+'             declaring a widget as cWidgetBase 'WithEvents' does not provide a std MouseDown with a sender object
+'---------------------------------------------------------------------------------------
+'
+Private Sub timeMachineToggle_myMouseDown()
+
+    Dim fileToPlay As String: fileToPlay = vbNullString
+
+    On Error GoTo timeMachineToggle_myMouseDown_Error
+    
+    fileToPlay = "clunk.wav"
+    If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
+        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
+    End If
+    
+    If gblTimeMachineToggleEnabled = "False" Then
+        timeMachineToggleEnabled = True
+    Else
+        timeMachineToggleEnabled = False
+    End If
+        
+    clockForm.Refresh
+
+   On Error GoTo 0
+   Exit Sub
+
+timeMachineToggle_myMouseDown_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure timeMachineToggle_myMouseDown of Class Module cfClock"
+
+End Sub
 
 
 '---------------------------------------------------------------------------------------
@@ -2485,7 +2478,7 @@ Public Property Let displayScreenToggleEnabled(ByVal newValue As Boolean)
         displayscreentoggle.Move displayScreenToggleLeft + 3, displayScreenToggleTop
         displayscreen.Alpha = alphaVal
         screentop.Alpha = 0
-        timetoggle.Alpha = alphaVal
+        timemachinetoggle.Alpha = alphaVal
         backtoggle.Alpha = alphaVal
         
         'If backtoggleEnabled = True Then screenbackground.Alpha = alphaVal
@@ -2494,7 +2487,7 @@ Public Property Let displayScreenToggleEnabled(ByVal newValue As Boolean)
         displayscreentoggle.Move displayScreenToggleLeft - 3, displayScreenToggleTop
         displayscreen.Alpha = 0
         screentop.Alpha = alphaVal
-        timetoggle.Alpha = 0
+        timemachinetoggle.Alpha = 0
         backtoggle.Alpha = 0
         screenbackground.Alpha = 0
         gblDisplayScreenToggleEnabled = "False"
@@ -2628,44 +2621,37 @@ End Property
 '
 Public Property Let timeMachineToggleEnabled(ByVal newValue As Boolean)
    
-    Dim weekdayToggleTop As Long: weekdayToggleTop = 0
-    Dim weekdayToggleLeft As Long: weekdayToggleLeft = 0
+    Dim timeMachineToggleTop As Long: timeMachineToggleTop = 0
+    Dim timeMachineToggleLeft As Long: timeMachineToggleLeft = 0
     Dim fileToPlay As String: fileToPlay = vbNullString
     Dim alphaVal As Integer: alphaVal = 0
     Dim thisDayOfWeek As String: thisDayOfWeek = vbNullString
 '
     On Error GoTo timeMachineToggleEnabledLet_Error
     
-    weekdayToggleTop = weekdaytoggle.Top
-    weekdayToggleLeft = weekdaytoggle.Left
+    timeMachineToggleTop = timemachinetoggle.Top
+    timeMachineToggleLeft = timemachinetoggle.Left
     
     alphaVal = Val(gblOpacity) / 100
     thisDayOfWeek = fDayOfWeek
 
     If newValue = True Then
-        weekdaytoggle.Move weekdayToggleLeft + 4, weekdayToggleTop
-'        clockForm.Widgets(thisDayOfWeek).Widget.Alpha = alphaVal
-        gbltimeMachineToggleEnabled = "True"
+        timemachinetoggle.Move timeMachineToggleLeft + 4, timeMachineToggleTop
+        overlayWidget.TimeMachine = True
+        gblTimeMachineToggleEnabled = "True"
     Else
-        weekdaytoggle.Move weekdayToggleLeft - 4, weekdayToggleTop
-'        clockForm.Widgets(thisDayOfWeek).Widget.Alpha = 0
-'        weekdayredcover.Alpha = 0 ' sometimes you can fool the mouseleave, this recovers the situation
-        gbltimeMachineToggleEnabled = "False"
+        timemachinetoggle.Move timeMachineToggleLeft - 4, timeMachineToggleTop
+        overlayWidget.TimeMachine = False
+        gblTimeMachineToggleEnabled = "False"
     End If
     
-    sPutINISetting "Software\SteampunkClockCalendar", "timeMachineToggleEnabled", gbltimeMachineToggleEnabled, gblSettingsFile
+    sPutINISetting "Software\SteampunkClockCalendar", "timeMachineToggleEnabled", gblTimeMachineToggleEnabled, gblSettingsFile
 
     If mTimeMachineToggleEnabled <> newValue Then mTimeMachineToggleEnabled = newValue Else Exit Property
     timeMachineToggleEnabled = mTimeMachineToggleEnabled
     
     clockForm.Refresh
-     
-    fileToPlay = "till.wav"
-    If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
-        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME
-    End If
-
-      
+         
    On Error GoTo 0
    Exit Property
 
@@ -2673,6 +2659,11 @@ timeMachineToggleEnabledLet_Error:
 
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property timeMachineToggleEnabled of Class Module cwGlobe"
 End Property
+
+
+
+
+
 
 '---------------------------------------------------------------------------------------
 ' Property  : timeMachineToggleEnabled

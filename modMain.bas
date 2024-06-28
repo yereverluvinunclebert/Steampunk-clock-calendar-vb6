@@ -297,7 +297,7 @@ Private Sub initialiseGlobalVars()
     gblPendulumToggleEnabled = vbNullString
     gblWeekdayToggleEnabled = vbNullString
     gblDisplayScreenToggleEnabled = vbNullString
-    gbltimeMachineToggleEnabled = vbNullString
+    gblTimeMachineToggleEnabled = vbNullString
     
     
     
@@ -629,7 +629,7 @@ Public Sub adjustMainControls()
         .Tag = 0.01
     End With
 
-    With fClock.clockForm.Widgets("timetoggle").Widget
+    With fClock.clockForm.Widgets("timemachinetoggle").Widget
         .HoverColor = 0
         .MousePointer = IDC_HAND
         .Alpha = Val(gblOpacity) / 100
@@ -821,7 +821,7 @@ Public Sub adjustMainControls()
         fClock.displayScreenToggleEnabled = True
     End If
     
-    If gbltimeMachineToggleEnabled = "True" Then
+    If gblTimeMachineToggleEnabled = "True" Then
         fClock.timeMachineToggleEnabled = True
     End If
     
@@ -966,7 +966,7 @@ Public Sub readSettingsFile(ByVal location As String, ByVal gblSettingsFile As S
         gblPendulumToggleEnabled = fGetINISetting(location, "pendulumToggleEnabled", gblSettingsFile)
         gblWeekdayToggleEnabled = fGetINISetting(location, "weekdayToggleEnabled", gblSettingsFile)
         gblDisplayScreenToggleEnabled = fGetINISetting(location, "displayScreenToggleEnabled", gblSettingsFile)
-        gbltimeMachineToggleEnabled = fGetINISetting(location, "timeMachineToggleEnabled", gblSettingsFile)
+        gblTimeMachineToggleEnabled = fGetINISetting(location, "timeMachineToggleEnabled", gblSettingsFile)
         
                 
     End If
@@ -1064,7 +1064,7 @@ Public Sub validateInputs()
         If gblPendulumToggleEnabled = vbNullString Then gblPendulumToggleEnabled = "False"
         If gblWeekdayToggleEnabled = vbNullString Then gblWeekdayToggleEnabled = "False"
         If gblDisplayScreenToggleEnabled = vbNullString Then gblDisplayScreenToggleEnabled = "True"
-        If gbltimeMachineToggleEnabled = vbNullString Then gbltimeMachineToggleEnabled = "False"
+        If gblTimeMachineToggleEnabled = vbNullString Then gblTimeMachineToggleEnabled = "False"
         
         
    On Error GoTo 0
