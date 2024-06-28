@@ -299,6 +299,7 @@ Private Sub initialiseGlobalVars()
     gblDisplayScreenToggleEnabled = vbNullString
     gblTimeMachineToggleEnabled = vbNullString
     gblBackToggleEnabled = vbNullString
+    gblClapperEnabled = vbNullString
     
     ' general variables declared
     'toolSettingsFile = vbNullString
@@ -706,6 +707,13 @@ Public Sub adjustMainControls()
         .Tag = 0.01
     End With
 
+    With fClock.clockForm.Widgets("clapperright").Widget
+        .HoverColor = 0
+        .MousePointer = IDC_HAND
+        .Alpha = 0
+        .Tag = 0.01
+    End With
+
     With fClock.clockForm.Widgets("bar").Widget
         .HoverColor = 0
         .MousePointer = IDC_ARROW
@@ -826,7 +834,9 @@ Public Sub adjustMainControls()
     If gblBackToggleEnabled = "True" Then
         fClock.backToggleEnabled = True
     End If
-    
+     
+    fClock.clapperEnabled = CBool(gblClapperEnabled)
+
     ' set the z-ordering of the window
     Call setAlphaFormZordering
     
@@ -970,7 +980,7 @@ Public Sub readSettingsFile(ByVal location As String, ByVal gblSettingsFile As S
         gblDisplayScreenToggleEnabled = fGetINISetting(location, "displayScreenToggleEnabled", gblSettingsFile)
         gblTimeMachineToggleEnabled = fGetINISetting(location, "timeMachineToggleEnabled", gblSettingsFile)
         gblBackToggleEnabled = fGetINISetting(location, "backToggleEnabled", gblSettingsFile)
-        
+        gblClapperEnabled = fGetINISetting(location, "clapperEnabled", gblSettingsFile)
                 
     End If
 
@@ -1069,6 +1079,7 @@ Public Sub validateInputs()
         If gblDisplayScreenToggleEnabled = vbNullString Then gblDisplayScreenToggleEnabled = "True"
         If gblTimeMachineToggleEnabled = vbNullString Then gblTimeMachineToggleEnabled = "False"
         If gblBackToggleEnabled = vbNullString Then gblBackToggleEnabled = "False"
+        If gblClapperEnabled = vbNullString Then gblClapperEnabled = "True"
         
         
    On Error GoTo 0

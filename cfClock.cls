@@ -31,6 +31,8 @@ Private mWeekdayToggleEnabled As Boolean
 Private mDisplayScreenToggleEnabled As Boolean
 Private mTimeMachineToggleEnabled As Boolean
 Private mBackToggleEnabled As Boolean
+Private mClapperEnabled As Boolean
+
 
 Private WithEvents helpbottom As cWidgetBase
 Attribute helpbottom.VB_VarHelpID = -1
@@ -80,8 +82,8 @@ Private WithEvents alarmtoggle5 As cWidgetBase
 Attribute alarmtoggle5.VB_VarHelpID = -1
 Private WithEvents alarmtoggle5armed As cWidgetBase
 Attribute alarmtoggle5armed.VB_VarHelpID = -1
-Private WithEvents clapperleft As cWidgetBase
-Attribute clapperleft.VB_VarHelpID = -1
+Private WithEvents clapperLeft As cWidgetBase
+Attribute clapperLeft.VB_VarHelpID = -1
 Private WithEvents clapperright As cWidgetBase
 Attribute clapperright.VB_VarHelpID = -1
 Private WithEvents labellayer As cWidgetBase
@@ -151,7 +153,7 @@ Public Property Get ShowHelp() As Boolean
 
 ShowHelpGet_Error:
 
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property ShowHelp of Class Module cwGlobe"
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property ShowHelp of Class Module cfClock"
 End Property
 '---------------------------------------------------------------------------------------
 ' Property  : ShowHelp
@@ -218,7 +220,7 @@ Public Property Let ShowHelp(ByVal newValue As Boolean)
 
 ShowHelpLet_Error:
 
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property ShowHelp of Class Module cwGlobe"
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property ShowHelp of Class Module cfClock"
 End Property
 
 '---------------------------------------------------------------------------------------
@@ -322,7 +324,7 @@ Public Sub InitFromPSD(ByRef PSD_FileNameOrByteArray As Variant)
     Set alarmtoggle4 = clockForm.Widgets("alarmtoggle4").Widget
     Set alarmtoggle5armed = clockForm.Widgets("alarmtoggle5armed").Widget
     Set alarmtoggle5 = clockForm.Widgets("alarmtoggle5").Widget
-    Set clapperleft = clockForm.Widgets("clapperleft").Widget
+    Set clapperLeft = clockForm.Widgets("clapperleft").Widget
     Set clapperright = clockForm.Widgets("clapperright").Widget
     Set labellayer = clockForm.Widgets("labellayer").Widget
     Set chain = clockForm.Widgets("chain").Widget
@@ -817,88 +819,7 @@ chain_myMouseDown_Error:
 
 End Sub
 
-'---------------------------------------------------------------------------------------
-' Procedure : clapperleft_myMouseDown
-' Author    : beededea
-' Date      : 03/08/2023
-' Purpose   :  - note: - can't use a std MouseDown as
-'             declaring a widget as cWidgetBase 'WithEvents' does not provide a std MouseDown with a sender object
-'---------------------------------------------------------------------------------------
-'
-Private Sub clapperleft_myMouseDown()
-   On Error GoTo clapperleft_myMouseDown_Error
 
-    Dim fileToPlay As String: fileToPlay = vbNullString
-
-    Dim alphaVal As Integer: alphaVal = 0
-    
-    alphaVal = Val(gblOpacity) / 100
-    
-    If clapperleft.Alpha <> 0 Then
-        fileToPlay = "clunk.wav"
-        clapperleft.Alpha = 0
-        clapperright.Alpha = alphaVal
-    Else
-        fileToPlay = "singleBell.wav"
-        clapperleft.Alpha = alphaVal
-        clapperright.Alpha = 0
-    End If
-    
-    If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
-        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
-    End If
-    
-    clockForm.Refresh
-
-   On Error GoTo 0
-   Exit Sub
-
-clapperleft_myMouseDown_Error:
-
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure clapperleft_myMouseDown of Class Module cfClock"
-
-End Sub
-
-'---------------------------------------------------------------------------------------
-' Procedure : clapperright_myMouseDown
-' Author    : beededea
-' Date      : 03/08/2023
-' Purpose   :  - note: - can't use a std MouseDown as
-'             declaring a widget as cWidgetBase 'WithEvents' does not provide a std MouseDown with a sender object
-'---------------------------------------------------------------------------------------
-'
-Private Sub clapperright_myMouseDown()
-   On Error GoTo clapperright_myMouseDown_Error
-
-    Dim fileToPlay As String: fileToPlay = vbNullString
-
-    Dim alphaVal As Integer: alphaVal = 0
-    
-    alphaVal = Val(gblOpacity) / 100
-    
-    fileToPlay = "singleBell.wav"
-    If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
-        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
-    End If
-    
-    If clapperright.Alpha <> 0 Then
-        clapperright.Alpha = 0
-        clapperleft.Alpha = alphaVal
-    Else
-        clapperright.Alpha = alphaVal
-        clapperleft.Alpha = 0
-    End If
-    
-    clockForm.Refresh
-
-   On Error GoTo 0
-   Exit Sub
-
-clapperright_myMouseDown_Error:
-
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure clapperright_myMouseDown of Class Module cfClock"
-
-End Sub
 '---------------------------------------------------------------------------------------
 ' Procedure : alarmtoggle1_myMouseDown
 ' Author    : beededea
@@ -1348,6 +1269,8 @@ alarmtoggle5armed_myMouseDown_Error:
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure alarmtoggle5armed_myMouseDown of Class Module cfClock"
 
 End Sub
+
+
 
 
 
@@ -2218,7 +2141,7 @@ End Sub
 '
 'SystemAudioLevelLet_Error:
 '
-'    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property SystemAudioLevel of Class Module cwGlobe"
+'    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property SystemAudioLevel of Class Module cfClock"
 'End Property
 '
 '' ----------------------------------------------------------------
@@ -2270,7 +2193,7 @@ End Sub
 '
 'MuteLet_Error:
 '
-'    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property Mute of Class Module cwGlobe"
+'    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property Mute of Class Module cfClock"
 'End Property
 '
 ''---------------------------------------------------------------------------------------
@@ -2294,7 +2217,7 @@ End Sub
 '
 'MuteGet_Error:
 '
-'    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property Mute of Class Module cwGlobe"
+'    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property Mute of Class Module cfClock"
 'End Property
 
 '---------------------------------------------------------------------------------------
@@ -2322,7 +2245,7 @@ Public Property Let SliderFreed(ByVal newValue As Boolean)
 
 SliderFreedLet_Error:
 
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property SliderFreed of Class Module cwGlobe"
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property SliderFreed of Class Module cfClock"
 End Property
 
 '---------------------------------------------------------------------------------------
@@ -2342,7 +2265,7 @@ Public Property Get SliderFreed() As Boolean
 
 SliderFreedGet_Error:
 
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property SliderFreed of Class Module cwGlobe"
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property SliderFreed of Class Module cfClock"
 End Property
 
 
@@ -2500,7 +2423,7 @@ Public Property Let displayScreenToggleEnabled(ByVal newValue As Boolean)
 
 displayScreenToggleEnabledLet_Error:
 
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property displayScreenToggleEnabled of Class Module cwGlobe"
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property displayScreenToggleEnabled of Class Module cfClock"
 End Property
 
 
@@ -2521,10 +2444,140 @@ Public Property Get displayScreenToggleEnabled() As Boolean
 
 displayScreenToggleEnabledGet_Error:
 
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property displayScreenToggleEnabled of Class Module cwGlobe"
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property displayScreenToggleEnabled of Class Module cfClock"
 End Property
 
+'---------------------------------------------------------------------------------------
+' Procedure : clapperleft_myMouseDown
+' Author    : beededea
+' Date      : 03/08/2023
+' Purpose   :  - note: - can't use a std MouseDown as
+'             declaring a widget as cWidgetBase 'WithEvents' does not provide a std MouseDown with a sender object
+'---------------------------------------------------------------------------------------
+'
+Private Sub clapperleft_myMouseDown()
+    Dim fileToPlay As String: fileToPlay = vbNullString
+    
+    On Error GoTo clapperleft_myMouseDown_Error
 
+    fileToPlay = "clunk.wav"
+    
+    If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
+        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
+    End If
+        
+    If clapperEnabled = True Then
+
+        clapperEnabled = False
+    Else
+        clapperEnabled = True
+    End If
+    
+    clockForm.Refresh
+
+   On Error GoTo 0
+   Exit Sub
+
+clapperleft_myMouseDown_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure clapperleft_myMouseDown of Class Module cfClock"
+
+End Sub
+
+'---------------------------------------------------------------------------------------
+' Procedure : clapperright_myMouseDown
+' Author    : beededea
+' Date      : 03/08/2023
+' Purpose   :  - note: - can't use a std MouseDown as
+'             declaring a widget as cWidgetBase 'WithEvents' does not provide a std MouseDown with a sender object
+'---------------------------------------------------------------------------------------
+'
+Private Sub clapperright_myMouseDown()
+    Dim fileToPlay As String: fileToPlay = vbNullString
+    
+   On Error GoTo clapperright_myMouseDown_Error
+   
+    fileToPlay = "singleBell.wav"
+    If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
+        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
+    End If
+
+    If clapperEnabled = True Then
+        clapperEnabled = False
+    Else
+        clapperEnabled = True
+    End If
+    
+    clockForm.Refresh
+
+   On Error GoTo 0
+   Exit Sub
+
+clapperright_myMouseDown_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure clapperright_myMouseDown of Class Module cfClock"
+
+End Sub
+
+'---------------------------------------------------------------------------------------
+' Property  : clapperEnabled
+' Author    : beededea
+' Date      : 10/05/2023
+' Purpose   :
+'---------------------------------------------------------------------------------------
+'
+Public Property Let clapperEnabled(ByVal newValue As Boolean)
+   
+    Dim alphaVal As Integer: alphaVal = 0
+
+    On Error GoTo clapperEnabledLet_Error
+    
+    alphaVal = Val(gblOpacity) / 100
+ 
+    If newValue = True Then
+        gblClapperEnabled = "True"
+        clapperright.Alpha = 0
+        clapperLeft.Alpha = alphaVal
+    Else
+        clapperright.Alpha = alphaVal
+        clapperLeft.Alpha = 0
+        gblClapperEnabled = "False"
+    End If
+    
+    sPutINISetting "Software\SteampunkClockCalendar", "clapperEnabled", gblClapperEnabled, gblSettingsFile
+
+    If mClapperEnabled <> newValue Then mClapperEnabled = newValue Else Exit Property
+    clapperEnabled = mClapperEnabled
+    
+    clockForm.Refresh
+     
+   On Error GoTo 0
+   Exit Property
+
+clapperEnabledLet_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property clapperEnabled of Class Module cfClock"
+End Property
+
+'---------------------------------------------------------------------------------------
+' Property  : clapperEnabled
+' Author    : beededea
+' Date      : 17/05/2023
+' Purpose   :
+'---------------------------------------------------------------------------------------
+'
+Public Property Get clapperEnabled() As Boolean
+   On Error GoTo clapperEnabledGet_Error
+
+    clapperEnabled = mClapperEnabled
+
+   On Error GoTo 0
+   Exit Property
+
+clapperEnabledGet_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property clapperEnabled of Class Module cfClock"
+End Property
 
 '---------------------------------------------------------------------------------------
 ' Property  : backToggleEnabled
@@ -2569,7 +2622,7 @@ Public Property Let backToggleEnabled(ByVal newValue As Boolean)
 
 backToggleEnabledLet_Error:
 
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property backToggleEnabled of Class Module cwGlobe"
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property backToggleEnabled of Class Module cfClock"
 End Property
 
 '---------------------------------------------------------------------------------------
@@ -2589,7 +2642,7 @@ Public Property Get backToggleEnabled() As Boolean
 
 backToggleEnabledGet_Error:
 
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property backToggleEnabled of Class Module cwGlobe"
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property backToggleEnabled of Class Module cfClock"
 End Property
 
 
@@ -2645,7 +2698,7 @@ Public Property Let weekdayToggleEnabled(ByVal newValue As Boolean)
 
 weekdayToggleEnabledLet_Error:
 
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property weekdayToggleEnabled of Class Module cwGlobe"
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property weekdayToggleEnabled of Class Module cfClock"
 End Property
 
 '---------------------------------------------------------------------------------------
@@ -2665,7 +2718,7 @@ Public Property Get weekdayToggleEnabled() As Boolean
 
 weekdayToggleEnabledGet_Error:
 
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property weekdayToggleEnabled of Class Module cwGlobe"
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property weekdayToggleEnabled of Class Module cfClock"
 End Property
 
 
@@ -2709,7 +2762,7 @@ Public Property Let timeMachineToggleEnabled(ByVal newValue As Boolean)
 
 timeMachineToggleEnabledLet_Error:
 
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property timeMachineToggleEnabled of Class Module cwGlobe"
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property timeMachineToggleEnabled of Class Module cfClock"
 End Property
 
 
@@ -2730,7 +2783,7 @@ Public Property Get timeMachineToggleEnabled() As Boolean
 
 timeMachineToggleEnabledGet_Error:
 
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property timeMachineToggleEnabled of Class Module cwGlobe"
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property timeMachineToggleEnabled of Class Module cfClock"
 End Property
 
 '---------------------------------------------------------------------------------------
@@ -2770,7 +2823,7 @@ Public Property Let loudToggleEnabled(ByVal newValue As Boolean)
 
 loudToggleEnabledLet_Error:
 
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property loudToggleEnabled of Class Module cwGlobe"
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property loudToggleEnabled of Class Module cfClock"
 End Property
 
 '---------------------------------------------------------------------------------------
@@ -2790,7 +2843,7 @@ Public Property Get loudToggleEnabled() As Boolean
 
 loudtoggleEnabledGet_Error:
 
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property loudtoggleEnabled of Class Module cwGlobe"
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property loudtoggleEnabled of Class Module cfClock"
 End Property
 
 
@@ -2831,7 +2884,7 @@ Public Property Let muteToggleEnabled(ByVal newValue As Boolean)
 
 muteToggleEnabledLet_Error:
 
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property muteToggleEnabled of Class Module cwGlobe"
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property muteToggleEnabled of Class Module cfClock"
 End Property
 
 '---------------------------------------------------------------------------------------
@@ -2851,7 +2904,7 @@ Public Property Get muteToggleEnabled() As Boolean
 
 muteToggleEnabledGet_Error:
 
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property muteToggleEnabled of Class Module cwGlobe"
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property muteToggleEnabled of Class Module cfClock"
 End Property
 
 
@@ -2894,7 +2947,7 @@ Public Property Let pendulumToggleEnabled(ByVal newValue As Boolean)
 
 pendulumToggleEnabledLet_Error:
 
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property pendulumToggleEnabled of Class Module cwGlobe"
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property pendulumToggleEnabled of Class Module cfClock"
 End Property
 
 '---------------------------------------------------------------------------------------
@@ -2914,7 +2967,7 @@ Public Property Get pendulumToggleEnabled() As Boolean
 
 pendulumToggleGet_Error:
 
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property pendulumToggleEnabled of Class Module cwGlobe"
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property pendulumToggleEnabled of Class Module cfClock"
 End Property
 
 

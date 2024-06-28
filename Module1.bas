@@ -370,6 +370,9 @@ Public gblWeekdayToggleEnabled As String
 Public gblDisplayScreenToggleEnabled As String
 Public gblTimeMachineToggleEnabled As String
 Public gblBackToggleEnabled As String
+Public gblClapperEnabled As String
+
+
 
 ' vars stored for positioning the prefs form
 Public gblFormHighDpiXPosTwips As String
