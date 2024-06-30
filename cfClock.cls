@@ -1327,15 +1327,20 @@ End Sub
 '---------------------------------------------------------------------------------------
 '
 Private Sub alarmtoggle_myMouseDown()
-   On Error GoTo alarmtoggle_myMouseDown_Error
 
     Dim fileToPlay As String: fileToPlay = vbNullString
     Dim alarmtoggleTop As Long: alarmtoggleTop = 0
     Dim alarmtoggleLeft As Long: alarmtoggleLeft = 0
     Static alarmtoggleEnabled As Boolean
-
+    
+    Dim alarmToggleIn As Long: alarmToggleIn = 0
+    Dim alarmToggleOut As Long: alarmToggleOut = 0
+    
+    On Error GoTo alarmtoggle_myMouseDown_Error
+    
     alarmtoggleTop = alarmtoggle.Top
-    alarmtoggleLeft = alarmtoggle.Left
+    alarmToggleOut = 359
+    alarmToggleIn = 363
 
     fileToPlay = "clunk.wav"
     If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
@@ -1343,11 +1348,11 @@ Private Sub alarmtoggle_myMouseDown()
     End If
     
     If alarmtoggleEnabled = False Then
-        alarmtoggle.Move alarmtoggleLeft + 5, alarmtoggleTop
+        alarmtoggle.Move alarmToggleIn, alarmtoggleTop
         alarmtoggleEnabled = True
         SliderFreed = True
     Else
-        alarmtoggle.Move alarmtoggleLeft - 5, alarmtoggleTop
+        alarmtoggle.Move alarmToggleOut, alarmtoggleTop
         alarmtoggleEnabled = False
         SliderFreed = False
     End If
@@ -2934,18 +2939,20 @@ End Property
 Public Property Let loudToggleEnabled(ByVal newValue As Boolean)
    
     Dim loudtoggleTop As Long: loudtoggleTop = 0
-    Dim loudtoggleLeft As Long: loudtoggleLeft = 0
+    Dim loudtoggleIn As Long: loudtoggleIn = 0
+    Dim loudtoggleOut As Long: loudtoggleOut = 0
     
     On Error GoTo loudToggleEnabledLet_Error
     
+    loudtoggleOut = 359
+    loudtoggleIn = 363
     loudtoggleTop = loudtoggle.Top
-    loudtoggleLeft = loudtoggle.Left
     
     If newValue = True Then
-        loudtoggle.Move loudtoggleLeft + 4, loudtoggleTop
+        loudtoggle.Move loudtoggleIn, loudtoggleTop
         gblLoudToggleEnabled = "True"
     Else
-        loudtoggle.Move loudtoggleLeft - 4, loudtoggleTop
+        loudtoggle.Move loudtoggleOut, loudtoggleTop
         gblLoudToggleEnabled = "False"
     End If
     
@@ -2998,19 +3005,23 @@ Public Property Let muteToggleEnabled(ByVal newValue As Boolean)
     Dim muteToggleLeft As Long: muteToggleLeft = 0
     Dim fileToPlay As String: fileToPlay = vbNullString
     
+    Dim muteToggleIn As Long: muteToggleIn = 0
+    Dim muteToggleOut As Long: muteToggleOut = 0
+    
     On Error GoTo muteToggleEnabledLet_Error
     
     muteToggleTop = mutetoggle.Top
-    muteToggleLeft = mutetoggle.Left
+    muteToggleOut = 359
+    muteToggleIn = 363
     
     If newValue = True Then
         fileToPlay = "clunk.wav"
-        mutetoggle.Move muteToggleLeft + 4, muteToggleTop
+        mutetoggle.Move muteToggleIn, muteToggleTop
         gblMuteToggleEnabled = "True"
         If muteInitiatingControl = "muteToggle" Then clapperEnabled = False
     Else
         fileToPlay = "singleBell.wav"
-        mutetoggle.Move muteToggleLeft - 4, muteToggleTop
+        mutetoggle.Move muteToggleOut, muteToggleTop
         gblMuteToggleEnabled = "False"
         If muteInitiatingControl = "muteToggle" Then clapperEnabled = True
     End If
@@ -3067,20 +3078,22 @@ End Property
 Public Property Let pendulumToggleEnabled(ByVal newValue As Boolean)
        
     Dim pendulumToggleTop As Long: pendulumToggleTop = 0
-    Dim pendulumToggleLeft As Long: pendulumToggleLeft = 0
+    Dim pendulumToggleIn As Long: pendulumToggleIn = 0
+    Dim pendulumToggleOut As Long: pendulumToggleOut = 0
     Dim fileToPlay As String: fileToPlay = vbNullString
     
     On Error GoTo pendulumToggleEnabledLet_Error
     
     pendulumToggleTop = pendulumtoggle.Top
-    pendulumToggleLeft = pendulumtoggle.Left
+    pendulumToggleOut = 359
+    pendulumToggleIn = 363
     
     If newValue = True Then
-        pendulumtoggle.Move pendulumToggleLeft + 4, pendulumToggleTop
+        pendulumtoggle.Move pendulumToggleIn, pendulumToggleTop
         gblPendulumToggleEnabled = "True"
         If pendulumInitiatingControl = "pendulumToggle" Then pendulumEnabled = True
     Else
-        pendulumtoggle.Move pendulumToggleLeft - 4, pendulumToggleTop
+        pendulumtoggle.Move pendulumToggleOut, pendulumToggleTop
         gblPendulumToggleEnabled = "False"
         If pendulumInitiatingControl = "pendulumToggle" Then pendulumEnabled = False
     End If
