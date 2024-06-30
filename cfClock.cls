@@ -112,6 +112,8 @@ Private mTimeShiftPercent As Currency
 'Private backToggleEnabled As Boolean
 Public mShowHelp As Boolean
 Private helpMoved As Boolean
+Private muteInitiatingControl As String
+
 
 '---------------------------------------------------------------------------------------
 ' Procedure : Class_Initialize
@@ -407,7 +409,7 @@ Private Sub clockForm_BubblingEvent(ByRef sender As Object, ByRef EventName As S
             Case "clapperleft"
                 If gblEnableBalloonTooltips = "1" Then CreateToolTip clockForm.hwnd, "Mute the chimes.", _
                      TTIconInfo, widgetName & " Chime Mute Toggle Help", , , , True
-            Case "clapperleft"
+            Case "clapperright"
                 If gblEnableBalloonTooltips = "1" Then CreateToolTip clockForm.hwnd, "Enable the chimes.", _
                      TTIconInfo, widgetName & " Chime Enable Toggle Help", , , , True
             Case "dropdown"
@@ -1524,9 +1526,12 @@ End Sub
 '---------------------------------------------------------------------------------------
 '
 Private Sub mutetoggle_myMouseDown()
-   On Error GoTo mutetoggle_myMouseDown_Error
 
     Dim fileToPlay As String: fileToPlay = vbNullString
+    
+    On Error GoTo mutetoggle_myMouseDown_Error
+    
+    muteInitiatingControl = "muteToggle"
  
     fileToPlay = "clunk.wav"
     If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
@@ -2460,6 +2465,8 @@ Private Sub clapperleft_myMouseDown()
     
     On Error GoTo clapperleft_myMouseDown_Error
 
+    muteInitiatingControl = "clapper"
+
     fileToPlay = "clunk.wav"
     
     If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
@@ -2536,12 +2543,15 @@ Public Property Let clapperEnabled(ByVal newValue As Boolean)
  
     If newValue = True Then
         gblClapperEnabled = "True"
+        If muteInitiatingControl = "clapper" Then muteToggleEnabled = True
         clapperright.Alpha = 0
         clapperLeft.Alpha = alphaVal
     Else
+        gblClapperEnabled = "False"
+        If muteInitiatingControl = "clapper" Then muteToggleEnabled = False
         clapperright.Alpha = alphaVal
         clapperLeft.Alpha = 0
-        gblClapperEnabled = "False"
+
     End If
     
     sPutINISetting "Software\SteampunkClockCalendar", "clapperEnabled", gblClapperEnabled, gblSettingsFile
@@ -2867,9 +2877,11 @@ Public Property Let muteToggleEnabled(ByVal newValue As Boolean)
     If newValue = True Then
         mutetoggle.Move muteToggleLeft + 4, muteToggleTop
         gblMuteToggleEnabled = "True"
+        If muteInitiatingControl = "muteToggle" Then clapperEnabled = True
     Else
         mutetoggle.Move muteToggleLeft - 4, muteToggleTop
         gblMuteToggleEnabled = "False"
+        If muteInitiatingControl = "muteToggle" Then clapperEnabled = False
     End If
     
     sPutINISetting "Software\SteampunkClockCalendar", "muteToggleEnabled", gblMuteToggleEnabled, gblSettingsFile
