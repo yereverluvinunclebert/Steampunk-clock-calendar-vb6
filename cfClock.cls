@@ -22,7 +22,8 @@ Public collPSDNonUIElements As cCollection, FX As Long, FY As Long, FZ As Single
 Private PSDWidth As Long
 Private PSDHeight As Long
 
-Private mMute As Integer ' property
+' properties
+Private mMute As Integer
 Private mSliderFreed As Boolean
 Private mLoudToggleEnabled As Boolean
 Private mMuteToggleEnabled As Boolean
@@ -32,8 +33,9 @@ Private mDisplayScreenToggleEnabled As Boolean
 Private mTimeMachineToggleEnabled As Boolean
 Private mBackToggleEnabled As Boolean
 Private mClapperEnabled As Boolean
+Private mChainEnabled As Boolean
 
-
+' widgets
 Private WithEvents helpbottom As cWidgetBase
 Attribute helpbottom.VB_VarHelpID = -1
 Private WithEvents SliderSet As cWidgetBase
@@ -103,13 +105,12 @@ Attribute bellset.VB_VarHelpID = -1
 Private WithEvents helpdropdown As cWidgetBase
 Attribute helpdropdown.VB_VarHelpID = -1
 
+'general
 Private sldFixedTop As Double
 Private sldXMax As Double
 Private sldXMin As Double
 Private sldX As Double
 Private mTimeShiftPercent As Currency
-
-'Private backToggleEnabled As Boolean
 Public mShowHelp As Boolean
 Private helpMoved As Boolean
 Private muteInitiatingControl As String
@@ -776,50 +777,7 @@ crankup_myMouseDown_Error:
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure crankup_myMouseDown of Class Module cfClock"
 
 End Sub
-'---------------------------------------------------------------------------------------
-' Procedure : chain_myMouseDown
-' Author    : beededea
-' Date      : 03/08/2023
-' Purpose   :  - note: - can't use a std MouseDown as
-'             declaring a widget as cWidgetBase 'WithEvents' does not provide a std MouseDown with a sender object
-'---------------------------------------------------------------------------------------
-'
-Private Sub chain_myMouseDown()
-   On Error GoTo chain_myMouseDown_Error
 
-    Dim fileToPlay As String: fileToPlay = vbNullString
-    Dim chainTop As Long: chainTop = 0
-    Dim chainLeft As Long: chainLeft = 0
-
-    Static chainEnabled As Boolean
-
-    chainTop = chain.Top
-    chainLeft = chain.Left
-    
-
-    fileToPlay = "clunk.wav"
-    If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
-        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
-    End If
-    
-    If chainEnabled = False Then
-        chain.Move chainLeft, chainTop + 10
-        chainEnabled = True
-    Else
-        chain.Move chainLeft, chainTop - 10
-        chainEnabled = False
-    End If
-    
-    clockForm.Refresh
-
-   On Error GoTo 0
-   Exit Sub
-
-chain_myMouseDown_Error:
-
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure chain_myMouseDown of Class Module cfClock"
-
-End Sub
 
 
 '---------------------------------------------------------------------------------------
@@ -842,7 +800,6 @@ Private Sub alarmtoggle1_myMouseDown()
     alarmtoggle1Top = alarmtoggle1.Top
     alarmtoggle1Left = alarmtoggle1.Left
     
-
     fileToPlay = "clunk.wav"
     If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
         PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
@@ -1322,7 +1279,40 @@ weekdayredcover_myMouseDown_Error:
 End Sub
 
 
+'---------------------------------------------------------------------------------------
+' Procedure : chain_myMouseDown
+' Author    : beededea
+' Date      : 03/08/2023
+' Purpose   :  - note: - can't use a std MouseDown as
+'             declaring a widget as cWidgetBase 'WithEvents' does not provide a std MouseDown with a sender object
+'---------------------------------------------------------------------------------------
+'
+Private Sub chain_myMouseDown()
+   On Error GoTo chain_myMouseDown_Error
 
+    Dim fileToPlay As String: fileToPlay = vbNullString
+
+    fileToPlay = "clunk.wav"
+    If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
+        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
+    End If
+
+    If gblChainEnabled = "False" Then
+        chainEnabled = True
+    Else
+        chainEnabled = False
+    End If
+    
+    clockForm.Refresh
+
+   On Error GoTo 0
+   Exit Sub
+
+chain_myMouseDown_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure chain_myMouseDown of Class Module cfClock"
+
+End Sub
 
 
 
@@ -2656,6 +2646,65 @@ backToggleEnabledGet_Error:
 End Property
 
 
+'---------------------------------------------------------------------------------------
+' Property  : chainEnabled
+' Author    : beededea
+' Date      : 10/05/2023
+' Purpose   :
+'---------------------------------------------------------------------------------------
+'
+Public Property Let chainEnabled(ByVal newValue As Boolean)
+   
+    Dim chainTop As Long: chainTop = 0
+    Dim chainLeft As Long: chainLeft = 0
+
+    On Error GoTo chainEnabledLet_Error
+    
+    chainTop = chain.Top
+    chainLeft = chain.Left
+    
+    If newValue = True Then
+        chain.Move chainLeft, chainTop + 10
+        gblChainEnabled = "True"
+    Else
+        chain.Move chainLeft, chainTop - 10
+        gblChainEnabled = "False"
+    End If
+       
+    sPutINISetting "Software\SteampunkClockCalendar", "chainEnabled", gblChainEnabled, gblSettingsFile
+
+    If mChainEnabled <> newValue Then mChainEnabled = newValue Else Exit Property
+    chainEnabled = mChainEnabled
+    
+    clockForm.Refresh
+     
+   On Error GoTo 0
+   Exit Property
+
+chainEnabledLet_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property chainEnabled of Class Module cfClock"
+End Property
+
+'---------------------------------------------------------------------------------------
+' Property  : chainEnabled
+' Author    : beededea
+' Date      : 17/05/2023
+' Purpose   :
+'---------------------------------------------------------------------------------------
+'
+Public Property Get chainEnabled() As Boolean
+   On Error GoTo chainEnabledGet_Error
+
+    chainEnabled = mChainEnabled
+
+   On Error GoTo 0
+   Exit Property
+
+chainEnabledGet_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property chainEnabled of Class Module cfClock"
+End Property
 '---------------------------------------------------------------------------------------
 ' Property  : weekdayToggleEnabled
 ' Author    : beededea
