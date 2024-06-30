@@ -2549,22 +2549,26 @@ End Property
 Public Property Let backToggleEnabled(ByVal newValue As Boolean)
    
     Dim backToggleTop As Long: backToggleTop = 0
-    Dim backToggleLeft As Long: backToggleLeft = 0
+    Dim backToggleIn As Long: backToggleIn = 0
+    Dim backToggleOut As Long: backToggleOut = 0
+    Dim fileToPlay As String: fileToPlay = vbNullString
     Dim alphaVal As Integer: alphaVal = 0
-
-    On Error GoTo backToggleEnabledLet_Error
+    Dim thisDayOfWeek As String: thisDayOfWeek = vbNullString
     
+    On Error GoTo backToggleEnabledLet_Error
+        
     backToggleTop = backtoggle.Top
-    backToggleLeft = backtoggle.Left
+    backToggleOut = 654
+    backToggleIn = 650
     
     alphaVal = Val(gblOpacity) / 100
 
     If newValue = True Then
-        backtoggle.Move backToggleLeft - 5, backToggleTop
+        backtoggle.Move backToggleIn, backToggleTop
         gblBackToggleEnabled = "True"
         clockForm.Widgets("screenbackground").Widget.Alpha = alphaVal
     Else
-        backtoggle.Move backToggleLeft + 5, backToggleTop
+        backtoggle.Move backToggleOut, backToggleTop
         gblBackToggleEnabled = "False"
         clockForm.Widgets("screenbackground").Widget.Alpha = 0
     End If
