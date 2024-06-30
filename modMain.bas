@@ -295,6 +295,7 @@ Private Sub initialiseGlobalVars()
     gblLoudToggleEnabled = vbNullString
     gblMuteToggleEnabled = vbNullString
     gblPendulumToggleEnabled = vbNullString
+    gblPendulumEnabled = vbNullString
     gblWeekdayToggleEnabled = vbNullString
     gblDisplayScreenToggleEnabled = vbNullString
     gblTimeMachineToggleEnabled = vbNullString
@@ -987,6 +988,9 @@ Public Sub readSettingsFile(ByVal location As String, ByVal gblSettingsFile As S
         gblLoudToggleEnabled = fGetINISetting(location, "loudToggleEnabled", gblSettingsFile)
         gblMuteToggleEnabled = fGetINISetting(location, "muteToggleEnabled", gblSettingsFile)
         gblPendulumToggleEnabled = fGetINISetting(location, "pendulumToggleEnabled", gblSettingsFile)
+        gblPendulumEnabled = fGetINISetting(location, "pendulumEnabled", gblSettingsFile)
+        
+        
         gblWeekdayToggleEnabled = fGetINISetting(location, "weekdayToggleEnabled", gblSettingsFile)
         gblDisplayScreenToggleEnabled = fGetINISetting(location, "displayScreenToggleEnabled", gblSettingsFile)
         gblTimeMachineToggleEnabled = fGetINISetting(location, "timeMachineToggleEnabled", gblSettingsFile)
@@ -1088,6 +1092,9 @@ Public Sub validateInputs()
         If gblLoudToggleEnabled = vbNullString Then gblLoudToggleEnabled = "False"
         If gblMuteToggleEnabled = vbNullString Then gblMuteToggleEnabled = "False"
         If gblPendulumToggleEnabled = vbNullString Then gblPendulumToggleEnabled = "False"
+        If gblPendulumEnabled = vbNullString Then gblPendulumEnabled = "False"
+        
+        
         If gblWeekdayToggleEnabled = vbNullString Then gblWeekdayToggleEnabled = "False"
         If gblDisplayScreenToggleEnabled = vbNullString Then gblDisplayScreenToggleEnabled = "True"
         If gblTimeMachineToggleEnabled = vbNullString Then gblTimeMachineToggleEnabled = "False"
