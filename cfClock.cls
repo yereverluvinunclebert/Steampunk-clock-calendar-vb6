@@ -2325,20 +2325,23 @@ End Property
 Public Property Let displayScreenToggleEnabled(ByVal newValue As Boolean)
    
     Dim displayScreenToggleTop As Long: displayScreenToggleTop = 0
-    Dim displayScreenToggleLeft As Long: displayScreenToggleLeft = 0
+    Dim displayScreenToggleIn As Long: displayScreenToggleIn = 0
+    Dim displayScreenToggleOut As Long: displayScreenToggleOut = 0
     Dim fileToPlay As String: fileToPlay = vbNullString
     Dim alphaVal As Integer: alphaVal = 0
     Dim thisDayOfWeek As String: thisDayOfWeek = vbNullString
-'
+    
     On Error GoTo displayScreenToggleEnabledLet_Error
     
     displayScreenToggleTop = displayscreentoggle.Top
-    displayScreenToggleLeft = displayscreentoggle.Left
+    displayScreenToggleOut = 393
+    displayScreenToggleIn = 397
     
+    displayScreenToggleTop = displayscreentoggle.Top
     alphaVal = Val(gblOpacity) / 100
 
     If newValue = True Then
-        displayscreentoggle.Move displayScreenToggleLeft + 3, displayScreenToggleTop
+        displayscreentoggle.Move displayScreenToggleIn, displayScreenToggleTop
         displayscreen.Alpha = alphaVal
         screentop.Alpha = 0
         timemachinetoggle.Alpha = alphaVal
@@ -2347,7 +2350,7 @@ Public Property Let displayScreenToggleEnabled(ByVal newValue As Boolean)
         If backToggleEnabled = True Then screenbackground.Alpha = alphaVal
         gblDisplayScreenToggleEnabled = "True"
     Else
-        displayscreentoggle.Move displayScreenToggleLeft - 3, displayScreenToggleTop
+        displayscreentoggle.Move displayScreenToggleOut, displayScreenToggleTop
         displayscreen.Alpha = 0
         screentop.Alpha = alphaVal
         timemachinetoggle.Alpha = 0
@@ -2799,25 +2802,29 @@ End Property
 Public Property Let weekdayToggleEnabled(ByVal newValue As Boolean)
    
     Dim weekdayToggleTop As Long: weekdayToggleTop = 0
-    Dim weekdayToggleLeft As Long: weekdayToggleLeft = 0
+    Dim weekdayToggleIn As Long: weekdayToggleIn = 0
+    Dim weekdayToggleOut As Long: weekdayToggleOut = 0
     Dim fileToPlay As String: fileToPlay = vbNullString
     Dim alphaVal As Integer: alphaVal = 0
     Dim thisDayOfWeek As String: thisDayOfWeek = vbNullString
-'
+    
     On Error GoTo weekdayToggleEnabledLet_Error
+        
+    weekdayToggleTop = weekdaytoggle.Top
+    weekdayToggleOut = 397
+    weekdayToggleIn = 401
     
     weekdayToggleTop = weekdaytoggle.Top
-    weekdayToggleLeft = weekdaytoggle.Left
     
     alphaVal = Val(gblOpacity) / 100
     thisDayOfWeek = fDayOfWeek
 
     If newValue = True Then
-        weekdaytoggle.Move weekdayToggleLeft + 4, weekdayToggleTop
+        weekdaytoggle.Move weekdayToggleIn, weekdayToggleTop
         clockForm.Widgets(thisDayOfWeek).Widget.Alpha = alphaVal
         gblWeekdayToggleEnabled = "True"
     Else
-        weekdaytoggle.Move weekdayToggleLeft - 4, weekdayToggleTop
+        weekdaytoggle.Move weekdayToggleOut, weekdayToggleTop
         clockForm.Widgets(thisDayOfWeek).Widget.Alpha = 0
         weekdayredcover.Alpha = 0 ' sometimes you can fool the mouseleave, this recovers the situation
         gblWeekdayToggleEnabled = "False"
@@ -2876,19 +2883,23 @@ Public Property Let timeMachineToggleEnabled(ByVal newValue As Boolean)
    
     Dim timeMachineToggleTop As Long: timeMachineToggleTop = 0
     Dim timeMachineToggleLeft As Long: timeMachineToggleLeft = 0
-    Dim fileToPlay As String: fileToPlay = vbNullString
 
+    Dim timeMachineToggleIn As Long: timeMachineToggleIn = 0
+    Dim timeMachineToggleOut As Long: timeMachineToggleOut = 0
+    Dim fileToPlay As String: fileToPlay = vbNullString
+    
     On Error GoTo timeMachineToggleEnabledLet_Error
     
     timeMachineToggleTop = timemachinetoggle.Top
-    timeMachineToggleLeft = timemachinetoggle.Left
-    
+    timeMachineToggleOut = 381
+    timeMachineToggleIn = 385
+
     If newValue = True Then
-        timemachinetoggle.Move timeMachineToggleLeft + 4, timeMachineToggleTop
+        timemachinetoggle.Move timeMachineToggleIn, timeMachineToggleTop
         overlayWidget.TimeMachine = True
         gblTimeMachineToggleEnabled = "True"
     Else
-        timemachinetoggle.Move timeMachineToggleLeft - 4, timeMachineToggleTop
+        timemachinetoggle.Move timeMachineToggleOut, timeMachineToggleTop
         overlayWidget.TimeMachine = False
         gblTimeMachineToggleEnabled = "False"
     End If
