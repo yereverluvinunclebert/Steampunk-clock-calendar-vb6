@@ -372,6 +372,9 @@ Public gblTimeMachineToggleEnabled As String
 Public gblBackToggleEnabled As String
 Public gblClapperEnabled As String
 Public gblChainEnabled As String
+Public gblCrankEnabled As String
+
+
 
 
 

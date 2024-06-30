@@ -301,6 +301,7 @@ Private Sub initialiseGlobalVars()
     gblBackToggleEnabled = vbNullString
     gblClapperEnabled = vbNullString
     gblChainEnabled = vbNullString
+    gblCrankEnabled = vbNullString
     
     
     ' general variables declared
@@ -840,7 +841,11 @@ Public Sub adjustMainControls()
     fClock.clapperEnabled = CBool(gblClapperEnabled)
     
     If gblChainEnabled = "True" Then
-        fClock.backToggleEnabled = True
+        fClock.chainEnabled = True
+    End If
+    
+    If gblCrankEnabled = "True" Then
+        fClock.crankEnabled = True
     End If
 
     ' set the z-ordering of the window
@@ -988,7 +993,7 @@ Public Sub readSettingsFile(ByVal location As String, ByVal gblSettingsFile As S
         gblBackToggleEnabled = fGetINISetting(location, "backToggleEnabled", gblSettingsFile)
         gblClapperEnabled = fGetINISetting(location, "clapperEnabled", gblSettingsFile)
         gblChainEnabled = fGetINISetting(location, "chainEnabled", gblSettingsFile)
-        
+        gblCrankEnabled = fGetINISetting(location, "crankEnabled", gblSettingsFile)
                 
     End If
 
@@ -1089,8 +1094,7 @@ Public Sub validateInputs()
         If gblBackToggleEnabled = vbNullString Then gblBackToggleEnabled = "False"
         If gblClapperEnabled = vbNullString Then gblClapperEnabled = "True"
         If gblChainEnabled = vbNullString Then gblChainEnabled = "True"
-        
-        
+        If gblCrankEnabled = vbNullString Then gblCrankEnabled = "True"
         
    On Error GoTo 0
    Exit Sub

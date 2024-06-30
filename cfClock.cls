@@ -34,6 +34,8 @@ Private mTimeMachineToggleEnabled As Boolean
 Private mBackToggleEnabled As Boolean
 Private mClapperEnabled As Boolean
 Private mChainEnabled As Boolean
+Private mCrankEnabled As Boolean
+
 
 ' widgets
 Private WithEvents helpbottom As cWidgetBase
@@ -704,81 +706,7 @@ dropdown_MouseDown_Error:
 
 End Sub
 
-
-
-' Note: We do not implement a middle position for the crank as the layers would be on top of each other and would interrupt a mouse through
-' it could be done with an overlay but I really can't be bothered.
-
-'---------------------------------------------------------------------------------------
-' Procedure : crankdown_myMouseDown
-' Author    : beededea
-' Date      : 03/08/2023
-' Purpose   :  - note: - can't use a std MouseDown as
-'             declaring a widget as cWidgetBase 'WithEvents' does not provide a std MouseDown with a sender object
-'---------------------------------------------------------------------------------------
 '
-Private Sub crankdown_myMouseDown()
-   On Error GoTo crankdown_myMouseDown_Error
-
-    Dim fileToPlay As String: fileToPlay = vbNullString
-    Dim alphaVal As Integer: alphaVal = 0
-        
-    alphaVal = Val(gblOpacity) / 100
-    
-    fileToPlay = "crank.wav"
-    If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
-        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
-    End If
-    
-    crankup.Alpha = alphaVal
-    crankdown.Alpha = 0
-
-    clockForm.Refresh
-
-   On Error GoTo 0
-   Exit Sub
-
-crankdown_myMouseDown_Error:
-
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure crankdown_myMouseDown of Class Module cfClock"
-
-End Sub
-'---------------------------------------------------------------------------------------
-' Procedure : crankup_myMouseDown
-' Author    : beededea
-' Date      : 03/08/2023
-' Purpose   :  - note: - can't use a std MouseDown as
-'             declaring a widget as cWidgetBase 'WithEvents' does not provide a std MouseDown with a sender object
-'---------------------------------------------------------------------------------------
-'
-Private Sub crankup_myMouseDown()
-   On Error GoTo crankup_myMouseDown_Error
-
-    Dim fileToPlay As String: fileToPlay = vbNullString
-    Dim alphaVal As Integer: alphaVal = 0
-        
-    alphaVal = Val(gblOpacity) / 100
-    
-    fileToPlay = "crank.wav"
-    If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
-        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
-    End If
-    
-    crankup.Alpha = 0
-    crankdown.Alpha = alphaVal
-
-    clockForm.Refresh
-
-   On Error GoTo 0
-   Exit Sub
-
-crankup_myMouseDown_Error:
-
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure crankup_myMouseDown of Class Module cfClock"
-
-End Sub
-
-
 
 '---------------------------------------------------------------------------------------
 ' Procedure : alarmtoggle1_myMouseDown
@@ -1288,10 +1216,11 @@ End Sub
 '---------------------------------------------------------------------------------------
 '
 Private Sub chain_myMouseDown()
-   On Error GoTo chain_myMouseDown_Error
 
     Dim fileToPlay As String: fileToPlay = vbNullString
 
+    On Error GoTo chain_myMouseDown_Error
+    
     fileToPlay = "clunk.wav"
     If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
         PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
@@ -1329,8 +1258,6 @@ Private Sub backtoggle_myMouseDown()
    On Error GoTo backtoggle_myMouseDown_Error
 
     Dim fileToPlay As String: fileToPlay = vbNullString
-    Dim backToggleTop As Long: backToggleTop = 0
-    Dim backToggleLeft As Long: backToggleLeft = 0
     
     fileToPlay = "clunk.wav"
     If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
@@ -2528,7 +2455,7 @@ Public Property Let clapperEnabled(ByVal newValue As Boolean)
  
     If newValue = True Then
         gblClapperEnabled = "True"
-        If muteInitiatingControl = "clapper" Then muteToggleEnabled = False
+        If muteInitiatingControl = "clapper" Then muteToggleEnabled = False ' prevents recurring calls
         clapperright.Alpha = 0
         clapperLeft.Alpha = alphaVal
     Else
@@ -2585,7 +2512,6 @@ Public Property Let backToggleEnabled(ByVal newValue As Boolean)
    
     Dim backToggleTop As Long: backToggleTop = 0
     Dim backToggleLeft As Long: backToggleLeft = 0
-    Dim fileToPlay As String: fileToPlay = vbNullString
     Dim alphaVal As Integer: alphaVal = 0
 
     On Error GoTo backToggleEnabledLet_Error
@@ -2639,6 +2565,134 @@ backToggleEnabledGet_Error:
 
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property backToggleEnabled of Class Module cfClock"
 End Property
+
+
+' ---------------------------------------------------------------------------------------
+' Procedure : crankdown_myMouseDown
+' Author    : beededea
+' Date      : 03/08/2023
+' Purpose   :  - note: - can't use a std MouseDown as
+'             declaring a widget as cWidgetBase 'WithEvents' does not provide a std MouseDown with a sender object
+'---------------------------------------------------------------------------------------
+'
+Private Sub crankdown_myMouseDown()
+
+    Dim fileToPlay As String: fileToPlay = vbNullString
+            
+    On Error GoTo crankdown_myMouseDown_Error
+    
+    fileToPlay = "crank.wav"
+    If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
+        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
+    End If
+    
+    crankEnabled = True
+
+    clockForm.Refresh
+
+   On Error GoTo 0
+   Exit Sub
+
+crankdown_myMouseDown_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure crankdown_myMouseDown of Class Module cfClock"
+
+End Sub
+'---------------------------------------------------------------------------------------
+' Procedure : crankup_myMouseDown
+' Author    : beededea
+' Date      : 03/08/2023
+' Purpose   :  - note: - can't use a std MouseDown as
+'             declaring a widget as cWidgetBase 'WithEvents' does not provide a std MouseDown with a sender object
+'---------------------------------------------------------------------------------------
+'
+Private Sub crankup_myMouseDown()
+
+    Dim fileToPlay As String: fileToPlay = vbNullString
+    
+    On Error GoTo crankup_myMouseDown_Error
+    
+    fileToPlay = "crank.wav"
+    If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
+        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
+    End If
+    
+    crankEnabled = False
+
+    clockForm.Refresh
+
+   On Error GoTo 0
+   Exit Sub
+
+crankup_myMouseDown_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure crankup_myMouseDown of Class Module cfClock"
+
+End Sub
+
+
+
+
+'---------------------------------------------------------------------------------------
+' Property  : crankEnabled
+' Author    : beededea
+' Date      : 10/05/2023
+' Purpose   :
+'---------------------------------------------------------------------------------------
+'
+Public Property Let crankEnabled(ByVal newValue As Boolean)
+    Dim alphaVal As Integer: alphaVal = 0
+  
+    On Error GoTo crankEnabledLet_Error
+    
+    alphaVal = Val(gblOpacity) / 100
+    
+    If newValue = True Then
+        crankup.Alpha = alphaVal
+        crankdown.Alpha = 0
+        gblCrankEnabled = "True"
+    Else
+        gblCrankEnabled = "False"
+        crankup.Alpha = 0
+        crankdown.Alpha = alphaVal
+    End If
+       
+    sPutINISetting "Software\SteampunkClockCalendar", "crankEnabled", gblCrankEnabled, gblSettingsFile
+
+    If mCrankEnabled <> newValue Then mCrankEnabled = newValue Else Exit Property
+    crankEnabled = mCrankEnabled
+    
+    clockForm.Refresh
+     
+   On Error GoTo 0
+   Exit Property
+
+crankEnabledLet_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property crankEnabled of Class Module cfClock"
+End Property
+
+'---------------------------------------------------------------------------------------
+' Property  : crankEnabled
+' Author    : beededea
+' Date      : 17/05/2023
+' Purpose   :
+'---------------------------------------------------------------------------------------
+'
+Public Property Get crankEnabled() As Boolean
+   On Error GoTo crankEnabledGet_Error
+
+    crankEnabled = mCrankEnabled
+
+   On Error GoTo 0
+   Exit Property
+
+crankEnabledGet_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property crankEnabled of Class Module cfClock"
+End Property
+
+
 
 
 '---------------------------------------------------------------------------------------
