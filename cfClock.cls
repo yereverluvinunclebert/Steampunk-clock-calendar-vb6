@@ -1516,18 +1516,11 @@ End Sub
 '---------------------------------------------------------------------------------------
 '
 Private Sub mutetoggle_myMouseDown()
-
-    Dim fileToPlay As String: fileToPlay = vbNullString
     
     On Error GoTo mutetoggle_myMouseDown_Error
     
     muteInitiatingControl = "muteToggle"
- 
-    fileToPlay = "clunk.wav"
-    If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
-        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
-    End If
-    
+     
     If gblMuteToggleEnabled = "False" Then
         muteToggleEnabled = True
     Else
@@ -2451,17 +2444,17 @@ End Property
 '---------------------------------------------------------------------------------------
 '
 Private Sub clapperleft_myMouseDown()
-    Dim fileToPlay As String: fileToPlay = vbNullString
+    'Dim fileToPlay As String: fileToPlay = vbNullString
     
     On Error GoTo clapperleft_myMouseDown_Error
 
     muteInitiatingControl = "clapper"
 
-    fileToPlay = "clunk.wav"
-    
-    If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
-        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
-    End If
+'    fileToPlay = "clunk.wav"
+'
+'    If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
+'        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
+'    End If
         
     If clapperEnabled = True Then
 
@@ -2490,14 +2483,16 @@ End Sub
 '---------------------------------------------------------------------------------------
 '
 Private Sub clapperright_myMouseDown()
-    Dim fileToPlay As String: fileToPlay = vbNullString
+'    Dim fileToPlay As String: fileToPlay = vbNullString
     
-   On Error GoTo clapperright_myMouseDown_Error
+    On Error GoTo clapperright_myMouseDown_Error
+    
+    muteInitiatingControl = "clapper"
    
-    fileToPlay = "singleBell.wav"
-    If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
-        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
-    End If
+'    fileToPlay = "singleBell.wav"
+'    If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
+'        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
+'    End If
 
     If clapperEnabled = True Then
         clapperEnabled = False
@@ -2533,12 +2528,12 @@ Public Property Let clapperEnabled(ByVal newValue As Boolean)
  
     If newValue = True Then
         gblClapperEnabled = "True"
-        If muteInitiatingControl = "clapper" Then muteToggleEnabled = True
+        If muteInitiatingControl = "clapper" Then muteToggleEnabled = False
         clapperright.Alpha = 0
         clapperLeft.Alpha = alphaVal
     Else
         gblClapperEnabled = "False"
-        If muteInitiatingControl = "clapper" Then muteToggleEnabled = False
+        If muteInitiatingControl = "clapper" Then muteToggleEnabled = True
         clapperright.Alpha = alphaVal
         clapperLeft.Alpha = 0
 
@@ -2917,6 +2912,7 @@ Public Property Let muteToggleEnabled(ByVal newValue As Boolean)
    
     Dim muteToggleTop As Long: muteToggleTop = 0
     Dim muteToggleLeft As Long: muteToggleLeft = 0
+    Dim fileToPlay As String: fileToPlay = vbNullString
     
     On Error GoTo muteToggleEnabledLet_Error
     
@@ -2924,13 +2920,19 @@ Public Property Let muteToggleEnabled(ByVal newValue As Boolean)
     muteToggleLeft = mutetoggle.Left
     
     If newValue = True Then
+        fileToPlay = "clunk.wav"
         mutetoggle.Move muteToggleLeft + 4, muteToggleTop
         gblMuteToggleEnabled = "True"
-        If muteInitiatingControl = "muteToggle" Then clapperEnabled = True
+        If muteInitiatingControl = "muteToggle" Then clapperEnabled = False
     Else
+        fileToPlay = "singleBell.wav"
         mutetoggle.Move muteToggleLeft - 4, muteToggleTop
         gblMuteToggleEnabled = "False"
-        If muteInitiatingControl = "muteToggle" Then clapperEnabled = False
+        If muteInitiatingControl = "muteToggle" Then clapperEnabled = True
+    End If
+    
+    If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
+        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
     End If
     
     sPutINISetting "Software\SteampunkClockCalendar", "muteToggleEnabled", gblMuteToggleEnabled, gblSettingsFile
