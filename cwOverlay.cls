@@ -373,6 +373,23 @@ Private Sub drawTimeMachineImages(ByRef CC As cCairoContext)
 End Sub
  
 '---------------------------------------------------------------------------------------
+' Procedure : drawAMPMDigitalDay
+' Author    : beededea
+' Date      : 17/05/2023
+' Purpose   :
+'---------------------------------------------------------------------------------------
+'
+Private Sub drawAMPMDigitalDay(ByRef CC As cCairoContext)
+    
+    If thisHour < 12 Then ' uses vb6 coerce a string to a numeric without calling a cast function, quicker?
+         CC.RenderSurfaceContent "AM", 620, 388, , , , 1
+    Else
+         CC.RenderSurfaceContent "PM", 620, 388, , , , 1
+    End If
+
+
+End Sub
+'---------------------------------------------------------------------------------------
 ' Procedure : drawDigitalClocks
 ' Author    : beededea
 ' Date      : 17/05/2023
@@ -386,6 +403,7 @@ Private Sub drawDigitalClocks(ByRef CC As cCairoContext)
     Call displayDigitalYear(CC)
     Call displayDigitalHours(CC)
     Call displayDigitalMins(CC)
+    Call drawAMPMDigitalDay(CC)
    
 End Sub
 

@@ -433,6 +433,9 @@ Private Sub addImagesToImageList()
     Cairo.ImageList.AddImage "small8", App.path & "\Resources\images\small8.png"
     Cairo.ImageList.AddImage "small9", App.path & "\Resources\images\small9.png"
     
+    Cairo.ImageList.AddImage "AM", App.path & "\Resources\images\AM.png"
+    Cairo.ImageList.AddImage "PM", App.path & "\Resources\images\PM.png"
+    
    On Error GoTo 0
    Exit Sub
 
@@ -526,19 +529,19 @@ Public Sub adjustMainControls()
 '        .Tag = 0.01
 '    End With
     
-    With fClock.clockForm.Widgets("meridien").Widget
-        .HoverColor = 0
-        .MousePointer = IDC_ARROW
-        .Alpha = Val(gblOpacity) / 100
-        .Tag = 0.01
-    End With
-
-    With fClock.clockForm.Widgets("anti").Widget
-        .HoverColor = 0
-        .MousePointer = IDC_ARROW
-        .Alpha = Val(gblOpacity) / 100
-        .Tag = 0.01
-    End With
+'    With fClock.clockForm.Widgets("meridien").Widget
+'        .HoverColor = 0
+'        .MousePointer = IDC_ARROW
+'        .Alpha = Val(gblOpacity) / 100
+'        .Tag = 0.01
+'    End With
+'
+'    With fClock.clockForm.Widgets("anti").Widget
+'        .HoverColor = 0
+'        .MousePointer = IDC_ARROW
+'        .Alpha = Val(gblOpacity) / 100
+'        .Tag = 0.01
+'    End With
 
     With fClock.clockForm.Widgets("backtoggle").Widget
         .HoverColor = 0
