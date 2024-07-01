@@ -382,9 +382,9 @@ End Sub
 Private Sub drawAMPMDigitalDay(ByRef CC As cCairoContext)
     
     If thisHour < 12 Then ' uses vb6 coerce a string to a numeric without calling a cast function, quicker?
-         CC.RenderSurfaceContent "AM", 620, 388, , , , 1
+         CC.RenderSurfaceContent "AM", 621, 387, , , , 1
     Else
-         CC.RenderSurfaceContent "PM", 620, 388, , , , 1
+         CC.RenderSurfaceContent "PM", 621, 387, , , , 1
     End If
 
 
