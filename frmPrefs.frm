@@ -3126,7 +3126,6 @@ Private Sub btnSave_Click()
         sPutINISetting "Software\SteampunkClockCalendar", "muteToggleEnabled", gblMuteToggleEnabled, gblSettingsFile
         sPutINISetting "Software\SteampunkClockCalendar", "pendulumToggleEnabled", gblPendulumToggleEnabled, gblSettingsFile
         sPutINISetting "Software\SteampunkClockCalendar", "pendulumEnabled", gblPendulumEnabled, gblSettingsFile
-        
         sPutINISetting "Software\SteampunkClockCalendar", "weekdayToggleEnabled", gblWeekdayToggleEnabled, gblSettingsFile
         sPutINISetting "Software\SteampunkClockCalendar", "displayScreenToggleEnabled", gblDisplayScreenToggleEnabled, gblSettingsFile
         sPutINISetting "Software\SteampunkClockCalendar", "timeMachineToggleEnabled", gblTimeMachineToggleEnabled, gblSettingsFile
@@ -3134,7 +3133,11 @@ Private Sub btnSave_Click()
         sPutINISetting "Software\SteampunkClockCalendar", "clapperEnabled", gblClapperEnabled, gblSettingsFile
         sPutINISetting "Software\SteampunkClockCalendar", "chainEnabled", gblChainEnabled, gblSettingsFile
         sPutINISetting "Software\SteampunkClockCalendar", "crankEnabled", gblCrankEnabled, gblSettingsFile
-       
+        sPutINISetting "Software\SteampunkClockCalendar", "alarmToggle1Enabled", gblAlarmToggle1Enabled, gblSettingsFile
+        sPutINISetting "Software\SteampunkClockCalendar", "alarmToggle2Enabled", gblAlarmToggle2Enabled, gblSettingsFile
+        sPutINISetting "Software\SteampunkClockCalendar", "alarmToggle3Enabled", gblAlarmToggle3Enabled, gblSettingsFile
+        sPutINISetting "Software\SteampunkClockCalendar", "alarmToggle4Enabled", gblAlarmToggle4Enabled, gblSettingsFile
+        sPutINISetting "Software\SteampunkClockCalendar", "alarmToggle5Enabled", gblAlarmToggle5Enabled, gblSettingsFile
     End If
     
     ' set the tooltips on the prefs screen

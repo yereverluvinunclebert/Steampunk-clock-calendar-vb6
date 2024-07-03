@@ -303,7 +303,11 @@ Private Sub initialiseGlobalVars()
     gblClapperEnabled = vbNullString
     gblChainEnabled = vbNullString
     gblCrankEnabled = vbNullString
-    
+    gblAlarmToggle1Enabled = vbNullString
+    gblAlarmToggle2Enabled = vbNullString
+    gblAlarmToggle3Enabled = vbNullString
+    gblAlarmToggle4Enabled = vbNullString
+    gblAlarmToggle5Enabled = vbNullString
     
     ' general variables declared
     'toolSettingsFile = vbNullString
@@ -557,7 +561,6 @@ Public Sub adjustMainControls()
         .Tag = 0.01
     End With
 
-
     With fClock.clockForm.Widgets("alarmtoggle2").Widget
         .HoverColor = 0
         .MousePointer = IDC_HAND
@@ -571,20 +574,34 @@ Public Sub adjustMainControls()
         .Alpha = Val(gblOpacity) / 100
         .Tag = 0.01
     End With
+
+    With fClock.clockForm.Widgets("alarmtoggle4").Widget
+        .HoverColor = 0
+        .MousePointer = IDC_HAND
+        .Alpha = Val(gblOpacity) / 100
+        .Tag = 0.01
+    End With
     
-    With fClock.clockForm.Widgets("alarmtoggle5armed").Widget
+    With fClock.clockForm.Widgets("alarmtoggle5").Widget
         .HoverColor = 0
         .MousePointer = IDC_HAND
         .Alpha = Val(gblOpacity) / 100
         .Tag = 0.01
     End With
 
-    With fClock.clockForm.Widgets("alarmtoggle4armed").Widget
-        .HoverColor = 0
-        .MousePointer = IDC_HAND
-        .Alpha = Val(gblOpacity) / 100
-        .Tag = 0.01
-    End With
+'    With fClock.clockForm.Widgets("alarmtoggle5armed").Widget
+'        .HoverColor = 0
+'        .MousePointer = IDC_HAND
+'        .Alpha = 0
+'        .Tag = 0.01
+'    End With
+
+'    With fClock.clockForm.Widgets("alarmtoggle4armed").Widget
+'        .HoverColor = 0
+'        .MousePointer = IDC_HAND
+'        .Alpha = 0
+'        .Tag = 0.01
+'    End With
 
     With fClock.clockForm.Widgets("maincasingsurround").Widget
         .HoverColor = 0
@@ -851,6 +868,26 @@ Public Sub adjustMainControls()
     If gblCrankEnabled = "True" Then
         fClock.crankEnabled = True
     End If
+    
+    If gblAlarmToggle1Enabled = "True" Then
+        fClock.alarmtoggle1Enabled = True
+    End If
+    
+    If gblAlarmToggle2Enabled = "True" Then
+        fClock.alarmtoggle2Enabled = True
+    End If
+    
+    If gblAlarmToggle3Enabled = "True" Then
+        fClock.alarmtoggle3Enabled = True
+    End If
+    
+    If gblAlarmToggle4Enabled = "True" Then
+        fClock.alarmtoggle4Enabled = True
+    End If
+    
+    If gblAlarmToggle5Enabled = "True" Then
+        fClock.alarmtoggle5Enabled = True
+    End If
 
     ' set the z-ordering of the window
     Call setAlphaFormZordering
@@ -992,8 +1029,6 @@ Public Sub readSettingsFile(ByVal location As String, ByVal gblSettingsFile As S
         gblMuteToggleEnabled = fGetINISetting(location, "muteToggleEnabled", gblSettingsFile)
         gblPendulumToggleEnabled = fGetINISetting(location, "pendulumToggleEnabled", gblSettingsFile)
         gblPendulumEnabled = fGetINISetting(location, "pendulumEnabled", gblSettingsFile)
-        
-        
         gblWeekdayToggleEnabled = fGetINISetting(location, "weekdayToggleEnabled", gblSettingsFile)
         gblDisplayScreenToggleEnabled = fGetINISetting(location, "displayScreenToggleEnabled", gblSettingsFile)
         gblTimeMachineToggleEnabled = fGetINISetting(location, "timeMachineToggleEnabled", gblSettingsFile)
@@ -1001,6 +1036,11 @@ Public Sub readSettingsFile(ByVal location As String, ByVal gblSettingsFile As S
         gblClapperEnabled = fGetINISetting(location, "clapperEnabled", gblSettingsFile)
         gblChainEnabled = fGetINISetting(location, "chainEnabled", gblSettingsFile)
         gblCrankEnabled = fGetINISetting(location, "crankEnabled", gblSettingsFile)
+        gblAlarmToggle1Enabled = fGetINISetting(location, "alarmToggle1Enabled", gblSettingsFile)
+        gblAlarmToggle2Enabled = fGetINISetting(location, "alarmToggle2Enabled", gblSettingsFile)
+        gblAlarmToggle3Enabled = fGetINISetting(location, "alarmToggle3Enabled", gblSettingsFile)
+        gblAlarmToggle4Enabled = fGetINISetting(location, "alarmToggle4Enabled", gblSettingsFile)
+        gblAlarmToggle5Enabled = fGetINISetting(location, "alarmToggle5Enabled", gblSettingsFile)
                 
     End If
 
@@ -1105,6 +1145,11 @@ Public Sub validateInputs()
         If gblClapperEnabled = vbNullString Then gblClapperEnabled = "True"
         If gblChainEnabled = vbNullString Then gblChainEnabled = "True"
         If gblCrankEnabled = vbNullString Then gblCrankEnabled = "True"
+        If gblAlarmToggle1Enabled = vbNullString Then gblAlarmToggle1Enabled = "False"
+        If gblAlarmToggle2Enabled = vbNullString Then gblAlarmToggle2Enabled = "False"
+        If gblAlarmToggle3Enabled = vbNullString Then gblAlarmToggle3Enabled = "False"
+        If gblAlarmToggle4Enabled = vbNullString Then gblAlarmToggle4Enabled = "False"
+        If gblAlarmToggle5Enabled = vbNullString Then gblAlarmToggle5Enabled = "False"
         
    On Error GoTo 0
    Exit Sub

@@ -368,7 +368,7 @@ Public gblMuteToggleEnabled As String
 Public gblPendulumToggleEnabled As String
 Public gblPendulumEnabled As String
 
-
+' global properties for the state of each UI element, read at startup
 Public gblWeekdayToggleEnabled As String
 Public gblDisplayScreenToggleEnabled As String
 Public gblTimeMachineToggleEnabled As String
@@ -376,10 +376,11 @@ Public gblBackToggleEnabled As String
 Public gblClapperEnabled As String
 Public gblChainEnabled As String
 Public gblCrankEnabled As String
-
-
-
-
+Public gblAlarmToggle1Enabled As String
+Public gblAlarmToggle2Enabled As String
+Public gblAlarmToggle3Enabled As String
+Public gblAlarmToggle4Enabled As String
+Public gblAlarmToggle5Enabled As String
 
 ' vars stored for positioning the prefs form
 Public gblFormHighDpiXPosTwips As String
