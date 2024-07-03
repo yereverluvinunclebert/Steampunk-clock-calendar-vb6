@@ -1,8 +1,8 @@
 # Steampunk Clock Calendar-VB6
  
-  A FOSS Desktop Utility VB6 WoW64 Widget for Windows Vista, Win7, 8 and 10/11+. 
+  A FOSS Desktop Utility VB6 WoW64 Widget for Windows XP, ReactOS, Vista, Win7, 8 and 10/11+. 
 
- My current VB6/RC6 PSD program being worked upon now, in progress, don't download it yet as it is far from complete. Estimated at 99% graphically complete but only 20% code-ready. This Steampunk Clock Calendar widget is an attractive steampunk widget for your desktop. It is a deliberately complex clock. Functional and gorgeous at the 
+ My current VB6/RC6 PSD program being worked upon now, in progress, don't download it yet as it is far from complete. Estimated at 99% graphically complete but only 25% code-ready. This Steampunk Clock Calendar widget is an attractive steampunk widget for your desktop. It is a deliberately complex clock. Functional and gorgeous at the 
 same time. This Widget is a moveable widget that you can move anywhere around the 
 desktop as you require. This is based upon the Yahoo widget of the same design. 
  
@@ -37,7 +37,7 @@ desktop as you require. This is based upon the Yahoo widget of the same design.
  This version was developed on Windows 10 64bit using 32 bit VisualBasic 6 as a FOSS 
  project creating a WoW64 widget for the desktop. 
 
- The tool has two modes, Clock mode and Alarm mode. n clock mode the clock ticks, the calendar shows the date.
+ The tool has two modes, Clock mode and Alarm mode. In clock mode the clock ticks, the calendar shows the date.
 In alarm mode you can set alarms and when the time has passed the alarm will sound.
 
 Instructions for use:
@@ -155,7 +155,7 @@ At the back-end there are more preferences that may be changed, all are document
  MicroSoft in the 90s - MS built good, lean and useful tools in the late 90s and 
  early 2000s. Thanks for VB6.
  
- Olaf Schmidt - This tool was built using the RichClient RC5 Cairo wrapper for 
+ Olaf Schmidt - This tool was built using the RichClient RC6 Cairo wrapper for 
  VB6. Specifically the components using transparency and reading images directly 
  from PSD. Thanks for the massive effort Olaf in creating Cairo counterparts for 
  all VB6 native controls and giving us access to advanced features on controls 
