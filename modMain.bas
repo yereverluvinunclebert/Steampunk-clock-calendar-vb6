@@ -233,6 +233,8 @@ Private Sub initialiseGlobalVars()
     gblEnablePrefsTooltips = vbNullString
     gblEnableBalloonTooltips = vbNullString
     gblShowTaskbar = vbNullString
+    gblShowHelp = vbNullString
+    
     gblDpiAwareness = vbNullString
     
     gblGaugeSize = vbNullString
@@ -486,6 +488,7 @@ Public Sub adjustMainControls()
     Else
         fClock.clockForm.ShowInTaskbar = True
     End If
+
     
     ' set the visibility and characteristics of the interactive areas
     ' the alpha is already set to zero for all layers found in the PSD, we now turn them back on as we require
@@ -641,7 +644,7 @@ Public Sub adjustMainControls()
     With fClock.clockForm.Widgets("redarlarmcover").Widget
         .HoverColor = 0
         .MousePointer = IDC_HAND
-        .Alpha = Val(gblOpacity) / 100
+        .Alpha = 0
         .Tag = 0.01
     End With
 
@@ -822,7 +825,11 @@ Public Sub adjustMainControls()
     End If
     
     ' ensure the background help displays on startup
-    fClock.ShowHelp = True
+    If gblShowHelp = "0" Then
+        fClock.ShowHelp = False
+    Else
+        fClock.ShowHelp = True
+    End If
 
     ' set the slider position to the start point
     fClock.timeShiftPercent = 0
@@ -966,6 +973,8 @@ Public Sub readSettingsFile(ByVal location As String, ByVal gblSettingsFile As S
         gblEnablePrefsTooltips = fGetINISetting(location, "enablePrefsTooltips", gblSettingsFile)
         gblEnableBalloonTooltips = fGetINISetting(location, "enableBalloonTooltips", gblSettingsFile)
         gblShowTaskbar = fGetINISetting(location, "showTaskbar", gblSettingsFile)
+        gblShowHelp = fGetINISetting(location, "showHelp", gblSettingsFile)
+        
         gblDpiAwareness = fGetINISetting(location, "dpiAwareness", gblSettingsFile)
         
         
@@ -1084,6 +1093,8 @@ Public Sub validateInputs()
         If gblEnablePrefsTooltips = vbNullString Then gblEnablePrefsTooltips = "1"
         If gblEnableBalloonTooltips = vbNullString Then gblEnableBalloonTooltips = "1"
         If gblShowTaskbar = vbNullString Then gblShowTaskbar = "0"
+        If gblShowHelp = vbNullString Then gblShowHelp = "0"
+        
         If gblDpiAwareness = vbNullString Then gblDpiAwareness = "0"
         If gblGaugeSize = vbNullString Then gblGaugeSize = "25"
         If gblScrollWheelDirection = vbNullString Then gblScrollWheelDirection = "1"

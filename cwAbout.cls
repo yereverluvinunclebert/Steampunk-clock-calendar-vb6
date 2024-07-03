@@ -359,11 +359,10 @@ Private Sub Draw(ByRef CC As cCairoContext, ByVal dx As Single, ByVal dy As Sing
     W.ForeColor = vbBlack
     W.SelectFontSettingsInto CC
     
-   
     If gblDpiAwareness = "0" Then
         CC.DrawText 250, 0, dx, dy, "version " & App.Major & "." & App.Minor & "." & App.Revision & " Alpha", , , 2, True, , mMyOpacity
     Else
-        CC.DrawText 240, -285, dx, dy, "v." & App.Major & "." & App.Minor & "." & App.Revision, , , 2, True, , mMyOpacity
+        CC.DrawText 260, -175, dx, dy, "version " & App.Major & "." & App.Minor & "." & App.Revision & " Alpha", , , 2, True, , mMyOpacity
     End If
     W.Refresh
 

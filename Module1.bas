@@ -305,6 +305,8 @@ Public gblEnablePrefsTooltips As String
 Public gblEnableBalloonTooltips As String
 
 Public gblShowTaskbar As String
+Public gblShowHelp As String
+
 Public gblDpiAwareness As String
 
 Public gblGaugeSize As String
