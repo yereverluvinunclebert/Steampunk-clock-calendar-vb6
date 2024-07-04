@@ -35,6 +35,7 @@ Private Sec As Integer
 
 Private WithEvents tmrClock As cTimer
 Attribute tmrClock.VB_VarHelpID = -1
+
 Private WithEvents W As cWidgetBase
 Attribute W.VB_VarHelpID = -1
 
@@ -70,7 +71,7 @@ Private Sub Class_Initialize()
     Set tmrClock = New_c.Timer(intervalValue, True)
     
     tmrClock.Enabled = True
-            
+   
    On Error GoTo 0
    Exit Sub
 
@@ -833,6 +834,8 @@ tmrClock_Timer_Error:
 
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure tmrClock_Timer of Class Module cwOverlay"
 End Sub
+
+
 
 '
 '   // variables set for the pendulum

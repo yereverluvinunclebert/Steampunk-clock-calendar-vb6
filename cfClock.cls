@@ -44,7 +44,6 @@ Private mAlarmToggle5Enabled As Boolean
 
 Public mShowHelp As Boolean
 
-
 ' widgets
 Private WithEvents helpbottom As cWidgetBase
 Attribute helpbottom.VB_VarHelpID = -1
@@ -128,7 +127,8 @@ Private muteInitiatingControl As String
 Private pendulumInitiatingControl As String
 Private alarmInitiatingControl As String
 
-
+Private WithEvents tmrZZZZ As cTimer
+Attribute tmrZZZZ.VB_VarHelpID = -1
 
 
 '---------------------------------------------------------------------------------------
@@ -144,6 +144,10 @@ Private Sub Class_Initialize()
     On Error GoTo Class_Initialize_Error
 
     Set collPSDNonUIElements = New_c.Collection(False)
+    
+    Set tmrZZZZ = Nothing
+    Set tmrZZZZ = New_c.Timer(300, False)
+    
 
 
    On Error GoTo 0
@@ -373,6 +377,7 @@ Private Sub clockForm_BubblingEvent(ByRef sender As Object, ByRef EventName As S
    
     Dim stdMessage As String: stdMessage = vbNullString
     Dim stdSubject As String: stdSubject = vbNullString
+    Dim fileToPlay As String: fileToPlay = vbNullString
     
     On Error GoTo clockForm_BubblingEvent_Error
 
@@ -603,8 +608,8 @@ Private Sub clockForm_BubblingEvent(ByRef sender As Object, ByRef EventName As S
             Case "bellset"
                 Call bellset_myMouseDown
            Case "sliderset"
-                overlayWidget.Locked = True
-                'fClock.tmrSampleAudioVolume.Enabled = False
+                Call sliderset_myMouseDown
+
             Case Else
                 Debug.Print sender.Widget.Key
         End Select
@@ -615,29 +620,59 @@ Private Sub clockForm_BubblingEvent(ByRef sender As Object, ByRef EventName As S
             Case "bell"
                 'Call bell_mouseUp(Sender)
             Case "sliderset"
+    
+                fileToPlay = "zzzz.wav"
+                If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
+                    PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
+                End If
+                
                 overlayWidget.Locked = False
-                fClock.timeShiftPercent = 0.5
+                If SliderFreed = True Then fClock.timeShiftPercent = 0.5
+                tmrZZZZ.Enabled = False
             Case Else
                 Debug.Print sender.Widget.Key
         End Select
     End If
             
-'    If EventName = "W_MouseClick" Then
-'        Select Case LCase$(Sender.Widget.Key)
-'            Case "screentoggle"
-'                Call screentoggle_mouseClick
-'                'screentoggle.Moveable = False
-'            Case Else
-'                Debug.Print Sender.Widget.Key
-'        End Select
-'   End If
-'
    On Error GoTo 0
    Exit Sub
 
 clockForm_BubblingEvent_Error:
 
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure clockForm_BubblingEvent of Class Module cfClock"
+End Sub
+
+
+'---------------------------------------------------------------------------------------
+' Procedure : sliderset_myMouseDown
+' Author    : beededea
+' Date      : 03/08/2023
+' Purpose   :  - note: - can't use a std MouseDown as
+'             declaring a widget as cWidgetBase 'WithEvents' does not provide a std MouseDown with a sender object
+'---------------------------------------------------------------------------------------
+'
+Private Sub sliderset_myMouseDown()
+    Dim fileToPlay As String: fileToPlay = vbNullString
+   
+    On Error GoTo sliderset_myMouseDown_Error
+    
+    overlayWidget.Locked = True
+    'fClock.tmrSampleAudioVolume.Enabled = False
+                
+    If SliderFreed = False Then
+        fileToPlay = "buzzer.wav"
+        If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
+            PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
+        End If
+    End If
+     
+   On Error GoTo 0
+   Exit Sub
+
+sliderset_myMouseDown_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure sliderset_myMouseDown of Class Module cfClock"
+
 End Sub
 
 '---------------------------------------------------------------------------------------
@@ -679,9 +714,9 @@ End Sub
 '---------------------------------------------------------------------------------------
 '
 Private Sub bellset_myMouseDown()
-   On Error GoTo bellset_myMouseDown_Error
-
     Dim fileToPlay As String: fileToPlay = vbNullString
+    
+    On Error GoTo bellset_myMouseDown_Error
     
     fileToPlay = "singleBell.wav"
     If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
@@ -1317,7 +1352,7 @@ Private Sub alarmtoggle_myMouseDown()
 
     fileToPlay = "clunk.wav"
     If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
-        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
+        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME
     End If
     
     If alarmtoggleEnabled = False Then
@@ -1326,11 +1361,14 @@ Private Sub alarmtoggle_myMouseDown()
         SliderFreed = True
         ' set the slider position to the start point
         fClock.timeShiftPercent = 0.5
+        
     Else
         alarmtoggle.Move alarmToggleOut, alarmtoggleTop
+        
         alarmtoggleEnabled = False
         SliderFreed = False
         fClock.timeShiftPercent = 0
+        
         
     End If
     clockForm.Refresh
@@ -2037,10 +2075,13 @@ End Sub
 ' Date: 26/05/2024
 ' ----------------------------------------------------------------
 Private Sub SliderSet_Moving() 'this is an explcit Event-Handler on the single Widget-instance (derived in the routine above)
+   
     On Error GoTo SliderSet_Moving_Error
-     
+         
      sldX = SliderSet.Left
      If sldX < sldXMin Then sldX = sldXMin Else If sldX > sldXMax Then sldX = sldXMax 'keep sldX "in range"
+     
+     If tmrZZZZ.Enabled = False Then tmrZZZZ.Enabled = True
     
      timeShiftPercent = (sldX - sldXMin) / (sldXMax - sldXMin) 'assign the new Value to the Public Prop, to trigger all the necessary refreshs
     
@@ -2167,7 +2208,7 @@ Public Property Let SliderFreed(ByVal newValue As Boolean)
         glow.Moveable = True
     Else
         SliderSet.Moveable = False
-        glow.Moveable = True
+        glow.Moveable = False
     End If
    
    On Error GoTo 0
@@ -2238,7 +2279,6 @@ Public Property Let timeShiftPercent(ByVal RHS As Currency)
     If RHS < 0 Then RHS = 0 Else If RHS > 1 Then RHS = 1 'keep RHS "in range"
     sldX = RHS * (sldXMax - sldXMin) + sldXMin
     overlayWidget.sldCurWidth = sldXMax - sldX 'inform the Overlay about the new current "Cable-Width"
-    
     
     SliderSet.Move sldX, sldFixedTop 'move the SliderSet-widget accordingly
     glow.Move sldX + 29, sldFixedTop - 13 'move the glow along with the SliderSet-widget accordingly
@@ -3717,3 +3757,35 @@ fDayOfWeek_Error:
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure fDayOfWeek, line " & Erl & "."
 
 End Sub
+
+
+
+
+' ----------------------------------------------------------------
+' Procedure Name: tmrZZZZ_Timer
+' Purpose:
+' Procedure Kind: Sub
+' Procedure Access: Private
+' Author: beededea
+' Date: 21/06/2024
+' ----------------------------------------------------------------
+Private Sub tmrZZZZ_Timer()
+    Dim fileToPlay As String: fileToPlay = vbNullString
+    
+    On Error GoTo tmrZZZZ_Timer_Error
+    
+    fileToPlay = "longzzzz.wav"
+    If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
+        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
+    End If
+    
+    tmrZZZZ.Enabled = False
+    
+   On Error GoTo 0
+   Exit Sub
+
+tmrZZZZ_Timer_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure tmrZZZZ_Timer of Class Module cwOverlay"
+End Sub
+
