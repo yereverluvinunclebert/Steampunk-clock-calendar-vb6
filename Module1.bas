@@ -289,7 +289,6 @@ Private Const VER_PLATFORM_WIN32_NT As Long = 2
 ' general
 Public gblStartup As String
 Public gblWidgetFunctions As String
-Public gblNumericDisplay As String
 
 'Public gblAnimationInterval As String
 Public gblSmoothSecondHand As String
