@@ -184,7 +184,6 @@ Public Property Let ShowHelp(ByVal newValue As Boolean)
 
     On Error GoTo ShowHelpLet_Error
 
-    If mShowHelp <> newValue Then mShowHelp = newValue Else Exit Property
     
     helpbottomTop = helpbottom.Top ' 36
     helpbottomLeft = helpbottom.Left '220
@@ -219,6 +218,9 @@ Public Property Let ShowHelp(ByVal newValue As Boolean)
         End If
     
     End If
+    
+    If mShowHelp <> newValue Then mShowHelp = newValue Else Exit Property
+    ShowHelp = mShowHelp
     
     clockForm.Refresh
    
