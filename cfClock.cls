@@ -75,24 +75,14 @@ Private WithEvents backtoggle As cWidgetBase
 Attribute backtoggle.VB_VarHelpID = -1
 Private WithEvents alarmtoggle1 As cWidgetBase
 Attribute alarmtoggle1.VB_VarHelpID = -1
-Private WithEvents alarmtoggle1armed As cWidgetBase
-Attribute alarmtoggle1armed.VB_VarHelpID = -1
 Private WithEvents alarmtoggle2 As cWidgetBase
 Attribute alarmtoggle2.VB_VarHelpID = -1
-Private WithEvents alarmtoggle2armed As cWidgetBase
-Attribute alarmtoggle2armed.VB_VarHelpID = -1
 Private WithEvents alarmtoggle3 As cWidgetBase
 Attribute alarmtoggle3.VB_VarHelpID = -1
-Private WithEvents alarmtoggle3armed As cWidgetBase
-Attribute alarmtoggle3armed.VB_VarHelpID = -1
 Private WithEvents alarmtoggle4 As cWidgetBase
 Attribute alarmtoggle4.VB_VarHelpID = -1
-Private WithEvents alarmtoggle4armed As cWidgetBase
-Attribute alarmtoggle4armed.VB_VarHelpID = -1
 Private WithEvents alarmtoggle5 As cWidgetBase
 Attribute alarmtoggle5.VB_VarHelpID = -1
-Private WithEvents alarmtoggle5armed As cWidgetBase
-Attribute alarmtoggle5armed.VB_VarHelpID = -1
 Private WithEvents clapperLeft As cWidgetBase
 Attribute clapperLeft.VB_VarHelpID = -1
 Private WithEvents clapperright As cWidgetBase
@@ -335,15 +325,10 @@ Public Sub InitFromPSD(ByRef PSD_FileNameOrByteArray As Variant)
     Set loudtoggle = clockForm.Widgets("loudtoggle").Widget
     Set timemachinetoggle = clockForm.Widgets("timemachinetoggle").Widget
     Set backtoggle = clockForm.Widgets("backtoggle").Widget
-    Set alarmtoggle1armed = clockForm.Widgets("alarmtoggle1armed").Widget
     Set alarmtoggle1 = clockForm.Widgets("alarmtoggle1").Widget
-    Set alarmtoggle2armed = clockForm.Widgets("alarmtoggle2armed").Widget
     Set alarmtoggle2 = clockForm.Widgets("alarmtoggle2").Widget
-    Set alarmtoggle3armed = clockForm.Widgets("alarmtoggle3armed").Widget
     Set alarmtoggle3 = clockForm.Widgets("alarmtoggle3").Widget
-    Set alarmtoggle4armed = clockForm.Widgets("alarmtoggle4armed").Widget
     Set alarmtoggle4 = clockForm.Widgets("alarmtoggle4").Widget
-    Set alarmtoggle5armed = clockForm.Widgets("alarmtoggle5armed").Widget
     Set alarmtoggle5 = clockForm.Widgets("alarmtoggle5").Widget
     Set clapperLeft = clockForm.Widgets("clapperleft").Widget
     Set clapperright = clockForm.Widgets("clapperright").Widget
@@ -439,21 +424,6 @@ Private Sub clockForm_BubblingEvent(ByRef sender As Object, ByRef EventName As S
             Case "backtoggle"
                 If gblEnableBalloonTooltips = "1" Then CreateToolTip clockForm.hwnd, "Toggle the Back Screen to make the text easier to read.", _
                      TTIconInfo, widgetName & " Back Screen Toggle Help", , , , True
-            Case "alarmtoggle1armed"
-                If gblEnableBalloonTooltips = "1" Then CreateToolTip clockForm.hwnd, "Click to view alarm number one.", _
-                     TTIconInfo, widgetName & " Alarm 1 Toggle Help", , , , True
-            Case "alarmtoggle2armed"
-                If gblEnableBalloonTooltips = "1" Then CreateToolTip clockForm.hwnd, "Click to view alarm number two.", _
-                     TTIconInfo, widgetName & " Alarm 2 Toggle Help", , , , True
-            Case "alarmtoggle3armed"
-                If gblEnableBalloonTooltips = "1" Then CreateToolTip clockForm.hwnd, "Click to view alarm number three.", _
-                     TTIconInfo, widgetName & " Alarm 3 Toggle Help", , , , True
-            Case "alarmtoggle4armed"
-                If gblEnableBalloonTooltips = "1" Then CreateToolTip clockForm.hwnd, "Click to view alarm number four.", _
-                     TTIconInfo, widgetName & " Alarm 4 Toggle Help", , , , True
-            Case "alarmtoggle5armed"
-                If gblEnableBalloonTooltips = "1" Then CreateToolTip clockForm.hwnd, "Click to view alarm number five.", _
-                     TTIconInfo, widgetName & " Alarm 5 Toggle Help", , , , True
             Case "alarmtoggle1"
                 If gblEnableBalloonTooltips = "1" Then CreateToolTip clockForm.hwnd, "Click to set alarm number one.", _
                      TTIconInfo, widgetName & " Alarm 1 Toggle Help", , , , True
@@ -537,24 +507,14 @@ Private Sub clockForm_BubblingEvent(ByRef sender As Object, ByRef EventName As S
                 Else
                     Call lockit
                 End If
-            Case "alarmtoggle1armed"
-                Call alarmtoggle1armed_myMouseDown
             Case "alarmtoggle1"
                 Call alarmtoggle1_myMouseDown
-            Case "alarmtoggle2armed"
-                Call alarmtoggle2armed_myMouseDown
             Case "alarmtoggle2"
                 Call alarmtoggle2_myMouseDown
-            Case "alarmtoggle3armed"
-                Call alarmtoggle3armed_myMouseDown
             Case "alarmtoggle3"
                 Call alarmtoggle3_myMouseDown
-            Case "alarmtoggle4armed"
-                Call alarmtoggle4armed_myMouseDown
             Case "alarmtoggle4"
                 Call alarmtoggle4_myMouseDown
-            Case "alarmtoggle5armed"
-                Call alarmtoggle5armed_myMouseDown
             Case "alarmtoggle5"
                 Call alarmtoggle5_myMouseDown
             Case "alarmtoggle"
@@ -967,236 +927,6 @@ Private Sub alarmtoggle5_myMouseDown()
 alarmtoggle5_myMouseDown_Error:
 
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure alarmtoggle5_myMouseDown of Class Module cfClock"
-
-End Sub
-
-
-
-
-'---------------------------------------------------------------------------------------
-' Procedure : alarmtoggle1armed_myMouseDown
-' Author    : beededea
-' Date      : 03/08/2023
-' Purpose   :  - note: - can't use a std MouseDown as
-'             declaring a widget as cWidgetBase 'WithEvents' does not provide a std MouseDown with a sender object
-'---------------------------------------------------------------------------------------
-'
-Private Sub alarmtoggle1armed_myMouseDown()
-   On Error GoTo alarmtoggle1armed_myMouseDown_Error
-
-    Dim fileToPlay As String: fileToPlay = vbNullString
-    Dim alarmtoggle1armedTop As Long: alarmtoggle1armedTop = 0
-    Dim alarmtoggle1armedLeft As Long: alarmtoggle1armedLeft = 0
-
-    Static alarmtoggle1armedEnabled As Boolean
-
-    alarmtoggle1armedTop = alarmtoggle1armed.Top
-    alarmtoggle1armedLeft = alarmtoggle1armed.Left
-
-    fileToPlay = "clunk.wav"
-    If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
-        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
-    End If
-    
-    If alarmtoggle1armedEnabled = False Then
-        alarmtoggle1armed.Move alarmtoggle1armedLeft - 5, alarmtoggle1armedTop
-        alarmtoggle1armedEnabled = True
-    Else
-        alarmtoggle1armed.Move alarmtoggle1armedLeft + 5, alarmtoggle1armedTop
-        alarmtoggle1armedEnabled = False
-    End If
-    
-    clockForm.Refresh
-
-   On Error GoTo 0
-   Exit Sub
-
-alarmtoggle1armed_myMouseDown_Error:
-
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure alarmtoggle1armed_myMouseDown of Class Module cfClock"
-
-End Sub
-
-
-
-
-
-'---------------------------------------------------------------------------------------
-' Procedure : alarmtoggle2armed_myMouseDown
-' Author    : beededea
-' Date      : 03/08/2023
-' Purpose   :  - note: - can't use a std MouseDown as
-'             declaring a widget as cWidgetBase 'WithEvents' does not provide a std MouseDown with a sender object
-'---------------------------------------------------------------------------------------
-'
-Private Sub alarmtoggle2armed_myMouseDown()
-   On Error GoTo alarmtoggle2armed_myMouseDown_Error
-
-    Dim fileToPlay As String: fileToPlay = vbNullString
-    Dim alarmtoggle2armedTop As Long: alarmtoggle2armedTop = 0
-    Dim alarmtoggle2armedLeft As Long: alarmtoggle2armedLeft = 0
-
-    Static alarmtoggle2armedEnabled As Boolean
-
-    alarmtoggle2armedTop = alarmtoggle2armed.Top
-    alarmtoggle2armedLeft = alarmtoggle2armed.Left
-    
-
-    fileToPlay = "clunk.wav"
-    If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
-        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
-    End If
-    
-    If alarmtoggle2armedEnabled = False Then
-        alarmtoggle2armed.Move alarmtoggle2armedLeft - 5, alarmtoggle2armedTop
-        alarmtoggle2armedEnabled = True
-    Else
-        alarmtoggle2armed.Move alarmtoggle2armedLeft + 5, alarmtoggle2armedTop
-        alarmtoggle2armedEnabled = False
-    End If
-    clockForm.Refresh
-
-   On Error GoTo 0
-   Exit Sub
-
-alarmtoggle2armed_myMouseDown_Error:
-
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure alarmtoggle2armed_myMouseDown of Class Module cfClock"
-
-End Sub
-
-
-
-'---------------------------------------------------------------------------------------
-' Procedure : alarmtoggle3armed_myMouseDown
-' Author    : beededea
-' Date      : 03/08/2023
-' Purpose   :  - note: - can't use a std MouseDown as
-'             declaring a widget as cWidgetBase 'WithEvents' does not provide a std MouseDown with a sender object
-'---------------------------------------------------------------------------------------
-'
-Private Sub alarmtoggle3armed_myMouseDown()
-   On Error GoTo alarmtoggle3armed_myMouseDown_Error
-
-    Dim fileToPlay As String: fileToPlay = vbNullString
-    Dim alarmtoggle3armedTop As Long: alarmtoggle3armedTop = 0
-    Dim alarmtoggle3armedLeft As Long: alarmtoggle3armedLeft = 0
-
-    Static alarmtoggle3armedEnabled As Boolean
-
-    alarmtoggle3armedTop = alarmtoggle3armed.Top
-    alarmtoggle3armedLeft = alarmtoggle3armed.Left
-    
-
-    fileToPlay = "clunk.wav"
-    If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
-        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
-    End If
-    
-    If alarmtoggle3armedEnabled = False Then
-        alarmtoggle3armed.Move alarmtoggle3armedLeft - 5, alarmtoggle3armedTop
-        alarmtoggle3armedEnabled = True
-    Else
-        alarmtoggle3armed.Move alarmtoggle3armedLeft + 5, alarmtoggle3armedTop
-        alarmtoggle3armedEnabled = False
-    End If
-    clockForm.Refresh
-
-   On Error GoTo 0
-   Exit Sub
-
-alarmtoggle3armed_myMouseDown_Error:
-
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure alarmtoggle3armed_myMouseDown of Class Module cfClock"
-
-End Sub
-
-
-'---------------------------------------------------------------------------------------
-' Procedure : alarmtoggle4armed_myMouseDown
-' Author    : beededea
-' Date      : 03/08/2023
-' Purpose   :  - note: - can't use a std MouseDown as
-'             declaring a widget as cWidgetBase 'WithEvents' does not provide a std MouseDown with a sender object
-'---------------------------------------------------------------------------------------
-'
-Private Sub alarmtoggle4armed_myMouseDown()
-   On Error GoTo alarmtoggle4armed_myMouseDown_Error
-
-    Dim fileToPlay As String: fileToPlay = vbNullString
-    Dim alarmtoggle4armedTop As Long: alarmtoggle4armedTop = 0
-    Dim alarmtoggle4armedLeft As Long: alarmtoggle4armedLeft = 0
-
-    Static alarmtoggle4armedEnabled As Boolean
-
-    alarmtoggle4armedTop = alarmtoggle4armed.Top
-    alarmtoggle4armedLeft = alarmtoggle4armed.Left
-
-    fileToPlay = "clunk.wav"
-    If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
-        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
-    End If
-    
-    If alarmtoggle4armedEnabled = False Then
-        alarmtoggle4armed.Move alarmtoggle4armedLeft - 5, alarmtoggle4armedTop
-        alarmtoggle4armedEnabled = True
-    Else
-        alarmtoggle4armed.Move alarmtoggle4armedLeft + 5, alarmtoggle4armedTop
-        alarmtoggle4armedEnabled = False
-    End If
-    clockForm.Refresh
-
-   On Error GoTo 0
-   Exit Sub
-
-alarmtoggle4armed_myMouseDown_Error:
-
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure alarmtoggle4armed_myMouseDown of Class Module cfClock"
-
-End Sub
-
-
-
-'---------------------------------------------------------------------------------------
-' Procedure : alarmtoggle5armed_myMouseDown
-' Author    : beededea
-' Date      : 03/08/2023
-' Purpose   :  - note: - can't use a std MouseDown as
-'             declaring a widget as cWidgetBase 'WithEvents' does not provide a std MouseDown with a sender object
-'---------------------------------------------------------------------------------------
-'
-Private Sub alarmtoggle5armed_myMouseDown()
-   On Error GoTo alarmtoggle5armed_myMouseDown_Error
-
-    Dim fileToPlay As String: fileToPlay = vbNullString
-    Dim alarmtoggle5armedTop As Long: alarmtoggle5armedTop = 0
-    Dim alarmtoggle5armedLeft As Long: alarmtoggle5armedLeft = 0
-
-    Static alarmtoggle5armedEnabled As Boolean
-
-    alarmtoggle5armedTop = alarmtoggle5armed.Top
-    alarmtoggle5armedLeft = alarmtoggle5armed.Left
-    
-    fileToPlay = "clunk.wav"
-    If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
-        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
-    End If
-    
-    If alarmtoggle5armedEnabled = False Then
-        alarmtoggle5armed.Move alarmtoggle5armedLeft - 5, alarmtoggle5armedTop
-        alarmtoggle5armedEnabled = True
-    Else
-        alarmtoggle5armed.Move alarmtoggle5armedLeft + 5, alarmtoggle5armedTop
-        alarmtoggle5armedEnabled = False
-    End If
-    clockForm.Refresh
-
-   On Error GoTo 0
-   Exit Sub
-
-alarmtoggle5armed_myMouseDown_Error:
-
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure alarmtoggle5armed_myMouseDown of Class Module cfClock"
 
 End Sub
 

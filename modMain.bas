@@ -592,20 +592,6 @@ Public Sub adjustMainControls()
         .Tag = 0.01
     End With
 
-'    With fClock.clockForm.Widgets("alarmtoggle5armed").Widget
-'        .HoverColor = 0
-'        .MousePointer = IDC_HAND
-'        .Alpha = 0
-'        .Tag = 0.01
-'    End With
-
-'    With fClock.clockForm.Widgets("alarmtoggle4armed").Widget
-'        .HoverColor = 0
-'        .MousePointer = IDC_HAND
-'        .Alpha = 0
-'        .Tag = 0.01
-'    End With
-
     With fClock.clockForm.Widgets("maincasingsurround").Widget
         .HoverColor = 0
         .MousePointer = IDC_ARROW
