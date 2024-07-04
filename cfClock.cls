@@ -114,6 +114,8 @@ Private WithEvents bellset As cWidgetBase
 Attribute bellset.VB_VarHelpID = -1
 Private WithEvents helpdropdown As cWidgetBase
 Attribute helpdropdown.VB_VarHelpID = -1
+Private WithEvents glow As cWidgetBase
+Attribute glow.VB_VarHelpID = -1
 
 'general
 Private sldFixedTop As Double
@@ -306,7 +308,7 @@ Public Sub InitFromPSD(ByRef PSD_FileNameOrByteArray As Variant)
     Set SliderSet = clockForm.Widgets("sliderset").Widget 'store the already (in PSD-Loop created) Widget-reference in an explicit "WithEvents-Variable"
         
     With SliderSet
-        .Moveable = False 'make it moveable
+        .Moveable = False 'make it not moveable by default
         .HoverColor = 0
         .MousePointer = IDC_HAND
         .Tag = 0.01
@@ -349,6 +351,7 @@ Public Sub InitFromPSD(ByRef PSD_FileNameOrByteArray As Variant)
     Set dropdown = clockForm.Widgets("dropdown").Widget
     Set bellset = clockForm.Widgets("bellset").Widget
     Set helpdropdown = clockForm.Widgets("helpdropdown").Widget
+    Set glow = clockForm.Widgets("glow").Widget
     
     
    On Error GoTo 0
@@ -613,7 +616,7 @@ Private Sub clockForm_BubblingEvent(ByRef sender As Object, ByRef EventName As S
                 'Call bell_mouseUp(Sender)
             Case "sliderset"
                 overlayWidget.Locked = False
-                'fClock.tmrSampleAudioVolume.Enabled = True
+                fClock.timeShiftPercent = 0.5
             Case Else
                 Debug.Print sender.Widget.Key
         End Select
@@ -1321,10 +1324,14 @@ Private Sub alarmtoggle_myMouseDown()
         alarmtoggle.Move alarmToggleIn, alarmtoggleTop
         alarmtoggleEnabled = True
         SliderFreed = True
+        ' set the slider position to the start point
+        fClock.timeShiftPercent = 0.5
     Else
         alarmtoggle.Move alarmToggleOut, alarmtoggleTop
         alarmtoggleEnabled = False
         SliderFreed = False
+        fClock.timeShiftPercent = 0
+        
     End If
     clockForm.Refresh
 
@@ -2157,8 +2164,10 @@ Public Property Let SliderFreed(ByVal newValue As Boolean)
    
     If mSliderFreed = True Then
         SliderSet.Moveable = True
+        glow.Moveable = True
     Else
         SliderSet.Moveable = False
+        glow.Moveable = True
     End If
    
    On Error GoTo 0
@@ -2232,6 +2241,8 @@ Public Property Let timeShiftPercent(ByVal RHS As Currency)
     
     
     SliderSet.Move sldX, sldFixedTop 'move the SliderSet-widget accordingly
+    glow.Move sldX + 29, sldFixedTop - 13 'move the glow along with the SliderSet-widget accordingly
+    
     If mTimeShiftPercent <> RHS Then mTimeShiftPercent = RHS Else Exit Property  'only refresh, when there was a change to the previous value
     
     If Not Cairo.ToolTipForm Is Nothing Then Cairo.ToolTipForm.Visible = False
