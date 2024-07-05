@@ -390,6 +390,12 @@ Public gblFormHighDpiYPosTwips As String
 Public gblFormLowDpiXPosTwips As String
 Public gblFormLowDpiYPosTwips As String
 
+Public gblAlarm1 As String
+Public gblAlarm2 As String
+Public gblAlarm3 As String
+Public gblAlarm4 As String
+Public gblAlarm5 As String
+
 
 '------------------------------------------------------ ENDS
 

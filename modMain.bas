@@ -6,7 +6,7 @@ Option Explicit
 
 '------------------------------------------------------ STARTS
 ' for SetWindowPos z-ordering
-Public Declare Function SetWindowPos Lib "user32" (ByVal hwnd As Long, ByVal hWndInsertAfter As Long, ByVal x As Long, ByVal Y As Long, ByVal cx As Long, ByVal cy As Long, ByVal wFlags As Long) As Long
+Public Declare Function SetWindowPos Lib "user32" (ByVal hwnd As Long, ByVal hWndInsertAfter As Long, ByVal x As Long, ByVal y As Long, ByVal cx As Long, ByVal cy As Long, ByVal wFlags As Long) As Long
 
 Public Const HWND_TOP As Long = 0 ' for SetWindowPos z-ordering
 Public Const HWND_TOPMOST As Long = -1
@@ -309,6 +309,12 @@ Private Sub initialiseGlobalVars()
     gblAlarmToggle3Enabled = vbNullString
     gblAlarmToggle4Enabled = vbNullString
     gblAlarmToggle5Enabled = vbNullString
+    
+    gblAlarm1 = vbNullString
+    gblAlarm2 = vbNullString
+    gblAlarm3 = vbNullString
+    gblAlarm4 = vbNullString
+    gblAlarm5 = vbNullString
     
     ' general variables declared
     'toolSettingsFile = vbNullString
@@ -824,7 +830,7 @@ Public Sub adjustMainControls()
     
     ' set the position of the various UI toggles at startup
     If gblsetToggleEnabled = "True" Then
-        fClock.setToggleEnabled = True
+        fClock.settoggleEnabled = True
     End If
     
     If gblMuteToggleEnabled = "True" Then
@@ -1034,6 +1040,12 @@ Public Sub readSettingsFile(ByVal location As String, ByVal gblSettingsFile As S
         gblAlarmToggle3Enabled = fGetINISetting(location, "alarmToggle3Enabled", gblSettingsFile)
         gblAlarmToggle4Enabled = fGetINISetting(location, "alarmToggle4Enabled", gblSettingsFile)
         gblAlarmToggle5Enabled = fGetINISetting(location, "alarmToggle5Enabled", gblSettingsFile)
+        gblAlarm1 = fGetINISetting(location, "alarm1", gblSettingsFile)
+        gblAlarm2 = fGetINISetting(location, "alarm2", gblSettingsFile)
+        gblAlarm3 = fGetINISetting(location, "alarm3", gblSettingsFile)
+        gblAlarm4 = fGetINISetting(location, "alarm4", gblSettingsFile)
+        gblAlarm5 = fGetINISetting(location, "alarm5", gblSettingsFile)
+        
                 
     End If
 
@@ -1144,6 +1156,12 @@ Public Sub validateInputs()
         If gblAlarmToggle3Enabled = vbNullString Then gblAlarmToggle3Enabled = "False"
         If gblAlarmToggle4Enabled = vbNullString Then gblAlarmToggle4Enabled = "False"
         If gblAlarmToggle5Enabled = vbNullString Then gblAlarmToggle5Enabled = "False"
+        If gblAlarm1 = vbNullString Then gblAlarm1 = ""
+        If gblAlarm2 = vbNullString Then gblAlarm2 = ""
+        If gblAlarm3 = vbNullString Then gblAlarm3 = ""
+        If gblAlarm4 = vbNullString Then gblAlarm4 = ""
+        If gblAlarm5 = vbNullString Then gblAlarm5 = ""
+        
         
    On Error GoTo 0
    Exit Sub
