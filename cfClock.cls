@@ -14,6 +14,10 @@ Attribute VB_Exposed = False
 '@IgnoreModule IntegerDataType, ModuleWithoutFolder
 Option Explicit
 
+Private Declare Function mciSendString Lib "winmm.dll" Alias "mciSendStringA" _
+ (ByVal lpstrCommand As String, ByVal lpstrReturnString As String, _
+  ByVal uReturnLength As Long, ByVal hwndCallback As Long) As Long
+
 Public WithEvents clockForm As cWidgetForm
 Attribute clockForm.VB_VarHelpID = -1
 
@@ -119,6 +123,8 @@ Private alarmInitiatingControl As String
 
 Private WithEvents tmrZZZZ As cTimer
 Attribute tmrZZZZ.VB_VarHelpID = -1
+Private WithEvents tmrTicking As cTimer
+Attribute tmrTicking.VB_VarHelpID = -1
 
 
 '---------------------------------------------------------------------------------------
@@ -138,6 +144,8 @@ Private Sub Class_Initialize()
     Set tmrZZZZ = Nothing
     Set tmrZZZZ = New_c.Timer(300, False)
     
+    Set tmrTicking = Nothing
+    Set tmrTicking = New_c.Timer(300, False)
 
 
    On Error GoTo 0
@@ -991,20 +999,27 @@ End Sub
 '---------------------------------------------------------------------------------------
 '
 Private Sub chain_myMouseDown()
-
+    Dim lngReturn As Long: lngReturn = 0
     Dim fileToPlay As String: fileToPlay = vbNullString
 
     On Error GoTo chain_myMouseDown_Error
     
     fileToPlay = "clunk.wav"
     If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
-        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
+        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME
     End If
 
     If gblChainEnabled = "False" Then
         chainEnabled = True
+        tmrTicking.Interval = 300
+        tmrTicking.Enabled = True
     Else
         chainEnabled = False
+        tmrTicking.Enabled = False
+        fileToPlay = App.path & "\resources\sounds\" & "ticktock.wav"
+        If gblEnableSounds = "1" And fFExists(fileToPlay) Then
+            lngReturn = mciSendString("stop " & fileToPlay, "", 0, 0)
+        End If
     End If
     
     clockForm.Refresh
@@ -3521,4 +3536,44 @@ tmrZZZZ_Timer_Error:
 
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure tmrZZZZ_Timer of Class Module cwOverlay"
 End Sub
+
+
+
+
+
+
+' ----------------------------------------------------------------
+' Procedure Name: tmrTicking_Timer
+' Purpose:
+' Procedure Kind: Sub
+' Procedure Access: Private
+' Author: beededea
+' Date: 21/06/2024
+' ----------------------------------------------------------------
+Private Sub tmrTicking_Timer()
+    Dim fileToPlay As String: fileToPlay = vbNullString
+    Dim lngReturn As Long: lngReturn = 0
+    
+    On Error GoTo tmrTicking_Timer_Error
+    
+    tmrTicking.Enabled = False
+    tmrTicking.Interval = 30000 ' 30 secs
+    
+    fileToPlay = App.path & "\resources\sounds\" & "ticktock.wav"
+    If gblEnableSounds = "1" And fFExists(fileToPlay) Then
+    
+        lngReturn = mciSendString("Play " & fileToPlay, "", 0, 0)
+        'PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
+    End If
+        
+    tmrTicking.Enabled = True
+    
+   On Error GoTo 0
+   Exit Sub
+
+tmrTicking_Timer_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure tmrTicking_Timer of Class Module cwOverlay"
+End Sub
+
 
