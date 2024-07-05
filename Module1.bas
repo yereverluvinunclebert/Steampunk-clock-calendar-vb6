@@ -364,7 +364,7 @@ Public gblLastSelectedTab As String
 Public gblSkinTheme As String
 Public gblUnhide As String
 
-Public gblLoudToggleEnabled As String
+Public gblsetToggleEnabled As String
 Public gblMuteToggleEnabled As String
 Public gblPendulumToggleEnabled As String
 Public gblPendulumEnabled As String

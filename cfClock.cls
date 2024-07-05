@@ -25,7 +25,7 @@ Private PSDHeight As Long
 ' properties
 Private mMute As Integer
 Private mSliderFreed As Boolean
-Private mLoudToggleEnabled As Boolean
+Private msetToggleEnabled As Boolean
 Private mMuteToggleEnabled As Boolean
 Private mPendulumToggleEnabled As Boolean
 Private mWeekdayToggleEnabled As Boolean
@@ -67,8 +67,8 @@ Private WithEvents mutetoggle As cWidgetBase
 Attribute mutetoggle.VB_VarHelpID = -1
 Private WithEvents alarmtoggle As cWidgetBase
 Attribute alarmtoggle.VB_VarHelpID = -1
-Private WithEvents loudtoggle As cWidgetBase
-Attribute loudtoggle.VB_VarHelpID = -1
+Private WithEvents settoggle As cWidgetBase
+Attribute settoggle.VB_VarHelpID = -1
 Private WithEvents timemachinetoggle As cWidgetBase
 Attribute timemachinetoggle.VB_VarHelpID = -1
 Private WithEvents backtoggle As cWidgetBase
@@ -324,7 +324,7 @@ Public Sub InitFromPSD(ByRef PSD_FileNameOrByteArray As Variant)
     Set pendulumtoggle = clockForm.Widgets("pendulumtoggle").Widget
     Set mutetoggle = clockForm.Widgets("mutetoggle").Widget
     Set alarmtoggle = clockForm.Widgets("alarmtoggle").Widget
-    Set loudtoggle = clockForm.Widgets("loudtoggle").Widget
+    Set settoggle = clockForm.Widgets("settoggle").Widget
     Set timemachinetoggle = clockForm.Widgets("timemachinetoggle").Widget
     Set backtoggle = clockForm.Widgets("backtoggle").Widget
     Set alarmtoggle1 = clockForm.Widgets("alarmtoggle1").Widget
@@ -396,7 +396,7 @@ Private Sub clockForm_BubblingEvent(ByRef sender As Object, ByRef EventName As S
             Case "alarmtoggle"
                 If gblEnableBalloonTooltips = "1" Then CreateToolTip clockForm.hwnd, "Click here to set or edit an alarm.", _
                      TTIconInfo, widgetName & " Alarm Toggle Help", , , , True
-            Case "loudtoggle"
+            Case "settoggle"
                 If gblEnableBalloonTooltips = "1" Then CreateToolTip clockForm.hwnd, "Toggle between Loud or Quiet.", _
                      TTIconInfo, widgetName & " Loud Toggle Help", , , , True
             Case "mutetoggle"
@@ -533,8 +533,8 @@ Private Sub clockForm_BubblingEvent(ByRef sender As Object, ByRef EventName As S
                 Call pendulum_myMouseDown
             Case "mutetoggle"
                 Call mutetoggle_myMouseDown
-            Case "loudtoggle"
-                Call loudtoggle_myMouseDown
+            Case "settoggle"
+                Call settoggle_myMouseDown
             Case "weekdaytoggle"
                 Call weekdayToggle_myMouseDown
             Case "helptoggle"
@@ -711,7 +711,7 @@ Private Sub dropdown_myMouseDown()
     Dim dropdownTop As Long: dropdownTop = 0
     Dim dropdownLeft As Long: dropdownLeft = 0
     
-    Static dropdownEnabled As Boolean
+    Static dropdownEnabled As Boolean ' not using a property for this as it is not a stored value for restart
     
     On Error GoTo dropdown_MouseDown_Error
     
@@ -1071,7 +1071,8 @@ Private Sub alarmtoggle_myMouseDown()
     Dim fileToPlay As String: fileToPlay = vbNullString
     Dim alarmtoggleTop As Long: alarmtoggleTop = 0
     Dim alarmtoggleLeft As Long: alarmtoggleLeft = 0
-    Static alarmtoggleEnabled As Boolean
+    
+    Static alarmtoggleEnabled As Boolean ' not using a property for this as it is not a stored value for restart
     
     Dim alarmToggleIn As Long: alarmToggleIn = 0
     Dim alarmToggleOut As Long: alarmToggleOut = 0
@@ -1189,14 +1190,14 @@ End Sub
 
     
 '---------------------------------------------------------------------------------------
-' Procedure : loudtoggle_myMouseDown
+' Procedure : settoggle_myMouseDown
 ' Author    : beededea
 ' Date      : 03/08/2023
 ' Purpose   :
 '---------------------------------------------------------------------------------------
 '
-Private Sub loudtoggle_myMouseDown()
-   On Error GoTo loudtoggle_myMouseDown_Error
+Private Sub settoggle_myMouseDown()
+   On Error GoTo settoggle_myMouseDown_Error
 
     Dim fileToPlay As String: fileToPlay = vbNullString
 
@@ -1205,10 +1206,10 @@ Private Sub loudtoggle_myMouseDown()
         PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
     End If
     
-    If gblLoudToggleEnabled = "False" Then
-        loudToggleEnabled = True
+    If gblsetToggleEnabled = "False" Then
+        setToggleEnabled = True
     Else
-        loudToggleEnabled = False
+        setToggleEnabled = False
     End If
         
     clockForm.Refresh
@@ -1216,9 +1217,9 @@ Private Sub loudtoggle_myMouseDown()
    On Error GoTo 0
    Exit Sub
 
-loudtoggle_myMouseDown_Error:
+settoggle_myMouseDown_Error:
 
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure loudtoggle_myMouseDown of Class Module cfClock"
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure settoggle_myMouseDown of Class Module cfClock"
 
 End Sub
     
@@ -2664,65 +2665,65 @@ timeMachineToggleEnabledGet_Error:
 End Property
 
 '---------------------------------------------------------------------------------------
-' Property  : loudToggleEnabled
+' Property  : setToggleEnabled
 ' Author    : beededea
 ' Date      : 10/05/2023
 ' Purpose   :
 '---------------------------------------------------------------------------------------
 '
-Public Property Let loudToggleEnabled(ByVal newValue As Boolean)
+Public Property Let setToggleEnabled(ByVal newValue As Boolean)
    
-    Dim loudtoggleTop As Long: loudtoggleTop = 0
-    Dim loudtoggleIn As Long: loudtoggleIn = 0
-    Dim loudtoggleOut As Long: loudtoggleOut = 0
+    Dim setToggleTop As Long: setToggleTop = 0
+    Dim setToggleIn As Long: setToggleIn = 0
+    Dim setToggleOut As Long: setToggleOut = 0
     
-    On Error GoTo loudToggleEnabledLet_Error
+    On Error GoTo setToggleEnabledLet_Error
     
-    loudtoggleOut = 359
-    loudtoggleIn = 363
-    loudtoggleTop = loudtoggle.Top
+    setToggleOut = 359
+    setToggleIn = 363
+    setToggleTop = settoggle.Top
     
     If newValue = True Then
-        loudtoggle.Move loudtoggleIn, loudtoggleTop
-        gblLoudToggleEnabled = "True"
+        settoggle.Move setToggleIn, setToggleTop
+        gblsetToggleEnabled = "True"
     Else
-        loudtoggle.Move loudtoggleOut, loudtoggleTop
-        gblLoudToggleEnabled = "False"
+        settoggle.Move setToggleOut, setToggleTop
+        gblsetToggleEnabled = "False"
     End If
     
-    sPutINISetting "Software\SteampunkClockCalendar", "loudToggleEnabled", gblLoudToggleEnabled, gblSettingsFile
+    sPutINISetting "Software\SteampunkClockCalendar", "setToggleEnabled", gblsetToggleEnabled, gblSettingsFile
 
-    If mLoudToggleEnabled <> newValue Then mLoudToggleEnabled = newValue Else Exit Property
-    loudToggleEnabled = mLoudToggleEnabled
+    If msetToggleEnabled <> newValue Then msetToggleEnabled = newValue Else Exit Property
+    setToggleEnabled = msetToggleEnabled
 
     clockForm.Refresh
       
    On Error GoTo 0
    Exit Property
 
-loudToggleEnabledLet_Error:
+setToggleEnabledLet_Error:
 
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property loudToggleEnabled of Class Module cfClock"
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property setToggleEnabled of Class Module cfClock"
 End Property
 
 '---------------------------------------------------------------------------------------
-' Property  : loudtoggleEnabled
+' Property  : setToggleEnabled
 ' Author    : beededea
 ' Date      : 17/05/2023
 ' Purpose   :
 '---------------------------------------------------------------------------------------
 '
-Public Property Get loudToggleEnabled() As Boolean
-   On Error GoTo loudtoggleEnabledGet_Error
+Public Property Get setToggleEnabled() As Boolean
+   On Error GoTo setToggleEnabledGet_Error
 
-    loudToggleEnabled = mLoudToggleEnabled
+    setToggleEnabled = msetToggleEnabled
 
    On Error GoTo 0
    Exit Property
 
-loudtoggleEnabledGet_Error:
+setToggleEnabledGet_Error:
 
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property loudtoggleEnabled of Class Module cfClock"
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property setToggleEnabled of Class Module cfClock"
 End Property
 
 

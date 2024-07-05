@@ -293,7 +293,7 @@ Private Sub initialiseGlobalVars()
     gblLastSelectedTab = vbNullString
     gblSkinTheme = vbNullString
     
-    gblLoudToggleEnabled = vbNullString
+    gblsetToggleEnabled = vbNullString
     gblMuteToggleEnabled = vbNullString
     gblPendulumToggleEnabled = vbNullString
     gblPendulumEnabled = vbNullString
@@ -669,7 +669,7 @@ Public Sub adjustMainControls()
         .Tag = 0.01
     End With
     
-    With fClock.clockForm.Widgets("loudtoggle").Widget
+    With fClock.clockForm.Widgets("settoggle").Widget
         .HoverColor = 0
         .MousePointer = IDC_HAND
         .Alpha = Val(gblOpacity) / 100
@@ -823,8 +823,8 @@ Public Sub adjustMainControls()
     fClock.clockForm.Refresh
     
     ' set the position of the various UI toggles at startup
-    If gblLoudToggleEnabled = "True" Then
-        fClock.loudToggleEnabled = True
+    If gblsetToggleEnabled = "True" Then
+        fClock.setToggleEnabled = True
     End If
     
     If gblMuteToggleEnabled = "True" Then
@@ -1018,7 +1018,7 @@ Public Sub readSettingsFile(ByVal location As String, ByVal gblSettingsFile As S
          
         gblFirstTimeRun = fGetINISetting(location, "firstTimeRun", gblSettingsFile)
         
-        gblLoudToggleEnabled = fGetINISetting(location, "loudToggleEnabled", gblSettingsFile)
+        gblsetToggleEnabled = fGetINISetting(location, "setToggleEnabled", gblSettingsFile)
         gblMuteToggleEnabled = fGetINISetting(location, "muteToggleEnabled", gblSettingsFile)
         gblPendulumToggleEnabled = fGetINISetting(location, "pendulumToggleEnabled", gblSettingsFile)
         gblPendulumEnabled = fGetINISetting(location, "pendulumEnabled", gblSettingsFile)
@@ -1126,7 +1126,7 @@ Public Sub validateInputs()
         
         
         ' clock UI element state
-        If gblLoudToggleEnabled = vbNullString Then gblLoudToggleEnabled = "False"
+        If gblsetToggleEnabled = vbNullString Then gblsetToggleEnabled = "False"
         If gblMuteToggleEnabled = vbNullString Then gblMuteToggleEnabled = "False"
         If gblPendulumToggleEnabled = vbNullString Then gblPendulumToggleEnabled = "False"
         If gblPendulumEnabled = vbNullString Then gblPendulumEnabled = "False"
