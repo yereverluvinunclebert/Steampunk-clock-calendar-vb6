@@ -1022,7 +1022,7 @@ Private Sub chain_myMouseDown()
         chainEnabled = False
         tmrTicking.Enabled = False
         fileToPlay = App.path & "\resources\sounds\" & "ticktock.wav"
-        If gblEnableSounds = "1" And fFExists(fileToPlay) Then
+        If fFExists(fileToPlay) Then
             lngReturn = mciSendString("stop " & fileToPlay, "", 0, 0)
         End If
     End If
@@ -2776,9 +2776,11 @@ Public Property Let muteToggleEnabled(ByVal newValue As Boolean)
     Dim muteToggleTop As Long: muteToggleTop = 0
     Dim muteToggleLeft As Long: muteToggleLeft = 0
     Dim fileToPlay As String: fileToPlay = vbNullString
+    Dim mciFileToPlay As String: mciFileToPlay = vbNullString
     
     Dim muteToggleIn As Long: muteToggleIn = 0
     Dim muteToggleOut As Long: muteToggleOut = 0
+    Dim lngReturn As Long: lngReturn = 0
     
     On Error GoTo muteToggleEnabledLet_Error
     
@@ -2786,16 +2788,24 @@ Public Property Let muteToggleEnabled(ByVal newValue As Boolean)
     muteToggleOut = 359
     muteToggleIn = 363
     
+    fileToPlay = "clunk.wav"
+
     If newValue = True Then
-        fileToPlay = "clunk.wav"
         mutetoggle.Move muteToggleIn, muteToggleTop
         gblMuteToggleEnabled = "True"
-        'If muteInitiatingControl = "muteToggle" Then clapperEnabled = False
+        
+        gblEnableSounds = "0"
+        ' stop MCI from playing
+        mciFileToPlay = App.path & "\resources\sounds\" & "ticktock.wav"
+        If fFExists(mciFileToPlay) Then
+            lngReturn = mciSendString("stop " & mciFileToPlay, "", 0, 0)
+        End If
+        widgetPrefs.chkEnableSounds.Value = 0
     Else
-        fileToPlay = "clunk.wav"
         mutetoggle.Move muteToggleOut, muteToggleTop
         gblMuteToggleEnabled = "False"
-        'If muteInitiatingControl = "muteToggle" Then clapperEnabled = True
+        gblEnableSounds = "1"
+        widgetPrefs.chkEnableSounds.Value = 1
     End If
     
     If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
