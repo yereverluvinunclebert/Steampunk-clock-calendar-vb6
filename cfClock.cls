@@ -51,8 +51,8 @@ Public mShowHelp As Boolean
 ' widgets
 Private WithEvents helpbottom As cWidgetBase
 Attribute helpbottom.VB_VarHelpID = -1
-Private WithEvents SliderSet As cWidgetBase
-Attribute SliderSet.VB_VarHelpID = -1
+Private WithEvents sliderset As cWidgetBase
+Attribute sliderset.VB_VarHelpID = -1
 Private WithEvents screentop As cWidgetBase
 Attribute screentop.VB_VarHelpID = -1
 Private WithEvents displayscreen As cWidgetBase
@@ -120,6 +120,7 @@ Private helpMoved As Boolean
 Private muteInitiatingControl As String
 Private pendulumInitiatingControl As String
 Private alarmInitiatingControl As String
+Private slidersetMousedown As Boolean
 
 Private WithEvents tmrZZZZ As cTimer
 Attribute tmrZZZZ.VB_VarHelpID = -1
@@ -309,17 +310,17 @@ Public Sub InitFromPSD(ByRef PSD_FileNameOrByteArray As Variant)
         overlayWidget.cyPerc = 0.334
         
     'the next 5 lines will init a "moving Slider" (which was defined as "sliderset"-layer in the PSD)
-    Set SliderSet = clockForm.Widgets("sliderset").Widget 'store the already (in PSD-Loop created) Widget-reference in an explicit "WithEvents-Variable"
+    Set sliderset = clockForm.Widgets("sliderset").Widget 'store the already (in PSD-Loop created) Widget-reference in an explicit "WithEvents-Variable"
         
-    With SliderSet
+    With sliderset
         .Moveable = False 'make it not moveable by default
         .HoverColor = 0
         .MousePointer = IDC_HAND
         .Tag = 0.01
     End With
     
-    sldFixedTop = SliderSet.Top   'and store the initial position-data for y-direction (which will not be changed)
-    sldXMax = SliderSet.Left      'as well as the x-direction related pos (which is initially at the "100%-Volume, right-endswitch" )
+    sldFixedTop = sliderset.Top   'and store the initial position-data for y-direction (which will not be changed)
+    sldXMax = sliderset.Left      'as well as the x-direction related pos (which is initially at the "100%-Volume, right-endswitch" )
     sldXMin = sldXMax - 116       'the Min-Value is simply the Max-Value minus Slider-Range (the 300pxl-range was determined by "probing")
 
     Set helpbottom = clockForm.Widgets("helpbottom").Widget
@@ -402,10 +403,10 @@ Private Sub clockForm_BubblingEvent(ByRef sender As Object, ByRef EventName As S
                 If gblEnableBalloonTooltips = "1" Then CreateToolTip clockForm.hwnd, "Click me to show the help.", _
                      TTIconInfo, widgetName & " Help Toggle Help", , , , True
             Case "alarmtoggle"
-                If gblEnableBalloonTooltips = "1" Then CreateToolTip clockForm.hwnd, "Click here to set or edit an alarm.", _
+                If gblEnableBalloonTooltips = "1" Then CreateToolTip clockForm.hwnd, "Click here to edit an alarm date and time.", _
                      TTIconInfo, widgetName & " Alarm Toggle Help", , , , True
             Case "settoggle"
-                If gblEnableBalloonTooltips = "1" Then CreateToolTip clockForm.hwnd, "Toggle between Loud or Quiet.", _
+                If gblEnableBalloonTooltips = "1" Then CreateToolTip clockForm.hwnd, "When you are editing an alarm, press this toggle to confirm any changes.", _
                      TTIconInfo, widgetName & " Loud Toggle Help", , , , True
             Case "mutetoggle"
                 If gblEnableBalloonTooltips = "1" Then CreateToolTip clockForm.hwnd, "Mute chimes and sounds on/off.", _
@@ -599,6 +600,9 @@ Private Sub clockForm_BubblingEvent(ByRef sender As Object, ByRef EventName As S
                 overlayWidget.Locked = False
                 If SliderFreed = True Then fClock.timeShiftPercent = 0.5
                 tmrZZZZ.Enabled = False
+            Case "sliderset"
+                slidersetMousedown = False ' never called!
+                
             Case Else
                 Debug.Print sender.Widget.Key
         End Select
@@ -627,7 +631,8 @@ Private Sub sliderset_myMouseDown()
     On Error GoTo sliderset_myMouseDown_Error
     
     overlayWidget.Locked = True
-    'fClock.tmrSampleAudioVolume.Enabled = False
+
+    slidersetMousedown = True
                 
     If SliderFreed = False Then
         fileToPlay = "buzzer.wav"
@@ -1097,6 +1102,8 @@ Private Sub alarmtoggle_myMouseDown()
     alarmtoggleTop = alarmtoggle.Top
     alarmToggleOut = 359
     alarmToggleIn = 363
+    
+    slidersetMousedown = False
 
     fileToPlay = "clunk.wav"
     If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
@@ -1212,22 +1219,38 @@ End Sub
 '---------------------------------------------------------------------------------------
 '
 Private Sub settoggle_myMouseDown()
-   On Error GoTo settoggle_myMouseDown_Error
+
+    Dim settoggleTop As Long: settoggleTop = 0
+    Dim settoggleLeft As Long: settoggleLeft = 0
 
     Dim fileToPlay As String: fileToPlay = vbNullString
+    
+    Static settoggleEnabled As Boolean ' not using a property for this as it is not a stored value for restart
+    
+    Dim setToggleIn As Long: setToggleIn = 0
+    Dim setToggleOut As Long: setToggleOut = 0
+    
+    On Error GoTo settoggle_myMouseDown_Error
+    
+    settoggleTop = settoggle.Top
+    setToggleOut = 359
+    setToggleIn = 363
 
     fileToPlay = "clunk.wav"
     If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
         PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
     End If
     
-    If gblsetToggleEnabled = "False" Then
-        setToggleEnabled = True
+    If settoggleEnabled = False Then
+        settoggle.Move setToggleIn, settoggleTop
+        settoggleEnabled = True
     Else
-        setToggleEnabled = False
+        settoggle.Move setToggleOut, settoggleTop
+        settoggleEnabled = False
     End If
-        
+    
     clockForm.Refresh
+
 
    On Error GoTo 0
    Exit Sub
@@ -1680,7 +1703,7 @@ End Sub
 ' Purpose   : save the form x,y position when ever the globe/form is dragged
 '---------------------------------------------------------------------------------------
 '
-Private Sub clockForm_MouseUp(ByRef Button As Integer, ByRef Shift As Integer, ByRef x As Single, ByRef Y As Single)
+Private Sub clockForm_MouseUp(ByRef Button As Integer, ByRef Shift As Integer, ByRef x As Single, ByRef y As Single)
     On Error GoTo clockForm_MouseUp_Error
     
     Call savePosition
@@ -1705,8 +1728,8 @@ End Sub
 ' Purpose   :
 '---------------------------------------------------------------------------------------
 '
-Private Sub clockForm_MouseMove(ByRef Button As Integer, ByRef Shift As Integer, ByRef x As Single, ByRef Y As Single)
-  Static x0 As Single, y0 As Single: If Button = 0 Then x0 = x: y0 = Y 'just store the offsets when no button is down
+Private Sub clockForm_MouseMove(ByRef Button As Integer, ByRef Shift As Integer, ByRef x As Single, ByRef y As Single)
+  Static x0 As Single, y0 As Single: If Button = 0 Then x0 = x: y0 = y 'just store the offsets when no button is down
   
    On Error GoTo clockForm_MouseMove_Error
     
@@ -1716,7 +1739,7 @@ Private Sub clockForm_MouseMove(ByRef Button As Integer, ByRef Shift As Integer,
     If Button = vbLeftButton And Not clockForm.ActiveWidget Is Nothing Then 'Form-Dragging (under certain conditions)
 
       FX = (x - x0) * clockForm.WidgetRoot.Zoom + clockForm.Left
-      FY = (Y - y0) * clockForm.WidgetRoot.Zoom + clockForm.Top
+      FY = (y - y0) * clockForm.WidgetRoot.Zoom + clockForm.Top
       clockForm.Move FX, FY
     End If
 
@@ -1796,7 +1819,7 @@ End Sub
 ' Purpose   :
 '---------------------------------------------------------------------------------------
 '
-Private Sub clockForm_MouseDown(ByRef Button As Integer, ByRef Shift As Integer, ByRef x As Single, ByRef Y As Single)
+Private Sub clockForm_MouseDown(ByRef Button As Integer, ByRef Shift As Integer, ByRef x As Single, ByRef y As Single)
    On Error GoTo W_MouseDown_Error
 
     If Button = vbRightButton Then
@@ -1815,30 +1838,30 @@ W_MouseDown_Error:
 End Sub
 
 ' ----------------------------------------------------------------
-' Procedure Name: SliderSet_Moving
+' Procedure Name: sliderset_Moving
 ' Purpose:
 ' Procedure Kind: Sub
 ' Procedure Access: Private
 ' Author: beededea
 ' Date: 26/05/2024
 ' ----------------------------------------------------------------
-Private Sub SliderSet_Moving() 'this is an explcit Event-Handler on the single Widget-instance (derived in the routine above)
+Private Sub sliderset_Moving() 'this is an explcit Event-Handler on the single Widget-instance (derived in the routine above)
    
-    On Error GoTo SliderSet_Moving_Error
+    On Error GoTo sliderset_Moving_Error
          
-     sldX = SliderSet.Left
+     sldX = sliderset.Left
      If sldX < sldXMin Then sldX = sldXMin Else If sldX > sldXMax Then sldX = sldXMax 'keep sldX "in range"
      
-     If tmrZZZZ.Enabled = False Then tmrZZZZ.Enabled = True
+     If tmrZZZZ.Enabled = False And slidersetMousedown = True Then tmrZZZZ.Enabled = True
     
      timeShiftPercent = (sldX - sldXMin) / (sldXMax - sldXMin) 'assign the new Value to the Public Prop, to trigger all the necessary refreshs
     
     On Error GoTo 0
     Exit Sub
 
-SliderSet_Moving_Error:
+sliderset_Moving_Error:
 
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure SliderSet_Moving, line " & Erl & "."
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure sliderset_Moving, line " & Erl & "."
 
 End Sub
 ''---------------------------------------------------------------------------------------
@@ -1952,10 +1975,10 @@ Public Property Let SliderFreed(ByVal newValue As Boolean)
     SliderFreed = mSliderFreed
    
     If mSliderFreed = True Then
-        SliderSet.Moveable = True
+        sliderset.Moveable = True
         glow.Moveable = True
     Else
-        SliderSet.Moveable = False
+        sliderset.Moveable = False
         glow.Moveable = False
     End If
    
@@ -2028,8 +2051,8 @@ Public Property Let timeShiftPercent(ByVal RHS As Currency)
     sldX = RHS * (sldXMax - sldXMin) + sldXMin
     overlayWidget.sldCurWidth = sldXMax - sldX 'inform the Overlay about the new current "Cable-Width"
     
-    SliderSet.Move sldX, sldFixedTop 'move the SliderSet-widget accordingly
-    glow.Move sldX + 29, sldFixedTop - 13 'move the glow along with the SliderSet-widget accordingly
+    sliderset.Move sldX, sldFixedTop 'move the sliderset-widget accordingly
+    glow.Move sldX + 29, sldFixedTop - 13 'move the glow along with the sliderset-widget accordingly
     
     If mTimeShiftPercent <> RHS Then mTimeShiftPercent = RHS Else Exit Property  'only refresh, when there was a change to the previous value
     
@@ -2183,16 +2206,10 @@ End Sub
 '---------------------------------------------------------------------------------------
 '
 Private Sub clapperright_myMouseDown()
-'    Dim fileToPlay As String: fileToPlay = vbNullString
-    
+
     On Error GoTo clapperright_myMouseDown_Error
     
     muteInitiatingControl = "clapper"
-   
-'    fileToPlay = "singleBell.wav"
-'    If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
-'        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
-'    End If
 
     If clapperEnabled = True Then
         clapperEnabled = False
@@ -2219,7 +2236,7 @@ End Sub
 '---------------------------------------------------------------------------------------
 '
 Public Property Let clapperEnabled(ByVal newValue As Boolean)
-   
+    Dim fileToPlay As String: fileToPlay = vbNullString
     Dim alphaVal As Integer: alphaVal = 0
 
     On Error GoTo clapperEnabledLet_Error
@@ -2228,12 +2245,17 @@ Public Property Let clapperEnabled(ByVal newValue As Boolean)
  
     If newValue = True Then
         gblClapperEnabled = "True"
-        If muteInitiatingControl = "clapper" Then muteToggleEnabled = False ' prevents recurring calls
         clapperright.Alpha = 0
         clapperLeft.Alpha = alphaVal
+        If muteInitiatingControl = "clapper" Then
+            fileToPlay = "singleBell.wav"
+            If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
+                PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
+            End If
+        End If
     Else
         gblClapperEnabled = "False"
-        If muteInitiatingControl = "clapper" Then muteToggleEnabled = True
+        'If muteInitiatingControl = "clapper" Then muteToggleEnabled = True
         clapperright.Alpha = alphaVal
         clapperLeft.Alpha = 0
 
@@ -2686,9 +2708,9 @@ End Property
 ' Purpose   :
 '---------------------------------------------------------------------------------------
 '
-Public Property Let setToggleEnabled(ByVal newValue As Boolean)
+Public Property Let settoggleEnabled(ByVal newValue As Boolean)
    
-    Dim setToggleTop As Long: setToggleTop = 0
+    Dim settoggleTop As Long: settoggleTop = 0
     Dim setToggleIn As Long: setToggleIn = 0
     Dim setToggleOut As Long: setToggleOut = 0
     
@@ -2696,20 +2718,20 @@ Public Property Let setToggleEnabled(ByVal newValue As Boolean)
     
     setToggleOut = 359
     setToggleIn = 363
-    setToggleTop = settoggle.Top
+    settoggleTop = settoggle.Top
     
     If newValue = True Then
-        settoggle.Move setToggleIn, setToggleTop
+        settoggle.Move setToggleIn, settoggleTop
         gblsetToggleEnabled = "True"
     Else
-        settoggle.Move setToggleOut, setToggleTop
+        settoggle.Move setToggleOut, settoggleTop
         gblsetToggleEnabled = "False"
     End If
     
     sPutINISetting "Software\SteampunkClockCalendar", "setToggleEnabled", gblsetToggleEnabled, gblSettingsFile
 
     If msetToggleEnabled <> newValue Then msetToggleEnabled = newValue Else Exit Property
-    setToggleEnabled = msetToggleEnabled
+    settoggleEnabled = msetToggleEnabled
 
     clockForm.Refresh
       
@@ -2728,10 +2750,10 @@ End Property
 ' Purpose   :
 '---------------------------------------------------------------------------------------
 '
-Public Property Get setToggleEnabled() As Boolean
+Public Property Get settoggleEnabled() As Boolean
    On Error GoTo setToggleEnabledGet_Error
 
-    setToggleEnabled = msetToggleEnabled
+    settoggleEnabled = msetToggleEnabled
 
    On Error GoTo 0
    Exit Property
@@ -2768,12 +2790,12 @@ Public Property Let muteToggleEnabled(ByVal newValue As Boolean)
         fileToPlay = "clunk.wav"
         mutetoggle.Move muteToggleIn, muteToggleTop
         gblMuteToggleEnabled = "True"
-        If muteInitiatingControl = "muteToggle" Then clapperEnabled = False
+        'If muteInitiatingControl = "muteToggle" Then clapperEnabled = False
     Else
-        fileToPlay = "singleBell.wav"
+        fileToPlay = "clunk.wav"
         mutetoggle.Move muteToggleOut, muteToggleTop
         gblMuteToggleEnabled = "False"
-        If muteInitiatingControl = "muteToggle" Then clapperEnabled = True
+        'If muteInitiatingControl = "muteToggle" Then clapperEnabled = True
     End If
     
     If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
@@ -2987,7 +3009,7 @@ End Property
 '
 '    sldX = mSystemAudioLevel * (sldXMax - sldXMin) + sldXMin
 '    overlayWidget.sldCurWidth = sldXMax - sldX 'inform the Overlay about the new current "Cable-Width"
-'    SliderSet.Move sldX, sldFixedTop 'move the SliderSet-widget accordingly
+'    sliderset.Move sldX, sldFixedTop 'move the sliderset-widget accordingly
 '
 '    fClock.clockForm.Refresh
 '
