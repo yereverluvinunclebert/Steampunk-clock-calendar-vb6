@@ -39,6 +39,7 @@ Private mBackToggleEnabled As Boolean
 Private mClapperEnabled As Boolean
 Private mChainEnabled As Boolean
 Private mCrankEnabled As Boolean
+Private mTicking As Boolean
 Private mPendulumEnabled As Boolean
 Private mAlarmToggle1Enabled As Boolean
 Private mAlarmToggle2Enabled As Boolean
@@ -1016,15 +1017,8 @@ Private Sub chain_myMouseDown()
 
     If gblChainEnabled = "False" Then
         chainEnabled = True
-        tmrTicking.Interval = 300
-        tmrTicking.Enabled = True
     Else
         chainEnabled = False
-        tmrTicking.Enabled = False
-        fileToPlay = App.path & "\resources\sounds\" & "ticktock.wav"
-        If fFExists(fileToPlay) Then
-            lngReturn = mciSendString("stop " & fileToPlay, "", 0, 0)
-        End If
     End If
     
     clockForm.Refresh
@@ -1834,7 +1828,7 @@ Private Sub clockForm_MouseDown(ByRef Button As Integer, ByRef Shift As Integer,
 
 W_MouseDown_Error:
 
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure W_MouseDown of Class Module cwOverlay"
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure W_MouseDown of Class Module cfClock"
 End Sub
 
 ' ----------------------------------------------------------------
@@ -2514,9 +2508,11 @@ Public Property Let chainEnabled(ByVal newValue As Boolean)
     If newValue = True Then
         chain.Move chainLeft, chainTop + 10
         gblChainEnabled = "True"
+        ticking = True
     Else
         chain.Move chainLeft, chainTop - 10
         gblChainEnabled = "False"
+        ticking = False
     End If
        
     sPutINISetting "Software\SteampunkClockCalendar", "chainEnabled", gblChainEnabled, gblSettingsFile
@@ -2776,7 +2772,6 @@ Public Property Let muteToggleEnabled(ByVal newValue As Boolean)
     Dim muteToggleTop As Long: muteToggleTop = 0
     Dim muteToggleLeft As Long: muteToggleLeft = 0
     Dim fileToPlay As String: fileToPlay = vbNullString
-    Dim mciFileToPlay As String: mciFileToPlay = vbNullString
     
     Dim muteToggleIn As Long: muteToggleIn = 0
     Dim muteToggleOut As Long: muteToggleOut = 0
@@ -2793,18 +2788,16 @@ Public Property Let muteToggleEnabled(ByVal newValue As Boolean)
     If newValue = True Then
         mutetoggle.Move muteToggleIn, muteToggleTop
         gblMuteToggleEnabled = "True"
-        
+        ticking = False
         gblEnableSounds = "0"
-        ' stop MCI from playing
-        mciFileToPlay = App.path & "\resources\sounds\" & "ticktock.wav"
-        If fFExists(mciFileToPlay) Then
-            lngReturn = mciSendString("stop " & mciFileToPlay, "", 0, 0)
-        End If
         widgetPrefs.chkEnableSounds.Value = 0
     Else
         mutetoggle.Move muteToggleOut, muteToggleTop
         gblMuteToggleEnabled = "False"
         gblEnableSounds = "1"
+        If ticking = True Then ticking = True
+        
+        
         widgetPrefs.chkEnableSounds.Value = 1
     End If
     
@@ -3028,7 +3021,7 @@ End Property
 '
 'tmrSampleAudioVolume_Timer_Error:
 '
-'    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure tmrSampleAudioVolume_Timer of Class Module cwOverlayTemp"
+'    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure tmrSampleAudioVolume_Timer of Class Module cfClockTemp"
 'End Sub
 
     
@@ -3054,7 +3047,7 @@ End Property
 '
 'tmrSampleAudioMute_Timer_Error:
 '
-'    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure tmrSampleAudioMute_Timer of Class Module cwOverlayTemp"
+'    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure tmrSampleAudioMute_Timer of Class Module cfClockTemp"
 'End Sub
 
 
@@ -3566,7 +3559,7 @@ Private Sub tmrZZZZ_Timer()
 
 tmrZZZZ_Timer_Error:
 
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure tmrZZZZ_Timer of Class Module cwOverlay"
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure tmrZZZZ_Timer of Class Module cfClock"
 End Sub
 
 
@@ -3605,7 +3598,73 @@ Private Sub tmrTicking_Timer()
 
 tmrTicking_Timer_Error:
 
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure tmrTicking_Timer of Class Module cwOverlay"
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure tmrTicking_Timer of Class Module cfClock"
 End Sub
 
 
+
+
+
+
+'---------------------------------------------------------------------------------------
+' Property  : ticking
+' Author    : beededea
+' Date      : 10/05/2023
+' Purpose   :
+'---------------------------------------------------------------------------------------
+'
+Public Property Let ticking(ByVal newValue As Boolean)
+    Dim fileToPlay As String: fileToPlay = vbNullString
+    Dim alphaVal As Integer: alphaVal = 0
+    Dim mciFileToPlay As String: mciFileToPlay = vbNullString
+    Dim lngReturn As Long: lngReturn = 0
+    
+    On Error GoTo tickingLet_Error
+    
+    alphaVal = Val(gblOpacity) / 100
+    
+    If newValue = True Then
+        tmrTicking.Interval = 300
+        tmrTicking.Enabled = True
+     Else
+        tmrTicking.Enabled = False
+        
+        ' stop MCI from playing
+        fileToPlay = App.path & "\resources\sounds\" & "ticktock.wav"
+        If fFExists(fileToPlay) Then
+            lngReturn = mciSendString("stop " & fileToPlay, "", 0, 0)
+        End If
+    End If
+
+    If mTicking <> newValue Then mTicking = newValue Else Exit Property
+    ticking = mTicking
+    
+    clockForm.Refresh
+     
+   On Error GoTo 0
+   Exit Property
+
+tickingLet_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property ticking of Class Module cfClock"
+End Property
+
+'---------------------------------------------------------------------------------------
+' Property  : ticking
+' Author    : beededea
+' Date      : 17/05/2023
+' Purpose   :
+'---------------------------------------------------------------------------------------
+'
+Public Property Get ticking() As Boolean
+   On Error GoTo tickingGet_Error
+
+    ticking = mTicking
+
+   On Error GoTo 0
+   Exit Property
+
+tickingGet_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property ticking of Class Module cfClock"
+End Property
