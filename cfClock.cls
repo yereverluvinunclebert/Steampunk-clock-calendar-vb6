@@ -149,7 +149,6 @@ Private Sub Class_Initialize()
     Set tmrTicking = Nothing
     Set tmrTicking = New_c.Timer(300, False)
 
-
    On Error GoTo 0
    Exit Sub
 
@@ -3053,47 +3052,6 @@ End Property
 
 
 
-' ----------------------------------------------------------------
-' Procedure Name: fDayOfWeek
-' Purpose:
-' Procedure Kind: Function
-' Procedure Access: Private
-' Return Type: String
-' Author: beededea
-' Date: 17/06/2024
-' ----------------------------------------------------------------
-Private Function fDayOfWeek() As String
-    On Error GoTo fDayOfWeek_Error
-     Dim vb6DateTime As Date
-     
-     vb6DateTime = Date
-
-     Select Case DatePart("w", vb6DateTime)
-         Case vbSunday
-             fDayOfWeek = "Sunday"
-         Case vbMonday
-             fDayOfWeek = "Monday"
-         Case vbTuesday
-             fDayOfWeek = "Tuesday"
-         Case vbWednesday
-             fDayOfWeek = "Wednesday"
-         Case vbThursday
-             fDayOfWeek = "Thursday"
-         Case vbFriday
-             fDayOfWeek = "Friday"
-         Case vbSaturday
-             fDayOfWeek = "Saturday"
-     End Select
-     
-    
-    On Error GoTo 0
-    Exit Function
-
-fDayOfWeek_Error:
-
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure fDayOfWeek, line " & Erl & "."
-
-End Function
      
 
 
@@ -3583,7 +3541,7 @@ Private Sub tmrTicking_Timer()
     
     tmrTicking.Enabled = False
     tmrTicking.Interval = 30000 ' 30 secs
-    
+        
     fileToPlay = App.path & "\resources\sounds\" & "ticktock.wav"
     If gblEnableSounds = "1" And fFExists(fileToPlay) Then
     

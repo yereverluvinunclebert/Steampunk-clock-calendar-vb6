@@ -2773,3 +2773,47 @@ ArrayString_Error:
      MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure ArrayString of Module Module1"
 End Function
 
+
+
+
+' ----------------------------------------------------------------
+' Procedure Name: fDayOfWeek
+' Purpose:
+' Procedure Kind: Function
+' Procedure Access: Private
+' Return Type: String
+' Author: beededea
+' Date: 17/06/2024
+' ----------------------------------------------------------------
+Public Function fDayOfWeek() As String
+    On Error GoTo fDayOfWeek_Error
+     Dim vb6DateTime As Date
+     
+     vb6DateTime = Date
+
+     Select Case DatePart("w", vb6DateTime)
+         Case vbSunday
+             fDayOfWeek = "Sunday"
+         Case vbMonday
+             fDayOfWeek = "Monday"
+         Case vbTuesday
+             fDayOfWeek = "Tuesday"
+         Case vbWednesday
+             fDayOfWeek = "Wednesday"
+         Case vbThursday
+             fDayOfWeek = "Thursday"
+         Case vbFriday
+             fDayOfWeek = "Friday"
+         Case vbSaturday
+             fDayOfWeek = "Saturday"
+     End Select
+     
+    
+    On Error GoTo 0
+    Exit Function
+
+fDayOfWeek_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure fDayOfWeek, line " & Erl & "."
+
+End Function

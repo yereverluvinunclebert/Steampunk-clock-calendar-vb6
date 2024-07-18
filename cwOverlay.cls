@@ -259,7 +259,7 @@ End Property
 '             For this Overlay-Widget alone, we make everything "fully click-through"
 '---------------------------------------------------------------------------------------------
 '
-Private Sub W_HitTest(ByVal x As Single, ByVal Y As Single, HitResultHit As Boolean) 'ensure ClickThrough-behaviour in ImagePixels which are "fully Alpha"
+Private Sub W_HitTest(ByVal x As Single, ByVal y As Single, HitResultHit As Boolean) 'ensure ClickThrough-behaviour in ImagePixels which are "fully Alpha"
    On Error GoTo W_HitTest_Error
 
    HitResultHit = False
@@ -799,7 +799,7 @@ End Sub
 
 ' ----------------------------------------------------------------
 ' Procedure Name: tmrClock_Timer
-' Purpose:
+' Purpose: main timer controlling the clock
 ' Procedure Kind: Sub
 ' Procedure Access: Private
 ' Author: beededea
@@ -824,8 +824,10 @@ Private Sub tmrClock_Timer()
     Else
         Exit Sub  'only refresh when SDeg has changed to a new value
     End If
+    
+    If fClock.clockForm.Widgets(fDayOfWeek).Widget.Alpha = 0 Then fClock.clockForm.Widgets(fDayOfWeek).Widget.Alpha = 1
   
-    W.Parent.Refresh ' causes a paint event to fire
+    W.Parent.Refresh ' causes a paint event to fire - lots happens in the paint event
     
    On Error GoTo 0
    Exit Sub
