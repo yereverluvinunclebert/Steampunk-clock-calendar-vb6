@@ -3082,7 +3082,7 @@ Public Property Let alarmtoggle1Enabled(ByVal newValue As Boolean)
     If newValue = True Then
         gblAlarmToggle1Enabled = "True"
         alarmtoggle1.Move alarmtoggle1Out, alarmtoggle1Top
-        Call hideTills
+        Call hideAlarmTills
         fClock.clockForm.Widgets("alarm1till").Widget.Alpha = alphaVal
         
         alarmtoggle1.ImageKey = "alarmtoggle1armed"
@@ -3090,7 +3090,7 @@ Public Property Let alarmtoggle1Enabled(ByVal newValue As Boolean)
     Else
         gblAlarmToggle1Enabled = "False"
         alarmtoggle1.Move alarmtoggle1In, alarmtoggle1Top
-        Call hideTills
+        Call hideAlarmTills
         fClock.clockForm.Widgets("alarm1till").Widget.Alpha = 0
 
         alarmtoggle1.ImageKey = "alarmtoggle1"
@@ -3161,7 +3161,7 @@ Public Property Let alarmtoggle2Enabled(ByVal newValue As Boolean)
     If newValue = True Then
         gblAlarmToggle2Enabled = "True"
         alarmtoggle2.Move alarmtoggle2Out, alarmtoggle2Top
-        Call hideTills
+        Call hideAlarmTills
         fClock.clockForm.Widgets("alarm2till").Widget.Alpha = alphaVal
         
         alarmtoggle2.ImageKey = "alarmtoggle2armed"
@@ -3170,7 +3170,7 @@ Public Property Let alarmtoggle2Enabled(ByVal newValue As Boolean)
     Else
         gblAlarmToggle2Enabled = "False"
         alarmtoggle2.Move alarmtoggle2In, alarmtoggle2Top
-        Call hideTills
+        Call hideAlarmTills
         fClock.clockForm.Widgets("alarm2till").Widget.Alpha = 0
         
         alarmtoggle2.ImageKey = "alarmtoggle2"
@@ -3246,7 +3246,7 @@ Public Property Let alarmtoggle3Enabled(ByVal newValue As Boolean)
     If newValue = True Then
         gblAlarmToggle3Enabled = "True"
         alarmtoggle3.Move alarmtoggle3Out, alarmtoggle3Top
-        Call hideTills
+        Call hideAlarmTills
         fClock.clockForm.Widgets("alarm3till").Widget.Alpha = alphaVal
         
         alarmtoggle3.ImageKey = "alarmtoggle3armed"
@@ -3255,7 +3255,7 @@ Public Property Let alarmtoggle3Enabled(ByVal newValue As Boolean)
     Else
         gblAlarmToggle3Enabled = "False"
         alarmtoggle3.Move alarmtoggle3In, alarmtoggle3Top
-        Call hideTills
+        Call hideAlarmTills
         fClock.clockForm.Widgets("alarm3till").Widget.Alpha = 0
         
         alarmtoggle3.ImageKey = "alarmtoggle3"
@@ -3326,7 +3326,7 @@ Public Property Let alarmtoggle4Enabled(ByVal newValue As Boolean)
     If newValue = True Then
         gblAlarmToggle4Enabled = "True"
         alarmtoggle4.Move alarmtoggle4Out, alarmtoggle4Top
-        Call hideTills
+        Call hideAlarmTills
         fClock.clockForm.Widgets("alarm4till").Widget.Alpha = alphaVal
         
         alarmtoggle4.ImageKey = "alarmtoggle4armed"
@@ -3335,7 +3335,7 @@ Public Property Let alarmtoggle4Enabled(ByVal newValue As Boolean)
     Else
         gblAlarmToggle4Enabled = "False"
         alarmtoggle4.Move alarmtoggle4In, alarmtoggle4Top
-        Call hideTills
+        Call hideAlarmTills
         fClock.clockForm.Widgets("alarm4till").Widget.Alpha = 0
         
         alarmtoggle4.ImageKey = "alarmtoggle4"
@@ -3408,7 +3408,7 @@ Public Property Let alarmtoggle5Enabled(ByVal newValue As Boolean)
     If newValue = True Then
         gblAlarmToggle5Enabled = "True"
         alarmtoggle5.Move alarmtoggle5Out, alarmtoggle5Top
-        Call hideTills
+        Call hideAlarmTills
         fClock.clockForm.Widgets("alarm5till").Widget.Alpha = alphaVal
         
         alarmtoggle5.ImageKey = "alarmtoggle5armed"
@@ -3417,7 +3417,7 @@ Public Property Let alarmtoggle5Enabled(ByVal newValue As Boolean)
     Else
         gblAlarmToggle5Enabled = "False"
         alarmtoggle5.Move alarmtoggle5In, alarmtoggle5Top
-        Call hideTills
+        Call hideAlarmTills
         fClock.clockForm.Widgets("alarm5till").Widget.Alpha = 0
         
         alarmtoggle5.ImageKey = "alarmtoggle5"
@@ -3463,7 +3463,7 @@ End Property
 
 
 ' ----------------------------------------------------------------
-' Procedure Name: hideTills
+' Procedure Name: hideAlarmTills
 ' Purpose:
 ' Procedure Kind: sub
 ' Procedure Access: Private
@@ -3471,7 +3471,7 @@ End Property
 ' Author: beededea
 ' Date: 17/06/2024
 ' ----------------------------------------------------------------
-Private Sub hideTills()
+Private Sub hideAlarmTills()
     On Error GoTo fDayOfWeek_Error
             
     If alarmInitiatingControl <> "alarm1" And alarmtoggle1Enabled = True Then alarmtoggle1Enabled = False
@@ -3485,7 +3485,7 @@ Private Sub hideTills()
 
 fDayOfWeek_Error:
 
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure fDayOfWeek, line " & Erl & "."
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure hideAlarmTills, line " & Erl & "."
 
 End Sub
 

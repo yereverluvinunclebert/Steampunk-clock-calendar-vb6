@@ -825,7 +825,19 @@ Private Sub tmrClock_Timer()
         Exit Sub  'only refresh when SDeg has changed to a new value
     End If
     
-    If fClock.clockForm.Widgets(fDayOfWeek).Widget.Alpha = 0 Then fClock.clockForm.Widgets(fDayOfWeek).Widget.Alpha = 1
+    If fClock.weekdayToggleEnabled = True Then
+        If thisHour <= 1 And thisMin = 1 And thisSec < 3 Then
+            fClock.clockForm.Widgets("monday").Widget.Alpha = 0
+            fClock.clockForm.Widgets("tuesday").Widget.Alpha = 0
+            fClock.clockForm.Widgets("wednesday").Widget.Alpha = 0
+            fClock.clockForm.Widgets("thursday").Widget.Alpha = 0
+            fClock.clockForm.Widgets("friday").Widget.Alpha = 0
+            fClock.clockForm.Widgets("saturday").Widget.Alpha = 0
+            fClock.clockForm.Widgets("sunday").Widget.Alpha = 0
+            
+            fClock.clockForm.Widgets(fDayOfWeek).Widget.Alpha = 1
+        End If
+    End If
   
     W.Parent.Refresh ' causes a paint event to fire - lots happens in the paint event
     
