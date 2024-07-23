@@ -13,6 +13,7 @@ Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
 '@IgnoreModule IntegerDataType, ModuleWithoutFolder
 Option Explicit
+Private Declare Sub Sleep Lib "kernel32.dll" (ByVal dwMilliseconds As Long)
 
 Private Declare Function mciSendString Lib "winmm.dll" Alias "mciSendStringA" _
  (ByVal lpstrCommand As String, ByVal lpstrReturnString As String, _
@@ -403,10 +404,10 @@ Private Sub clockForm_BubblingEvent(ByRef sender As Object, ByRef EventName As S
                 If gblEnableBalloonTooltips = "1" Then CreateToolTip clockForm.hwnd, "Click me to show the help.", _
                      TTIconInfo, widgetName & " Help Toggle Help", , , , True
             Case "alarmtoggle"
-                If gblEnableBalloonTooltips = "1" Then CreateToolTip clockForm.hwnd, "Click here to edit an alarm date and time.", _
+                If gblEnableBalloonTooltips = "1" Then CreateToolTip clockForm.hwnd, "Click here to enter alarm mode.", _
                      TTIconInfo, widgetName & " Alarm Toggle Help", , , , True
             Case "settoggle"
-                If gblEnableBalloonTooltips = "1" Then CreateToolTip clockForm.hwnd, "When you are editing an alarm, press this toggle to confirm any changes.", _
+                If gblEnableBalloonTooltips = "1" Then CreateToolTip clockForm.hwnd, "In alarm mode, when you are editing an alarm, press this toggle (or the bell) to save the alarm.", _
                      TTIconInfo, widgetName & " Loud Toggle Help", , , , True
             Case "mutetoggle"
                 If gblEnableBalloonTooltips = "1" Then CreateToolTip clockForm.hwnd, "Mute chimes and sounds on/off.", _
@@ -1214,33 +1215,29 @@ End Sub
 Private Sub settoggle_myMouseDown()
 
     Dim settoggleTop As Long: settoggleTop = 0
-    Dim settoggleLeft As Long: settoggleLeft = 0
-
-    Dim fileToPlay As String: fileToPlay = vbNullString
-    
-    Static settoggleEnabled As Boolean ' not using a property for this as it is not a stored value for restart
-    
     Dim setToggleIn As Long: setToggleIn = 0
     Dim setToggleOut As Long: setToggleOut = 0
+
+    Dim fileToPlay As String: fileToPlay = vbNullString
     
     On Error GoTo settoggle_myMouseDown_Error
     
     settoggleTop = settoggle.Top
     setToggleOut = 359
     setToggleIn = 363
+    
+    settoggle.Move setToggleIn, settoggleTop
+    clockForm.Refresh
+    
 
     fileToPlay = "clunk.wav"
     If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
         PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
     End If
+
+    Sleep 250
     
-    If settoggleEnabled = False Then
-        settoggle.Move setToggleIn, settoggleTop
-        settoggleEnabled = True
-    Else
-        settoggle.Move setToggleOut, settoggleTop
-        settoggleEnabled = False
-    End If
+    settoggle.Move setToggleOut, settoggleTop
     
     clockForm.Refresh
 

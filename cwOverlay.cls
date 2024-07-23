@@ -826,14 +826,23 @@ Private Sub tmrClock_Timer()
     End If
     
     If fClock.weekdayToggleEnabled = True Then
-        If thisHour <= 1 And thisMin = 1 And thisSec < 3 Then
-            fClock.clockForm.Widgets("monday").Widget.Alpha = 0
-            fClock.clockForm.Widgets("tuesday").Widget.Alpha = 0
-            fClock.clockForm.Widgets("wednesday").Widget.Alpha = 0
-            fClock.clockForm.Widgets("thursday").Widget.Alpha = 0
-            fClock.clockForm.Widgets("friday").Widget.Alpha = 0
-            fClock.clockForm.Widgets("saturday").Widget.Alpha = 0
-            fClock.clockForm.Widgets("sunday").Widget.Alpha = 0
+        If thisHour <= 1 And thisMin = 1 And thisSec < 5 Then
+        
+            fClock.clockForm.Widgets("Monday").Widget.Alpha = 0
+            fClock.clockForm.Widgets("Tuesday").Widget.Alpha = 0
+            fClock.clockForm.Widgets("Wednesday").Widget.Alpha = 0
+            fClock.clockForm.Widgets("Thursday").Widget.Alpha = 0
+            fClock.clockForm.Widgets("Friday").Widget.Alpha = 0
+            fClock.clockForm.Widgets("Saturday").Widget.Alpha = 0
+            fClock.clockForm.Widgets("Sunday").Widget.Alpha = 0
+            
+            fClock.clockForm.Widgets("Monday").Widget.Refresh
+            fClock.clockForm.Widgets("Tuesday").Widget.Refresh
+            fClock.clockForm.Widgets("Wednesday").Widget.Refresh
+            fClock.clockForm.Widgets("Thursday").Widget.Refresh
+            fClock.clockForm.Widgets("Friday").Widget.Refresh
+            fClock.clockForm.Widgets("Saturday").Widget.Refresh
+            fClock.clockForm.Widgets("Sunday").Widget.Refresh
             
             fClock.clockForm.Widgets(fDayOfWeek).Widget.Alpha = 1
         End If

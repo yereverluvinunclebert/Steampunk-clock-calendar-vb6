@@ -26,14 +26,12 @@ startup - done
 
 ' -oOo-
 
-Create a XP /ReactOS version using old APIs - wip
+Create a XP /ReactOS version using old APIs and RC5 - wip
 obtain a XP test system
-create two new functions as below
-https://www.tek-tips.com/viewthread.cfm?qid=258233
-this is overly complex and beyond scope of a volume control
-https://www.vbforums.com/showthread.php?841819-RESOLVED-Changing-system-volume-from-VB6
 
-create
+
+https://www.vbforums.com/showthread.php?757899-VB6-applied-physics-using-the-chipmunk-engine-(simple-Demo-for-Starters)
+pendulum code for RC
 
 ' add second monitor - wip find cable!
 ' sync. E6410 win 7

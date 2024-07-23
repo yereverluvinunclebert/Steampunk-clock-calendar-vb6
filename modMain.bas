@@ -1156,11 +1156,13 @@ Public Sub validateInputs()
         If gblAlarmToggle3Enabled = vbNullString Then gblAlarmToggle3Enabled = "False"
         If gblAlarmToggle4Enabled = vbNullString Then gblAlarmToggle4Enabled = "False"
         If gblAlarmToggle5Enabled = vbNullString Then gblAlarmToggle5Enabled = "False"
-        If gblAlarm1 = vbNullString Then gblAlarm1 = ""
-        If gblAlarm2 = vbNullString Then gblAlarm2 = ""
-        If gblAlarm3 = vbNullString Then gblAlarm3 = ""
-        If gblAlarm4 = vbNullString Then gblAlarm4 = ""
-        If gblAlarm5 = vbNullString Then gblAlarm5 = ""
+        
+        
+        If gblAlarm1 = vbNullString Then gblAlarm1 = "Alarm not yet set"
+        If gblAlarm2 = vbNullString Then gblAlarm2 = "Alarm not yet set"
+        If gblAlarm3 = vbNullString Then gblAlarm3 = "Alarm not yet set"
+        If gblAlarm4 = vbNullString Then gblAlarm4 = "Alarm not yet set"
+        If gblAlarm5 = vbNullString Then gblAlarm5 = "Alarm not yet set"
         
         
    On Error GoTo 0
