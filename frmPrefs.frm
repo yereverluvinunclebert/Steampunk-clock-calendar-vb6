@@ -3467,8 +3467,7 @@ End Sub
 '
 Private Sub btnSave_Click()
 
-    Dim alarmTimeStatus As Boolean: alarmTimeStatus = False
-    Dim alarmDateStatus As Boolean: alarmDateStatus = False
+    Dim alarmTest As Boolean: alarmTest = False
     
     On Error GoTo btnSave_Click_Error
 
@@ -3487,77 +3486,9 @@ Private Sub btnSave_Click()
     gblWidgetFunctions = LTrim$(Str$(chkWidgetFunctions.Value))
     gblStartup = LTrim$(Str$(chkGenStartup.Value))
     
-        
-    If txtAlarm1Date.Text = vbNullString Then txtAlarm1Date.Text = "Alarm not yet set"
-    If txtAlarm2Date.Text = vbNullString Then txtAlarm2Date.Text = "Alarm not yet set"
-    If txtAlarm3Date.Text = vbNullString Then txtAlarm3Date.Text = "Alarm not yet set"
-    If txtAlarm4Date.Text = vbNullString Then txtAlarm4Date.Text = "Alarm not yet set"
-    If txtAlarm5Date.Text = vbNullString Then txtAlarm5Date.Text = "Alarm not yet set"
-        
-    If txtAlarm1Date.Text <> "Alarm not yet set" Then
-        alarmDateStatus = fVerifyAlarmDate(txtAlarm1Date.Text)
-        alarmTimeStatus = fVerifyAlarmTime(txtAlarm1Time.Text)
-        If alarmDateStatus = False Or alarmTimeStatus = False Then
-            btnSave.Enabled = False
-            MsgBox "Alarm no.1 is invalid, saving FAILED. Please correct and re-save."
-            Exit Sub
-        End If
-    Else
-        gblAlarm1Date = txtAlarm1Date.Text
-        gblAlarm1Time = txtAlarm1Time.Text
-    End If
-            
-    If txtAlarm2Date.Text <> "Alarm not yet set" Then
-        alarmDateStatus = fVerifyAlarmDate(txtAlarm2Date.Text)
-        alarmTimeStatus = fVerifyAlarmTime(txtAlarm2Time.Text)
-        If alarmDateStatus = False Or alarmTimeStatus = False Then
-            btnSave.Enabled = False
-            MsgBox "Alarm no.2 is invalid, saving FAILED. Please correct and re-save."
-            Exit Sub
-        End If
-    Else
-        gblAlarm2Date = txtAlarm2Date.Text
-        gblAlarm2Time = txtAlarm2Time.Text
-    End If
-    
-    If txtAlarm3Date.Text <> "Alarm not yet set" Then
-        alarmDateStatus = fVerifyAlarmDate(txtAlarm3Date.Text)
-        alarmTimeStatus = fVerifyAlarmTime(txtAlarm3Time.Text)
-        If alarmDateStatus = False Or alarmTimeStatus = False Then
-            btnSave.Enabled = False
-            MsgBox "Alarm no.3 is invalid, saving FAILED. saving FAILED. Please correct and re-save."
-            Exit Sub
-        End If
-    Else
-        gblAlarm3Date = txtAlarm3Date.Text
-        gblAlarm3Time = txtAlarm3Time.Text
-    End If
-    
-    If txtAlarm4Date.Text <> "Alarm not yet set" Then
-        alarmDateStatus = fVerifyAlarmDate(txtAlarm4Date.Text)
-        alarmTimeStatus = fVerifyAlarmTime(txtAlarm4Time.Text)
-        If alarmDateStatus = False Or alarmTimeStatus = False Then
-            btnSave.Enabled = False
-            MsgBox "Alarm no.4 is invalid, saving FAILED. Please correct and re-save."
-            Exit Sub
-        End If
-    Else
-        gblAlarm4Date = txtAlarm4Date.Text
-        gblAlarm4Time = txtAlarm4Time.Text
-    End If
-            
-    If txtAlarm5Date.Text <> "Alarm not yet set" Then
-        alarmDateStatus = fVerifyAlarmDate(txtAlarm5Date.Text)
-        alarmTimeStatus = fVerifyAlarmTime(txtAlarm5Time.Text)
-        If alarmDateStatus = False Or alarmTimeStatus = False Then
-            btnSave.Enabled = False
-            MsgBox "Alarm no.5 is invalid, saving FAILED. Please correct and re-save."
-            Exit Sub
-        End If
-    Else
-        gblAlarm5Date = txtAlarm5Date.Text
-        gblAlarm5Time = txtAlarm5Time.Text
-    End If
+    ' Validate all the alarm variables
+    alarmTest = validateAlarmVars
+    If alarmTest = False Then Exit Sub ' END the save if the alarms are malformed
     
     ' sounds
     gblEnableSounds = LTrim$(Str$(chkEnableSounds.Value))
@@ -3725,6 +3656,108 @@ btnSave_Click_Error:
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure btnSave_Click of Form widgetPrefs"
 
 End Sub
+
+
+'---------------------------------------------------------------------------------------
+' Procedure : validateAlarmVars
+' Author    : beededea
+' Date      : 24/07/2024
+' Purpose   : Validate all the alarm variables
+'---------------------------------------------------------------------------------------
+'
+Private Function validateAlarmVars() As Boolean
+
+    Dim alarmTimeStatus As Boolean: alarmTimeStatus = False
+    Dim alarmDateStatus As Boolean: alarmDateStatus = False
+    
+    On Error GoTo validateAlarmVars_Error
+
+    validateAlarmVars = True
+        
+    If txtAlarm1Date.Text = vbNullString Then txtAlarm1Date.Text = "Alarm not yet set"
+    If txtAlarm2Date.Text = vbNullString Then txtAlarm2Date.Text = "Alarm not yet set"
+    If txtAlarm3Date.Text = vbNullString Then txtAlarm3Date.Text = "Alarm not yet set"
+    If txtAlarm4Date.Text = vbNullString Then txtAlarm4Date.Text = "Alarm not yet set"
+    If txtAlarm5Date.Text = vbNullString Then txtAlarm5Date.Text = "Alarm not yet set"
+        
+    If txtAlarm1Date.Text <> "Alarm not yet set" Then
+        alarmDateStatus = fVerifyAlarmDate(txtAlarm1Date.Text)
+        alarmTimeStatus = fVerifyAlarmTime(txtAlarm1Time.Text)
+        If alarmDateStatus = False Or alarmTimeStatus = False Then
+            btnSave.Enabled = False
+            MsgBox "Alarm no.1 is invalid, saving FAILED. Please correct and re-save."
+            validateAlarmVars = False
+            Exit Function
+        End If
+    Else
+        gblAlarm1Date = txtAlarm1Date.Text
+        gblAlarm1Time = txtAlarm1Time.Text
+    End If
+            
+    If txtAlarm2Date.Text <> "Alarm not yet set" Then
+        alarmDateStatus = fVerifyAlarmDate(txtAlarm2Date.Text)
+        alarmTimeStatus = fVerifyAlarmTime(txtAlarm2Time.Text)
+        If alarmDateStatus = False Or alarmTimeStatus = False Then
+            btnSave.Enabled = False
+            MsgBox "Alarm no.2 is invalid, saving FAILED. Please correct and re-save."
+            validateAlarmVars = False
+            Exit Function
+        End If
+    Else
+        gblAlarm2Date = txtAlarm2Date.Text
+        gblAlarm2Time = txtAlarm2Time.Text
+    End If
+    
+    If txtAlarm3Date.Text <> "Alarm not yet set" Then
+        alarmDateStatus = fVerifyAlarmDate(txtAlarm3Date.Text)
+        alarmTimeStatus = fVerifyAlarmTime(txtAlarm3Time.Text)
+        If alarmDateStatus = False Or alarmTimeStatus = False Then
+            btnSave.Enabled = False
+            MsgBox "Alarm no.3 is invalid, saving FAILED. saving FAILED. Please correct and re-save."
+            validateAlarmVars = False
+            Exit Function
+        End If
+    Else
+        gblAlarm3Date = txtAlarm3Date.Text
+        gblAlarm3Time = txtAlarm3Time.Text
+    End If
+    
+    If txtAlarm4Date.Text <> "Alarm not yet set" Then
+        alarmDateStatus = fVerifyAlarmDate(txtAlarm4Date.Text)
+        alarmTimeStatus = fVerifyAlarmTime(txtAlarm4Time.Text)
+        If alarmDateStatus = False Or alarmTimeStatus = False Then
+            btnSave.Enabled = False
+            MsgBox "Alarm no.4 is invalid, saving FAILED. Please correct and re-save."
+            validateAlarmVars = False
+            Exit Function
+        End If
+    Else
+        gblAlarm4Date = txtAlarm4Date.Text
+        gblAlarm4Time = txtAlarm4Time.Text
+    End If
+            
+    If txtAlarm5Date.Text <> "Alarm not yet set" Then
+        alarmDateStatus = fVerifyAlarmDate(txtAlarm5Date.Text)
+        alarmTimeStatus = fVerifyAlarmTime(txtAlarm5Time.Text)
+        If alarmDateStatus = False Or alarmTimeStatus = False Then
+            btnSave.Enabled = False
+            MsgBox "Alarm no.5 is invalid, saving FAILED. Please correct and re-save."
+            validateAlarmVars = False
+            Exit Function
+        End If
+    Else
+        gblAlarm5Date = txtAlarm5Date.Text
+        gblAlarm5Time = txtAlarm5Time.Text
+    End If
+
+   On Error GoTo 0
+   Exit Function
+
+validateAlarmVars_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure validateAlarmVars of Form widgetPrefs"
+    
+End Function
 
 ' set a var on a checkbox tick
 '---------------------------------------------------------------------------------------

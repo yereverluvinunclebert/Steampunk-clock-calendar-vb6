@@ -3083,6 +3083,13 @@ Public Property Let alarmtoggle1Enabled(ByVal newValue As Boolean)
         fClock.clockForm.Widgets("alarm1till").Widget.Alpha = alphaVal
         
         alarmtoggle1.ImageKey = "alarmtoggle1armed"
+        
+        ' read the date and time variables for alarm 1
+        
+        ' display the date in alarm 1
+        ' display the time in alarm 1
+        ' display AM/PM
+        
 '        If alarmtoggle1InitiatingControl = "alarmtoggle1" Then alarmtoggle1ToggleEnabled = False ' prevents recurring calls
     Else
         gblAlarmToggle1Enabled = "False"

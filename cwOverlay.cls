@@ -297,7 +297,7 @@ Private Sub W_Paint(CC As RC6.cCairoContext, ByVal xAbs As Single, ByVal yAbs As
              'derive a Pattern-Obj from each retrieved ImageList-Surface-reference
              Set Pat = Cairo.ImageList(Key).CreateSurfacePattern
             
-            ' for specific keys perform actions &c
+            ' for specific keys, perform actions &c
              Select Case Key
                  Case "hourhand"
                     Set Pat = Cairo.ImageList(Key).CreateSurfacePattern
@@ -336,7 +336,7 @@ Private Sub W_Paint(CC As RC6.cCairoContext, ByVal xAbs As Single, ByVal yAbs As
                     'since we've set CAIRO_EXTEND_REPEAT, we now have to clip the range it is "allowed to extend to"
                     CC.ClipExplicit Arr(0) - sldCurWidth, Arr(1), 20 + sldCurWidth, 27
 
-                Case Else 'plain output for everything else ... this includes the reflection-layers,
+                Case Else 'plain output for everything else
                        
                     Set Pat.Matrix = Pat.Matrix.TranslateCoords(-Arr(0), -Arr(1)) 'here we only shift the Pattern via the original PSD-Offsets (stored in Arr(0) and Arr(1))
                     
@@ -418,14 +418,24 @@ End Sub
 ' Author: beededea
 ' Date: 24/06/2024
 ' ----------------------------------------------------------------
-Private Sub displayDigitalHours(ByRef CC As cCairoContext)
+Private Sub displayDigitalHours(ByRef CC As cCairoContext, Optional ByVal alarmHour As String)
         
     Dim hourString As String: hourString = vbNullString
-   
-    If thisHour < 10 Then ' uses vb6 coerce a string to a numeric without calling a cast function, quicker?
-        hourString = "0" & thisHour '
+    Dim localHour As Integer: localHour = 0
+    
+    'debug
+'    alarmHour = "12"
+       
+    If alarmHour <> vbNullString Then
+        localHour = CInt(alarmHour)
+        hourString = CStr(localHour)
     Else
-        hourString = thisHour
+        localHour = CInt(thisHour)
+        hourString = CStr(thisHour)
+    End If
+    
+    If localHour < 10 Then ' uses vb6 coerce a string to a numeric without calling a cast function, quicker?
+        hourString = "0" & localHour '
     End If
     
     ' hour digits for digital display
@@ -488,18 +498,25 @@ End Sub
 ' Author: beededea
 ' Date: 24/06/2024
 ' ----------------------------------------------------------------
-Private Sub displayDigitalMins(ByRef CC As cCairoContext)
-        
-    Dim minString As String: minString = vbNullString
-   
-    If thisMin < 10 Then ' uses vb6 coerce a string to a numeric without calling a cast function, quicker?
-        minString = "0" & thisMin '
-    Else
-        minString = thisMin
-    End If
+Private Sub displayDigitalMins(ByRef CC As cCairoContext, Optional ByVal alarmMins As String)
 
-'    mDigit1 = Left$(MinString, 1)
-'    mDigit2 = Mid$(MinString, 2, 1)
+    Dim minString As String: minString = vbNullString
+    Dim localMins As Integer: localMins = 0
+    
+    'debug
+'    alarmMins = "37"
+       
+    If alarmMins <> vbNullString Then
+        localMins = CInt(alarmMins)
+        minString = CStr(localMins)
+    Else
+        localMins = CInt(thisMin)
+        minString = CStr(thisMin)
+    End If
+    
+    If localMins < 10 Then ' uses vb6 coerce a string to a numeric without calling a cast function, quicker?
+        minString = "0" & localMins '
+    End If
 
     ' Min digits for digital display
     
@@ -799,7 +816,8 @@ End Sub
 
 ' ----------------------------------------------------------------
 ' Procedure Name: tmrClock_Timer
-' Purpose: main timer controlling the clock
+' Purpose: main timer controlling the analogue clock only,
+'          very few routines are called from this timer but instead the subsequent refresh will trigger a PAINT event
 ' Procedure Kind: Sub
 ' Procedure Access: Private
 ' Author: beededea
@@ -809,14 +827,14 @@ Private Sub tmrClock_Timer()
     
     On Error GoTo tmrClock_Timer_Error
     
+    ' just for the analogue clock
     thisHour = Hour(Now)
     thisMin = Minute(Now)
     thisSec = Second(Now)
     
-    ' time calc for main gauge
-    hdeg = 30 * (thisHour Mod 12 + (thisMin) / 60)
+    ' calculate angles of hour and second hand
+    hdeg = 30 * (thisHour Mod 12 + (thisMin) / 60) ' global vars used in the paint event
     mdeg = 6 * ((thisMin) + (thisSec / 60))
-    
     Sec = thisSec
 
     If SDeg <> 6 * Sec Then
@@ -848,6 +866,8 @@ Private Sub tmrClock_Timer()
         End If
     End If
   
+    ' very few routines are called from this timer but instead the subsequent refresh will trigger a PAINT event
+    
     W.Parent.Refresh ' causes a paint event to fire - lots happens in the paint event
     
    On Error GoTo 0
