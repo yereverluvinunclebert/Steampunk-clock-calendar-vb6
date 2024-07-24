@@ -164,7 +164,7 @@ Begin VB.Form widgetPrefs
       Caption         =   "&Save"
       Enabled         =   0   'False
       Height          =   360
-      Left            =   6075
+      Left            =   6090
       Style           =   1  'Graphical
       TabIndex        =   6
       ToolTipText     =   "Save the changes you have made to the preferences"
@@ -2044,7 +2044,7 @@ Private Sub btnVerifyDateTime1_Click()
     If alarmDateStatus = True And alarmTimeStatus = True Then
         MsgBox "Alarm date and time formats both valid and in the future"
     End If
-
+    
    On Error GoTo 0
    Exit Sub
 
@@ -2439,6 +2439,8 @@ Private Sub Form_Load()
     
     ' end the startup by un-setting the start flag
     prefsStartupFlg = False
+    
+    btnSave.Enabled = False
 
    On Error GoTo 0
    Exit Sub
@@ -3465,10 +3467,8 @@ End Sub
 '
 Private Sub btnSave_Click()
 
-'    Dim btnCnt As Integer: btnCnt = 0
-'    Dim msgCnt As Integer: msgCnt = 0
-'    Dim useloop As Integer: useloop = 0
-'    Dim thisText As String: thisText = vbNullString
+    Dim alarmTimeStatus As Boolean: alarmTimeStatus = False
+    Dim alarmDateStatus As Boolean: alarmDateStatus = False
     
     On Error GoTo btnSave_Click_Error
 
@@ -3486,6 +3486,64 @@ Private Sub btnSave_Click()
     ' general
     gblWidgetFunctions = LTrim$(Str$(chkWidgetFunctions.Value))
     gblStartup = LTrim$(Str$(chkGenStartup.Value))
+    
+        
+    If txtAlarm1Date.Text = vbNullString Then txtAlarm1Date.Text = "Alarm not yet set"
+    If txtAlarm2Date.Text = vbNullString Then txtAlarm2Date.Text = "Alarm not yet set"
+    If txtAlarm3Date.Text = vbNullString Then txtAlarm3Date.Text = "Alarm not yet set"
+    If txtAlarm4Date.Text = vbNullString Then txtAlarm4Date.Text = "Alarm not yet set"
+    If txtAlarm5Date.Text = vbNullString Then txtAlarm5Date.Text = "Alarm not yet set"
+        
+    If txtAlarm1Date.Text <> "Alarm not yet set" Then
+        alarmDateStatus = fVerifyAlarmDate(txtAlarm1Date.Text)
+        alarmTimeStatus = fVerifyAlarmTime(txtAlarm1Time.Text)
+        If alarmDateStatus = False Or alarmTimeStatus = False Then
+            btnSave.Enabled = False
+            MsgBox "Alarm no.1 is invalid, please correct and re-save."
+            Exit Sub
+        End If
+    End If
+            
+    If txtAlarm2Date.Text <> "Alarm not yet set" Then
+        alarmDateStatus = fVerifyAlarmDate(txtAlarm2Date.Text)
+        alarmTimeStatus = fVerifyAlarmTime(txtAlarm2Time.Text)
+        If alarmDateStatus = False Or alarmTimeStatus = False Then
+            btnSave.Enabled = False
+            MsgBox "Alarm no.2 is invalid, please correct and re-save."
+            Exit Sub
+        End If
+    End If
+    
+    If txtAlarm3Date.Text <> "Alarm not yet set" Then
+        alarmDateStatus = fVerifyAlarmDate(txtAlarm3Date.Text)
+        alarmTimeStatus = fVerifyAlarmTime(txtAlarm3Time.Text)
+        If alarmDateStatus = False Or alarmTimeStatus = False Then
+            btnSave.Enabled = False
+            MsgBox "Alarm no.3 is invalid, please correct and re-save."
+            Exit Sub
+        End If
+    End If
+    
+    If txtAlarm4Date.Text <> "Alarm not yet set" Then
+        alarmDateStatus = fVerifyAlarmDate(txtAlarm4Date.Text)
+        alarmTimeStatus = fVerifyAlarmTime(txtAlarm4Time.Text)
+        If alarmDateStatus = False Or alarmTimeStatus = False Then
+            btnSave.Enabled = False
+            MsgBox "Alarm no.4 is invalid, please correct and re-save."
+            Exit Sub
+        End If
+    End If
+            
+    If txtAlarm5Date.Text <> "Alarm not yet set" Then
+        alarmDateStatus = fVerifyAlarmDate(txtAlarm5Date.Text)
+        alarmTimeStatus = fVerifyAlarmTime(txtAlarm5Time.Text)
+        If alarmDateStatus = False Or alarmTimeStatus = False Then
+            btnSave.Enabled = False
+            MsgBox "Alarm no.5 is invalid, please correct and re-save."
+            Exit Sub
+        End If
+    End If
+    
     
     gblAlarm1Date = txtAlarm1Date.Text
     gblAlarm2Date = txtAlarm2Date.Text
@@ -4681,43 +4739,72 @@ End Sub
 
 Private Sub txtAlarm1Date_Change()
     btnSave.Enabled = True ' enable the save button
-
-
 End Sub
 
 Private Sub txtAlarm1Date_Click()
     If txtAlarm1Date.Text = "Alarm not yet set" Then txtAlarm1Date.Text = vbNullString
-End Sub
-Private Sub txtAlarm2Date_Click()
-    If txtAlarm2Date.Text = "Alarm not yet set" Then txtAlarm2Date.Text = vbNullString
+
 End Sub
 
-Private Sub txtAlarm3Date_Click()
-    If txtAlarm3Date.Text = "Alarm not yet set" Then txtAlarm3Date.Text = vbNullString
-End Sub
+Private Sub txtAlarm1Time_Change()
+    btnSave.Enabled = True ' enable the save button
 
-Private Sub txtAlarm4Date_Click()
-    If txtAlarm4Date.Text = "Alarm not yet set" Then txtAlarm4Date.Text = vbNullString
-End Sub
-Private Sub txtAlarm5Date_Click()
-    If txtAlarm5Date.Text = "Alarm not yet set" Then txtAlarm5Date.Text = vbNullString
 End Sub
 
 Private Sub txtAlarm2Date_Change()
     btnSave.Enabled = True ' enable the save button
 End Sub
 
+Private Sub txtAlarm2Date_Click()
+    If txtAlarm2Date.Text = "Alarm not yet set" Then txtAlarm2Date.Text = vbNullString
+
+End Sub
+
+Private Sub txtAlarm2Time_Change()
+    btnSave.Enabled = True ' enable the save button
+
+End Sub
+
 Private Sub txtAlarm3Date_Change()
+    btnSave.Enabled = True ' enable the save button
+End Sub
+
+Private Sub txtAlarm3Date_Click()
+    If txtAlarm3Date.Text = "Alarm not yet set" Then txtAlarm3Date.Text = vbNullString
+
+End Sub
+
+Private Sub txtAlarm3Time_Change()
     btnSave.Enabled = True ' enable the save button
 
 End Sub
 
 Private Sub txtAlarm4Date_Change()
     btnSave.Enabled = True ' enable the save button
+End Sub
+
+
+
+Private Sub txtAlarm4Date_Click()
+    If txtAlarm4Date.Text = "Alarm not yet set" Then txtAlarm4Date.Text = vbNullString
+
+End Sub
+
+Private Sub txtAlarm4Time_Change()
+    btnSave.Enabled = True ' enable the save button
 
 End Sub
 
 Private Sub txtAlarm5Date_Change()
+    btnSave.Enabled = True ' enable the save button
+
+End Sub
+
+Private Sub txtAlarm5Date_Click()
+    If txtAlarm5Date.Text = "Alarm not yet set" Then txtAlarm5Date.Text = vbNullString
+End Sub
+
+Private Sub txtAlarm5Time_Change()
     btnSave.Enabled = True ' enable the save button
 
 End Sub

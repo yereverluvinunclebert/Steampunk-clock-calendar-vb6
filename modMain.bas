@@ -1168,7 +1168,6 @@ Public Sub validateInputs()
         If gblAlarmToggle4Enabled = vbNullString Then gblAlarmToggle4Enabled = "False"
         If gblAlarmToggle5Enabled = vbNullString Then gblAlarmToggle5Enabled = "False"
         
-        
         If gblAlarm1Date = vbNullString Then gblAlarm1Date = "Alarm not yet set"
         If gblAlarm2Date = vbNullString Then gblAlarm2Date = "Alarm not yet set"
         If gblAlarm3Date = vbNullString Then gblAlarm3Date = "Alarm not yet set"
