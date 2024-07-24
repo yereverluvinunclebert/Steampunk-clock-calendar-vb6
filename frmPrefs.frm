@@ -2018,11 +2018,19 @@ Private gblAllowSizeChangeFlg As Boolean
 Private Sub btnVerifyDateTime1_Click()
     Dim alarmTimeStatus As Boolean: alarmTimeStatus = False
     Dim alarmDateStatus As Boolean: alarmDateStatus = False
+    Dim answer As VbMsgBoxResult: answer = vbNo
+    Dim answerMsg As String: answerMsg = vbNullString
     
     On Error GoTo btnVerifyDateTime1_Click_Error
    
-    If txtAlarm1Date.Text = "Alarm not yet set" Then MsgBox "Alarm not yet set!": Exit Sub
-
+    If txtAlarm1Date.Text = "Alarm not yet set" Then
+    
+        answerMsg = "Alarm not yet set!"
+        answer = msgBoxA(answerMsg, vbExclamation + vbOK, "Alarm Message", True, "btnVerifyDateTime1_Click1")
+        
+        Exit Sub
+    End If
+    
     If txtAlarm1Date.Text <> vbNullString Then
         alarmDateStatus = fVerifyAlarmDate(txtAlarm1Date.Text)
         alarmTimeStatus = fVerifyAlarmTime(txtAlarm1Time.Text)
@@ -2031,18 +2039,27 @@ Private Sub btnVerifyDateTime1_Click()
         txtAlarm1Date.BackColor = vbWhite
     Else
         txtAlarm1Date.BackColor = vbRed
-        MsgBox "Alarm date format invalid"
+        
+        answerMsg = "Alarm date format invalid"
+        answer = msgBoxA(answerMsg, vbExclamation + vbOK, "Alarm Message", True, "btnVerifyDateTime1_Click2")
+        
         Exit Sub
     End If
     If alarmTimeStatus = True Then
         txtAlarm1Time.BackColor = vbWhite
     Else
         txtAlarm1Time.BackColor = vbRed
-        MsgBox "Alarm time format invalid"
+        
+        answerMsg = "Alarm time format invalid"
+        answer = msgBoxA(answerMsg, vbExclamation + vbOK, "Alarm Message", True, "btnVerifyDateTime1_Click3")
+                
     End If
     
     If alarmDateStatus = True And alarmTimeStatus = True Then
-        MsgBox "Alarm date and time formats both valid and in the future"
+    
+        answerMsg = "Alarm date and time formats both valid and in the future"
+        answer = msgBoxA(answerMsg, vbExclamation + vbOK, "Alarm Information", True, "btnVerifyDateTime1_Click4")
+        
     End If
     
    On Error GoTo 0
@@ -2055,7 +2072,6 @@ btnVerifyDateTime1_Click_Error:
 End Sub
 
 
-
 '---------------------------------------------------------------------------------------
 ' Procedure : btnVerifyDateTime2_Click
 ' Author    : beededea
@@ -2066,11 +2082,19 @@ End Sub
 Private Sub btnVerifyDateTime2_Click()
     Dim alarmTimeStatus As Boolean: alarmTimeStatus = False
     Dim alarmDateStatus As Boolean: alarmDateStatus = False
+    Dim answer As VbMsgBoxResult: answer = vbNo
+    Dim answerMsg As String: answerMsg = vbNullString
     
     On Error GoTo btnVerifyDateTime2_Click_Error
+   
+    If txtAlarm2Date.Text = "Alarm not yet set" Then
     
-    If txtAlarm2Date.Text = "Alarm not yet set" Then MsgBox "Alarm not yet set!": Exit Sub
-
+        answerMsg = "Alarm not yet set!"
+        answer = msgBoxA(answerMsg, vbExclamation + vbOK, "Alarm Message", True, "btnVerifyDateTime2_Click1")
+        
+        Exit Sub
+    End If
+    
     If txtAlarm2Date.Text <> vbNullString Then
         alarmDateStatus = fVerifyAlarmDate(txtAlarm2Date.Text)
         alarmTimeStatus = fVerifyAlarmTime(txtAlarm2Time.Text)
@@ -2079,20 +2103,29 @@ Private Sub btnVerifyDateTime2_Click()
         txtAlarm2Date.BackColor = vbWhite
     Else
         txtAlarm2Date.BackColor = vbRed
-        MsgBox "Alarm date format invalid"
+        
+        answerMsg = "Alarm date format invalid"
+        answer = msgBoxA(answerMsg, vbExclamation + vbOK, "Alarm Message", True, "btnVerifyDateTime2_Click2")
+        
         Exit Sub
     End If
     If alarmTimeStatus = True Then
         txtAlarm2Time.BackColor = vbWhite
     Else
         txtAlarm2Time.BackColor = vbRed
-        MsgBox "Alarm time format invalid"
+        
+        answerMsg = "Alarm time format invalid"
+        answer = msgBoxA(answerMsg, vbExclamation + vbOK, "Alarm Message", True, "btnVerifyDateTime2_Click3")
+                
     End If
     
     If alarmDateStatus = True And alarmTimeStatus = True Then
-        MsgBox "Alarm date and time formats both valid and in the future"
+    
+        answerMsg = "Alarm date and time formats both valid and in the future"
+        answer = msgBoxA(answerMsg, vbExclamation + vbOK, "Alarm Information", True, "btnVerifyDateTime2_Click4")
+        
     End If
-
+    
    On Error GoTo 0
    Exit Sub
 
@@ -2164,18 +2197,26 @@ End Function
 '---------------------------------------------------------------------------------------
 ' Procedure : btnVerifyDateTime3_Click
 ' Author    : beededea
-' Date      : 34/07/3034
+' Date      : 24/07/2024
 ' Purpose   :
 '---------------------------------------------------------------------------------------
 '
 Private Sub btnVerifyDateTime3_Click()
     Dim alarmTimeStatus As Boolean: alarmTimeStatus = False
     Dim alarmDateStatus As Boolean: alarmDateStatus = False
+    Dim answer As VbMsgBoxResult: answer = vbNo
+    Dim answerMsg As String: answerMsg = vbNullString
     
     On Error GoTo btnVerifyDateTime3_Click_Error
+   
+    If txtAlarm3Date.Text = "Alarm not yet set" Then
     
-    If txtAlarm3Date.Text = "Alarm not yet set" Then MsgBox "Alarm not yet set!": Exit Sub
-
+        answerMsg = "Alarm not yet set!"
+        answer = msgBoxA(answerMsg, vbExclamation + vbOK, "Alarm Message", True, "btnVerifyDateTime3_Click1")
+        
+        Exit Sub
+    End If
+    
     If txtAlarm3Date.Text <> vbNullString Then
         alarmDateStatus = fVerifyAlarmDate(txtAlarm3Date.Text)
         alarmTimeStatus = fVerifyAlarmTime(txtAlarm3Time.Text)
@@ -2184,20 +2225,29 @@ Private Sub btnVerifyDateTime3_Click()
         txtAlarm3Date.BackColor = vbWhite
     Else
         txtAlarm3Date.BackColor = vbRed
-        MsgBox "Alarm date format invalid"
+        
+        answerMsg = "Alarm date format invalid"
+        answer = msgBoxA(answerMsg, vbExclamation + vbOK, "Alarm Message", True, "btnVerifyDateTime3_Click2")
+        
         Exit Sub
     End If
     If alarmTimeStatus = True Then
         txtAlarm3Time.BackColor = vbWhite
     Else
         txtAlarm3Time.BackColor = vbRed
-        MsgBox "Alarm time format invalid"
+        
+        answerMsg = "Alarm time format invalid"
+        answer = msgBoxA(answerMsg, vbExclamation + vbOK, "Alarm Message", True, "btnVerifyDateTime3_Click3")
+                
     End If
     
     If alarmDateStatus = True And alarmTimeStatus = True Then
-        MsgBox "Alarm date and time formats both valid and in the future"
+    
+        answerMsg = "Alarm date and time formats both valid and in the future"
+        answer = msgBoxA(answerMsg, vbExclamation + vbOK, "Alarm Information", True, "btnVerifyDateTime3_Click4")
+        
     End If
-
+    
    On Error GoTo 0
    Exit Sub
 
@@ -2207,21 +2257,30 @@ btnVerifyDateTime3_Click_Error:
     
 End Sub
 
+
 '---------------------------------------------------------------------------------------
 ' Procedure : btnVerifyDateTime4_Click
 ' Author    : beededea
-' Date      : 44/07/4044
+' Date      : 24/07/2024
 ' Purpose   :
 '---------------------------------------------------------------------------------------
 '
 Private Sub btnVerifyDateTime4_Click()
     Dim alarmTimeStatus As Boolean: alarmTimeStatus = False
     Dim alarmDateStatus As Boolean: alarmDateStatus = False
+    Dim answer As VbMsgBoxResult: answer = vbNo
+    Dim answerMsg As String: answerMsg = vbNullString
     
     On Error GoTo btnVerifyDateTime4_Click_Error
+   
+    If txtAlarm4Date.Text = "Alarm not yet set" Then
     
-    If txtAlarm4Date.Text = "Alarm not yet set" Then MsgBox "Alarm not yet set!": Exit Sub
-
+        answerMsg = "Alarm not yet set!"
+        answer = msgBoxA(answerMsg, vbExclamation + vbOK, "Alarm Message", True, "btnVerifyDateTime4_Click1")
+        
+        Exit Sub
+    End If
+    
     If txtAlarm4Date.Text <> vbNullString Then
         alarmDateStatus = fVerifyAlarmDate(txtAlarm4Date.Text)
         alarmTimeStatus = fVerifyAlarmTime(txtAlarm4Time.Text)
@@ -2230,20 +2289,29 @@ Private Sub btnVerifyDateTime4_Click()
         txtAlarm4Date.BackColor = vbWhite
     Else
         txtAlarm4Date.BackColor = vbRed
-        MsgBox "Alarm date format invalid"
+        
+        answerMsg = "Alarm date format invalid"
+        answer = msgBoxA(answerMsg, vbExclamation + vbOK, "Alarm Message", True, "btnVerifyDateTime4_Click2")
+        
         Exit Sub
     End If
     If alarmTimeStatus = True Then
         txtAlarm4Time.BackColor = vbWhite
     Else
         txtAlarm4Time.BackColor = vbRed
-        MsgBox "Alarm time format invalid"
+        
+        answerMsg = "Alarm time format invalid"
+        answer = msgBoxA(answerMsg, vbExclamation + vbOK, "Alarm Message", True, "btnVerifyDateTime4_Click3")
+                
     End If
     
     If alarmDateStatus = True And alarmTimeStatus = True Then
-        MsgBox "Alarm date and time formats both valid and in the future"
+    
+        answerMsg = "Alarm date and time formats both valid and in the future"
+        answer = msgBoxA(answerMsg, vbExclamation + vbOK, "Alarm Information", True, "btnVerifyDateTime4_Click4")
+        
     End If
-
+    
    On Error GoTo 0
    Exit Sub
 
@@ -2253,21 +2321,30 @@ btnVerifyDateTime4_Click_Error:
     
 End Sub
 
+
 '---------------------------------------------------------------------------------------
 ' Procedure : btnVerifyDateTime5_Click
 ' Author    : beededea
-' Date      : 55/07/5055
+' Date      : 24/07/2024
 ' Purpose   :
 '---------------------------------------------------------------------------------------
 '
 Private Sub btnVerifyDateTime5_Click()
     Dim alarmTimeStatus As Boolean: alarmTimeStatus = False
     Dim alarmDateStatus As Boolean: alarmDateStatus = False
+    Dim answer As VbMsgBoxResult: answer = vbNo
+    Dim answerMsg As String: answerMsg = vbNullString
     
     On Error GoTo btnVerifyDateTime5_Click_Error
+   
+    If txtAlarm5Date.Text = "Alarm not yet set" Then
     
-    If txtAlarm5Date.Text = "Alarm not yet set" Then MsgBox "Alarm not yet set!": Exit Sub
-
+        answerMsg = "Alarm not yet set!"
+        answer = msgBoxA(answerMsg, vbExclamation + vbOK, "Alarm Message", True, "btnVerifyDateTime5_Click1")
+        
+        Exit Sub
+    End If
+    
     If txtAlarm5Date.Text <> vbNullString Then
         alarmDateStatus = fVerifyAlarmDate(txtAlarm5Date.Text)
         alarmTimeStatus = fVerifyAlarmTime(txtAlarm5Time.Text)
@@ -2276,20 +2353,29 @@ Private Sub btnVerifyDateTime5_Click()
         txtAlarm5Date.BackColor = vbWhite
     Else
         txtAlarm5Date.BackColor = vbRed
-        MsgBox "Alarm date format invalid"
+        
+        answerMsg = "Alarm date format invalid"
+        answer = msgBoxA(answerMsg, vbExclamation + vbOK, "Alarm Message", True, "btnVerifyDateTime5_Click2")
+        
         Exit Sub
     End If
     If alarmTimeStatus = True Then
         txtAlarm5Time.BackColor = vbWhite
     Else
         txtAlarm5Time.BackColor = vbRed
-        MsgBox "Alarm time format invalid"
+        
+        answerMsg = "Alarm time format invalid"
+        answer = msgBoxA(answerMsg, vbExclamation + vbOK, "Alarm Message", True, "btnVerifyDateTime5_Click3")
+                
     End If
     
     If alarmDateStatus = True And alarmTimeStatus = True Then
-        MsgBox "Alarm date and time formats both valid and in the future."
+    
+        answerMsg = "Alarm date and time formats both valid and in the future"
+        answer = msgBoxA(answerMsg, vbExclamation + vbOK, "Alarm Information", True, "btnVerifyDateTime5_Click4")
+        
     End If
-
+    
    On Error GoTo 0
    Exit Sub
 
@@ -3689,10 +3775,9 @@ Private Function validateAlarmVars() As Boolean
             validateAlarmVars = False
             Exit Function
         End If
-    Else
-        gblAlarm1Date = txtAlarm1Date.Text
-        gblAlarm1Time = txtAlarm1Time.Text
     End If
+    gblAlarm1Date = txtAlarm1Date.Text
+    gblAlarm1Time = txtAlarm1Time.Text
             
     If txtAlarm2Date.Text <> "Alarm not yet set" Then
         alarmDateStatus = fVerifyAlarmDate(txtAlarm2Date.Text)
@@ -3703,24 +3788,22 @@ Private Function validateAlarmVars() As Boolean
             validateAlarmVars = False
             Exit Function
         End If
-    Else
-        gblAlarm2Date = txtAlarm2Date.Text
-        gblAlarm2Time = txtAlarm2Time.Text
     End If
+    gblAlarm2Date = txtAlarm2Date.Text
+    gblAlarm2Time = txtAlarm2Time.Text
     
     If txtAlarm3Date.Text <> "Alarm not yet set" Then
         alarmDateStatus = fVerifyAlarmDate(txtAlarm3Date.Text)
         alarmTimeStatus = fVerifyAlarmTime(txtAlarm3Time.Text)
         If alarmDateStatus = False Or alarmTimeStatus = False Then
             btnSave.Enabled = False
-            MsgBox "Alarm no.3 is invalid, saving FAILED. saving FAILED. Please correct and re-save."
+            MsgBox "Alarm no.3 is invalid, saving FAILED. Please correct and re-save."
             validateAlarmVars = False
             Exit Function
         End If
-    Else
-        gblAlarm3Date = txtAlarm3Date.Text
-        gblAlarm3Time = txtAlarm3Time.Text
     End If
+    gblAlarm3Date = txtAlarm3Date.Text
+    gblAlarm3Time = txtAlarm3Time.Text
     
     If txtAlarm4Date.Text <> "Alarm not yet set" Then
         alarmDateStatus = fVerifyAlarmDate(txtAlarm4Date.Text)
@@ -3731,10 +3814,9 @@ Private Function validateAlarmVars() As Boolean
             validateAlarmVars = False
             Exit Function
         End If
-    Else
-        gblAlarm4Date = txtAlarm4Date.Text
-        gblAlarm4Time = txtAlarm4Time.Text
     End If
+    gblAlarm4Date = txtAlarm4Date.Text
+    gblAlarm4Time = txtAlarm4Time.Text
             
     If txtAlarm5Date.Text <> "Alarm not yet set" Then
         alarmDateStatus = fVerifyAlarmDate(txtAlarm5Date.Text)
@@ -3745,10 +3827,9 @@ Private Function validateAlarmVars() As Boolean
             validateAlarmVars = False
             Exit Function
         End If
-    Else
-        gblAlarm5Date = txtAlarm5Date.Text
-        gblAlarm5Time = txtAlarm5Time.Text
     End If
+    gblAlarm5Date = txtAlarm5Date.Text
+    gblAlarm5Time = txtAlarm5Time.Text
 
    On Error GoTo 0
    Exit Function

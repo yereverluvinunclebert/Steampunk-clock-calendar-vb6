@@ -26,12 +26,27 @@ startup - done
 
 ' -oOo-
 
-Create a XP /ReactOS version using old APIs and RC5 - wip
-obtain a XP test system
+msgbox to msgboxA
 
+add optional alarm variable for the day/month and year digital displays
+same for AM/PM
+
+on alarm toggle click - use the associated glbl alarm value and override
 
 https://www.vbforums.com/showthread.php?757899-VB6-applied-physics-using-the-chipmunk-engine-(simple-Demo-for-Starters)
 pendulum code for RC
+
+Create a XP /ReactOS version using old APIs and RC5 - wip
+obtain a XP test system
+
+weekday till toggle - not closing
+
+alarm 1 toggle popping up when background help disabled
+
+quiet/loud sounds
+
+slider advancing/retarding time
+
 
 ' add second monitor - wip find cable!
 ' sync. E6410 win 7
