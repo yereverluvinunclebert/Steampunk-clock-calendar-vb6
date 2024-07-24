@@ -3499,9 +3499,12 @@ Private Sub btnSave_Click()
         alarmTimeStatus = fVerifyAlarmTime(txtAlarm1Time.Text)
         If alarmDateStatus = False Or alarmTimeStatus = False Then
             btnSave.Enabled = False
-            MsgBox "Alarm no.1 is invalid, please correct and re-save."
+            MsgBox "Alarm no.1 is invalid, saving FAILED. Please correct and re-save."
             Exit Sub
         End If
+    Else
+        gblAlarm1Date = txtAlarm1Date.Text
+        gblAlarm1Time = txtAlarm1Time.Text
     End If
             
     If txtAlarm2Date.Text <> "Alarm not yet set" Then
@@ -3509,9 +3512,12 @@ Private Sub btnSave_Click()
         alarmTimeStatus = fVerifyAlarmTime(txtAlarm2Time.Text)
         If alarmDateStatus = False Or alarmTimeStatus = False Then
             btnSave.Enabled = False
-            MsgBox "Alarm no.2 is invalid, please correct and re-save."
+            MsgBox "Alarm no.2 is invalid, saving FAILED. Please correct and re-save."
             Exit Sub
         End If
+    Else
+        gblAlarm2Date = txtAlarm2Date.Text
+        gblAlarm2Time = txtAlarm2Time.Text
     End If
     
     If txtAlarm3Date.Text <> "Alarm not yet set" Then
@@ -3519,9 +3525,12 @@ Private Sub btnSave_Click()
         alarmTimeStatus = fVerifyAlarmTime(txtAlarm3Time.Text)
         If alarmDateStatus = False Or alarmTimeStatus = False Then
             btnSave.Enabled = False
-            MsgBox "Alarm no.3 is invalid, please correct and re-save."
+            MsgBox "Alarm no.3 is invalid, saving FAILED. saving FAILED. Please correct and re-save."
             Exit Sub
         End If
+    Else
+        gblAlarm3Date = txtAlarm3Date.Text
+        gblAlarm3Time = txtAlarm3Time.Text
     End If
     
     If txtAlarm4Date.Text <> "Alarm not yet set" Then
@@ -3529,9 +3538,12 @@ Private Sub btnSave_Click()
         alarmTimeStatus = fVerifyAlarmTime(txtAlarm4Time.Text)
         If alarmDateStatus = False Or alarmTimeStatus = False Then
             btnSave.Enabled = False
-            MsgBox "Alarm no.4 is invalid, please correct and re-save."
+            MsgBox "Alarm no.4 is invalid, saving FAILED. Please correct and re-save."
             Exit Sub
         End If
+    Else
+        gblAlarm4Date = txtAlarm4Date.Text
+        gblAlarm4Time = txtAlarm4Time.Text
     End If
             
     If txtAlarm5Date.Text <> "Alarm not yet set" Then
@@ -3539,23 +3551,13 @@ Private Sub btnSave_Click()
         alarmTimeStatus = fVerifyAlarmTime(txtAlarm5Time.Text)
         If alarmDateStatus = False Or alarmTimeStatus = False Then
             btnSave.Enabled = False
-            MsgBox "Alarm no.5 is invalid, please correct and re-save."
+            MsgBox "Alarm no.5 is invalid, saving FAILED. Please correct and re-save."
             Exit Sub
         End If
+    Else
+        gblAlarm5Date = txtAlarm5Date.Text
+        gblAlarm5Time = txtAlarm5Time.Text
     End If
-    
-    
-    gblAlarm1Date = txtAlarm1Date.Text
-    gblAlarm2Date = txtAlarm2Date.Text
-    gblAlarm3Date = txtAlarm3Date.Text
-    gblAlarm4Date = txtAlarm4Date.Text
-    gblAlarm5Date = txtAlarm5Date.Text
-    
-    gblAlarm1Time = txtAlarm1Time.Text
-    gblAlarm2Time = txtAlarm2Time.Text
-    gblAlarm3Time = txtAlarm3Time.Text
-    gblAlarm4Time = txtAlarm4Time.Text
-    gblAlarm5Time = txtAlarm5Time.Text
     
     ' sounds
     gblEnableSounds = LTrim$(Str$(chkEnableSounds.Value))
