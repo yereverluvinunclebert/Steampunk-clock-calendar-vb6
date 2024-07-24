@@ -327,7 +327,7 @@ Begin VB.Form widgetPrefs
    Begin VB.Frame fraGeneral 
       Caption         =   "General"
       ForeColor       =   &H80000008&
-      Height          =   5610
+      Height          =   6615
       Left            =   75
       TabIndex        =   50
       Top             =   1200
@@ -335,126 +335,197 @@ Begin VB.Form widgetPrefs
       Width           =   7995
       Begin VB.Frame fraGeneralInner 
          BorderStyle     =   0  'None
-         Height          =   5070
+         Height          =   6240
          Left            =   450
          TabIndex        =   51
          Top             =   300
          Width           =   6750
-         Begin VB.CommandButton btnVerifyDateTime5 
-            Caption         =   ">"
-            Height          =   300
-            Left            =   4350
-            TabIndex        =   173
-            ToolTipText     =   "Verify Date Time for alarm number 1"
-            Top             =   3885
-            Width           =   300
-         End
-         Begin VB.TextBox txtAlarmTime5 
-            Height          =   360
-            Left            =   3405
-            TabIndex        =   172
-            Top             =   3855
-            Width           =   915
-         End
-         Begin VB.CommandButton btnVerifyDateTime4 
-            Caption         =   ">"
-            Height          =   300
-            Left            =   4350
-            TabIndex        =   171
-            ToolTipText     =   "Verify Date Time for alarm number 1"
-            Top             =   3375
-            Width           =   300
-         End
-         Begin VB.TextBox txtAlarmTime4 
-            Height          =   360
-            Left            =   3405
-            TabIndex        =   170
-            Top             =   3345
-            Width           =   915
-         End
-         Begin VB.CommandButton btnVerifyDateTime3 
-            Caption         =   ">"
-            Height          =   300
-            Left            =   4350
-            TabIndex        =   169
-            ToolTipText     =   "Verify Date Time for alarm number 1"
-            Top             =   2895
-            Width           =   300
-         End
-         Begin VB.TextBox txtAlarmTime3 
-            Height          =   360
-            Left            =   3405
-            TabIndex        =   168
-            Top             =   2865
-            Width           =   915
-         End
-         Begin VB.CommandButton btnVerifyDateTime2 
-            Caption         =   ">"
-            Height          =   300
-            Left            =   4350
-            TabIndex        =   167
-            ToolTipText     =   "Verify Date Time for alarm number 1"
-            Top             =   2415
-            Width           =   300
-         End
-         Begin VB.TextBox txtAlarmTime2 
-            Height          =   360
-            Left            =   3405
-            TabIndex        =   166
-            Top             =   2385
-            Width           =   915
-         End
-         Begin VB.TextBox txtAlarmTime1 
-            Height          =   360
-            Left            =   3405
-            Locked          =   -1  'True
-            TabIndex        =   165
-            Top             =   1905
-            Width           =   915
-         End
-         Begin VB.CommandButton btnVerifyDateTime1 
-            Caption         =   ">"
-            Height          =   300
-            Left            =   4350
-            TabIndex        =   164
-            ToolTipText     =   "Verify Date Time for alarm number 1"
-            Top             =   1935
-            Width           =   300
-         End
-         Begin VB.TextBox txtAlarmDate5 
-            Height          =   360
-            Left            =   2010
-            TabIndex        =   161
-            Top             =   3855
-            Width           =   1320
-         End
-         Begin VB.TextBox txtAlarmDate4 
-            Height          =   360
-            Left            =   2010
-            TabIndex        =   159
-            Top             =   3360
-            Width           =   1320
-         End
-         Begin VB.TextBox txtAlarmDate3 
-            Height          =   360
-            Left            =   2010
-            TabIndex        =   157
-            Top             =   2880
-            Width           =   1320
-         End
-         Begin VB.TextBox txtAlarmDate2 
-            Height          =   360
-            Left            =   2025
-            TabIndex        =   155
-            Top             =   2400
-            Width           =   1320
-         End
-         Begin VB.TextBox txtAlarmDate1 
-            Height          =   360
-            Left            =   2040
+         Begin VB.Frame Frame 
+            BorderStyle     =   0  'None
+            Height          =   3795
+            Left            =   -105
             TabIndex        =   153
-            Top             =   1905
-            Width           =   1320
+            Top             =   2280
+            Width           =   7065
+            Begin VB.CommandButton btnVerifyDateTime5 
+               Caption         =   ">"
+               Height          =   360
+               Left            =   4410
+               Style           =   1  'Graphical
+               TabIndex        =   168
+               ToolTipText     =   "Verify Date Time for alarm number 1"
+               Top             =   2175
+               Width           =   300
+            End
+            Begin VB.TextBox txtAlarm5Time 
+               Height          =   360
+               Left            =   3465
+               TabIndex        =   167
+               Top             =   2160
+               Width           =   915
+            End
+            Begin VB.CommandButton btnVerifyDateTime4 
+               Caption         =   ">"
+               Height          =   360
+               Left            =   4410
+               Style           =   1  'Graphical
+               TabIndex        =   166
+               ToolTipText     =   "Verify Date Time for alarm number 1"
+               Top             =   1665
+               Width           =   300
+            End
+            Begin VB.TextBox txtAlarm4Time 
+               Height          =   360
+               Left            =   3465
+               TabIndex        =   165
+               Top             =   1650
+               Width           =   915
+            End
+            Begin VB.CommandButton btnVerifyDateTime3 
+               Caption         =   ">"
+               Height          =   360
+               Left            =   4410
+               Style           =   1  'Graphical
+               TabIndex        =   164
+               ToolTipText     =   "Verify Date Time for alarm number 1"
+               Top             =   1185
+               Width           =   300
+            End
+            Begin VB.TextBox txtAlarm3Time 
+               Height          =   360
+               Left            =   3465
+               TabIndex        =   163
+               Top             =   1170
+               Width           =   915
+            End
+            Begin VB.CommandButton btnVerifyDateTime2 
+               Caption         =   ">"
+               Height          =   360
+               Left            =   4410
+               Style           =   1  'Graphical
+               TabIndex        =   162
+               ToolTipText     =   "Verify Date Time for alarm number 1"
+               Top             =   705
+               Width           =   300
+            End
+            Begin VB.TextBox txtAlarm2Time 
+               Height          =   360
+               Left            =   3465
+               TabIndex        =   161
+               Top             =   690
+               Width           =   915
+            End
+            Begin VB.TextBox txtAlarm1Time 
+               Height          =   360
+               Left            =   3465
+               TabIndex        =   160
+               Top             =   210
+               Width           =   915
+            End
+            Begin VB.CommandButton btnVerifyDateTime1 
+               Caption         =   ">"
+               Height          =   360
+               Left            =   4410
+               Style           =   1  'Graphical
+               TabIndex        =   159
+               ToolTipText     =   "Verify Date Time for alarm number 1"
+               Top             =   225
+               Width           =   300
+            End
+            Begin VB.TextBox txtAlarm5Date 
+               Height          =   360
+               Left            =   2100
+               TabIndex        =   158
+               Top             =   2160
+               Width           =   1320
+            End
+            Begin VB.TextBox txtAlarm4Date 
+               Height          =   360
+               Left            =   2100
+               TabIndex        =   157
+               Top             =   1665
+               Width           =   1320
+            End
+            Begin VB.TextBox txtAlarm3Date 
+               Height          =   360
+               Left            =   2100
+               TabIndex        =   156
+               Top             =   1185
+               Width           =   1320
+            End
+            Begin VB.TextBox txtAlarm2Date 
+               Height          =   360
+               Left            =   2100
+               TabIndex        =   155
+               Top             =   705
+               Width           =   1320
+            End
+            Begin VB.TextBox txtAlarm1Date 
+               Height          =   360
+               Left            =   2100
+               TabIndex        =   154
+               Top             =   210
+               Width           =   1320
+            End
+            Begin VB.Label lblGeneral 
+               Caption         =   $"frmPrefs.frx":53C2
+               Height          =   960
+               Index           =   10
+               Left            =   2070
+               TabIndex        =   174
+               Top             =   2670
+               Width           =   4230
+            End
+            Begin VB.Label lblGeneral 
+               Caption         =   "Alarm No. 5 :"
+               Height          =   375
+               Index           =   9
+               Left            =   1005
+               TabIndex        =   173
+               Tag             =   "lblRefreshInterval"
+               Top             =   2220
+               Width           =   1095
+            End
+            Begin VB.Label lblGeneral 
+               Caption         =   "Alarm No. 4 :"
+               Height          =   375
+               Index           =   8
+               Left            =   1005
+               TabIndex        =   172
+               Tag             =   "lblRefreshInterval"
+               Top             =   1725
+               Width           =   1095
+            End
+            Begin VB.Label lblGeneral 
+               Caption         =   "Alarm No. 3 :"
+               Height          =   375
+               Index           =   7
+               Left            =   1005
+               TabIndex        =   171
+               Tag             =   "lblRefreshInterval"
+               Top             =   1245
+               Width           =   1095
+            End
+            Begin VB.Label lblGeneral 
+               Caption         =   "Alarm No. 2 :"
+               Height          =   375
+               Index           =   5
+               Left            =   1005
+               TabIndex        =   170
+               Tag             =   "lblRefreshInterval"
+               Top             =   765
+               Width           =   1095
+            End
+            Begin VB.Label lblGeneral 
+               Caption         =   "Alarm No. 1 :"
+               Height          =   375
+               Index           =   4
+               Left            =   1005
+               TabIndex        =   169
+               Tag             =   "lblRefreshInterval"
+               Top             =   270
+               Width           =   1095
+            End
          End
          Begin VB.CheckBox chkWidgetFunctions 
             Caption         =   "Toggle to enable/disable"
@@ -475,63 +546,13 @@ Begin VB.Form widgetPrefs
             Width           =   4020
          End
          Begin VB.Label lblGeneral 
-            Caption         =   "Each alarm can be set using the Steampunk widget GUI or editing the dates above. Date format dd/mm/yyyy hh:mm"
-            Height          =   630
-            Index           =   10
-            Left            =   1995
-            TabIndex        =   163
-            Top             =   4335
+            Caption         =   "Alarm Dates and times shown below"
+            Height          =   435
+            Index           =   2
+            Left            =   2010
+            TabIndex        =   175
+            Top             =   2010
             Width           =   4215
-         End
-         Begin VB.Label lblGeneral 
-            Caption         =   "Alarm No. 5 :"
-            Height          =   375
-            Index           =   9
-            Left            =   945
-            TabIndex        =   162
-            Tag             =   "lblRefreshInterval"
-            Top             =   3915
-            Width           =   1095
-         End
-         Begin VB.Label lblGeneral 
-            Caption         =   "Alarm No. 4 :"
-            Height          =   375
-            Index           =   8
-            Left            =   945
-            TabIndex        =   160
-            Tag             =   "lblRefreshInterval"
-            Top             =   3420
-            Width           =   1095
-         End
-         Begin VB.Label lblGeneral 
-            Caption         =   "Alarm No. 3 :"
-            Height          =   375
-            Index           =   7
-            Left            =   945
-            TabIndex        =   158
-            Tag             =   "lblRefreshInterval"
-            Top             =   2940
-            Width           =   1095
-         End
-         Begin VB.Label lblGeneral 
-            Caption         =   "Alarm No. 2 :"
-            Height          =   375
-            Index           =   5
-            Left            =   945
-            TabIndex        =   156
-            Tag             =   "lblRefreshInterval"
-            Top             =   2460
-            Width           =   1095
-         End
-         Begin VB.Label lblGeneral 
-            Caption         =   "Alarm No. 1 :"
-            Height          =   375
-            Index           =   4
-            Left            =   945
-            TabIndex        =   154
-            Tag             =   "lblRefreshInterval"
-            Top             =   1965
-            Width           =   1095
          End
          Begin VB.Label lblGeneral 
             Caption         =   "When checked this box enables the functionality of this widget to control audio - That's it! *"
@@ -588,7 +609,7 @@ Begin VB.Form widgetPrefs
          MultiLine       =   -1  'True
          ScrollBars      =   2  'Vertical
          TabIndex        =   113
-         Text            =   "frmPrefs.frx":53C2
+         Text            =   "frmPrefs.frx":546C
          Top             =   2205
          Width           =   8010
       End
@@ -1077,7 +1098,7 @@ Begin VB.Form widgetPrefs
             Width           =   2115
          End
          Begin VB.Label lblPosition 
-            Caption         =   $"frmPrefs.frx":6379
+            Caption         =   $"frmPrefs.frx":6423
             Height          =   3435
             Index           =   12
             Left            =   5145
@@ -1097,7 +1118,7 @@ Begin VB.Form widgetPrefs
             Width           =   2040
          End
          Begin VB.Label lblPosition 
-            Caption         =   $"frmPrefs.frx":654B
+            Caption         =   $"frmPrefs.frx":65F5
             Height          =   705
             Index           =   10
             Left            =   2250
@@ -1117,7 +1138,7 @@ Begin VB.Form widgetPrefs
             Width           =   2355
          End
          Begin VB.Label lblPosition 
-            Caption         =   $"frmPrefs.frx":65EA
+            Caption         =   $"frmPrefs.frx":6694
             Height          =   3045
             Index           =   6
             Left            =   2265
@@ -1278,7 +1299,7 @@ Begin VB.Form widgetPrefs
             Width           =   2400
          End
          Begin VB.Label lblFontsTab 
-            Caption         =   $"frmPrefs.frx":678F
+            Caption         =   $"frmPrefs.frx":6839
             Height          =   1710
             Index           =   0
             Left            =   1725
@@ -1377,7 +1398,7 @@ Begin VB.Form widgetPrefs
                Width           =   720
             End
             Begin VB.Label lblWindowLevel 
-               Caption         =   $"frmPrefs.frx":68CD
+               Caption         =   $"frmPrefs.frx":6977
                Height          =   975
                Index           =   1
                Left            =   855
@@ -1532,7 +1553,7 @@ Begin VB.Form widgetPrefs
                Width           =   3660
             End
             Begin VB.Label lblGitHub 
-               Caption         =   $"frmPrefs.frx":6970
+               Caption         =   $"frmPrefs.frx":6A1A
                ForeColor       =   &H8000000D&
                Height          =   915
                Left            =   1560
@@ -1542,7 +1563,7 @@ Begin VB.Form widgetPrefs
                Width           =   4935
             End
             Begin VB.Label lblDebug 
-               Caption         =   $"frmPrefs.frx":6A37
+               Caption         =   $"frmPrefs.frx":6AE1
                Height          =   930
                Index           =   9
                Left            =   1545
@@ -1589,9 +1610,9 @@ Begin VB.Form widgetPrefs
          End
          Begin VB.ComboBox cmbDebug 
             Height          =   315
-            ItemData        =   "frmPrefs.frx":6ADB
+            ItemData        =   "frmPrefs.frx":6B85
             Left            =   1530
-            List            =   "frmPrefs.frx":6ADD
+            List            =   "frmPrefs.frx":6B87
             Style           =   2  'Dropdown List
             TabIndex        =   53
             ToolTipText     =   "Choose to set debug mode."
@@ -1752,7 +1773,7 @@ Begin VB.Form widgetPrefs
             SelStart        =   5
          End
          Begin VB.Label lblConfiguration 
-            Caption         =   $"frmPrefs.frx":6ADF
+            Caption         =   $"frmPrefs.frx":6B89
             Height          =   915
             Index           =   0
             Left            =   1980
@@ -1998,28 +2019,30 @@ Private Sub btnVerifyDateTime1_Click()
     Dim alarmTimeStatus As Boolean: alarmTimeStatus = False
     Dim alarmDateStatus As Boolean: alarmDateStatus = False
     
-   On Error GoTo btnVerifyDateTime1_Click_Error
+    On Error GoTo btnVerifyDateTime1_Click_Error
+   
+    If txtAlarm1Date.Text = "Alarm not yet set" Then MsgBox "Alarm not yet set!": Exit Sub
 
-    If txtAlarmDate1.Text <> vbNullString Then
-        alarmDateStatus = fVerifyAlarmDate(txtAlarmDate1.Text)
-        alarmTimeStatus = fVerifyAlarmTime(txtAlarmTime1.Text)
+    If txtAlarm1Date.Text <> vbNullString Then
+        alarmDateStatus = fVerifyAlarmDate(txtAlarm1Date.Text)
+        alarmTimeStatus = fVerifyAlarmTime(txtAlarm1Time.Text)
     End If
     If alarmDateStatus = True Then
-        txtAlarmDate1.BackColor = vbWhite
+        txtAlarm1Date.BackColor = vbWhite
     Else
-        txtAlarmDate1.BackColor = vbRed
+        txtAlarm1Date.BackColor = vbRed
         MsgBox "Alarm date format invalid"
         Exit Sub
     End If
     If alarmTimeStatus = True Then
-        txtAlarmTime1.BackColor = vbWhite
+        txtAlarm1Time.BackColor = vbWhite
     Else
-        txtAlarmTime1.BackColor = vbRed
+        txtAlarm1Time.BackColor = vbRed
         MsgBox "Alarm time format invalid"
     End If
     
     If alarmDateStatus = True And alarmTimeStatus = True Then
-        MsgBox "Alarm date and time formats both valid."
+        MsgBox "Alarm date and time formats both valid and in the future"
     End If
 
    On Error GoTo 0
@@ -2044,28 +2067,30 @@ Private Sub btnVerifyDateTime2_Click()
     Dim alarmTimeStatus As Boolean: alarmTimeStatus = False
     Dim alarmDateStatus As Boolean: alarmDateStatus = False
     
-   On Error GoTo btnVerifyDateTime2_Click_Error
+    On Error GoTo btnVerifyDateTime2_Click_Error
+    
+    If txtAlarm2Date.Text = "Alarm not yet set" Then MsgBox "Alarm not yet set!": Exit Sub
 
-    If txtAlarmDate2.Text <> vbNullString Then
-        alarmDateStatus = fVerifyAlarmDate(txtAlarmDate2.Text)
-        alarmTimeStatus = fVerifyAlarmTime(txtAlarmTime2.Text)
+    If txtAlarm2Date.Text <> vbNullString Then
+        alarmDateStatus = fVerifyAlarmDate(txtAlarm2Date.Text)
+        alarmTimeStatus = fVerifyAlarmTime(txtAlarm2Time.Text)
     End If
     If alarmDateStatus = True Then
-        txtAlarmDate2.BackColor = vbWhite
+        txtAlarm2Date.BackColor = vbWhite
     Else
-        txtAlarmDate2.BackColor = vbRed
+        txtAlarm2Date.BackColor = vbRed
         MsgBox "Alarm date format invalid"
         Exit Sub
     End If
     If alarmTimeStatus = True Then
-        txtAlarmTime2.BackColor = vbWhite
+        txtAlarm2Time.BackColor = vbWhite
     Else
-        txtAlarmTime2.BackColor = vbRed
+        txtAlarm2Time.BackColor = vbRed
         MsgBox "Alarm time format invalid"
     End If
     
     If alarmDateStatus = True And alarmTimeStatus = True Then
-        MsgBox "Alarm date and time formats both valid."
+        MsgBox "Alarm date and time formats both valid and in the future"
     End If
 
    On Error GoTo 0
@@ -2134,6 +2159,145 @@ fVerifyAlarmTime_Error:
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure fVerifyAlarmTime of Form widgetPrefs"
 
 End Function
+
+
+'---------------------------------------------------------------------------------------
+' Procedure : btnVerifyDateTime3_Click
+' Author    : beededea
+' Date      : 34/07/3034
+' Purpose   :
+'---------------------------------------------------------------------------------------
+'
+Private Sub btnVerifyDateTime3_Click()
+    Dim alarmTimeStatus As Boolean: alarmTimeStatus = False
+    Dim alarmDateStatus As Boolean: alarmDateStatus = False
+    
+    On Error GoTo btnVerifyDateTime3_Click_Error
+    
+    If txtAlarm3Date.Text = "Alarm not yet set" Then MsgBox "Alarm not yet set!": Exit Sub
+
+    If txtAlarm3Date.Text <> vbNullString Then
+        alarmDateStatus = fVerifyAlarmDate(txtAlarm3Date.Text)
+        alarmTimeStatus = fVerifyAlarmTime(txtAlarm3Time.Text)
+    End If
+    If alarmDateStatus = True Then
+        txtAlarm3Date.BackColor = vbWhite
+    Else
+        txtAlarm3Date.BackColor = vbRed
+        MsgBox "Alarm date format invalid"
+        Exit Sub
+    End If
+    If alarmTimeStatus = True Then
+        txtAlarm3Time.BackColor = vbWhite
+    Else
+        txtAlarm3Time.BackColor = vbRed
+        MsgBox "Alarm time format invalid"
+    End If
+    
+    If alarmDateStatus = True And alarmTimeStatus = True Then
+        MsgBox "Alarm date and time formats both valid and in the future"
+    End If
+
+   On Error GoTo 0
+   Exit Sub
+
+btnVerifyDateTime3_Click_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure btnVerifyDateTime3_Click of Form widgetPrefs"
+    
+End Sub
+
+'---------------------------------------------------------------------------------------
+' Procedure : btnVerifyDateTime4_Click
+' Author    : beededea
+' Date      : 44/07/4044
+' Purpose   :
+'---------------------------------------------------------------------------------------
+'
+Private Sub btnVerifyDateTime4_Click()
+    Dim alarmTimeStatus As Boolean: alarmTimeStatus = False
+    Dim alarmDateStatus As Boolean: alarmDateStatus = False
+    
+    On Error GoTo btnVerifyDateTime4_Click_Error
+    
+    If txtAlarm4Date.Text = "Alarm not yet set" Then MsgBox "Alarm not yet set!": Exit Sub
+
+    If txtAlarm4Date.Text <> vbNullString Then
+        alarmDateStatus = fVerifyAlarmDate(txtAlarm4Date.Text)
+        alarmTimeStatus = fVerifyAlarmTime(txtAlarm4Time.Text)
+    End If
+    If alarmDateStatus = True Then
+        txtAlarm4Date.BackColor = vbWhite
+    Else
+        txtAlarm4Date.BackColor = vbRed
+        MsgBox "Alarm date format invalid"
+        Exit Sub
+    End If
+    If alarmTimeStatus = True Then
+        txtAlarm4Time.BackColor = vbWhite
+    Else
+        txtAlarm4Time.BackColor = vbRed
+        MsgBox "Alarm time format invalid"
+    End If
+    
+    If alarmDateStatus = True And alarmTimeStatus = True Then
+        MsgBox "Alarm date and time formats both valid and in the future"
+    End If
+
+   On Error GoTo 0
+   Exit Sub
+
+btnVerifyDateTime4_Click_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure btnVerifyDateTime4_Click of Form widgetPrefs"
+    
+End Sub
+
+'---------------------------------------------------------------------------------------
+' Procedure : btnVerifyDateTime5_Click
+' Author    : beededea
+' Date      : 55/07/5055
+' Purpose   :
+'---------------------------------------------------------------------------------------
+'
+Private Sub btnVerifyDateTime5_Click()
+    Dim alarmTimeStatus As Boolean: alarmTimeStatus = False
+    Dim alarmDateStatus As Boolean: alarmDateStatus = False
+    
+    On Error GoTo btnVerifyDateTime5_Click_Error
+    
+    If txtAlarm5Date.Text = "Alarm not yet set" Then MsgBox "Alarm not yet set!": Exit Sub
+
+    If txtAlarm5Date.Text <> vbNullString Then
+        alarmDateStatus = fVerifyAlarmDate(txtAlarm5Date.Text)
+        alarmTimeStatus = fVerifyAlarmTime(txtAlarm5Time.Text)
+    End If
+    If alarmDateStatus = True Then
+        txtAlarm5Date.BackColor = vbWhite
+    Else
+        txtAlarm5Date.BackColor = vbRed
+        MsgBox "Alarm date format invalid"
+        Exit Sub
+    End If
+    If alarmTimeStatus = True Then
+        txtAlarm5Time.BackColor = vbWhite
+    Else
+        txtAlarm5Time.BackColor = vbRed
+        MsgBox "Alarm time format invalid"
+    End If
+    
+    If alarmDateStatus = True And alarmTimeStatus = True Then
+        MsgBox "Alarm date and time formats both valid and in the future."
+    End If
+
+   On Error GoTo 0
+   Exit Sub
+
+btnVerifyDateTime5_Click_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure btnVerifyDateTime5_Click of Form widgetPrefs"
+    
+End Sub
 '---------------------------------------------------------------------------------------
 ' Procedure : chkShowHelp_Click
 ' Author    : beededea
@@ -3323,6 +3487,18 @@ Private Sub btnSave_Click()
     gblWidgetFunctions = LTrim$(Str$(chkWidgetFunctions.Value))
     gblStartup = LTrim$(Str$(chkGenStartup.Value))
     
+    gblAlarm1Date = txtAlarm1Date.Text
+    gblAlarm2Date = txtAlarm2Date.Text
+    gblAlarm3Date = txtAlarm3Date.Text
+    gblAlarm4Date = txtAlarm4Date.Text
+    gblAlarm5Date = txtAlarm5Date.Text
+    
+    gblAlarm1Time = txtAlarm1Time.Text
+    gblAlarm2Time = txtAlarm2Time.Text
+    gblAlarm3Time = txtAlarm3Time.Text
+    gblAlarm4Time = txtAlarm4Time.Text
+    gblAlarm5Time = txtAlarm5Time.Text
+    
     ' sounds
     gblEnableSounds = LTrim$(Str$(chkEnableSounds.Value))
     
@@ -3451,11 +3627,18 @@ Private Sub btnSave_Click()
         sPutINISetting "Software\SteampunkClockCalendar", "alarmToggle4Enabled", gblAlarmToggle4Enabled, gblSettingsFile
         sPutINISetting "Software\SteampunkClockCalendar", "alarmToggle5Enabled", gblAlarmToggle5Enabled, gblSettingsFile
         
-        sPutINISetting "Software\SteampunkClockCalendar", "alarm1", gblAlarm1, gblSettingsFile
-        sPutINISetting "Software\SteampunkClockCalendar", "alarm2", gblAlarm2, gblSettingsFile
-        sPutINISetting "Software\SteampunkClockCalendar", "alarm3", gblAlarm3, gblSettingsFile
-        sPutINISetting "Software\SteampunkClockCalendar", "alarm4", gblAlarm4, gblSettingsFile
-        sPutINISetting "Software\SteampunkClockCalendar", "alarm5", gblAlarm5, gblSettingsFile
+        sPutINISetting "Software\SteampunkClockCalendar", "alarm1Date", gblAlarm1Date, gblSettingsFile
+        sPutINISetting "Software\SteampunkClockCalendar", "alarm2Date", gblAlarm2Date, gblSettingsFile
+        sPutINISetting "Software\SteampunkClockCalendar", "alarm3Date", gblAlarm3Date, gblSettingsFile
+        sPutINISetting "Software\SteampunkClockCalendar", "alarm4Date", gblAlarm4Date, gblSettingsFile
+        sPutINISetting "Software\SteampunkClockCalendar", "alarm5Date", gblAlarm5Date, gblSettingsFile
+               
+        
+        sPutINISetting "Software\SteampunkClockCalendar", "alarm1Time", gblAlarm1Time, gblSettingsFile
+        sPutINISetting "Software\SteampunkClockCalendar", "alarm2Time", gblAlarm2Time, gblSettingsFile
+        sPutINISetting "Software\SteampunkClockCalendar", "alarm3Time", gblAlarm3Time, gblSettingsFile
+        sPutINISetting "Software\SteampunkClockCalendar", "alarm4Time", gblAlarm4Time, gblSettingsFile
+        sPutINISetting "Software\SteampunkClockCalendar", "alarm5Time", gblAlarm5Time, gblSettingsFile
                
     End If
     
@@ -3650,25 +3833,23 @@ Private Sub adjustPrefsControls()
     Dim fntStyle As Boolean: fntStyle = False
     Dim sliGaugeSizeOldValue As Long: sliGaugeSizeOldValue = 0
     
-    Dim testDate As Date: testDate = #1/1/2000#
-    Dim testTime As Date: testTime = #12:00:00 PM#
-    
     On Error GoTo adjustPrefsControls_Error
             
     ' general tab
     chkWidgetFunctions.Value = Val(gblWidgetFunctions)
     chkGenStartup.Value = Val(gblStartup)
         
-    widgetPrefs.txtAlarmDate1.Text = gblAlarm1
-    widgetPrefs.txtAlarmDate2.Text = gblAlarm2
-    widgetPrefs.txtAlarmDate3.Text = gblAlarm3
-    widgetPrefs.txtAlarmDate4.Text = gblAlarm4
-    widgetPrefs.txtAlarmDate5.Text = gblAlarm5
-    
-    testDate = CDate("01/07/2024")
-    testTime = CDate("19:043:00")
-    widgetPrefs.txtAlarmDate1.Text = testDate
-    widgetPrefs.txtAlarmTime1.Text = testTime
+    widgetPrefs.txtAlarm1Date.Text = gblAlarm1Date
+    widgetPrefs.txtAlarm2Date.Text = gblAlarm2Date
+    widgetPrefs.txtAlarm3Date.Text = gblAlarm3Date
+    widgetPrefs.txtAlarm4Date.Text = gblAlarm4Date
+    widgetPrefs.txtAlarm5Date.Text = gblAlarm5Date
+        
+    widgetPrefs.txtAlarm1Time.Text = gblAlarm1Time
+    widgetPrefs.txtAlarm2Time.Text = gblAlarm2Time
+    widgetPrefs.txtAlarm3Time.Text = gblAlarm3Time
+    widgetPrefs.txtAlarm4Time.Text = gblAlarm4Time
+    widgetPrefs.txtAlarm5Time.Text = gblAlarm5Time
     
     ' configuration tab
    
@@ -4498,27 +4679,45 @@ Private Sub fraFonts_MouseDown(ByRef Button As Integer, ByRef Shift As Integer, 
 End Sub
 
 
-Private Sub txtAlarmDate1_Change()
+Private Sub txtAlarm1Date_Change()
+    btnSave.Enabled = True ' enable the save button
+
+
+End Sub
+
+Private Sub txtAlarm1Date_Click()
+    If txtAlarm1Date.Text = "Alarm not yet set" Then txtAlarm1Date.Text = vbNullString
+End Sub
+Private Sub txtAlarm2Date_Click()
+    If txtAlarm2Date.Text = "Alarm not yet set" Then txtAlarm2Date.Text = vbNullString
+End Sub
+
+Private Sub txtAlarm3Date_Click()
+    If txtAlarm3Date.Text = "Alarm not yet set" Then txtAlarm3Date.Text = vbNullString
+End Sub
+
+Private Sub txtAlarm4Date_Click()
+    If txtAlarm4Date.Text = "Alarm not yet set" Then txtAlarm4Date.Text = vbNullString
+End Sub
+Private Sub txtAlarm5Date_Click()
+    If txtAlarm5Date.Text = "Alarm not yet set" Then txtAlarm5Date.Text = vbNullString
+End Sub
+
+Private Sub txtAlarm2Date_Change()
+    btnSave.Enabled = True ' enable the save button
+End Sub
+
+Private Sub txtAlarm3Date_Change()
     btnSave.Enabled = True ' enable the save button
 
 End Sub
 
-Private Sub txtAlarmDate2_Change()
+Private Sub txtAlarm4Date_Change()
     btnSave.Enabled = True ' enable the save button
 
 End Sub
 
-Private Sub txtAlarmDate3_Change()
-    btnSave.Enabled = True ' enable the save button
-
-End Sub
-
-Private Sub txtAlarmDate4_Change()
-    btnSave.Enabled = True ' enable the save button
-
-End Sub
-
-Private Sub txtAlarmDate5_Change()
+Private Sub txtAlarm5Date_Change()
     btnSave.Enabled = True ' enable the save button
 
 End Sub
@@ -4667,11 +4866,23 @@ Public Sub setPrefsTooltips()
         chkEnablePrefsTooltips.ToolTipText = "Check the box to enable tooltips for all controls in the preferences utility"
         btnResetMessages.ToolTipText = "This button restores the pop-up messages to their original visible state."
         
-        txtAlarmDate1.ToolTipText = "This is alarm number one, set using the alarm toggle and slider. The alarm is not settable here via the prefs."
-        txtAlarmDate2.ToolTipText = "This is alarm number two, set using the alarm toggle and slider. The alarm is not settable here via the prefs."
-        txtAlarmDate3.ToolTipText = "This is alarm number three, set using the alarm toggle and slider. The alarm is not settable here via the prefs."
-        txtAlarmDate4.ToolTipText = "This is alarm number four, set using the alarm toggle and slider. The alarm is not settable here via the prefs."
-        txtAlarmDate5.ToolTipText = "This is alarm number five, set using the alarm toggle and slider. The alarm is not settable here via the prefs."
+        txtAlarm1Date.ToolTipText = "This is alarm number one, set the date here using the alarm toggle and slider or by editing any values shown here."
+        txtAlarm2Date.ToolTipText = "This is alarm number two, set the date here using the alarm toggle and slider or by editing any values shown here."
+        txtAlarm3Date.ToolTipText = "This is alarm number three, set the date here using the alarm toggle and slider or by editing any values shown here."
+        txtAlarm4Date.ToolTipText = "This is alarm number four, set the date here using the alarm toggle and slider or by editing any values shown here."
+        txtAlarm5Date.ToolTipText = "This is alarm number five, set the date here using the alarm toggle and slider or by editing any values shown here."
+        
+        txtAlarm1Time.ToolTipText = "This is alarm number one, set the time here using the alarm toggle and slider or by editing any values shown here."
+        txtAlarm2Time.ToolTipText = "This is alarm number two, set the time here using the alarm toggle and slider or by editing any values shown here."
+        txtAlarm3Time.ToolTipText = "This is alarm number three, set the time here using the alarm toggle and slider or by editing any values shown here."
+        txtAlarm4Time.ToolTipText = "This is alarm number four, set the time here using the alarm toggle and slider or by editing any values shown here."
+        txtAlarm5Time.ToolTipText = "This is alarm number five, set the time here using the alarm toggle and slider or by editing any values shown here."
+        
+        btnVerifyDateTime1.ToolTipText = "Verify Date Time for alarm number 1"
+        btnVerifyDateTime2.ToolTipText = "Verify Date Time for alarm number 2"
+        btnVerifyDateTime3.ToolTipText = "Verify Date Time for alarm number 3"
+        btnVerifyDateTime4.ToolTipText = "Verify Date Time for alarm number 4"
+        btnVerifyDateTime5.ToolTipText = "Verify Date Time for alarm number 5"
     Else
         imgConfig.ToolTipText = vbNullString
         imgConfigClicked.ToolTipText = vbNullString
@@ -4713,7 +4924,7 @@ Public Sub setPrefsTooltips()
         txtPrefsFont.ToolTipText = vbNullString
         cmbWindowLevel.ToolTipText = vbNullString
         cmbHidingTime.ToolTipText = vbNullString
-        chkEnableResizing.ToolTipText = ""
+        chkEnableResizing.ToolTipText = vbNullString
         chkPreventDragging.ToolTipText = vbNullString
         chkIgnoreMouse.ToolTipText = vbNullString
         sliOpacity.ToolTipText = vbNullString
@@ -4723,7 +4934,7 @@ Public Sub setPrefsTooltips()
         chkShowHelp.ToolTipText = vbNullString
         chkEnableTooltips.ToolTipText = vbNullString
         sliGaugeSize.ToolTipText = vbNullString
-        'sliWidgetSkew.ToolTipText = ""
+        'sliWidgetSkew.ToolTipText = vbNullString
         btnFacebook.ToolTipText = vbNullString
         imgAbout.ToolTipText = vbNullString
         btnAboutDebugInfo.ToolTipText = vbNullString
@@ -4741,12 +4952,17 @@ Public Sub setPrefsTooltips()
         chkEnablePrefsTooltips.ToolTipText = vbNullString
         btnResetMessages.ToolTipText = vbNullString
     
-        txtAlarmDate1.ToolTipText = ""
-        txtAlarmDate2.ToolTipText = ""
-        txtAlarmDate3.ToolTipText = ""
-        txtAlarmDate4.ToolTipText = ""
-        txtAlarmDate5.ToolTipText = ""
+        txtAlarm1Date.ToolTipText = vbNullString
+        txtAlarm2Date.ToolTipText = vbNullString
+        txtAlarm3Date.ToolTipText = vbNullString
+        txtAlarm4Date.ToolTipText = vbNullString
+        txtAlarm5Date.ToolTipText = vbNullString
     
+        btnVerifyDateTime1.ToolTipText = vbNullString
+        btnVerifyDateTime2.ToolTipText = vbNullString
+        btnVerifyDateTime3.ToolTipText = vbNullString
+        btnVerifyDateTime4.ToolTipText = vbNullString
+        btnVerifyDateTime5.ToolTipText = vbNullString
     End If
 
    On Error GoTo 0
@@ -5490,7 +5706,7 @@ Private Sub setframeHeights()
             Call SaveSizes(widgetPrefs, prefsControlPositions(), prefsCurrentWidth, prefsCurrentHeight)
         'End If
     Else
-        fraGeneral.Height = 5689
+        fraGeneral.Height = 6708
         fraConfig.Height = 6784
         fraSounds.Height = 1992
         fraPosition.Height = 7544

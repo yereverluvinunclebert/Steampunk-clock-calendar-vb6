@@ -390,11 +390,17 @@ Public gblFormHighDpiYPosTwips As String
 Public gblFormLowDpiXPosTwips As String
 Public gblFormLowDpiYPosTwips As String
 
-Public gblAlarm1 As String
-Public gblAlarm2 As String
-Public gblAlarm3 As String
-Public gblAlarm4 As String
-Public gblAlarm5 As String
+Public gblAlarm1Date As String
+Public gblAlarm2Date As String
+Public gblAlarm3Date As String
+Public gblAlarm4Date As String
+Public gblAlarm5Date As String
+
+Public gblAlarm1Time As String
+Public gblAlarm2Time As String
+Public gblAlarm3Time As String
+Public gblAlarm4Time As String
+Public gblAlarm5Time As String
 
 '------------------------------------------------------ ENDS
 

@@ -310,11 +310,17 @@ Private Sub initialiseGlobalVars()
     gblAlarmToggle4Enabled = vbNullString
     gblAlarmToggle5Enabled = vbNullString
     
-    gblAlarm1 = vbNullString
-    gblAlarm2 = vbNullString
-    gblAlarm3 = vbNullString
-    gblAlarm4 = vbNullString
-    gblAlarm5 = vbNullString
+    gblAlarm1Date = vbNullString
+    gblAlarm2Date = vbNullString
+    gblAlarm3Date = vbNullString
+    gblAlarm4Date = vbNullString
+    gblAlarm5Date = vbNullString
+    
+    gblAlarm1Time = vbNullString
+    gblAlarm2Time = vbNullString
+    gblAlarm3Time = vbNullString
+    gblAlarm4Time = vbNullString
+    gblAlarm5Time = vbNullString
     
     ' general variables declared
     'toolSettingsFile = vbNullString
@@ -1040,12 +1046,17 @@ Public Sub readSettingsFile(ByVal location As String, ByVal gblSettingsFile As S
         gblAlarmToggle3Enabled = fGetINISetting(location, "alarmToggle3Enabled", gblSettingsFile)
         gblAlarmToggle4Enabled = fGetINISetting(location, "alarmToggle4Enabled", gblSettingsFile)
         gblAlarmToggle5Enabled = fGetINISetting(location, "alarmToggle5Enabled", gblSettingsFile)
-        gblAlarm1 = fGetINISetting(location, "alarm1", gblSettingsFile)
-        gblAlarm2 = fGetINISetting(location, "alarm2", gblSettingsFile)
-        gblAlarm3 = fGetINISetting(location, "alarm3", gblSettingsFile)
-        gblAlarm4 = fGetINISetting(location, "alarm4", gblSettingsFile)
-        gblAlarm5 = fGetINISetting(location, "alarm5", gblSettingsFile)
+        gblAlarm1Date = fGetINISetting(location, "alarm1Date", gblSettingsFile)
+        gblAlarm2Date = fGetINISetting(location, "alarm2Date", gblSettingsFile)
+        gblAlarm3Date = fGetINISetting(location, "alarm3Date", gblSettingsFile)
+        gblAlarm4Date = fGetINISetting(location, "alarm4Date", gblSettingsFile)
+        gblAlarm5Date = fGetINISetting(location, "alarm5Date", gblSettingsFile)
         
+        gblAlarm1Time = fGetINISetting(location, "alarm1Time", gblSettingsFile)
+        gblAlarm2Time = fGetINISetting(location, "alarm2Time", gblSettingsFile)
+        gblAlarm3Time = fGetINISetting(location, "alarm3Time", gblSettingsFile)
+        gblAlarm4Time = fGetINISetting(location, "alarm4Time", gblSettingsFile)
+        gblAlarm5Time = fGetINISetting(location, "alarm5Time", gblSettingsFile)
                 
     End If
 
@@ -1158,11 +1169,11 @@ Public Sub validateInputs()
         If gblAlarmToggle5Enabled = vbNullString Then gblAlarmToggle5Enabled = "False"
         
         
-        If gblAlarm1 = vbNullString Then gblAlarm1 = "Alarm not yet set"
-        If gblAlarm2 = vbNullString Then gblAlarm2 = "Alarm not yet set"
-        If gblAlarm3 = vbNullString Then gblAlarm3 = "Alarm not yet set"
-        If gblAlarm4 = vbNullString Then gblAlarm4 = "Alarm not yet set"
-        If gblAlarm5 = vbNullString Then gblAlarm5 = "Alarm not yet set"
+        If gblAlarm1Date = vbNullString Then gblAlarm1Date = "Alarm not yet set"
+        If gblAlarm2Date = vbNullString Then gblAlarm2Date = "Alarm not yet set"
+        If gblAlarm3Date = vbNullString Then gblAlarm3Date = "Alarm not yet set"
+        If gblAlarm4Date = vbNullString Then gblAlarm4Date = "Alarm not yet set"
+        If gblAlarm5Date = vbNullString Then gblAlarm5Date = "Alarm not yet set"
         
         
    On Error GoTo 0
