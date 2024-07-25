@@ -380,9 +380,17 @@ End Sub
 ' Purpose   :
 '---------------------------------------------------------------------------------------
 '
-Private Sub drawAMPMDigitalDay(ByRef CC As cCairoContext)
+Private Sub drawAMPMDigitalDay(ByRef CC As cCairoContext, Optional ByVal alarmHour As String)
     
-    If thisHour < 12 Then ' uses vb6 coerce a string to a numeric without calling a cast function, quicker?
+    Dim localHour As Integer: localHour = 0
+    
+    If alarmHour <> vbNullString Then
+        localHour = CInt(alarmHour)
+    Else
+        localHour = thisHour
+    End If
+    
+    If localHour < 12 Then ' uses vb6 coerce a string to a numeric without calling a cast function, quicker?
          CC.RenderSurfaceContent "AM", 621, 387, , , , 1
     Else
          CC.RenderSurfaceContent "PM", 621, 387, , , , 1
