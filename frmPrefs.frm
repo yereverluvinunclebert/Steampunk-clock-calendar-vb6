@@ -3857,7 +3857,6 @@ validateAlarmVars_Error:
     
 End Function
 
-' set a var on a checkbox tick
 '---------------------------------------------------------------------------------------
 ' Procedure : chkEnableTooltips_Click
 ' Author    : beededea
@@ -4146,14 +4145,9 @@ End Sub
 '---------------------------------------------------------------------------------------
 
 Private Sub populatePrefsComboBoxes()
-    'Dim ret As Boolean: ret = False
     
     On Error GoTo populatePrefsComboBoxes_Error
     
-    ' obtain the daylight savings time data from the system
-'    ret = fGetTimeZoneArray
-'    If ret = False Then MsgBox "Problem getting the Daylight Savings Time data from the system."
-
     cmbScrollWheelDirection.AddItem "up", 0
     cmbScrollWheelDirection.ItemData(0) = 0
     cmbScrollWheelDirection.AddItem "down", 1
@@ -4851,17 +4845,6 @@ Form_MouseDown_Error:
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure Form_MouseDown of Form widgetPrefs"
 End Sub
 
-'Private Sub fraEmail_MouseDown(ByRef Button As Integer, ByRef Shift As Integer, ByRef x As Single, ByRef y As Single)
-'    If Button = 2 Then
-'        Me.PopupMenu prefsMnuPopmenu, vbPopupMenuRightButton
-'    End If
-'End Sub
-
-'Private Sub fraEmojis_MouseDown(ByRef Button As Integer, ByRef Shift As Integer, ByRef x As Single, ByRef y As Single)
-'    If Button = 2 Then
-'        Me.PopupMenu prefsMnuPopmenu, vbPopupMenuRightButton
-'    End If
-'End Sub
 
 Private Sub fraFonts_MouseDown(ByRef Button As Integer, ByRef Shift As Integer, ByRef x As Single, ByRef y As Single)
     If Button = 2 Then
@@ -5038,8 +5021,6 @@ Public Sub setPrefsTooltips()
         chkGenStartup.ToolTipText = "Check this box to enable the automatic start of the program when Windows is started."
         chkWidgetFunctions.ToolTipText = "When checked this box enables the spinning earth functionality. Any adjustment takes place instantly. "
 
-
-'        sliAnimationInterval.ToolTipText = "Adjust to make the animation smooth or choppy. Any adjustment in the interval takes place instantly. Lower values are smoother but the smoother it runs the more CPU it uses."
         txtPortraitYoffset.ToolTipText = "Field to hold the vertical offset for the widget position in portrait mode."
         txtPortraitHoffset.ToolTipText = "Field to hold the horizontal offset for the widget position in portrait mode."
         txtLandscapeVoffset.ToolTipText = "Field to hold the horizontal offset for the widget position in landscape mode."
@@ -5070,7 +5051,6 @@ Public Sub setPrefsTooltips()
         chkShowHelp.ToolTipText = "Check the box to show the help page on startup"
         chkEnableTooltips.ToolTipText = "Check the box to enable tooltips for all controls on the main program"
         sliGaugeSize.ToolTipText = "Adjust to a percentage of the original size. Any adjustment in size takes place instantly (you can also use Ctrl+Mousewheel hovering over the globe itself)."
-        'sliWidgetSkew.ToolTipText = "Adjust to a degree skew of the original position. Any adjustment in direction takes place instantly (you can also use the Mousewheel hovering over the globe itself."
         btnFacebook.ToolTipText = "This will link you to the our Steampunk/Dieselpunk program users Group."
         imgAbout.ToolTipText = "Opens the About tab"
         btnAboutDebugInfo.ToolTipText = "This gives access to the debugging tool"
@@ -5124,7 +5104,6 @@ Public Sub setPrefsTooltips()
         chkGenStartup.ToolTipText = vbNullString
         chkWidgetFunctions.ToolTipText = vbNullString
 
-'        sliAnimationInterval.ToolTipText = vbNullString
         txtPortraitYoffset.ToolTipText = vbNullString
         txtPortraitHoffset.ToolTipText = vbNullString
         txtLandscapeVoffset.ToolTipText = vbNullString
@@ -5154,15 +5133,12 @@ Public Sub setPrefsTooltips()
         chkShowHelp.ToolTipText = vbNullString
         chkEnableTooltips.ToolTipText = vbNullString
         sliGaugeSize.ToolTipText = vbNullString
-        'sliWidgetSkew.ToolTipText = vbNullString
         btnFacebook.ToolTipText = vbNullString
         imgAbout.ToolTipText = vbNullString
         btnAboutDebugInfo.ToolTipText = vbNullString
         btnDonate.ToolTipText = vbNullString
         btnUpdate.ToolTipText = vbNullString
         lblFontsTab(0).ToolTipText = vbNullString
-'        lblFontsTab(1).ToolTipText = vbNullString
-'        lblFontsTab(2).ToolTipText = vbNullString
         lblFontsTab(6).ToolTipText = vbNullString
         lblFontsTab(7).ToolTipText = vbNullString
         txtPrefsFontCurrentSize.ToolTipText = vbNullString
@@ -5226,7 +5202,7 @@ End Sub
 '---------------------------------------------------------------------------------------
 '
 Public Sub DestroyToolTip()
-    '
+    
    On Error GoTo DestroyToolTip_Error
 
     If hwndTT <> 0& Then DestroyWindow hwndTT
@@ -5350,73 +5326,6 @@ picButtonMouseUpEvent_Error:
 End Sub
 
 
-
-
-
-''---------------------------------------------------------------------------------------
-'' Procedure : scrollFrameDownward
-'' Author    : beededea
-'' Date      : 02/05/2023
-'' Purpose   : unused as the scrolling causes blinking, will reduce the interval and re-test
-''---------------------------------------------------------------------------------------
-''
-'Private Sub scrollFrameDownward(ByVal frameToextend As Frame, ByVal fromPosition As Integer, ByVal toPosition As Integer)
-'
-'    Dim useloop As Integer: useloop = 0
-'    Dim currentHeight As Long: currentHeight = 0
-'    Dim loopEnd As Long: loopEnd = 0
-'    Dim frmCount  As Integer: frmCount = 0
-'    Dim frameCount  As Integer: frameCount = 0
-'    Dim stepAmount  As Integer: stepAmount = 0
-'
-'   On Error GoTo scrollFrameDownward_Error
-'
-'    currentHeight = fromPosition
-'    If toPosition > fromPosition Then
-'            loopEnd = toPosition - fromPosition
-'            stepAmount = 1
-'    Else
-'            loopEnd = fromPosition - toPosition
-'            stepAmount = -1
-'    End If
-'    For useloop = 1 To loopEnd
-'        frameToextend.Height = currentHeight
-'        If stepAmount = 1 Then
-'            currentHeight = currentHeight + 1
-'            If currentHeight >= toPosition Then
-'                currentHeight = toPosition
-'                Exit For
-'            End If
-'        End If
-'        If stepAmount = -1 Then
-'            currentHeight = currentHeight - 1
-'            If currentHeight <= toPosition Then
-'                currentHeight = toPosition
-'                Exit For
-'            End If
-'        End If
-'
-'        frameCount = frameCount + 1
-'        If frameCount >= 50 Then
-'            frameCount = 0
-'            frameToextend.Refresh
-'        End If
-'
-'        frmCount = frmCount + 1
-'        If frmCount >= 500 Then
-'            frmCount = 0
-'            widgetPrefs.Refresh
-'        End If
-'    Next useloop
-'
-'   On Error GoTo 0
-'   Exit Sub
-'
-'scrollFrameDownward_Error:
-'
-'    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure scrollFrameDownward of Form widgetPrefs"
-'
-'End Sub
 
 
 '---------------------------------------------------------------------------------------
@@ -6036,7 +5945,7 @@ End Sub
 
 '---------------------------------------------------------------------------------------
 ' Procedure : IsWinNTPlus
-' Author    : Randy Birch for his timezone code - http://vbnet.mvps.org/index.html?code/locale/timezonebiaslookup.htm
+' Author    : Randy Birch
 ' Date      : 13/08/2023
 ' Purpose   :
 '---------------------------------------------------------------------------------------
