@@ -3748,7 +3748,7 @@ End Sub
 ' Procedure : validateAlarmVars
 ' Author    : beededea
 ' Date      : 24/07/2024
-' Purpose   : Validate all the alarm variables
+' Purpose   : Validate all the alarm variables and FAIL if bad.
 '---------------------------------------------------------------------------------------
 '
 Private Function validateAlarmVars() As Boolean

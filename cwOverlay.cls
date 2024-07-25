@@ -617,33 +617,33 @@ End Sub
 
 ' ----------------------------------------------------------------
 ' Procedure Name: displayDigitalDayofMonth
-' Purpose:
+' Purpose: ' day digits for digital display
 ' Procedure Kind: Sub
 ' Procedure Access: Private
 ' Parameter CC (cCairoContext):
 ' Author: beededea
 ' Date: 24/06/2024
 ' ----------------------------------------------------------------
-Private Sub displayDigitalDayofMonth(ByRef CC As cCairoContext)
-
-    ' day digits for digital display
-
-'    Dim dDigit1 As String: dDigit1 = vbNullString
-'    Dim dDigit2 As String: dDigit2 = vbNullString
+Private Sub displayDigitalDayofMonth(ByRef CC As cCairoContext, Optional ByVal alarmDay As String)
+    
     Dim dayString As String: dayString = vbNullString
+    Dim localDay As Integer: localDay = 0
     Dim thisDay As Integer: thisDay = 0
 
     thisDay = Day(Now)
-
-    If thisDay < 10 Then
-        dayString = "0" & thisDay ' uses vb6 coerce a variant to a numeric without calling a cast function, quicker?
+       
+    If alarmDay <> vbNullString Then
+        localDay = CInt(alarmDay)
+        dayString = CStr(localDay)
     Else
-        dayString = thisDay
+        localDay = CInt(thisDay)
+        dayString = CStr(thisDay)
     End If
-
-'    dDigit1 = Left$(dayString, 1)
-'    dDigit2 = Mid$(dayString, 2, 1)
-'
+    
+    If localDay < 10 Then ' uses vb6 coerce a string to a numeric without calling a cast function, quicker?
+        dayString = "0" & localDay '
+    End If
+    
     Select Case Left$(dayString, 1)
         Case 0
             CC.RenderSurfaceContent "num0large", 404, 312, , , , 1
