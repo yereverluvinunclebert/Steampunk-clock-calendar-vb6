@@ -24,12 +24,14 @@ Prefs scale altered from 5-100 - done
 fmrMessage unloaded - done
 startup - done
 
+add optional alarm variable for the day/month and year digital displays
+same for AM/PM
+
 ' -oOo-
 
 msgbox to msgboxA
 
-add optional alarm variable for the day/month and year digital displays
-same for AM/PM
+
 
 on alarm toggle click - use the associated glbl alarm value and override
 

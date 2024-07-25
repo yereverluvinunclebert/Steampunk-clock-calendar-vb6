@@ -3752,10 +3752,12 @@ End Sub
 '---------------------------------------------------------------------------------------
 '
 Private Function validateAlarmVars() As Boolean
-
+        
     Dim alarmTimeStatus As Boolean: alarmTimeStatus = False
     Dim alarmDateStatus As Boolean: alarmDateStatus = False
-    
+    Dim answer As VbMsgBoxResult: answer = vbNo
+    Dim answerMsg As String: answerMsg = vbNullString
+     
     On Error GoTo validateAlarmVars_Error
 
     validateAlarmVars = True
@@ -3771,7 +3773,10 @@ Private Function validateAlarmVars() As Boolean
         alarmTimeStatus = fVerifyAlarmTime(txtAlarm1Time.Text)
         If alarmDateStatus = False Or alarmTimeStatus = False Then
             btnSave.Enabled = False
-            MsgBox "Alarm no.1 is invalid, saving FAILED. Please correct and re-save."
+            
+            answerMsg = "Alarm no.1 is invalid, saving FAILED. Please correct and re-save."
+            answer = msgBoxA(answerMsg, vbExclamation + vbOK, "Alarm Message", True, "validateAlarmVars1")
+            
             validateAlarmVars = False
             Exit Function
         End If
@@ -3784,7 +3789,10 @@ Private Function validateAlarmVars() As Boolean
         alarmTimeStatus = fVerifyAlarmTime(txtAlarm2Time.Text)
         If alarmDateStatus = False Or alarmTimeStatus = False Then
             btnSave.Enabled = False
-            MsgBox "Alarm no.2 is invalid, saving FAILED. Please correct and re-save."
+            
+            answerMsg = "Alarm no.2 is invalid, saving FAILED. Please correct and re-save."
+            answer = msgBoxA(answerMsg, vbExclamation + vbOK, "Alarm Message", True, "validateAlarmVars2")
+            
             validateAlarmVars = False
             Exit Function
         End If
@@ -3797,7 +3805,10 @@ Private Function validateAlarmVars() As Boolean
         alarmTimeStatus = fVerifyAlarmTime(txtAlarm3Time.Text)
         If alarmDateStatus = False Or alarmTimeStatus = False Then
             btnSave.Enabled = False
-            MsgBox "Alarm no.3 is invalid, saving FAILED. Please correct and re-save."
+            
+            answerMsg = "Alarm no.3 is invalid, saving FAILED. Please correct and re-save."
+            answer = msgBoxA(answerMsg, vbExclamation + vbOK, "Alarm Message", True, "validateAlarmVars3")
+            
             validateAlarmVars = False
             Exit Function
         End If
@@ -3810,7 +3821,10 @@ Private Function validateAlarmVars() As Boolean
         alarmTimeStatus = fVerifyAlarmTime(txtAlarm4Time.Text)
         If alarmDateStatus = False Or alarmTimeStatus = False Then
             btnSave.Enabled = False
-            MsgBox "Alarm no.4 is invalid, saving FAILED. Please correct and re-save."
+            
+            answerMsg = "Alarm no.4 is invalid, saving FAILED. Please correct and re-save."
+            answer = msgBoxA(answerMsg, vbExclamation + vbOK, "Alarm Message", True, "validateAlarmVars4")
+            
             validateAlarmVars = False
             Exit Function
         End If
@@ -3823,7 +3837,10 @@ Private Function validateAlarmVars() As Boolean
         alarmTimeStatus = fVerifyAlarmTime(txtAlarm5Time.Text)
         If alarmDateStatus = False Or alarmTimeStatus = False Then
             btnSave.Enabled = False
-            MsgBox "Alarm no.5 is invalid, saving FAILED. Please correct and re-save."
+            
+            answerMsg = "Alarm no.5 is invalid, saving FAILED. Please correct and re-save."
+            answer = msgBoxA(answerMsg, vbExclamation + vbOK, "Alarm Message", True, "validateAlarmVars5")
+            
             validateAlarmVars = False
             Exit Function
         End If
