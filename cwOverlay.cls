@@ -570,21 +570,26 @@ Private Sub displayDigitalMins(ByRef CC As cCairoContext, Optional ByVal alarmMi
 End Sub
 ' ----------------------------------------------------------------
 ' Procedure Name: displayDigitalMonth
-' Purpose:
+' Purpose: month digits for digital display
 ' Procedure Kind: Sub
 ' Procedure Access: Private
 ' Parameter CC (cCairoContext):
 ' Author: beededea
 ' Date: 24/06/2024
 ' ----------------------------------------------------------------
-Private Sub displayDigitalMonth(ByRef CC As cCairoContext)
+Private Sub displayDigitalMonth(ByRef CC As cCairoContext, Optional ByVal alarmMonth As String)
 
-    Dim thisMonth As Integer: thisMonth = 0
-    
-    ' day digits for digital display
-    
-    thisMonth = Month(Now) ' coerce date variant to integer
-    Select Case thisMonth
+    Dim thismonth As Integer: thismonth = 0
+
+    thismonth = Month(Now) ' coerce date variant to integer
+       
+    If alarmMonth <> vbNullString Then
+        thismonth = CInt(alarmMonth)
+    Else
+        thismonth = Month(Now) ' coerce date variant to integer
+    End If
+
+    Select Case thismonth
         Case 1
             CC.RenderSurfaceContent "jan", 442, 312, , , , 1
         Case 2
@@ -693,31 +698,24 @@ End Sub
 
 ' ----------------------------------------------------------------
 ' Procedure Name: displayDigitalYear
-' Purpose:
+' Purpose: year digits for digital display
 ' Procedure Kind: Sub
 ' Procedure Access: Private
 ' Parameter CC (cCairoContext):
 ' Author: beededea
 ' Date: 24/06/2024
 ' ----------------------------------------------------------------
-Private Sub displayDigitalYear(ByRef CC As cCairoContext)
+Private Sub displayDigitalYear(ByRef CC As cCairoContext, Optional ByVal alarmYear As String)
 
-'    Dim yDigit1 As String: yDigit1 = vbNullString
-'    Dim yDigit2 As String: yDigit2 = vbNullString
-'    Dim yDigit3 As String: yDigit3 = vbNullString
-'    Dim yDigit4 As String: yDigit4 = vbNullString
-    Dim thisYear As Integer: thisYear = 0
     Dim yearString As String: yearString = vbNullString
-    'Static thisDate As Date: thisDate = Now
-
-    ' year digits for digital display
-
-    yearString = Year(Now)
-
-'    yDigit1 = Left$(yearString, 1)
-'    yDigit2 = Mid$(yearString, 2, 1)
-'    yDigit3 = Mid$(yearString, 3, 1)
-'    yDigit4 = Mid$(yearString, 4, 1)
+    
+    'alarmYear = "1942"
+           
+    If alarmYear <> vbNullString Then
+        yearString = alarmYear
+    Else
+        yearString = Year(Now) ' coerce date variant to integer
+    End If
 
     Select Case Left$(yearString, 1)
         Case 0
