@@ -406,13 +406,103 @@ End Sub
 '---------------------------------------------------------------------------------------
 '
 Private Sub drawDigitalClocks(ByRef CC As cCairoContext)
+    Dim theDay As String: theDay = vbNullString
+    Dim theMonth As String: theMonth = vbNullString
+    Dim theYear As String: theYear = vbNullString
+    Dim theHours As String: theHours = vbNullString
+    Dim theMins As String: theMins = vbNullString
+    Dim theMeridien As String: theMeridien = vbNullString
     
-    Call displayDigitalDayofMonth(CC)
-    Call displayDigitalMonth(CC)
-    Call displayDigitalYear(CC)
-    Call displayDigitalHours(CC)
-    Call displayDigitalMins(CC)
-    Call drawAMPMDigitalDay(CC)
+    If fClock.alarmtoggle1Enabled = True Then
+        ' read the date and time variables for alarm 1
+        If gblAlarm1Date = "Alarm not yet set" Then
+            theDay = vbNullString
+            theMonth = vbNullString
+            theYear = vbNullString
+            theHours = vbNullString
+            theMins = vbNullString
+        Else
+            theDay = Left$(gblAlarm1Date, 2)
+            theMonth = Mid$(gblAlarm1Date, 4, 2)
+            theYear = Mid$(gblAlarm1Date, 7, 4)
+            theHours = Left$(gblAlarm1Time, 2)
+            theMins = Mid$(gblAlarm1Time, 4, 2)
+        End If
+    End If
+        
+    If fClock.alarmtoggle2Enabled = True Then
+        ' read the date and time variables for alarm 2
+        If gblAlarm2Date = "Alarm not yet set" Then
+            theDay = vbNullString
+            theMonth = vbNullString
+            theYear = vbNullString
+            theHours = vbNullString
+            theMins = vbNullString
+        Else
+            theDay = Left$(gblAlarm2Date, 2)
+            theMonth = Mid$(gblAlarm2Date, 4, 2)
+            theYear = Mid$(gblAlarm2Date, 7, 4)
+            theHours = Left$(gblAlarm2Time, 2)
+            theMins = Mid$(gblAlarm2Time, 4, 2)
+        End If
+    End If
+    
+    If fClock.alarmtoggle3Enabled = True Then
+        ' read the date and time variables for alarm 3
+        If gblAlarm3Date = "Alarm not yet set" Then
+            theDay = vbNullString
+            theMonth = vbNullString
+            theYear = vbNullString
+            theHours = vbNullString
+            theMins = vbNullString
+        Else
+            theDay = Left$(gblAlarm3Date, 2)
+            theMonth = Mid$(gblAlarm3Date, 4, 2)
+            theYear = Mid$(gblAlarm3Date, 7, 4)
+            theHours = Left$(gblAlarm3Time, 2)
+            theMins = Mid$(gblAlarm3Time, 4, 2)
+        End If
+    End If
+    
+    If fClock.alarmtoggle4Enabled = True Then
+        ' read the date and time variables for alarm 4
+        If gblAlarm4Date = "Alarm not yet set" Then
+            theDay = vbNullString
+            theMonth = vbNullString
+            theYear = vbNullString
+            theHours = vbNullString
+            theMins = vbNullString
+        Else
+            theDay = Left$(gblAlarm4Date, 2)
+            theMonth = Mid$(gblAlarm4Date, 4, 2)
+            theYear = Mid$(gblAlarm4Date, 7, 4)
+            theHours = Left$(gblAlarm4Time, 2)
+            theMins = Mid$(gblAlarm4Time, 4, 2)
+        End If
+    End If
+    
+    If fClock.alarmtoggle5Enabled = True Then
+         If gblAlarm4Date = "Alarm not yet set" Then
+            theDay = vbNullString
+            theMonth = vbNullString
+            theYear = vbNullString
+            theHours = vbNullString
+            theMins = vbNullString
+        Else       ' read the date and time variables for alarm 5
+            theDay = Left$(gblAlarm5Date, 2)
+            theMonth = Mid$(gblAlarm5Date, 4, 2)
+            theYear = Mid$(gblAlarm5Date, 7, 4)
+            theHours = Left$(gblAlarm5Time, 2)
+            theMins = Mid$(gblAlarm5Time, 4, 2)
+        End If
+    End If
+    
+    Call displayDigitalDayofMonth(CC, theDay)
+    Call displayDigitalMonth(CC, theMonth)
+    Call displayDigitalYear(CC, theYear)
+    Call displayDigitalHours(CC, theHours)
+    Call displayDigitalMins(CC, theMins)
+    Call drawAMPMDigitalDay(CC, theHours)
    
 End Sub
 

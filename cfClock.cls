@@ -3065,7 +3065,7 @@ Public Property Let alarmtoggle1Enabled(ByVal newValue As Boolean)
     Dim alarmtoggle1In As Long: alarmtoggle1In = 0
     Dim alarmtoggle1Out As Long: alarmtoggle1Out = 0
     Dim alphaVal As Integer: alphaVal = 0
-   
+
     On Error GoTo alarmtoggle1EnabledLet_Error
     
     alarmtoggle1Top = alarmtoggle1.Top
@@ -3084,7 +3084,7 @@ Public Property Let alarmtoggle1Enabled(ByVal newValue As Boolean)
         
         alarmtoggle1.ImageKey = "alarmtoggle1armed"
         
-        ' read the date and time variables for alarm 1
+
         
         ' display the date in alarm 1
         ' display the time in alarm 1

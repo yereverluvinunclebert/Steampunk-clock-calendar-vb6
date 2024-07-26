@@ -26,32 +26,35 @@ startup - done
 
 add optional alarm variable for the day/month and year digital displays
 same for AM/PM
+add graphical sparkles
 
 msgbox to msgboxA
 
 ' -oOo-
 
-add graphical sparkles
 
-on alarm toggle click - use the associated glbl alarm value and override
+on alarm toggle click - use the associated glbl alarm value and override the digital display
 
-https://www.vbforums.com/showthread.php?757899-VB6-applied-physics-using-the-chipmunk-engine-(simple-Demo-for-Starters)
+have separate solid red till backgrounds for transparent text overlays as per the YWE version of the widget - this should fix the mouseLeave bug where the red bit stays
+
+weekday till toggle - not closing
+
+alarm 1 toggle popping up when background help disabled
+
+slider advancing/retarding time
+
+pendulum - convert the original js.
 pendulum code for RC
+https://www.vbforums.com/showthread.php?757899-VB6-applied-physics-using-the-chipmunk-engine-(simple-Demo-for-Starters)
 
 digital counter animation from zero
 
 Create a XP /ReactOS version using old APIs and RC5 - wip
 obtain a XP test system
 
-weekday till toggle - not closing
-
-alarm 1 toggle popping up when background help disabled
-
 click on alarm till deletes alarm with confirmation pop-up
 
 quiet/loud sounds
-
-slider advancing/retarding time
 
 add method to feed messages to the screen
 
