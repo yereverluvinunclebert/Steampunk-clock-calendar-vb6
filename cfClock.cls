@@ -101,8 +101,10 @@ Private WithEvents crankup As cWidgetBase
 Attribute crankup.VB_VarHelpID = -1
 Private WithEvents crankdown As cWidgetBase
 Attribute crankdown.VB_VarHelpID = -1
-Private WithEvents weekdayredcover As cWidgetBase
-Attribute weekdayredcover.VB_VarHelpID = -1
+Private WithEvents weekdayred As cWidgetBase
+Attribute weekdayred.VB_VarHelpID = -1
+Private WithEvents weekday As cWidgetBase
+Attribute weekday.VB_VarHelpID = -1
 Private WithEvents dropdown As cWidgetBase
 Attribute dropdown.VB_VarHelpID = -1
 Private WithEvents bellset As cWidgetBase
@@ -348,7 +350,8 @@ Public Sub InitFromPSD(ByRef PSD_FileNameOrByteArray As Variant)
     Set chain = clockForm.Widgets("chain").Widget
     Set crankup = clockForm.Widgets("crankup").Widget
     Set crankdown = clockForm.Widgets("crankdown").Widget
-    Set weekdayredcover = clockForm.Widgets("weekdayredcover").Widget
+    Set weekdayred = clockForm.Widgets("weekdayred").Widget
+    Set weekday = clockForm.Widgets("weekday").Widget
     Set dropdown = clockForm.Widgets("dropdown").Widget
     Set bellset = clockForm.Widgets("bellset").Widget
     Set helpdropdown = clockForm.Widgets("helpdropdown").Widget
@@ -421,6 +424,7 @@ Private Sub clockForm_BubblingEvent(ByRef sender As Object, ByRef EventName As S
             Case "displayscreen"
                 If gblEnableBalloonTooltips = "1" Then CreateToolTip clockForm.hwnd, "To lower kinematoscope press S toggle.", _
                      TTIconInfo, widgetName & " Kinematoscope Toggle Help", , , , True
+                     weekdayred.Alpha = 0
             Case "bellset"
                 If gblEnableBalloonTooltips = "1" Then CreateToolTip clockForm.hwnd, "Click here to set or edit an alarm.", _
                      TTIconInfo, widgetName & " Alarm Toggle Help", , , , True
@@ -469,42 +473,46 @@ Private Sub clockForm_BubblingEvent(ByRef sender As Object, ByRef EventName As S
              Case "helpdropdown"
                 If gblEnableBalloonTooltips = "1" Then CreateToolTip clockForm.hwnd, "Click here to lock the clock in place on the desktop.", _
                      TTIconInfo, widgetName & " Dropdown Pin Help", , , , True
-            Case "monday" ' this does the job for all the weekday tills underneath
+            Case "weekday" ' this does the job for all the weekday tills underneath
                 If gblEnableBalloonTooltips = "1" Then CreateToolTip clockForm.hwnd, "Click here to lower the weekday flag.", _
                      TTIconInfo, widgetName & " Weekday Indicator Help", , , , True
                 ' set the weekday red cover to solid
-                If clockForm.Widgets(fDayOfWeek).Widget.Alpha <> 0 Then weekdayredcover.Alpha = Val(gblOpacity) / 100
+                If clockForm.Widgets(fDayOfWeek).Widget.Alpha <> 0 Then weekdayred.Alpha = Val(gblOpacity) / 100
             Case "alarm1till"
                 If gblEnableBalloonTooltips = "1" Then CreateToolTip clockForm.hwnd, "Click this alarm flag to delete this alarm.", _
                      TTIconInfo, widgetName & " Alarm Indicator Help", , , , True
-            Case "weekdayredcover"
+            Case "weekdayred"
                 If gblEnableBalloonTooltips = "1" Then CreateToolTip clockForm.hwnd, "Click here to lower the weekday flag.", _
                      TTIconInfo, widgetName & " Weekday Indicator Help", , , , True
             Case Else
-                weekdayredcover.Alpha = 0 ' sometimes the weekday red cover does not go alpha 0 on mouseLeave, this recovers the situation
+        
         End Select
     End If
     
     If EventName = "W_MouseLeave" Then
         Select Case LCase$(sender.Widget.Key)
+        Case "weekdayred"
+            weekdayred.Alpha = 0
+            weekdayred.Refresh
+        Case "weekday"
+            If weekdayToggleEnabled = "true" Then weekdayred.Alpha = 1
         Case "monday"
-            weekdayredcover.Alpha = 0
+            If weekdayToggleEnabled = "true" Then weekdayred.Alpha = 1
         Case "tuesday"
-            weekdayredcover.Alpha = 0
+            If weekdayToggleEnabled = "true" Then weekdayred.Alpha = 1
         Case "wednesday"
-            weekdayredcover.Alpha = 0
+            If weekdayToggleEnabled = "true" Then weekdayred.Alpha = 1
         Case "thursday"
-            weekdayredcover.Alpha = 0
+            If weekdayToggleEnabled = "true" Then weekdayred.Alpha = 1
         Case "friday"
-            weekdayredcover.Alpha = 0
+            If weekdayToggleEnabled = "true" Then weekdayred.Alpha = 1
         Case "satday"
-            weekdayredcover.Alpha = 0
+            If weekdayToggleEnabled = "true" Then weekdayred.Alpha = 1
         Case "sunday"
-            weekdayredcover.Alpha = 0
-        End Select
+            If weekdayToggleEnabled = "true" Then weekdayred.Alpha = 1
+        Case Else
         
-        weekdayredcover.Refresh
-        ' sometimes the weekday red cover does not go alpha 0 on mouseLeave due to partial PNG transparency - see W_MouseMove above.
+        End Select
     End If
     
     If EventName = "W_MouseDown" Then
@@ -566,19 +574,19 @@ Private Sub clockForm_BubblingEvent(ByRef sender As Object, ByRef EventName As S
             Case "crankdown"
                 Call crankdown_myMouseDown
             Case "monday"
-                Call weekdayredcover_myMouseDown
+                Call weekdayred_myMouseDown
             Case "tuesday"
-                Call weekdayredcover_myMouseDown
+                Call weekdayred_myMouseDown
             Case "wednesday"
-                Call weekdayredcover_myMouseDown
+                Call weekdayred_myMouseDown
             Case "thursday"
-                Call weekdayredcover_myMouseDown
+                Call weekdayred_myMouseDown
             Case "friday"
-                Call weekdayredcover_myMouseDown
+                Call weekdayred_myMouseDown
             Case "saturday"
-                Call weekdayredcover_myMouseDown
+                Call weekdayred_myMouseDown
             Case "sunday"
-                Call weekdayredcover_myMouseDown
+                Call weekdayred_myMouseDown
             Case "dropdown"
                 Call dropdown_myMouseDown
             Case "bellset"
@@ -984,14 +992,14 @@ End Sub
 
 
 '---------------------------------------------------------------------------------------
-' Procedure : weekdayredcover_myMouseDown
+' Procedure : weekdayred_myMouseDown
 ' Author    : beededea
 ' Date      : 03/08/2023
 ' Purpose   :  - note: - can't use a std MouseDown as
 '             declaring a widget as cWidgetBase 'WithEvents' does not provide a std MouseDown with a sender object
 '---------------------------------------------------------------------------------------
 '
-Private Sub weekdayredcover_myMouseDown()
+Private Sub weekdayred_myMouseDown()
 
     Dim fileToPlay As String: fileToPlay = vbNullString
     Dim alphaVal As Integer: alphaVal = 0
@@ -1000,7 +1008,7 @@ Private Sub weekdayredcover_myMouseDown()
     Dim weekdayToggleTop As Long: weekdayToggleTop = 0
     Dim weekdayToggleLeft As Long: weekdayToggleLeft = 0
     
-    On Error GoTo weekdayredcover_myMouseDown_Error
+    On Error GoTo weekdayred_myMouseDown_Error
     
     weekdayToggleTop = weekdaytoggle.Top
     weekdayToggleLeft = weekdaytoggle.Left
@@ -1022,9 +1030,9 @@ Private Sub weekdayredcover_myMouseDown()
    On Error GoTo 0
    Exit Sub
 
-weekdayredcover_myMouseDown_Error:
+weekdayred_myMouseDown_Error:
 
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure weekdayredcover_myMouseDown of Class Module cfClock"
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure weekdayred_myMouseDown of Class Module cfClock"
 
 End Sub
 
@@ -2607,12 +2615,14 @@ Public Property Let weekdayToggleEnabled(ByVal newValue As Boolean)
 
     If newValue = True Then
         weekdaytoggle.Move weekdayToggleIn, weekdayToggleTop
+        clockForm.Widgets("weekday").Widget.Alpha = alphaVal
         clockForm.Widgets(thisDayOfWeek).Widget.Alpha = alphaVal
         gblWeekdayToggleEnabled = "True"
     Else
         weekdaytoggle.Move weekdayToggleOut, weekdayToggleTop
+        clockForm.Widgets("weekday").Widget.Alpha = 0
         clockForm.Widgets(thisDayOfWeek).Widget.Alpha = 0
-        weekdayredcover.Alpha = 0 ' sometimes you can fool the mouseleave, this helps to recover the situation
+        weekdayred.Alpha = 0 ' sometimes you can fool the mouseleave, this helps to recover the situation
         gblWeekdayToggleEnabled = "False"
     End If
     
