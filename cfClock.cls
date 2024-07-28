@@ -424,7 +424,11 @@ Private Sub clockForm_BubblingEvent(ByRef sender As Object, ByRef EventName As S
             Case "displayscreen"
                 If gblEnableBalloonTooltips = "1" Then CreateToolTip clockForm.hwnd, "To lower kinematoscope press S toggle.", _
                      TTIconInfo, widgetName & " Kinematoscope Toggle Help", , , , True
-                     weekdayred.Alpha = 0
+                 With clockForm.Widgets("redalarmcover").Widget
+                    .Alpha = 0
+                    .Refresh
+                 End With
+                 weekdayred.Alpha = 0
             Case "bellset"
                 If gblEnableBalloonTooltips = "1" Then CreateToolTip clockForm.hwnd, "Click here to set or edit an alarm.", _
                      TTIconInfo, widgetName & " Alarm Toggle Help", , , , True
@@ -478,9 +482,24 @@ Private Sub clockForm_BubblingEvent(ByRef sender As Object, ByRef EventName As S
                      TTIconInfo, widgetName & " Weekday Indicator Help", , , , True
                 ' set the weekday red cover to solid
                 If clockForm.Widgets(fDayOfWeek).Widget.Alpha <> 0 Then weekdayred.Alpha = Val(gblOpacity) / 100
-            Case "alarm1till"
+                 With clockForm.Widgets("redalarmcover").Widget
+                    .Alpha = 0
+                    .Refresh
+                End With
+            Case "redalarmcover"
                 If gblEnableBalloonTooltips = "1" Then CreateToolTip clockForm.hwnd, "Click this alarm flag to delete this alarm.", _
                      TTIconInfo, widgetName & " Alarm Indicator Help", , , , True
+                 weekdayred.Alpha = 0
+                 If alarmtoggle1Enabled = True _
+                    Or alarmtoggle2Enabled = True _
+                    Or alarmtoggle3Enabled = True _
+                    Or alarmtoggle4Enabled = True _
+                    Or alarmtoggle5Enabled = True Then
+                    With clockForm.Widgets("redalarmcover").Widget
+                        .Alpha = Val(gblOpacity) / 100
+                        .Refresh
+                    End With
+                End If
             Case "weekdayred"
                 If gblEnableBalloonTooltips = "1" Then CreateToolTip clockForm.hwnd, "Click here to lower the weekday flag.", _
                      TTIconInfo, widgetName & " Weekday Indicator Help", , , , True
@@ -506,10 +525,15 @@ Private Sub clockForm_BubblingEvent(ByRef sender As Object, ByRef EventName As S
             If weekdayToggleEnabled = "true" Then weekdayred.Alpha = 1
         Case "friday"
             If weekdayToggleEnabled = "true" Then weekdayred.Alpha = 1
-        Case "satday"
+        Case "saturday"
             If weekdayToggleEnabled = "true" Then weekdayred.Alpha = 1
         Case "sunday"
             If weekdayToggleEnabled = "true" Then weekdayred.Alpha = 1
+        Case "redalarmcover"
+             With clockForm.Widgets("redalarmcover").Widget
+                .Alpha = 0
+                .Refresh
+            End With
         Case Else
         
         End Select
@@ -593,7 +617,7 @@ Private Sub clockForm_BubblingEvent(ByRef sender As Object, ByRef EventName As S
                 Call bellset_myMouseDown
             Case "sliderset"
                 Call sliderset_myMouseDown
-            Case "redarlarmcover"
+            Case "redalarmcover"
                 Call redalarmcover_myMouseDown
             Case Else
                 Debug.Print sender.Widget.Key
@@ -648,6 +672,12 @@ Private Sub redalarmcover_myMouseDown()
     If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
         PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
     End If
+    
+    If alarmtoggle1Enabled = True Then alarmtoggle1Enabled = False
+    If alarmtoggle2Enabled = True Then alarmtoggle2Enabled = False
+    If alarmtoggle3Enabled = True Then alarmtoggle3Enabled = False
+    If alarmtoggle4Enabled = True Then alarmtoggle4Enabled = False
+    If alarmtoggle5Enabled = True Then alarmtoggle5Enabled = False
      
    On Error GoTo 0
    Exit Sub
@@ -816,7 +846,7 @@ Private Sub alarmtoggle1_myMouseDown()
 
     On Error GoTo alarmtoggle1_myMouseDown_Error
     
-    fileToPlay = "clunk.wav"
+    fileToPlay = "till.wav"
     If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
         PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
     End If
@@ -853,7 +883,7 @@ Private Sub alarmtoggle2_myMouseDown()
 
     On Error GoTo alarmtoggle2_myMouseDown_Error
     
-    fileToPlay = "clunk.wav"
+    fileToPlay = "till.wav"
     If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
         PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
     End If
@@ -890,7 +920,7 @@ Private Sub alarmtoggle3_myMouseDown()
 
     On Error GoTo alarmtoggle3_myMouseDown_Error
     
-    fileToPlay = "clunk.wav"
+    fileToPlay = "till.wav"
     If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
         PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
     End If
@@ -928,7 +958,7 @@ Private Sub alarmtoggle4_myMouseDown()
 
     On Error GoTo alarmtoggle4_myMouseDown_Error
     
-    fileToPlay = "clunk.wav"
+    fileToPlay = "till.wav"
     If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
         PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
     End If
@@ -965,7 +995,7 @@ Private Sub alarmtoggle5_myMouseDown()
 
     On Error GoTo alarmtoggle5_myMouseDown_Error
     
-    fileToPlay = "clunk.wav"
+    fileToPlay = "till.wav"
     If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
         PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
     End If
@@ -3133,7 +3163,8 @@ Public Property Let alarmtoggle1Enabled(ByVal newValue As Boolean)
         alarmtoggle1.Move alarmtoggle1In, alarmtoggle1Top
         Call hideAlarmTills
         fClock.clockForm.Widgets("alarm1till").Widget.Alpha = 0
-
+        fClock.clockForm.Widgets("redalarmcover").Widget.Alpha = 0
+        
         alarmtoggle1.ImageKey = "alarmtoggle1"
 '        If alarmtoggle1InitiatingControl = "alarmtoggle1" Then alarmtoggle1ToggleEnabled = True
     End If
@@ -3213,7 +3244,7 @@ Public Property Let alarmtoggle2Enabled(ByVal newValue As Boolean)
         alarmtoggle2.Move alarmtoggle2In, alarmtoggle2Top
         Call hideAlarmTills
         fClock.clockForm.Widgets("alarm2till").Widget.Alpha = 0
-        
+        fClock.clockForm.Widgets("redalarmcover").Widget.Alpha = 0
         alarmtoggle2.ImageKey = "alarmtoggle2"
 
 '        If alarmtoggle2InitiatingControl = "alarmtoggle2" Then alarmtoggle2ToggleEnabled = True
@@ -3298,7 +3329,7 @@ Public Property Let alarmtoggle3Enabled(ByVal newValue As Boolean)
         alarmtoggle3.Move alarmtoggle3In, alarmtoggle3Top
         Call hideAlarmTills
         fClock.clockForm.Widgets("alarm3till").Widget.Alpha = 0
-        
+        fClock.clockForm.Widgets("redalarmcover").Widget.Alpha = 0
         alarmtoggle3.ImageKey = "alarmtoggle3"
 '        If alarmtoggle3InitiatingControl = "alarmtoggle3" Then alarmtoggle3ToggleEnabled = True
     End If
@@ -3378,7 +3409,7 @@ Public Property Let alarmtoggle4Enabled(ByVal newValue As Boolean)
         alarmtoggle4.Move alarmtoggle4In, alarmtoggle4Top
         Call hideAlarmTills
         fClock.clockForm.Widgets("alarm4till").Widget.Alpha = 0
-        
+        fClock.clockForm.Widgets("redalarmcover").Widget.Alpha = 0
         alarmtoggle4.ImageKey = "alarmtoggle4"
         
 '        If alarmtoggle4InitiatingControl = "alarmtoggle4" Then alarmtoggle4ToggleEnabled = True
@@ -3460,7 +3491,7 @@ Public Property Let alarmtoggle5Enabled(ByVal newValue As Boolean)
         alarmtoggle5.Move alarmtoggle5In, alarmtoggle5Top
         Call hideAlarmTills
         fClock.clockForm.Widgets("alarm5till").Widget.Alpha = 0
-        
+        fClock.clockForm.Widgets("redalarmcover").Widget.Alpha = 0
         alarmtoggle5.ImageKey = "alarmtoggle5"
         
 '        If alarmtoggle5InitiatingControl = "alarmtoggle5" Then alarmtoggle5ToggleEnabled = True

@@ -637,8 +637,8 @@ Public Sub adjustMainControls()
         .Alpha = 0
         .Tag = 0.01
     End With
-
-    With fClock.clockForm.Widgets("redarlarmcover").Widget
+    
+    With fClock.clockForm.Widgets("redalarmcover").Widget
         .HoverColor = 0
         .MousePointer = IDC_HAND
         .Alpha = 0
