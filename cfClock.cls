@@ -546,14 +546,14 @@ Private Sub clockForm_BubblingEvent(ByRef sender As Object, ByRef EventName As S
     End If
     
         
-    If EventName = "W_Click" Then
-        Select Case LCase$(sender.Widget.Key)
-        Case "sliderset"
-            Call sliderset_myMouseDown
-        Case Else
-        
-        End Select
-    End If
+'    If EventName = "W_Click" Then
+'        Select Case LCase$(sender.Widget.Key)
+'        Case "sliderset"
+'            Call sliderset_myMouseDown
+'        Case Else
+'
+'        End Select
+'    End If
     
     If EventName = "W_MouseDown" Then
         Select Case LCase$(sender.Widget.Key)
@@ -719,7 +719,7 @@ Private Sub sliderset_myMouseDown()
    
     On Error GoTo sliderset_myMouseDown_Error
     
-    overlayWidget.Locked = False
+    overlayWidget.Locked = True
 
     slidersetMousedown = True
                 
