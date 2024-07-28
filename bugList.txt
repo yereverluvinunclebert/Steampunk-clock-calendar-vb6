@@ -30,10 +30,9 @@ add graphical sparkles
 
 msgbox to msgboxA
 
-' -oOo-
-
-
 on alarm toggle click - use the associated glbl alarm value and override the digital display
+
+' -oOo-
 
 have separate solid red till backgrounds for transparent text overlays as per the YWE version of the widget - this should fix the mouseLeave bug where the red bit stays
 

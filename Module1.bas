@@ -2798,19 +2798,19 @@ Public Function fDayOfWeek() As String
 
      Select Case DatePart("w", vb6DateTime)
          Case vbSunday
-             fDayOfWeek = "Sunday"
+             fDayOfWeek = "sunday"
          Case vbMonday
-             fDayOfWeek = "Monday"
+             fDayOfWeek = "monday"
          Case vbTuesday
-             fDayOfWeek = "Tuesday"
+             fDayOfWeek = "tuesday"
          Case vbWednesday
-             fDayOfWeek = "Wednesday"
+             fDayOfWeek = "wednesday"
          Case vbThursday
-             fDayOfWeek = "Thursday"
+             fDayOfWeek = "thursday"
          Case vbFriday
-             fDayOfWeek = "Friday"
+             fDayOfWeek = "friday"
          Case vbSaturday
-             fDayOfWeek = "Saturday"
+             fDayOfWeek = "saturday"
      End Select
      
     

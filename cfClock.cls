@@ -469,15 +469,19 @@ Private Sub clockForm_BubblingEvent(ByRef sender As Object, ByRef EventName As S
              Case "helpdropdown"
                 If gblEnableBalloonTooltips = "1" Then CreateToolTip clockForm.hwnd, "Click here to lock the clock in place on the desktop.", _
                      TTIconInfo, widgetName & " Dropdown Pin Help", , , , True
-            Case "monday"
+            Case "monday" ' this does the job for all the weekday tills underneath
                 If gblEnableBalloonTooltips = "1" Then CreateToolTip clockForm.hwnd, "Click here to lower the weekday flag.", _
                      TTIconInfo, widgetName & " Weekday Indicator Help", , , , True
-                
+                ' set the weekday red cover to solid
                 If clockForm.Widgets(fDayOfWeek).Widget.Alpha <> 0 Then weekdayredcover.Alpha = Val(gblOpacity) / 100
-           
-           Case "weekdayredcover"
+            Case "alarm1till"
+                If gblEnableBalloonTooltips = "1" Then CreateToolTip clockForm.hwnd, "Click this alarm flag to delete this alarm.", _
+                     TTIconInfo, widgetName & " Alarm Indicator Help", , , , True
+            Case "weekdayredcover"
                 If gblEnableBalloonTooltips = "1" Then CreateToolTip clockForm.hwnd, "Click here to lower the weekday flag.", _
                      TTIconInfo, widgetName & " Weekday Indicator Help", , , , True
+            Case Else
+                weekdayredcover.Alpha = 0 ' sometimes the weekday red cover does not go alpha 0 on mouseLeave, this recovers the situation
         End Select
     End If
     
@@ -500,7 +504,7 @@ Private Sub clockForm_BubblingEvent(ByRef sender As Object, ByRef EventName As S
         End Select
         
         weekdayredcover.Refresh
-        
+        ' sometimes the weekday red cover does not go alpha 0 on mouseLeave due to partial PNG transparency - see W_MouseMove above.
     End If
     
     If EventName = "W_MouseDown" Then
@@ -579,9 +583,10 @@ Private Sub clockForm_BubblingEvent(ByRef sender As Object, ByRef EventName As S
                 Call dropdown_myMouseDown
             Case "bellset"
                 Call bellset_myMouseDown
-           Case "sliderset"
+            Case "sliderset"
                 Call sliderset_myMouseDown
-
+            Case "redarlarmcover"
+                Call redalarmcover_myMouseDown
             Case Else
                 Debug.Print sender.Widget.Key
         End Select
@@ -615,6 +620,34 @@ Private Sub clockForm_BubblingEvent(ByRef sender As Object, ByRef EventName As S
 clockForm_BubblingEvent_Error:
 
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure clockForm_BubblingEvent of Class Module cfClock"
+End Sub
+
+'---------------------------------------------------------------------------------------
+' Procedure : redalarmcover_myMouseDown
+' Author    : beededea
+' Date      : 03/08/2023
+
+' Purpose   :  - note: - can't use a std MouseDown as
+'             declaring a widget as cWidgetBase 'WithEvents' does not provide a std MouseDown with a sender object
+'---------------------------------------------------------------------------------------
+'
+Private Sub redalarmcover_myMouseDown()
+    Dim fileToPlay As String: fileToPlay = vbNullString
+   
+    On Error GoTo redalarmcover_myMouseDown_Error
+
+    fileToPlay = "till.wav"
+    If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
+        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
+    End If
+     
+   On Error GoTo 0
+   Exit Sub
+
+redalarmcover_myMouseDown_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure redalarmcover_myMouseDown of Class Module cfClock"
+
 End Sub
 
 
@@ -1526,9 +1559,9 @@ Private Sub helpbottom_myMouseDown()
         ShowHelp = False
                 
         'If startupFlg = True Then
-            clockForm.Widgets("monday").Widget.Alpha = 0
-            If alarmtoggle1Enabled = False Then clockForm.Widgets("alarm1till").Widget.Alpha = 0
-            clockForm.Widgets("redarlarmcover").Widget.Alpha = 0
+            'clockForm.Widgets("monday").Widget.Alpha = 0
+            'f alarmtoggle1Enabled = False Then clockForm.Widgets("alarm1till").Widget.Alpha = 0
+            'clockForm.Widgets("redarlarmcover").Widget.Alpha = 0
         'End If
         
 '        fileToPlay = "pagefumble.wav"
@@ -2579,7 +2612,7 @@ Public Property Let weekdayToggleEnabled(ByVal newValue As Boolean)
     Else
         weekdaytoggle.Move weekdayToggleOut, weekdayToggleTop
         clockForm.Widgets(thisDayOfWeek).Widget.Alpha = 0
-        weekdayredcover.Alpha = 0 ' sometimes you can fool the mouseleave, this recovers the situation
+        weekdayredcover.Alpha = 0 ' sometimes you can fool the mouseleave, this helps to recover the situation
         gblWeekdayToggleEnabled = "False"
     End If
     
@@ -3083,13 +3116,7 @@ Public Property Let alarmtoggle1Enabled(ByVal newValue As Boolean)
         fClock.clockForm.Widgets("alarm1till").Widget.Alpha = alphaVal
         
         alarmtoggle1.ImageKey = "alarmtoggle1armed"
-        
 
-        
-        ' display the date in alarm 1
-        ' display the time in alarm 1
-        ' display AM/PM
-        
 '        If alarmtoggle1InitiatingControl = "alarmtoggle1" Then alarmtoggle1ToggleEnabled = False ' prevents recurring calls
     Else
         gblAlarmToggle1Enabled = "False"

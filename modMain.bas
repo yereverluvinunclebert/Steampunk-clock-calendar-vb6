@@ -634,7 +634,7 @@ Public Sub adjustMainControls()
     With fClock.clockForm.Widgets("alarm1till").Widget
         .HoverColor = 0
         .MousePointer = IDC_HAND
-        .Alpha = Val(gblOpacity) / 100
+        .Alpha = 0
         .Tag = 0.01
     End With
 
@@ -705,7 +705,7 @@ Public Sub adjustMainControls()
     With fClock.clockForm.Widgets("monday").Widget
         .HoverColor = 0
         .MousePointer = IDC_HAND
-        .Alpha = Val(gblOpacity) / 100
+        .Alpha = 0
         .Tag = 0.01
     End With
 
@@ -800,6 +800,20 @@ Public Sub adjustMainControls()
         .Alpha = Val(gblOpacity) / 100
         .Tag = 0.01
     End With
+'
+'    With fClock.clockForm.Widgets("deletealarm").Widget
+'        .HoverColor = 0
+'        .MousePointer = IDC_ARROW
+'        .Alpha = 0
+'        .Tag = 0.01
+'    End With
+'
+'    With fClock.clockForm.Widgets("tickdeletealarm").Widget
+'        .HoverColor = 0
+'        .MousePointer = IDC_ARROW
+'        .Alpha = 0
+'        .Tag = 0.01
+'    End With
 
     With fClock.clockForm.Widgets("helpdropdown").Widget
         .HoverColor = 0
