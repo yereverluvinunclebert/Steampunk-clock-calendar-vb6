@@ -128,6 +128,9 @@ Private slidersetMousedown As Boolean
 
 Private WithEvents tmrZZZZ As cTimer
 Attribute tmrZZZZ.VB_VarHelpID = -1
+Private WithEvents tmrTILL As cTimer
+Attribute tmrTILL.VB_VarHelpID = -1
+
 Private WithEvents tmrTicking As cTimer
 Attribute tmrTicking.VB_VarHelpID = -1
 
@@ -147,7 +150,10 @@ Private Sub Class_Initialize()
     Set collPSDNonUIElements = New_c.Collection(False)
     
     Set tmrZZZZ = Nothing
-    Set tmrZZZZ = New_c.Timer(300, False)
+    Set tmrZZZZ = New_c.Timer(100, False)
+        
+    Set tmrTILL = Nothing
+    Set tmrTILL = New_c.Timer(900, False)
     
     Set tmrTicking = Nothing
     Set tmrTicking = New_c.Timer(300, False)
@@ -539,6 +545,16 @@ Private Sub clockForm_BubblingEvent(ByRef sender As Object, ByRef EventName As S
         End Select
     End If
     
+        
+    If EventName = "W_Click" Then
+        Select Case LCase$(sender.Widget.Key)
+        Case "sliderset"
+            Call sliderset_myMouseDown
+        Case Else
+        
+        End Select
+    End If
+    
     If EventName = "W_MouseDown" Then
         Select Case LCase$(sender.Widget.Key)
             Case "helpdropdown"
@@ -630,14 +646,15 @@ Private Sub clockForm_BubblingEvent(ByRef sender As Object, ByRef EventName As S
                 'Call bell_mouseUp(Sender)
             Case "sliderset"
     
-                fileToPlay = "zzzz.wav"
-                If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
-                    PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
-                End If
+'                fileToPlay = "zzzz.wav"
+'                If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
+'                    PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
+'                End If
                 
-                overlayWidget.Locked = False
+               overlayWidget.Locked = False
                 If SliderFreed = True Then fClock.timeShiftPercent = 0.5
-                tmrZZZZ.Enabled = False
+
+                tmrZZZZ.Enabled = True
             Case "sliderset"
                 slidersetMousedown = False ' never called!
                 
@@ -702,7 +719,7 @@ Private Sub sliderset_myMouseDown()
    
     On Error GoTo sliderset_myMouseDown_Error
     
-    overlayWidget.Locked = True
+    overlayWidget.Locked = False
 
     slidersetMousedown = True
                 
@@ -1179,8 +1196,37 @@ Private Sub alarmtoggle_myMouseDown()
         alarmtoggle.Move alarmToggleIn, alarmtoggleTop
         alarmtoggleEnabled = True
         SliderFreed = True
+        
+        tmrZZZZ.Enabled = True ' does a little buzz after 1/10th of a second, not cutting off the preceding 'clunk' prematurely
+        
         ' set the slider position to the start point
         fClock.timeShiftPercent = 0.5
+        
+        ' if an alarm is not selected then choose the first available alarm
+        '     raise the alarm till and alarm toggle
+        ' if an alarm is already raised then we edit that
+
+        If alarmtoggle1Enabled = False _
+            And alarmtoggle2Enabled = False _
+            And alarmtoggle3Enabled = False _
+            And alarmtoggle4Enabled = False _
+            And alarmtoggle5Enabled = False Then
+                If gblAlarm1Date = "Alarm not yet set" Then
+                    alarmtoggle1Enabled = True
+                ElseIf gblAlarm2Date = "Alarm not yet set" Then
+                    alarmtoggle2Enabled = True
+                ElseIf gblAlarm3Date = "Alarm not yet set" Then
+                    alarmtoggle3Enabled = True
+                ElseIf gblAlarm4Date = "Alarm not yet set" Then
+                    alarmtoggle4Enabled = True
+                ElseIf gblAlarm5Date = "Alarm not yet set" Then
+                    alarmtoggle5Enabled = True
+                Else
+                    alarmtoggle1Enabled = True
+                End If
+        End If
+        
+        tmrTILL.Enabled = True ' does a little buzz after 9/10th of a second, not cutting off the preceding 'zzzz' prematurely
         
     Else
         alarmtoggle.Move alarmToggleOut, alarmtoggleTop
@@ -1188,7 +1234,6 @@ Private Sub alarmtoggle_myMouseDown()
         alarmtoggleEnabled = False
         SliderFreed = False
         fClock.timeShiftPercent = 0
-        
         
     End If
     clockForm.Refresh
@@ -3171,6 +3216,7 @@ Public Property Let alarmtoggle1Enabled(ByVal newValue As Boolean)
     
     sPutINISetting "Software\SteampunkClockCalendar", "alarmToggle1Enabled", gblAlarmToggle1Enabled, gblSettingsFile
 
+
     If mAlarmToggle1Enabled <> newValue Then mAlarmToggle1Enabled = newValue Else Exit Property
     alarmtoggle1Enabled = mAlarmToggle1Enabled
     
@@ -3565,6 +3611,36 @@ End Sub
 
 
 ' ----------------------------------------------------------------
+' Procedure Name: tmrTILL_Timer
+' Purpose:
+' Procedure Kind: Sub
+' Procedure Access: Private
+' Author: beededea
+' Date: 21/06/2024
+' ----------------------------------------------------------------
+Private Sub tmrTILL_Timer()
+    Dim fileToPlay As String: fileToPlay = vbNullString
+    
+    On Error GoTo tmrTILL_Timer_Error
+    
+    fileToPlay = "till.wav"
+    If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
+        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
+    End If
+    
+    tmrTILL.Enabled = False
+    
+   On Error GoTo 0
+   Exit Sub
+
+tmrTILL_Timer_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure tmrTILL_Timer of Class Module cfClock"
+End Sub
+
+
+
+' ----------------------------------------------------------------
 ' Procedure Name: tmrZZZZ_Timer
 ' Purpose:
 ' Procedure Kind: Sub
@@ -3577,7 +3653,7 @@ Private Sub tmrZZZZ_Timer()
     
     On Error GoTo tmrZZZZ_Timer_Error
     
-    fileToPlay = "longzzzz.wav"
+    fileToPlay = "zzzz.wav"
     If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
         PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
     End If
@@ -3591,8 +3667,6 @@ tmrZZZZ_Timer_Error:
 
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure tmrZZZZ_Timer of Class Module cfClock"
 End Sub
-
-
 
 
 
