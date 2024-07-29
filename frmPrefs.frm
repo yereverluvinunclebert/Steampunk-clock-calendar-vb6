@@ -341,7 +341,7 @@ Begin VB.Form widgetPrefs
          Top             =   300
          Width           =   6750
          Begin VB.CheckBox chkTogglePendulum 
-            Caption         =   "Toggle the pendulum animation"
+            Caption         =   "Toggle the pendulum animation *"
             Height          =   465
             Left            =   1980
             TabIndex        =   176
@@ -2430,9 +2430,29 @@ End Sub
 
 
 
+'---------------------------------------------------------------------------------------
+' Procedure : chkTogglePendulum_Click
+' Author    : beededea
+' Date      : 29/07/2024
+' Purpose   :
+'---------------------------------------------------------------------------------------
+'
 Private Sub chkTogglePendulum_Click()
     
     btnSave.Enabled = True ' enable the save button
+    
+    If chkTogglePendulum.Value = 1 Then
+        overlayWidget.SwingPendulum = True
+    Else
+        overlayWidget.SwingPendulum = False
+    End If
+
+   On Error GoTo 0
+   Exit Sub
+
+chkTogglePendulum_Click_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure chkTogglePendulum_Click of Form widgetPrefs"
 
 End Sub
 

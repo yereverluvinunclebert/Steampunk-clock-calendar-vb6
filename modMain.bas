@@ -829,6 +829,13 @@ Public Sub adjustMainControls()
         .Alpha = 0
         .Tag = 0.01
     End With
+
+    With fClock.clockForm.Widgets("pendulumtransparent").Widget
+        .HoverColor = 0
+        .MousePointer = IDC_ARROW
+        .Alpha = 0.01
+        .Tag = 0.01
+    End With
     
     ' set the lock state of the clock
     If gblPreventDragging = "0" Then

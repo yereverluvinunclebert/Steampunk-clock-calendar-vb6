@@ -111,6 +111,9 @@ Private WithEvents bellset As cWidgetBase
 Attribute bellset.VB_VarHelpID = -1
 Private WithEvents helpdropdown As cWidgetBase
 Attribute helpdropdown.VB_VarHelpID = -1
+Private WithEvents pendulumtransparent As cWidgetBase
+Attribute pendulumtransparent.VB_VarHelpID = -1
+
 Private WithEvents glow As cWidgetBase
 Attribute glow.VB_VarHelpID = -1
 
@@ -362,6 +365,8 @@ Public Sub InitFromPSD(ByRef PSD_FileNameOrByteArray As Variant)
     Set dropdown = clockForm.Widgets("dropdown").Widget
     Set bellset = clockForm.Widgets("bellset").Widget
     Set helpdropdown = clockForm.Widgets("helpdropdown").Widget
+    Set pendulumtransparent = clockForm.Widgets("pendulumtransparent").Widget
+
     Set glow = clockForm.Widgets("glow").Widget
     
     
@@ -423,9 +428,9 @@ Private Sub clockForm_BubblingEvent(ByRef sender As Object, ByRef EventName As S
                 If gblEnableBalloonTooltips = "1" Then CreateToolTip clockForm.hwnd, "Mute chimes and sounds on/off.", _
                      TTIconInfo, widgetName & " Mute Toggle Help", , , , True
             Case "pendulumtoggle"
-                If gblEnableBalloonTooltips = "1" Then CreateToolTip clockForm.hwnd, "Stop/start the pendulum.", _
+                If gblEnableBalloonTooltips = "1" Then CreateToolTip clockForm.hwnd, "Stop/start the pendulum by clicking on it.", _
                      TTIconInfo, widgetName & " Pendulum Toggle Help", , , , True
-            Case "pendulum"
+            Case "pendulumtransparent"
                 If gblEnableBalloonTooltips = "1" Then CreateToolTip clockForm.hwnd, "Stop/start the pendulum.", _
                      TTIconInfo, widgetName & " Pendulum Help", , , , True
             Case "displayscreen"
@@ -560,6 +565,10 @@ Private Sub clockForm_BubblingEvent(ByRef sender As Object, ByRef EventName As S
         Select Case LCase$(sender.Widget.Key)
             Case "helpdropdown"
                 Call helpdropdown_myMouseDown
+
+            Case "pendulumtransparent"
+                Call pendulumtransparent_myMouseDown
+                
             Case "lockingpin"
                 If overlayWidget.Locked = True Then
                     Call unlockit
@@ -1516,6 +1525,33 @@ helptoggle_myMouseDown_Error:
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure helptoggle_myMouseDown of Class Module cfClock"
 
 End Sub
+
+'---------------------------------------------------------------------------------------
+' Procedure : pendulumtransparent_myMouseDown
+' Author    : beededea
+' Date      : 29/07/2024
+' Purpose   :
+'---------------------------------------------------------------------------------------
+'
+Private Sub pendulumtransparent_myMouseDown()
+
+   On Error GoTo pendulumtransparent_myMouseDown_Error
+
+    If widgetPrefs.chkTogglePendulum.Value = 0 Then
+        widgetPrefs.chkTogglePendulum.Value = 1
+    Else
+        widgetPrefs.chkTogglePendulum.Value = 0
+    End If
+
+   On Error GoTo 0
+   Exit Sub
+
+pendulumtransparent_myMouseDown_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure pendulumtransparent_myMouseDown of Class Module cfClock"
+
+End Sub
+
 '---------------------------------------------------------------------------------------
 ' Procedure : helptoggle_myMouseDown
 ' Author    : beededea
