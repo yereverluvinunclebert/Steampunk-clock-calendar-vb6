@@ -343,7 +343,7 @@ Begin VB.Form widgetPrefs
          Begin VB.CheckBox chkTogglePendulum 
             Caption         =   "Toggle the pendulum animation *"
             Height          =   465
-            Left            =   1980
+            Left            =   1995
             TabIndex        =   176
             ToolTipText     =   "Check this box to enable the automatic start of the program when Windows is started."
             Top             =   1755
@@ -2052,7 +2052,7 @@ Private Sub btnVerifyDateTime1_Click()
     
     If txtAlarm1Date.Text <> vbNullString Then
         alarmDateStatus = fVerifyAlarmDate(txtAlarm1Date.Text)
-        alarmTimeStatus = fVerifyAlarmTime(txtAlarm1Time.Text)
+        alarmTimeStatus = fVerifyAlarmTime(txtAlarm1Date.Text, txtAlarm1Time.Text)
     End If
     If alarmDateStatus = True Then
         txtAlarm1Date.BackColor = vbWhite
@@ -2116,7 +2116,7 @@ Private Sub btnVerifyDateTime2_Click()
     
     If txtAlarm2Date.Text <> vbNullString Then
         alarmDateStatus = fVerifyAlarmDate(txtAlarm2Date.Text)
-        alarmTimeStatus = fVerifyAlarmTime(txtAlarm2Time.Text)
+        alarmTimeStatus = fVerifyAlarmTime(txtAlarm2Date.Text, txtAlarm2Time.Text)
     End If
     If alarmDateStatus = True Then
         txtAlarm2Date.BackColor = vbWhite
@@ -2302,7 +2302,7 @@ Private Sub btnVerifyDateTime4_Click()
     
     If txtAlarm4Date.Text <> vbNullString Then
         alarmDateStatus = fVerifyAlarmDate(txtAlarm4Date.Text)
-        alarmTimeStatus = fVerifyAlarmTime(txtAlarm4Time.Text)
+        alarmTimeStatus = fVerifyAlarmTime(txtAlarm4Date.Text, txtAlarm4Time.Text)
     End If
     If alarmDateStatus = True Then
         txtAlarm4Date.BackColor = vbWhite
@@ -2366,7 +2366,7 @@ Private Sub btnVerifyDateTime5_Click()
     
     If txtAlarm5Date.Text <> vbNullString Then
         alarmDateStatus = fVerifyAlarmDate(txtAlarm5Date.Text)
-        alarmTimeStatus = fVerifyAlarmTime(txtAlarm5Time.Text)
+        alarmTimeStatus = fVerifyAlarmTime(txtAlarm5Date.Text, txtAlarm5Time.Text)
     End If
     If alarmDateStatus = True Then
         txtAlarm5Date.BackColor = vbWhite
@@ -2443,9 +2443,14 @@ Private Sub chkTogglePendulum_Click()
     
     If chkTogglePendulum.Value = 1 Then
         overlayWidget.SwingPendulum = True
+        gblTogglePendulum = "1"
     Else
         overlayWidget.SwingPendulum = False
+        gblTogglePendulum = "0"
     End If
+    
+    sPutINISetting "Software\SteampunkClockCalendar", "togglePendulum", gblTogglePendulum, gblSettingsFile
+
 
    On Error GoTo 0
    Exit Sub
@@ -3818,7 +3823,7 @@ Private Function validateAlarmVars() As Boolean
         
     If txtAlarm1Date.Text <> "Alarm not yet set" Then
         alarmDateStatus = fVerifyAlarmDate(txtAlarm1Date.Text)
-        alarmTimeStatus = fVerifyAlarmTime(txtAlarm1Time.Text)
+        alarmTimeStatus = fVerifyAlarmTime(txtAlarm1Date.Text, txtAlarm1Time.Text)
         If alarmDateStatus = False Or alarmTimeStatus = False Then
             btnSave.Enabled = False
             
@@ -3834,7 +3839,7 @@ Private Function validateAlarmVars() As Boolean
             
     If txtAlarm2Date.Text <> "Alarm not yet set" Then
         alarmDateStatus = fVerifyAlarmDate(txtAlarm2Date.Text)
-        alarmTimeStatus = fVerifyAlarmTime(txtAlarm2Time.Text)
+        alarmTimeStatus = fVerifyAlarmTime(txtAlarm2Date.Text, txtAlarm2Time.Text)
         If alarmDateStatus = False Or alarmTimeStatus = False Then
             btnSave.Enabled = False
             
@@ -3850,7 +3855,7 @@ Private Function validateAlarmVars() As Boolean
     
     If txtAlarm3Date.Text <> "Alarm not yet set" Then
         alarmDateStatus = fVerifyAlarmDate(txtAlarm3Date.Text)
-        alarmTimeStatus = fVerifyAlarmTime(txtAlarm3Time.Text)
+        alarmTimeStatus = fVerifyAlarmTime(txtAlarm3Date.Text, txtAlarm3Time.Text)
         If alarmDateStatus = False Or alarmTimeStatus = False Then
             btnSave.Enabled = False
             
@@ -3866,7 +3871,7 @@ Private Function validateAlarmVars() As Boolean
     
     If txtAlarm4Date.Text <> "Alarm not yet set" Then
         alarmDateStatus = fVerifyAlarmDate(txtAlarm4Date.Text)
-        alarmTimeStatus = fVerifyAlarmTime(txtAlarm4Time.Text)
+        alarmTimeStatus = fVerifyAlarmTime(txtAlarm4Date.Text, txtAlarm4Time.Text)
         If alarmDateStatus = False Or alarmTimeStatus = False Then
             btnSave.Enabled = False
             
@@ -3882,7 +3887,7 @@ Private Function validateAlarmVars() As Boolean
             
     If txtAlarm5Date.Text <> "Alarm not yet set" Then
         alarmDateStatus = fVerifyAlarmDate(txtAlarm5Date.Text)
-        alarmTimeStatus = fVerifyAlarmTime(txtAlarm5Time.Text)
+        alarmTimeStatus = fVerifyAlarmTime(txtAlarm5Date.Text, txtAlarm5Time.Text)
         If alarmDateStatus = False Or alarmTimeStatus = False Then
             btnSave.Enabled = False
             

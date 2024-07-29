@@ -1550,8 +1550,6 @@ Private Sub pendulumtransparent_myMouseDown()
         widgetPrefs.chkTogglePendulum.Value = 0
     End If
 
-    
-
    On Error GoTo 0
    Exit Sub
 
