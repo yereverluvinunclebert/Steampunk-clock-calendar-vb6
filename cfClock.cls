@@ -1539,16 +1539,17 @@ Private Sub pendulumtransparent_myMouseDown()
     On Error GoTo pendulumtransparent_myMouseDown_Error
     
     fileToPlay = "tick.wav"
+    
+    If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
+        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
+    End If
 
     If widgetPrefs.chkTogglePendulum.Value = 0 Then
         widgetPrefs.chkTogglePendulum.Value = 1
     Else
         widgetPrefs.chkTogglePendulum.Value = 0
     End If
-    
-    If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
-        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
-    End If
+
     
 
    On Error GoTo 0

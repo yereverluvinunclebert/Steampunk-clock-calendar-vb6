@@ -2189,16 +2189,16 @@ End Function
 ' Purpose   :
 '---------------------------------------------------------------------------------------
 '
-Function fVerifyAlarmTime(ByVal timefield As String) As Boolean
+Function fVerifyAlarmTime(ByVal datefield As String, ByVal timefield As String) As Boolean
     Dim goodTime As Boolean: goodTime = False
     Dim futureTime As Double: futureTime = 0
     
-   On Error GoTo fVerifyAlarmTime_Error
+    On Error GoTo fVerifyAlarmTime_Error
 
     goodTime = IsDate(timefield)
     If goodTime = False Then Exit Function
     
-    futureTime = DateDiff("s", Time, timefield)
+    futureTime = DateDiff("s", Time, datefield & " " & timefield)
     If futureTime < 0 Then Exit Function
     
     fVerifyAlarmTime = True
@@ -2238,7 +2238,7 @@ Private Sub btnVerifyDateTime3_Click()
     
     If txtAlarm3Date.Text <> vbNullString Then
         alarmDateStatus = fVerifyAlarmDate(txtAlarm3Date.Text)
-        alarmTimeStatus = fVerifyAlarmTime(txtAlarm3Time.Text)
+        alarmTimeStatus = fVerifyAlarmTime(txtAlarm3Date.Text, txtAlarm3Time.Text)
     End If
     If alarmDateStatus = True Then
         txtAlarm3Date.BackColor = vbWhite
