@@ -35,6 +35,8 @@ Private Sec As Integer
 
 Private WithEvents tmrClock As cTimer
 Attribute tmrClock.VB_VarHelpID = -1
+Private WithEvents tmrPendulum As cTimer
+Attribute tmrPendulum.VB_VarHelpID = -1
 
 Private WithEvents W As cWidgetBase
 Attribute W.VB_VarHelpID = -1
@@ -44,6 +46,10 @@ Private thisHour As Integer
 Private thisMin As Integer
 Private thisSec As Integer
 
+Private pendulumAcceleration As Double
+Private gravity As Double
+Private pendulumAngle As Double
+Private pendulumVelocity As Double
 
 Private mLocked As Boolean ' property Locked
 Private mTimeMachine As Boolean
@@ -67,10 +73,22 @@ Private Sub Class_Initialize()
     intervalValue = 1000
     firstRun = True
     
+    ' variables set for the pendulum
+    ' g = -0.1, a = 0.6, v = 2.5 uses 3% of cpu with a 40ms timer
+
+    gravity = -0.2
+    pendulumAcceleration = 0.6
+    pendulumVelocity = 3.5
+    
     Set tmrClock = Nothing
     Set tmrClock = New_c.Timer(intervalValue, True)
     
     tmrClock.Enabled = True
+    
+    Set tmrPendulum = Nothing
+    Set tmrPendulum = New_c.Timer(70, True)
+    
+    tmrPendulum.Enabled = True
    
    On Error GoTo 0
    Exit Sub
@@ -335,7 +353,14 @@ Private Sub W_Paint(CC As RC6.cCairoContext, ByVal xAbs As Single, ByVal yAbs As
 
                     'since we've set CAIRO_EXTEND_REPEAT, we now have to clip the range it is "allowed to extend to"
                     CC.ClipExplicit Arr(0) - sldCurWidth, Arr(1), 20 + sldCurWidth, 27
+                
+                Case "pendulum"
+                    Set Pat = Cairo.ImageList(Key).CreateSurfacePattern
+                    Set Pat.Matrix = Pat.Matrix.TranslateCoords(21, 0) 'shift to the "rotation-point" within the Pattern
+                    CC.TranslateDrawings 624, 325
 
+                    CC.RotateDrawingsDeg pendulumAngle 'now we can rotate (the leading negative degrees are the rotation-offsets for 12 o'clock)
+                
                 Case Else 'plain output for everything else
                        
                     Set Pat.Matrix = Pat.Matrix.TranslateCoords(-Arr(0), -Arr(1)) 'here we only shift the Pattern via the original PSD-Offsets (stored in Arr(0) and Arr(1))
@@ -907,8 +932,33 @@ Private Sub displayDigitalYear(ByRef CC As cCairoContext, Optional ByVal alarmYe
             CC.RenderSurfaceContent "num9large", 567, 312, , , , 1
     End Select
 End Sub
+    
+    
+' ----------------------------------------------------------------
+' Procedure Name: tmrPendulum_Timer
+' Purpose:  timer controlling the pendulum only,
+' Procedure Kind: Sub
+' Procedure Access: Private
+' Author: beededea
+' Date: 21/06/2024
+' ----------------------------------------------------------------
+Private Sub tmrPendulum_Timer()
+    
+    On Error GoTo tmrPendulum_Timer_Error
 
+    pendulumAcceleration = gravity * pendulumAngle
+    pendulumVelocity = pendulumVelocity + pendulumAcceleration
+    pendulumAngle = pendulumAngle + pendulumVelocity
 
+    W.Parent.Refresh ' causes a paint event to fire
+    
+   On Error GoTo 0
+   Exit Sub
+
+tmrPendulum_Timer_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure tmrPendulum_Timer of Class Module cwOverlay"
+End Sub
 
 ' ----------------------------------------------------------------
 ' Procedure Name: tmrClock_Timer
@@ -975,19 +1025,3 @@ tmrClock_Timer_Error:
 End Sub
 
 
-
-'
-'   // variables set for the pendulum
-'
-'   var gravity = -0.0110808; //originally -.005, tuned to -0.110808 as it approximates a 1 second interval
-'   var acceleration = 0.1;  //0.1
-'   var velocity = 0.18; //.18
-'   var angle = 8;  // 8   (.4 radians = 22.91 degrees)
-'
-' figure out how to rotate an image - we know, in the overlaym, convert to VB
-'    acceleration = gravity * angle;
-'    velocity += acceleration;
-'    angle += velocity;
-'    pendulumSet.rotation = angle +180;
-                             
-                             

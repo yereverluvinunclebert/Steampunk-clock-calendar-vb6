@@ -525,12 +525,12 @@ Public Sub adjustMainControls()
         .Tag = 0.01
     End With
 
-    With fClock.clockForm.Widgets("pendulum").Widget
-        .HoverColor = 0
-        .MousePointer = IDC_HAND
-        .Alpha = Val(gblOpacity) / 100
-        .Tag = 0.01
-    End With
+'    With fClock.clockForm.Widgets("pendulum").Widget
+'        .HoverColor = 0
+'        .MousePointer = IDC_HAND
+'        .Alpha = Val(gblOpacity) / 100
+'        .Tag = 0.01
+'    End With
 
 
     With fClock.clockForm.Widgets("heatercoil").Widget
@@ -1432,7 +1432,7 @@ Private Sub loadExcludePathCollection()
         .Add Empty, "minutehand"
         .Add Empty, "hole"
         .Add Empty, "cable"
-    
+        .Add Empty, "pendulum"
     End With
     
 
