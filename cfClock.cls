@@ -166,6 +166,7 @@ Class_Initialize_Error:
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure Class_Initialize of Class Module cfClock"
 End Sub
 
+
 '---------------------------------------------------------------------------------------
 ' Property : ShowHelp
 ' Author    : beededea

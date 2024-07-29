@@ -305,6 +305,7 @@ Public gblEnableBalloonTooltips As String
 
 Public gblShowTaskbar As String
 Public gblShowHelp As String
+Public gblTogglePendulum As String
 
 Public gblDpiAwareness As String
 

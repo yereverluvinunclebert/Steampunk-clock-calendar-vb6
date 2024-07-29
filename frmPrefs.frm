@@ -336,16 +336,25 @@ Begin VB.Form widgetPrefs
       Begin VB.Frame fraGeneralInner 
          BorderStyle     =   0  'None
          Height          =   6240
-         Left            =   450
+         Left            =   435
          TabIndex        =   51
          Top             =   300
          Width           =   6750
+         Begin VB.CheckBox chkTogglePendulum 
+            Caption         =   "Toggle the pendulum animation"
+            Height          =   465
+            Left            =   1980
+            TabIndex        =   176
+            ToolTipText     =   "Check this box to enable the automatic start of the program when Windows is started."
+            Top             =   1755
+            Width           =   4020
+         End
          Begin VB.Frame Frame 
             BorderStyle     =   0  'None
             Height          =   3795
             Left            =   -105
             TabIndex        =   153
-            Top             =   2280
+            Top             =   2505
             Width           =   7065
             Begin VB.CommandButton btnVerifyDateTime5 
                Caption         =   ">"
@@ -546,12 +555,22 @@ Begin VB.Form widgetPrefs
             Width           =   4020
          End
          Begin VB.Label lblGeneral 
+            Caption         =   "Pendulum Swing :"
+            Height          =   375
+            Index           =   3
+            Left            =   480
+            TabIndex        =   177
+            Tag             =   "lblRefreshInterval"
+            Top             =   1875
+            Width           =   1740
+         End
+         Begin VB.Label lblGeneral 
             Caption         =   "Alarm Dates and times shown below"
             Height          =   435
             Index           =   2
             Left            =   2010
             TabIndex        =   175
-            Top             =   2010
+            Top             =   2280
             Width           =   4215
          End
          Begin VB.Label lblGeneral 
@@ -2411,6 +2430,12 @@ End Sub
 
 
 
+Private Sub chkTogglePendulum_Click()
+    
+    btnSave.Enabled = True ' enable the save button
+
+End Sub
+
 ' ----------------------------------------------------------------
 ' Procedure Name: Form_Initialize
 ' Purpose:
@@ -3564,6 +3589,8 @@ Private Sub btnSave_Click()
     gblShowTaskbar = LTrim$(Str$(chkShowTaskbar.Value))
     gblShowHelp = LTrim$(Str$(chkShowHelp.Value))
     
+    gblTogglePendulum = LTrim$(Str$(chkTogglePendulum.Value))
+    
     gblDpiAwareness = LTrim$(Str$(chkDpiAwareness.Value))
     gblGaugeSize = LTrim$(Str$(sliGaugeSize.Value))
     gblScrollWheelDirection = LTrim$(Str$(cmbScrollWheelDirection.ListIndex))
@@ -3639,6 +3666,7 @@ Private Sub btnSave_Click()
         sPutINISetting "Software\SteampunkClockCalendar", "enableBalloonTooltips", gblEnableBalloonTooltips, gblSettingsFile
         sPutINISetting "Software\SteampunkClockCalendar", "showTaskbar", gblShowTaskbar, gblSettingsFile
         sPutINISetting "Software\SteampunkClockCalendar", "showHelp", gblShowHelp, gblSettingsFile
+        sPutINISetting "Software\SteampunkClockCalendar", "togglePendulum", gblTogglePendulum, gblSettingsFile
         
         sPutINISetting "Software\SteampunkClockCalendar", "dpiAwareness", gblDpiAwareness, gblSettingsFile
         
@@ -4055,6 +4083,7 @@ Private Sub adjustPrefsControls()
     chkEnableBalloonTooltips.Value = Val(gblEnableBalloonTooltips)
     chkShowTaskbar.Value = Val(gblShowTaskbar)
     chkShowHelp.Value = Val(gblShowHelp)
+    chkTogglePendulum.Value = Val(gblTogglePendulum)
     
     chkDpiAwareness.Value = Val(gblDpiAwareness)
     

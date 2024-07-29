@@ -233,6 +233,7 @@ Private Sub initialiseGlobalVars()
     gblEnableBalloonTooltips = vbNullString
     gblShowTaskbar = vbNullString
     gblShowHelp = vbNullString
+    gblTogglePendulum = vbNullString
     
     gblDpiAwareness = vbNullString
     
@@ -848,6 +849,13 @@ Public Sub adjustMainControls()
     Else
         fClock.ShowHelp = True
     End If
+    
+    ' ensure the background help displays on startup
+    If gblTogglePendulum = "0" Then
+        overlayWidget.SwingPendulum = False
+    Else
+        overlayWidget.SwingPendulum = True
+    End If
 
     ' set the slider position to the start point
     fClock.timeShiftPercent = 0
@@ -991,6 +999,7 @@ Public Sub readSettingsFile(ByVal location As String, ByVal gblSettingsFile As S
         gblEnableBalloonTooltips = fGetINISetting(location, "enableBalloonTooltips", gblSettingsFile)
         gblShowTaskbar = fGetINISetting(location, "showTaskbar", gblSettingsFile)
         gblShowHelp = fGetINISetting(location, "showHelp", gblSettingsFile)
+        gblTogglePendulum = fGetINISetting(location, "togglePendulum", gblSettingsFile)
         
         gblDpiAwareness = fGetINISetting(location, "dpiAwareness", gblSettingsFile)
         
@@ -1121,6 +1130,7 @@ Public Sub validateInputs()
         If gblEnableBalloonTooltips = vbNullString Then gblEnableBalloonTooltips = "1"
         If gblShowTaskbar = vbNullString Then gblShowTaskbar = "0"
         If gblShowHelp = vbNullString Then gblShowHelp = "0"
+        If gblTogglePendulum = vbNullString Then gblTogglePendulum = "0"
         
         If gblDpiAwareness = vbNullString Then gblDpiAwareness = "0"
         If gblGaugeSize = vbNullString Then gblGaugeSize = "25"

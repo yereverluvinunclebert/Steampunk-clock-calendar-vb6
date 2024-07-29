@@ -54,6 +54,7 @@ Private pendulumVelocity As Double
 Private mLocked As Boolean ' property Locked
 Private mTimeMachine As Boolean
 Private mHidden As Boolean ' property Hidden
+Private mSwingPendulum As Boolean
 
 '---------------------------------------------------------------------------------------
 ' Procedure : Class_Initialize
@@ -177,6 +178,54 @@ LockedLet_Error:
 End Property
 
 
+'---------------------------------------------------------------------------------------
+' Property : SwingPendulum
+' Author    : beededea
+' Date      : 17/05/2023
+' Purpose   :
+'---------------------------------------------------------------------------------------
+'
+Public Property Get SwingPendulum() As Boolean
+   On Error GoTo SwingPendulumGet_Error
+
+   SwingPendulum = mSwingPendulum
+
+   On Error GoTo 0
+   Exit Property
+
+SwingPendulumGet_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property SwingPendulum of Class Module cfClock"
+End Property
+'---------------------------------------------------------------------------------------
+' Property  : SwingPendulum
+' Author    : beededea
+' Date      : 17/05/2023
+' Purpose   :
+'---------------------------------------------------------------------------------------
+'
+Public Property Let SwingPendulum(ByVal newValue As Boolean)
+
+    On Error GoTo SwingPendulumLet_Error
+        
+    If mSwingPendulum = True Then
+        tmrPendulum.Enabled = True
+    Else
+        tmrPendulum.Enabled = False
+    End If
+    
+    If mSwingPendulum <> newValue Then mSwingPendulum = newValue Else Exit Property
+    SwingPendulum = mSwingPendulum
+    
+    W.Refresh
+
+   On Error GoTo 0
+   Exit Property
+
+SwingPendulumLet_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property SwingPendulum of Class Module cfClock"
+End Property
 
 '---------------------------------------------------------------------------------------
 ' Property : TimeMachine
