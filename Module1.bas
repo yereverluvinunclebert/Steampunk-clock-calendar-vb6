@@ -326,6 +326,8 @@ Public gblhLocationPercPrefValue As String
 
 ' sounds
 Public gblEnableSounds  As String
+Public gblEnableTicks  As String
+
 
 ' development
 Public gblDebug As String

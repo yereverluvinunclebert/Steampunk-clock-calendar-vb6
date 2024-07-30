@@ -2461,6 +2461,11 @@ btnVerifyDateTime5_Click_Error:
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure btnVerifyDateTime5_Click of Form widgetPrefs"
     
 End Sub
+
+Private Sub chkEnableTicks_Click()
+    btnSave.Enabled = True ' enable the save button
+End Sub
+
 '---------------------------------------------------------------------------------------
 ' Procedure : chkShowHelp_Click
 ' Author    : beededea
@@ -3688,6 +3693,7 @@ Private Sub btnSave_Click()
     
     ' sounds
     gblEnableSounds = LTrim$(Str$(chkEnableSounds.Value))
+    gblEnableTicks = LTrim$(Str$(chkEnableTicks.Value))
     
     'development
     gblDebug = LTrim$(Str$(cmbDebug.ListIndex))
@@ -3785,6 +3791,8 @@ Private Sub btnSave_Click()
         sPutINISetting "Software\SteampunkClockCalendar", "startup", gblStartup, gblSettingsFile
 
         sPutINISetting "Software\SteampunkClockCalendar", "enableSounds", gblEnableSounds, gblSettingsFile
+        sPutINISetting "Software\SteampunkClockCalendar", "enableTicks", gblEnableTicks, gblSettingsFile
+        
         sPutINISetting "Software\SteampunkClockCalendar", "lastSelectedTab", gblLastSelectedTab, gblSettingsFile
         
         sPutINISetting "Software\SteampunkClockCalendar", "debug", gblDebug, gblSettingsFile
@@ -4174,7 +4182,8 @@ Private Sub adjustPrefsControls()
     
     ' sounds tab
     chkEnableSounds.Value = Val(gblEnableSounds)
-    
+    chkEnableTicks.Value = Val(gblEnableTicks)
+
     ' development
     cmbDebug.ListIndex = Val(gblDebug)
     txtDblClickCommand.Text = gblDblClickCommand

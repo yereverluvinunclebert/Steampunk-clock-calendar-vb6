@@ -31,34 +31,32 @@ add graphical sparkles
 msgbox to msgboxA
 
 on alarm toggle click - use the associated glbl alarm value and override the digital display
+weekday till toggle - not closing
+have separate solid red till backgrounds for transparent text overlays as per the YWE version of the widget - this should fix the mouseLeave bug where the red bit stays
+alarm 1 toggle popping up when background help disabled
+pendulum - convert the original js.
+add pendulum toggle control to the prefs
 
 ' -oOo-
 
-have separate solid red till backgrounds for transparent text overlays as per the YWE version of the widget - this should fix the mouseLeave bug where the red bit stays
-
-weekday till toggle - not closing
-
-alarm 1 toggle popping up when background help disabled
-
-slider advancing/retarding time
-
-pendulum - convert the original js.
-pendulum code for RC
-https://www.vbforums.com/showthread.php?757899-VB6-applied-physics-using-the-chipmunk-engine-(simple-Demo-for-Starters)
-
-digital counter animation from zero
-
-Create a XP /ReactOS version using old APIs and RC5 - wip
-obtain a XP test system
-
-click on alarm till deletes alarm with confirmation pop-up
+fix the slider cable
 
 quiet/loud sounds
 
+click on alarm till deletes alarm with confirmation pop-up - wip
+
+slider advancing/retarding time
+
+digital counter animation from zero
+
+investigate the accumulating shadow when moving across a transparent surface
+
+Create a XP /ReactOS version using old APIs and RC5
+obtain a XP test system
+
 add method to feed messages to the screen
 
-add operating system messages to all events to display on the screen
-
+add "operating system" messages to all events to display on the screen
 
 ' add second monitor - wip find cable!
 ' sync. E6410 win 7
