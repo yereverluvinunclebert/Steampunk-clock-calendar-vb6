@@ -39,7 +39,7 @@ Private mTimeMachineToggleEnabled As Boolean
 Private mBackToggleEnabled As Boolean
 Private mClapperEnabled As Boolean
 Private mChainEnabled As Boolean
-Private mCrankEnabled As Boolean
+Private mCrankedUP As Boolean
 Private mTicking As Boolean
 Private mPendulumEnabled As Boolean
 Private mAlarmToggle1Enabled As Boolean
@@ -2426,6 +2426,7 @@ Public Property Let clapperEnabled(ByVal newValue As Boolean)
         gblClapperEnabled = "True"
         clapperright.Alpha = 0
         clapperLeft.Alpha = alphaVal
+        widgetPrefs.chkEnableChimes.Value = 1
         If muteInitiatingControl = "clapper" Then
             fileToPlay = "singleBell.wav"
             If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
@@ -2437,7 +2438,7 @@ Public Property Let clapperEnabled(ByVal newValue As Boolean)
         'If muteInitiatingControl = "clapper" Then muteToggleEnabled = True
         clapperright.Alpha = alphaVal
         clapperLeft.Alpha = 0
-
+        widgetPrefs.chkEnableChimes.Value = 0
     End If
     
     sPutINISetting "Software\SteampunkClockCalendar", "clapperEnabled", gblClapperEnabled, gblSettingsFile
@@ -2564,7 +2565,7 @@ Private Sub crankdown_myMouseDown()
         PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
     End If
     
-    crankEnabled = True
+    crankedUP = True
 
     clockForm.Refresh
 
@@ -2595,7 +2596,7 @@ Private Sub crankup_myMouseDown()
         PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
     End If
     
-    crankEnabled = False
+    crankedUP = False
 
     clockForm.Refresh
 
@@ -2612,16 +2613,16 @@ End Sub
 
 
 '---------------------------------------------------------------------------------------
-' Property  : crankEnabled
+' Property  : crankedUP
 ' Author    : beededea
 ' Date      : 10/05/2023
 ' Purpose   :
 '---------------------------------------------------------------------------------------
 '
-Public Property Let crankEnabled(ByVal newValue As Boolean)
+Public Property Let crankedUP(ByVal newValue As Boolean)
     Dim alphaVal As Integer: alphaVal = 0
   
-    On Error GoTo crankEnabledLet_Error
+    On Error GoTo crankedUPLet_Error
     
     alphaVal = Val(gblOpacity) / 100
     
@@ -2629,45 +2630,47 @@ Public Property Let crankEnabled(ByVal newValue As Boolean)
         crankup.Alpha = alphaVal
         crankdown.Alpha = 0
         gblCrankEnabled = "True"
+        widgetPrefs.chkVolumeBoost.Value = 1
     Else
         gblCrankEnabled = "False"
         crankup.Alpha = 0
         crankdown.Alpha = alphaVal
+        widgetPrefs.chkVolumeBoost.Value = 0
     End If
        
     sPutINISetting "Software\SteampunkClockCalendar", "crankEnabled", gblCrankEnabled, gblSettingsFile
 
-    If mCrankEnabled <> newValue Then mCrankEnabled = newValue Else Exit Property
-    crankEnabled = mCrankEnabled
+    If mCrankedUP <> newValue Then mCrankedUP = newValue Else Exit Property
+    crankedUP = mCrankedUP
     
     clockForm.Refresh
      
    On Error GoTo 0
    Exit Property
 
-crankEnabledLet_Error:
+crankedUPLet_Error:
 
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property crankEnabled of Class Module cfClock"
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property crankedUP of Class Module cfClock"
 End Property
 
 '---------------------------------------------------------------------------------------
-' Property  : crankEnabled
+' Property  : crankedUP
 ' Author    : beededea
 ' Date      : 17/05/2023
 ' Purpose   :
 '---------------------------------------------------------------------------------------
 '
-Public Property Get crankEnabled() As Boolean
-   On Error GoTo crankEnabledGet_Error
+Public Property Get crankedUP() As Boolean
+   On Error GoTo crankedUPGet_Error
 
-    crankEnabled = mCrankEnabled
+    crankedUP = mCrankedUP
 
    On Error GoTo 0
    Exit Property
 
-crankEnabledGet_Error:
+crankedUPGet_Error:
 
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property crankEnabled of Class Module cfClock"
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property crankedUP of Class Module cfClock"
 End Property
 
 
@@ -2694,10 +2697,12 @@ Public Property Let chainEnabled(ByVal newValue As Boolean)
         chain.Move chainLeft, chainTop + 10
         gblChainEnabled = "True"
         ticking = True
+        widgetPrefs.chkEnableTicks.Value = 1
     Else
         chain.Move chainLeft, chainTop - 10
         gblChainEnabled = "False"
         ticking = False
+        widgetPrefs.chkEnableTicks.Value = 0
     End If
        
     sPutINISetting "Software\SteampunkClockCalendar", "chainEnabled", gblChainEnabled, gblSettingsFile
@@ -2983,8 +2988,6 @@ Public Property Let muteToggleEnabled(ByVal newValue As Boolean)
         gblMuteToggleEnabled = "False"
         gblEnableSounds = "1"
         If ticking = True Then ticking = True
-        
-        
         widgetPrefs.chkEnableSounds.Value = 1
     End If
     

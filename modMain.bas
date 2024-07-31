@@ -902,9 +902,9 @@ Public Sub adjustMainControls()
     End If
      
     If gblVolumeBoost = "1" Then
-        fClock.crankEnabled = True
+        fClock.crankedUP = True
     Else
-        fClock.crankEnabled = False
+        fClock.crankedUP = False
     End If
       
     If gblPendulumToggleEnabled = "True" Then
@@ -931,7 +931,7 @@ Public Sub adjustMainControls()
     
 
     If gblCrankEnabled = "True" Then
-        fClock.crankEnabled = True
+        fClock.crankedUP = True
     End If
     
     If gblAlarmToggle1Enabled = "True" Then
