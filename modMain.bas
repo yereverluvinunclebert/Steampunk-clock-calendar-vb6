@@ -255,6 +255,8 @@ Private Sub initialiseGlobalVars()
     ' sounds
     gblEnableSounds = vbNullString
     gblEnableTicks = vbNullString
+    gblEnableChimes = vbNullString
+    gblVolumeBoost = vbNullString
     
     
     ' development
@@ -893,6 +895,18 @@ Public Sub adjustMainControls()
         fClock.ticking = False
     End If
     
+    If gblEnableChimes = "1" Then
+        fClock.clapperEnabled = True
+    Else
+        fClock.clapperEnabled = False
+    End If
+     
+    If gblVolumeBoost = "1" Then
+        fClock.crankEnabled = True
+    Else
+        fClock.crankEnabled = False
+    End If
+      
     If gblPendulumToggleEnabled = "True" Then
         fClock.pendulumToggleEnabled = True
     End If
@@ -1048,7 +1062,10 @@ Public Sub readSettingsFile(ByVal location As String, ByVal gblSettingsFile As S
         ' sound
         gblEnableSounds = fGetINISetting(location, "enableSounds", gblSettingsFile)
         gblEnableTicks = fGetINISetting(location, "enableTicks", gblSettingsFile)
-
+        gblEnableChimes = fGetINISetting(location, "enableChimes", gblSettingsFile)
+        gblVolumeBoost = fGetINISetting(location, "volumeBoost", gblSettingsFile)
+        
+        
         ' development
         gblDebug = fGetINISetting(location, "debug", gblSettingsFile)
         gblDblClickCommand = fGetINISetting(location, "dblClickCommand", gblSettingsFile)
@@ -1166,7 +1183,10 @@ Public Sub validateInputs()
         ' sounds
         If gblEnableSounds = vbNullString Then gblEnableSounds = "1"
         If gblEnableTicks = vbNullString Then gblEnableTicks = "0"
-
+        If gblEnableChimes = vbNullString Then gblEnableChimes = "0"
+        If gblVolumeBoost = vbNullString Then gblVolumeBoost = "0"
+        
+        
         ' position
         If gblAspectHidden = vbNullString Then gblAspectHidden = "0"
         If gblWidgetPosition = vbNullString Then gblWidgetPosition = "0"

@@ -340,7 +340,7 @@ Begin VB.Form widgetPrefs
          TabIndex        =   25
          Top             =   285
          Width           =   6420
-         Begin VB.CheckBox chkEnableBoost 
+         Begin VB.CheckBox chkVolumeBoost 
             Caption         =   "Decide whether the various sounds will be boosted."
             Height          =   225
             Left            =   1485
@@ -2462,6 +2462,13 @@ btnVerifyDateTime5_Click_Error:
     
 End Sub
 
+Private Sub chkEnableChimes_Click()
+    btnSave.Enabled = True ' enable the save button
+End Sub
+Private Sub chkVolumeBoost_Click()
+    btnSave.Enabled = True ' enable the save button
+End Sub
+
 Private Sub chkEnableTicks_Click()
     btnSave.Enabled = True ' enable the save button
 End Sub
@@ -3694,6 +3701,8 @@ Private Sub btnSave_Click()
     ' sounds
     gblEnableSounds = LTrim$(Str$(chkEnableSounds.Value))
     gblEnableTicks = LTrim$(Str$(chkEnableTicks.Value))
+    gblEnableChimes = LTrim$(Str$(chkEnableChimes.Value))
+    gblVolumeBoost = LTrim$(Str$(chkVolumeBoost.Value))
     
     'development
     gblDebug = LTrim$(Str$(cmbDebug.ListIndex))
@@ -3792,6 +3801,8 @@ Private Sub btnSave_Click()
 
         sPutINISetting "Software\SteampunkClockCalendar", "enableSounds", gblEnableSounds, gblSettingsFile
         sPutINISetting "Software\SteampunkClockCalendar", "enableTicks", gblEnableTicks, gblSettingsFile
+        sPutINISetting "Software\SteampunkClockCalendar", "enableChimes", gblEnableChimes, gblSettingsFile
+        sPutINISetting "Software\SteampunkClockCalendar", "volumeBoost", gblVolumeBoost, gblSettingsFile
         
         sPutINISetting "Software\SteampunkClockCalendar", "lastSelectedTab", gblLastSelectedTab, gblSettingsFile
         
@@ -4183,7 +4194,10 @@ Private Sub adjustPrefsControls()
     ' sounds tab
     chkEnableSounds.Value = Val(gblEnableSounds)
     chkEnableTicks.Value = Val(gblEnableTicks)
-
+    chkEnableChimes.Value = Val(gblEnableChimes)
+    chkVolumeBoost.Value = Val(gblVolumeBoost)
+    
+    
     ' development
     cmbDebug.ListIndex = Val(gblDebug)
     txtDblClickCommand.Text = gblDblClickCommand
@@ -5153,7 +5167,8 @@ Public Sub setPrefsTooltips()
         chkEnableSounds.ToolTipText = "Check this box to enable or disable all of the sounds used during any animation on the main steampunk GUI as well as all other chimes, tick sounds."
         chkEnableTicks.ToolTipText = "Enables or disables just the sound of the clock ticking."
         chkEnableChimes.ToolTipText = "Enables or disables just the clock chimes."
-        chkEnableBoost.ToolTipText = "Sets the volume of the various sound elements, you can boost from quiet to loud."
+        
+        chkVolumeBoost.ToolTipText = "Sets the volume of the various sound elements, you can boost from quiet to loud."
         btnDefaultEditor.ToolTipText = "Click to select the .vbp file to edit the program - You need to have access to the source!"
         txtDblClickCommand.ToolTipText = "Enter a Windows command for the gauge to operate when double-clicked."
         btnOpenFile.ToolTipText = "Click to select a particular file for the gauge to run or open when double-clicked."
@@ -5241,7 +5256,7 @@ Public Sub setPrefsTooltips()
         chkEnableSounds.ToolTipText = vbNullString
         chkEnableTicks.ToolTipText = vbNullString
         chkEnableChimes.ToolTipText = vbNullString
-        chkEnableBoost.ToolTipText = vbNullString
+        chkVolumeBoost.ToolTipText = vbNullString
         
         btnDefaultEditor.ToolTipText = vbNullString
         txtDblClickCommand.ToolTipText = vbNullString
