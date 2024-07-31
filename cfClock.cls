@@ -441,6 +441,7 @@ Private Sub clockForm_BubblingEvent(ByRef sender As Object, ByRef EventName As S
                     .Refresh
                  End With
                  weekdayred.Alpha = 0
+                 weekdayred.Refresh
             Case "bellset"
                 If gblEnableBalloonTooltips = "1" Then CreateToolTip clockForm.hwnd, "Click here to set or edit an alarm.", _
                      TTIconInfo, widgetName & " Alarm Toggle Help", , , , True
@@ -489,19 +490,62 @@ Private Sub clockForm_BubblingEvent(ByRef sender As Object, ByRef EventName As S
              Case "helpdropdown"
                 If gblEnableBalloonTooltips = "1" Then CreateToolTip clockForm.hwnd, "Click here to lock the clock in place on the desktop.", _
                      TTIconInfo, widgetName & " Dropdown Pin Help", , , , True
+                     
             Case "weekday" ' this does the job for all the weekday tills underneath
                 If gblEnableBalloonTooltips = "1" Then CreateToolTip clockForm.hwnd, "Click here to lower the weekday flag.", _
                      TTIconInfo, widgetName & " Weekday Indicator Help", , , , True
                 ' set the weekday red cover to solid
-                If clockForm.Widgets(fDayOfWeek).Widget.Alpha <> 0 Then weekdayred.Alpha = Val(gblOpacity) / 100
-                 With clockForm.Widgets("redalarmcover").Widget
+                If clockForm.Widgets(fDayOfWeek).Widget.Alpha <> 0 Then
+                    weekdayred.Alpha = Val(gblOpacity) / 100
+                    weekdayred.Refresh
+                End If
+                With clockForm.Widgets("redalarmcover").Widget
                     .Alpha = 0
                     .Refresh
                 End With
+                
+            ' monday - sunday ensuring the weekday till goes red even when hovering over the day text in=mages.
+            Case "monday"
+                If weekdayToggleEnabled = "true" Then
+                    weekdayred.Alpha = Val(gblOpacity) / 100
+                    weekdayred.Refresh
+                End If
+            Case "tuesday"
+                If weekdayToggleEnabled = "true" Then
+                    weekdayred.Alpha = Val(gblOpacity) / 100
+                    weekdayred.Refresh
+                End If
+            Case "wednesday"
+                If weekdayToggleEnabled = "true" Then
+                    weekdayred.Alpha = Val(gblOpacity) / 100
+                    weekdayred.Refresh
+                End If
+            Case "thursday"
+                If weekdayToggleEnabled = "true" Then
+                    weekdayred.Alpha = Val(gblOpacity) / 100
+                    weekdayred.Refresh
+                End If
+            Case "friday"
+                If weekdayToggleEnabled = "true" Then
+                    weekdayred.Alpha = Val(gblOpacity) / 100
+                    weekdayred.Refresh
+                End If
+            Case "saturday"
+                If weekdayToggleEnabled = "true" Then
+                    weekdayred.Alpha = Val(gblOpacity) / 100
+                    weekdayred.Refresh
+                End If
+            Case "sunday"
+                If weekdayToggleEnabled = "true" Then
+                    weekdayred.Alpha = Val(gblOpacity) / 100
+                    weekdayred.Refresh
+                End If
+                
             Case "redalarmcover"
                 If gblEnableBalloonTooltips = "1" Then CreateToolTip clockForm.hwnd, "Click this alarm flag to delete this alarm.", _
                      TTIconInfo, widgetName & " Alarm Indicator Help", , , , True
                  weekdayred.Alpha = 0
+                 weekdayred.Refresh
                  If alarmtoggle1Enabled = True _
                     Or alarmtoggle2Enabled = True _
                     Or alarmtoggle3Enabled = True _
@@ -525,22 +569,7 @@ Private Sub clockForm_BubblingEvent(ByRef sender As Object, ByRef EventName As S
         Case "weekdayred"
             weekdayred.Alpha = 0
             weekdayred.Refresh
-        Case "weekday"
-            If weekdayToggleEnabled = "true" Then weekdayred.Alpha = 1
-        Case "monday"
-            If weekdayToggleEnabled = "true" Then weekdayred.Alpha = 1
-        Case "tuesday"
-            If weekdayToggleEnabled = "true" Then weekdayred.Alpha = 1
-        Case "wednesday"
-            If weekdayToggleEnabled = "true" Then weekdayred.Alpha = 1
-        Case "thursday"
-            If weekdayToggleEnabled = "true" Then weekdayred.Alpha = 1
-        Case "friday"
-            If weekdayToggleEnabled = "true" Then weekdayred.Alpha = 1
-        Case "saturday"
-            If weekdayToggleEnabled = "true" Then weekdayred.Alpha = 1
-        Case "sunday"
-            If weekdayToggleEnabled = "true" Then weekdayred.Alpha = 1
+
         Case "redalarmcover"
              With clockForm.Widgets("redalarmcover").Widget
                 .Alpha = 0
@@ -2741,7 +2770,7 @@ Public Property Let weekdayToggleEnabled(ByVal newValue As Boolean)
         weekdaytoggle.Move weekdayToggleOut, weekdayToggleTop
         clockForm.Widgets("weekday").Widget.Alpha = 0
         clockForm.Widgets(thisDayOfWeek).Widget.Alpha = 0
-        weekdayred.Alpha = 0 ' sometimes you can fool the mouseleave, this helps to recover the situation
+        'weekdayred.Alpha = 0 ' sometimes you can fool the mouseleave, this helps to recover the situation
         gblWeekdayToggleEnabled = "False"
     End If
     

@@ -49,7 +49,9 @@ slider advancing/retarding time
 
 digital counter animation from zero
 
-investigate the accumulating shadow when moving across a transparent surface
+investigate the accumulating shadow when moving across the transparent surface of the screen
+
+look at Olaf's pendulum code
 
 Create a XP /ReactOS version using old APIs and RC5
 obtain a XP test system
