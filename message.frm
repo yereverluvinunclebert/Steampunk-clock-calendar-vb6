@@ -559,7 +559,11 @@ Public Property Let propButtonVal(ByVal newValue As Integer)
         picVBExclamation.Visible = True
         
         ' .86 DAEB 06/06/2022 rDIConConfig.frm Add a sound to the msgbox for critical and exclamations? ting and belltoll.wav files
-        fileToPlay = "ting.wav"
+        If gblVolumeBoost = "1" Then
+            fileToPlay = "ting.wav"
+        Else
+            fileToPlay = "ting-quiet.wav"
+        End If
         If fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
             PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
         End If
@@ -571,7 +575,13 @@ Public Property Let propButtonVal(ByVal newValue As Integer)
         picVBCritical.Visible = True
         
         ' .86 DAEB 06/06/2022 rDIConConfig.frm Add a sound to the msgbox for critical and exclamations? ting and belltoll.wav files
-        fileToPlay = "belltoll01.wav"
+        
+        If gblVolumeBoost = "1" Then
+            fileToPlay = "belltoll01.wav"
+        Else
+            fileToPlay = "belltoll01-quiet.wav"
+        End If
+        
         If fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
             PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
         End If

@@ -1580,8 +1580,13 @@ Public Sub aboutClickEvent()
     Dim fileToPlay As String: fileToPlay = vbNullString
 
     On Error GoTo aboutClickEvent_Error
+    If gblVolumeBoost = "1" Then
+        fileToPlay = "till.wav"
+    Else
+        fileToPlay = "till-quiet.wav"
+    End If
     
-    fileToPlay = "till.wav"
+
     If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
         PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
     End If
@@ -1626,7 +1631,12 @@ Public Sub licenceSplash()
 
     On Error GoTo licenceSplash_Error
 
-    fileToPlay = "till.wav"
+    If gblVolumeBoost = "1" Then
+        fileToPlay = "till.wav"
+    Else
+        fileToPlay = "till-quiet.wav"
+    End If
+    
     If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
         PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
     End If
@@ -2535,7 +2545,12 @@ Public Sub TurnFunctionsOn()
 
    On Error GoTo TurnFunctionsOn_Error
 
-    fileToPlay = "ting.wav"
+    If gblVolumeBoost = "1" Then
+        fileToPlay = "ting.wav"
+    Else
+        fileToPlay = "ting-quiet.wav"
+    End If
+
     If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
         PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
     End If

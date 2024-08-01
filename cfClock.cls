@@ -245,8 +245,13 @@ Public Property Let ShowHelp(ByVal newValue As Boolean)
     ShowHelp = mShowHelp
     
     clockForm.Refresh
-   
-    fileToPlay = "pagefumble.wav"
+       
+    If gblVolumeBoost = "1" Then
+        fileToPlay = "pagefumble.wav"
+    Else
+        fileToPlay = "pagefumble-quiet.wav"
+    End If
+    
     If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
         PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
     End If
@@ -389,7 +394,7 @@ Private Sub clockForm_BubblingEvent(ByRef sender As Object, ByRef EventName As S
    
     Dim stdMessage As String: stdMessage = vbNullString
     Dim stdSubject As String: stdSubject = vbNullString
-    Dim fileToPlay As String: fileToPlay = vbNullString
+'    Dim fileToPlay As String: fileToPlay = vbNullString
     
     On Error GoTo clockForm_BubblingEvent_Error
 
@@ -724,7 +729,12 @@ Private Sub redalarmcover_myMouseDown()
    
     On Error GoTo redalarmcover_myMouseDown_Error
 
-    fileToPlay = "till.wav"
+    If gblVolumeBoost = "1" Then
+        fileToPlay = "till.wav"
+    Else
+        fileToPlay = "till-quiet.wav"
+    End If
+
     If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
         PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
     End If
@@ -763,7 +773,12 @@ Private Sub sliderset_myMouseDown()
     slidersetMousedown = True
                 
     If SliderFreed = False Then
-        fileToPlay = "buzzer.wav"
+        If gblVolumeBoost = "1" Then
+            fileToPlay = "buzzer.wav"
+        Else
+            fileToPlay = "buzzer-quiet.wav"
+        End If
+        
         If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
             PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
         End If
@@ -821,7 +836,12 @@ Private Sub bellset_myMouseDown()
     
     On Error GoTo bellset_myMouseDown_Error
     
-    fileToPlay = "singleBell.wav"
+    If gblVolumeBoost = "1" Then
+        fileToPlay = "singleBell.wav"
+    Else
+        fileToPlay = "singleBell-quiet.wav"
+    End If
+    
     If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
         PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
     End If
@@ -862,11 +882,21 @@ Private Sub dropdown_myMouseDown()
     alphaVal = Val(gblOpacity) / 100
     
     If dropdownEnabled = False Then
-        fileToPlay = "rollerblind.wav"
+        If gblVolumeBoost = "1" Then
+            fileToPlay = "rollerblind.wav"
+        Else
+            fileToPlay = "rollerblind-quiet.wav"
+        End If
+        
         dropdown.Move dropdownLeft, dropdownTop + 175
         dropdownEnabled = True
     Else
-        fileToPlay = "rollerblindup.wav"
+        If gblVolumeBoost = "1" Then
+            fileToPlay = "rollerblindup.wav"
+        Else
+            fileToPlay = "rollerblindup-quiet.wav"
+        End If
+
         dropdown.Move dropdownLeft, dropdownTop - 175
         dropdownEnabled = False
     End If
@@ -902,7 +932,12 @@ Private Sub alarmtoggle1_myMouseDown()
 
     On Error GoTo alarmtoggle1_myMouseDown_Error
     
-    fileToPlay = "till.wav"
+    If gblVolumeBoost = "1" Then
+        fileToPlay = "till.wav"
+    Else
+        fileToPlay = "till-quiet.wav"
+    End If
+    
     If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
         PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
     End If
@@ -939,7 +974,12 @@ Private Sub alarmtoggle2_myMouseDown()
 
     On Error GoTo alarmtoggle2_myMouseDown_Error
     
-    fileToPlay = "till.wav"
+    If gblVolumeBoost = "1" Then
+        fileToPlay = "till.wav"
+    Else
+        fileToPlay = "till-quiet.wav"
+    End If
+    
     If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
         PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
     End If
@@ -976,7 +1016,12 @@ Private Sub alarmtoggle3_myMouseDown()
 
     On Error GoTo alarmtoggle3_myMouseDown_Error
     
-    fileToPlay = "till.wav"
+    If gblVolumeBoost = "1" Then
+        fileToPlay = "till.wav"
+    Else
+        fileToPlay = "till-quiet.wav"
+    End If
+    
     If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
         PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
     End If
@@ -1014,7 +1059,12 @@ Private Sub alarmtoggle4_myMouseDown()
 
     On Error GoTo alarmtoggle4_myMouseDown_Error
     
-    fileToPlay = "till.wav"
+    If gblVolumeBoost = "1" Then
+        fileToPlay = "till.wav"
+    Else
+        fileToPlay = "till-quiet.wav"
+    End If
+    
     If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
         PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
     End If
@@ -1051,7 +1101,12 @@ Private Sub alarmtoggle5_myMouseDown()
 
     On Error GoTo alarmtoggle5_myMouseDown_Error
     
-    fileToPlay = "till.wav"
+    If gblVolumeBoost = "1" Then
+        fileToPlay = "till.wav"
+    Else
+        fileToPlay = "till-quiet.wav"
+    End If
+    
     If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
         PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
     End If
@@ -1103,7 +1158,12 @@ Private Sub weekdayred_myMouseDown()
         
     alphaVal = Val(gblOpacity) / 100
     
-    fileToPlay = "till.wav"
+    If gblVolumeBoost = "1" Then
+        fileToPlay = "till.wav"
+    Else
+        fileToPlay = "till-quiet.wav"
+    End If
+    
     If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
         PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
     End If
@@ -1137,6 +1197,12 @@ Private Sub chain_myMouseDown()
 
     On Error GoTo chain_myMouseDown_Error
     
+    If gblVolumeBoost = "1" Then
+        fileToPlay = "clunk.wav"
+    Else
+        fileToPlay = "clunk-quiet.wav"
+    End If
+     
     fileToPlay = "clunk.wav"
     If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
         PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME
@@ -1175,7 +1241,12 @@ Private Sub backtoggle_myMouseDown()
 
     Dim fileToPlay As String: fileToPlay = vbNullString
     
-    fileToPlay = "clunk.wav"
+    If gblVolumeBoost = "1" Then
+        fileToPlay = "clunk.wav"
+    Else
+        fileToPlay = "clunk-quiet.wav"
+    End If
+     
     If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
         PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
     End If
@@ -1226,7 +1297,12 @@ Private Sub alarmtoggle_myMouseDown()
     
     slidersetMousedown = False
 
-    fileToPlay = "clunk.wav"
+    If gblVolumeBoost = "1" Then
+        fileToPlay = "clunk.wav"
+    Else
+        fileToPlay = "clunk-quiet.wav"
+    End If
+     
     If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
         PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME
     End If
@@ -1301,7 +1377,12 @@ Private Sub timeMachineToggle_myMouseDown()
 
     On Error GoTo timeMachineToggle_myMouseDown_Error
     
-    fileToPlay = "clunk.wav"
+    If gblVolumeBoost = "1" Then
+        fileToPlay = "clunk.wav"
+    Else
+        fileToPlay = "clunk-quiet.wav"
+    End If
+     
     If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
         PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
     End If
@@ -1336,7 +1417,12 @@ Private Sub weekdayToggle_myMouseDown()
 
     Dim fileToPlay As String: fileToPlay = vbNullString
 
-    fileToPlay = "clunk.wav"
+    If gblVolumeBoost = "1" Then
+        fileToPlay = "clunk.wav"
+    Else
+        fileToPlay = "clunk-quiet.wav"
+    End If
+     
     If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
         PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME
     End If
@@ -1385,7 +1471,12 @@ Private Sub settoggle_myMouseDown()
     clockForm.Refresh
     
 
-    fileToPlay = "clunk.wav"
+    If gblVolumeBoost = "1" Then
+        fileToPlay = "clunk.wav"
+    Else
+        fileToPlay = "clunk-quiet.wav"
+    End If
+     
     If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
         PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
     End If
@@ -1484,7 +1575,12 @@ Private Sub displayScreenToggle_myMouseDown()
     displayScreenToggleLeft = displayscreentoggle.Left
     alphaVal = Val(gblOpacity) / 100
 
-    fileToPlay = "clunk.wav"
+    If gblVolumeBoost = "1" Then
+        fileToPlay = "clunk.wav"
+    Else
+        fileToPlay = "clunk-quiet.wav"
+    End If
+     
     If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
         PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
     End If
@@ -1527,14 +1623,23 @@ Private Sub helptoggle_myMouseDown()
     alphaVal = Val(gblOpacity) / 100
     
     If helpdropdown.Alpha = 0 Then
-        fileToPlay = "rollerblinddown.wav"
+        If gblVolumeBoost = "1" Then
+            fileToPlay = "rollerblinddown.wav"
+        Else
+            fileToPlay = "rollerblinddown-quiet.wav"
+        End If
         helptoggle.Alpha = 0
         clockForm.Widgets("woodenbar").Widget.Alpha = alphaVal
         clockForm.Widgets("help1toggle").Widget.Alpha = alphaVal
         clockForm.Widgets("helpdropdown").Widget.Alpha = alphaVal
         clockForm.Widgets("txthelp").Widget.Alpha = alphaVal
     Else
-        fileToPlay = "rollerblindup.wav"
+        If gblVolumeBoost = "1" Then
+            fileToPlay = "rollerblindup.wav"
+        Else
+            fileToPlay = "rollerblindup-quiet.wav"
+        End If
+    
         helptoggle.Alpha = alphaVal
         clockForm.Widgets("woodenbar").Widget.Alpha = 0
         clockForm.Widgets("help1toggle").Widget.Alpha = 0
@@ -1567,7 +1672,11 @@ Private Sub pendulumtransparent_myMouseDown()
 
     On Error GoTo pendulumtransparent_myMouseDown_Error
     
-    fileToPlay = "tick.wav"
+    If gblVolumeBoost = "1" Then
+        fileToPlay = "tick.wav"
+    Else
+        fileToPlay = "tick-quiet.wav"
+    End If
     
     If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
         PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
@@ -1608,7 +1717,11 @@ Private Sub helpdropdown_myMouseDown()
         helpdropdownLeft = helpdropdown.Left
         alphaVal = Val(gblOpacity) / 100
     
-        fileToPlay = "rollerblindup.wav"
+        If gblVolumeBoost = "1" Then
+            fileToPlay = "rollerblindup.wav"
+        Else
+            fileToPlay = "rollerblindup-quiet.wav"
+        End If
         If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
             PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
         End If
@@ -2303,7 +2416,12 @@ Public Property Let displayScreenToggleEnabled(ByVal newValue As Boolean)
     
     clockForm.Refresh
      
-    fileToPlay = "clunk.wav"
+    If gblVolumeBoost = "1" Then
+        fileToPlay = "clunk.wav"
+    Else
+        fileToPlay = "clunk-quiet.wav"
+    End If
+     
     If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
         PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME
     End If
@@ -2428,8 +2546,12 @@ Public Property Let clapperEnabled(ByVal newValue As Boolean)
         clapperLeft.Alpha = alphaVal
         widgetPrefs.chkEnableChimes.Value = 1
         If muteInitiatingControl = "clapper" Then
-            fileToPlay = "singleBell.wav"
-            If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
+                If gblVolumeBoost = "1" Then
+                    fileToPlay = "singleBell.wav"
+                Else
+                    fileToPlay = "singleBell-quiet.wav"
+                End If
+                If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
                 PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
             End If
         End If
@@ -2559,8 +2681,12 @@ Private Sub crankdown_myMouseDown()
     Dim fileToPlay As String: fileToPlay = vbNullString
             
     On Error GoTo crankdown_myMouseDown_Error
-    
-    fileToPlay = "crank.wav"
+
+    If gblVolumeBoost = "1" Then
+        fileToPlay = "crank.wav"
+    Else
+        fileToPlay = "crank-quiet.wav"
+    End If
     If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
         PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
     End If
@@ -2591,7 +2717,11 @@ Private Sub crankup_myMouseDown()
     
     On Error GoTo crankup_myMouseDown_Error
     
-    fileToPlay = "crank.wav"
+    If gblVolumeBoost = "1" Then
+        fileToPlay = "crank.wav"
+    Else
+        fileToPlay = "crank-quiet.wav"
+    End If
     If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
         PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
     End If
@@ -2631,11 +2761,13 @@ Public Property Let crankedRaised(ByVal newValue As Boolean)
         crankdown.Alpha = 0
         gblCrankEnabled = "True"
         widgetPrefs.chkVolumeBoost.Value = 1
+        gblVolumeBoost = "1"
     Else
         gblCrankEnabled = "False"
         crankup.Alpha = 0
         crankdown.Alpha = alphaVal
         widgetPrefs.chkVolumeBoost.Value = 0
+        gblVolumeBoost = "0"
     End If
        
     sPutINISetting "Software\SteampunkClockCalendar", "crankEnabled", gblCrankEnabled, gblSettingsFile
@@ -2786,7 +2918,12 @@ Public Property Let weekdayToggleEnabled(ByVal newValue As Boolean)
     
     clockForm.Refresh
      
-    fileToPlay = "till.wav"
+    If gblVolumeBoost = "1" Then
+        fileToPlay = "till.wav"
+    Else
+        fileToPlay = "till-quiet.wav"
+    End If
+    
     If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
         PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME
     End If
@@ -2975,7 +3112,12 @@ Public Property Let muteToggleEnabled(ByVal newValue As Boolean)
     muteToggleOut = 359
     muteToggleIn = 363
     
-    fileToPlay = "clunk.wav"
+    If gblVolumeBoost = "1" Then
+        fileToPlay = "clunk.wav"
+    Else
+        fileToPlay = "clunk-quiet.wav"
+    End If
+     
 
     If newValue = True Then
         mutetoggle.Move muteToggleIn, muteToggleTop
@@ -3063,7 +3205,12 @@ Public Property Let pendulumToggleEnabled(ByVal newValue As Boolean)
         If pendulumInitiatingControl = "pendulumToggle" Then pendulumEnabled = False
     End If
         
-    fileToPlay = "clunk.wav"
+    If gblVolumeBoost = "1" Then
+        fileToPlay = "clunk.wav"
+    Else
+        fileToPlay = "clunk-quiet.wav"
+    End If
+     
     If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
         PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
     End If
@@ -3699,7 +3846,12 @@ Private Sub tmrTILL_Timer()
     
     On Error GoTo tmrTILL_Timer_Error
     
-    fileToPlay = "till.wav"
+    If gblVolumeBoost = "1" Then
+        fileToPlay = "till.wav"
+    Else
+        fileToPlay = "till-quiet.wav"
+    End If
+    
     If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
         PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
     End If
@@ -3729,7 +3881,12 @@ Private Sub tmrZZZZ_Timer()
     
     On Error GoTo tmrZZZZ_Timer_Error
     
-    fileToPlay = "zzzz.wav"
+    If gblVolumeBoost = "1" Then
+        fileToPlay = "zzzz.wav"
+    Else
+        fileToPlay = "zzzz-quiet.wav"
+    End If
+    
     If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
         PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
     End If
@@ -3763,8 +3920,14 @@ Private Sub tmrTicking_Timer()
     
     tmrTicking.Enabled = False
     tmrTicking.Interval = 30000 ' 30 secs
+    
+    If gblVolumeBoost = "1" Then
+        fileToPlay = "ticktock.wav"
+    Else
+        fileToPlay = "ticktock-quiet.wav"
+    End If
         
-    fileToPlay = App.path & "\resources\sounds\" & "ticktock.wav"
+    fileToPlay = App.path & "\resources\sounds\" & fileToPlay
     If gblEnableSounds = "1" And fFExists(fileToPlay) Then
     
         lngReturn = mciSendString("Play " & fileToPlay, "", 0, 0)
