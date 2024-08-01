@@ -39,7 +39,7 @@ Private mTimeMachineToggleEnabled As Boolean
 Private mBackToggleEnabled As Boolean
 Private mClapperEnabled As Boolean
 Private mChainEnabled As Boolean
-Private mCrankedUP As Boolean
+Private mCrankedRaised As Boolean
 Private mTicking As Boolean
 Private mPendulumEnabled As Boolean
 Private mAlarmToggle1Enabled As Boolean
@@ -2565,7 +2565,7 @@ Private Sub crankdown_myMouseDown()
         PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
     End If
     
-    crankedUP = True
+    crankedRaised = True
 
     clockForm.Refresh
 
@@ -2596,7 +2596,7 @@ Private Sub crankup_myMouseDown()
         PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
     End If
     
-    crankedUP = False
+    crankedRaised = False
 
     clockForm.Refresh
 
@@ -2613,16 +2613,16 @@ End Sub
 
 
 '---------------------------------------------------------------------------------------
-' Property  : crankedUP
+' Property  : crankedRaised
 ' Author    : beededea
 ' Date      : 10/05/2023
 ' Purpose   :
 '---------------------------------------------------------------------------------------
 '
-Public Property Let crankedUP(ByVal newValue As Boolean)
+Public Property Let crankedRaised(ByVal newValue As Boolean)
     Dim alphaVal As Integer: alphaVal = 0
   
-    On Error GoTo crankedUPLet_Error
+    On Error GoTo crankedRaisedLet_Error
     
     alphaVal = Val(gblOpacity) / 100
     
@@ -2640,37 +2640,37 @@ Public Property Let crankedUP(ByVal newValue As Boolean)
        
     sPutINISetting "Software\SteampunkClockCalendar", "crankEnabled", gblCrankEnabled, gblSettingsFile
 
-    If mCrankedUP <> newValue Then mCrankedUP = newValue Else Exit Property
-    crankedUP = mCrankedUP
+    If mCrankedRaised <> newValue Then mCrankedRaised = newValue Else Exit Property
+    crankedRaised = mCrankedRaised
     
     clockForm.Refresh
      
    On Error GoTo 0
    Exit Property
 
-crankedUPLet_Error:
+crankedRaisedLet_Error:
 
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property crankedUP of Class Module cfClock"
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property crankedRaised of Class Module cfClock"
 End Property
 
 '---------------------------------------------------------------------------------------
-' Property  : crankedUP
+' Property  : crankedRaised
 ' Author    : beededea
 ' Date      : 17/05/2023
 ' Purpose   :
 '---------------------------------------------------------------------------------------
 '
-Public Property Get crankedUP() As Boolean
-   On Error GoTo crankedUPGet_Error
+Public Property Get crankedRaised() As Boolean
+   On Error GoTo crankedRaisedGet_Error
 
-    crankedUP = mCrankedUP
+    crankedRaised = mCrankedRaised
 
    On Error GoTo 0
    Exit Property
 
-crankedUPGet_Error:
+crankedRaisedGet_Error:
 
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property crankedUP of Class Module cfClock"
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property crankedRaised of Class Module cfClock"
 End Property
 
 
