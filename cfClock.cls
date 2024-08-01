@@ -1198,12 +1198,11 @@ Private Sub chain_myMouseDown()
     On Error GoTo chain_myMouseDown_Error
     
     If gblVolumeBoost = "1" Then
-        fileToPlay = "clunk.wav"
+        fileToPlay = "chainpull.wav"
     Else
-        fileToPlay = "clunk-quiet.wav"
+        fileToPlay = "chainpull-quiet.wav"
     End If
      
-    fileToPlay = "clunk.wav"
     If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
         PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME
     End If
@@ -3117,7 +3116,10 @@ Public Property Let muteToggleEnabled(ByVal newValue As Boolean)
     Else
         fileToPlay = "clunk-quiet.wav"
     End If
-     
+         
+    If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
+        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
+    End If
 
     If newValue = True Then
         mutetoggle.Move muteToggleIn, muteToggleTop
@@ -3125,16 +3127,24 @@ Public Property Let muteToggleEnabled(ByVal newValue As Boolean)
         ticking = False
         gblEnableSounds = "0"
         widgetPrefs.chkEnableSounds.Value = 0
+        
+        ' stop MCI from playing
+        If gblVolumeBoost = "1" Then
+            fileToPlay = "ticktock.wav"
+        Else
+            fileToPlay = "ticktock-quiet.wav"
+        End If
+        
+        fileToPlay = App.path & "\resources\sounds\" & fileToPlay
+        If fFExists(fileToPlay) Then
+            lngReturn = mciSendString("stop " & fileToPlay, "", 0, 0)
+        End If
     Else
         mutetoggle.Move muteToggleOut, muteToggleTop
         gblMuteToggleEnabled = "False"
         gblEnableSounds = "1"
         If ticking = True Then ticking = True
         widgetPrefs.chkEnableSounds.Value = 1
-    End If
-    
-    If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
-        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
     End If
     
     sPutINISetting "Software\SteampunkClockCalendar", "muteToggleEnabled", gblMuteToggleEnabled, gblSettingsFile
@@ -3973,7 +3983,13 @@ Public Property Let ticking(ByVal newValue As Boolean)
         tmrTicking.Enabled = False
         
         ' stop MCI from playing
-        fileToPlay = App.path & "\resources\sounds\" & "ticktock.wav"
+        If gblVolumeBoost = "1" Then
+            fileToPlay = "ticktock.wav"
+        Else
+            fileToPlay = "ticktock-quiet.wav"
+        End If
+        
+        fileToPlay = App.path & "\resources\sounds\" & fileToPlay
         If fFExists(fileToPlay) Then
             lngReturn = mciSendString("stop " & fileToPlay, "", 0, 0)
         End If
