@@ -125,7 +125,6 @@ Private sldX As Double
 Private mTimeShiftPercent As Currency
 Private helpMoved As Boolean
 Private muteInitiatingControl As String
-Private pendulumInitiatingControl As String
 Private alarmInitiatingControl As String
 Private slidersetMousedown As Boolean
 
@@ -635,8 +634,8 @@ Private Sub clockForm_BubblingEvent(ByRef sender As Object, ByRef EventName As S
                 Call displayScreenToggle_myMouseDown
             Case "pendulumtoggle"
                 Call pendulumtoggle_myMouseDown
-            Case "pendulum"
-                Call pendulum_myMouseDown
+'            Case "pendulum"
+'                Call pendulum_myMouseDown
             Case "mutetoggle"
                 Call mutetoggle_myMouseDown
             Case "settoggle"
@@ -793,34 +792,34 @@ sliderset_myMouseDown_Error:
 
 End Sub
 
-'---------------------------------------------------------------------------------------
-' Procedure : pendulum_myMouseDown
-' Author    : beededea
-' Date      : 03/08/2023
-' Purpose   :  - note: - can't use a std MouseDown as
-'             declaring a widget as cWidgetBase 'WithEvents' does not provide a std MouseDown with a sender object
-'---------------------------------------------------------------------------------------
+''---------------------------------------------------------------------------------------
+'' Procedure : pendulum_myMouseDown
+'' Author    : beededea
+'' Date      : 03/08/2023
+'' Purpose   :  - note: - can't use a std MouseDown as
+''             declaring a widget as cWidgetBase 'WithEvents' does not provide a std MouseDown with a sender object
+''---------------------------------------------------------------------------------------
+''
+'Private Sub pendulum_myMouseDown()
 '
-Private Sub pendulum_myMouseDown()
-    
-    On Error GoTo pendulum_myMouseDown_Error
-    
-    pendulumInitiatingControl = "pendulum"
-
-    If pendulumEnabled = True Then
-        pendulumEnabled = False
-    Else
-        pendulumEnabled = True
-    End If
-    
-   On Error GoTo 0
-   Exit Sub
-
-pendulum_myMouseDown_Error:
-
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure pendulum_myMouseDown of Class Module cfClock"
-
-End Sub
+'    On Error GoTo pendulum_myMouseDown_Error
+'
+'    pendulumInitiatingControl = "pendulum"
+'
+'    If pendulumEnabled = True Then
+'        pendulumEnabled = False
+'    Else
+'        pendulumEnabled = True
+'    End If
+'
+'   On Error GoTo 0
+'   Exit Sub
+'
+'pendulum_myMouseDown_Error:
+'
+'    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure pendulum_myMouseDown of Class Module cfClock"
+'
+'End Sub
 
 
 '---------------------------------------------------------------------------------------
@@ -1536,8 +1535,6 @@ Private Sub pendulumtoggle_myMouseDown()
 
     On Error GoTo pendulumtoggle_myMouseDown_Error
 
-    pendulumInitiatingControl = "pendulumToggle"
-
     If gblPendulumToggleEnabled = "False" Then
         pendulumToggleEnabled = True
     Else
@@ -1681,10 +1678,14 @@ Private Sub pendulumtransparent_myMouseDown()
         PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
     End If
 
-    If widgetPrefs.chkTogglePendulum.Value = 0 Then
-        widgetPrefs.chkTogglePendulum.Value = 1
+    If overlayWidget.SwingPendulum = False Then
+        fClock.pendulumToggleEnabled = True
+        overlayWidget.SwingPendulum = True
+        gblTogglePendulum = "1"
     Else
-        widgetPrefs.chkTogglePendulum.Value = 0
+        fClock.pendulumToggleEnabled = False
+        overlayWidget.SwingPendulum = False
+        gblTogglePendulum = "0"
     End If
 
    On Error GoTo 0
@@ -3207,12 +3208,14 @@ Public Property Let pendulumToggleEnabled(ByVal newValue As Boolean)
     
     If newValue = True Then
         pendulumtoggle.Move pendulumToggleIn, pendulumToggleTop
+        overlayWidget.SwingPendulum = True
         gblPendulumToggleEnabled = "True"
-        If pendulumInitiatingControl = "pendulumToggle" Then pendulumEnabled = True
+        widgetPrefs.chkTogglePendulum.Value = 1
     Else
         pendulumtoggle.Move pendulumToggleOut, pendulumToggleTop
+        overlayWidget.SwingPendulum = False
         gblPendulumToggleEnabled = "False"
-        If pendulumInitiatingControl = "pendulumToggle" Then pendulumEnabled = False
+        widgetPrefs.chkTogglePendulum.Value = 0
     End If
         
     If gblVolumeBoost = "1" Then
@@ -3262,39 +3265,39 @@ End Property
 
 
 
-'---------------------------------------------------------------------------------------
-' Property  : pendulumEnabled
-' Author    : beededea
-' Date      : 10/05/2023
-' Purpose   :
-'---------------------------------------------------------------------------------------
+''---------------------------------------------------------------------------------------
+'' Property  : pendulumEnabled
+'' Author    : beededea
+'' Date      : 10/05/2023
+'' Purpose   :
+''---------------------------------------------------------------------------------------
+''
+'Public Property Let pendulumEnabled(ByVal newValue As Boolean)
 '
-Public Property Let pendulumEnabled(ByVal newValue As Boolean)
-       
-    On Error GoTo pendulumEnabledLet_Error
-    
-    If newValue = True Then
-        gblPendulumEnabled = "True"
-        If pendulumInitiatingControl = "pendulum" Then pendulumToggleEnabled = False ' prevents recurring calls
-    Else
-        gblPendulumEnabled = "False"
-        If pendulumInitiatingControl = "pendulum" Then pendulumToggleEnabled = True
-    End If
-            
-    sPutINISetting "Software\SteampunkClockCalendar", "pendulumEnabled", gblPendulumEnabled, gblSettingsFile
-
-    If mPendulumEnabled <> newValue Then mPendulumEnabled = newValue Else Exit Property
-    pendulumEnabled = mPendulumEnabled
-
-    clockForm.Refresh
-      
-   On Error GoTo 0
-   Exit Property
-
-pendulumEnabledLet_Error:
-
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property pendulumEnabled of Class Module cfClock"
-End Property
+'    On Error GoTo pendulumEnabledLet_Error
+'
+'    If newValue = True Then
+'        gblPendulumEnabled = "True"
+'        If pendulumInitiatingControl = "pendulum" Then pendulumToggleEnabled = False ' prevents recurring calls
+'    Else
+'        gblPendulumEnabled = "False"
+'        If pendulumInitiatingControl = "pendulum" Then pendulumToggleEnabled = True
+'    End If
+'
+'    sPutINISetting "Software\SteampunkClockCalendar", "pendulumEnabled", gblPendulumEnabled, gblSettingsFile
+'
+'    If mPendulumEnabled <> newValue Then mPendulumEnabled = newValue Else Exit Property
+'    pendulumEnabled = mPendulumEnabled
+'
+'    clockForm.Refresh
+'
+'   On Error GoTo 0
+'   Exit Property
+'
+'pendulumEnabledLet_Error:
+'
+'    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property pendulumEnabled of Class Module cfClock"
+'End Property
 
 '---------------------------------------------------------------------------------------
 ' Property  : pendulumEnabled
@@ -3303,18 +3306,18 @@ End Property
 ' Purpose   :
 '---------------------------------------------------------------------------------------
 '
-Public Property Get pendulumEnabled() As Boolean
-   On Error GoTo pendulumGet_Error
-
-    pendulumEnabled = mPendulumEnabled
-
-   On Error GoTo 0
-   Exit Property
-
-pendulumGet_Error:
-
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property pendulumEnabled of Class Module cfClock"
-End Property
+'Public Property Get pendulumEnabled() As Boolean
+'   On Error GoTo pendulumGet_Error
+'
+'    pendulumEnabled = mPendulumEnabled
+'
+'   On Error GoTo 0
+'   Exit Property
+'
+'pendulumGet_Error:
+'
+'    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property pendulumEnabled of Class Module cfClock"
+'End Property
 
 
 '' ----------------------------------------------------------------
