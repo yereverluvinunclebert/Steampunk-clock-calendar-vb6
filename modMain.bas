@@ -812,6 +812,13 @@ Public Sub adjustMainControls()
         .Alpha = 0
         .Tag = 0.01
     End With
+
+    With fClock.clockForm.Widgets("weekdayshadow").Widget
+        .HoverColor = 0
+        .MousePointer = IDC_ARROW
+        .Alpha = 0
+        .Tag = 0.01
+    End With
 '
 '    With fClock.clockForm.Widgets("deletealarm").Widget
 '        .HoverColor = 0

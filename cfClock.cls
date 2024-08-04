@@ -106,6 +106,8 @@ Private WithEvents weekdayred As cWidgetBase
 Attribute weekdayred.VB_VarHelpID = -1
 Private WithEvents weekday As cWidgetBase
 Attribute weekday.VB_VarHelpID = -1
+Private WithEvents weekdayshadow As cWidgetBase
+Attribute weekdayshadow.VB_VarHelpID = -1
 Private WithEvents dropdown As cWidgetBase
 Attribute dropdown.VB_VarHelpID = -1
 Private WithEvents bellset As cWidgetBase
@@ -367,6 +369,7 @@ Public Sub InitFromPSD(ByRef PSD_FileNameOrByteArray As Variant)
     Set crankdown = clockForm.Widgets("crankdown").Widget
     Set weekdayred = clockForm.Widgets("weekdayred").Widget
     Set weekday = clockForm.Widgets("weekday").Widget
+    Set weekdayshadow = clockForm.Widgets("weekdayshadow").Widget
     Set dropdown = clockForm.Widgets("dropdown").Widget
     Set bellset = clockForm.Widgets("bellset").Widget
     Set helpdropdown = clockForm.Widgets("helpdropdown").Widget
@@ -405,6 +408,8 @@ Private Sub clockForm_BubblingEvent(ByRef sender As Object, ByRef EventName As S
     
     If EventName = "W_MouseMove" Then
         Select Case LCase$(sender.Widget.Key)
+            Case "topdigitalclock"
+                Call clearWeekdayTill
             Case "sliderset"
                 If gblEnableBalloonTooltips = "1" Then CreateToolTip clockForm.hwnd, "This is the Time Slider. Click and drag me left/right to alter time.", _
                      TTIconInfo, widgetName & " Locking pin Help", , , , True
@@ -440,16 +445,12 @@ Private Sub clockForm_BubblingEvent(ByRef sender As Object, ByRef EventName As S
                      TTIconInfo, widgetName & " Pendulum Help", , , , True
             Case "displayscreen"
                 If gblEnableBalloonTooltips = "1" Then CreateToolTip clockForm.hwnd, "To lower kinematoscope press S toggle.", _
-                     TTIconInfo, widgetName & " Kinematoscope Toggle Help", , , , True
-                 With clockForm.Widgets("redalarmcover").Widget
-                    .Alpha = 0
-                    .Refresh
-                 End With
-                 weekdayred.Alpha = 0
-                 weekdayred.Refresh
+                    TTIconInfo, widgetName & " Kinematoscope Toggle Help", , , , True
+                Call clearWeekdayTill
             Case "bellset"
                 If gblEnableBalloonTooltips = "1" Then CreateToolTip clockForm.hwnd, "Click here to set or edit an alarm.", _
                      TTIconInfo, widgetName & " Alarm Toggle Help", , , , True
+                Call clearWeekdayTill
             Case "clapperleft"
                 If gblEnableBalloonTooltips = "1" Then CreateToolTip clockForm.hwnd, "Mute the chimes.", _
                      TTIconInfo, widgetName & " Chime Mute Toggle Help", , , , True
@@ -1195,15 +1196,15 @@ Private Sub chain_myMouseDown()
     Else
         fileToPlay = "chainpull-quiet.wav"
     End If
-     
-    If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
-        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME
-    End If
 
     If gblChainEnabled = "False" Then
         chainEnabled = True
     Else
         chainEnabled = False
+    End If
+         
+    If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
+        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME
     End If
     
     clockForm.Refresh
@@ -1752,6 +1753,13 @@ End Sub
 ' Purpose   : make the elements that are displayed on startup seem to disappear (moved)
 '---------------------------------------------------------------------------------------
 '
+'---------------------------------------------------------------------------------------
+' Procedure : helpbottom_myMouseDown
+' Author    : beededea
+' Date      : 04/08/2024
+' Purpose   :
+'---------------------------------------------------------------------------------------
+'
 Private Sub helpbottom_myMouseDown()
 '    Dim helpbottomTop As Long: helpbottomTop = 0
 '    Dim helpbottomLeft As Long: helpbottomLeft = 0
@@ -1793,6 +1801,18 @@ Private Sub helpbottom_myMouseDown()
 helpbottom_mouseDown_Error:
 
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure helpbottom_mouseDown of Class Module cfClock"
+
+    On Error GoTo 0
+    Exit Sub
+
+helpbottom_myMouseDown_Error:
+
+    With Err
+         If .Number <> 0 Then
+            MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure helpbottom_myMouseDown of Class Module cfClock"
+            Resume Next
+          End If
+    End With
 
 End Sub
 
@@ -2854,13 +2874,14 @@ Public Property Let weekdayToggleEnabled(ByVal newValue As Boolean)
     If newValue = True Then
         weekdaytoggle.Move weekdayToggleIn, weekdayToggleTop
         clockForm.Widgets("weekday").Widget.Alpha = alphaVal
+        clockForm.Widgets("weekdayshadow").Widget.Alpha = alphaVal
         clockForm.Widgets(thisDayOfWeek).Widget.Alpha = alphaVal
         gblWeekdayToggleEnabled = "True"
     Else
         weekdaytoggle.Move weekdayToggleOut, weekdayToggleTop
         clockForm.Widgets("weekday").Widget.Alpha = 0
+        clockForm.Widgets("weekdayshadow").Widget.Alpha = 0
         clockForm.Widgets(thisDayOfWeek).Widget.Alpha = 0
-        'weekdayred.Alpha = 0 ' sometimes you can fool the mouseleave, this helps to recover the situation
         gblWeekdayToggleEnabled = "False"
     End If
     
@@ -4083,3 +4104,47 @@ tickingGet_Error:
 
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property ticking of Class Module cfClock"
 End Property
+
+
+'---------------------------------------------------------------------------------------
+' Procedure : clearWeekdayTill
+' Author    : beededea
+' Date      : 04/08/2024
+' Purpose   :
+'---------------------------------------------------------------------------------------
+'
+Private Sub clearWeekdayTill()
+    On Error GoTo clearWeekdayTill_Error
+
+    weekdayred.Alpha = 0 ' sometimes you can fool the mouseleave, this helps to recover the situation
+    weekdayred.Refresh
+     
+'    fClock.clockForm.Widgets("monday").Widget.Alpha = 0
+'    fClock.clockForm.Widgets("tuesday").Widget.Alpha = 0
+'    fClock.clockForm.Widgets("wednesday").Widget.Alpha = 0
+'    fClock.clockForm.Widgets("thursday").Widget.Alpha = 0
+'    fClock.clockForm.Widgets("friday").Widget.Alpha = 0
+'    fClock.clockForm.Widgets("saturday").Widget.Alpha = 0
+'    fClock.clockForm.Widgets("sunday").Widget.Alpha = 0
+    
+'    fClock.clockForm.Widgets("monday").Widget.Refresh
+'    fClock.clockForm.Widgets("tuesday").Widget.Refresh
+'    fClock.clockForm.Widgets("wednesday").Widget.Refresh
+'    fClock.clockForm.Widgets("thursday").Widget.Refresh
+'    fClock.clockForm.Widgets("friday").Widget.Refresh
+'    fClock.clockForm.Widgets("saturday").Widget.Refresh
+'    fClock.clockForm.Widgets("sunday").Widget.Refresh
+
+    On Error GoTo 0
+    Exit Sub
+
+clearWeekdayTill_Error:
+
+    With Err
+         If .Number <> 0 Then
+            MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure clearWeekdayTill of Class Module cfClock"
+            Resume Next
+          End If
+    End With
+
+End Sub
