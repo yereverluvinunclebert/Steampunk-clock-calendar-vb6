@@ -447,10 +447,17 @@ Private Sub clockForm_BubblingEvent(ByRef sender As Object, ByRef EventName As S
                 If gblEnableBalloonTooltips = "1" Then CreateToolTip clockForm.hwnd, "To lower kinematoscope press S toggle.", _
                     TTIconInfo, widgetName & " Kinematoscope Toggle Help", , , , True
                 Call clearWeekdayTill
+                With clockForm.Widgets("redalarmcover").Widget
+                    .Alpha = 0
+                    .Refresh
+                End With
             Case "bellset"
                 If gblEnableBalloonTooltips = "1" Then CreateToolTip clockForm.hwnd, "Click here to set or edit an alarm.", _
                      TTIconInfo, widgetName & " Alarm Toggle Help", , , , True
-                Call clearWeekdayTill
+                With clockForm.Widgets("redalarmcover").Widget
+                    .Alpha = 0
+                    .Refresh
+                End With
             Case "clapperleft"
                 If gblEnableBalloonTooltips = "1" Then CreateToolTip clockForm.hwnd, "Mute the chimes.", _
                      TTIconInfo, widgetName & " Chime Mute Toggle Help", , , , True
