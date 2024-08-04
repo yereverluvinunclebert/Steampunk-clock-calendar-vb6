@@ -585,16 +585,6 @@ Private Sub clockForm_BubblingEvent(ByRef sender As Object, ByRef EventName As S
         End Select
     End If
     
-        
-'    If EventName = "W_Click" Then
-'        Select Case LCase$(sender.Widget.Key)
-'        Case "sliderset"
-'            Call sliderset_myMouseDown
-'        Case Else
-'
-'        End Select
-'    End If
-    
     If EventName = "W_MouseDown" Then
         Select Case LCase$(sender.Widget.Key)
             Case "helpdropdown"
@@ -696,7 +686,10 @@ Private Sub clockForm_BubblingEvent(ByRef sender As Object, ByRef EventName As S
 '                End If
                 
                overlayWidget.Locked = False
-                If SliderFreed = True Then fClock.timeShiftPercent = 0.5
+                If SliderFreed = True Then
+                    fClock.timeShiftPercent = 0.5
+                    overlayWidget.tmrTimeShift.Enabled = False
+                End If
 
                 tmrZZZZ.Enabled = True
             Case "sliderset"
@@ -2090,17 +2083,24 @@ End Sub
 ' Author: beededea
 ' Date: 26/05/2024
 ' ----------------------------------------------------------------
-Private Sub sliderset_Moving() 'this is an explcit Event-Handler on the single Widget-instance (derived in the routine above)
+Private Sub sliderset_Moving() ' this is an explicit Event-Handler derived from the RC Widget-instance with the property .moveable = true
    
     On Error GoTo sliderset_Moving_Error
          
-     sldX = sliderset.Left
-     If sldX < sldXMin Then sldX = sldXMin Else If sldX > sldXMax Then sldX = sldXMax 'keep sldX "in range"
+    sldX = sliderset.Left
+    If sldX < sldXMin Then sldX = sldXMin Else If sldX > sldXMax Then sldX = sldXMax 'keep sldX "in range"
+    
+    If tmrZZZZ.Enabled = False And slidersetMousedown = True Then tmrZZZZ.Enabled = True
+    
+    timeShiftPercent = (sldX - sldXMin) / (sldXMax - sldXMin) 'assign the new Value to the Public Prop, to trigger all the necessary refreshs
+    
+    ' if the slider is enabled and the timeShiftPercent <> 0.5 then start the timer that shifts the digital clocks forwards or backwards
+    If SliderFreed = True And timeShiftPercent <> 0.5 Then
+        overlayWidget.tmrTimeShift.Enabled = True
+    Else
+        overlayWidget.tmrTimeShift.Enabled = False
+    End If
      
-     If tmrZZZZ.Enabled = False And slidersetMousedown = True Then tmrZZZZ.Enabled = True
-    
-     timeShiftPercent = (sldX - sldXMin) / (sldXMax - sldXMin) 'assign the new Value to the Public Prop, to trigger all the necessary refreshs
-    
     On Error GoTo 0
     Exit Sub
 

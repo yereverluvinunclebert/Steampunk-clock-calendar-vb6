@@ -37,6 +37,9 @@ Private WithEvents tmrClock As cTimer
 Attribute tmrClock.VB_VarHelpID = -1
 Private WithEvents tmrPendulum As cTimer
 Attribute tmrPendulum.VB_VarHelpID = -1
+Public WithEvents tmrTimeShift As cTimer
+Attribute tmrTimeShift.VB_VarHelpID = -1
+
 
 Private WithEvents W As cWidgetBase
 Attribute W.VB_VarHelpID = -1
@@ -87,9 +90,14 @@ Private Sub Class_Initialize()
     tmrClock.Enabled = True
     
     Set tmrPendulum = Nothing
-    Set tmrPendulum = New_c.Timer(70, True)
+    Set tmrPendulum = New_c.Timer(70, False)
     
-    tmrPendulum.Enabled = True
+    tmrPendulum.Enabled = False
+    
+    Set tmrTimeShift = Nothing
+    Set tmrTimeShift = New_c.Timer(100, False)
+    
+    tmrTimeShift.Enabled = False
    
    On Error GoTo 0
    Exit Sub
@@ -983,8 +991,28 @@ Private Sub displayDigitalYear(ByRef CC As cCairoContext, Optional ByVal alarmYe
             CC.RenderSurfaceContent "num9large", 567, 312, , , , 1
     End Select
 End Sub
+
+' ----------------------------------------------------------------
+' Procedure Name: tmrTimeShift_Timer
+' Purpose:  timer controlling the pendulum only,
+' Procedure Kind: Sub
+' Procedure Access: Private
+' Author: beededea
+' Date: 21/06/2024
+' ----------------------------------------------------------------
+Private Sub tmrTimeShift_Timer()
     
+    On Error GoTo tmrTimeShift_Timer_Error
+
+    W.Parent.Refresh ' causes a paint event to fire
     
+   On Error GoTo 0
+   Exit Sub
+
+tmrTimeShift_Timer_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure tmrTimeShift_Timer of Class Module cwOverlay"
+End Sub
 ' ----------------------------------------------------------------
 ' Procedure Name: tmrPendulum_Timer
 ' Purpose:  timer controlling the pendulum only,

@@ -870,9 +870,6 @@ Public Sub adjustMainControls()
 
     ' set the slider position to the start point
     fClock.timeShiftPercent = 0
-
-    ' refresh the form in order to show the above changes immediately
-    fClock.clockForm.Refresh
     
     ' set the position of the various UI toggles at startup
     If gblsetToggleEnabled = "True" Then
@@ -966,6 +963,9 @@ Public Sub adjustMainControls()
 
     If minutesToHide > 0 Then menuForm.mnuHideWidget.Caption = "Hide Widget for " & minutesToHide & " min."
     
+    ' refresh the form in order to show the above changes immediately
+    fClock.clockForm.Refresh
+
    On Error GoTo 0
    Exit Sub
 
