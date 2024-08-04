@@ -40,11 +40,17 @@ quiet/loud sounds
 
 ' -oOo-
 
+' TASK: create an image array/list and populate that with the date/time images that need to be displayed,
+' always display the contents of that list on each paint event.
+' de-couple the routines that populate the digital clocks so we can run those on a separate timer
+' so that code does not run on each and every PAINT event consuming CPU.
+
 fix the slider cable
 
 click on alarm till deletes alarm with confirmation pop-up - wip
 
-slider advancing/retarding time
+slider advancing/retarding time using timeShiftPercent modified not quite exponentially to shift time - wip
+' in the timer, take the value of timeShiftPercent and do what to it?
 
 digital counter animation from zero
 

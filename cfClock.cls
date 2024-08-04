@@ -3478,6 +3478,9 @@ Public Property Let alarmtoggle1Enabled(ByVal newValue As Boolean)
     
     alphaVal = Val(gblOpacity) / 100
  
+    ' NOTE: the code for displaying the alarm value when alarmtoggle1Enabled = true, is contained within the
+    '       subroutine drawDigitalClocks, this checks the current state if the alarm toggle and shows the alarm.
+    
     If newValue = True Then
         gblAlarmToggle1Enabled = "True"
         alarmtoggle1.Move alarmtoggle1Out, alarmtoggle1Top
@@ -3560,6 +3563,9 @@ Public Property Let alarmtoggle2Enabled(ByVal newValue As Boolean)
         
     alphaVal = Val(gblOpacity) / 100
  
+    ' NOTE: the code for displaying the alarm value when alarmtoggle1Enabled = true, is contained within the
+    '       subroutine drawDigitalClocks, this checks the current state if the alarm toggle and shows the alarm.
+    
     If newValue = True Then
         gblAlarmToggle2Enabled = "True"
         alarmtoggle2.Move alarmtoggle2Out, alarmtoggle2Top
@@ -3645,6 +3651,9 @@ Public Property Let alarmtoggle3Enabled(ByVal newValue As Boolean)
     
     alphaVal = Val(gblOpacity) / 100
  
+    ' NOTE: the code for displaying the alarm value when alarmtoggle1Enabled = true, is contained within the
+    '       subroutine drawDigitalClocks, this checks the current state if the alarm toggle and shows the alarm.
+    
     If newValue = True Then
         gblAlarmToggle3Enabled = "True"
         alarmtoggle3.Move alarmtoggle3Out, alarmtoggle3Top
@@ -3725,6 +3734,9 @@ Public Property Let alarmtoggle4Enabled(ByVal newValue As Boolean)
     
     alphaVal = Val(gblOpacity) / 100
  
+    ' NOTE: the code for displaying the alarm value when alarmtoggle1Enabled = true, is contained within the
+    '       subroutine drawDigitalClocks, this checks the current state if the alarm toggle and shows the alarm.
+    
     If newValue = True Then
         gblAlarmToggle4Enabled = "True"
         alarmtoggle4.Move alarmtoggle4Out, alarmtoggle4Top
@@ -3807,6 +3819,9 @@ Public Property Let alarmtoggle5Enabled(ByVal newValue As Boolean)
         
     alphaVal = Val(gblOpacity) / 100
  
+    ' NOTE: the code for displaying the alarm value when alarmtoggle1Enabled = true, is contained within the
+    '       subroutine drawDigitalClocks, this checks the current state if the alarm toggle and shows the alarm.
+    
     If newValue = True Then
         gblAlarmToggle5Enabled = "True"
         alarmtoggle5.Move alarmtoggle5Out, alarmtoggle5Top
@@ -3891,9 +3906,6 @@ fDayOfWeek_Error:
 
 End Sub
 
-
-
-
 ' ----------------------------------------------------------------
 ' Procedure Name: tmrTILL_Timer
 ' Purpose:
@@ -3962,9 +3974,6 @@ tmrZZZZ_Timer_Error:
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure tmrZZZZ_Timer of Class Module cfClock"
 End Sub
 
-
-
-
 ' ----------------------------------------------------------------
 ' Procedure Name: tmrTicking_Timer
 ' Purpose:
@@ -4004,10 +4013,6 @@ tmrTicking_Timer_Error:
 
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure tmrTicking_Timer of Class Module cfClock"
 End Sub
-
-
-
-
 
 
 '---------------------------------------------------------------------------------------

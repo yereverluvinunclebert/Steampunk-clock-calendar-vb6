@@ -429,8 +429,13 @@ Private Sub W_Paint(CC As RC6.cCairoContext, ByVal xAbs As Single, ByVal yAbs As
             CC.Restore
       End If
      Next
+
+' TASK: create an image array/list and populate that with the images that need to be displayed,
+' always display the contents of that list each paint
+' de-couple the routines that populate the digital clocks so we can run those on a separate timer
+' so they do not occure on each and every PAINT event consuming CPU.
      
-    Call drawDigitalClocks(CC)
+     Call drawDigitalClocks(CC)
     
     If mTimeMachine = True Then Call drawTimeMachineImages(CC)
 
@@ -465,7 +470,7 @@ End Sub
 '---------------------------------------------------------------------------------------
 '
 Private Sub drawAMPMDigitalDay(ByRef CC As cCairoContext, Optional ByVal alarmHour As String)
-    
+    ' no error handling code - for speed
     Dim localHour As Integer: localHour = 0
     
     If alarmHour <> vbNullString Then
@@ -500,11 +505,11 @@ Private Sub drawDigitalClocks(ByRef CC As cCairoContext)
     If fClock.alarmtoggle1Enabled = True Then
         ' read the date and time variables for alarm 1
         If gblAlarm1Date = "Alarm not yet set" Then
-            theDay = vbNullString
-            theMonth = vbNullString
-            theYear = vbNullString
-            theHours = vbNullString
-            theMins = vbNullString
+            theDay = "01"
+            theMonth = "01"
+            theYear = "1970"
+            theHours = "00"
+            theMins = "00"
         Else
             theDay = Left$(gblAlarm1Date, 2)
             theMonth = Mid$(gblAlarm1Date, 4, 2)
@@ -517,11 +522,11 @@ Private Sub drawDigitalClocks(ByRef CC As cCairoContext)
     If fClock.alarmtoggle2Enabled = True Then
         ' read the date and time variables for alarm 2
         If gblAlarm2Date = "Alarm not yet set" Then
-            theDay = vbNullString
-            theMonth = vbNullString
-            theYear = vbNullString
-            theHours = vbNullString
-            theMins = vbNullString
+            theDay = "01"
+            theMonth = "01"
+            theYear = "1970"
+            theHours = "00"
+            theMins = "00"
         Else
             theDay = Left$(gblAlarm2Date, 2)
             theMonth = Mid$(gblAlarm2Date, 4, 2)
@@ -534,11 +539,11 @@ Private Sub drawDigitalClocks(ByRef CC As cCairoContext)
     If fClock.alarmtoggle3Enabled = True Then
         ' read the date and time variables for alarm 3
         If gblAlarm3Date = "Alarm not yet set" Then
-            theDay = vbNullString
-            theMonth = vbNullString
-            theYear = vbNullString
-            theHours = vbNullString
-            theMins = vbNullString
+            theDay = "01"
+            theMonth = "01"
+            theYear = "1970"
+            theHours = "00"
+            theMins = "00"
         Else
             theDay = Left$(gblAlarm3Date, 2)
             theMonth = Mid$(gblAlarm3Date, 4, 2)
@@ -551,11 +556,11 @@ Private Sub drawDigitalClocks(ByRef CC As cCairoContext)
     If fClock.alarmtoggle4Enabled = True Then
         ' read the date and time variables for alarm 4
         If gblAlarm4Date = "Alarm not yet set" Then
-            theDay = vbNullString
-            theMonth = vbNullString
-            theYear = vbNullString
-            theHours = vbNullString
-            theMins = vbNullString
+            theDay = "01"
+            theMonth = "01"
+            theYear = "1970"
+            theHours = "00"
+            theMins = "00"
         Else
             theDay = Left$(gblAlarm4Date, 2)
             theMonth = Mid$(gblAlarm4Date, 4, 2)
@@ -567,11 +572,11 @@ Private Sub drawDigitalClocks(ByRef CC As cCairoContext)
     
     If fClock.alarmtoggle5Enabled = True Then
          If gblAlarm4Date = "Alarm not yet set" Then
-            theDay = vbNullString
-            theMonth = vbNullString
-            theYear = vbNullString
-            theHours = vbNullString
-            theMins = vbNullString
+            theDay = "01"
+            theMonth = "01"
+            theYear = "1970"
+            theHours = "00"
+            theMins = "00"
         Else       ' read the date and time variables for alarm 5
             theDay = Left$(gblAlarm5Date, 2)
             theMonth = Mid$(gblAlarm5Date, 4, 2)
