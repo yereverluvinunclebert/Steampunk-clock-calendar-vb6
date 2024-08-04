@@ -36,12 +36,11 @@ have separate solid red till backgrounds for transparent text overlays as per th
 alarm 1 toggle popping up when background help disabled
 pendulum - convert the original js.
 add pendulum toggle control to the prefs
+quiet/loud sounds
 
 ' -oOo-
 
 fix the slider cable
-
-quiet/loud sounds
 
 click on alarm till deletes alarm with confirmation pop-up - wip
 

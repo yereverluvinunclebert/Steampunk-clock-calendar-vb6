@@ -42,6 +42,7 @@ Private mChainEnabled As Boolean
 Private mCrankedRaised As Boolean
 Private mTicking As Boolean
 Private mPendulumEnabled As Boolean
+Private mAlarmtoggleEnabled As Boolean
 Private mAlarmToggle1Enabled As Boolean
 Private mAlarmToggle2Enabled As Boolean
 Private mAlarmToggle3Enabled As Boolean
@@ -1279,19 +1280,8 @@ End Sub
 Private Sub alarmtoggle_myMouseDown()
 
     Dim fileToPlay As String: fileToPlay = vbNullString
-    Dim alarmtoggleTop As Long: alarmtoggleTop = 0
-    Dim alarmtoggleLeft As Long: alarmtoggleLeft = 0
-    
-    Static alarmtoggleEnabled As Boolean ' not using a property for this as it is not a stored value for restart
-    
-    Dim alarmToggleIn As Long: alarmToggleIn = 0
-    Dim alarmToggleOut As Long: alarmToggleOut = 0
     
     On Error GoTo alarmtoggle_myMouseDown_Error
-    
-    alarmtoggleTop = alarmtoggle.Top
-    alarmToggleOut = 359
-    alarmToggleIn = 363
     
     slidersetMousedown = False
 
@@ -1304,51 +1294,14 @@ Private Sub alarmtoggle_myMouseDown()
     If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
         PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME
     End If
-    
+        
     If alarmtoggleEnabled = False Then
-        alarmtoggle.Move alarmToggleIn, alarmtoggleTop
         alarmtoggleEnabled = True
-        SliderFreed = True
-        
-        tmrZZZZ.Enabled = True ' does a little buzz after 1/10th of a second, not cutting off the preceding 'clunk' prematurely
-        
-        ' set the slider position to the start point
-        fClock.timeShiftPercent = 0.5
-        
-        ' if an alarm is not selected then choose the first available alarm
-        '     raise the alarm till and alarm toggle
-        ' if an alarm is already raised then we edit that
-
-        If alarmtoggle1Enabled = False _
-            And alarmtoggle2Enabled = False _
-            And alarmtoggle3Enabled = False _
-            And alarmtoggle4Enabled = False _
-            And alarmtoggle5Enabled = False Then
-                If gblAlarm1Date = "Alarm not yet set" Then
-                    alarmtoggle1Enabled = True
-                ElseIf gblAlarm2Date = "Alarm not yet set" Then
-                    alarmtoggle2Enabled = True
-                ElseIf gblAlarm3Date = "Alarm not yet set" Then
-                    alarmtoggle3Enabled = True
-                ElseIf gblAlarm4Date = "Alarm not yet set" Then
-                    alarmtoggle4Enabled = True
-                ElseIf gblAlarm5Date = "Alarm not yet set" Then
-                    alarmtoggle5Enabled = True
-                Else
-                    alarmtoggle1Enabled = True
-                End If
-        End If
-        
-        tmrTILL.Enabled = True ' does a little buzz after 9/10th of a second, not cutting off the preceding 'zzzz' prematurely
-        
     Else
-        alarmtoggle.Move alarmToggleOut, alarmtoggleTop
-        
         alarmtoggleEnabled = False
-        SliderFreed = False
-        fClock.timeShiftPercent = 0
-        
     End If
+
+
     clockForm.Refresh
 
    On Error GoTo 0
@@ -2957,6 +2910,101 @@ weekdayToggleEnabledGet_Error:
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property weekdayToggleEnabled of Class Module cfClock"
 End Property
 
+
+'---------------------------------------------------------------------------------------
+' Property  : alarmtoggleEnabled
+' Author    : beededea
+' Date      : 10/05/2023
+' Purpose   :
+'---------------------------------------------------------------------------------------
+'
+Public Property Let alarmtoggleEnabled(ByVal newValue As Boolean)
+   
+    Dim alarmtoggleTop As Long: alarmtoggleTop = 0
+    Dim alarmtoggleLeft As Long: alarmtoggleLeft = 0
+    Dim alarmToggleIn As Long: alarmToggleIn = 0
+    Dim alarmToggleOut As Long: alarmToggleOut = 0
+    Dim fileToPlay As String: fileToPlay = vbNullString
+    
+    On Error GoTo alarmtoggleEnabledLet_Error
+    
+    alarmtoggleTop = alarmtoggle.Top
+    alarmToggleOut = 359
+    alarmToggleIn = 363
+    
+    If alarmtoggleEnabled = True Then
+        
+        alarmtoggle.Move alarmToggleIn, alarmtoggleTop
+        SliderFreed = True
+        
+        tmrZZZZ.Enabled = True ' does a little buzz after 1/10th of a second, not cutting off the preceding 'clunk' prematurely
+        
+        ' set the slider position to the start point
+        fClock.timeShiftPercent = 0.5
+        
+        ' if an alarm is not selected then choose the first available alarm
+        '     raise the alarm till and alarm toggle
+        ' if an alarm is already raised then we edit that
+
+        If alarmtoggle1Enabled = False _
+            And alarmtoggle2Enabled = False _
+            And alarmtoggle3Enabled = False _
+            And alarmtoggle4Enabled = False _
+            And alarmtoggle5Enabled = False Then
+                If gblAlarm1Date = "Alarm not yet set" Then
+                    alarmtoggle1Enabled = True
+                ElseIf gblAlarm2Date = "Alarm not yet set" Then
+                    alarmtoggle2Enabled = True
+                ElseIf gblAlarm3Date = "Alarm not yet set" Then
+                    alarmtoggle3Enabled = True
+                ElseIf gblAlarm4Date = "Alarm not yet set" Then
+                    alarmtoggle4Enabled = True
+                ElseIf gblAlarm5Date = "Alarm not yet set" Then
+                    alarmtoggle5Enabled = True
+                Else
+                    alarmtoggle1Enabled = True
+                End If
+        End If
+        
+        tmrTILL.Enabled = True ' does a little buzz after 9/10th of a second, not cutting off the preceding 'zzzz' prematurely
+    Else
+        alarmtoggle.Move alarmToggleOut, alarmtoggleTop
+        SliderFreed = False
+        fClock.timeShiftPercent = 0
+    End If
+        
+    If mAlarmtoggleEnabled <> newValue Then mAlarmtoggleEnabled = newValue Else Exit Property
+    alarmtoggleEnabled = mAlarmtoggleEnabled
+    
+    clockForm.Refresh
+      
+   On Error GoTo 0
+   Exit Property
+
+alarmtoggleEnabledLet_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property alarmtoggleEnabled of Class Module cfClock"
+End Property
+
+'---------------------------------------------------------------------------------------
+' Property  : alarmtoggleEnabled
+' Author    : beededea
+' Date      : 17/05/2023
+' Purpose   :
+'---------------------------------------------------------------------------------------
+'
+Public Property Get alarmtoggleEnabled() As Boolean
+   On Error GoTo alarmtoggleEnabledGet_Error
+
+    alarmtoggleEnabled = mAlarmtoggleEnabled
+
+   On Error GoTo 0
+   Exit Property
+
+alarmtoggleEnabledGet_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property alarmtoggleEnabled of Class Module cfClock"
+End Property
 
 '---------------------------------------------------------------------------------------
 ' Property  : timeMachineToggleEnabled

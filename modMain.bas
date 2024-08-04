@@ -929,6 +929,7 @@ Public Sub adjustMainControls()
      
     fClock.clapperEnabled = CBool(gblClapperEnabled)
     
+    fClock.alarmtoggleEnabled = False
 
     If gblCrankEnabled = "True" Then
         fClock.crankedRaised = True
