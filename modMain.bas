@@ -78,9 +78,9 @@ Public Sub mainRoutine(ByVal restart As Boolean)
     
     widgetName = "Steampunk Clock Calendar"
     thisPSDFullPath = App.path & "\Res\Steampunk Clock Calendar.psd"
-    fClock.FX = 222 'init position- and zoom-values (directly set on Public-Props of the Form-hosting Class)
-    fClock.FY = 111
-    fClock.FZ = 0.4
+'    fClock.FX = 222 'init position- and zoom-values (directly set on Public-Props of the Form-hosting Class)
+'    fClock.FY = 111
+'    fClock.FZ = 0.4
     
     prefsCurrentWidth = 9075
     prefsCurrentHeight = 16450
@@ -1356,7 +1356,7 @@ Private Sub configureTimers()
     
     oldgblSettingsModificationTime = FileDateTime(gblSettingsFile)
 
-    frmTimer.rotationTimer.Enabled = True
+    frmTimer.ScreenResolutionTimer.Enabled = True
     frmTimer.settingsTimer.Enabled = True
 
     On Error GoTo 0

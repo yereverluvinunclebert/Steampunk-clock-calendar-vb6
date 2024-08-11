@@ -18,7 +18,7 @@ Begin VB.Form frmTimer
       Tag             =   "settingsTimer for reading external changes to prefs"
       Top             =   1095
    End
-   Begin VB.Timer rotationTimer 
+   Begin VB.Timer ScreenResolutionTimer 
       Enabled         =   0   'False
       Interval        =   4500
       Left            =   90
@@ -47,9 +47,9 @@ Begin VB.Form frmTimer
       Width           =   3645
    End
    Begin VB.Label Label1 
-      Caption         =   "rotationTimer for handling rotation of the screen"
+      Caption         =   "ScreenResolutionTimer for handling rotation of the screen"
       Height          =   195
-      Left            =   690
+      Left            =   705
       TabIndex        =   1
       Top             =   735
       Width           =   3570
@@ -117,14 +117,18 @@ End Sub
 
 
 '---------------------------------------------------------------------------------------
-' Procedure : rotationTimer_Timer
+' Procedure : screenResolutionTimer_Timer
 ' Author    : beededea
 ' Date      : 05/05/2023
-' Purpose   : for handling rotation of the screen in tablet mode
+' Purpose   : for handling rotation of the screen in tablet mode or a resolution change
+'             possibly due to an old game in full screen mode.
 '---------------------------------------------------------------------------------------
 '
-Private Sub rotationTimer_Timer()
-    On Error GoTo rotationTimer_Timer_Error
+Private Sub screenResolutionTimer_Timer()
+
+    'Dim resizeProportion As Single: resizeProportion = 0
+    
+    On Error GoTo screenResolutionTimer_Timer_Error
 
     screenHeightPixels = GetDeviceCaps(menuForm.hdc, VERTRES) ' we use the name of any form currently loaded
     screenWidthPixels = GetDeviceCaps(menuForm.hdc, HORZRES)
@@ -132,22 +136,30 @@ Private Sub rotationTimer_Timer()
     ' will be used to check for orientation changes
     If (oldScreenHeightPixels <> screenHeightPixels) Or (oldScreenWidthPixels <> screenWidthPixels) Then
         
-        ' move/hide onto/from the main screen
+        ' move/hide onto/from the main screen and position per orientation portrait/landscape
         Call mainScreen
+        
+        ' now calculate the size
+        
+        'resizeProportion = oldScreenHeightPixels / screenHeightPixels
+        
+        ' screenHeightPixels
         
         'store the resolution change
         oldScreenHeightPixels = screenHeightPixels
         oldScreenWidthPixels = screenWidthPixels
     End If
+    
+
 
     On Error GoTo 0
     Exit Sub
 
-rotationTimer_Timer_Error:
+screenResolutionTimer_Timer_Error:
 
     With Err
          If .Number <> 0 Then
-            MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure rotationTimer_Timer of Form frmTimer"
+            MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure screenResolutionTimer_Timer of Form frmTimer"
             Resume Next
           End If
     End With

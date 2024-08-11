@@ -45,6 +45,8 @@ quiet/loud sounds
 ' de-couple the routines that populate the digital clocks so we can run those on a separate timer
 ' so that code does not run on each and every PAINT event consuming CPU.
 
+' weekday till refresh at midnight
+
 fix the slider cable
 
 click on alarm till deletes alarm with confirmation pop-up - wip
