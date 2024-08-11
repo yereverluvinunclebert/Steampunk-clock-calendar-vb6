@@ -126,7 +126,7 @@ End Sub
 '
 Private Sub screenResolutionTimer_Timer()
 
-    'Dim resizeProportion As Single: resizeProportion = 0
+    Dim resizeProportion As Single: resizeProportion = 0
     
     On Error GoTo screenResolutionTimer_Timer_Error
 
@@ -139,11 +139,11 @@ Private Sub screenResolutionTimer_Timer()
         ' move/hide onto/from the main screen and position per orientation portrait/landscape
         Call mainScreen
         
-        ' now calculate the size
+        'screenHeightPixels = 700 ' debug
         
-        'resizeProportion = oldScreenHeightPixels / screenHeightPixels
-        
-        ' screenHeightPixels
+        ' now calculate the size of the widget according to the screen height.
+        resizeProportion = screenHeightPixels / oldScreenHeightPixels
+        Call fClock.AdjustZoom(resizeProportion)
         
         'store the resolution change
         oldScreenHeightPixels = screenHeightPixels
