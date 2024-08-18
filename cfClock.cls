@@ -1969,10 +1969,36 @@ End Sub
 '---------------------------------------------------------------------------------------
 '
 Private Sub clockForm_MouseUp(ByRef Button As Integer, ByRef Shift As Integer, ByRef x As Single, ByRef y As Single)
-    On Error GoTo clockForm_MouseUp_Error
-    
-    Call savePosition
 
+    Dim monitorStruct As UDTMonitor
+
+    On Error GoTo clockForm_MouseUp_Error
+     
+'    Dim monitorCount As Integer: monitorCount = 0
+'    Dim useloop As Integer: useloop = 0
+    
+    'monitorCount = fGetMonitorCount
+
+    'ReDim monitorStruct(monitorCount)
+    Dim a As Boolean
+
+    ' for each monitor, create a monitor structure with a UDT, top, left, &c, &c
+    
+    ' check the current monitor properties
+'    For useloop = 1 To monitorCount
+'        monitorStruct(useloop) = formScreenProperties(fClock.clockForm)
+'    Next useloop
+'
+    ' if there is more than one screen return the form's current monitor properties
+    If monitorCount > 1 Then
+        monitorStruct = formScreenProperties(fClock.clockForm)
+        a = monitorStruct.Width
+        a = monitorStruct.Height
+        
+    End If
+
+    Call savePosition
+    
     On Error GoTo 0
     Exit Sub
 

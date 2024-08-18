@@ -420,8 +420,13 @@ Public windowsVer As String
 ' vars to obtain correct screen width (to correct VB6 bug)
 Public screenWidthTwips As Long
 Public screenHeightTwips As Long
+
 Public screenHeightPixels As Long
 Public screenWidthPixels As Long
+
+Public virtualScreenHeightPixels As Long
+Public virtualScreenWidthPixels As Long
+
 Public oldScreenHeightPixels As Long
 Public oldScreenWidthPixels As Long
 
@@ -470,6 +475,8 @@ Private mbDebugMode As Boolean ' .30 DAEB 03/03/2021 frmMain.frm replaced the in
 Public startupFlg As Boolean
 
 Public msgBoxADynamicSizingFlg As Boolean
+
+Public monitorCount As Long
 
 
 
@@ -526,163 +533,7 @@ fDirExists_Error:
 
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure fDirExists of Module Module1"
 End Function
-''---------------------------------------------------------------------------------------
-'' Procedure : fFExists
-'' Author    : beededea
-'' Date      : 17/10/2019
-'' Purpose   :
-''---------------------------------------------------------------------------------------
-''
-'Public Function fFExists(ByRef OrigFile As String) As Boolean
-'    Dim FS As Object
-'    On Error GoTo fFExists_Error
-'   'If debugflg = 1  Then Debug.Print "%fFExists"
-'
-'    Set FS = CreateObject("Scripting.FileSystemObject")
-'    fFExists = FS.FileExists(OrigFile)
-'
-'   On Error GoTo 0
-'   Exit Function
-'
-'fFExists_Error:
-'
-'    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure fFExists of module module1"
-'End Function
 
-
-'---------------------------------------------------------------------------------------
-' Procedure : fDirExists
-' Author    : beededea
-' Date      : 17/10/2019
-' Purpose   :
-'---------------------------------------------------------------------------------------
-'
-'Public Function fDirExists(ByRef OrigFile As String) As Boolean
-'    Dim FS As Object
-'    On Error GoTo fDirExists_Error
-'   '''If debugflg = 1  Then msgBox "%fDirExists"
-'
-'    Set FS = CreateObject("Scripting.FileSystemObject")
-'    fDirExists = FS.FolderExists(OrigFile)
-'
-'   On Error GoTo 0
-'   Exit Function
-'
-'fDirExists_Error:
-'
-'    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure fDirExists of module module1"
-'End Function
-
-
-
-
-'---------------------------------------------------------------------------------------
-' Procedure : fExtractSuffix
-' Author    : beededea
-' Date      : 20/06/2019
-' Purpose   : extract the suffix from a filename
-'---------------------------------------------------------------------------------------
-'
-'Public Function fExtractSuffix(ByVal strPath As String) As String
-'
-'
-'    Dim stringBits() As String ' string array
-'    Dim upperBit As Integer: upperBit = 0
-'
-'    On Error GoTo fExtractSuffix_Error
-'    '''If debugflg = 1  Then DebugPrint "%" & "fnExtractSuffix"
-'
-'    If strPath = vbNullString Then
-'        fExtractSuffix = vbNullString
-'        Exit Function
-'    End If
-'
-'    If InStr(strPath, ".") <> 0 Then
-'        stringBits = Split(strPath, ".")
-'        upperBit = UBound(stringBits)
-'        fExtractSuffix = stringBits(upperBit)
-'    Else
-'        fExtractSuffix = strPath
-'    End If
-'
-'   On Error GoTo 0
-'   Exit Function
-'
-'fExtractSuffix_Error:
-'
-'    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure fExtractSuffix of module module1"
-'End Function
-'---------------------------------------------------------------------------------------
-' Procedure : fExtractSuffixWithDot
-' Author    : beededea
-' Date      : 20/06/2019
-' Purpose   : extract the suffix from a filename
-'---------------------------------------------------------------------------------------
-'
-'Public Function fExtractSuffixWithDot(ByVal strPath As String) As String
-'
-'    Dim stringBits() As String ' string array
-'    Dim upperBit As Integer:    upperBit = 0
-'
-'    On Error GoTo fExtractSuffixWithDot_Error
-'    '''If debugflg = 1  Then DebugPrint "%" & "fExtractSuffixWithDot"
-'
-'    If strPath = vbNullString Then
-'        fExtractSuffixWithDot = vbNullString
-'        Exit Function
-'    End If
-'
-'    If InStr(strPath, ".") <> 0 Then
-'        stringBits = Split(strPath, ".")
-'        upperBit = UBound(stringBits)
-'        fExtractSuffixWithDot = "." & stringBits(upperBit)
-'    Else
-'        fExtractSuffixWithDot = vbNullString
-'    End If
-'
-'   On Error GoTo 0
-'   Exit Function
-'
-'fExtractSuffixWithDot_Error:
-'
-'    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure fExtractSuffixWithDot of module module1"
-'End Function
-
-'---------------------------------------------------------------------------------------
-' Procedure : fExtractFileNameNoSuffix
-' Author    : beededea
-' Date      : 20/06/2019
-' Purpose   : extract the filename without a suffix
-'---------------------------------------------------------------------------------------
-'
-'Public Function fExtractFileNameNoSuffix(ByVal strPath As String) As String
-'
-'    Dim stringBits() As String ' string array
-'    Dim lowerBit As Integer:    lowerBit = 0
-'
-'    On Error GoTo fExtractFileNameNoSuffix_Error
-'    '''If debugflg = 1  Then DebugPrint "%" & "fnExtractFileNameNoSuffix"
-'
-'    If strPath = vbNullString Then
-'        fExtractFileNameNoSuffix = vbNullString
-'        Exit Function
-'    End If
-'
-'    If InStr(strPath, ".") <> 0 Then
-'        stringBits = Split(strPath, ".")
-'        lowerBit = LBound(stringBits)
-'        fExtractFileNameNoSuffix = stringBits(lowerBit)
-'    Else
-'        fExtractFileNameNoSuffix = strPath
-'    End If
-'
-'   On Error GoTo 0
-'   Exit Function
-'
-'fExtractFileNameNoSuffix_Error:
-'
-'    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure fExtractFileNameNoSuffix of module module1"
-'End Function
 '
 '---------------------------------------------------------------------------------------
 ' Procedure : fLicenceState
@@ -1838,7 +1689,6 @@ Public Sub makeVisibleFormElements()
 
     Dim formLeftPixels As Long: formLeftPixels = 0
     Dim formTopPixels As Long: formTopPixels = 0
-    Dim monitorCount As Long: monitorCount = 0
     
     On Error GoTo makeVisibleFormElements_Error
 
@@ -1856,7 +1706,7 @@ Public Sub makeVisibleFormElements()
 
     monitorCount = fGetMonitorCount
     If monitorCount > 1 Then
-        Call adjustFormPositionToCorrectMonitor(fClock.clockForm.hwnd, formLeftPixels, formTopPixels)
+        Call SetFormOnMonitor(fClock.clockForm.hwnd, formLeftPixels, formTopPixels)
     Else
         fClock.clockForm.Left = formLeftPixels
         fClock.clockForm.Top = formTopPixels
@@ -2035,6 +1885,10 @@ Public Sub determineScreenDimensions()
     screenHeightTwips = screenHeightPixels * screenTwipsPerPixelY
     screenWidthTwips = screenWidthPixels * screenTwipsPerPixelX
     
+    virtualScreenWidthPixels = fVirtualScreenWidth(True)
+    virtualScreenHeightPixels = fVirtualScreenHeight(True)
+
+    
     oldScreenHeightPixels = screenHeightPixels ' will be used to check for orientation changes
     oldScreenWidthPixels = screenWidthPixels
     
@@ -2097,24 +1951,26 @@ Public Sub mainScreen()
     If fClock.clockForm.Top < 0 Then
         fClock.clockForm.Top = 0
     End If
-    If fClock.clockForm.Left > screenWidthPixels - 50 Then
-        fClock.clockForm.Left = screenWidthPixels - 150
+    
+    
+    If fClock.clockForm.Left > virtualScreenWidthPixels - 50 Then
+        fClock.clockForm.Left = virtualScreenWidthPixels - 150
     End If
-    If fClock.clockForm.Top > screenHeightPixels - 50 Then
-        fClock.clockForm.Top = screenHeightPixels - 150
+    If fClock.clockForm.Top > virtualScreenHeightPixels - 50 Then
+        fClock.clockForm.Top = virtualScreenHeightPixels - 150
     End If
-
+'
     ' calculate the current hlocation in % of the screen
     ' store the current hlocation in % of the screen
     If gblWidgetPosition = "1" Then
-        gblhLocationPercPrefValue = Str$(fClock.clockForm.Left / screenWidthPixels * 100)
-        gblvLocationPercPrefValue = Str$(fClock.clockForm.Top / screenHeightPixels * 100)
+        gblhLocationPercPrefValue = Str$(fClock.clockForm.Left / virtualScreenWidthPixels * 100)
+        gblvLocationPercPrefValue = Str$(fClock.clockForm.Top / virtualScreenHeightPixels * 100)
     End If
     
-    If InIDE Then
-        fClock.clockForm.Left = 100
-        fClock.clockForm.Top = 100
-    End If
+'    If InIDE Then
+'        fClock.clockForm.Left = 100
+'        fClock.clockForm.Top = 100
+'    End If
 
    On Error GoTo 0
    Exit Sub

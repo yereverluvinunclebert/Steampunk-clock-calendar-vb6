@@ -18,7 +18,7 @@ Begin VB.Form frmTimer
       Tag             =   "settingsTimer for reading external changes to prefs"
       Top             =   1095
    End
-   Begin VB.Timer ScreenResolutionTimer 
+   Begin VB.Timer tmrScreenResolution 
       Enabled         =   0   'False
       Interval        =   4500
       Left            =   90
@@ -117,49 +117,61 @@ End Sub
 
 
 '---------------------------------------------------------------------------------------
-' Procedure : screenResolutionTimer_Timer
+' Procedure : tmrScreenResolution_Timer
 ' Author    : beededea
 ' Date      : 05/05/2023
 ' Purpose   : for handling rotation of the screen in tablet mode or a resolution change
 '             possibly due to an old game in full screen mode.
 '---------------------------------------------------------------------------------------
 '
-Private Sub screenResolutionTimer_Timer()
+Private Sub tmrScreenResolution_Timer()
 
     Dim resizeProportion As Single: resizeProportion = 0
     
-    On Error GoTo screenResolutionTimer_Timer_Error
+    On Error GoTo tmrScreenResolution_Timer_Error
 
-    screenHeightPixels = GetDeviceCaps(menuForm.hdc, VERTRES) ' we use the name of any form currently loaded
-    screenWidthPixels = GetDeviceCaps(menuForm.hdc, HORZRES)
+    screenHeightPixels = GetDeviceCaps(Me.hdc, VERTRES)
+    screenWidthPixels = GetDeviceCaps(Me.hdc, HORZRES)
+    
+    virtualScreenWidthPixels = fVirtualScreenWidth(True)
+    virtualScreenHeightPixels = fVirtualScreenHeight(True)
+    
+    
+'        If monitorCount > 1 Then
+'        monitorStruct = formScreenProperties(fClock.clockForm)
+'        a = monitorStruct.Width
+'        a = monitorStruct.Height
+'
+'    End If
+    
+    ' if current position is beyond monitor
+    If fClock.clockForm.Left > 3840 Then
+               
+        ' now calculate the size of the widget according to the screen height.
+'        resizeProportion = 700 / oldScreenHeightPixels
+'        Call fClock.AdjustZoom(resizeProportion)
+        
+    End If
     
     ' will be used to check for orientation changes
     If (oldScreenHeightPixels <> screenHeightPixels) Or (oldScreenWidthPixels <> screenWidthPixels) Then
         
         ' move/hide onto/from the main screen and position per orientation portrait/landscape
         Call mainScreen
-        
-        'screenHeightPixels = 700 ' debug
-        
-        ' now calculate the size of the widget according to the screen height.
-        resizeProportion = screenHeightPixels / oldScreenHeightPixels
-        Call fClock.AdjustZoom(resizeProportion)
-        
+'
         'store the resolution change
         oldScreenHeightPixels = screenHeightPixels
         oldScreenWidthPixels = screenWidthPixels
     End If
-    
-
 
     On Error GoTo 0
     Exit Sub
 
-screenResolutionTimer_Timer_Error:
+tmrScreenResolution_Timer_Error:
 
     With Err
          If .Number <> 0 Then
-            MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure screenResolutionTimer_Timer of Form frmTimer"
+            MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure tmrScreenResolution_Timer of Form frmTimer"
             Resume Next
           End If
     End With

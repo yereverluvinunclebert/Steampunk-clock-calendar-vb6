@@ -85,6 +85,8 @@ Public Sub mainRoutine(ByVal restart As Boolean)
     prefsCurrentWidth = 9075
     prefsCurrentHeight = 16450
     
+    monitorCount = 0
+    
     startupFlg = True
     
     extractCommand = Command$ ' capture any parameter passed, remove if a soft reload
@@ -130,9 +132,6 @@ Public Sub mainRoutine(ByVal restart As Boolean)
             
     ' initialise and create the three main RC forms on the current display
     Call createRCFormsOnCurrentDisplay
-    
-    ' check the selected monitor properties
-    Call monitorProperties(fClock.clockForm)  ' might use RC6 for this?
     
     ' place the form at the saved location
     Call makeVisibleFormElements
@@ -340,6 +339,8 @@ Private Sub initialiseGlobalVars()
     screenHeightTwips = 0
     screenHeightPixels = 0
     screenWidthPixels = 0
+    virtualScreenHeightPixels = 0
+    virtualScreenWidthPixels = 0
     oldScreenHeightPixels = 0
     oldScreenWidthPixels = 0
     
@@ -1356,7 +1357,7 @@ Private Sub configureTimers()
     
     oldgblSettingsModificationTime = FileDateTime(gblSettingsFile)
 
-    frmTimer.ScreenResolutionTimer.Enabled = True
+    frmTimer.tmrScreenResolution.Enabled = True
     frmTimer.settingsTimer.Enabled = True
 
     On Error GoTo 0

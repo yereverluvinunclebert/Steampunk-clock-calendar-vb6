@@ -64,19 +64,19 @@ Public Sub initAndShowAboutForm(ByVal x As Long, ByVal y As Long, Optional ByVal
     If gblDpiAwareness = "0" Then
         aboutFormWidth = 650
         aboutFormHeight = 650
-        If aboutFormWidth > screenWidthPixels Then aboutFormWidth = screenWidthPixels
-        If aboutFormHeight > screenHeightPixels Then aboutFormHeight = screenHeightPixels
+        If aboutFormWidth > virtualScreenWidthPixels Then aboutFormWidth = virtualScreenWidthPixels
+        If aboutFormHeight > virtualScreenHeightPixels Then aboutFormHeight = virtualScreenHeightPixels
     Else
         aboutFormWidth = 1000
         aboutFormHeight = 1000
-        If aboutFormWidth > screenWidthPixels Then
-            aboutFormWidth = screenWidthPixels
+        If aboutFormWidth > virtualScreenWidthPixels Then
+            aboutFormWidth = virtualScreenWidthPixels
             aboutWidgetZoomValue = 1.5
         Else
             aboutWidgetZoomValue = 1.5
         End If
-        If aboutFormHeight > screenHeightPixels Then
-            aboutFormHeight = screenHeightPixels
+        If aboutFormHeight > virtualScreenHeightPixels Then
+            aboutFormHeight = virtualScreenHeightPixels
             aboutWidgetZoomValue = 1.5
         Else
             aboutWidgetZoomValue = 1.5
@@ -132,21 +132,21 @@ Public Sub initAndShowLicenceForm(ByVal x As Long, ByVal y As Long, Optional ByV
     If gblDpiAwareness = "0" Then
         licenceFormWidth = 650
         licenceFormHeight = 550
-        If licenceFormWidth > screenWidthPixels Then licenceFormWidth = screenWidthPixels
-        If licenceFormHeight > screenHeightPixels Then licenceFormHeight = screenHeightPixels
+        If licenceFormWidth > virtualScreenWidthPixels Then licenceFormWidth = virtualScreenWidthPixels
+        If licenceFormHeight > virtualScreenHeightPixels Then licenceFormHeight = virtualScreenHeightPixels
         licenceWidgetZoomValue = 0.8
     Else
         licenceFormWidth = 750
         licenceFormHeight = 650
-        If licenceFormWidth > screenWidthPixels Then
-            licenceFormWidth = screenWidthPixels
+        If licenceFormWidth > virtualScreenWidthPixels Then
+            licenceFormWidth = virtualScreenWidthPixels
             licenceWidgetZoomValue = 0.8
         Else
             licenceWidgetZoomValue = 1.5
         End If
         
-        If licenceFormHeight > screenHeightPixels Then
-            licenceFormHeight = screenHeightPixels
+        If licenceFormHeight > virtualScreenHeightPixels Then
+            licenceFormHeight = virtualScreenHeightPixels
             licenceWidgetZoomValue = 0.8
         Else
             licenceWidgetZoomValue = 1.5
