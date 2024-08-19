@@ -236,23 +236,23 @@ Public Sub SetFormOnMonitor(ByRef hwnd As Long, ByVal Left As Long, ByVal Top As
 
 ' 2536 , 1038
 
-    Dim rc As RECT
+    Dim rc As RECT ' structure that receives the screen coordinate
     Dim hMonitor As Long: hMonitor = 0
     Dim mi As tagMONITORINFO
     
     On Error GoTo setFormOnMonitor_Error
 
-    GetWindowRect hwnd, rc 'obtain the current form's window rectangle co-ords and assign it a handle
+    GetWindowRect hwnd, rc 'obtain the current form's window rectangle co-ords
         
-    'move the form's window rectangle to previously saved position
+    'move the window rectangle to the previously saved position supplied as two params.
     OffsetRect rc, Left - rc.Left, Top - rc.Top
     
-    'find the monitor closest to window rectangle
+    'find the monitor handle closest to our window rectangle
     hMonitor = MonitorFromRect(rc, MONITOR_DEFAULTTONEAREST)
+    ' 3089353   1st monitor
+    ' 436805389 2nd monitor
     
-    '436805389 2nd monitor
-    
-    'get info about monitor coordinates and working area
+    'get monitor co-ordinates and working area
     mi.cbSize = Len(mi)
     GetMonitorInfo hMonitor, mi
     

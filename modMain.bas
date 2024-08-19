@@ -6,7 +6,7 @@ Option Explicit
 
 '------------------------------------------------------ STARTS
 ' for SetWindowPos z-ordering
-Public Declare Function SetWindowPos Lib "user32" (ByVal hwnd As Long, ByVal hWndInsertAfter As Long, ByVal x As Long, ByVal y As Long, ByVal cx As Long, ByVal cy As Long, ByVal wFlags As Long) As Long
+Public Declare Function SetWindowPos Lib "user32" (ByVal hwnd As Long, ByVal hWndInsertAfter As Long, ByVal X As Long, ByVal Y As Long, ByVal cx As Long, ByVal cy As Long, ByVal wFlags As Long) As Long
 
 Public Const HWND_TOP As Long = 0 ' for SetWindowPos z-ordering
 Public Const HWND_TOPMOST As Long = -1
@@ -81,9 +81,6 @@ Public Sub mainRoutine(ByVal restart As Boolean)
 '    fClock.FX = 222 'init position- and zoom-values (directly set on Public-Props of the Form-hosting Class)
 '    fClock.FY = 111
 '    fClock.FZ = 0.4
-    
-    prefsCurrentWidth = 9075
-    prefsCurrentHeight = 16450
     
     monitorCount = 0
     
@@ -170,7 +167,7 @@ Public Sub mainRoutine(ByVal restart As Boolean)
         
     ' RC message pump will auto-exit when Cairo Forms > 0 so we run it only when 0, this prevents message interruption
     ' when running twice on reload.
-    If Cairo.WidgetForms.Count = 0 Then Cairo.WidgetForms.EnterMessageLoop
+    If Cairo.WidgetForms.count = 0 Then Cairo.WidgetForms.EnterMessageLoop
      
    On Error GoTo 0
    Exit Sub
@@ -339,10 +336,14 @@ Private Sub initialiseGlobalVars()
     screenHeightTwips = 0
     screenHeightPixels = 0
     screenWidthPixels = 0
+    
     virtualScreenHeightPixels = 0
     virtualScreenWidthPixels = 0
+    
     oldScreenHeightPixels = 0
     oldScreenWidthPixels = 0
+    
+    gblFormHeightTwips = 0
     
     ' key presses
     CTRL_1 = False
@@ -1132,7 +1133,7 @@ Public Sub readSettingsFile(ByVal location As String, ByVal gblSettingsFile As S
         gblAlarm3Time = fGetINISetting(location, "alarm3Time", gblSettingsFile)
         gblAlarm4Time = fGetINISetting(location, "alarm4Time", gblSettingsFile)
         gblAlarm5Time = fGetINISetting(location, "alarm5Time", gblSettingsFile)
-                
+                           
     End If
 
    On Error GoTo 0

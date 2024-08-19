@@ -395,6 +395,10 @@ Public gblFormHighDpiYPosTwips As String
 Public gblFormLowDpiXPosTwips As String
 Public gblFormLowDpiYPosTwips As String
 
+Public gblFormHeightTwips As String
+
+
+
 Public gblAlarm1Date As String
 Public gblAlarm2Date As String
 Public gblAlarm3Date As String
@@ -420,6 +424,10 @@ Public windowsVer As String
 ' vars to obtain correct screen width (to correct VB6 bug)
 Public screenWidthTwips As Long
 Public screenHeightTwips As Long
+
+Public virtualScreenHeightTwips As Long
+Public virtualScreenWidthTwips As Long
+
 
 Public screenHeightPixels As Long
 Public screenWidthPixels As Long
@@ -1876,8 +1884,8 @@ Public Sub determineScreenDimensions()
     'If debugflg = 1 Then msgbox "% sub determineScreenDimensions"
 
     ' only calling TwipsPerPixelX/Y functions once on startup
-    screenTwipsPerPixelX = fTwipsPerPixelX
     screenTwipsPerPixelY = fTwipsPerPixelY
+    screenTwipsPerPixelX = fTwipsPerPixelX
     
     screenHeightPixels = GetDeviceCaps(menuForm.hdc, VERTRES) ' we use the name of any form that we don't mind being loaded at this point
     screenWidthPixels = GetDeviceCaps(menuForm.hdc, HORZRES)
@@ -1885,8 +1893,12 @@ Public Sub determineScreenDimensions()
     screenHeightTwips = screenHeightPixels * screenTwipsPerPixelY
     screenWidthTwips = screenWidthPixels * screenTwipsPerPixelX
     
-    virtualScreenWidthPixels = fVirtualScreenWidth(True)
     virtualScreenHeightPixels = fVirtualScreenHeight(True)
+    virtualScreenWidthPixels = fVirtualScreenWidth(True)
+
+    virtualScreenHeightTwips = fVirtualScreenHeight(False)
+    virtualScreenWidthTwips = fVirtualScreenWidth(False)
+    
 
     
     oldScreenHeightPixels = screenHeightPixels ' will be used to check for orientation changes
@@ -2146,6 +2158,11 @@ Public Sub makeProgramPreferencesAvailable()
 '    End If
     
     If widgetPrefs.IsVisible = False Then
+        ' set the current position of the utility according to previously stored positions
+        
+        Call readPrefsPosition
+        Call widgetPrefs.positionPrefsMonitor
+    
         widgetPrefs.Visible = True
         widgetPrefs.Show  ' show it again
         widgetPrefs.SetFocus
@@ -2154,10 +2171,7 @@ Public Sub makeProgramPreferencesAvailable()
             widgetPrefs.WindowState = vbNormal
         End If
 
-        ' set the current position of the utility according to previously stored positions
-        
-        Call readPrefsPosition
-        Call widgetPrefs.positionPrefsMonitor
+
     End If
     
 
@@ -2214,6 +2228,9 @@ Public Sub readPrefsPosition()
 '            widgetPrefs.Top = Screen.Height / 2 - widgetPrefs.Height / 2
 '        End If
     End If
+    
+        
+    gblFormHeightTwips = fGetINISetting("Software\SteampunkClockCalendar", "formHeightTwips", gblSettingsFile)
    
    On Error GoTo 0
    Exit Sub
@@ -2235,8 +2252,8 @@ Public Sub writePrefsPosition()
 
     If widgetPrefs.WindowState = vbNormal Then ' when vbMinimised the value = -48000  !
         If gblDpiAwareness = "1" Then
-            gblFormHighDpiXPosTwips = Str$(widgetPrefs.Left)
-            gblFormHighDpiYPosTwips = Str$(widgetPrefs.Top)
+            gblFormHighDpiXPosTwips = Trim$(Str$(widgetPrefs.Left))
+            gblFormHighDpiYPosTwips = Trim$(Str$(widgetPrefs.Top))
             
             ' now write those params to the toolSettings.ini
             sPutINISetting "Software\SteampunkClockCalendar", "formHighDpiXPosTwips", gblFormHighDpiXPosTwips, gblSettingsFile
@@ -2250,7 +2267,9 @@ Public Sub writePrefsPosition()
             sPutINISetting "Software\SteampunkClockCalendar", "formLowDpiYPosTwips", gblFormLowDpiYPosTwips, gblSettingsFile
             
         End If
-        
+    
+        gblFormHeightTwips = Trim$(Str$(widgetPrefs.Height))
+        sPutINISetting "Software\SteampunkClockCalendar", "formHeightTwips", gblFormHeightTwips, gblSettingsFile
     End If
     
     On Error GoTo 0
