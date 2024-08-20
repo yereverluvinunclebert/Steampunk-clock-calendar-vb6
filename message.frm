@@ -324,7 +324,7 @@ Public Property Let propMessage(ByVal newValue As String)
           
     If msgBoxADynamicSizingFlg = True Then
         ' this causes a resize event
-        Me.Height = (screenHeightTwips / 5.5) '+ intDiff
+        Me.Height = (physicalScreenHeightTwips / 5.5) '+ intDiff
     Else
         fraPicVB.Top = 285
     End If

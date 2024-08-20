@@ -46,7 +46,7 @@ Begin VB.Form widgetPrefs
          Width           =   600
       End
    End
-   Begin VB.Timer positionTimer 
+   Begin VB.Timer tmrWritePosition 
       Enabled         =   0   'False
       Interval        =   5000
       Left            =   1170
@@ -2632,10 +2632,10 @@ Private Sub Form_Load()
     
     ' set the height of the whole form not higher than the screen size, cause a form_resize event
     If gblDpiAwareness = "1" Then
-        If prefsFormHeight < screenHeightTwips Then
+        If prefsFormHeight < physicalScreenHeightTwips Then
             Me.Height = prefsFormHeight ' 16450
         Else
-            Me.Height = screenHeightTwips - 1000
+            Me.Height = physicalScreenHeightTwips - 1000
         End If
     End If
     
@@ -2646,7 +2646,7 @@ Private Sub Form_Load()
     Call setPrefsFormZordering
     
     ' start the timer that records the prefs position every 10 seconds
-    positionTimer.Enabled = True
+    tmrWritePosition.Enabled = True
     
     ' end the startup by un-setting the start flag
     prefsStartupFlg = False
@@ -2674,7 +2674,7 @@ Public Sub positionPrefsMonitor()
 
     Dim formLeftTwips As Long: formLeftTwips = 0
     Dim formTopTwips As Long: formTopTwips = 0
-    Dim monitorCount As Long: monitorCount = 0
+    'Dim monitorCount As Long: monitorCount = 0
     
     On Error GoTo positionPrefsMonitor_Error
     
@@ -2687,7 +2687,7 @@ Public Sub positionPrefsMonitor()
     End If
     
     If formLeftTwips = 0 Then
-        If ((fClock.clockForm.Left + fClock.clockForm.Width) * screenTwipsPerPixelX) + 200 + widgetPrefs.Width > screenWidthTwips Then
+        If ((fClock.clockForm.Left + fClock.clockForm.Width) * screenTwipsPerPixelX) + 200 + widgetPrefs.Width > physicalScreenWidthTwips Then
             Me.Left = (fClock.clockForm.Left * screenTwipsPerPixelX) - (widgetPrefs.Width + 200)
         End If
     End If
@@ -2697,7 +2697,7 @@ Public Sub positionPrefsMonitor()
     If formLeftTwips <> 0 Then
         Me.Left = formLeftTwips
     Else
-        Me.Left = screenWidthTwips / 2 - Me.Width / 2
+        Me.Left = physicalScreenWidthTwips / 2 - Me.Width / 2
     End If
     
     If formTopTwips <> 0 Then
@@ -2706,7 +2706,7 @@ Public Sub positionPrefsMonitor()
         Me.Top = Screen.Height / 2 - Me.Height / 2
     End If
     
-    monitorCount = fGetMonitorCount
+    'monitorCount = fGetMonitorCount
     If monitorCount > 1 Then Call SetFormOnMonitor(Me.hwnd, formLeftTwips / fTwipsPerPixelX, formTopTwips / fTwipsPerPixelY)
     
     ' calculate the on-screen widget position
@@ -5903,24 +5903,24 @@ End Sub
 
 
 '---------------------------------------------------------------------------------------
-' Procedure : positionTimer_Timer
+' Procedure : tmrWritePosition_Timer
 ' Author    : beededea
 ' Date      : 27/05/2023
 ' Purpose   :
 '---------------------------------------------------------------------------------------
 '
-Private Sub positionTimer_Timer()
+Private Sub tmrWritePosition_Timer()
     ' save the current X and y position of this form to allow repositioning when restarting
-    On Error GoTo positionTimer_Timer_Error
+    On Error GoTo tmrWritePosition_Timer_Error
    
     If widgetPrefs.IsVisible = True Then Call writePrefsPosition
 
    On Error GoTo 0
    Exit Sub
 
-positionTimer_Timer_Error:
+tmrWritePosition_Timer_Error:
 
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure positionTimer_Timer of Form widgetPrefs"
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure tmrWritePosition_Timer of Form widgetPrefs"
 
 End Sub
 

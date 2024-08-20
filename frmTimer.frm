@@ -130,8 +130,8 @@ Private Sub tmrScreenResolution_Timer()
     
     On Error GoTo tmrScreenResolution_Timer_Error
 
-    screenHeightPixels = GetDeviceCaps(Me.hdc, VERTRES)
-    screenWidthPixels = GetDeviceCaps(Me.hdc, HORZRES)
+    physicalScreenHeightPixels = GetDeviceCaps(Me.hdc, VERTRES)
+    physicalScreenWidthPixels = GetDeviceCaps(Me.hdc, HORZRES)
     
     virtualScreenWidthPixels = fVirtualScreenWidth(True)
     virtualScreenHeightPixels = fVirtualScreenHeight(True)
@@ -148,20 +148,20 @@ Private Sub tmrScreenResolution_Timer()
     If fClock.clockForm.Left > 3840 Then
                
         ' now calculate the size of the widget according to the screen height.
-'        resizeProportion = 700 / oldScreenHeightPixels
+'        resizeProportion = 700 / oldPhysicalScreenHeightPixels
 '        Call fClock.AdjustZoom(resizeProportion)
         
     End If
     
     ' will be used to check for orientation changes
-    If (oldScreenHeightPixels <> screenHeightPixels) Or (oldScreenWidthPixels <> screenWidthPixels) Then
+    If (oldPhysicalScreenHeightPixels <> physicalScreenHeightPixels) Or (oldPhysicalScreenWidthPixels <> physicalScreenWidthPixels) Then
         
         ' move/hide onto/from the main screen and position per orientation portrait/landscape
         Call mainScreen
 '
         'store the resolution change
-        oldScreenHeightPixels = screenHeightPixels
-        oldScreenWidthPixels = screenWidthPixels
+        oldPhysicalScreenHeightPixels = physicalScreenHeightPixels
+        oldPhysicalScreenWidthPixels = physicalScreenWidthPixels
     End If
 
     On Error GoTo 0

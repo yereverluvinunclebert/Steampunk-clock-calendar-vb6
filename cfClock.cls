@@ -1960,44 +1960,28 @@ clockForm_KeyDown_Error:
 
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure clockForm_KeyDown of Class Module cfMain"
 End Sub
-''
+
+
 '---------------------------------------------------------------------------------------
 ' Procedure : clockForm_MouseUp
 ' Author    : beededea
 ' Date      : 05/05/2023
-' Purpose   : save the form x,y position when ever the globe/form is dragged
+' Purpose   :    if this is a multi monitor system then:
+'                we note the monitor ID at clockForm form_load and store as the clockFormMonitorID, for widgetPrefs widgetPrefsMonitorID
+'                on clockFromMouseUp (drag complete) we sample the monitor ID again -only works, for the prefs form we have to have a 200ms timer that tests for form .left and .top x,y change (no MOVED event and mouse UP does not work on the form itself when the titlebar dragged)
+'                if the monitor has changed then sample the physical monitor resolution
+'                if the resolution is different then calculate new size proportion
+'                alter the size of the form to correspond to the monitor
 '---------------------------------------------------------------------------------------
 '
 Private Sub clockForm_MouseUp(ByRef Button As Integer, ByRef Shift As Integer, ByRef x As Single, ByRef y As Single)
 
-    Dim monitorStruct As UDTMonitor
-
     On Error GoTo clockForm_MouseUp_Error
-     
-'    Dim monitorCount As Integer: monitorCount = 0
-'    Dim useloop As Integer: useloop = 0
-    
-    'monitorCount = fGetMonitorCount
 
-    'ReDim monitorStruct(monitorCount)
-    Dim a As Boolean
-
-    ' for each monitor, create a monitor structure with a UDT, top, left, &c, &c
-    
-    ' check the current monitor properties
-'    For useloop = 1 To monitorCount
-'        monitorStruct(useloop) = formScreenProperties(fClock.clockForm)
-'    Next useloop
-'
-    ' if there is more than one screen return the form's current monitor properties
-    If monitorCount > 1 Then
-        monitorStruct = formScreenProperties(fClock.clockForm)
-        a = monitorStruct.Width
-        a = monitorStruct.Height
-        
-    End If
-
+    ' save the form x,y position whenever the globe/form is dragged
     Call savePosition
+
+    Call positionByMonitorSize
     
     On Error GoTo 0
     Exit Sub
@@ -2011,6 +1995,9 @@ clockForm_MouseUp_Error:
           End If
     End With
 End Sub
+
+
+
 
 '---------------------------------------------------------------------------------------
 ' Procedure : clockForm_MouseMove

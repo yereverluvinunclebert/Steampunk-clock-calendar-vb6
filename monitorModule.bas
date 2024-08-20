@@ -56,8 +56,8 @@ Public Declare Function ReleaseDC Lib "user32" (ByVal hwnd As Long, ByVal hdc As
 Public Declare Function GetDeviceCaps Lib "gdi32" (ByVal hdc As Long, ByVal nIndex As Long) As Long
 'Private Declare Function CreateDC Lib "gdi32" Alias "CreateDCA" (ByVal lpDriverName As String, ByVal lpDeviceName As String, ByVal lpOutput As String, ByVal lpInitData As Long) As Long
 Private Declare Function UnionRect Lib "user32" (lprcDst As RECT, lprcSrc1 As RECT, lprcSrc2 As RECT) As Long
-Private Declare Function OffsetRect Lib "user32" (lpRect As RECT, ByVal x As Long, ByVal y As Long) As Long
-Private Declare Function MoveWindow Lib "user32" (ByVal hwnd As Long, ByVal x As Long, ByVal y As Long, ByVal nWidth As Long, ByVal nHeight As Long, ByVal bRepaint As Long) As Long
+Private Declare Function OffsetRect Lib "user32" (lpRect As RECT, ByVal X As Long, ByVal Y As Long) As Long
+Private Declare Function MoveWindow Lib "user32" (ByVal hwnd As Long, ByVal X As Long, ByVal Y As Long, ByVal nWidth As Long, ByVal nHeight As Long, ByVal bRepaint As Long) As Long
 Private Declare Function GetWindowRect Lib "user32.dll" (ByVal hwnd As Long, lpRect As RECT) As Long
 Private Declare Function MonitorFromRect Lib "user32" (rc As RECT, ByVal dwFlags As dwFlags) As Long
 Private Declare Function GetMonitorInfo Lib "user32" Alias "GetMonitorInfoA" (ByVal hMonitor As Long, MonInfo As tagMONITORINFO) As Long
@@ -71,8 +71,8 @@ Public Const VERTRES As Integer = 10
 
 Public screenTwipsPerPixelX As Long ' .07 DAEB 26/04/2021 common.bas changed to use pixels alone, removed all unnecessary twip conversion
 Public screenTwipsPerPixelY As Long ' .07 DAEB 26/04/2021 common.bas changed to use pixels alone, removed all unnecessary twip conversion
-'Public screenWidthTwips As Long
-'Public screenHeightTwips As Long
+'Public physicalScreenWidthTwips As Long
+'Public physicalScreenHeightTwips As Long
 
 
 
@@ -286,7 +286,7 @@ End Sub
 '             User supplies the form name.
 '---------------------------------------------------------------------------------------
 '
-Public Function formScreenProperties(ByVal frm As cWidgetForm) As UDTMonitor
+Public Function formScreenProperties(ByVal frm As cWidgetForm, ByRef monitorID As Long) As UDTMonitor
     
     Dim hMonitor As Long: hMonitor = 0
     Dim MONITORINFO As tagMONITORINFO
@@ -327,7 +327,9 @@ Public Function formScreenProperties(ByVal frm As cWidgetForm) As UDTMonitor
 
         .IsPrimary = MONITORINFO.dwFlags And MONITORINFOF_PRIMARY
     End With
-'
+    
+    monitorID = hMonitor
+
     Exit Function
 GetMonitorInformation_Err:
     Beep

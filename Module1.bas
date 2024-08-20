@@ -421,22 +421,24 @@ Public classicThemeCapable As Boolean
 Public storeThemeColour As Long
 Public windowsVer As String
 
-' vars to obtain correct screen width (to correct VB6 bug)
-Public screenWidthTwips As Long
-Public screenHeightTwips As Long
+' vars to obtain actual correct screen width (to correct VB6 bug) twips
+Public physicalScreenWidthTwips As Long
+Public physicalScreenHeightTwips As Long
 
+' pixels
+Public physicalScreenHeightPixels As Long
+Public physicalScreenWidthPixels As Long
+
+' vars to obtain the virtual (multi-monitor) width twips
 Public virtualScreenHeightTwips As Long
 Public virtualScreenWidthTwips As Long
 
-
-Public screenHeightPixels As Long
-Public screenWidthPixels As Long
-
+' pixels
 Public virtualScreenHeightPixels As Long
 Public virtualScreenWidthPixels As Long
 
-Public oldScreenHeightPixels As Long
-Public oldScreenWidthPixels As Long
+Public oldPhysicalScreenHeightPixels As Long
+Public oldPhysicalScreenWidthPixels As Long
 
 ' key presses
 Public CTRL_1 As Boolean
@@ -1452,8 +1454,8 @@ Public Sub aboutClickEvent()
     
     ' The RC forms are measured in pixels so the positioning needs to pre-convert the twips into pixels
    
-    fMain.aboutForm.Top = (screenHeightPixels / 2) - (fMain.aboutForm.Height / 2)
-    fMain.aboutForm.Left = (screenWidthPixels / 2) - (fMain.aboutForm.Width / 2)
+    fMain.aboutForm.Top = (physicalScreenHeightPixels / 2) - (fMain.aboutForm.Height / 2)
+    fMain.aboutForm.Left = (physicalScreenWidthPixels / 2) - (fMain.aboutForm.Width / 2)
      
     fMain.aboutForm.Load
     fMain.aboutForm.Show
@@ -1501,8 +1503,8 @@ Public Sub licenceSplash()
     End If
     
     
-    fMain.licenceForm.Top = (screenHeightPixels / 2) - (fMain.licenceForm.Height / 2)
-    fMain.licenceForm.Left = (screenWidthPixels / 2) - (fMain.licenceForm.Width / 2)
+    fMain.licenceForm.Top = (physicalScreenHeightPixels / 2) - (fMain.licenceForm.Height / 2)
+    fMain.licenceForm.Left = (physicalScreenWidthPixels / 2) - (fMain.licenceForm.Width / 2)
      
     'licenceWidget.opacity = 0
     'opacityflag = 0
@@ -1887,11 +1889,11 @@ Public Sub determineScreenDimensions()
     screenTwipsPerPixelY = fTwipsPerPixelY
     screenTwipsPerPixelX = fTwipsPerPixelX
     
-    screenHeightPixels = GetDeviceCaps(menuForm.hdc, VERTRES) ' we use the name of any form that we don't mind being loaded at this point
-    screenWidthPixels = GetDeviceCaps(menuForm.hdc, HORZRES)
+    physicalScreenHeightPixels = GetDeviceCaps(menuForm.hdc, VERTRES) ' we use the name of any form that we don't mind being loaded at this point
+    physicalScreenWidthPixels = GetDeviceCaps(menuForm.hdc, HORZRES)
 
-    screenHeightTwips = screenHeightPixels * screenTwipsPerPixelY
-    screenWidthTwips = screenWidthPixels * screenTwipsPerPixelX
+    physicalScreenHeightTwips = physicalScreenHeightPixels * screenTwipsPerPixelY
+    physicalScreenWidthTwips = physicalScreenWidthPixels * screenTwipsPerPixelX
     
     virtualScreenHeightPixels = fVirtualScreenHeight(True)
     virtualScreenWidthPixels = fVirtualScreenWidth(True)
@@ -1901,8 +1903,8 @@ Public Sub determineScreenDimensions()
     
 
     
-    oldScreenHeightPixels = screenHeightPixels ' will be used to check for orientation changes
-    oldScreenWidthPixels = screenWidthPixels
+    oldPhysicalScreenHeightPixels = physicalScreenHeightPixels ' will be used to check for orientation changes
+    oldPhysicalScreenWidthPixels = physicalScreenWidthPixels
     
    On Error GoTo 0
    Exit Sub
@@ -1924,7 +1926,7 @@ Public Sub mainScreen()
    On Error GoTo mainScreen_Error
 
     ' check for aspect ratio and determine whether it is in portrait or landscape mode
-    If screenWidthPixels > screenHeightPixels Then
+    If physicalScreenWidthPixels > physicalScreenHeightPixels Then
         aspectRatio = "landscape"
     Else
         aspectRatio = "portrait"
@@ -2203,7 +2205,7 @@ Public Sub readPrefsPosition()
 '        If gblFormHighDpiXPosTwips <> "" Then
 '            widgetPrefs.Left = Val(gblFormHighDpiXPosTwips)
 '        Else
-'            widgetPrefs.Left = screenWidthTwips / 2 - widgetPrefs.Width / 2
+'            widgetPrefs.Left = physicalScreenWidthTwips / 2 - widgetPrefs.Width / 2
 '        End If
 '
 '        If gblFormHighDpiYPosTwips <> "" Then
@@ -2219,7 +2221,7 @@ Public Sub readPrefsPosition()
 '        If gblFormLowDpiXPosTwips <> "" Then
 '            widgetPrefs.Left = Val(gblFormLowDpiXPosTwips)
 '        Else
-'            widgetPrefs.Left = screenWidthTwips / 2 - widgetPrefs.Width / 2
+'            widgetPrefs.Left = physicalScreenWidthTwips / 2 - widgetPrefs.Width / 2
 '        End If
 '
 '        If gblFormLowDpiYPosTwips <> "" Then
@@ -2717,3 +2719,62 @@ fDayOfWeek_Error:
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure fDayOfWeek, line " & Erl & "."
 
 End Function
+
+
+
+'---------------------------------------------------------------------------------------
+' Procedure : positionByMonitorSize
+' Author    : beededea
+' Date      : 20/08/2024
+' Purpose   : if there is more than one screen size the form according to the form's physical monitor properties
+'---------------------------------------------------------------------------------------
+'
+Public Sub positionByMonitorSize(Optional firstRun As Boolean)
+    Static oldClockFormMonitorID As Long
+    Static oldMonitorStructWidthTwips As Long
+    Static oldMonitorStructHeightTwips As Long
+        
+    Dim monitorStruct As UDTMonitor
+    Dim clockFormMonitorID As Long: clockFormMonitorID = 0
+    Dim monitorStructWidthTwips As Long: monitorStructWidthTwips = 0
+    Dim monitorStructHeightTwips As Long: monitorStructHeightTwips = 0
+    Dim resizeProportion As Double: resizeProportion = 0
+
+    On Error GoTo positionByMonitorSize_Error
+  
+    If monitorCount > 1 Then
+        ' note the monitor ID at clockForm form_load and store as the clockFormMonitorID
+        monitorStruct = formScreenProperties(fClock.clockForm, clockFormMonitorID)
+        ' sample the physical monitor resolution
+        monitorStructWidthTwips = monitorStruct.Width
+        monitorStructHeightTwips = monitorStruct.Height
+        
+        If oldClockFormMonitorID = 0 Then oldClockFormMonitorID = clockFormMonitorID
+        If oldMonitorStructWidthTwips = 0 Then oldMonitorStructWidthTwips = oldMonitorStructWidthTwips
+        If oldMonitorStructHeightTwips = 0 Then oldMonitorStructHeightTwips = oldMonitorStructHeightTwips
+    
+        ' if the monitor ID has changed
+        If oldClockFormMonitorID <> clockFormMonitorID Then
+            'if the resolution is different then calculate new size proportion
+            If monitorStructWidthTwips <> oldMonitorStructWidthTwips Or monitorStructHeightTwips <> oldMonitorStructHeightTwips Then
+                
+                'now calculate the size of the widget according to the screen HeightTwips.
+                resizeProportion = monitorStruct.Height / oldMonitorStructHeightTwips
+                Call fClock.AdjustZoom(resizeProportion)
+            End If
+        End If
+    
+        oldClockFormMonitorID = clockFormMonitorID
+        oldMonitorStructWidthTwips = monitorStructWidthTwips
+        oldMonitorStructHeightTwips = monitorStructHeightTwips
+            
+    End If
+
+   On Error GoTo 0
+   Exit Sub
+
+positionByMonitorSize_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure positionByMonitorSize of Module Module1"
+
+End Sub
