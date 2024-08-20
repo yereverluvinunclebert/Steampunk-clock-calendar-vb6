@@ -283,6 +283,8 @@ Private Sub initialiseGlobalVars()
     gblHidingTime = vbNullString
     gblIgnoreMouse = vbNullString
     gblFirstTimeRun = vbNullString
+    gblMultiMonitorResize = vbNullString
+    
     
     ' general storage variables declared
     gblSettingsDir = vbNullString
@@ -1109,6 +1111,8 @@ Public Sub readSettingsFile(ByVal location As String, ByVal gblSettingsFile As S
         
         gblHidingTime = fGetINISetting(location, "hidingTime", gblSettingsFile)
         gblIgnoreMouse = fGetINISetting(location, "ignoreMouse", gblSettingsFile)
+        gblMultiMonitorResize = fGetINISetting(location, "multiMonitorResize", gblSettingsFile)
+        
          
         gblFirstTimeRun = fGetINISetting(location, "firstTimeRun", gblSettingsFile)
         
@@ -1228,6 +1232,8 @@ Public Sub validateInputs()
         If gblHidingTime = vbNullString Then gblHidingTime = "0"
         If gblIgnoreMouse = vbNullString Then gblIgnoreMouse = "0"
         If gblPreventDragging = vbNullString Then gblPreventDragging = "0"
+        If gblMultiMonitorResize = vbNullString Then gblMultiMonitorResize = "0"
+        
         
         ' other
         If gblFirstTimeRun = vbNullString Then gblFirstTimeRun = "true"

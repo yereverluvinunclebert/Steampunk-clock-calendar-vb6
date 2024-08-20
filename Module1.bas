@@ -353,6 +353,8 @@ Public gblWidgetHidden  As String
 Public gblHidingTime  As String
 Public gblIgnoreMouse  As String
 Public gblFirstTimeRun  As String
+Public gblMultiMonitorResize  As String
+
 
 ' General storage variables declared
 Public gblSettingsDir As String
