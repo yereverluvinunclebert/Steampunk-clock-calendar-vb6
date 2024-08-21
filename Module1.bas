@@ -2745,7 +2745,7 @@ Public Sub positionByMonitorSize(Optional firstRun As Boolean)
 
     On Error GoTo positionByMonitorSize_Error
   
-    If monitorCount > 1 Then
+    If monitorCount > 1 And gblMultiMonitorResize = "1" Then
         ' note the monitor ID at clockForm form_load and store as the clockFormMonitorID
         monitorStruct = formScreenProperties(fClock.clockForm, clockFormMonitorID)
         ' sample the physical monitor resolution

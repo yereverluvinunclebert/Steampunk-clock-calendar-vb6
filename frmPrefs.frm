@@ -2490,6 +2490,11 @@ End Sub
 Private Sub chkEnableChimes_Click()
     btnSave.Enabled = True ' enable the save button
 End Sub
+
+Private Sub chkMultiMonitorResize_Click()
+    btnSave.Enabled = True ' enable the save button
+End Sub
+
 Private Sub chkVolumeBoost_Click()
     btnSave.Enabled = True ' enable the save button
 End Sub

@@ -1978,6 +1978,8 @@ End Sub
 Private Sub clockForm_MouseUp(ByRef Button As Integer, ByRef Shift As Integer, ByRef x As Single, ByRef y As Single)
 
     On Error GoTo clockForm_MouseUp_Error
+    
+    frmTimer.tmrScreenResolution.Interval = 4500
 
     ' save the form x,y position whenever the globe/form is dragged
     Call savePosition
@@ -2101,6 +2103,10 @@ End Sub
 Private Sub clockForm_MouseDown(ByRef Button As Integer, ByRef Shift As Integer, ByRef x As Single, ByRef y As Single)
    On Error GoTo W_MouseDown_Error
 
+    frmTimer.tmrScreenResolution.Enabled = False
+    frmTimer.tmrScreenResolution.Interval = 200
+    frmTimer.tmrScreenResolution.Enabled = True
+    
     If Button = vbRightButton Then
         Call menuForm.PopupMenu(menuForm.mnuMainMenu)
     Else
