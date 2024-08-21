@@ -136,7 +136,7 @@ Public Sub mainRoutine(ByVal restart As Boolean)
     ' place the form at the saved location
     Call makeVisibleFormElements
     
-    ' obtain the physical screen sizes and ID
+    ' obtain initial physical screen sizes and monitor ID
     Call positionByMonitorSize
     
     ' run the functions that are also called at reload time.

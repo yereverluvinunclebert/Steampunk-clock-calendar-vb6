@@ -135,21 +135,15 @@ Private Sub tmrScreenResolution_Timer()
     
     virtualScreenWidthPixels = fVirtualScreenWidth(True)
     virtualScreenHeightPixels = fVirtualScreenHeight(True)
-    
-    
-'        If monitorCount > 1 Then
-'        monitorStruct = formScreenProperties(fClock.clockForm)
-'        a = monitorStruct.Width
-'        a = monitorStruct.Height
-'
-'    End If
-    
+     
     ' if current position is beyond monitor
     If fClock.clockForm.Left > 3840 Then
                
         ' now calculate the size of the widget according to the screen height.
 '        resizeProportion = 700 / oldPhysicalScreenHeightPixels
 '        Call fClock.AdjustZoom(resizeProportion)
+
+        Call positionByMonitorSize
         
     End If
     

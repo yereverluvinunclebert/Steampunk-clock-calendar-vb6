@@ -327,9 +327,9 @@ Begin VB.Form widgetPrefs
    Begin VB.Frame fraWindow 
       Caption         =   "Window"
       Height          =   7770
-      Left            =   240
+      Left            =   225
       TabIndex        =   10
-      Top             =   1590
+      Top             =   1620
       Width           =   8235
       Begin VB.Frame fraWindowInner 
          BorderStyle     =   0  'None
@@ -338,13 +338,13 @@ Begin VB.Form widgetPrefs
          TabIndex        =   14
          Top             =   345
          Width           =   7005
-         Begin VB.ComboBox cmbMultiMonitorResize 
-            Height          =   315
+         Begin VB.CheckBox chkMultiMonitorResize 
+            Caption         =   "Enable resizing"
+            Height          =   225
             Left            =   2220
-            Style           =   2  'Dropdown List
-            TabIndex        =   184
-            Top             =   5805
-            Width           =   3720
+            TabIndex        =   186
+            Top             =   5835
+            Width           =   2955
          End
          Begin VB.Frame fraHiding 
             BorderStyle     =   0  'None
@@ -366,7 +366,7 @@ Begin VB.Form widgetPrefs
                Height          =   225
                Left            =   855
                TabIndex        =   120
-               Top             =   225
+               Top             =   210
                Width           =   2955
             End
             Begin VB.Label lblWindowLevel 
@@ -424,17 +424,17 @@ Begin VB.Form widgetPrefs
             Height          =   465
             Index           =   11
             Left            =   375
-            TabIndex        =   186
+            TabIndex        =   185
             Top             =   5835
             Width           =   1830
          End
          Begin VB.Label lblWindowLevel 
-            Caption         =   $"frmPrefs.frx":5465
+            Caption         =   "When you have a multi-monitor set-up, the widget can auto-resize on a smaller secondary monitor."
             Height          =   660
             Index           =   10
             Left            =   2235
-            TabIndex        =   185
-            Top             =   6330
+            TabIndex        =   184
+            Top             =   6255
             Width           =   3810
          End
          Begin VB.Label lblWindowLevel 
@@ -552,7 +552,7 @@ Begin VB.Form widgetPrefs
                Width           =   3660
             End
             Begin VB.Label lblGitHub 
-               Caption         =   $"frmPrefs.frx":54FA
+               Caption         =   $"frmPrefs.frx":5465
                ForeColor       =   &H8000000D&
                Height          =   915
                Left            =   1560
@@ -562,7 +562,7 @@ Begin VB.Form widgetPrefs
                Width           =   4935
             End
             Begin VB.Label lblDebug 
-               Caption         =   $"frmPrefs.frx":55C1
+               Caption         =   $"frmPrefs.frx":552C
                Height          =   930
                Index           =   9
                Left            =   1545
@@ -609,9 +609,9 @@ Begin VB.Form widgetPrefs
          End
          Begin VB.ComboBox cmbDebug 
             Height          =   315
-            ItemData        =   "frmPrefs.frx":5665
+            ItemData        =   "frmPrefs.frx":55D0
             Left            =   1530
-            List            =   "frmPrefs.frx":5667
+            List            =   "frmPrefs.frx":55D2
             Style           =   2  'Dropdown List
             TabIndex        =   52
             ToolTipText     =   "Choose to set debug mode."
@@ -772,7 +772,7 @@ Begin VB.Form widgetPrefs
             SelStart        =   5
          End
          Begin VB.Label lblConfiguration 
-            Caption         =   $"frmPrefs.frx":5669
+            Caption         =   $"frmPrefs.frx":55D4
             Height          =   915
             Index           =   0
             Left            =   1980
@@ -1027,7 +1027,7 @@ Begin VB.Form widgetPrefs
                Width           =   1320
             End
             Begin VB.Label lblGeneral 
-               Caption         =   $"frmPrefs.frx":571D
+               Caption         =   $"frmPrefs.frx":5688
                Height          =   960
                Index           =   10
                Left            =   2070
@@ -1178,7 +1178,7 @@ Begin VB.Form widgetPrefs
          MultiLine       =   -1  'True
          ScrollBars      =   2  'Vertical
          TabIndex        =   112
-         Text            =   "frmPrefs.frx":57C7
+         Text            =   "frmPrefs.frx":5732
          Top             =   2205
          Width           =   8010
       End
@@ -1667,7 +1667,7 @@ Begin VB.Form widgetPrefs
             Width           =   2115
          End
          Begin VB.Label lblPosition 
-            Caption         =   $"frmPrefs.frx":677E
+            Caption         =   $"frmPrefs.frx":66E9
             Height          =   3435
             Index           =   12
             Left            =   5145
@@ -1687,7 +1687,7 @@ Begin VB.Form widgetPrefs
             Width           =   2040
          End
          Begin VB.Label lblPosition 
-            Caption         =   $"frmPrefs.frx":6950
+            Caption         =   $"frmPrefs.frx":68BB
             Height          =   705
             Index           =   10
             Left            =   2250
@@ -1707,7 +1707,7 @@ Begin VB.Form widgetPrefs
             Width           =   2355
          End
          Begin VB.Label lblPosition 
-            Caption         =   $"frmPrefs.frx":69EF
+            Caption         =   $"frmPrefs.frx":695A
             Height          =   3045
             Index           =   6
             Left            =   2265
@@ -1925,7 +1925,7 @@ Begin VB.Form widgetPrefs
             Width           =   2400
          End
          Begin VB.Label lblFontsTab 
-            Caption         =   $"frmPrefs.frx":6B94
+            Caption         =   $"frmPrefs.frx":6AFF
             Height          =   1710
             Index           =   0
             Left            =   1725
@@ -3786,7 +3786,7 @@ Private Sub btnSave_Click()
     gblHidingTime = LTrim$(Str$(cmbHidingTime.ListIndex))
     gblIgnoreMouse = LTrim$(Str$(chkIgnoreMouse.Value))
     
-    gblMultiMonitorResize = LTrim$(Str$(cmbMultiMonitorResize.ListIndex))
+    gblMultiMonitorResize = LTrim$(Str$(chkMultiMonitorResize.Value))
      
             
     
@@ -4308,7 +4308,17 @@ Private Sub adjustPrefsControls()
     sliOpacity.Value = Val(gblOpacity)
     chkWidgetHidden.Value = Val(gblWidgetHidden)
     cmbHidingTime.ListIndex = Val(gblHidingTime)
-    cmbMultiMonitorResize.ListIndex = Val(gblMultiMonitorResize)
+    chkMultiMonitorResize.Value = Val(gblMultiMonitorResize)
+    
+    If monitorCount >= 1 Then
+        chkMultiMonitorResize.Visible = True
+        lblWindowLevel(10).Visible = True
+        lblWindowLevel(11).Visible = True
+    Else
+        chkMultiMonitorResize.Visible = False
+        lblWindowLevel(10).Visible = False
+        lblWindowLevel(11).Visible = False
+    End If
     
    On Error GoTo 0
    Exit Sub
@@ -4386,27 +4396,7 @@ Private Sub populatePrefsComboBoxes()
     cmbHidingTime.ItemData(5) = 60
     
     
-    If monitorCount >= 1 Then
-        ' populate the hiding timer combobox
-        cmbMultiMonitorResize.AddItem "Resize by screen size proportion", 0
-        cmbMultiMonitorResize.ItemData(0) = 1
-        cmbMultiMonitorResize.AddItem "Resize to 85%", 1
-        cmbMultiMonitorResize.ItemData(1) = 85
-        cmbMultiMonitorResize.AddItem "Resize to 75%", 2
-        cmbMultiMonitorResize.ItemData(2) = 75
-        cmbMultiMonitorResize.AddItem "Resize to 60%", 3
-        cmbMultiMonitorResize.ItemData(3) = 60
-        cmbMultiMonitorResize.AddItem "Resize to 50%", 4
-        cmbMultiMonitorResize.ItemData(4) = 50
-        
-        cmbMultiMonitorResize.Visible = True
-        lblWindowLevel(10).Visible = True
-        lblWindowLevel(11).Visible = True
-    Else
-        cmbMultiMonitorResize.Visible = False
-        lblWindowLevel(10).Visible = False
-        lblWindowLevel(11).Visible = False
-    End If
+
     
     
     On Error GoTo 0
@@ -5259,7 +5249,7 @@ Public Sub setPrefsTooltips()
         txtPrefsFontSize.ToolTipText = "Disabled for manual input. Choose a font size via the font selector that fits the text boxes"
         cmbWindowLevel.ToolTipText = "You can determine the window position here. Set to bottom to keep the widget below other windows."
         cmbHidingTime.ToolTipText = "."
-        cmbMultiMonitorResize.ToolTipText = "When you have a multi-monitor set-up, the widget can auto-resize on a smaller secondary monitor. Here you determine the proportion of the resize."
+        chkMultiMonitorResize.ToolTipText = "When you have a multi-monitor set-up, the widget can auto-resize on a smaller secondary monitor. Here you determine the proportion of the resize."
         
         chkEnableResizing.ToolTipText = "Provides an alternative method of supporting high DPI screens."
         chkPreventDragging.ToolTipText = "Checking this box turns off the ability to drag the program with the mouse. The locking in position effect takes place instantly."
@@ -5349,7 +5339,7 @@ Public Sub setPrefsTooltips()
         txtPrefsFont.ToolTipText = vbNullString
         cmbWindowLevel.ToolTipText = vbNullString
         cmbHidingTime.ToolTipText = vbNullString
-        cmbMultiMonitorResize.ToolTipText = vbNullString
+        chkMultiMonitorResize.ToolTipText = vbNullString
         
         chkEnableResizing.ToolTipText = vbNullString
         chkPreventDragging.ToolTipText = vbNullString

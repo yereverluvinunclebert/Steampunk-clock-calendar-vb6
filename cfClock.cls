@@ -288,7 +288,7 @@ Public Sub InitFromPSD(ByRef PSD_FileNameOrByteArray As Variant)
 
     'create the Alpha-capable Top-Level-Form
     Set clockForm = Cairo.WidgetForms.Create(IIf(App.LogMode, AlphaNoTaskbarEntry, AlphaWithTaskbarEntry), widgetName, True, 1, 1)
-        clockForm.WidgetRoot.BackColor = -1
+        clockForm.WidgetRoot.BackColor = -1 ' transparent
  
     With New_c.SimplePSD(PSD_FileNameOrByteArray)  'create a new PSD-Parser.instance (and load the passed content)
         PSDWidth = .Width
@@ -361,6 +361,7 @@ Public Sub InitFromPSD(ByRef PSD_FileNameOrByteArray As Variant)
     Set alarmtoggle3 = clockForm.Widgets("alarmtoggle3").Widget
     Set alarmtoggle4 = clockForm.Widgets("alarmtoggle4").Widget
     Set alarmtoggle5 = clockForm.Widgets("alarmtoggle5").Widget
+    
     Set clapperLeft = clockForm.Widgets("clapperleft").Widget
     Set clapperright = clockForm.Widgets("clapperright").Widget
     Set labellayer = clockForm.Widgets("labellayer").Widget

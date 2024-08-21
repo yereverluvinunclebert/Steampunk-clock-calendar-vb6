@@ -2735,6 +2735,7 @@ Public Sub positionByMonitorSize(Optional firstRun As Boolean)
     Static oldClockFormMonitorID As Long
     Static oldMonitorStructWidthTwips As Long
     Static oldMonitorStructHeightTwips As Long
+    Static oldClockLeftPixels As Long
         
     Dim monitorStruct As UDTMonitor
     Dim clockFormMonitorID As Long: clockFormMonitorID = 0
@@ -2752,16 +2753,35 @@ Public Sub positionByMonitorSize(Optional firstRun As Boolean)
         monitorStructHeightTwips = monitorStruct.Height
         
         If oldClockFormMonitorID = 0 Then oldClockFormMonitorID = clockFormMonitorID
-        If oldMonitorStructWidthTwips = 0 Then oldMonitorStructWidthTwips = oldMonitorStructWidthTwips
-        If oldMonitorStructHeightTwips = 0 Then oldMonitorStructHeightTwips = oldMonitorStructHeightTwips
+        If oldMonitorStructWidthTwips = 0 Then oldMonitorStructWidthTwips = monitorStructWidthTwips
+        If oldMonitorStructHeightTwips = 0 Then oldMonitorStructHeightTwips = monitorStructHeightTwips
+        If oldClockLeftPixels = 0 Then oldClockLeftPixels = fClock.clockForm.Left
     
         ' if the monitor ID has changed
         If oldClockFormMonitorID <> clockFormMonitorID Then
             'if the resolution is different then calculate new size proportion
             If monitorStructWidthTwips <> oldMonitorStructWidthTwips Or monitorStructHeightTwips <> oldMonitorStructHeightTwips Then
                 
+                Dim A As Long
+                Dim B As Long
+                Dim C As Long
+                B = fClock.clockForm.Widgets("maincasingsurround").Widget.Left
+                A = fClock.clockForm.Left
+                C = monitorStructWidthTwips / fTwipsPerPixelX
+                
+                'If A + B > C Then MsgBox "whahay"
+                
                 'now calculate the size of the widget according to the screen HeightTwips.
                 resizeProportion = monitorStruct.Height / oldMonitorStructHeightTwips
+                resizeProportion = (Val(gblGaugeSize) / 100) * resizeProportion
+                
+                'if  dragging from right to left then
+                If fClock.clockForm.Left > oldClockLeftPixels Then
+                    fClock.clockForm.Left = A + B
+                Else
+                    fClock.clockForm.Left = A - B
+                End If
+                fClock.clockForm.Refresh
                 Call fClock.AdjustZoom(resizeProportion)
             End If
         End If
@@ -2769,7 +2789,7 @@ Public Sub positionByMonitorSize(Optional firstRun As Boolean)
         oldClockFormMonitorID = clockFormMonitorID
         oldMonitorStructWidthTwips = monitorStructWidthTwips
         oldMonitorStructHeightTwips = monitorStructHeightTwips
-            
+        oldClockLeftPixels = fClock.clockForm.Left
     End If
 
    On Error GoTo 0
