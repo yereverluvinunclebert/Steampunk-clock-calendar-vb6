@@ -563,15 +563,6 @@ Public Sub positionClockByMonitorSize()
             'if the resolution is different then calculate new size proportion
             If monitorStructWidthTwips <> oldMonitorStructWidthTwips Or monitorStructHeightTwips <> oldMonitorStructHeightTwips Then
                 
-'                Dim A As Long
-'                Dim B As Long
-'                Dim C As Long
-'                B = fClock.clockForm.Widgets("maincasingsurround").Widget.Left
-'                A = fClock.clockForm.Left
-'                C = monitorStructWidthTwips / fTwipsPerPixelX
-                
-                'If A + B > C Then MsgBox "whahay"
-                
                 'now calculate the size of the widget according to the screen HeightTwips.
                 resizeProportion = monitorStruct.Height / oldMonitorStructHeightTwips
                 resizeProportion = (Val(gblGaugeSize) / 100) * resizeProportion
