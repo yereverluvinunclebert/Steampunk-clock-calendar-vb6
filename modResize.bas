@@ -11,8 +11,8 @@ Public Type ControlPositionType
 End Type
 
 Public prefsControlPositions() As ControlPositionType
-Public prefsCurrentWidth As Double
-Public prefsCurrentHeight As Double
+Public gblPrefsCurrentWidth As Double
+Public gblPrefsCurrentHeight As Double
 
 Public msgBoxAControlPositions() As ControlPositionType
 Public msgBoxACurrentWidth As Double

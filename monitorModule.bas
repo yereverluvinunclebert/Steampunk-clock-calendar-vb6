@@ -56,8 +56,8 @@ Public Declare Function ReleaseDC Lib "user32" (ByVal hwnd As Long, ByVal hdc As
 Public Declare Function GetDeviceCaps Lib "gdi32" (ByVal hdc As Long, ByVal nIndex As Long) As Long
 'Private Declare Function CreateDC Lib "gdi32" Alias "CreateDCA" (ByVal lpDriverName As String, ByVal lpDeviceName As String, ByVal lpOutput As String, ByVal lpInitData As Long) As Long
 Private Declare Function UnionRect Lib "user32" (lprcDst As RECT, lprcSrc1 As RECT, lprcSrc2 As RECT) As Long
-Private Declare Function OffsetRect Lib "user32" (lpRect As RECT, ByVal X As Long, ByVal Y As Long) As Long
-Private Declare Function MoveWindow Lib "user32" (ByVal hwnd As Long, ByVal X As Long, ByVal Y As Long, ByVal nWidth As Long, ByVal nHeight As Long, ByVal bRepaint As Long) As Long
+Private Declare Function OffsetRect Lib "user32" (lpRect As RECT, ByVal x As Long, ByVal y As Long) As Long
+Private Declare Function MoveWindow Lib "user32" (ByVal hwnd As Long, ByVal x As Long, ByVal y As Long, ByVal nWidth As Long, ByVal nHeight As Long, ByVal bRepaint As Long) As Long
 Private Declare Function GetWindowRect Lib "user32.dll" (ByVal hwnd As Long, lpRect As RECT) As Long
 Private Declare Function MonitorFromRect Lib "user32" (rc As RECT, ByVal dwFlags As dwFlags) As Long
 Private Declare Function GetMonitorInfo Lib "user32" Alias "GetMonitorInfoA" (ByVal hMonitor As Long, MonInfo As tagMONITORINFO) As Long
@@ -74,7 +74,7 @@ Public screenTwipsPerPixelY As Long ' .07 DAEB 26/04/2021 common.bas changed to 
 'Public physicalScreenWidthTwips As Long
 'Public physicalScreenHeightTwips As Long
 
-
+Public newPrefsWidth As Single
 
 '---------------------------------------------------------------------------------------
 ' Procedure : fPixelsPerInchX
@@ -279,6 +279,76 @@ setFormOnMonitor_Error:
 End Sub
 
 '---------------------------------------------------------------------------------------
+' Procedure : cWidgetFormScreenProperties
+' Author    :
+' Date      : 23/01/2021
+' Purpose   : provides the properties of the monitor upon which the supplied form's rectangle sits.
+'             User supplies the form name.
+'---------------------------------------------------------------------------------------
+'
+Public Function cWidgetFormScreenProperties(ByVal frm As cWidgetForm, ByRef monitorID As Long) As UDTMonitor
+    
+    Dim hMonitor As Long: hMonitor = 0
+    Dim MONITORINFO As tagMONITORINFO
+    Dim Frect As RECT
+    Dim ad As Double: ad = 0
+    
+    On Error GoTo cWidgetFormScreenProperties_Error
+   
+    If debugFlg = 1 Then MsgBox "%" & " func cWidgetFormScreenProperties"
+    
+    ' reads the size and position of the user supplied form window
+    GetWindowRect frm.hwnd, Frect
+    hMonitor = MonitorFromRect(Frect, MONITOR_DEFAULTTOPRIMARY) ' get handle for monitor containing most of Frm
+                                                                ' if disconnected return handle (and properties) for primary monitor
+    On Error GoTo GetMonitorInformation_Err
+    MONITORINFO.cbSize = Len(MONITORINFO)
+    GetMonitorInfo hMonitor, MONITORINFO
+    
+    'Return the properties (in Twips) of the monitor upon which most of Frm is mapped
+    With cWidgetFormScreenProperties
+        .handle = hMonitor
+        'convert all dimensions from pixels to twips
+        .Left = MONITORINFO.rcMonitor.Left * screenTwipsPerPixelX
+        .Right = MONITORINFO.rcMonitor.Right * screenTwipsPerPixelX
+        .Top = MONITORINFO.rcMonitor.Top * screenTwipsPerPixelY
+        .Bottom = MONITORINFO.rcMonitor.Bottom * screenTwipsPerPixelY
+
+'        .WorkLeft = MONITORINFO.rcWork.Left * screenTwipsPerPixelX
+'        .WorkRight = MONITORINFO.rcWork.Right * screenTwipsPerPixelX
+'        .WorkTop = MONITORINFO.rcWork.Top * screenTwipsPerPixelY
+'        .Workbottom = MONITORINFO.rcWork.Bottom * screenTwipsPerPixelY
+
+        .Height = (MONITORINFO.rcMonitor.Bottom - MONITORINFO.rcMonitor.Top) * screenTwipsPerPixelY
+        .Width = (MONITORINFO.rcMonitor.Right - MONITORINFO.rcMonitor.Left) * screenTwipsPerPixelX
+'
+'        .WorkHeight = (MONITORINFO.rcWork.Bottom - MONITORINFO.rcWork.Top) * screenTwipsPerPixelY
+'        .WorkWidth = (MONITORINFO.rcWork.Right - MONITORINFO.rcWork.Left) * screenTwipsPerPixelX
+
+        .IsPrimary = MONITORINFO.dwFlags And MONITORINFOF_PRIMARY
+    End With
+    
+    monitorID = hMonitor
+
+    Exit Function
+GetMonitorInformation_Err:
+    Beep
+    If Err.Number = 453 Then
+        'should be handled if pre win2k compatibility is required
+        'Non-Multimonitor OS, return -1
+        'GetMonitorInformation = -1
+        'etc
+    End If
+
+   On Error GoTo 0
+   Exit Function
+
+cWidgetFormScreenProperties_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure cWidgetFormScreenProperties of Module common"
+End Function
+
+'---------------------------------------------------------------------------------------
 ' Procedure : formScreenProperties
 ' Author    :
 ' Date      : 23/01/2021
@@ -286,7 +356,7 @@ End Sub
 '             User supplies the form name.
 '---------------------------------------------------------------------------------------
 '
-Public Function formScreenProperties(ByVal frm As cWidgetForm, ByRef monitorID As Long) As UDTMonitor
+Public Function formScreenProperties(ByVal frm As Form, ByRef monitorID As Long) As UDTMonitor
     
     Dim hMonitor As Long: hMonitor = 0
     Dim MONITORINFO As tagMONITORINFO
@@ -453,4 +523,151 @@ End Function
 '        fCurrentScreenHeight = Pixels * fTwipsPerPixelY
 '    End If
 'End Function
+
+
+'---------------------------------------------------------------------------------------
+' Procedure : positionClockByMonitorSize
+' Author    : beededea
+' Date      : 20/08/2024
+' Purpose   : if there is more than one screen size the form according to the form's physical monitor properties
+'---------------------------------------------------------------------------------------
+'
+Public Sub positionClockByMonitorSize()
+    Static oldClockFormMonitorID As Long
+    Static oldMonitorStructWidthTwips As Long
+    Static oldMonitorStructHeightTwips As Long
+    Static oldClockLeftPixels As Long
+        
+    Dim monitorStruct As UDTMonitor
+    Dim clockFormMonitorID As Long: clockFormMonitorID = 0
+    Dim monitorStructWidthTwips As Long: monitorStructWidthTwips = 0
+    Dim monitorStructHeightTwips As Long: monitorStructHeightTwips = 0
+    Dim resizeProportion As Double: resizeProportion = 0
+
+    On Error GoTo positionClockByMonitorSize_Error
+  
+    If monitorCount > 1 And gblMultiMonitorResize = "1" Then
+        ' note the monitor ID at clockForm form_load and store as the clockFormMonitorID
+        monitorStruct = cWidgetFormScreenProperties(fClock.clockForm, clockFormMonitorID)
+        ' sample the physical monitor resolution
+        monitorStructWidthTwips = monitorStruct.Width
+        monitorStructHeightTwips = monitorStruct.Height
+        
+        If oldClockFormMonitorID = 0 Then oldClockFormMonitorID = clockFormMonitorID
+        If oldMonitorStructWidthTwips = 0 Then oldMonitorStructWidthTwips = monitorStructWidthTwips
+        If oldMonitorStructHeightTwips = 0 Then oldMonitorStructHeightTwips = monitorStructHeightTwips
+        If oldClockLeftPixels = 0 Then oldClockLeftPixels = fClock.clockForm.Left
+    
+        ' if the monitor ID has changed
+        If oldClockFormMonitorID <> clockFormMonitorID Then
+            'if the resolution is different then calculate new size proportion
+            If monitorStructWidthTwips <> oldMonitorStructWidthTwips Or monitorStructHeightTwips <> oldMonitorStructHeightTwips Then
+                
+'                Dim A As Long
+'                Dim B As Long
+'                Dim C As Long
+'                B = fClock.clockForm.Widgets("maincasingsurround").Widget.Left
+'                A = fClock.clockForm.Left
+'                C = monitorStructWidthTwips / fTwipsPerPixelX
+                
+                'If A + B > C Then MsgBox "whahay"
+                
+                'now calculate the size of the widget according to the screen HeightTwips.
+                resizeProportion = monitorStruct.Height / oldMonitorStructHeightTwips
+                resizeProportion = (Val(gblGaugeSize) / 100) * resizeProportion
+                
+                'if  dragging from right to left then reposition
+                If fClock.clockForm.Left > oldClockLeftPixels Then
+                    fClock.clockForm.Left = fClock.clockForm.Left + fClock.clockForm.Widgets("maincasingsurround").Widget.Left
+                Else
+                    fClock.clockForm.Left = fClock.clockForm.Left - fClock.clockForm.Widgets("maincasingsurround").Widget.Left
+                End If
+                fClock.clockForm.Refresh
+                Call fClock.AdjustZoom(resizeProportion)
+            End If
+        End If
+    
+        oldClockFormMonitorID = clockFormMonitorID
+        oldMonitorStructWidthTwips = monitorStructWidthTwips
+        oldMonitorStructHeightTwips = monitorStructHeightTwips
+        oldClockLeftPixels = fClock.clockForm.Left
+    End If
+
+   On Error GoTo 0
+   Exit Sub
+
+positionClockByMonitorSize_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure positionClockByMonitorSize of Module Module1"
+
+End Sub
+
+
+'---------------------------------------------------------------------------------------
+' Procedure : positionPrefsByMonitorSize
+' Author    : beededea
+' Date      : 20/08/2024
+' Purpose   : if there is more than one screen size the form according to the form's physical monitor properties
+'---------------------------------------------------------------------------------------
+'
+Public Function positionPrefsByMonitorSize()
+    Static oldPrefsFormMonitorID As Long
+    Static oldPrefsMonitorStructWidthTwips As Long
+    Static oldPrefsMonitorStructHeightTwips As Long
+    Static oldPrefsClockLeftPixels As Long
+        
+    Dim monitorStruct As UDTMonitor
+    Dim prefsFormMonitorID As Long: prefsFormMonitorID = 0
+    Dim monitorStructWidthTwips As Long: monitorStructWidthTwips = 0
+    Dim monitorStructHeightTwips As Long: monitorStructHeightTwips = 0
+    Dim resizeProportion As Double: resizeProportion = 0
+
+    Static calledOnce As Boolean
+    
+    On Error GoTo positionPrefsByMonitorSize_Error
+  
+    If monitorCount > 1 And gblMultiMonitorResize = "1" Then
+        ' note the monitor ID at PrefsForm form_load and store as the prefsFormMonitorID
+        monitorStruct = formScreenProperties(widgetPrefs, prefsFormMonitorID)
+        ' sample the physical monitor resolution
+        monitorStructWidthTwips = monitorStruct.Width
+        monitorStructHeightTwips = monitorStruct.Height
+        
+        If oldPrefsFormMonitorID = 0 Then oldPrefsFormMonitorID = prefsFormMonitorID
+        If oldPrefsMonitorStructWidthTwips = 0 Then oldPrefsMonitorStructWidthTwips = monitorStructWidthTwips
+        If oldPrefsMonitorStructHeightTwips = 0 Then oldPrefsMonitorStructHeightTwips = monitorStructHeightTwips
+        If oldPrefsClockLeftPixels = 0 Then oldPrefsClockLeftPixels = widgetPrefs.Left
+    
+        ' if the monitor ID has changed
+        If oldPrefsFormMonitorID <> prefsFormMonitorID Then
+            'if the resolution is different then calculate new size proportion
+            If monitorStructWidthTwips <> oldPrefsMonitorStructWidthTwips Or monitorStructHeightTwips <> oldPrefsMonitorStructHeightTwips Then
+'                If calledOnce = False Then
+'                    calledOnce = True
+
+                    'now calculate the size of the widget according to the screen HeightTwips.
+                    resizeProportion = monitorStruct.Height / oldPrefsMonitorStructHeightTwips
+                    resizeProportion = (Val(gblGaugeSize) / 100) * resizeProportion
+                                        
+                    widgetPrefs.Height = Val(gblFormHeightTwips) * resizeProportion
+'                End If
+            End If
+        End If
+    
+        oldPrefsFormMonitorID = prefsFormMonitorID
+        oldPrefsMonitorStructWidthTwips = monitorStructWidthTwips
+        oldPrefsMonitorStructHeightTwips = monitorStructHeightTwips
+        oldPrefsClockLeftPixels = widgetPrefs.Left
+    End If
+    
+   
+
+   On Error GoTo 0
+   Exit Function
+
+positionPrefsByMonitorSize_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure positionPrefsByMonitorSize of Module Module1"
+
+End Function
 

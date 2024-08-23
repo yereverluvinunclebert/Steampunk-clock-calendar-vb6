@@ -1984,7 +1984,7 @@ Private Sub clockForm_MouseUp(ByRef Button As Integer, ByRef Shift As Integer, B
     ' save the form x,y position whenever the globe/form is dragged
     Call savePosition
 
-    Call positionByMonitorSize
+    Call positionClockByMonitorSize
     
     On Error GoTo 0
     Exit Sub

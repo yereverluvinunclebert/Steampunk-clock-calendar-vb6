@@ -89,6 +89,9 @@ Begin VB.Form menuForm
       Begin VB.Menu mnuHideWidget 
          Caption         =   "Hide Widget"
       End
+      Begin VB.Menu blank12 
+         Caption         =   ""
+      End
       Begin VB.Menu mnuQuit 
          Caption         =   "Close Widget"
       End

@@ -135,17 +135,9 @@ Private Sub tmrScreenResolution_Timer()
     
     virtualScreenWidthPixels = fVirtualScreenWidth(True)
     virtualScreenHeightPixels = fVirtualScreenHeight(True)
-     
-    ' if current position is beyond monitor
-    'If fClock.clockForm.Left > 3840 Then
-               
-        ' now calculate the size of the widget according to the screen height.
-'        resizeProportion = 700 / oldPhysicalScreenHeightPixels
-'        Call fClock.AdjustZoom(resizeProportion)
 
-        Call positionByMonitorSize
-        
-    'End If
+    ' calls a routine that tests for a change in the monitor upon which the form sits, if so, resizes
+    Call positionClockByMonitorSize
     
     ' will be used to check for orientation changes
     If (oldPhysicalScreenHeightPixels <> physicalScreenHeightPixels) Or (oldPhysicalScreenWidthPixels <> physicalScreenWidthPixels) Then

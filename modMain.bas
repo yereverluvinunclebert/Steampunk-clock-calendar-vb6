@@ -137,7 +137,7 @@ Public Sub mainRoutine(ByVal restart As Boolean)
     Call makeVisibleFormElements
     
     ' obtain initial physical screen sizes and monitor ID
-    Call positionByMonitorSize
+    Call positionClockByMonitorSize
     
     ' run the functions that are also called at reload time.
     Call adjustMainControls ' this needs to be here after the initialisation of the Cairo forms and widgets
