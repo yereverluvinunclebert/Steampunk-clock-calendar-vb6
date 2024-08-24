@@ -330,14 +330,14 @@ Begin VB.Form widgetPrefs
    End
    Begin VB.Frame fraWindow 
       Caption         =   "Window"
-      Height          =   7770
+      Height          =   8025
       Left            =   225
       TabIndex        =   10
       Top             =   1620
       Width           =   8235
       Begin VB.Frame fraWindowInner 
          BorderStyle     =   0  'None
-         Height          =   7155
+         Height          =   7500
          Left            =   165
          TabIndex        =   14
          Top             =   345
@@ -434,7 +434,7 @@ Begin VB.Form widgetPrefs
          End
          Begin VB.Label lblWindowLevel 
             Caption         =   $"frmPrefs.frx":5465
-            Height          =   810
+            Height          =   1140
             Index           =   10
             Left            =   2235
             TabIndex        =   184
@@ -556,7 +556,7 @@ Begin VB.Form widgetPrefs
                Width           =   3660
             End
             Begin VB.Label lblGitHub 
-               Caption         =   $"frmPrefs.frx":550B
+               Caption         =   $"frmPrefs.frx":5574
                ForeColor       =   &H8000000D&
                Height          =   915
                Left            =   1560
@@ -566,7 +566,7 @@ Begin VB.Form widgetPrefs
                Width           =   4935
             End
             Begin VB.Label lblDebug 
-               Caption         =   $"frmPrefs.frx":55D2
+               Caption         =   $"frmPrefs.frx":563B
                Height          =   930
                Index           =   9
                Left            =   1545
@@ -613,9 +613,9 @@ Begin VB.Form widgetPrefs
          End
          Begin VB.ComboBox cmbDebug 
             Height          =   315
-            ItemData        =   "frmPrefs.frx":5676
+            ItemData        =   "frmPrefs.frx":56DF
             Left            =   1530
-            List            =   "frmPrefs.frx":5678
+            List            =   "frmPrefs.frx":56E1
             Style           =   2  'Dropdown List
             TabIndex        =   52
             ToolTipText     =   "Choose to set debug mode."
@@ -776,7 +776,7 @@ Begin VB.Form widgetPrefs
             SelStart        =   5
          End
          Begin VB.Label lblConfiguration 
-            Caption         =   $"frmPrefs.frx":567A
+            Caption         =   $"frmPrefs.frx":56E3
             Height          =   915
             Index           =   0
             Left            =   1980
@@ -1031,7 +1031,7 @@ Begin VB.Form widgetPrefs
                Width           =   1320
             End
             Begin VB.Label lblGeneral 
-               Caption         =   $"frmPrefs.frx":572E
+               Caption         =   $"frmPrefs.frx":5797
                Height          =   960
                Index           =   10
                Left            =   2070
@@ -1182,7 +1182,7 @@ Begin VB.Form widgetPrefs
          MultiLine       =   -1  'True
          ScrollBars      =   2  'Vertical
          TabIndex        =   112
-         Text            =   "frmPrefs.frx":57D8
+         Text            =   "frmPrefs.frx":5841
          Top             =   2205
          Width           =   8010
       End
@@ -1671,7 +1671,7 @@ Begin VB.Form widgetPrefs
             Width           =   2115
          End
          Begin VB.Label lblPosition 
-            Caption         =   $"frmPrefs.frx":678F
+            Caption         =   $"frmPrefs.frx":67F8
             Height          =   3435
             Index           =   12
             Left            =   5145
@@ -1691,7 +1691,7 @@ Begin VB.Form widgetPrefs
             Width           =   2040
          End
          Begin VB.Label lblPosition 
-            Caption         =   $"frmPrefs.frx":6961
+            Caption         =   $"frmPrefs.frx":69CA
             Height          =   705
             Index           =   10
             Left            =   2250
@@ -1711,7 +1711,7 @@ Begin VB.Form widgetPrefs
             Width           =   2355
          End
          Begin VB.Label lblPosition 
-            Caption         =   $"frmPrefs.frx":6A00
+            Caption         =   $"frmPrefs.frx":6A69
             Height          =   3045
             Index           =   6
             Left            =   2265
@@ -1929,7 +1929,7 @@ Begin VB.Form widgetPrefs
             Width           =   2400
          End
          Begin VB.Label lblFontsTab 
-            Caption         =   $"frmPrefs.frx":6BA5
+            Caption         =   $"frmPrefs.frx":6C0E
             Height          =   1710
             Index           =   0
             Left            =   1725
@@ -4905,8 +4905,8 @@ Private Sub tmrPrefsScreenResolution_Timer()
         ' when the timer frequency is reduced caused some weird async. effects, 500 ms seems fine, disable the timer first
         tmrPrefsScreenResolution.Enabled = False
    
-        If oldWidgetPrefsLeft = 0 Then oldWidgetPrefsLeft = widgetPrefs.Left
-        If oldWidgetPrefsTop = 0 Then oldWidgetPrefsTop = widgetPrefs.Top
+        If oldWidgetPrefsLeft <= 0 Then oldWidgetPrefsLeft = widgetPrefs.Left
+        If oldWidgetPrefsTop <= 0 Then oldWidgetPrefsTop = widgetPrefs.Top
 
         ' test whether the form has been moved (VB6 has no FORM_MOVING nor FORM_MOVED EVENTS)
         If widgetPrefs.Left <> oldWidgetPrefsLeft Or widgetPrefs.Top <> oldWidgetPrefsTop Then
@@ -6187,8 +6187,9 @@ Private Sub setframeHeights()
         fraPosition.Height = 7544
         fraFonts.Height = 4481
         
+        ' the lowest window controls are not displayed on a single monitor
         If monitorCount >= 1 Then
-            fraWindow.Height = 7986
+            fraWindow.Height = 8138
         Else
             fraWindow.Height = 6586
         End If

@@ -2906,6 +2906,7 @@ Public Property Let weekdayToggleEnabled(ByVal newValue As Boolean)
         gblWeekdayToggleEnabled = "True"
     Else
         weekdaytoggle.Move weekdayToggleOut, weekdayToggleTop
+        clockForm.Widgets("weekdayred").Widget.Alpha = 0
         clockForm.Widgets("weekday").Widget.Alpha = 0
         clockForm.Widgets("weekdayshadow").Widget.Alpha = 0
         clockForm.Widgets(thisDayOfWeek).Widget.Alpha = 0
@@ -2937,6 +2938,30 @@ weekdayToggleEnabledLet_Error:
 
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property weekdayToggleEnabled of Class Module cfClock"
 End Property
+
+
+  
+      
+'    fClock.clockForm.Widgets("weekday").Widget.Alpha = 0
+'    fClock.clockForm.Widgets("weekdayshadow").Widget.Alpha = 0
+'
+'    fClock.clockForm.Widgets("monday").Widget.Alpha = 0
+'    fClock.clockForm.Widgets("tuesday").Widget.Alpha = 0
+'    fClock.clockForm.Widgets("wednesday").Widget.Alpha = 0
+'    fClock.clockForm.Widgets("thursday").Widget.Alpha = 0
+'    fClock.clockForm.Widgets("friday").Widget.Alpha = 0
+'    fClock.clockForm.Widgets("saturday").Widget.Alpha = 0
+'    fClock.clockForm.Widgets("sunday").Widget.Alpha = 0
+    
+'    fClock.clockForm.Widgets("monday").Widget.Refresh
+'    fClock.clockForm.Widgets("tuesday").Widget.Refresh
+'    fClock.clockForm.Widgets("wednesday").Widget.Refresh
+'    fClock.clockForm.Widgets("thursday").Widget.Refresh
+'    fClock.clockForm.Widgets("friday").Widget.Refresh
+'    fClock.clockForm.Widgets("saturday").Widget.Refresh
+'    fClock.clockForm.Widgets("sunday").Widget.Refresh
+
+
 
 '---------------------------------------------------------------------------------------
 ' Property  : weekdayToggleEnabled
@@ -4145,22 +4170,7 @@ Private Sub clearWeekdayTill()
 
     weekdayred.Alpha = 0 ' sometimes you can fool the mouseleave, this helps to recover the situation
     weekdayred.Refresh
-     
-'    fClock.clockForm.Widgets("monday").Widget.Alpha = 0
-'    fClock.clockForm.Widgets("tuesday").Widget.Alpha = 0
-'    fClock.clockForm.Widgets("wednesday").Widget.Alpha = 0
-'    fClock.clockForm.Widgets("thursday").Widget.Alpha = 0
-'    fClock.clockForm.Widgets("friday").Widget.Alpha = 0
-'    fClock.clockForm.Widgets("saturday").Widget.Alpha = 0
-'    fClock.clockForm.Widgets("sunday").Widget.Alpha = 0
-    
-'    fClock.clockForm.Widgets("monday").Widget.Refresh
-'    fClock.clockForm.Widgets("tuesday").Widget.Refresh
-'    fClock.clockForm.Widgets("wednesday").Widget.Refresh
-'    fClock.clockForm.Widgets("thursday").Widget.Refresh
-'    fClock.clockForm.Widgets("friday").Widget.Refresh
-'    fClock.clockForm.Widgets("saturday").Widget.Refresh
-'    fClock.clockForm.Widgets("sunday").Widget.Refresh
+
 
     On Error GoTo 0
     Exit Sub

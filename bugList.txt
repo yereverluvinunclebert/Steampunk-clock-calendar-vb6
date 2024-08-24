@@ -38,6 +38,12 @@ pendulum - convert the original js.
 add pendulum toggle control to the prefs
 quiet/loud sounds
 
+' resizing of main clock on multi-monitor systems with different sizes
+' resizing of preferences on multi-monitor systems with different sizes
+' test usage of RC6 for 2nd monitor awareness 
+
+' weekday till refresh at midnight
+
 ' -oOo-
 
 ' TASK: create an image array/list and populate that with the date/time images that need to be displayed,
@@ -45,14 +51,12 @@ quiet/loud sounds
 ' de-couple the routines that populate the digital clocks so we can run those on a separate timer
 ' so that code does not run on each and every PAINT event consuming CPU.
 
-' weekday till refresh at midnight
-
 fix the slider cable
-
-click on alarm till deletes alarm with confirmation pop-up - wip
 
 slider advancing/retarding time using timeShiftPercent modified not quite exponentially to shift time - wip
 ' in the timer, take the value of timeShiftPercent and do what to it?
+
+click on alarm till deletes alarm with confirmation pop-up - wip
 
 digital counter animation from zero
 
@@ -71,23 +75,12 @@ add "operating system" messages to all events to display on the screen
 ' sync. E6410 win 7
 ' sync. Fast Dell laptop
 
-' test on Dell win 11 high DPI with slicence = 0
-
-' test usage of RC6 for monitor awareness - wip
-With New_c.Displays(OneBasedIndex_Or_DeviceName) 'hands out an instance of cDisplay
-  'output as LeftOffs, TopOffs, Width, Height
-  Debug.Print .WorkLeft , .WorkTop, (.WorkRight - .WorkLeft), (.WorkBottom - .WorkTop)
-End With
-
-' https://www.vbforums.com/showthread.php?900892-VB6-Simple-way-to-make-your-VB6-application-quot-Per-Monitor-DPI-Aware-quot
+' test on Dell win 11 high DPI with slicence = 
 
 ' adjustFormPositionToCorrectMonitor, make it work and observe the result as per FCW - wip
-
 ' adjustFormPositionToCorrectMonitor - licence form
 ' adjustFormPositionToCorrectMonitor - about form
 ' adjustFormPositionToCorrectMonitor - help form
-
-
 
 ' -oOo-
 
