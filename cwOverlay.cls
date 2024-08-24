@@ -404,16 +404,12 @@ Private Sub W_Paint(CC As RC6.cCairoContext, ByVal xAbs As Single, ByVal yAbs As
 
                 Case "cable"
                     Set Pat = Cairo.ImageList(Key).CropSurface(0, 0, 200, 27).CreateSurfacePattern 'cut-out a nice (repeatable) part of the original "cable"-image (via CropSurface)
-'                   Set Pat = Cairo.ImageList(Key).CropSurface(10, 0, 140, 27).CreateSurfacePattern 'cut-out a nice (repeatable) part of the original "cable"-image (via CropSurface)
                     
                     Set Pat.Matrix = Pat.Matrix.TranslateCoords(sldCurWidth, -Arr(1)) 'sldCurWidth in the x-Coord will ensure that nice "spooling-effect"
                         Pat.Extend = CAIRO_EXTEND_REPEAT
 
                     'since we've set CAIRO_EXTEND_REPEAT, we now have to clip the range it is "allowed to extend to"
-                    CC.ClipExplicit Arr(0) - sldCurWidth, Arr(1), sldCurWidth + 20, 27
-                    
-                    
-'                   CC.ClipExplicit Arr(0) + 10 - sldCurWidth, Arr(1), 249 + sldCurWidth, 27
+                    CC.ClipExplicit Arr(0) - sldCurWidth, Arr(1), sldCurWidth + 15, 27
                 
                 Case "pendulum"
                     Set Pat = Cairo.ImageList(Key).CreateSurfacePattern
@@ -1077,9 +1073,6 @@ Private Sub tmrClock_Timer()
     
     If fClock.weekdayToggleEnabled = True Then
         If thisHour <= 1 And thisMin = 1 And thisSec < 3 Then
-        
-'            fClock.clockForm.Widgets("weekday").Widget.Alpha = 0
-'            fClock.clockForm.Widgets("weekdayshadow").Widget.Alpha = 0
             
             fClock.clockForm.Widgets("monday").Widget.Alpha = 0
             fClock.clockForm.Widgets("tuesday").Widget.Alpha = 0
@@ -1088,14 +1081,6 @@ Private Sub tmrClock_Timer()
             fClock.clockForm.Widgets("friday").Widget.Alpha = 0
             fClock.clockForm.Widgets("saturday").Widget.Alpha = 0
             fClock.clockForm.Widgets("sunday").Widget.Alpha = 0
-'
-'            fClock.clockForm.Widgets("monday").Widget.Refresh
-'            fClock.clockForm.Widgets("tuesday").Widget.Refresh
-'            fClock.clockForm.Widgets("wednesday").Widget.Refresh
-'            fClock.clockForm.Widgets("thursday").Widget.Refresh
-'            fClock.clockForm.Widgets("friday").Widget.Refresh
-'            fClock.clockForm.Widgets("saturday").Widget.Refresh
-'            fClock.clockForm.Widgets("sunday").Widget.Refresh
 
             fClock.clockForm.Widgets(fDayOfWeek).Widget.Alpha = 1
         End If

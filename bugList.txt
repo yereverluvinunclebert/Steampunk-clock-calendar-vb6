@@ -44,6 +44,8 @@ quiet/loud sounds
 
 ' weekday till refresh at midnight
 
+' fix the slider cable
+
 ' -oOo-
 
 ' TASK: create an image array/list and populate that with the date/time images that need to be displayed,
@@ -51,9 +53,11 @@ quiet/loud sounds
 ' de-couple the routines that populate the digital clocks so we can run those on a separate timer
 ' so that code does not run on each and every PAINT event consuming CPU.
 
-fix the slider cable
+' regular check to test the weekday indicators, if they are out of date due to system bsleeping &c, set them correctly.
 
-slider advancing/retarding time using timeShiftPercent modified not quite exponentially to shift time - wip
+' prefs, have a save size for each monitor encountered
+
+' slider advancing/retarding time using timeShiftPercent modified not quite exponentially to shift time - wip
 ' in the timer, take the value of timeShiftPercent and do what to it?
 
 click on alarm till deletes alarm with confirmation pop-up - wip
@@ -71,7 +75,6 @@ add method to feed messages to the screen
 
 add "operating system" messages to all events to display on the screen
 
-' add second monitor - wip find cable!
 ' sync. E6410 win 7
 ' sync. Fast Dell laptop
 

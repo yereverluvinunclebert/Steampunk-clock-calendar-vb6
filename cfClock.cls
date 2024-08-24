@@ -2941,27 +2941,6 @@ End Property
 
 
   
-      
-'    fClock.clockForm.Widgets("weekday").Widget.Alpha = 0
-'    fClock.clockForm.Widgets("weekdayshadow").Widget.Alpha = 0
-'
-'    fClock.clockForm.Widgets("monday").Widget.Alpha = 0
-'    fClock.clockForm.Widgets("tuesday").Widget.Alpha = 0
-'    fClock.clockForm.Widgets("wednesday").Widget.Alpha = 0
-'    fClock.clockForm.Widgets("thursday").Widget.Alpha = 0
-'    fClock.clockForm.Widgets("friday").Widget.Alpha = 0
-'    fClock.clockForm.Widgets("saturday").Widget.Alpha = 0
-'    fClock.clockForm.Widgets("sunday").Widget.Alpha = 0
-    
-'    fClock.clockForm.Widgets("monday").Widget.Refresh
-'    fClock.clockForm.Widgets("tuesday").Widget.Refresh
-'    fClock.clockForm.Widgets("wednesday").Widget.Refresh
-'    fClock.clockForm.Widgets("thursday").Widget.Refresh
-'    fClock.clockForm.Widgets("friday").Widget.Refresh
-'    fClock.clockForm.Widgets("saturday").Widget.Refresh
-'    fClock.clockForm.Widgets("sunday").Widget.Refresh
-
-
 
 '---------------------------------------------------------------------------------------
 ' Property  : weekdayToggleEnabled
