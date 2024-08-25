@@ -395,7 +395,9 @@ Public gblPrefsHighDpiXPosTwips As String
 Public gblPrefsHighDpiYPosTwips As String
 Public gblPrefsLowDpiXPosTwips As String
 Public gblPrefsLowDpiYPosTwips As String
+
 Public gblPrefsPrimaryHeightTwips As String
+Public gblPrefsSecondaryHeightTwips As String
 
 Public gblAlarm1Date As String
 Public gblAlarm2Date As String
@@ -2170,10 +2172,7 @@ Public Sub makeProgramPreferencesAvailable()
         If widgetPrefs.WindowState = vbMinimized Then
             widgetPrefs.WindowState = vbNormal
         End If
-
-
     End If
-    
 
    On Error GoTo 0
    Exit Sub
@@ -2192,8 +2191,11 @@ End Sub
 '---------------------------------------------------------------------------------------
 '
 Public Sub readPrefsPosition()
+
+    Dim monitorStruct As UDTMonitor
+    Dim prefsFormMonitorID As Long: prefsFormMonitorID = 0
             
-   On Error GoTo readPrefsPosition_Error
+    On Error GoTo readPrefsPosition_Error
 
     If gblDpiAwareness = "1" Then
         gblPrefsHighDpiXPosTwips = fGetINISetting("Software\SteampunkClockCalendar", "formHighDpiXPosTwips", gblSettingsFile)
@@ -2228,10 +2230,14 @@ Public Sub readPrefsPosition()
 '            widgetPrefs.Top = Screen.Height / 2 - widgetPrefs.Height / 2
 '        End If
     End If
-    
         
-    gblPrefsPrimaryHeightTwips = fGetINISetting("Software\SteampunkClockCalendar", "formHeightTwips", gblSettingsFile)
-   
+    monitorStruct = formScreenProperties(widgetPrefs, prefsFormMonitorID)
+    If monitorStruct.IsPrimary = True Then
+        gblPrefsPrimaryHeightTwips = fGetINISetting("Software\SteampunkClockCalendar", "prefsPrimaryHeightTwips", gblSettingsFile)
+    Else
+        gblPrefsSecondaryHeightTwips = fGetINISetting("Software\SteampunkClockCalendar", "prefsSecondaryHeightTwips", gblSettingsFile)
+    End If
+    
    On Error GoTo 0
    Exit Sub
 
@@ -2247,8 +2253,11 @@ End Sub
 '---------------------------------------------------------------------------------------
 '
 Public Sub writePrefsPosition()
-        
-   On Error GoTo writePrefsPosition_Error
+     
+    Dim monitorStruct As UDTMonitor
+    Dim prefsFormMonitorID As Long: prefsFormMonitorID = 0
+    
+    On Error GoTo writePrefsPosition_Error
 
     If widgetPrefs.WindowState = vbNormal Then ' when vbMinimised the value = -48000  !
         If gblDpiAwareness = "1" Then
@@ -2267,9 +2276,15 @@ Public Sub writePrefsPosition()
             sPutINISetting "Software\SteampunkClockCalendar", "formLowDpiYPosTwips", gblPrefsLowDpiYPosTwips, gblSettingsFile
             
         End If
-    
-        gblPrefsPrimaryHeightTwips = Trim$(Str$(widgetPrefs.Height))
-        sPutINISetting "Software\SteampunkClockCalendar", "formHeightTwips", gblPrefsPrimaryHeightTwips, gblSettingsFile
+
+        monitorStruct = formScreenProperties(widgetPrefs, prefsFormMonitorID)
+        If monitorStruct.IsPrimary = True Then
+            gblPrefsPrimaryHeightTwips = Trim$(Str$(widgetPrefs.Height))
+            sPutINISetting "Software\SteampunkClockCalendar", "prefsPrimaryHeightTwips", gblPrefsPrimaryHeightTwips, gblSettingsFile
+        Else
+            gblPrefsSecondaryHeightTwips = Trim$(Str$(widgetPrefs.Height))
+            sPutINISetting "Software\SteampunkClockCalendar", "prefsSecondaryHeightTwips", gblPrefsSecondaryHeightTwips, gblSettingsFile
+        End If
     End If
     
     On Error GoTo 0

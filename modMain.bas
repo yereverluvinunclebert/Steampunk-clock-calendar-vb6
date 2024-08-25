@@ -352,6 +352,7 @@ Private Sub initialiseGlobalVars()
     oldPhysicalScreenWidthPixels = 0
     
     gblPrefsPrimaryHeightTwips = 0
+    gblPrefsSecondaryHeightTwips = 0
     
     ' key presses
     CTRL_1 = False
