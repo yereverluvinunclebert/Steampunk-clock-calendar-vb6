@@ -131,13 +131,13 @@ Private muteInitiatingControl As String
 Private alarmInitiatingControl As String
 Private slidersetMousedown As Boolean
 
-Private WithEvents tmrZZZZ As cTimer
-Attribute tmrZZZZ.VB_VarHelpID = -1
-Private WithEvents tmrTILL As cTimer
-Attribute tmrTILL.VB_VarHelpID = -1
+Private WithEvents tmrZZZZSound As cTimer
+Attribute tmrZZZZSound.VB_VarHelpID = -1
+Private WithEvents tmrTILLSound As cTimer
+Attribute tmrTILLSound.VB_VarHelpID = -1
 
-Private WithEvents tmrTicking As cTimer
-Attribute tmrTicking.VB_VarHelpID = -1
+Private WithEvents tmrTickingSound As cTimer
+Attribute tmrTickingSound.VB_VarHelpID = -1
 
 
 '---------------------------------------------------------------------------------------
@@ -154,14 +154,14 @@ Private Sub Class_Initialize()
 
     Set collPSDNonUIElements = New_c.Collection(False)
     
-    Set tmrZZZZ = Nothing
-    Set tmrZZZZ = New_c.Timer(100, False)
+    Set tmrZZZZSound = Nothing
+    Set tmrZZZZSound = New_c.Timer(100, False)
         
-    Set tmrTILL = Nothing
-    Set tmrTILL = New_c.Timer(900, False)
+    Set tmrTILLSound = Nothing
+    Set tmrTILLSound = New_c.Timer(900, False)
     
-    Set tmrTicking = Nothing
-    Set tmrTicking = New_c.Timer(300, False)
+    Set tmrTickingSound = Nothing
+    Set tmrTickingSound = New_c.Timer(300, False)
 
    On Error GoTo 0
    Exit Sub
@@ -700,7 +700,7 @@ Private Sub clockForm_BubblingEvent(ByRef sender As Object, ByRef EventName As S
                     overlayWidget.tmrTimeShift.Enabled = False
                 End If
 
-                tmrZZZZ.Enabled = True
+                tmrZZZZSound.Enabled = True
             Case "sliderset"
                 slidersetMousedown = False ' never called!
                 
@@ -2137,7 +2137,7 @@ Private Sub sliderset_Moving() ' this is an explicit Event-Handler derived from 
     sldX = sliderset.Left
     If sldX < sldXMin Then sldX = sldXMin Else If sldX > sldXMax Then sldX = sldXMax 'keep sldX "in range"
     
-    If tmrZZZZ.Enabled = False And slidersetMousedown = True Then tmrZZZZ.Enabled = True
+    If tmrZZZZSound.Enabled = False And slidersetMousedown = True Then tmrZZZZSound.Enabled = True
     
     timeShiftPercent = (sldX - sldXMin) / (sldXMax - sldXMin) 'assign the new Value to the Public Prop, to trigger all the necessary refreshs
     
@@ -2989,7 +2989,7 @@ Public Property Let alarmtoggleEnabled(ByVal newValue As Boolean)
         alarmtoggle.Move alarmToggleIn, alarmtoggleTop
         SliderFreed = True
         
-        tmrZZZZ.Enabled = True ' does a little buzz after 1/10th of a second, not cutting off the preceding 'clunk' prematurely
+        tmrZZZZSound.Enabled = True ' does a little buzz after 1/10th of a second, not cutting off the preceding 'clunk' prematurely
         
         ' set the slider position to the start point
         fClock.timeShiftPercent = 0.5
@@ -3018,7 +3018,7 @@ Public Property Let alarmtoggleEnabled(ByVal newValue As Boolean)
                 End If
         End If
         
-        tmrTILL.Enabled = True ' does a little buzz after 9/10th of a second, not cutting off the preceding 'zzzz' prematurely
+        tmrTILLSound.Enabled = True ' does a little buzz after 9/10th of a second, not cutting off the preceding 'zzzz' prematurely
     Else
         alarmtoggle.Move alarmToggleOut, alarmtoggleTop
         SliderFreed = False
@@ -3418,90 +3418,6 @@ End Property
 '
 '    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property pendulumEnabled of Class Module cfClock"
 'End Property
-
-
-'' ----------------------------------------------------------------
-'' Procedure Name: HandleVolumeChangeForHardware
-'' Purpose:
-'' Procedure Kind: Sub
-'' Procedure Access: Private
-'' Author: beededea
-'' Date: 27/05/2024
-'' ----------------------------------------------------------------
-'Private Sub HandleVolumeChangeForHardware()
-'
-'    On Error GoTo HandleVolumeChangeForHardware_Error
-'
-'    SystemVolume.SetMasterVolume timeShiftPercent
-'
-'    On Error GoTo 0
-'    Exit Sub
-'
-'HandleVolumeChangeForHardware_Error:
-'
-'    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure HandleVolumeChangeForHardware, line " & Erl & "."
-'
-'End Sub
-
-
-    
-''---------------------------------------------------------------------------------------
-'' Procedure : tmrSampleAudioVolume_Timer
-'' Author    :
-'' Date      : 30/07/2023
-'' Purpose   : regular check to reflect changes to system volume
-''---------------------------------------------------------------------------------------
-''
-'Public Sub tmrSampleAudioVolume_Timer()
-'
-'    On Error GoTo tmrSampleAudioVolume_Timer_Error
-'
-'    If mSystemAudioLevel = SystemVolume.GetMasterVolume Then Exit Sub
-'
-'    mSystemAudioLevel = SystemVolume.GetMasterVolume
-'
-'    sldX = mSystemAudioLevel * (sldXMax - sldXMin) + sldXMin
-'    overlayWidget.sldCurWidth = sldXMax - sldX 'inform the Overlay about the new current "Cable-Width"
-'    sliderset.Move sldX, sldFixedTop 'move the sliderset-widget accordingly
-'
-'    fClock.clockForm.Refresh
-'
-'   On Error GoTo 0
-'   Exit Sub
-'
-'tmrSampleAudioVolume_Timer_Error:
-'
-'    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure tmrSampleAudioVolume_Timer of Class Module cfClockTemp"
-'End Sub
-
-    
-''---------------------------------------------------------------------------------------
-'' Procedure : tmrSampleAudioMute_Timer
-'' Author    :
-'' Date      : 30/07/2023
-'' Purpose   : regular check to reflect changes to system volume
-''---------------------------------------------------------------------------------------
-''
-'Public Sub tmrSampleAudioMute_Timer()
-'
-'    On Error GoTo tmrSampleAudioMute_Timer_Error
-'
-'    If mMute = SystemVolume.GetMute Then Exit Sub
-'
-'    mMute = SystemVolume.GetMute
-'
-'    Call setLamps
-'
-'   On Error GoTo 0
-'   Exit Sub
-'
-'tmrSampleAudioMute_Timer_Error:
-'
-'    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure tmrSampleAudioMute_Timer of Class Module cfClockTemp"
-'End Sub
-
-
-
 
      
 
@@ -3959,17 +3875,17 @@ fDayOfWeek_Error:
 End Sub
 
 ' ----------------------------------------------------------------
-' Procedure Name: tmrTILL_Timer
+' Procedure Name: tmrTILLSound_Timer
 ' Purpose:
 ' Procedure Kind: Sub
 ' Procedure Access: Private
 ' Author: beededea
 ' Date: 21/06/2024
 ' ----------------------------------------------------------------
-Private Sub tmrTILL_Timer()
+Private Sub tmrTILLSound_Timer()
     Dim fileToPlay As String: fileToPlay = vbNullString
     
-    On Error GoTo tmrTILL_Timer_Error
+    On Error GoTo tmrTILLSound_Timer_Error
     
     If gblVolumeBoost = "1" Then
         fileToPlay = "till.wav"
@@ -3981,30 +3897,30 @@ Private Sub tmrTILL_Timer()
         PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
     End If
     
-    tmrTILL.Enabled = False
+    tmrTILLSound.Enabled = False
     
    On Error GoTo 0
    Exit Sub
 
-tmrTILL_Timer_Error:
+tmrTILLSound_Timer_Error:
 
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure tmrTILL_Timer of Class Module cfClock"
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure tmrTILLSound_Timer of Class Module cfClock"
 End Sub
 
 
 
 ' ----------------------------------------------------------------
-' Procedure Name: tmrZZZZ_Timer
+' Procedure Name: tmrZZZZSound_Timer
 ' Purpose:
 ' Procedure Kind: Sub
 ' Procedure Access: Private
 ' Author: beededea
 ' Date: 21/06/2024
 ' ----------------------------------------------------------------
-Private Sub tmrZZZZ_Timer()
+Private Sub tmrZZZZSound_Timer()
     Dim fileToPlay As String: fileToPlay = vbNullString
     
-    On Error GoTo tmrZZZZ_Timer_Error
+    On Error GoTo tmrZZZZSound_Timer_Error
     
     If gblVolumeBoost = "1" Then
         fileToPlay = "zzzz.wav"
@@ -4016,32 +3932,32 @@ Private Sub tmrZZZZ_Timer()
         PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
     End If
     
-    tmrZZZZ.Enabled = False
+    tmrZZZZSound.Enabled = False
     
    On Error GoTo 0
    Exit Sub
 
-tmrZZZZ_Timer_Error:
+tmrZZZZSound_Timer_Error:
 
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure tmrZZZZ_Timer of Class Module cfClock"
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure tmrZZZZSound_Timer of Class Module cfClock"
 End Sub
 
 ' ----------------------------------------------------------------
-' Procedure Name: tmrTicking_Timer
+' Procedure Name: tmrTickingSound_Timer
 ' Purpose:
 ' Procedure Kind: Sub
 ' Procedure Access: Private
 ' Author: beededea
 ' Date: 21/06/2024
 ' ----------------------------------------------------------------
-Private Sub tmrTicking_Timer()
+Private Sub tmrTickingSound_Timer()
     Dim fileToPlay As String: fileToPlay = vbNullString
     Dim lngReturn As Long: lngReturn = 0
     
-    On Error GoTo tmrTicking_Timer_Error
+    On Error GoTo tmrTickingSound_Timer_Error
     
-    tmrTicking.Enabled = False
-    tmrTicking.Interval = 30000 ' 30 secs
+    tmrTickingSound.Enabled = False
+    tmrTickingSound.Interval = 30000 ' 30 secs
     
     If gblVolumeBoost = "1" Then
         fileToPlay = "ticktock.wav"
@@ -4056,14 +3972,14 @@ Private Sub tmrTicking_Timer()
         'PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
     End If
         
-    tmrTicking.Enabled = True
+    tmrTickingSound.Enabled = True
     
    On Error GoTo 0
    Exit Sub
 
-tmrTicking_Timer_Error:
+tmrTickingSound_Timer_Error:
 
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure tmrTicking_Timer of Class Module cfClock"
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure tmrTickingSound_Timer of Class Module cfClock"
 End Sub
 
 
@@ -4085,10 +4001,10 @@ Public Property Let ticking(ByVal newValue As Boolean)
     alphaVal = Val(gblOpacity) / 100
     
     If newValue = True Then
-        tmrTicking.Interval = 300
-        tmrTicking.Enabled = True
+        tmrTickingSound.Interval = 300
+        tmrTickingSound.Enabled = True
      Else
-        tmrTicking.Enabled = False
+        tmrTickingSound.Enabled = False
         
         ' stop MCI from playing
         If gblVolumeBoost = "1" Then

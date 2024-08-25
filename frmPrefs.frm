@@ -2720,11 +2720,11 @@ Public Sub positionPrefsMonitor()
     On Error GoTo positionPrefsMonitor_Error
     
     If gblDpiAwareness = "1" Then
-        formLeftTwips = Val(gblFormHighDpiXPosTwips)
-        formTopTwips = Val(gblFormHighDpiYPosTwips)
+        formLeftTwips = Val(gblPrefsHighDpiXPosTwips)
+        formTopTwips = Val(gblPrefsHighDpiYPosTwips)
     Else
-        formLeftTwips = Val(gblFormLowDpiXPosTwips)
-        formTopTwips = Val(gblFormLowDpiYPosTwips)
+        formLeftTwips = Val(gblPrefsLowDpiXPosTwips)
+        formTopTwips = Val(gblPrefsLowDpiYPosTwips)
     End If
     
     If formLeftTwips = 0 Then
@@ -2764,11 +2764,11 @@ Public Sub positionPrefsMonitor()
         widgetPrefs.Top = virtualScreenHeightTwips - 2500
     End If
     
-    gblFormHeightTwips = fGetINISetting("Software\SteampunkClockCalendar", "formHeightTwips", gblSettingsFile)
-    If Val(gblFormHeightTwips) <= 0 Then
+    gblPrefsPrimaryHeightTwips = fGetINISetting("Software\SteampunkClockCalendar", "formHeightTwips", gblSettingsFile)
+    If Val(gblPrefsPrimaryHeightTwips) <= 0 Then
         widgetPrefs.Height = gblPrefsCurrentHeight
     Else
-        widgetPrefs.Height = Val(gblFormHeightTwips)
+        widgetPrefs.Height = Val(gblPrefsPrimaryHeightTwips)
     End If
 
 

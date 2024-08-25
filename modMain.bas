@@ -351,7 +351,7 @@ Private Sub initialiseGlobalVars()
     oldPhysicalScreenHeightPixels = 0
     oldPhysicalScreenWidthPixels = 0
     
-    gblFormHeightTwips = 0
+    gblPrefsPrimaryHeightTwips = 0
     
     ' key presses
     CTRL_1 = False
@@ -1027,16 +1027,16 @@ End Sub
 ' Purpose   : read the application's setting file and assign values to public vars
 '---------------------------------------------------------------------------------------
 '
-Public Sub readSettingsFile(ByVal location As String, ByVal gblSettingsFile As String)
+Public Sub readSettingsFile(ByVal Location As String, ByVal gblSettingsFile As String)
     On Error GoTo readSettingsFile_Error
 
     If fFExists(gblSettingsFile) Then
         
         ' general
-        gblStartup = fGetINISetting(location, "startup", gblSettingsFile)
-        gblWidgetFunctions = fGetINISetting(location, "widgetFunctions", gblSettingsFile)
+        gblStartup = fGetINISetting(Location, "startup", gblSettingsFile)
+        gblWidgetFunctions = fGetINISetting(Location, "widgetFunctions", gblSettingsFile)
         
-        gblSmoothSecondHand = fGetINISetting(location, "smoothSecondHand", gblSettingsFile)
+        gblSmoothSecondHand = fGetINISetting(Location, "smoothSecondHand", gblSettingsFile)
         
 
 '        gblClockFaceSwitchPref = fGetINISetting(location, "clockFaceSwitchPref", gblSettingsFile)
@@ -1044,51 +1044,51 @@ Public Sub readSettingsFile(ByVal location As String, ByVal gblSettingsFile As S
         'gblSecondaryDaylightSaving = fGetINISetting(location, "secondaryDaylightSaving", gblSettingsFile)
 
         ' configuration
-        gblEnableTooltips = fGetINISetting(location, "enableTooltips", gblSettingsFile)
-        gblEnablePrefsTooltips = fGetINISetting(location, "enablePrefsTooltips", gblSettingsFile)
-        gblEnableBalloonTooltips = fGetINISetting(location, "enableBalloonTooltips", gblSettingsFile)
-        gblShowTaskbar = fGetINISetting(location, "showTaskbar", gblSettingsFile)
-        gblShowHelp = fGetINISetting(location, "showHelp", gblSettingsFile)
-        gblTogglePendulum = fGetINISetting(location, "togglePendulum", gblSettingsFile)
+        gblEnableTooltips = fGetINISetting(Location, "enableTooltips", gblSettingsFile)
+        gblEnablePrefsTooltips = fGetINISetting(Location, "enablePrefsTooltips", gblSettingsFile)
+        gblEnableBalloonTooltips = fGetINISetting(Location, "enableBalloonTooltips", gblSettingsFile)
+        gblShowTaskbar = fGetINISetting(Location, "showTaskbar", gblSettingsFile)
+        gblShowHelp = fGetINISetting(Location, "showHelp", gblSettingsFile)
+        gblTogglePendulum = fGetINISetting(Location, "togglePendulum", gblSettingsFile)
         
-        gblDpiAwareness = fGetINISetting(location, "dpiAwareness", gblSettingsFile)
+        gblDpiAwareness = fGetINISetting(Location, "dpiAwareness", gblSettingsFile)
         
         
-        gblGaugeSize = fGetINISetting(location, "gaugeSize", gblSettingsFile)
-        gblScrollWheelDirection = fGetINISetting(location, "scrollWheelDirection", gblSettingsFile)
+        gblGaugeSize = fGetINISetting(Location, "gaugeSize", gblSettingsFile)
+        gblScrollWheelDirection = fGetINISetting(Location, "scrollWheelDirection", gblSettingsFile)
         
         ' position
-        gblAspectHidden = fGetINISetting(location, "aspectHidden", gblSettingsFile)
-        gblWidgetPosition = fGetINISetting(location, "widgetPosition", gblSettingsFile)
-        gblWidgetLandscape = fGetINISetting(location, "widgetLandscape", gblSettingsFile)
-        gblWidgetPortrait = fGetINISetting(location, "widgetPortrait", gblSettingsFile)
-        gblLandscapeFormHoffset = fGetINISetting(location, "landscapeHoffset", gblSettingsFile)
-        gblLandscapeFormVoffset = fGetINISetting(location, "landscapeYoffset", gblSettingsFile)
-        gblPortraitHoffset = fGetINISetting(location, "portraitHoffset", gblSettingsFile)
-        gblPortraitYoffset = fGetINISetting(location, "portraitYoffset", gblSettingsFile)
-        gblvLocationPercPrefValue = fGetINISetting(location, "vLocationPercPrefValue", gblSettingsFile)
-        gblhLocationPercPrefValue = fGetINISetting(location, "hLocationPercPrefValue", gblSettingsFile)
+        gblAspectHidden = fGetINISetting(Location, "aspectHidden", gblSettingsFile)
+        gblWidgetPosition = fGetINISetting(Location, "widgetPosition", gblSettingsFile)
+        gblWidgetLandscape = fGetINISetting(Location, "widgetLandscape", gblSettingsFile)
+        gblWidgetPortrait = fGetINISetting(Location, "widgetPortrait", gblSettingsFile)
+        gblLandscapeFormHoffset = fGetINISetting(Location, "landscapeHoffset", gblSettingsFile)
+        gblLandscapeFormVoffset = fGetINISetting(Location, "landscapeYoffset", gblSettingsFile)
+        gblPortraitHoffset = fGetINISetting(Location, "portraitHoffset", gblSettingsFile)
+        gblPortraitYoffset = fGetINISetting(Location, "portraitYoffset", gblSettingsFile)
+        gblvLocationPercPrefValue = fGetINISetting(Location, "vLocationPercPrefValue", gblSettingsFile)
+        gblhLocationPercPrefValue = fGetINISetting(Location, "hLocationPercPrefValue", gblSettingsFile)
 
         ' font
-        gblClockFont = fGetINISetting(location, "clockFont", gblSettingsFile)
-        gblPrefsFont = fGetINISetting(location, "prefsFont", gblSettingsFile)
-        gblPrefsFontSizeHighDPI = fGetINISetting(location, "prefsFontSizeHighDPI", gblSettingsFile)
-        gblPrefsFontSizeLowDPI = fGetINISetting(location, "prefsFontSizeLowDPI", gblSettingsFile)
-        gblPrefsFontItalics = fGetINISetting(location, "prefsFontItalics", gblSettingsFile)
-        gblPrefsFontColour = fGetINISetting(location, "prefsFontColour", gblSettingsFile)
+        gblClockFont = fGetINISetting(Location, "clockFont", gblSettingsFile)
+        gblPrefsFont = fGetINISetting(Location, "prefsFont", gblSettingsFile)
+        gblPrefsFontSizeHighDPI = fGetINISetting(Location, "prefsFontSizeHighDPI", gblSettingsFile)
+        gblPrefsFontSizeLowDPI = fGetINISetting(Location, "prefsFontSizeLowDPI", gblSettingsFile)
+        gblPrefsFontItalics = fGetINISetting(Location, "prefsFontItalics", gblSettingsFile)
+        gblPrefsFontColour = fGetINISetting(Location, "prefsFontColour", gblSettingsFile)
         
         ' sound
-        gblEnableSounds = fGetINISetting(location, "enableSounds", gblSettingsFile)
-        gblEnableTicks = fGetINISetting(location, "enableTicks", gblSettingsFile)
-        gblEnableChimes = fGetINISetting(location, "enableChimes", gblSettingsFile)
-        gblVolumeBoost = fGetINISetting(location, "volumeBoost", gblSettingsFile)
+        gblEnableSounds = fGetINISetting(Location, "enableSounds", gblSettingsFile)
+        gblEnableTicks = fGetINISetting(Location, "enableTicks", gblSettingsFile)
+        gblEnableChimes = fGetINISetting(Location, "enableChimes", gblSettingsFile)
+        gblVolumeBoost = fGetINISetting(Location, "volumeBoost", gblSettingsFile)
         
         
         ' development
-        gblDebug = fGetINISetting(location, "debug", gblSettingsFile)
-        gblDblClickCommand = fGetINISetting(location, "dblClickCommand", gblSettingsFile)
-        gblOpenFile = fGetINISetting(location, "openFile", gblSettingsFile)
-        gblDefaultEditor = fGetINISetting(location, "defaultEditor", gblSettingsFile)
+        gblDebug = fGetINISetting(Location, "debug", gblSettingsFile)
+        gblDblClickCommand = fGetINISetting(Location, "dblClickCommand", gblSettingsFile)
+        gblOpenFile = fGetINISetting(Location, "openFile", gblSettingsFile)
+        gblDefaultEditor = fGetINISetting(Location, "defaultEditor", gblSettingsFile)
         
         ' other
         gblClockHighDpiXPos = fGetINISetting("Software\SteampunkClockCalendar", "clockHighDpiXPos", gblSettingsFile)
@@ -1097,52 +1097,52 @@ Public Sub readSettingsFile(ByVal location As String, ByVal gblSettingsFile As S
         gblClockLowDpiXPos = fGetINISetting("Software\SteampunkClockCalendar", "clockLowDpiXPos", gblSettingsFile)
         gblClockLowDpiYPos = fGetINISetting("Software\SteampunkClockCalendar", "clockLowDpiYPos", gblSettingsFile)
         
-        gblLastSelectedTab = fGetINISetting(location, "lastSelectedTab", gblSettingsFile)
-        gblSkinTheme = fGetINISetting(location, "skinTheme", gblSettingsFile)
+        gblLastSelectedTab = fGetINISetting(Location, "lastSelectedTab", gblSettingsFile)
+        gblSkinTheme = fGetINISetting(Location, "skinTheme", gblSettingsFile)
         
         ' window
-        gblWindowLevel = fGetINISetting(location, "windowLevel", gblSettingsFile)
-        gblPreventDragging = fGetINISetting(location, "preventDragging", gblSettingsFile)
-        gblOpacity = fGetINISetting(location, "opacity", gblSettingsFile)
+        gblWindowLevel = fGetINISetting(Location, "windowLevel", gblSettingsFile)
+        gblPreventDragging = fGetINISetting(Location, "preventDragging", gblSettingsFile)
+        gblOpacity = fGetINISetting(Location, "opacity", gblSettingsFile)
         
         ' we do not want the widget to hide at startup
         'gblWidgetHidden = fGetINISetting(location, "widgetHidden", gblSettingsFile)
         gblWidgetHidden = "0"
         
-        gblHidingTime = fGetINISetting(location, "hidingTime", gblSettingsFile)
-        gblIgnoreMouse = fGetINISetting(location, "ignoreMouse", gblSettingsFile)
-        gblMultiMonitorResize = fGetINISetting(location, "multiMonitorResize", gblSettingsFile)
+        gblHidingTime = fGetINISetting(Location, "hidingTime", gblSettingsFile)
+        gblIgnoreMouse = fGetINISetting(Location, "ignoreMouse", gblSettingsFile)
+        gblMultiMonitorResize = fGetINISetting(Location, "multiMonitorResize", gblSettingsFile)
         
          
-        gblFirstTimeRun = fGetINISetting(location, "firstTimeRun", gblSettingsFile)
+        gblFirstTimeRun = fGetINISetting(Location, "firstTimeRun", gblSettingsFile)
         
-        gblsetToggleEnabled = fGetINISetting(location, "setToggleEnabled", gblSettingsFile)
-        gblMuteToggleEnabled = fGetINISetting(location, "muteToggleEnabled", gblSettingsFile)
-        gblPendulumToggleEnabled = fGetINISetting(location, "pendulumToggleEnabled", gblSettingsFile)
-        gblPendulumEnabled = fGetINISetting(location, "pendulumEnabled", gblSettingsFile)
-        gblWeekdayToggleEnabled = fGetINISetting(location, "weekdayToggleEnabled", gblSettingsFile)
-        gblDisplayScreenToggleEnabled = fGetINISetting(location, "displayScreenToggleEnabled", gblSettingsFile)
-        gblTimeMachineToggleEnabled = fGetINISetting(location, "timeMachineToggleEnabled", gblSettingsFile)
-        gblBackToggleEnabled = fGetINISetting(location, "backToggleEnabled", gblSettingsFile)
-        gblClapperEnabled = fGetINISetting(location, "clapperEnabled", gblSettingsFile)
-        gblChainEnabled = fGetINISetting(location, "chainEnabled", gblSettingsFile)
-        gblCrankEnabled = fGetINISetting(location, "crankEnabled", gblSettingsFile)
-        gblAlarmToggle1Enabled = fGetINISetting(location, "alarmToggle1Enabled", gblSettingsFile)
-        gblAlarmToggle2Enabled = fGetINISetting(location, "alarmToggle2Enabled", gblSettingsFile)
-        gblAlarmToggle3Enabled = fGetINISetting(location, "alarmToggle3Enabled", gblSettingsFile)
-        gblAlarmToggle4Enabled = fGetINISetting(location, "alarmToggle4Enabled", gblSettingsFile)
-        gblAlarmToggle5Enabled = fGetINISetting(location, "alarmToggle5Enabled", gblSettingsFile)
-        gblAlarm1Date = fGetINISetting(location, "alarm1Date", gblSettingsFile)
-        gblAlarm2Date = fGetINISetting(location, "alarm2Date", gblSettingsFile)
-        gblAlarm3Date = fGetINISetting(location, "alarm3Date", gblSettingsFile)
-        gblAlarm4Date = fGetINISetting(location, "alarm4Date", gblSettingsFile)
-        gblAlarm5Date = fGetINISetting(location, "alarm5Date", gblSettingsFile)
+        gblsetToggleEnabled = fGetINISetting(Location, "setToggleEnabled", gblSettingsFile)
+        gblMuteToggleEnabled = fGetINISetting(Location, "muteToggleEnabled", gblSettingsFile)
+        gblPendulumToggleEnabled = fGetINISetting(Location, "pendulumToggleEnabled", gblSettingsFile)
+        gblPendulumEnabled = fGetINISetting(Location, "pendulumEnabled", gblSettingsFile)
+        gblWeekdayToggleEnabled = fGetINISetting(Location, "weekdayToggleEnabled", gblSettingsFile)
+        gblDisplayScreenToggleEnabled = fGetINISetting(Location, "displayScreenToggleEnabled", gblSettingsFile)
+        gblTimeMachineToggleEnabled = fGetINISetting(Location, "timeMachineToggleEnabled", gblSettingsFile)
+        gblBackToggleEnabled = fGetINISetting(Location, "backToggleEnabled", gblSettingsFile)
+        gblClapperEnabled = fGetINISetting(Location, "clapperEnabled", gblSettingsFile)
+        gblChainEnabled = fGetINISetting(Location, "chainEnabled", gblSettingsFile)
+        gblCrankEnabled = fGetINISetting(Location, "crankEnabled", gblSettingsFile)
+        gblAlarmToggle1Enabled = fGetINISetting(Location, "alarmToggle1Enabled", gblSettingsFile)
+        gblAlarmToggle2Enabled = fGetINISetting(Location, "alarmToggle2Enabled", gblSettingsFile)
+        gblAlarmToggle3Enabled = fGetINISetting(Location, "alarmToggle3Enabled", gblSettingsFile)
+        gblAlarmToggle4Enabled = fGetINISetting(Location, "alarmToggle4Enabled", gblSettingsFile)
+        gblAlarmToggle5Enabled = fGetINISetting(Location, "alarmToggle5Enabled", gblSettingsFile)
+        gblAlarm1Date = fGetINISetting(Location, "alarm1Date", gblSettingsFile)
+        gblAlarm2Date = fGetINISetting(Location, "alarm2Date", gblSettingsFile)
+        gblAlarm3Date = fGetINISetting(Location, "alarm3Date", gblSettingsFile)
+        gblAlarm4Date = fGetINISetting(Location, "alarm4Date", gblSettingsFile)
+        gblAlarm5Date = fGetINISetting(Location, "alarm5Date", gblSettingsFile)
         
-        gblAlarm1Time = fGetINISetting(location, "alarm1Time", gblSettingsFile)
-        gblAlarm2Time = fGetINISetting(location, "alarm2Time", gblSettingsFile)
-        gblAlarm3Time = fGetINISetting(location, "alarm3Time", gblSettingsFile)
-        gblAlarm4Time = fGetINISetting(location, "alarm4Time", gblSettingsFile)
-        gblAlarm5Time = fGetINISetting(location, "alarm5Time", gblSettingsFile)
+        gblAlarm1Time = fGetINISetting(Location, "alarm1Time", gblSettingsFile)
+        gblAlarm2Time = fGetINISetting(Location, "alarm2Time", gblSettingsFile)
+        gblAlarm3Time = fGetINISetting(Location, "alarm3Time", gblSettingsFile)
+        gblAlarm4Time = fGetINISetting(Location, "alarm4Time", gblSettingsFile)
+        gblAlarm5Time = fGetINISetting(Location, "alarm5Time", gblSettingsFile)
                            
     End If
 
