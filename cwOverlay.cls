@@ -1073,7 +1073,6 @@ Private Sub tmrClock_Timer()
     
     If fClock.weekdayToggleEnabled = True Then
         If thisHour <= 1 And thisMin = 1 And thisSec < 3 Then
-            
             fClock.clockForm.Widgets("monday").Widget.Alpha = 0
             fClock.clockForm.Widgets("tuesday").Widget.Alpha = 0
             fClock.clockForm.Widgets("wednesday").Widget.Alpha = 0
@@ -1081,11 +1080,11 @@ Private Sub tmrClock_Timer()
             fClock.clockForm.Widgets("friday").Widget.Alpha = 0
             fClock.clockForm.Widgets("saturday").Widget.Alpha = 0
             fClock.clockForm.Widgets("sunday").Widget.Alpha = 0
-
-            fClock.clockForm.Widgets(fDayOfWeek).Widget.Alpha = 1
         End If
     End If
-  
+    
+    fClock.clockForm.Widgets(fDayOfWeek).Widget.Alpha = 1
+      
     ' very few routines are called from this timer but instead the subsequent refresh will trigger a PAINT event
     
     W.Parent.Refresh ' causes a paint event to fire - lots happens in the paint event

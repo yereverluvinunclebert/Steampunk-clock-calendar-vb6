@@ -13,6 +13,8 @@ End Enum
 
 Public Const MONITORINFOF_PRIMARY As Integer = 1
 
+Public prefsMonitorStruct As UDTMonitor
+
 Public Type UDTMonitor
     handle As Long
     Left As Long
@@ -538,7 +540,7 @@ Public Sub positionClockByMonitorSize()
     Static oldMonitorStructHeightTwips As Long
     Static oldClockLeftPixels As Long
         
-    Dim monitorStruct As UDTMonitor
+    Dim clockMonitorStruct As UDTMonitor
     Dim clockFormMonitorID As Long: clockFormMonitorID = 0
     Dim monitorStructWidthTwips As Long: monitorStructWidthTwips = 0
     Dim monitorStructHeightTwips As Long: monitorStructHeightTwips = 0
@@ -548,10 +550,10 @@ Public Sub positionClockByMonitorSize()
   
     If monitorCount > 1 And gblMultiMonitorResize = "1" Then
         ' note the monitor ID at clockForm form_load and store as the clockFormMonitorID
-        monitorStruct = cWidgetFormScreenProperties(fClock.clockForm, clockFormMonitorID)
+        clockMonitorStruct = cWidgetFormScreenProperties(fClock.clockForm, clockFormMonitorID)
         ' sample the physical monitor resolution
-        monitorStructWidthTwips = monitorStruct.Width
-        monitorStructHeightTwips = monitorStruct.Height
+        monitorStructWidthTwips = clockMonitorStruct.Width
+        monitorStructHeightTwips = clockMonitorStruct.Height
         
         If oldClockFormMonitorID = 0 Then oldClockFormMonitorID = clockFormMonitorID
         If oldMonitorStructWidthTwips = 0 Then oldMonitorStructWidthTwips = monitorStructWidthTwips
@@ -564,7 +566,7 @@ Public Sub positionClockByMonitorSize()
             If monitorStructWidthTwips <> oldMonitorStructWidthTwips Or monitorStructHeightTwips <> oldMonitorStructHeightTwips Then
                 
                 'now calculate the size of the widget according to the screen HeightTwips.
-                resizeProportion = monitorStruct.Height / oldMonitorStructHeightTwips
+                resizeProportion = clockMonitorStruct.Height / oldMonitorStructHeightTwips
                 resizeProportion = (Val(gblGaugeSize) / 100) * resizeProportion
                 
                 'if  dragging from right to left then reposition

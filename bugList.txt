@@ -53,9 +53,7 @@ quiet/loud sounds
 ' de-couple the routines that populate the digital clocks so we can run those on a separate timer
 ' so that code does not run on each and every PAINT event consuming CPU.
 
-' regular check to test the weekday indicators, if they are out of date due to system bsleeping &c, set them correctly.
-
-' prefs, have a save size for each monitor encountered
+' prefs, have a save size for each monitor encountered WIP
 
 ' slider advancing/retarding time using timeShiftPercent modified not quite exponentially to shift time - wip
 ' in the timer, take the value of timeShiftPercent and do what to it?
@@ -67,6 +65,8 @@ digital counter animation from zero
 investigate the accumulating shadow when moving across the transparent surface of the screen
 
 look at Olaf's pendulum code
+
+subclass the scrollbar in the about window to allow it to be scrolled using the scrollwheel
 
 Create a XP /ReactOS version using old APIs and RC5
 obtain a XP test system

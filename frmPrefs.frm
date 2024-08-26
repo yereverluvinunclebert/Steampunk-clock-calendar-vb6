@@ -12,6 +12,11 @@ Begin VB.Form widgetPrefs
    ScaleMode       =   0  'User
    ScaleWidth      =   8880
    Visible         =   0   'False
+   Begin VB.Timer positionTimer 
+      Interval        =   5000
+      Left            =   1665
+      Top             =   9825
+   End
    Begin VB.Timer tmrPrefsScreenResolution 
       Enabled         =   0   'False
       Interval        =   500
@@ -556,7 +561,7 @@ Begin VB.Form widgetPrefs
                Width           =   3660
             End
             Begin VB.Label lblGitHub 
-               Caption         =   $"frmPrefs.frx":557A
+               Caption         =   $"frmPrefs.frx":557C
                ForeColor       =   &H8000000D&
                Height          =   915
                Left            =   1560
@@ -566,7 +571,7 @@ Begin VB.Form widgetPrefs
                Width           =   4935
             End
             Begin VB.Label lblDebug 
-               Caption         =   $"frmPrefs.frx":5641
+               Caption         =   $"frmPrefs.frx":5643
                Height          =   930
                Index           =   9
                Left            =   1545
@@ -613,9 +618,9 @@ Begin VB.Form widgetPrefs
          End
          Begin VB.ComboBox cmbDebug 
             Height          =   315
-            ItemData        =   "frmPrefs.frx":56E5
+            ItemData        =   "frmPrefs.frx":56E7
             Left            =   1530
-            List            =   "frmPrefs.frx":56E7
+            List            =   "frmPrefs.frx":56E9
             Style           =   2  'Dropdown List
             TabIndex        =   52
             ToolTipText     =   "Choose to set debug mode."
@@ -776,7 +781,7 @@ Begin VB.Form widgetPrefs
             SelStart        =   5
          End
          Begin VB.Label lblConfiguration 
-            Caption         =   $"frmPrefs.frx":56E9
+            Caption         =   $"frmPrefs.frx":56EB
             Height          =   915
             Index           =   0
             Left            =   1980
@@ -1031,7 +1036,7 @@ Begin VB.Form widgetPrefs
                Width           =   1320
             End
             Begin VB.Label lblGeneral 
-               Caption         =   $"frmPrefs.frx":579D
+               Caption         =   $"frmPrefs.frx":579F
                Height          =   960
                Index           =   10
                Left            =   2070
@@ -1182,7 +1187,7 @@ Begin VB.Form widgetPrefs
          MultiLine       =   -1  'True
          ScrollBars      =   2  'Vertical
          TabIndex        =   112
-         Text            =   "frmPrefs.frx":5847
+         Text            =   "frmPrefs.frx":5849
          Top             =   2205
          Width           =   8010
       End
@@ -1671,7 +1676,7 @@ Begin VB.Form widgetPrefs
             Width           =   2115
          End
          Begin VB.Label lblPosition 
-            Caption         =   $"frmPrefs.frx":67FE
+            Caption         =   $"frmPrefs.frx":6800
             Height          =   3435
             Index           =   12
             Left            =   5145
@@ -1691,7 +1696,7 @@ Begin VB.Form widgetPrefs
             Width           =   2040
          End
          Begin VB.Label lblPosition 
-            Caption         =   $"frmPrefs.frx":69D0
+            Caption         =   $"frmPrefs.frx":69D2
             Height          =   705
             Index           =   10
             Left            =   2250
@@ -1711,7 +1716,7 @@ Begin VB.Form widgetPrefs
             Width           =   2355
          End
          Begin VB.Label lblPosition 
-            Caption         =   $"frmPrefs.frx":6A6F
+            Caption         =   $"frmPrefs.frx":6A71
             Height          =   3045
             Index           =   6
             Left            =   2265
@@ -1929,7 +1934,7 @@ Begin VB.Form widgetPrefs
             Width           =   2400
          End
          Begin VB.Label lblFontsTab 
-            Caption         =   $"frmPrefs.frx":6C14
+            Caption         =   $"frmPrefs.frx":6C16
             Height          =   1710
             Index           =   0
             Left            =   1725
@@ -2497,6 +2502,18 @@ End Sub
 
 Private Sub cmbMultiMonitorResize_Click()
     btnSave.Enabled = True ' enable the save button
+    
+    gblMultiMonitorResize = Str$(cmbMultiMonitorResize.ListIndex)
+    
+    If cmbMultiMonitorResize.ListIndex = 2 Then
+        If prefsMonitorStruct.IsPrimary = True Then
+            gblPrefsPrimaryHeightTwips = Trim$(Str$(widgetPrefs.Height))
+            sPutINISetting "Software\SteampunkClockCalendar", "prefsPrimaryHeightTwips", gblPrefsPrimaryHeightTwips, gblSettingsFile
+        Else
+            gblPrefsSecondaryHeightTwips = Trim$(Str$(widgetPrefs.Height))
+            sPutINISetting "Software\SteampunkClockCalendar", "prefsSecondaryHeightTwips", gblPrefsSecondaryHeightTwips, gblSettingsFile
+        End If
+    End If
 End Sub
 
 Private Sub chkVolumeBoost_Click()
@@ -4334,7 +4351,7 @@ Private Sub adjustPrefsControls()
     cmbHidingTime.ListIndex = Val(gblHidingTime)
     cmbMultiMonitorResize.ListIndex = Val(gblMultiMonitorResize)
     
-    If monitorCount >= 1 Then
+    If monitorCount > 1 Then
         cmbMultiMonitorResize.Visible = True
         lblWindowLevel(10).Visible = True
         lblWindowLevel(11).Visible = True
@@ -4538,7 +4555,7 @@ Private Sub Form_Resize()
     
     If Me.WindowState = vbMinimized Then Exit Sub
     
-    'widgetPrefs.tmrPrefsScreenResolution.Enabled = False
+    btnSave.Enabled = True ' enable the save button
     
     ' move the drag corner label along with the form's bottom right corner
     lblDragCorner.Move Me.ScaleLeft + Me.ScaleWidth - (lblDragCorner.Width + 40), _
@@ -4569,7 +4586,7 @@ Private Sub Form_Resize()
             End If
         End If
     End If
-        
+    
     'lblSize.Caption = "topIconWidth = " & topIconWidth & " imgGeneral width = " & imgGeneral.Width
             
     On Error GoTo 0
@@ -4899,7 +4916,7 @@ Private Sub tmrPrefsScreenResolution_Timer()
     Static oldPrefsMonitorStructHeightTwips As Long
     Static oldPrefsClockLeftPixels As Long
         
-    Dim monitorStruct As UDTMonitor
+    'Dim monitorStruct As UDTMonitor
     Dim prefsFormMonitorID As Long: prefsFormMonitorID = 0
     Dim monitorStructWidthTwips As Long: monitorStructWidthTwips = 0
     Dim monitorStructHeightTwips As Long: monitorStructHeightTwips = 0
@@ -4909,12 +4926,14 @@ Private Sub tmrPrefsScreenResolution_Timer()
     Dim answerMsg As String: answerMsg = vbNullString
     
     On Error GoTo tmrPrefsScreenResolution_Timer_Error
-
+    
     ' calls a routine that tests for a change in the monitor upon which the form sits, if so, resizes
     If widgetPrefs.IsVisible = False Then Exit Sub
+    
+    positionTimer.Enabled = False
         
     ' if just one monitor or the global switch is off then exit
-    If monitorCount > 1 And gblMultiMonitorResize = "1" Then
+    If monitorCount > 1 And (gblMultiMonitorResize = "1" Or gblMultiMonitorResize = "2") Then
     
         ' when the timer frequency is reduced caused some weird async. effects, 500 ms seems fine, disable the timer first
         tmrPrefsScreenResolution.Enabled = False
@@ -4933,10 +4952,10 @@ Private Sub tmrPrefsScreenResolution_Timer()
                 beenMovingFlg = False
     
                ' note the monitor ID at PrefsForm form_load and store as the prefsFormMonitorID
-                monitorStruct = formScreenProperties(widgetPrefs, prefsFormMonitorID)
+                prefsMonitorStruct = formScreenProperties(widgetPrefs, prefsFormMonitorID)
                 ' sample the physical monitor resolution
-                monitorStructWidthTwips = monitorStruct.Width
-                monitorStructHeightTwips = monitorStruct.Height
+                monitorStructWidthTwips = prefsMonitorStruct.Width
+                monitorStructHeightTwips = prefsMonitorStruct.Height
                 
                 If oldPrefsFormMonitorID = 0 Then oldPrefsFormMonitorID = prefsFormMonitorID
                 If oldPrefsMonitorStructWidthTwips = 0 Then oldPrefsMonitorStructWidthTwips = monitorStructWidthTwips
@@ -4945,15 +4964,22 @@ Private Sub tmrPrefsScreenResolution_Timer()
             
                 ' if the monitor ID has changed
                 If oldPrefsFormMonitorID <> prefsFormMonitorID Then
-    
-                    'if the resolution is different then calculate new size proportion
-                    If monitorStructWidthTwips <> oldPrefsMonitorStructWidthTwips Or monitorStructHeightTwips <> oldPrefsMonitorStructHeightTwips Then
+                    If gblMultiMonitorResize = "1" Then
+                        'if the resolution is different then calculate new size proportion
+                        If monitorStructWidthTwips <> oldPrefsMonitorStructWidthTwips Or monitorStructHeightTwips <> oldPrefsMonitorStructHeightTwips Then
                             'now calculate the size of the widget according to the screen HeightTwips.
-                            resizeProportion = monitorStruct.Height / oldPrefsMonitorStructHeightTwips
+                            resizeProportion = prefsMonitorStruct.Height / oldPrefsMonitorStructHeightTwips
                             newPrefsWidth = widgetPrefs.Height * resizeProportion
-                            
                             widgetPrefs.Height = newPrefsWidth
+                        End If
+                    ElseIf gblMultiMonitorResize = "2" Then
+                        If prefsMonitorStruct.IsPrimary = True Then
+                            widgetPrefs.Height = Val(gblPrefsPrimaryHeightTwips)
+                        Else
+                            widgetPrefs.Height = Val(gblPrefsSecondaryHeightTwips)
+                        End If
                     End If
+                    
                 End If
             
                 oldPrefsFormMonitorID = prefsFormMonitorID
@@ -4968,6 +4994,8 @@ Private Sub tmrPrefsScreenResolution_Timer()
     oldWidgetPrefsTop = widgetPrefs.Top
     
     tmrPrefsScreenResolution.Enabled = True
+    positionTimer.Enabled = True
+
     
     On Error GoTo 0
     Exit Sub
@@ -6202,7 +6230,7 @@ Private Sub setframeHeights()
         fraFonts.Height = 4481
         
         ' the lowest window controls are not displayed on a single monitor
-        If monitorCount >= 1 Then
+        If monitorCount > 1 Then
             fraWindow.Height = 8138
         Else
             fraWindow.Height = 6586
@@ -6420,6 +6448,40 @@ Public Sub setPrefsFormZordering()
 setPrefsFormZordering_Error:
 
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure setPrefsFormZordering of Module modMain"
+End Sub
+
+
+'---------------------------------------------------------------------------------------
+' Procedure : positionTimer_Timer
+' Author    : beededea
+' Date      : 26/08/2024
+' Purpose   : save the current X and y position of this form to allow repositioning when restarting
+'---------------------------------------------------------------------------------------
+'
+Private Sub positionTimer_Timer()
+
+    Dim prefsFormMonitorID As Long: prefsFormMonitorID = 0
+    
+    On Error GoTo positionTimer_Timer_Error
+
+    If gblMultiMonitorResize <> "2" Then Exit Sub
+ 
+    If prefsMonitorStruct.IsPrimary = True Then
+        gblPrefsPrimaryHeightTwips = Trim$(Str$(widgetPrefs.Height))
+        sPutINISetting "Software\SteampunkClockCalendar", "prefsPrimaryHeightTwips", gblPrefsPrimaryHeightTwips, gblSettingsFile
+    Else
+        gblPrefsSecondaryHeightTwips = Trim$(Str$(widgetPrefs.Height))
+        sPutINISetting "Software\SteampunkClockCalendar", "prefsSecondaryHeightTwips", gblPrefsSecondaryHeightTwips, gblSettingsFile
+    End If
+
+
+   On Error GoTo 0
+   Exit Sub
+
+positionTimer_Timer_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure positionTimer_Timer of Form widgetPrefs"
+
 End Sub
 
 
