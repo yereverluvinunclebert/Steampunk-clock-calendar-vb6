@@ -6,7 +6,7 @@ Option Explicit
 
 '------------------------------------------------------ STARTS
 ' for SetWindowPos z-ordering
-Public Declare Function SetWindowPos Lib "user32" (ByVal hwnd As Long, ByVal hWndInsertAfter As Long, ByVal x As Long, ByVal y As Long, ByVal cx As Long, ByVal cy As Long, ByVal wFlags As Long) As Long
+Public Declare Function SetWindowPos Lib "user32" (ByVal hWnd As Long, ByVal hWndInsertAfter As Long, ByVal x As Long, ByVal y As Long, ByVal cx As Long, ByVal cy As Long, ByVal wFlags As Long) As Long
 
 Public Const HWND_TOP As Long = 0 ' for SetWindowPos z-ordering
 Public Const HWND_TOPMOST As Long = -1
@@ -19,9 +19,9 @@ Public Const OnTopFlags  As Long = SWP_NOMOVE Or SWP_NOSIZE
 
 '------------------------------------------------------ STARTS
 ' to set the full window Opacity
-Private Declare Function SetLayeredWindowAttributes Lib "user32" (ByVal hwnd As Long, ByVal crKey As Long, ByVal bAlpha As Byte, ByVal dwFlags As Long) As Long
-Private Declare Function GetWindowLong Lib "user32" Alias "GetWindowLongA" (ByVal hwnd As Long, ByVal nIndex As Long) As Long
-Private Declare Function SetWindowLong Lib "user32" Alias "SetWindowLongA" (ByVal hwnd As Long, ByVal nIndex As Long, ByVal dwNewLong As Long) As Long
+Private Declare Function SetLayeredWindowAttributes Lib "user32" (ByVal hWnd As Long, ByVal crKey As Long, ByVal bAlpha As Byte, ByVal dwFlags As Long) As Long
+Private Declare Function GetWindowLong Lib "user32" Alias "GetWindowLongA" (ByVal hWnd As Long, ByVal nIndex As Long) As Long
+Private Declare Function SetWindowLong Lib "user32" Alias "SetWindowLongA" (ByVal hWnd As Long, ByVal nIndex As Long, ByVal dwNewLong As Long) As Long
 
 Private Const WS_EX_LAYERED  As Long = &H80000
 Private Const GWL_EXSTYLE  As Long = (-20)
@@ -353,6 +353,8 @@ Private Sub initialiseGlobalVars()
     
     gblPrefsPrimaryHeightTwips = 0
     gblPrefsSecondaryHeightTwips = 0
+    gblClockPrimaryHeightTwips = 0
+    gblClockSecondaryHeightTwips = 0
     
     ' key presses
     CTRL_1 = False
@@ -468,6 +470,9 @@ Private Sub addImagesToImageList()
     
     Cairo.ImageList.AddImage "AM", App.path & "\Resources\images\AM.png"
     Cairo.ImageList.AddImage "PM", App.path & "\Resources\images\PM.png"
+    
+    Cairo.ImageList.AddImage "month", App.path & "\Resources\images\jan.png"
+    
     
    On Error GoTo 0
    Exit Sub
@@ -1006,11 +1011,11 @@ Public Sub setAlphaFormZordering()
    On Error GoTo setAlphaFormZordering_Error
 
     If Val(gblWindowLevel) = 0 Then
-        Call SetWindowPos(fClock.clockForm.hwnd, HWND_BOTTOM, 0&, 0&, 0&, 0&, OnTopFlags)
+        Call SetWindowPos(fClock.clockForm.hWnd, HWND_BOTTOM, 0&, 0&, 0&, 0&, OnTopFlags)
     ElseIf Val(gblWindowLevel) = 1 Then
-        Call SetWindowPos(fClock.clockForm.hwnd, HWND_TOP, 0&, 0&, 0&, 0&, OnTopFlags)
+        Call SetWindowPos(fClock.clockForm.hWnd, HWND_TOP, 0&, 0&, 0&, 0&, OnTopFlags)
     ElseIf Val(gblWindowLevel) = 2 Then
-        Call SetWindowPos(fClock.clockForm.hwnd, HWND_TOPMOST, 0&, 0&, 0&, 0&, OnTopFlags)
+        Call SetWindowPos(fClock.clockForm.hWnd, HWND_TOPMOST, 0&, 0&, 0&, 0&, OnTopFlags)
     End If
 
    On Error GoTo 0

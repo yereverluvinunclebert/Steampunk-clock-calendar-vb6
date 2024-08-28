@@ -398,6 +398,9 @@ Public gblPrefsLowDpiYPosTwips As String
 
 Public gblPrefsPrimaryHeightTwips As String
 Public gblPrefsSecondaryHeightTwips As String
+Public gblClockPrimaryHeightTwips As String
+Public gblClockSecondaryHeightTwips As String
+
 
 Public gblAlarm1Date As String
 Public gblAlarm2Date As String
@@ -2192,7 +2195,7 @@ End Sub
 '
 Public Sub readPrefsPosition()
 
-    Dim prefsMonitorStruct As UDTMonitor
+    'Dim prefsMonitorStruct As UDTMonitor
     Dim prefsFormMonitorID As Long: prefsFormMonitorID = 0
             
     On Error GoTo readPrefsPosition_Error

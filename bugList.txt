@@ -46,6 +46,10 @@ quiet/loud sounds
 
 ' fix the slider cable
 
+' prefs, have a save size for each monitor encountered
+' subclass the scrollbar in the about window to allow it to be scrolled using the scrollwheel - not required, works already
+' add subclassing to allow the balloon tooltips to appear on all prefs comboboxes
+
 ' -oOo-
 
 ' TASK: create an image array/list and populate that with the date/time images that need to be displayed,
@@ -53,12 +57,12 @@ quiet/loud sounds
 ' de-couple the routines that populate the digital clocks so we can run those on a separate timer
 ' so that code does not run on each and every PAINT event consuming CPU.
 
-' prefs, have a save size for each monitor encountered WIP
+' clock, have a save size for each monitor encountered WIP
 
 ' slider advancing/retarding time using timeShiftPercent modified not quite exponentially to shift time - wip
 ' in the timer, take the value of timeShiftPercent and do what to it?
 
-click on alarm till deletes alarm with confirmation pop-up - wip
+' click on alarm till deletes alarm with confirmation pop-up - wip
 
 digital counter animation from zero
 
@@ -66,7 +70,7 @@ investigate the accumulating shadow when moving across the transparent surface o
 
 look at Olaf's pendulum code
 
-subclass the scrollbar in the about window to allow it to be scrolled using the scrollwheel
+add balloon tooltips to all prefs controls
 
 Create a XP /ReactOS version using old APIs and RC5
 obtain a XP test system

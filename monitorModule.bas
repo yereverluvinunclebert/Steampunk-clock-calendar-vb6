@@ -14,6 +14,8 @@ End Enum
 Public Const MONITORINFOF_PRIMARY As Integer = 1
 
 Public prefsMonitorStruct As UDTMonitor
+Public clockMonitorStruct As UDTMonitor
+
 
 Public Type UDTMonitor
     handle As Long
@@ -540,7 +542,6 @@ Public Sub positionClockByMonitorSize()
     Static oldMonitorStructHeightTwips As Long
     Static oldClockLeftPixels As Long
         
-    Dim clockMonitorStruct As UDTMonitor
     Dim clockFormMonitorID As Long: clockFormMonitorID = 0
     Dim monitorStructWidthTwips As Long: monitorStructWidthTwips = 0
     Dim monitorStructHeightTwips As Long: monitorStructHeightTwips = 0
@@ -548,7 +549,7 @@ Public Sub positionClockByMonitorSize()
 
     On Error GoTo positionClockByMonitorSize_Error
   
-    If monitorCount > 1 And gblMultiMonitorResize = "1" Then
+    If monitorCount > 1 And (LTrim$(gblMultiMonitorResize) = "1" Or LTrim$(gblMultiMonitorResize) = "2") Then
         ' note the monitor ID at clockForm form_load and store as the clockFormMonitorID
         clockMonitorStruct = cWidgetFormScreenProperties(fClock.clockForm, clockFormMonitorID)
         ' sample the physical monitor resolution
@@ -562,21 +563,30 @@ Public Sub positionClockByMonitorSize()
     
         ' if the monitor ID has changed
         If oldClockFormMonitorID <> clockFormMonitorID Then
-            'if the resolution is different then calculate new size proportion
-            If monitorStructWidthTwips <> oldMonitorStructWidthTwips Or monitorStructHeightTwips <> oldMonitorStructHeightTwips Then
-                
-                'now calculate the size of the widget according to the screen HeightTwips.
-                resizeProportion = clockMonitorStruct.Height / oldMonitorStructHeightTwips
-                resizeProportion = (Val(gblGaugeSize) / 100) * resizeProportion
-                
-                'if  dragging from right to left then reposition
-                If fClock.clockForm.Left > oldClockLeftPixels Then
-                    fClock.clockForm.Left = fClock.clockForm.Left + fClock.clockForm.Widgets("maincasingsurround").Widget.Left
-                Else
-                    fClock.clockForm.Left = fClock.clockForm.Left - fClock.clockForm.Widgets("maincasingsurround").Widget.Left
+            If LTrim$(gblMultiMonitorResize) = "1" Then
+                'if the resolution is different then calculate new size proportion
+                If monitorStructWidthTwips <> oldMonitorStructWidthTwips Or monitorStructHeightTwips <> oldMonitorStructHeightTwips Then
+                    
+                    'now calculate the size of the widget according to the screen HeightTwips.
+                    resizeProportion = clockMonitorStruct.Height / oldMonitorStructHeightTwips
+                    resizeProportion = (Val(gblGaugeSize) / 100) * resizeProportion
+                    
+                    'if  dragging from right to left then reposition
+                    If fClock.clockForm.Left > oldClockLeftPixels Then
+                        fClock.clockForm.Left = fClock.clockForm.Left + fClock.clockForm.Widgets("maincasingsurround").Widget.Left
+                    Else
+                        fClock.clockForm.Left = fClock.clockForm.Left - fClock.clockForm.Widgets("maincasingsurround").Widget.Left
+                    End If
+                    fClock.clockForm.Refresh
+                    Call fClock.AdjustZoom(resizeProportion)
                 End If
-                fClock.clockForm.Refresh
-                Call fClock.AdjustZoom(resizeProportion)
+            ElseIf LTrim$(gblMultiMonitorResize) = "2" Then
+                If clockMonitorStruct.IsPrimary = True Then
+                    resizeProportion = fClock.clockForm.Height / Val(gblClockPrimaryHeightTwips)
+                Else
+                    resizeProportion = fClock.clockForm.Height / Val(gblClockSecondaryHeightTwips)
+                End If
+                 Call fClock.AdjustZoom(resizeProportion)
             End If
         End If
     

@@ -2084,6 +2084,12 @@ Public Sub AdjustZoom(ByVal NewZoom As Single)
     ' when resized from the gauge scroll up/down it needs to write it back so the size is correct when prefs opened.
     gblGaugeSize = LTrim$(Str$(NewZoom * 100))
     If widgetPrefs.IsVisible = True Then widgetPrefs.sliGaugeSize = Val(gblGaugeSize)
+    
+    If clockMonitorStruct.IsPrimary = True Then
+        gblClockPrimaryHeightTwips = clockForm.Height
+    Else
+        gblClockSecondaryHeightTwips = clockForm.Height
+    End If
 
    On Error GoTo 0
    Exit Sub

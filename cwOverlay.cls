@@ -428,14 +428,14 @@ Private Sub W_Paint(CC As RC6.cCairoContext, ByVal xAbs As Single, ByVal yAbs As
       End If
      Next
 
-' TASK: create an image array/list and populate that with the images that need to be displayed,
-' always display the contents of that list each paint
-' de-couple the routines that populate the digital clocks so we can run those on a separate timer
-' so they do not occure on each and every PAINT event consuming CPU.
-     
      Call drawDigitalClocks(CC)
-    
-    If mTimeMachine = True Then Call drawTimeMachineImages(CC)
+
+'
+'     Key = "jan"
+'     CC.RenderSurfaceContent Cairo.ImageList(Key), 442, 312, , , , 1
+
+     
+     If mTimeMachine = True Then Call drawTimeMachineImages(CC)
 
    On Error GoTo 0
    Exit Sub
@@ -801,6 +801,8 @@ Private Sub displayDigitalMonth(ByRef CC As cCairoContext, Optional ByVal alarmM
             CC.RenderSurfaceContent "dec", 442, 312, , , , 1
     End Select
     
+    
+     
 
 End Sub
 
@@ -1071,6 +1073,7 @@ Private Sub tmrClock_Timer()
         Exit Sub  'only refresh when SDeg has changed to a new value
     End If
     
+    ' only clear any existing weekday indicator in the first three seconds of the day
     If fClock.weekdayToggleEnabled = True Then
         If thisHour <= 1 And thisMin = 1 And thisSec < 3 Then
             fClock.clockForm.Widgets("monday").Widget.Alpha = 0
@@ -1085,7 +1088,7 @@ Private Sub tmrClock_Timer()
     
     fClock.clockForm.Widgets(fDayOfWeek).Widget.Alpha = 1
       
-    ' very few routines are called from this timer but instead the subsequent refresh will trigger a PAINT event
+    ' very few routines are called from this timer but instead this subsequent refresh will trigger a PAINT event
     
     W.Parent.Refresh ' causes a paint event to fire - lots happens in the paint event
     
