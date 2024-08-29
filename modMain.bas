@@ -70,30 +70,27 @@ End Sub
 '---------------------------------------------------------------------------------------
 '
 Public Sub mainRoutine(ByVal restart As Boolean)
+
     Dim extractCommand As String: extractCommand = vbNullString
     Dim thisPSDFullPath As String: thisPSDFullPath = vbNullString
     Dim licenceState As Integer: licenceState = 0
 
     On Error GoTo main_routine_Error
     
+    ' initialise global vars
+    Call initialiseGlobalVars
+    
     widgetName = "Steampunk Clock Calendar"
     thisPSDFullPath = App.path & "\Res\Steampunk Clock Calendar.psd"
-'    fClock.FX = 222 'init position- and zoom-values (directly set on Public-Props of the Form-hosting Class)
-'    fClock.FY = 111
-'    fClock.FZ = 0.4
-    
-    monitorCount = 0
-'    oldClockFormMonitorID = 0
-'    oldMonitorStructWidthTwips = 0
-'    oldMonitorStructHeightTwips = 0
-    
+
+    ' resolve VB6 sizing width bug
+    Call determineScreenDimensions
+
+    gblPrefsPrimaryHeightTwips = 1000 * screenTwipsPerPixelY
     startupFlg = True
     
     extractCommand = Command$ ' capture any parameter passed, remove if a soft reload
     If restart = True Then extractCommand = vbNullString
-    
-    ' initialise global vars
-    Call initialiseGlobalVars
     
     'add Resources to the global ImageList
     Call addImagesToImageList
@@ -126,9 +123,6 @@ Public Sub mainRoutine(ByVal restart As Boolean)
     
     ' start the load of the PSD file using the RC6 PSD-Parser.instance
     Call fClock.InitFromPSD(thisPSDFullPath)  ' no optional close layer as 3rd param
-
-    ' resolve VB6 sizing width bug
-    Call determineScreenDimensions
             
     ' initialise and create the three main RC forms on the current display
     Call createRCFormsOnCurrentDisplay
@@ -222,6 +216,8 @@ End Sub
 Private Sub initialiseGlobalVars()
       
     On Error GoTo initialiseGlobalVars_Error
+    
+    monitorCount = 0
 
     ' general
     gblStartup = vbNullString
@@ -351,10 +347,10 @@ Private Sub initialiseGlobalVars()
     oldPhysicalScreenHeightPixels = 0
     oldPhysicalScreenWidthPixels = 0
     
-    gblPrefsPrimaryHeightTwips = 0
-    gblPrefsSecondaryHeightTwips = 0
-    gblClockPrimaryHeightTwips = 0
-    gblClockSecondaryHeightTwips = 0
+    gblPrefsPrimaryHeightTwips = vbNullString
+    gblPrefsSecondaryHeightTwips = vbNullString
+    gblClockPrimaryHeightTwips = vbNullString
+    gblClockSecondaryHeightTwips = vbNullString
     
     ' key presses
     CTRL_1 = False
@@ -366,6 +362,10 @@ Private Sub initialiseGlobalVars()
     aspectRatio = vbNullString
     revealWidgetTimerCount = 0
     oldgblSettingsModificationTime = #1/1/2000 12:00:00 PM#
+    
+    '    oldClockFormMonitorID = 0
+'    oldMonitorStructWidthTwips = 0
+'    oldMonitorStructHeightTwips = 0
 
    On Error GoTo 0
    Exit Sub

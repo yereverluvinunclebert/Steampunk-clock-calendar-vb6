@@ -49,8 +49,8 @@ End Type
 
 Private Type FONTSTRUC
   lStructSize As Long
-  hwnd As Long
-  hdc As Long
+  hWnd As Long
+  hDC As Long
   lpLogFont As Long
   iPointSize As Long
   Flags As Long
@@ -142,7 +142,7 @@ End Enum
 
 '------------------------------------------------------ STARTS
 ' APIs for useful functions START
-Public Declare Function ShellExecute Lib "Shell32.dll" Alias "ShellExecuteA" (ByVal hwnd As Long, ByVal lpOperation As String, ByVal lpFile As String, ByVal lpParameters As String, ByVal lpDirectory As String, ByVal nShowCmd As Long) As Long
+Public Declare Function ShellExecute Lib "Shell32.dll" Alias "ShellExecuteA" (ByVal hWnd As Long, ByVal lpOperation As String, ByVal lpFile As String, ByVal lpParameters As String, ByVal lpDirectory As String, ByVal nShowCmd As Long) As Long
 ' APIs for useful functions END
 '------------------------------------------------------ ENDS
 
@@ -1550,7 +1550,7 @@ Public Sub mnuCoffee_ClickEvent()
     answer = msgBoxA(answerMsg, vbExclamation + vbYesNo, "Request to Donate a Kofi", True, "mnuCoffeeClickEvent")
 
     If answer = vbYes Then
-        Call ShellExecute(menuForm.hwnd, "Open", "https://www.ko-fi.com/yereverluvinunclebert", vbNullString, App.path, 1)
+        Call ShellExecute(menuForm.hWnd, "Open", "https://www.ko-fi.com/yereverluvinunclebert", vbNullString, App.path, 1)
     End If
 
    On Error GoTo 0
@@ -1580,7 +1580,7 @@ Public Sub mnuSupport_ClickEvent()
     answer = msgBoxA(answerMsg, vbExclamation + vbYesNo, "Request to Contact Support", True, "mnuSupportClickEvent")
 
     If answer = vbYes Then
-        Call ShellExecute(menuForm.hwnd, "Open", "https://github.com/yereverluvinunclebert/Steampunk Clock Calendar/issues", vbNullString, App.path, 1)
+        Call ShellExecute(menuForm.hWnd, "Open", "https://github.com/yereverluvinunclebert/Steampunk Clock Calendar/issues", vbNullString, App.path, 1)
     End If
 
    On Error GoTo 0
@@ -1719,7 +1719,7 @@ Public Sub makeVisibleFormElements()
 
     monitorCount = fGetMonitorCount
     If monitorCount > 1 Then
-        Call SetFormOnMonitor(fClock.clockForm.hwnd, formLeftPixels, formTopPixels)
+        Call SetFormOnMonitor(fClock.clockForm.hWnd, formLeftPixels, formTopPixels)
     Else
         fClock.clockForm.Left = formLeftPixels
         fClock.clockForm.Top = formTopPixels
@@ -1740,80 +1740,6 @@ makeVisibleFormElements_Error:
     End With
         
 End Sub
-
-
-
-'
-''---------------------------------------------------------------------------------------
-'' Procedure : fTwipsPerPixelX
-'' Author    : Elroy from Vbforums
-'' Date      : 23/01/2022
-'' Purpose   : This works even on Tablet PC.  The problem is: when the tablet screen is rotated, the "Screen" object of VB doesn't pick it up.
-''---------------------------------------------------------------------------------------
-''
-'Public Function fTwipsPerPixelX() As Single
-'    Dim hdc As Long: hdc = 0
-'    Dim lPixelsPerInch As Long: lPixelsPerInch = 0
-'
-'    Const LOGPIXELSX As Integer = 88        '  Logical pixels/inch in X
-'    Const POINTS_PER_INCH As Long = 72 ' A point is defined as 1/72 inches.
-'    Const TWIPS_PER_POINT As Long = 20 ' Also, by definition.
-'    '
-'    On Error GoTo fTwipsPerPixelX_Error
-'
-'    ' 23/01/2022 .01 monitorModule.bas DAEB added if then else if you can't get device context
-'    hdc = GetDC(0)
-'    If hdc <> 0 Then
-'        lPixelsPerInch = GetDeviceCaps(hdc, LOGPIXELSX)
-'        ReleaseDC 0, hdc
-'        fTwipsPerPixelX = TWIPS_PER_POINT * (POINTS_PER_INCH / lPixelsPerInch) ' Cancel units to see it.
-'    Else
-'        fTwipsPerPixelX = Screen.TwipsPerPixelX
-'    End If
-'
-'   On Error GoTo 0
-'   Exit Function
-'
-'fTwipsPerPixelX_Error:
-'
-'    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure fTwipsPerPixelX of Module Module1"
-'End Function
-'
-''---------------------------------------------------------------------------------------
-'' Procedure : fTwipsPerPixelY
-'' Author    : Elroy from Vbforums
-'' Date      : 23/01/2022
-'' Purpose   : This works even on Tablet PC.  The problem is: when the tablet screen is rotated, the "Screen" object of VB doesn't pick it up.
-''---------------------------------------------------------------------------------------
-''
-'Public Function fTwipsPerPixelY() As Single
-'    Dim hdc As Long: hdc = 0
-'    Dim lPixelsPerInch As Long: lPixelsPerInch = 0
-'
-'    Const LOGPIXELSY As Integer = 90         '  Logical pixels/inch in Y
-'    Const POINTS_PER_INCH As Long = 72 ' A point is defined as 1/72 inches.
-'    Const TWIPS_PER_POINT As Long = 20 ' Also, by definition.
-'
-'   On Error GoTo fTwipsPerPixelY_Error
-'
-'    ' 23/01/2022 .01 monitorModule.bas DAEB added if then else if you can't get device context
-'    hdc = GetDC(0)
-'    If hdc <> 0 Then
-'        lPixelsPerInch = GetDeviceCaps(hdc, LOGPIXELSY)
-'        ReleaseDC 0, hdc
-'        fTwipsPerPixelY = TWIPS_PER_POINT * (POINTS_PER_INCH / lPixelsPerInch) ' Cancel units to see it.
-'    Else
-'        fTwipsPerPixelY = Screen.TwipsPerPixelY
-'    End If
-'
-'   On Error GoTo 0
-'   Exit Function
-'
-'fTwipsPerPixelY_Error:
-'
-'    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure fTwipsPerPixelY of Module Module1"
-'
-'End Function
 
 
 '---------------------------------------------------------------------------------------
@@ -1892,8 +1818,8 @@ Public Sub determineScreenDimensions()
     screenTwipsPerPixelY = fTwipsPerPixelY
     screenTwipsPerPixelX = fTwipsPerPixelX
     
-    physicalScreenHeightPixels = GetDeviceCaps(menuForm.hdc, VERTRES) ' we use the name of any form that we don't mind being loaded at this point
-    physicalScreenWidthPixels = GetDeviceCaps(menuForm.hdc, HORZRES)
+    physicalScreenHeightPixels = GetDeviceCaps(menuForm.hDC, VERTRES) ' we use the name of any form that we don't mind being loaded at this point
+    physicalScreenWidthPixels = GetDeviceCaps(menuForm.hDC, HORZRES)
 
     physicalScreenHeightTwips = physicalScreenHeightPixels * screenTwipsPerPixelY
     physicalScreenWidthTwips = physicalScreenWidthPixels * screenTwipsPerPixelX
@@ -2513,7 +2439,7 @@ Public Sub hardRestart()
     If fFExists(thisCommand) Then
         
         ' run the selected program
-        Call ShellExecute(widgetPrefs.hwnd, "open", thisCommand, "Steampunk Clock Calendar.exe prefs", "", 1)
+        Call ShellExecute(widgetPrefs.hWnd, "open", thisCommand, "Steampunk Clock Calendar.exe prefs", "", 1)
     Else
         'answer = MsgBox(thisCommand & " is missing", vbOKOnly + vbExclamation)
         answerMsg = thisCommand & " is missing"

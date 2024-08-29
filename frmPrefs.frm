@@ -342,8 +342,8 @@ Begin VB.Form widgetPrefs
    Begin VB.Timer tmrPrefsScreenResolution 
       Enabled         =   0   'False
       Interval        =   500
-      Left            =   105
-      Top             =   9630
+      Left            =   4680
+      Top             =   9780
    End
    Begin VB.Frame fraDevelopmentButton 
       BorderStyle     =   0  'None
@@ -380,8 +380,8 @@ Begin VB.Form widgetPrefs
    Begin VB.Timer tmrWritePosition 
       Enabled         =   0   'False
       Interval        =   5000
-      Left            =   1170
-      Top             =   9690
+      Left            =   5475
+      Top             =   9765
    End
    Begin VB.CheckBox chkEnableResizing 
       Caption         =   "Enable Corner Resize"
@@ -547,8 +547,8 @@ Begin VB.Form widgetPrefs
    Begin VB.Timer themeTimer 
       Enabled         =   0   'False
       Interval        =   10000
-      Left            =   660
-      Top             =   9705
+      Left            =   3720
+      Top             =   9780
    End
    Begin VB.CommandButton btnClose 
       Caption         =   "&Close"

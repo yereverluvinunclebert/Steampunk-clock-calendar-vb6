@@ -49,13 +49,50 @@ quiet/loud sounds
 ' prefs, have a save size for each monitor encountered
 ' subclass the scrollbar in the about window to allow it to be scrolled using the scrollwheel - not required, works already
 ' add subclassing to allow the balloon tooltips to appear on all prefs comboboxes
+' added sleeptimer 
+' implement sleep timer refresh
 
 ' -oOo-
 
 ' TASK: create an image array/list and populate that with the date/time images that need to be displayed,
 ' always display the contents of that list on each paint event.
+
 ' de-couple the routines that populate the digital clocks so we can run those on a separate timer
-' so that code does not run on each and every PAINT event consuming CPU.
+' so that the code to determine the month year does not run on each and every PAINT event consuming unnecessary CPU  - wip
+
+' we only want the digital minute to refresh on a second by second basis
+' when the seconds reach 59+ then trigger a refresh of the digital cache to refresh the minutes
+'    when the minutes reach 59+ then trigger a refresh of the digital cache to refresh the hours
+'    when the hours reach 11 & 59 & 59 + then trigger a refresh of the digital cache to refresh the days
+
+' populate the cache with the correct image
+
+' hourCache1
+' hourCache2
+
+' minCache1
+' minCache2
+
+' dayCache1
+' dayCache2
+
+' monthCache
+
+' yearCache1
+' yearCache2
+' yearCache3
+' yearCache4
+
+
+
+    Select Case thismonth
+        Case 1
+     	    Cairo.ImageList.AddSurface "jan", Cairo.ImageList("monthCache")
+    End Select
+
+    CC.RenderSurfaceContent Cairo.ImageList("monthCache"), 442, 312, , , , 1
+
+
 
 ' clock, have a save size for each monitor encountered WIP
 
@@ -63,6 +100,7 @@ quiet/loud sounds
 ' in the timer, take the value of timeShiftPercent and do what to it?
 
 ' click on alarm till deletes alarm with confirmation pop-up - wip
+
 
 digital counter animation from zero
 
@@ -73,7 +111,7 @@ look at Olaf's pendulum code
 add balloon tooltips to all prefs controls
 
 Create a XP /ReactOS version using old APIs and RC5
-obtain a XP test system
+obtain a XP test system - wip
 
 add method to feed messages to the screen
 

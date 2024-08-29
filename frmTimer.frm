@@ -36,6 +36,14 @@ Begin VB.Form frmTimer
       Left            =   90
       Top             =   135
    End
+   Begin VB.Label Label4 
+      Caption         =   "sleeptimer for testing awake from sleep"
+      Height          =   195
+      Left            =   705
+      TabIndex        =   4
+      Top             =   1650
+      Width           =   3645
+   End
    Begin VB.Label Label3 
       Caption         =   "Note: this invisible form is also the container for the large 128x128px project icon"
       Height          =   435
@@ -229,9 +237,9 @@ Private Sub sleepTimer_Timer()
     strTimeThen = Now()
 
     If lngSecondsGap > 60 Then
-        MsgBox "System has just woken up from a sleep"
+        'MsgBox "System has just woken up from a sleep"
+        fClock.clockForm.Refresh
         'MessageBox Me.hwnd, "System has just woken up from a sleep - animatedIconsRaised =" & animatedIconsRaised, "SteamyDock Information Message", vbOKOnly
-
     End If
     
     sleepTimer.Enabled = True
