@@ -59,22 +59,6 @@ Private mTimeMachine As Boolean
 Private mHidden As Boolean ' property Hidden
 Private mSwingPendulum As Boolean
 
-Private terminal00 As String
-Private terminal01 As String '1)
-Private terminal02 As String '2)
-Private terminal03 As String '3)
-Private terminal04 As String '4)
-Private terminal05 As String '5)
-Private terminal06 As String '6)
-Private terminal07 As String '7)
-Private terminal08 As String '8)
-Private terminal09 As String '9)
-Private terminal10 As String '10)
-Private terminal11 As String '11)
-Private terminal12 As String '12)
-Private terminal13 As String '13)
-Private terminal14 As String '14)
-Private terminal15 As String '15)
 
 
 '---------------------------------------------------------------------------------------
@@ -380,9 +364,8 @@ Private Sub W_Paint(CC As RC6.cCairoContext, ByVal xAbs As Single, ByVal yAbs As
     Dim Pat As cCairoPattern
     Dim someOpacity As Double: someOpacity = 0
     Dim grey As String: grey = vbNullString
-    Static terminal(15) As String
-    Dim interval As Integer: interval = 9
-    Dim position As Integer: position = 103
+    Dim interval As Integer: interval = 0
+    Dim position As Integer: position = 0
     Dim a As Integer: a = 0
     
     grey = RGB(18, 18, 18)
@@ -390,13 +373,14 @@ Private Sub W_Paint(CC As RC6.cCairoContext, ByVal xAbs As Single, ByVal yAbs As
     'set some Font- and ForeColor-Properties and draw some Text on the Widget
     W.FontName = "courier new"
     W.ForeColor = grey
-    W.FontSize = 7
+    W.FontSize = 5
     'W.FontBold = True
     W.SelectFontSettingsInto CC
     W.Refresh
-    someOpacity = 0.4
     
-
+    someOpacity = 0.6
+    position = 194
+    interval = 9
        
     On Error GoTo W_Paint_Error
   
@@ -469,16 +453,15 @@ Private Sub W_Paint(CC As RC6.cCairoContext, ByVal xAbs As Single, ByVal yAbs As
      
 
     For a = 0 To 14
-        terminal(a) = "building dock vitality using Thu 13:12 "
-        CC.DrawText 423, position, 200, 200, terminal(a), , , 2, True, , someOpacity
+        'gblTerminalRows(a) = "building dock vitality using Thu 13:12 "
+        CC.DrawText 423, position, 220, 20, gblTerminalRows(a), , , 2, True, , someOpacity
         position = position - interval
     Next a
     
-    CC.DrawText 423, 110, 200, 200, ".......", , , 2, True, , someOpacity
-    CC.DrawText 423, 118, 200, 200, ".......", , , 2, True, , someOpacity
-    CC.DrawText 423, 126, 200, 200, ".......", , , 2, True, , someOpacity
-    CC.DrawText 423, 134, 200, 200, ".......", , , 2, True, , someOpacity
-    
+    CC.DrawText 423, 203, 200, 20, ".......", , , 2, True, , someOpacity
+    CC.DrawText 423, 211, 200, 20, ".......", , , 2, True, , someOpacity
+    CC.DrawText 423, 218, 200, 20, ".......", , , 2, True, , someOpacity
+    CC.DrawText 423, 227, 200, 20, ".......", , , 2, True, , someOpacity
     
     Call drawDigitalClocks(CC)
 
@@ -819,12 +802,12 @@ Private Sub displayDigitalMonth(ByRef CC As cCairoContext, Optional ByVal alarmM
 
     Dim thismonth As Integer: thismonth = 0
 
-    thismonth = Month(now) ' coerce date variant to integer
+    thismonth = Month(Now) ' coerce date variant to integer
        
     If alarmMonth <> vbNullString Then
         thismonth = CInt(alarmMonth)
     Else
-        thismonth = Month(now) ' coerce date variant to integer
+        thismonth = Month(Now) ' coerce date variant to integer
     End If
 
     Select Case thismonth
@@ -875,7 +858,7 @@ Private Sub displayDigitalDayofMonth(ByRef CC As cCairoContext, Optional ByVal a
     Dim localDay As Integer: localDay = 0
     Dim thisDay As Integer: thisDay = 0
 
-    thisDay = Day(now)
+    thisDay = Day(Now)
        
     If alarmDay <> vbNullString Then
         localDay = CInt(alarmDay)
@@ -954,7 +937,7 @@ Private Sub displayDigitalYear(ByRef CC As cCairoContext, Optional ByVal alarmYe
     If alarmYear <> vbNullString Then
         yearString = alarmYear
     Else
-        yearString = Year(now) ' coerce date variant to integer
+        yearString = Year(Now) ' coerce date variant to integer
     End If
 
     Select Case Left$(yearString, 1)
@@ -1111,9 +1094,9 @@ Private Sub tmrClock_Timer()
     On Error GoTo tmrClock_Timer_Error
     
     ' just for the analogue clock
-    thisHour = Hour(now)
-    thisMin = Minute(now)
-    thisSec = Second(now)
+    thisHour = Hour(Now)
+    thisMin = Minute(Now)
+    thisSec = Second(Now)
     
     ' calculate angles of hour and second hand
     hdeg = 30 * (thisHour Mod 12 + (thisMin) / 60) ' global vars used in the paint event
@@ -1154,51 +1137,6 @@ tmrClock_Timer_Error:
 End Sub
 
 
-'---------------------------------------------------------------------------------------
-' Procedure : ScreenWrite
-' Author    : beededea
-' Date      : 29/08/2024
-' Purpose   :
-'---------------------------------------------------------------------------------------
-'
-Sub ScreenWrite(screentext As String)
-    Static terminal(15) As String
-    Dim a As Integer
-
-    On Error GoTo ScreenWrite_Error
-
-    For a = 0 To 14
-        terminal(15 - a) = terminal(15 - a - 1)
-    Next
-
-    terminal(0) = screentext
-
-    terminal00 = terminal(0)
-    terminal01 = terminal(1)
-    terminal02 = terminal(2)
-    terminal03 = terminal(3)
-    terminal04 = terminal(4)
-    terminal05 = terminal(5)
-    terminal06 = terminal(6)
-    terminal07 = terminal(7)
-    terminal08 = terminal(8)
-    terminal09 = terminal(9)
-    terminal10 = terminal(10)
-    terminal11 = terminal(11)
-    terminal12 = terminal(12)
-    terminal13 = terminal(13)
-    terminal14 = terminal(14)
-    terminal15 = terminal(15)
-
-    'If debugFlg = 1 Then Print("%KON-I-INFO,terminal00 ", terminal00)
-
-   On Error GoTo 0
-   Exit Sub
-
-ScreenWrite_Error:
-
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure ScreenWrite of Class Module cwOverlay"
-End Sub
 
 
 

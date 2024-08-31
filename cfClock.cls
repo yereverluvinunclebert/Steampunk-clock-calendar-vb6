@@ -66,8 +66,8 @@ Private WithEvents displayscreentoggle As cWidgetBase
 Attribute displayscreentoggle.VB_VarHelpID = -1
 Private WithEvents weekdaytoggle As cWidgetBase
 Attribute weekdaytoggle.VB_VarHelpID = -1
-Private WithEvents helptoggle As cWidgetBase
-Attribute helptoggle.VB_VarHelpID = -1
+Private WithEvents helpToggle As cWidgetBase
+Attribute helpToggle.VB_VarHelpID = -1
 Private WithEvents pendulumtoggle As cWidgetBase
 Attribute pendulumtoggle.VB_VarHelpID = -1
 Private WithEvents mutetoggle As cWidgetBase
@@ -349,7 +349,7 @@ Public Sub InitFromPSD(ByRef PSD_FileNameOrByteArray As Variant)
     Set displayscreentoggle = clockForm.Widgets("displayscreentoggle").Widget
     Set screenbackground = clockForm.Widgets("screenbackground").Widget
     Set weekdaytoggle = clockForm.Widgets("weekdaytoggle").Widget
-    Set helptoggle = clockForm.Widgets("helptoggle").Widget
+    Set helpToggle = clockForm.Widgets("helptoggle").Widget
     Set pendulumtoggle = clockForm.Widgets("pendulumtoggle").Widget
     Set mutetoggle = clockForm.Widgets("mutetoggle").Widget
     Set alarmtoggle = clockForm.Widgets("alarmtoggle").Widget
@@ -884,6 +884,7 @@ Private Sub dropdown_myMouseDown()
     alphaVal = Val(gblOpacity) / 100
     
     If dropdownEnabled = False Then
+        screenWrite ("Dropdown information canvas rolling down")
         If gblVolumeBoost = "1" Then
             fileToPlay = "rollerblind.wav"
         Else
@@ -893,6 +894,7 @@ Private Sub dropdown_myMouseDown()
         dropdown.Move dropdownLeft, dropdownTop + 175
         dropdownEnabled = True
     Else
+        screenWrite ("Dropdown information canvas rolling up")
         If gblVolumeBoost = "1" Then
             fileToPlay = "rollerblindup.wav"
         Else
@@ -1255,6 +1257,7 @@ Private Sub backtoggle_myMouseDown()
     If gblBackToggleEnabled = "False" Then
         backToggleEnabled = True
     Else
+        
         backToggleEnabled = False
     End If
     
@@ -1343,7 +1346,7 @@ Private Sub timeMachineToggle_myMouseDown()
     If gblTimeMachineToggleEnabled = "False" Then
         timeMachineToggleEnabled = True
     Else
-        timeMachineToggleEnabled = False
+       timeMachineToggleEnabled = False
     End If
         
     clockForm.Refresh
@@ -1423,6 +1426,7 @@ Private Sub settoggle_myMouseDown()
     settoggle.Move setToggleIn, settoggleTop
     clockForm.Refresh
     
+    screenWrite ("setting any alarm")
 
     If gblVolumeBoost = "1" Then
         fileToPlay = "clunk.wav"
@@ -1568,9 +1572,10 @@ Private Sub helptoggle_myMouseDown()
     Dim helptoggleTop As Long: helptoggleTop = 0
     Dim helptoggleLeft As Long: helptoggleLeft = 0
     Dim alphaVal As Integer: alphaVal = 0
+    Dim helpToggleFlg As Boolean: helpToggleFlg = False
 
-    helptoggleTop = helptoggle.Top
-    helptoggleLeft = helptoggle.Left
+    helptoggleTop = helpToggle.Top
+    helptoggleLeft = helpToggle.Left
     alphaVal = Val(gblOpacity) / 100
     
     If helpdropdown.Alpha = 0 Then
@@ -1579,11 +1584,13 @@ Private Sub helptoggle_myMouseDown()
         Else
             fileToPlay = "rollerblinddown-quiet.wav"
         End If
-        helptoggle.Alpha = 0
+        helpToggle.Alpha = 0
         clockForm.Widgets("woodenbar").Widget.Alpha = alphaVal
         clockForm.Widgets("help1toggle").Widget.Alpha = alphaVal
         clockForm.Widgets("helpdropdown").Widget.Alpha = alphaVal
         clockForm.Widgets("txthelp").Widget.Alpha = alphaVal
+        
+        helpToggleFlg = True
     Else
         If gblVolumeBoost = "1" Then
             fileToPlay = "rollerblindup.wav"
@@ -1591,15 +1598,21 @@ Private Sub helptoggle_myMouseDown()
             fileToPlay = "rollerblindup-quiet.wav"
         End If
     
-        helptoggle.Alpha = alphaVal
+        helpToggle.Alpha = alphaVal
         clockForm.Widgets("woodenbar").Widget.Alpha = 0
         clockForm.Widgets("help1toggle").Widget.Alpha = 0
         clockForm.Widgets("helpdropdown").Widget.Alpha = 0
         clockForm.Widgets("txthelp").Widget.Alpha = 0
+        
+        helpToggleFlg = False
+
     End If
     If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
         PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
     End If
+    
+    
+    screenWrite ("Dropdown canvas visible " & helpToggleFlg)
     clockForm.Refresh
 
    On Error GoTo 0
@@ -1668,6 +1681,7 @@ Private Sub helpdropdown_myMouseDown()
     Dim alphaVal As Integer: alphaVal = 0
 
     If helpdropdown.Alpha <> 0 Then
+        screenWrite ("Dropdown canvas rolling up")
         helpdropdownTop = helpdropdown.Top
         helpdropdownLeft = helpdropdown.Left
         alphaVal = Val(gblOpacity) / 100
@@ -1685,7 +1699,7 @@ Private Sub helpdropdown_myMouseDown()
         clockForm.Widgets("help1toggle").Widget.Alpha = 0
         clockForm.Widgets("helpdropdown").Widget.Alpha = 0
         clockForm.Widgets("txthelp").Widget.Alpha = 0
-        helptoggle.Alpha = alphaVal
+        helpToggle.Alpha = alphaVal
         
         clockForm.Refresh
     End If
@@ -2397,6 +2411,7 @@ Public Property Let displayScreenToggleEnabled(ByVal newValue As Boolean)
     alphaVal = Val(gblOpacity) / 100
 
     If newValue = True Then
+    
         displayscreentoggle.Move displayScreenToggleIn, displayScreenToggleTop
         displayscreen.Alpha = alphaVal
         screentop.Alpha = 0
@@ -2406,6 +2421,7 @@ Public Property Let displayScreenToggleEnabled(ByVal newValue As Boolean)
         If backToggleEnabled = True Then screenbackground.Alpha = alphaVal
         gblDisplayScreenToggleEnabled = "True"
     Else
+        
         displayscreentoggle.Move displayScreenToggleOut, displayScreenToggleTop
         displayscreen.Alpha = 0
         screentop.Alpha = alphaVal
@@ -2419,6 +2435,8 @@ Public Property Let displayScreenToggleEnabled(ByVal newValue As Boolean)
 
     If mDisplayScreenToggleEnabled <> newValue Then mDisplayScreenToggleEnabled = newValue Else Exit Property
     displayScreenToggleEnabled = mDisplayScreenToggleEnabled
+    
+    screenWrite ("raised display screen = " & mDisplayScreenToggleEnabled)
     
     clockForm.Refresh
      
@@ -2574,6 +2592,8 @@ Public Property Let clapperEnabled(ByVal newValue As Boolean)
     If mClapperEnabled <> newValue Then mClapperEnabled = newValue Else Exit Property
     clapperEnabled = mClapperEnabled
     
+    screenWrite ("chime mute is set to " & mClapperEnabled)
+    
     clockForm.Refresh
      
    On Error GoTo 0
@@ -2643,6 +2663,8 @@ Public Property Let backToggleEnabled(ByVal newValue As Boolean)
     If mBackToggleEnabled <> newValue Then mBackToggleEnabled = newValue Else Exit Property
     backToggleEnabled = mBackToggleEnabled
     
+    screenWrite ("back screen raised = " & mBackToggleEnabled)
+
     clockForm.Refresh
      
    On Error GoTo 0
@@ -2781,6 +2803,8 @@ Public Property Let crankedRaised(ByVal newValue As Boolean)
     If mCrankedRaised <> newValue Then mCrankedRaised = newValue Else Exit Property
     crankedRaised = mCrankedRaised
     
+    screenWrite ("volume crank raised = " & mCrankedRaised)
+    
     clockForm.Refresh
      
    On Error GoTo 0
@@ -2847,6 +2871,7 @@ Public Property Let chainEnabled(ByVal newValue As Boolean)
 
     If mChainEnabled <> newValue Then mChainEnabled = newValue Else Exit Property
     chainEnabled = mChainEnabled
+    screenWrite ("ticking sound status = " & mChainEnabled)
     
     clockForm.Refresh
      
@@ -2924,6 +2949,8 @@ Public Property Let weekdayToggleEnabled(ByVal newValue As Boolean)
     If mWeekdayToggleEnabled <> newValue Then mWeekdayToggleEnabled = newValue Else Exit Property
     weekdayToggleEnabled = mWeekdayToggleEnabled
     
+    screenWrite ("weekday indicator raised = " & mWeekdayToggleEnabled)
+    
     clockForm.Refresh
      
     If gblVolumeBoost = "1" Then
@@ -2992,6 +3019,9 @@ Public Property Let alarmtoggleEnabled(ByVal newValue As Boolean)
     
     If alarmtoggleEnabled = True Then
         
+        screenWrite ("Entering Alarm Mode")
+        screenWrite ("Slider Mechanism Released, click bell to set")
+       
         alarmtoggle.Move alarmToggleIn, alarmtoggleTop
         SliderFreed = True
         
@@ -3025,7 +3055,11 @@ Public Property Let alarmtoggleEnabled(ByVal newValue As Boolean)
         End If
         
         tmrTILLSound.Enabled = True ' does a little buzz after 9/10th of a second, not cutting off the preceding 'zzzz' prematurely
+        
     Else
+        screenWrite ("Cancelling Alarm Mode")
+        screenWrite ("Slider Mechanism Returned")
+        
         alarmtoggle.Move alarmToggleOut, alarmtoggleTop
         SliderFreed = False
         fClock.timeShiftPercent = 0
@@ -3087,10 +3121,12 @@ Public Property Let timeMachineToggleEnabled(ByVal newValue As Boolean)
     timeMachineToggleIn = 385
 
     If newValue = True Then
+    
         timemachinetoggle.Move timeMachineToggleIn, timeMachineToggleTop
         overlayWidget.TimeMachine = True
         gblTimeMachineToggleEnabled = "True"
     Else
+        
         timemachinetoggle.Move timeMachineToggleOut, timeMachineToggleTop
         overlayWidget.TimeMachine = False
         gblTimeMachineToggleEnabled = "False"
@@ -3100,6 +3136,8 @@ Public Property Let timeMachineToggleEnabled(ByVal newValue As Boolean)
 
     If mTimeMachineToggleEnabled <> newValue Then mTimeMachineToggleEnabled = newValue Else Exit Property
     timeMachineToggleEnabled = mTimeMachineToggleEnabled
+    
+    screenWrite ("time display raised = " & mTimeMachineToggleEnabled)
     
     clockForm.Refresh
          
@@ -3258,6 +3296,8 @@ Public Property Let muteToggleEnabled(ByVal newValue As Boolean)
 
     If mMuteToggleEnabled <> newValue Then mMuteToggleEnabled = newValue Else Exit Property
     muteToggleEnabled = mMuteToggleEnabled
+    
+    screenWrite ("sound mute is set to " & gblMuteToggleEnabled)
 
     clockForm.Refresh
       
@@ -3313,11 +3353,13 @@ Public Property Let pendulumToggleEnabled(ByVal newValue As Boolean)
     pendulumToggleIn = 363
     
     If newValue = True Then
+
         pendulumtoggle.Move pendulumToggleIn, pendulumToggleTop
         overlayWidget.SwingPendulum = True
         gblPendulumToggleEnabled = "True"
         widgetPrefs.chkTogglePendulum.Value = 1
     Else
+        'screenWrite ("pendulum no swing")
         pendulumtoggle.Move pendulumToggleOut, pendulumToggleTop
         overlayWidget.SwingPendulum = False
         gblPendulumToggleEnabled = "False"
@@ -3338,6 +3380,8 @@ Public Property Let pendulumToggleEnabled(ByVal newValue As Boolean)
 
     If mPendulumToggleEnabled <> newValue Then mPendulumToggleEnabled = newValue Else Exit Property
     pendulumToggleEnabled = mPendulumToggleEnabled
+    
+    screenWrite ("pendulum swing " & mPendulumToggleEnabled)
     
     clockForm.Refresh
       

@@ -1,9 +1,9 @@
 # Steampunk Clock Calendar-VB6
  
-A FOSS Desktop Utility VB6 WoW64 Widget for Windows XP, ReactOS, Vista, Win7, 8 and 10/11+. 
+A FOSS Desktop Utility VB6 WoW64 Widget for Windows XP, ReactOS, Vista, Win7, 8 and 10/11+.
 
 My current VB6/RC6 PSD program being worked upon now, in progress, don't download it yet as it is far from complete. Estimated at 99% graphically complete but only 68% code-ready. This Steampunk Clock Calendar widget will be an attractive steampunk widget for your desktop. It is a deliberately complex clock. Functional and gorgeous at the same time. This VB6 Widget is a moveable widget that you can move anywhere around the 
-desktop as you require. This is based upon the Yahoo widget of the same design. 
+desktop as you require. This is based upon the Yahoo widget of the same design.
  
 If you just want to install, there will be a setup.exe that you download and run. If you want to compile this yourself, clone/download the lot. You will of course, need the VB6 IDE.
 
@@ -196,8 +196,8 @@ At the back-end there are more preferences that may be changed, all are document
  referenced using modRC6regfree.bas which is compiled into the binary.	
  
  
- Requires a PzJustclock folder in C:\Users\<user>\AppData\Roaming\ 
- eg: C:\Users\<user>\AppData\Roaming\PzJustclock
+ Requires a SteampunkClockCalendar folder in C:\Users\<user>\AppData\Roaming\ 
+ eg: C:\Users\<user>\AppData\Roaming\SteampunkClockCalendar
  Requires a settings.ini file to exist in C:\Users\<user>\AppData\Roaming\PzJustclock
  The above will be created automatically by the compiled program when run for the 
  first time.

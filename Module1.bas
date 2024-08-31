@@ -484,14 +484,40 @@ Public gblWindowLevelWasChanged As Boolean
 
 ' Flag for debug mode '.06 DAEB 19/04/2021 common.bas moved to the common area so that it can be used by each of the utilities
 Private mbDebugMode As Boolean ' .30 DAEB 03/03/2021 frmMain.frm replaced the inIDE function that used a variant to one without
-
 Public startupFlg As Boolean
-
 Public msgBoxADynamicSizingFlg As Boolean
-
 Public monitorCount As Long
+Public gblTerminalRows(15) As String
 
 
+
+'---------------------------------------------------------------------------------------
+' Procedure : ScreenWrite
+' Author    : beededea
+' Date      : 29/08/2024
+' Purpose   :
+'---------------------------------------------------------------------------------------
+'
+Sub screenWrite(screentext As String)
+    Dim a As Integer
+
+    On Error GoTo ScreenWrite_Error
+
+    For a = 0 To 14
+        gblTerminalRows(15 - a) = gblTerminalRows(15 - a - 1)
+    Next
+
+    gblTerminalRows(0) = screentext
+
+    'If debugFlg = 1 Then Print("%KON-I-INFO,terminal00 ", terminal00)
+
+   On Error GoTo 0
+   Exit Sub
+
+ScreenWrite_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure ScreenWrite of Class Module cwOverlay"
+End Sub
 
 
 '---------------------------------------------------------------------------------------

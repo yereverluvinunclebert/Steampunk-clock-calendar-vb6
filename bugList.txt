@@ -113,7 +113,9 @@ add balloon tooltips to all prefs controls
 Create a XP /ReactOS version using old APIs and RC5
 obtain a XP test system - wip
 
-add method to feed messages to the screen
+add method to feed messages to the screen - wip
+
+alternative method - have one text widget and fill that
 
 add "operating system" messages to all events to display on the screen
 
