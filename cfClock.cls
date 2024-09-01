@@ -3492,7 +3492,7 @@ Public Property Let alarmtoggle1Enabled(ByVal newValue As Boolean)
     alarmtoggle1Out = 664
     alarmtoggle1In = 654
     
-    alarmInitiatingControl = "alarm1"
+    alarmInitiatingControl = "Alarm 1"
     
     alphaVal = Val(gblOpacity) / 100
  
@@ -3506,7 +3506,7 @@ Public Property Let alarmtoggle1Enabled(ByVal newValue As Boolean)
         fClock.clockForm.Widgets("alarm1till").Widget.Alpha = alphaVal
         
         alarmtoggle1.ImageKey = "alarmtoggle1armed"
-
+        
 '        If alarmtoggle1InitiatingControl = "alarmtoggle1" Then alarmtoggle1ToggleEnabled = False ' prevents recurring calls
     Else
         gblAlarmToggle1Enabled = "False"
@@ -3516,14 +3516,20 @@ Public Property Let alarmtoggle1Enabled(ByVal newValue As Boolean)
         fClock.clockForm.Widgets("redalarmcover").Widget.Alpha = 0
         
         alarmtoggle1.ImageKey = "alarmtoggle1"
+        
 '        If alarmtoggle1InitiatingControl = "alarmtoggle1" Then alarmtoggle1ToggleEnabled = True
     End If
     
     sPutINISetting "Software\SteampunkClockCalendar", "alarmToggle1Enabled", gblAlarmToggle1Enabled, gblSettingsFile
 
-
     If mAlarmToggle1Enabled <> newValue Then mAlarmToggle1Enabled = newValue Else Exit Property
     alarmtoggle1Enabled = mAlarmToggle1Enabled
+    
+    If mAlarmToggle1Enabled = True Then
+        screenWrite ("Viewing Alarm - " & alarmInitiatingControl)
+    Else
+        screenWrite ("Cancelling Alarm View Mode")
+    End If
     
     clockForm.Refresh
      
@@ -3577,7 +3583,7 @@ Public Property Let alarmtoggle2Enabled(ByVal newValue As Boolean)
     alarmtoggle2Out = 678
     alarmtoggle2In = 670
 
-    alarmInitiatingControl = "alarm2"
+    alarmInitiatingControl = "Alarm 2"
         
     alphaVal = Val(gblOpacity) / 100
  
@@ -3612,6 +3618,14 @@ Public Property Let alarmtoggle2Enabled(ByVal newValue As Boolean)
     Else
         Exit Property
     End If
+    
+        
+    If mAlarmToggle2Enabled = True Then
+        screenWrite ("Viewing Alarm - " & alarmInitiatingControl)
+    Else
+        screenWrite ("Cancelling Alarm View Mode")
+    End If
+
     
     clockForm.Refresh
      
@@ -3665,7 +3679,7 @@ Public Property Let alarmtoggle3Enabled(ByVal newValue As Boolean)
     alarmtoggle3Out = 690
     alarmtoggle3In = 682
         
-    alarmInitiatingControl = "alarm3"
+    alarmInitiatingControl = "Alarm 3"
     
     alphaVal = Val(gblOpacity) / 100
  
@@ -3695,6 +3709,12 @@ Public Property Let alarmtoggle3Enabled(ByVal newValue As Boolean)
 
     If mAlarmToggle3Enabled <> newValue Then mAlarmToggle3Enabled = newValue Else Exit Property
     alarmtoggle3Enabled = mAlarmToggle3Enabled
+    
+    If mAlarmToggle3Enabled = True Then
+        screenWrite ("Viewing Alarm - " & alarmInitiatingControl)
+    Else
+        screenWrite ("Cancelling Alarm View Mode")
+    End If
     
     clockForm.Refresh
      
@@ -3748,7 +3768,7 @@ Public Property Let alarmtoggle4Enabled(ByVal newValue As Boolean)
     alarmtoggle4Out = 690
     alarmtoggle4In = 682
 
-    alarmInitiatingControl = "alarm4"
+    alarmInitiatingControl = "Alarm 4"
     
     alphaVal = Val(gblOpacity) / 100
  
@@ -3779,6 +3799,12 @@ Public Property Let alarmtoggle4Enabled(ByVal newValue As Boolean)
 
     If mAlarmToggle4Enabled <> newValue Then mAlarmToggle4Enabled = newValue Else Exit Property
     alarmtoggle4Enabled = mAlarmToggle4Enabled
+        
+    If mAlarmToggle4Enabled = True Then
+        screenWrite ("Viewing Alarm - " & alarmInitiatingControl)
+    Else
+        screenWrite ("Cancelling Alarm View Mode")
+    End If
     
     clockForm.Refresh
      
@@ -3909,10 +3935,10 @@ End Property
 Private Sub hideAlarmTills()
     On Error GoTo fDayOfWeek_Error
             
-    If alarmInitiatingControl <> "alarm1" And alarmtoggle1Enabled = True Then alarmtoggle1Enabled = False
-    If alarmInitiatingControl <> "alarm2" And alarmtoggle2Enabled = True Then alarmtoggle2Enabled = False
-    If alarmInitiatingControl <> "alarm3" And alarmtoggle3Enabled = True Then alarmtoggle3Enabled = False
-    If alarmInitiatingControl <> "alarm4" And alarmtoggle4Enabled = True Then alarmtoggle4Enabled = False
+    If alarmInitiatingControl <> "Alarm 1" And alarmtoggle1Enabled = True Then alarmtoggle1Enabled = False
+    If alarmInitiatingControl <> "Alarm 2" And alarmtoggle2Enabled = True Then alarmtoggle2Enabled = False
+    If alarmInitiatingControl <> "Alarm 3" And alarmtoggle3Enabled = True Then alarmtoggle3Enabled = False
+    If alarmInitiatingControl <> "Alarm 4" And alarmtoggle4Enabled = True Then alarmtoggle4Enabled = False
     If alarmInitiatingControl <> "alarm5" And alarmtoggle5Enabled = True Then alarmtoggle5Enabled = False
     
     On Error GoTo 0

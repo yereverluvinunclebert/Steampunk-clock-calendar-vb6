@@ -52,6 +52,12 @@ quiet/loud sounds
 ' added sleeptimer 
 ' implement sleep timer refresh
 
+' fix recent control tooltips
+' startup crank handle
+' add method to feed messages to the screen 
+' screenwrite on all major controls
+' screenwrite on startup and alarms
+
 ' -oOo-
 
 ' TASK: create an image array/list and populate that with the date/time images that need to be displayed,
@@ -113,11 +119,8 @@ add balloon tooltips to all prefs controls
 Create a XP /ReactOS version using old APIs and RC5
 obtain a XP test system - wip
 
-add method to feed messages to the screen - wip
+text screenWrite alternative method - have one text widget and fill that
 
-alternative method - have one text widget and fill that
-
-add "operating system" messages to all events to display on the screen
 
 ' sync. E6410 win 7
 ' sync. Fast Dell laptop
