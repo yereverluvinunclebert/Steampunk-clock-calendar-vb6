@@ -2317,12 +2317,14 @@ Public Sub toggleWidgetLock()
     fileToPlay = "lock.wav"
     
     If gblPreventDragging = "1" Then
+        Call screenWrite("Widget lock released")
         menuForm.mnuLockWidget.Checked = False
         widgetPrefs.chkPreventDragging.Value = 0
         gblPreventDragging = "0"
         overlayWidget.Locked = False
         fClock.clockForm.Widgets("lockingpin").Widget.Alpha = Val(gblOpacity) / 100
     Else
+        Call screenWrite("Widget locked in place")
         menuForm.mnuLockWidget.Checked = True
         widgetPrefs.chkPreventDragging.Value = 1
         overlayWidget.Locked = True

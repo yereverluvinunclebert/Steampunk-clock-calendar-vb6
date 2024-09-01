@@ -83,9 +83,9 @@ Public Sub mainRoutine(ByVal restart As Boolean)
     widgetName = "Steampunk Clock Calendar"
     thisPSDFullPath = App.path & "\Res\Steampunk Clock Calendar.psd"
     
-    screenWrite ("Steampunk O/S ver 1.0 (mechanical 0.1 hz)")
-    screenWrite ("Copyright Brick Moon Interplanetary Enterprises")
-    screenWrite ("Running startup " & "24hr mode")
+    Call screenWrite("Steampunk O/S ver 1.0 (mechanical 0.1 hz)")
+    Call screenWrite("Copyright Brick Moon Interplanetary Enterprises")
+    Call screenWrite("Running startup " & "24hr mode")
 
     ' resolve VB6 sizing width bug
     Call determineScreenDimensions

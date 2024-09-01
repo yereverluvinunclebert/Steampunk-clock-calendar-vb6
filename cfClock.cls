@@ -781,6 +781,8 @@ Private Sub sliderset_myMouseDown()
             fileToPlay = "buzzer-quiet.wav"
         End If
         
+        Call screenWrite("slider mechanism held, use A toggle to release")
+        
         If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
             PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
         End If
@@ -884,7 +886,7 @@ Private Sub dropdown_myMouseDown()
     alphaVal = Val(gblOpacity) / 100
     
     If dropdownEnabled = False Then
-        screenWrite ("Dropdown information canvas rolling down")
+        Call screenWrite("Dropdown information canvas rolling down")
         If gblVolumeBoost = "1" Then
             fileToPlay = "rollerblind.wav"
         Else
@@ -894,7 +896,7 @@ Private Sub dropdown_myMouseDown()
         dropdown.Move dropdownLeft, dropdownTop + 175
         dropdownEnabled = True
     Else
-        screenWrite ("Dropdown information canvas rolling up")
+        Call screenWrite("Dropdown information canvas rolling up")
         If gblVolumeBoost = "1" Then
             fileToPlay = "rollerblindup.wav"
         Else
@@ -1426,7 +1428,7 @@ Private Sub settoggle_myMouseDown()
     settoggle.Move setToggleIn, settoggleTop
     clockForm.Refresh
     
-    screenWrite ("setting any alarm")
+    Call screenWrite("setting any alarm")
 
     If gblVolumeBoost = "1" Then
         fileToPlay = "clunk.wav"
@@ -1612,7 +1614,7 @@ Private Sub helptoggle_myMouseDown()
     End If
     
     
-    screenWrite ("Dropdown canvas visible " & helpToggleFlg)
+    Call screenWrite("Dropdown canvas visible " & helpToggleFlg)
     clockForm.Refresh
 
    On Error GoTo 0
@@ -1681,7 +1683,7 @@ Private Sub helpdropdown_myMouseDown()
     Dim alphaVal As Integer: alphaVal = 0
 
     If helpdropdown.Alpha <> 0 Then
-        screenWrite ("Dropdown canvas rolling up")
+        Call screenWrite("Dropdown canvas rolling up")
         helpdropdownTop = helpdropdown.Top
         helpdropdownLeft = helpdropdown.Left
         alphaVal = Val(gblOpacity) / 100
@@ -2436,7 +2438,7 @@ Public Property Let displayScreenToggleEnabled(ByVal newValue As Boolean)
     If mDisplayScreenToggleEnabled <> newValue Then mDisplayScreenToggleEnabled = newValue Else Exit Property
     displayScreenToggleEnabled = mDisplayScreenToggleEnabled
     
-    screenWrite ("raised display screen = " & mDisplayScreenToggleEnabled)
+    Call screenWrite("raised display screen = " & mDisplayScreenToggleEnabled)
     
     clockForm.Refresh
      
@@ -2592,7 +2594,7 @@ Public Property Let clapperEnabled(ByVal newValue As Boolean)
     If mClapperEnabled <> newValue Then mClapperEnabled = newValue Else Exit Property
     clapperEnabled = mClapperEnabled
     
-    screenWrite ("chime mute is set to " & mClapperEnabled)
+    Call screenWrite("chime mute is set to " & mClapperEnabled)
     
     clockForm.Refresh
      
@@ -2663,7 +2665,7 @@ Public Property Let backToggleEnabled(ByVal newValue As Boolean)
     If mBackToggleEnabled <> newValue Then mBackToggleEnabled = newValue Else Exit Property
     backToggleEnabled = mBackToggleEnabled
     
-    screenWrite ("back screen raised = " & mBackToggleEnabled)
+    Call screenWrite("back screen raised = " & mBackToggleEnabled)
 
     clockForm.Refresh
      
@@ -2803,7 +2805,7 @@ Public Property Let crankedRaised(ByVal newValue As Boolean)
     If mCrankedRaised <> newValue Then mCrankedRaised = newValue Else Exit Property
     crankedRaised = mCrankedRaised
     
-    screenWrite ("volume crank raised = " & mCrankedRaised)
+    Call screenWrite("volume crank raised = " & mCrankedRaised)
     
     clockForm.Refresh
      
@@ -2871,7 +2873,7 @@ Public Property Let chainEnabled(ByVal newValue As Boolean)
 
     If mChainEnabled <> newValue Then mChainEnabled = newValue Else Exit Property
     chainEnabled = mChainEnabled
-    screenWrite ("ticking sound status = " & mChainEnabled)
+    Call screenWrite("ticking sound status = " & mChainEnabled)
     
     clockForm.Refresh
      
@@ -2949,7 +2951,7 @@ Public Property Let weekdayToggleEnabled(ByVal newValue As Boolean)
     If mWeekdayToggleEnabled <> newValue Then mWeekdayToggleEnabled = newValue Else Exit Property
     weekdayToggleEnabled = mWeekdayToggleEnabled
     
-    screenWrite ("weekday indicator raised = " & mWeekdayToggleEnabled)
+    Call screenWrite("weekday indicator raised = " & mWeekdayToggleEnabled)
     
     clockForm.Refresh
      
@@ -3019,8 +3021,8 @@ Public Property Let alarmtoggleEnabled(ByVal newValue As Boolean)
     
     If alarmtoggleEnabled = True Then
         
-        screenWrite ("Entering Alarm Mode")
-        screenWrite ("Slider Mechanism Released, click bell to set")
+        Call screenWrite("Entering Alarm Mode")
+        Call screenWrite("Slider Mechanism Released, click bell to set")
        
         alarmtoggle.Move alarmToggleIn, alarmtoggleTop
         SliderFreed = True
@@ -3057,8 +3059,8 @@ Public Property Let alarmtoggleEnabled(ByVal newValue As Boolean)
         tmrTILLSound.Enabled = True ' does a little buzz after 9/10th of a second, not cutting off the preceding 'zzzz' prematurely
         
     Else
-        screenWrite ("Cancelling Alarm Mode")
-        screenWrite ("Slider Mechanism Returned")
+        Call screenWrite("Cancelling Alarm Mode")
+        Call screenWrite("Slider Mechanism Returned")
         
         alarmtoggle.Move alarmToggleOut, alarmtoggleTop
         SliderFreed = False
@@ -3137,7 +3139,7 @@ Public Property Let timeMachineToggleEnabled(ByVal newValue As Boolean)
     If mTimeMachineToggleEnabled <> newValue Then mTimeMachineToggleEnabled = newValue Else Exit Property
     timeMachineToggleEnabled = mTimeMachineToggleEnabled
     
-    screenWrite ("time display raised = " & mTimeMachineToggleEnabled)
+    Call screenWrite("time display raised = " & mTimeMachineToggleEnabled)
     
     clockForm.Refresh
          
@@ -3297,7 +3299,7 @@ Public Property Let muteToggleEnabled(ByVal newValue As Boolean)
     If mMuteToggleEnabled <> newValue Then mMuteToggleEnabled = newValue Else Exit Property
     muteToggleEnabled = mMuteToggleEnabled
     
-    screenWrite ("sound mute is set to " & gblMuteToggleEnabled)
+    Call screenWrite("sound mute is set to " & gblMuteToggleEnabled)
 
     clockForm.Refresh
       
@@ -3359,7 +3361,6 @@ Public Property Let pendulumToggleEnabled(ByVal newValue As Boolean)
         gblPendulumToggleEnabled = "True"
         widgetPrefs.chkTogglePendulum.Value = 1
     Else
-        'screenWrite ("pendulum no swing")
         pendulumtoggle.Move pendulumToggleOut, pendulumToggleTop
         overlayWidget.SwingPendulum = False
         gblPendulumToggleEnabled = "False"
@@ -3381,7 +3382,7 @@ Public Property Let pendulumToggleEnabled(ByVal newValue As Boolean)
     If mPendulumToggleEnabled <> newValue Then mPendulumToggleEnabled = newValue Else Exit Property
     pendulumToggleEnabled = mPendulumToggleEnabled
     
-    screenWrite ("pendulum swing " & mPendulumToggleEnabled)
+    Call screenWrite("pendulum swing " & mPendulumToggleEnabled)
     
     clockForm.Refresh
       
@@ -3526,9 +3527,9 @@ Public Property Let alarmtoggle1Enabled(ByVal newValue As Boolean)
     alarmtoggle1Enabled = mAlarmToggle1Enabled
     
     If mAlarmToggle1Enabled = True Then
-        screenWrite ("Viewing Alarm - " & alarmInitiatingControl)
+        Call screenWrite("Viewing Alarm - " & alarmInitiatingControl)
     Else
-        screenWrite ("Cancelling Alarm View Mode")
+        Call screenWrite("Cancelling Alarm View Mode")
     End If
     
     clockForm.Refresh
@@ -3621,9 +3622,9 @@ Public Property Let alarmtoggle2Enabled(ByVal newValue As Boolean)
     
         
     If mAlarmToggle2Enabled = True Then
-        screenWrite ("Viewing Alarm - " & alarmInitiatingControl)
+        Call screenWrite("Viewing Alarm - " & alarmInitiatingControl)
     Else
-        screenWrite ("Cancelling Alarm View Mode")
+        Call screenWrite("Cancelling Alarm View Mode")
     End If
 
     
@@ -3711,9 +3712,9 @@ Public Property Let alarmtoggle3Enabled(ByVal newValue As Boolean)
     alarmtoggle3Enabled = mAlarmToggle3Enabled
     
     If mAlarmToggle3Enabled = True Then
-        screenWrite ("Viewing Alarm - " & alarmInitiatingControl)
+        Call screenWrite("Viewing Alarm - " & alarmInitiatingControl)
     Else
-        screenWrite ("Cancelling Alarm View Mode")
+        Call screenWrite("Cancelling Alarm View Mode")
     End If
     
     clockForm.Refresh
@@ -3801,9 +3802,9 @@ Public Property Let alarmtoggle4Enabled(ByVal newValue As Boolean)
     alarmtoggle4Enabled = mAlarmToggle4Enabled
         
     If mAlarmToggle4Enabled = True Then
-        screenWrite ("Viewing Alarm - " & alarmInitiatingControl)
+        Call screenWrite("Viewing Alarm - " & alarmInitiatingControl)
     Else
-        screenWrite ("Cancelling Alarm View Mode")
+        Call screenWrite("Cancelling Alarm View Mode")
     End If
     
     clockForm.Refresh
@@ -3859,7 +3860,7 @@ Public Property Let alarmtoggle5Enabled(ByVal newValue As Boolean)
     alarmtoggle5Out = 678
     alarmtoggle5In = 670
     
-    alarmInitiatingControl = "alarm5"
+    alarmInitiatingControl = "Alarm 5"
         
     alphaVal = Val(gblOpacity) / 100
  
@@ -3890,6 +3891,12 @@ Public Property Let alarmtoggle5Enabled(ByVal newValue As Boolean)
 
     If mAlarmToggle5Enabled <> newValue Then mAlarmToggle5Enabled = newValue Else Exit Property
     alarmtoggle5Enabled = mAlarmToggle5Enabled
+    
+    If mAlarmToggle5Enabled = True Then
+        Call screenWrite("Viewing Alarm - " & alarmInitiatingControl)
+    Else
+        Call screenWrite("Cancelling Alarm View Mode")
+    End If
     
     clockForm.Refresh
      
@@ -3939,7 +3946,7 @@ Private Sub hideAlarmTills()
     If alarmInitiatingControl <> "Alarm 2" And alarmtoggle2Enabled = True Then alarmtoggle2Enabled = False
     If alarmInitiatingControl <> "Alarm 3" And alarmtoggle3Enabled = True Then alarmtoggle3Enabled = False
     If alarmInitiatingControl <> "Alarm 4" And alarmtoggle4Enabled = True Then alarmtoggle4Enabled = False
-    If alarmInitiatingControl <> "alarm5" And alarmtoggle5Enabled = True Then alarmtoggle5Enabled = False
+    If alarmInitiatingControl <> "Alarm 5" And alarmtoggle5Enabled = True Then alarmtoggle5Enabled = False
     
     On Error GoTo 0
     Exit Sub
