@@ -151,7 +151,7 @@ Private Sub tmrScreenResolution_Timer()
     virtualScreenHeightPixels = fVirtualScreenHeight(True)
 
     ' calls a routine that tests for a change in the monitor upon which the form sits, if so, resizes
-    Call positionClockByMonitorSize
+    'Call positionClockByMonitorSize
     
     ' will be used to check for orientation changes
     If (oldPhysicalScreenHeightPixels <> physicalScreenHeightPixels) Or (oldPhysicalScreenWidthPixels <> physicalScreenWidthPixels) Then

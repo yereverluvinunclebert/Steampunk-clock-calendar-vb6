@@ -53,16 +53,16 @@ Private Type tagMONITORINFO
     dwFlags     As Long 'Flags
 End Type
 
-Private Declare Function EnumDisplayMonitors Lib "user32" (ByVal hdc As Long, lprcClip As Any, ByVal lpfnEnum As Long, dwData As Long) As Long
+Private Declare Function EnumDisplayMonitors Lib "user32" (ByVal hDC As Long, lprcClip As Any, ByVal lpfnEnum As Long, dwData As Long) As Long
 Private Declare Function GetSystemMetrics Lib "user32" (ByVal nIndex As Long) As Long
-Public Declare Function GetDC Lib "user32" (ByVal hwnd As Long) As Long
-Public Declare Function ReleaseDC Lib "user32" (ByVal hwnd As Long, ByVal hdc As Long) As Long
-Public Declare Function GetDeviceCaps Lib "gdi32" (ByVal hdc As Long, ByVal nIndex As Long) As Long
+Public Declare Function GetDC Lib "user32" (ByVal hWnd As Long) As Long
+Public Declare Function ReleaseDC Lib "user32" (ByVal hWnd As Long, ByVal hDC As Long) As Long
+Public Declare Function GetDeviceCaps Lib "gdi32" (ByVal hDC As Long, ByVal nIndex As Long) As Long
 'Private Declare Function CreateDC Lib "gdi32" Alias "CreateDCA" (ByVal lpDriverName As String, ByVal lpDeviceName As String, ByVal lpOutput As String, ByVal lpInitData As Long) As Long
 Private Declare Function UnionRect Lib "user32" (lprcDst As RECT, lprcSrc1 As RECT, lprcSrc2 As RECT) As Long
 Private Declare Function OffsetRect Lib "user32" (lpRect As RECT, ByVal x As Long, ByVal y As Long) As Long
-Private Declare Function MoveWindow Lib "user32" (ByVal hwnd As Long, ByVal x As Long, ByVal y As Long, ByVal nWidth As Long, ByVal nHeight As Long, ByVal bRepaint As Long) As Long
-Private Declare Function GetWindowRect Lib "user32.dll" (ByVal hwnd As Long, lpRect As RECT) As Long
+Private Declare Function MoveWindow Lib "user32" (ByVal hWnd As Long, ByVal x As Long, ByVal y As Long, ByVal nWidth As Long, ByVal nHeight As Long, ByVal bRepaint As Long) As Long
+Private Declare Function GetWindowRect Lib "user32.dll" (ByVal hWnd As Long, lpRect As RECT) As Long
 Private Declare Function MonitorFromRect Lib "user32" (rc As RECT, ByVal dwFlags As dwFlags) As Long
 Private Declare Function GetMonitorInfo Lib "user32" Alias "GetMonitorInfoA" (ByVal hMonitor As Long, MonInfo As tagMONITORINFO) As Long
 
@@ -88,16 +88,16 @@ Public newPrefsWidth As Single
 '---------------------------------------------------------------------------------------
 '
 Public Function fPixelsPerInchX() As Long
-    Dim hdc As Long: hdc = 0
+    Dim hDC As Long: hDC = 0
     
     Const LOGPIXELSX As Integer = 88       '  Logical pixels/inch in X
 
     On Error GoTo fPixelsPerInchX_Error
     
-    hdc = GetDC(0)
-    If hdc <> 0 Then
-        fPixelsPerInchX = GetDeviceCaps(hdc, LOGPIXELSX)
-        ReleaseDC 0, hdc
+    hDC = GetDC(0)
+    If hDC <> 0 Then
+        fPixelsPerInchX = GetDeviceCaps(hDC, LOGPIXELSX)
+        ReleaseDC 0, hDC
     End If
 
    On Error GoTo 0
@@ -117,7 +117,7 @@ End Function
 '---------------------------------------------------------------------------------------
 '
 Public Function fTwipsPerPixelX() As Single
-    Dim hdc As Long: hdc = 0
+    Dim hDC As Long: hDC = 0
     Dim lPixelsPerInch As Long: lPixelsPerInch = 0
     
     Const LOGPIXELSX As Integer = 88       '  Logical pixels/inch in X
@@ -127,10 +127,10 @@ Public Function fTwipsPerPixelX() As Single
     On Error GoTo fTwipsPerPixelX_Error
     
     ' 23/01/2021 .01 monitorModule.bas DAEB added if then else if you can't get device context
-    hdc = GetDC(0)
-    If hdc <> 0 Then
-        lPixelsPerInch = GetDeviceCaps(hdc, LOGPIXELSX)
-        ReleaseDC 0, hdc
+    hDC = GetDC(0)
+    If hDC <> 0 Then
+        lPixelsPerInch = GetDeviceCaps(hDC, LOGPIXELSX)
+        ReleaseDC 0, hDC
         fTwipsPerPixelX = TWIPS_PER_POINT * (POINTS_PER_INCH / lPixelsPerInch) ' Cancel units to see it.
     Else
         fTwipsPerPixelX = Screen.TwipsPerPixelX
@@ -152,7 +152,7 @@ End Function
 '---------------------------------------------------------------------------------------
 '
 Public Function fTwipsPerPixelY() As Single
-    Dim hdc As Long: hdc = 0
+    Dim hDC As Long: hDC = 0
     Dim lPixelsPerInch As Long: lPixelsPerInch = 0
     
     Const LOGPIXELSY As Integer = 90        '  Logical pixels/inch in Y
@@ -162,10 +162,10 @@ Public Function fTwipsPerPixelY() As Single
    On Error GoTo fTwipsPerPixelY_Error
    
     ' 23/01/2021 .01 monitorModule.bas DAEB added if then else if you can't get device context
-    hdc = GetDC(0)
-    If hdc <> 0 Then
-        lPixelsPerInch = GetDeviceCaps(hdc, LOGPIXELSY)
-        ReleaseDC 0, hdc
+    hDC = GetDC(0)
+    If hDC <> 0 Then
+        lPixelsPerInch = GetDeviceCaps(hDC, LOGPIXELSY)
+        ReleaseDC 0, hDC
         fTwipsPerPixelY = TWIPS_PER_POINT * (POINTS_PER_INCH / lPixelsPerInch) ' Cancel units to see it.
     Else
         fTwipsPerPixelY = Screen.TwipsPerPixelY
@@ -236,7 +236,7 @@ End Function
 '             if the form finds itself offscreen due to monitor position/resolution changes.
 '---------------------------------------------------------------------------------------
 '
-Public Sub SetFormOnMonitor(ByRef hwnd As Long, ByVal Left As Long, ByVal Top As Long)
+Public Sub SetFormOnMonitor(ByRef hWnd As Long, ByVal Left As Long, ByVal Top As Long)
 
 ' 2536 , 1038
 
@@ -246,7 +246,7 @@ Public Sub SetFormOnMonitor(ByRef hwnd As Long, ByVal Left As Long, ByVal Top As
     
     On Error GoTo setFormOnMonitor_Error
 
-    GetWindowRect hwnd, rc 'obtain the current form's window rectangle co-ords
+    GetWindowRect hWnd, rc 'obtain the current form's window rectangle co-ords
         
     'move the window rectangle to the previously saved position supplied as two params.
     OffsetRect rc, Left - rc.Left, Top - rc.Top
@@ -267,7 +267,7 @@ Public Sub SetFormOnMonitor(ByRef hwnd As Long, ByVal Left As Long, ByVal Top As
     If rc.Bottom > mi.rcWork.Bottom Then OffsetRect rc, 0, mi.rcWork.Bottom - rc.Bottom
     
     'move the window to new calculated position
-    MoveWindow hwnd, rc.Left, rc.Top, rc.Right - rc.Left, rc.Bottom - rc.Top, 0
+    MoveWindow hWnd, rc.Left, rc.Top, rc.Right - rc.Left, rc.Bottom - rc.Top, 0
 
     On Error GoTo 0
     Exit Sub
@@ -302,7 +302,7 @@ Public Function cWidgetFormScreenProperties(ByVal frm As cWidgetForm, ByRef moni
     If debugFlg = 1 Then MsgBox "%" & " func cWidgetFormScreenProperties"
     
     ' reads the size and position of the user supplied form window
-    GetWindowRect frm.hwnd, Frect
+    GetWindowRect frm.hWnd, Frect
     hMonitor = MonitorFromRect(Frect, MONITOR_DEFAULTTOPRIMARY) ' get handle for monitor containing most of Frm
                                                                 ' if disconnected return handle (and properties) for primary monitor
     On Error GoTo GetMonitorInformation_Err
@@ -372,7 +372,7 @@ Public Function formScreenProperties(ByVal frm As Form, ByRef monitorID As Long)
     If debugFlg = 1 Then MsgBox "%" & " func formScreenProperties"
     
     ' reads the size and position of the user supplied form window
-    GetWindowRect frm.hwnd, Frect
+    GetWindowRect frm.hWnd, Frect
     hMonitor = MonitorFromRect(Frect, MONITOR_DEFAULTTOPRIMARY) ' get handle for monitor containing most of Frm
                                                                 ' if disconnected return handle (and properties) for primary monitor
     On Error GoTo GetMonitorInformation_Err
@@ -582,11 +582,22 @@ Public Sub positionClockByMonitorSize()
                 End If
             ElseIf LTrim$(gblMultiMonitorResize) = "2" Then
                 If clockMonitorStruct.IsPrimary = True Then
-                    resizeProportion = fClock.clockForm.Height / Val(gblClockPrimaryHeightTwips)
+                    If gblClockPrimaryHeightRatio = "" Then gblClockPrimaryHeightRatio = "1"
+                    resizeProportion = Val(gblClockPrimaryHeightRatio)
                 Else
-                    resizeProportion = fClock.clockForm.Height / Val(gblClockSecondaryHeightTwips)
+                    If gblClockSecondaryHeightRatio = "" Then gblClockSecondaryHeightRatio = "1"
+                    resizeProportion = Val(gblClockSecondaryHeightRatio)
                 End If
-                 Call fClock.AdjustZoom(resizeProportion)
+                
+                                    
+                'if  dragging from right to left then reposition
+                If fClock.clockForm.Left > oldClockLeftPixels Then
+                    fClock.clockForm.Left = fClock.clockForm.Left + fClock.clockForm.Widgets("maincasingsurround").Widget.Left
+                Else
+                    fClock.clockForm.Left = fClock.clockForm.Left - fClock.clockForm.Widgets("maincasingsurround").Widget.Left
+                End If
+                fClock.clockForm.Refresh
+                Call fClock.AdjustZoom(resizeProportion)
             End If
         End If
     

@@ -451,17 +451,18 @@ Private Sub W_Paint(CC As RC6.cCairoContext, ByVal xAbs As Single, ByVal yAbs As
       End If
      Next
      
-
-    For a = 0 To 14
-        'gblTerminalRows(a) = "building dock vitality using Thu 13:12 "
-        CC.DrawText 423, position, 220, 20, gblTerminalRows(a), , , 2, True, , someOpacity
-        position = position - interval
-    Next a
-    
-    CC.DrawText 423, 203, 200, 20, ".......", , , 2, True, , someOpacity
-    CC.DrawText 423, 211, 200, 20, ".......", , , 2, True, , someOpacity
-    CC.DrawText 423, 218, 200, 20, ".......", , , 2, True, , someOpacity
-    CC.DrawText 423, 227, 200, 20, ".......", , , 2, True, , someOpacity
+    If gblDisplayScreenToggleEnabled = "True" Then
+        For a = 0 To 14
+            'gblTerminalRows(a) = "building dock vitality using Thu 13:12 "
+            CC.DrawText 423, position, 220, 20, gblTerminalRows(a), , , 2, True, , someOpacity
+            position = position - interval
+        Next a
+        
+        CC.DrawText 423, 203, 200, 20, ".......", , , 2, True, , someOpacity
+        CC.DrawText 423, 211, 200, 20, ".......", , , 2, True, , someOpacity
+        CC.DrawText 423, 218, 200, 20, ".......", , , 2, True, , someOpacity
+        CC.DrawText 423, 227, 200, 20, ".......", , , 2, True, , someOpacity
+    End If
     
     Call drawDigitalClocks(CC)
 
@@ -1120,10 +1121,9 @@ Private Sub tmrClock_Timer()
             fClock.clockForm.Widgets("saturday").Widget.Alpha = 0
             fClock.clockForm.Widgets("sunday").Widget.Alpha = 0
         End If
+        fClock.clockForm.Widgets(fDayOfWeek).Widget.Alpha = 1
     End If
-    
-    fClock.clockForm.Widgets(fDayOfWeek).Widget.Alpha = 1
-      
+          
     ' very few routines are called from this timer but instead this subsequent refresh will trigger a PAINT event
     
     W.Parent.Refresh ' causes a paint event to fire - lots happens in the paint event

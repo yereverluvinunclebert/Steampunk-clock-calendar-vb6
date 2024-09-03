@@ -2507,14 +2507,14 @@ Private Sub cmbMultiMonitorResize_Click()
     
     If cmbMultiMonitorResize.ListIndex = 2 Then
         If prefsMonitorStruct.IsPrimary = True Then
-            gblClockPrimaryHeightTwips = Trim$(Str$(fClock.clockForm.Height))
-            sPutINISetting "Software\SteampunkClockCalendar", "clockPrimaryHeightTwips", gblClockPrimaryHeightTwips, gblSettingsFile
+            gblClockPrimaryHeightRatio = fClock.clockForm.WidgetRoot.Zoom
+            sPutINISetting "Software\SteampunkClockCalendar", "clockPrimaryHeightRatio", gblClockPrimaryHeightRatio, gblSettingsFile
             
             gblPrefsPrimaryHeightTwips = Trim$(Str$(widgetPrefs.Height))
             sPutINISetting "Software\SteampunkClockCalendar", "prefsPrimaryHeightTwips", gblPrefsPrimaryHeightTwips, gblSettingsFile
         Else
-            gblClockSecondaryHeightTwips = Trim$(Str$(fClock.clockForm.Height))
-            sPutINISetting "Software\SteampunkClockCalendar", "clockSecondaryHeightTwips", gblClockSecondaryHeightTwips, gblSettingsFile
+            gblClockSecondaryHeightRatio = fClock.clockForm.WidgetRoot.Zoom
+            sPutINISetting "Software\SteampunkClockCalendar", "clockSecondaryHeightRatio", gblClockSecondaryHeightRatio, gblSettingsFile
             
             gblPrefsSecondaryHeightTwips = Trim$(Str$(widgetPrefs.Height))
             sPutINISetting "Software\SteampunkClockCalendar", "prefsSecondaryHeightTwips", gblPrefsSecondaryHeightTwips, gblSettingsFile

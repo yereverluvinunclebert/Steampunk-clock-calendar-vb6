@@ -2102,9 +2102,9 @@ Public Sub AdjustZoom(ByVal NewZoom As Single)
     If widgetPrefs.IsVisible = True Then widgetPrefs.sliGaugeSize = Val(gblGaugeSize)
     
     If clockMonitorStruct.IsPrimary = True Then
-        gblClockPrimaryHeightTwips = Str$(clockForm.Height)
+        gblClockPrimaryHeightRatio = Str$(NewZoom)
     Else
-        gblClockSecondaryHeightTwips = Str$(clockForm.Height)
+        gblClockSecondaryHeightRatio = Str$(NewZoom)
     End If
 
    On Error GoTo 0

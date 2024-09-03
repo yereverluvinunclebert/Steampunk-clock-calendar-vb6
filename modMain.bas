@@ -134,8 +134,17 @@ Public Sub mainRoutine(ByVal restart As Boolean)
     ' place the form at the saved location
     Call makeVisibleFormElements
     
-    ' obtain initial physical screen sizes and monitor ID
+    ' initil call just to obtain initial physical screen monitor ID
     Call positionClockByMonitorSize
+        
+    ' et the initial size
+    If monitorCount > 1 And (LTrim$(gblMultiMonitorResize) = "1" Or LTrim$(gblMultiMonitorResize) = "2") Then
+        If clockMonitorStruct.IsPrimary = True Then
+            Call fClock.AdjustZoom(Val(gblClockPrimaryHeightRatio))
+        Else
+            Call fClock.AdjustZoom(Val(gblClockSecondaryHeightRatio))
+        End If
+    End If
     
     ' run the functions that are also called at reload time.
     Call adjustMainControls ' this needs to be here after the initialisation of the Cairo forms and widgets
@@ -353,8 +362,8 @@ Private Sub initialiseGlobalVars()
     
     gblPrefsPrimaryHeightTwips = vbNullString
     gblPrefsSecondaryHeightTwips = vbNullString
-    gblClockPrimaryHeightTwips = vbNullString
-    gblClockSecondaryHeightTwips = vbNullString
+    gblClockPrimaryHeightRatio = vbNullString
+    gblClockSecondaryHeightRatio = vbNullString
     
     ' key presses
     CTRL_1 = False
@@ -1158,6 +1167,9 @@ Public Sub readSettingsFile(ByVal Location As String, ByVal gblSettingsFile As S
         gblAlarm4Time = fGetINISetting(Location, "alarm4Time", gblSettingsFile)
         gblAlarm5Time = fGetINISetting(Location, "alarm5Time", gblSettingsFile)
                            
+        gblClockSecondaryHeightRatio = fGetINISetting(Location, "clockSecondaryHeightRatio ", gblSettingsFile)
+        gblClockPrimaryHeightRatio = fGetINISetting(Location, "clockPrimaryHeightRatio", gblSettingsFile)
+        
     End If
 
    On Error GoTo 0
@@ -1280,6 +1292,9 @@ Public Sub validateInputs()
         If gblAlarm3Date = vbNullString Then gblAlarm3Date = "Alarm not yet set"
         If gblAlarm4Date = vbNullString Then gblAlarm4Date = "Alarm not yet set"
         If gblAlarm5Date = vbNullString Then gblAlarm5Date = "Alarm not yet set"
+        
+        If gblClockPrimaryHeightRatio = "" Then gblClockPrimaryHeightRatio = "1"
+        If gblClockSecondaryHeightRatio = "" Then gblClockSecondaryHeightRatio = "1"
         
         
    On Error GoTo 0

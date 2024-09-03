@@ -398,8 +398,8 @@ Public gblPrefsLowDpiYPosTwips As String
 
 Public gblPrefsPrimaryHeightTwips As String
 Public gblPrefsSecondaryHeightTwips As String
-Public gblClockPrimaryHeightTwips As String
-Public gblClockSecondaryHeightTwips As String
+Public gblClockPrimaryHeightRatio As String
+Public gblClockSecondaryHeightRatio As String
 
 
 Public gblAlarm1Date As String
@@ -2075,6 +2075,7 @@ Public Sub savePosition()
         gblClockHighDpiYPos = Str$(fClock.clockForm.Top)
         sPutINISetting "Software\SteampunkClockCalendar", "clockHighDpiXPos", gblClockHighDpiXPos, gblSettingsFile
         sPutINISetting "Software\SteampunkClockCalendar", "clockHighDpiYPos", gblClockHighDpiYPos, gblSettingsFile
+
     Else
         gblClockLowDpiXPos = Str$(fClock.clockForm.Left) ' saving in pixels
         gblClockLowDpiYPos = Str$(fClock.clockForm.Top)
@@ -2082,6 +2083,9 @@ Public Sub savePosition()
         sPutINISetting "Software\SteampunkClockCalendar", "clockLowDpiYPos", gblClockLowDpiYPos, gblSettingsFile
     End If
     
+            
+    sPutINISetting "Software\SteampunkClockCalendar", "clockPrimaryHeightRatio", gblClockPrimaryHeightRatio, gblSettingsFile
+    sPutINISetting "Software\SteampunkClockCalendar", "clockSecondaryHeightRatio", gblClockSecondaryHeightRatio, gblSettingsFile
     gblGaugeSize = Str$(fClock.clockForm.WidgetRoot.Zoom * 100)
     sPutINISetting "Software\SteampunkClockCalendar", "gaugeSize", gblGaugeSize, gblSettingsFile
 
@@ -2186,12 +2190,8 @@ Public Sub readPrefsPosition()
 '        End If
     End If
         
-    'prefsMonitorStruct = formScreenProperties(widgetPrefs, prefsFormMonitorID)
-    If prefsMonitorStruct.IsPrimary = True Then
-        gblPrefsPrimaryHeightTwips = fGetINISetting("Software\SteampunkClockCalendar", "prefsPrimaryHeightTwips", gblSettingsFile)
-    Else
-        gblPrefsSecondaryHeightTwips = fGetINISetting("Software\SteampunkClockCalendar", "prefsSecondaryHeightTwips", gblSettingsFile)
-    End If
+    gblPrefsPrimaryHeightTwips = fGetINISetting("Software\SteampunkClockCalendar", "prefsPrimaryHeightTwips", gblSettingsFile)
+    gblPrefsSecondaryHeightTwips = fGetINISetting("Software\SteampunkClockCalendar", "prefsSecondaryHeightTwips", gblSettingsFile)
     
    On Error GoTo 0
    Exit Sub
