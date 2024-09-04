@@ -533,7 +533,8 @@ End Function
 ' Procedure : positionClockByMonitorSize
 ' Author    : beededea
 ' Date      : 20/08/2024
-' Purpose   : if there is more than one screen size the form according to the form's physical monitor properties
+' Purpose   : at startup obtains monitor ID and characteristics
+'             in addition, if there is more than one screen, size the form by a ratio according to the form's physical monitor properties
 '---------------------------------------------------------------------------------------
 '
 Public Sub positionClockByMonitorSize()
