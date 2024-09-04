@@ -445,7 +445,6 @@ Private Sub W_Paint(CC As RC6.cCairoContext, ByVal xAbs As Single, ByVal yAbs As
                     
              End Select
     
-             
             CC.Paint W.AlphaInherited * Arr(2), Pat  'finally we render the Pattern with the current PSD-LayerAlpha, present in Arr(2)
             CC.Restore
       End If
@@ -453,7 +452,6 @@ Private Sub W_Paint(CC As RC6.cCairoContext, ByVal xAbs As Single, ByVal yAbs As
      
     If gblDisplayScreenToggleEnabled = "True" Then
         For a = 0 To 14
-            'gblTerminalRows(a) = "building dock vitality using Thu 13:12 "
             CC.DrawText 423, position, 220, 20, gblTerminalRows(a), , , 2, True, , someOpacity
             position = position - interval
         Next a

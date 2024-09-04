@@ -57,8 +57,17 @@ quiet/loud sounds
 ' add method to feed messages to the screen 
 ' screenwrite on all major controls
 ' screenwrite on startup and alarms
+' clock, have a save size for each monitor encountered
+
+ add balloon tooltips to all prefs controls - abandoned  - Elroy's subclassing VB^6 comboboxes do not work alongside an RC form, tooltips will not appear, OK in firecall with no RC forms
 
 ' -oOo-
+
+' resize the prefs on startup
+' test the auto resizing options
+'
+' HTML documentation WIP
+' create CHM
 
 ' TASK: create an image array/list and populate that with the date/time images that need to be displayed,
 ' always display the contents of that list on each paint event.
@@ -89,8 +98,6 @@ quiet/loud sounds
 ' yearCache3
 ' yearCache4
 
-
-
     Select Case thismonth
         Case 1
      	    Cairo.ImageList.AddSurface "jan", Cairo.ImageList("monthCache")
@@ -100,13 +107,10 @@ quiet/loud sounds
 
 
 
-' clock, have a save size for each monitor encountered WIP
-
 ' slider advancing/retarding time using timeShiftPercent modified not quite exponentially to shift time - wip
 ' in the timer, take the value of timeShiftPercent and do what to it?
 
 ' click on alarm till deletes alarm with confirmation pop-up - wip
-
 
 digital counter animation from zero
 
@@ -114,13 +118,18 @@ investigate the accumulating shadow when moving across the transparent surface o
 
 look at Olaf's pendulum code
 
-add balloon tooltips to all prefs controls
+centre the clock hands more accurately
+
+' look at the .js and determine what it does and identify any missing functionality
+' alarms 
+' chiming
+' editing the alarm via clicking on the digital displays
+
 
 Create a XP /ReactOS version using old APIs and RC5
 obtain a XP test system - wip
 
-text screenWrite alternative method - have one text widget and fill that
-
+text screenWrite alternative method - have one text widget and fill that - it will fit behind the weekday and alarm tills, whereas the text form has to be 'lifted' above 
 
 ' sync. E6410 win 7
 ' sync. Fast Dell laptop
@@ -131,6 +140,11 @@ text screenWrite alternative method - have one text widget and fill that
 ' adjustFormPositionToCorrectMonitor - licence form
 ' adjustFormPositionToCorrectMonitor - about form
 ' adjustFormPositionToCorrectMonitor - help form
+
+' identify the resizing code changes/additions for multi monitor systems so the code can be back ported to older VB6 widgets
+
+' create setup.exe with a different name.
+
 
 ' -oOo-
 

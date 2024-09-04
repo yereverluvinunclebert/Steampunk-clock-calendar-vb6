@@ -131,21 +131,9 @@ Public Sub mainRoutine(ByVal restart As Boolean)
     ' initialise and create the three main RC forms on the current display
     Call createRCFormsOnCurrentDisplay
     
-    ' place the form at the saved location
+    ' place the form at the saved location and configure all the form elements
     Call makeVisibleFormElements
-    
-    ' initil call just to obtain initial physical screen monitor ID
-    Call positionClockByMonitorSize
         
-    ' et the initial size
-    If monitorCount > 1 And (LTrim$(gblMultiMonitorResize) = "1" Or LTrim$(gblMultiMonitorResize) = "2") Then
-        If clockMonitorStruct.IsPrimary = True Then
-            Call fClock.AdjustZoom(Val(gblClockPrimaryHeightRatio))
-        Else
-            Call fClock.AdjustZoom(Val(gblClockSecondaryHeightRatio))
-        End If
-    End If
-    
     ' run the functions that are also called at reload time.
     Call adjustMainControls ' this needs to be here after the initialisation of the Cairo forms and widgets
     
@@ -509,7 +497,19 @@ Public Sub adjustMainControls()
     ' validate the inputs of any data from the input settings file
     Call validateInputs
     
-    fClock.AdjustZoom Val(gblGaugeSize) / 100
+    ' initial call just to obtain initial physical screen monitor ID
+    Call positionClockByMonitorSize
+        
+    ' set the initial size
+    If monitorCount > 1 And (LTrim$(gblMultiMonitorResize) = "1" Or LTrim$(gblMultiMonitorResize) = "2") Then
+        If clockMonitorStruct.IsPrimary = True Then
+            Call fClock.AdjustZoom(Val(gblClockPrimaryHeightRatio))
+        Else
+            Call fClock.AdjustZoom(Val(gblClockSecondaryHeightRatio))
+        End If
+    Else
+        fClock.AdjustZoom Val(gblGaugeSize) / 100
+    End If
     
 '    overlayWidget.ZoomDirection = gblScrollWheelDirection
     

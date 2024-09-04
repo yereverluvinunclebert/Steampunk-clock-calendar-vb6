@@ -2116,6 +2116,9 @@ Private Const cPrefsFormWidth  As Long = 9090
 Private prefsStartupFlg As Boolean
 Private gblAllowSizeChangeFlg As Boolean
 
+' module level balloon tooltip variables for subclassed comboBoxes ONLY.
+'Private gCmbMultiMonitorResizeBalloonTooltip As String
+
 
 
 
@@ -2657,9 +2660,6 @@ Private Sub Form_Load()
         chkEnableResizing.Value = 1
         lblDragCorner.Visible = True
     End If
-    
-    ' subclass controls that need additional functionality that VB6 does not provide (scrollwheel/balloon tooltips)
-    Call subClassControls
       
     ' read the last saved position from the settings.ini
     Call readPrefsPosition
@@ -5384,6 +5384,10 @@ Public Sub setPrefsTooltips()
    On Error GoTo setPrefsTooltips_Error
 
     If chkEnablePrefsTooltips.Value = 1 Then
+    
+        ' module level balloon tooltip variables for subclassed comboBoxes ONLY.
+        'gCmbMultiMonitorResizeBalloonTooltip = "This option will only appear on multi-monitor systems. On multi-monitor systems, this dropdown has three choices that affect the automatic sizing of  both the main clock and the preference utility. This option is only useful when you have monitors of different size, allowing you to resize the widget to suit the monitor it is currently sitting on."
+    
         imgConfig.ToolTipText = "Opens the configuration tab"
         imgConfigClicked.ToolTipText = "Opens the configuration tab"
         imgDevelopment.ToolTipText = "Opens the Development tab"
@@ -6497,76 +6501,6 @@ End Sub
 
 
 
-'---------------------------------------------------------------------------------------
-' Procedure : subClassControls
-' Author    : beededea
-' Date      : 16/07/2024
-' Purpose   :
-'---------------------------------------------------------------------------------------
-'
-Private Sub subClassControls()
-    
-   On Error GoTo subClassControls_Error
-
-    If InIDE Then
-        'MsgBox "NOTE: Running in IDE so Sub classing is disabled" & vbCrLf & "Balloon tooltips will not display on comboboxes"
-    Else
-        ' sub classing code to intercept messages to the thumbnail frames to pump the VB6 scrollbar with mousewheel up/down.
-'        Call SubclassMouseWheel(picFrameThumbs.hwnd, ObjPtr(picFrameThumbs))
-'        Call SubclassMouseWheel(picRdThumbFrame.hwnd, ObjPtr(picRdThumbFrame))
-'
-'        ' sub classing code to intercept messages to the comboboxes frame to provide missing balloon tooltips functionality
-'        Call SubclassComboBox(cmbRunState.hwnd, ObjPtr(cmbRunState))
-'        Call SubclassComboBox(cmbOpenRunning.hwnd, ObjPtr(cmbOpenRunning))
-'        Call SubclassComboBox(cmbIconTypesFilter.hwnd, ObjPtr(cmbIconTypesFilter))
-    End If
-
-   On Error GoTo 0
-   Exit Sub
-
-subClassControls_Error:
-
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure subClassControls of Form rDIconConfigForm"
-End Sub
-
-
-
-'---------------------------------------------------------------------------------------
-' Procedure : MouseMoveOnComboText
-' Author    : beededea
-' Date      : 16/07/2024
-' Purpose   :
-'---------------------------------------------------------------------------------------
-'
-Public Sub MouseMoveOnComboText(sComboName As String)
-    Dim sTitle As String
-    Dim sText As String
-
-   On Error GoTo MouseMoveOnComboText_Error
-
-'    Select Case sComboName
-'    Case "cmbRunState"
-'        sTitle = "Help on Window Mode Selection."
-'        sText = gCmbRunStateBalloonTooltip
-'        If rDEnableBalloonTooltips = "1" Then CreateToolTip cboEditHwndFromHwnd(cmbRunState.hWnd), sText, , sTitle, , , , True
-'    Case "cmbOpenRunning"
-'        sTitle = "Help on Open Running Behaviour."
-'        sText = gCmbOpenRunningBalloonTooltip
-'        If rDEnableBalloonTooltips = "1" Then CreateToolTip cboEditHwndFromHwnd(cmbOpenRunning.hWnd), sText, , sTitle, , , , True
-'    Case "cmbIconTypesFilter"
-'        sTitle = "Help on the Drop Down Icon Filter"
-'        sText = gCmbIconTypesFilterBalloonTooltip
-'        If rDEnableBalloonTooltips = "1" Then CreateToolTip cboEditHwndFromHwnd(cmbIconTypesFilter.hWnd), sText, , sTitle, , , , True
-'
-'    End Select
-
-   On Error GoTo 0
-   Exit Sub
-
-MouseMoveOnComboText_Error:
-
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure MouseMoveOnComboText of Form rDIconConfigForm"
-End Sub
 
 
 '\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
