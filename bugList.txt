@@ -61,13 +61,13 @@ quiet/loud sounds
 
  add balloon tooltips to all prefs controls - abandoned  - Elroy's subclassing VB^6 comboboxes do not work alongside an RC form, tooltips will not appear, OK in firecall with no RC forms
 
+' HTML documentation WIP
+' create CHM
+
 ' -oOo-
 
 ' resize the prefs on startup
 ' test the auto resizing options
-'
-' HTML documentation WIP
-' create CHM
 
 ' TASK: create an image array/list and populate that with the date/time images that need to be displayed,
 ' always display the contents of that list on each paint event.
@@ -106,7 +106,6 @@ quiet/loud sounds
     CC.RenderSurfaceContent Cairo.ImageList("monthCache"), 442, 312, , , , 1
 
 
-
 ' slider advancing/retarding time using timeShiftPercent modified not quite exponentially to shift time - wip
 ' in the timer, take the value of timeShiftPercent and do what to it?
 
@@ -125,7 +124,6 @@ centre the clock hands more accurately
 ' chiming
 ' editing the alarm via clicking on the digital displays
 
-
 Create a XP /ReactOS version using old APIs and RC5
 obtain a XP test system - wip
 
@@ -141,7 +139,7 @@ text screenWrite alternative method - have one text widget and fill that - it wi
 ' adjustFormPositionToCorrectMonitor - about form
 ' adjustFormPositionToCorrectMonitor - help form
 
-' identify the resizing code changes/additions for multi monitor systems so the code can be back ported to older VB6 widgets
+' identify the resizing code changes/additions for multi monitor systems so the code can be back-ported to older VB6 widgets
 
 ' create setup.exe with a different name.
 
@@ -159,6 +157,8 @@ text screenWrite alternative method - have one text widget and fill that - it wi
 
 ' patch a 256 bit icon into the VB6 binary
 ' https://www.vbforums.com/showthread.php?858347-RESOLVED-How-to-create-and-connect-quality-icon-group-to-your-VB6-app
+
+' recreate the clock using 
 
 ' RC BUGS & LIMITATIONS
 ' =====================

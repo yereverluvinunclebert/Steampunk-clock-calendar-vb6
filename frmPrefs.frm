@@ -207,7 +207,7 @@ Begin VB.Form widgetPrefs
    Begin VB.Timer tmrPrefsScreenResolution 
       Enabled         =   0   'False
       Interval        =   500
-      Left            =   4680
+      Left            =   4665
       Top             =   9780
    End
    Begin VB.Frame fraDevelopmentButton 
@@ -2506,6 +2506,8 @@ End Sub
 Private Sub cmbMultiMonitorResize_Click()
     btnSave.Enabled = True ' enable the save button
     
+    If prefsStartupFlg = True Then Exit Sub
+    
     gblMultiMonitorResize = Str$(cmbMultiMonitorResize.ListIndex)
     
     If cmbMultiMonitorResize.ListIndex = 2 Then
@@ -2513,13 +2515,13 @@ Private Sub cmbMultiMonitorResize_Click()
             gblClockPrimaryHeightRatio = fClock.clockForm.WidgetRoot.Zoom
             sPutINISetting "Software\SteampunkClockCalendar", "clockPrimaryHeightRatio", gblClockPrimaryHeightRatio, gblSettingsFile
             
-            gblPrefsPrimaryHeightTwips = Trim$(Str$(widgetPrefs.Height))
+            'gblPrefsPrimaryHeightTwips = Trim$(Str$(widgetPrefs.Height))
             sPutINISetting "Software\SteampunkClockCalendar", "prefsPrimaryHeightTwips", gblPrefsPrimaryHeightTwips, gblSettingsFile
         Else
             gblClockSecondaryHeightRatio = fClock.clockForm.WidgetRoot.Zoom
             sPutINISetting "Software\SteampunkClockCalendar", "clockSecondaryHeightRatio", gblClockSecondaryHeightRatio, gblSettingsFile
             
-            gblPrefsSecondaryHeightTwips = Trim$(Str$(widgetPrefs.Height))
+            'gblPrefsSecondaryHeightTwips = Trim$(Str$(widgetPrefs.Height))
             sPutINISetting "Software\SteampunkClockCalendar", "prefsSecondaryHeightTwips", gblPrefsSecondaryHeightTwips, gblSettingsFile
         End If
     End If
@@ -2791,20 +2793,23 @@ Public Sub positionPrefsMonitor()
     End If
     
     
+    ' if just one monitor or the global switch is off then exit
+    If monitorCount > 1 And LTrim$(gblMultiMonitorResize) = "2" Then
 
-    If prefsMonitorStruct.IsPrimary = True Then
-        gblPrefsPrimaryHeightTwips = fGetINISetting("Software\SteampunkClockCalendar", "prefsPrimaryHeightTwips", gblSettingsFile)
-        If Val(gblPrefsPrimaryHeightTwips) <= 0 Then
-            widgetPrefs.Height = gblPrefsCurrentHeight
+        If prefsMonitorStruct.IsPrimary = True Then
+            gblPrefsPrimaryHeightTwips = fGetINISetting("Software\SteampunkClockCalendar", "prefsPrimaryHeightTwips", gblSettingsFile)
+            If Val(gblPrefsPrimaryHeightTwips) <= 0 Then
+                widgetPrefs.Height = gblPrefsCurrentHeight
+            Else
+                widgetPrefs.Height = Val(gblPrefsPrimaryHeightTwips)
+            End If
         Else
-            widgetPrefs.Height = Val(gblPrefsPrimaryHeightTwips)
-        End If
-    Else
-        gblPrefsSecondaryHeightTwips = fGetINISetting("Software\SteampunkClockCalendar", "prefsSecondaryHeightTwips", gblSettingsFile)
-        If Val(gblPrefsSecondaryHeightTwips) <= 0 Then
-            widgetPrefs.Height = gblPrefsCurrentHeight
-        Else
-            widgetPrefs.Height = Val(gblPrefsSecondaryHeightTwips)
+            gblPrefsSecondaryHeightTwips = fGetINISetting("Software\SteampunkClockCalendar", "prefsSecondaryHeightTwips", gblSettingsFile)
+            If Val(gblPrefsSecondaryHeightTwips) <= 0 Then
+                widgetPrefs.Height = gblPrefsCurrentHeight
+            Else
+                widgetPrefs.Height = Val(gblPrefsSecondaryHeightTwips)
+            End If
         End If
     End If
 
@@ -4252,8 +4257,13 @@ Private Sub adjustPrefsControls()
     Dim fntWeight As Integer: fntWeight = 0
     Dim fntStyle As Boolean: fntStyle = False
     Dim sliGaugeSizeOldValue As Long: sliGaugeSizeOldValue = 0
+    Dim prefsFormMonitorID As Long: prefsFormMonitorID = 0
+
     
     On Error GoTo adjustPrefsControls_Error
+    
+    ' note the monitor ID at PrefsForm form_load and store as the prefsFormMonitorID
+    prefsMonitorStruct = formScreenProperties(widgetPrefs, prefsFormMonitorID)
             
     ' general tab
     chkWidgetFunctions.Value = Val(gblWidgetFunctions)
@@ -4928,7 +4938,6 @@ Private Sub tmrPrefsScreenResolution_Timer()
     Static oldPrefsMonitorStructHeightTwips As Long
     Static oldPrefsClockLeftPixels As Long
         
-    'Dim monitorStruct As UDTMonitor
     Dim prefsFormMonitorID As Long: prefsFormMonitorID = 0
     Dim monitorStructWidthTwips As Long: monitorStructWidthTwips = 0
     Dim monitorStructHeightTwips As Long: monitorStructHeightTwips = 0
@@ -5746,6 +5755,8 @@ Private Sub themeTimer_Timer()
     Dim SysClr As Long: SysClr = 0
 
     On Error GoTo themeTimer_Timer_Error
+    
+    If widgetPrefs.IsVisible = False Then Exit Sub
 
     SysClr = GetSysColor(COLOR_BTNFACE)
 
@@ -6479,6 +6490,8 @@ Private Sub tmrPrefsPosition_Timer()
     Dim prefsFormMonitorID As Long: prefsFormMonitorID = 0
     
     On Error GoTo tmrPrefsPosition_Timer_Error
+    
+    If widgetPrefs.IsVisible = False Then Exit Sub
 
     If LTrim$(gblMultiMonitorResize) <> "2" Then Exit Sub
  
