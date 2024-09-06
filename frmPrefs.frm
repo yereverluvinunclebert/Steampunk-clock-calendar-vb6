@@ -199,7 +199,7 @@ Begin VB.Form widgetPrefs
          End
       End
    End
-   Begin VB.Timer tmrPrefsPosition 
+   Begin VB.Timer tmrPrefsMonitorSaveHeight 
       Interval        =   5000
       Left            =   1665
       Top             =   9825
@@ -4951,7 +4951,8 @@ Private Sub tmrPrefsScreenResolution_Timer()
     ' calls a routine that tests for a change in the monitor upon which the form sits, if so, resizes
     If widgetPrefs.IsVisible = False Then Exit Sub
     
-    tmrPrefsPosition.Enabled = False
+    ' turn off the timer that saves the prefs height
+    tmrPrefsMonitorSaveHeight.Enabled = False
         
     ' if just one monitor or the global switch is off then exit
     If monitorCount > 1 And (LTrim$(gblMultiMonitorResize) = "1" Or LTrim$(gblMultiMonitorResize) = "2") Then
@@ -5015,7 +5016,7 @@ Private Sub tmrPrefsScreenResolution_Timer()
     oldWidgetPrefsTop = widgetPrefs.Top
     
     tmrPrefsScreenResolution.Enabled = True
-    tmrPrefsPosition.Enabled = True
+    tmrPrefsMonitorSaveHeight.Enabled = True
 
     
     On Error GoTo 0
@@ -5848,8 +5849,24 @@ End Sub
 
 
 
+'---------------------------------------------------------------------------------------
+' Procedure : mnuClosePreferences_Click
+' Author    : beededea
+' Date      : 06/09/2024
+' Purpose   :
+'---------------------------------------------------------------------------------------
+'
 Private Sub mnuClosePreferences_Click()
+   On Error GoTo mnuClosePreferences_Click_Error
+
     Call btnClose_Click
+
+   On Error GoTo 0
+   Exit Sub
+
+mnuClosePreferences_Click_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure mnuClosePreferences_Click of Form widgetPrefs"
 End Sub
 
 
@@ -6479,17 +6496,17 @@ End Sub
 
 
 '---------------------------------------------------------------------------------------
-' Procedure : tmrPrefsPosition_Timer
+' Procedure : tmrPrefsMonitorSaveHeight_Timer
 ' Author    : beededea
 ' Date      : 26/08/2024
-' Purpose   : save the current X and y position of this form to allow repositioning when restarting
+' Purpose   : save the current height of this form to allow resizing when restarting or placing on another monitor
 '---------------------------------------------------------------------------------------
 '
-Private Sub tmrPrefsPosition_Timer()
+Private Sub tmrPrefsMonitorSaveHeight_Timer()
 
-    Dim prefsFormMonitorID As Long: prefsFormMonitorID = 0
+    'Dim prefsFormMonitorID As Long: prefsFormMonitorID = 0
     
-    On Error GoTo tmrPrefsPosition_Timer_Error
+    On Error GoTo tmrPrefsMonitorSaveHeight_Timer_Error
     
     If widgetPrefs.IsVisible = False Then Exit Sub
 
@@ -6506,9 +6523,9 @@ Private Sub tmrPrefsPosition_Timer()
    On Error GoTo 0
    Exit Sub
 
-tmrPrefsPosition_Timer_Error:
+tmrPrefsMonitorSaveHeight_Timer_Error:
 
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure tmrPrefsPosition_Timer of Form widgetPrefs"
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure tmrPrefsMonitorSaveHeight_Timer of Form widgetPrefs"
 
 End Sub
 

@@ -455,22 +455,31 @@ Private Sub W_Paint(CC As RC6.cCairoContext, ByVal xAbs As Single, ByVal yAbs As
             CC.DrawText 423, position, 220, 20, gblTerminalRows(a), , , 2, True, , someOpacity
             position = position - interval
         Next a
-        
+
         CC.DrawText 423, 203, 200, 20, ".......", , , 2, True, , someOpacity
         CC.DrawText 423, 211, 200, 20, ".......", , , 2, True, , someOpacity
         CC.DrawText 423, 218, 200, 20, ".......", , , 2, True, , someOpacity
         CC.DrawText 423, 227, 200, 20, ".......", , , 2, True, , someOpacity
     End If
+
+    If triggerPopulate = True Then
+        Call populateDigitalClocks(CC)
+        triggerPopulate = False
+    End If
     
-    Call drawDigitalClocks(CC)
-
-
-'     Cairo.ImageList.AddSurface "jan", Cairo.ImageList("month")
-'
-'     Key = "month"
-'     CC.RenderSurfaceContent Cairo.ImageList(Key), 442, 312, , , , 1
+    If thisHour = 23 And thisMin = 59 And thisSec >= 58 Then
+        Call populateDigitalClocks(CC)
+    ElseIf thisMin = 59 And thisSec >= 58 Then
+        Call populateDigitalHours(CC)
+        Call populateDigitalMins(CC)
+    End If
+    
+    ' test for alarms
+    If gblAlarmToggle1Enabled = "True" Or gblAlarmToggle2Enabled = "True" Or gblAlarmToggle3Enabled = "True" Or gblAlarmToggle4Enabled = "True" Or gblAlarmToggle5Enabled = "True" Then Call populateDigitalClocks(CC)
+    
+    Call DrawDigitalClocks(CC)
      
-     If mTimeMachine = True Then Call drawTimeMachineImages(CC)
+    If mTimeMachine = True Then Call drawTimeMachineImages(CC)
 
    On Error GoTo 0
    Exit Sub
@@ -521,19 +530,18 @@ Private Sub drawAMPMDigitalDay(ByRef CC As cCairoContext, Optional ByVal alarmHo
 
 End Sub
 '---------------------------------------------------------------------------------------
-' Procedure : drawDigitalClocks
+' Procedure : oldDrawDigitalClocks
 ' Author    : beededea
 ' Date      : 17/05/2023
 ' Purpose   :
 '---------------------------------------------------------------------------------------
 '
-Private Sub drawDigitalClocks(ByRef CC As cCairoContext)
+Private Sub oldDrawDigitalClocks(ByRef CC As cCairoContext)
     Dim theDay As String: theDay = vbNullString
     Dim theMonth As String: theMonth = vbNullString
     Dim theYear As String: theYear = vbNullString
     Dim theHours As String: theHours = vbNullString
     Dim theMins As String: theMins = vbNullString
-    Dim theMeridien As String: theMeridien = vbNullString
     
     If fClock.alarmtoggle1Enabled = True Then
         ' read the date and time variables for alarm 1
@@ -619,14 +627,17 @@ Private Sub drawDigitalClocks(ByRef CC As cCairoContext)
         End If
     End If
     
-    Call displayDigitalDayofMonth(CC, theDay)
-    Call displayDigitalMonth(CC, theMonth)
-    Call displayDigitalYear(CC, theYear)
-    Call displayDigitalHours(CC, theHours)
-    Call displayDigitalMins(CC, theMins)
-    Call drawAMPMDigitalDay(CC, theHours)
+    'Call displayDigitalDayofMonth(CC, theDay)
+    'Call displayDigitalMonth(CC, theMonth)
+    'Call displayDigitalYear(CC, theYear)
+'    Call displayDigitalHours(CC, theHours)
+'    Call displayDigitalMins(CC, theMins)
+    'Call drawAMPMDigitalDay(CC, theHours)
    
 End Sub
+
+
+
 
 
 ' ----------------------------------------------------------------
@@ -659,6 +670,8 @@ Private Sub displayDigitalHours(ByRef CC As cCairoContext, Optional ByVal alarmH
     End If
     
     ' hour digits for digital display
+    
+    '  Cairo.ImageList.AddSurface "jan", Cairo.ImageList("month")
     
     Select Case Left$(hourString, 1)
         Case 0
@@ -708,7 +721,6 @@ Private Sub displayDigitalHours(ByRef CC As cCairoContext, Optional ByVal alarmH
     
 
 End Sub
-
 ' ----------------------------------------------------------------
 ' Procedure Name: displayDigitalMins
 ' Purpose:
@@ -839,6 +851,13 @@ Private Sub displayDigitalMonth(ByRef CC As cCairoContext, Optional ByVal alarmM
     
      
 
+   On Error GoTo 0
+   Exit Sub
+
+displayDigitalMonth_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure displayDigitalMonth of Class Module cwOverlay"
+
 End Sub
 
 
@@ -870,6 +889,8 @@ Private Sub displayDigitalDayofMonth(ByRef CC As cCairoContext, Optional ByVal a
     If localDay < 10 Then ' uses vb6 coerce a string to a numeric without calling a cast function, quicker?
         dayString = "0" & localDay '
     End If
+    
+    
     
     Select Case Left$(dayString, 1)
         Case 0
@@ -917,6 +938,7 @@ Private Sub displayDigitalDayofMonth(ByRef CC As cCairoContext, Optional ByVal a
             CC.RenderSurfaceContent "num9large", 423, 312, , , , 1
     End Select
 End Sub
+
 
 ' ----------------------------------------------------------------
 ' Procedure Name: displayDigitalYear
@@ -1032,6 +1054,8 @@ Private Sub displayDigitalYear(ByRef CC As cCairoContext, Optional ByVal alarmYe
     End Select
 End Sub
 
+
+
 ' ----------------------------------------------------------------
 ' Procedure Name: tmrTimeShift_Timer
 ' Purpose:  timer controlling the pendulum only,
@@ -1082,7 +1106,7 @@ End Sub
 ' ----------------------------------------------------------------
 ' Procedure Name: tmrClock_Timer
 ' Purpose: main timer controlling the analogue clock only,
-'          very few routines are called from this timer but instead the subsequent refresh will trigger a PAINT event
+' very few routines are called from this timer but instead the subsequent refresh will trigger a PAINT event
 ' Procedure Kind: Sub
 ' Procedure Access: Private
 ' Author: beededea
@@ -1121,6 +1145,12 @@ Private Sub tmrClock_Timer()
         End If
         fClock.clockForm.Widgets(fDayOfWeek).Widget.Alpha = 1
     End If
+    
+        ' this should be called once then every hour on the hour, populate the cache
+    If firstRun = True Then
+        triggerPopulate = True
+        firstRun = False
+    End If
           
     ' very few routines are called from this timer but instead this subsequent refresh will trigger a PAINT event
     
@@ -1136,5 +1166,635 @@ End Sub
 
 
 
+'---------------------------------------------------------------------------------------
+' Procedure : DrawDigitalClocks
+' Author    : beededea
+' Date      : 06/09/2024
+' Purpose   : display the hours and mins
+'---------------------------------------------------------------------------------------
+'
+Sub DrawDigitalClocks(CC)
+   On Error GoTo DrawDigitalClocks_Error
+      
+      
+    CC.RenderSurfaceContent "hourCache1", 453, 266, , , , 1
+    CC.RenderSurfaceContent "hourCache2", 474, 266, , , , 1
+              
+    CC.RenderSurfaceContent "minuteCache1", 502, 266, , , , 1
+    CC.RenderSurfaceContent "minuteCache2", 523, 266, , , , 1
+'
+'    ' display the day, month and years
+    CC.RenderSurfaceContent "dayCache1", 404, 312, , , , 1
+    CC.RenderSurfaceContent "dayCache2", 423, 312, , , , 1
+'
+    CC.RenderSurfaceContent "monthCache", 442, 312, , , , 1
+
+    CC.RenderSurfaceContent "yearCache1", 510, 312, , , , 1
+    CC.RenderSurfaceContent "yearCache2", 529, 312, , , , 1
+    CC.RenderSurfaceContent "yearCache3", 548, 312, , , , 1
+    CC.RenderSurfaceContent "yearCache4", 567, 312, , , , 1
+    
+    CC.RenderSurfaceContent "AMPMCache", 621, 387, , , , 1
+
+   On Error GoTo 0
+   Exit Sub
+
+DrawDigitalClocks_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure DrawDigitalClocks of Class Module cwOverlay"
+End Sub
+    
+
+
+' ----------------------------------------------------------------
+' Procedure Name: populateDigitalHours
+' Purpose:
+' Procedure Kind: Sub
+' Procedure ACCess: Private
+' Parameter CC (CCCContext):
+' Author: beededea
+' Date: 24/06/2024
+' ----------------------------------------------------------------
+Private Sub populateDigitalHours(ByRef CC As cCairoContext, Optional ByVal alarmHour As String)
+
+    Dim hourString As String: hourString = vbNullString
+    Dim localHour As Integer: localHour = 0
+
+   On Error GoTo populateDigitalHours_Error
+
+    If alarmHour <> vbNullString Then
+        localHour = CInt(alarmHour)
+        hourString = CStr(localHour)
+    Else
+        localHour = CInt(thisHour)
+        hourString = CStr(thisHour)
+    End If
+
+    If localHour < 10 Then ' uses vb6 coerce a string to a numeric without calling a cast function, quicker?
+        hourString = "0" & localHour '
+    End If
+    
+    ' hour digits for digital display
+    Select Case Left$(hourString, 1)
+        Case 0
+            Cairo.ImageList.AddSurface "hourCache1", Cairo.ImageList("small0")
+        Case 1
+            Cairo.ImageList.AddSurface "hourCache1", Cairo.ImageList("small1")
+        Case 2
+            Cairo.ImageList.AddSurface "hourCache1", Cairo.ImageList("small2")
+        Case 3
+            Cairo.ImageList.AddSurface "hourCache1", Cairo.ImageList("small3")
+        Case 4
+            Cairo.ImageList.AddSurface "hourCache1", Cairo.ImageList("small4")
+        Case 5
+            Cairo.ImageList.AddSurface "hourCache1", Cairo.ImageList("small5")
+        Case 6
+            Cairo.ImageList.AddSurface "hourCache1", Cairo.ImageList("small6")
+        Case 7
+            Cairo.ImageList.AddSurface "hourCache1", Cairo.ImageList("small7")
+        Case 8
+            Cairo.ImageList.AddSurface "hourCache1", Cairo.ImageList("small8")
+        Case 9
+            Cairo.ImageList.AddSurface "hourCache1", Cairo.ImageList("small9")
+    End Select
+
+    Select Case Mid$(hourString, 2, 1)
+        Case 0
+            Cairo.ImageList.AddSurface "hourCache2", Cairo.ImageList("small0")
+        Case 1
+            Cairo.ImageList.AddSurface "hourCache2", Cairo.ImageList("small1")
+        Case 2
+            Cairo.ImageList.AddSurface "hourCache2", Cairo.ImageList("small2")
+        Case 3
+            Cairo.ImageList.AddSurface "hourCache2", Cairo.ImageList("small3")
+        Case 4
+            Cairo.ImageList.AddSurface "hourCache2", Cairo.ImageList("small4")
+        Case 5
+            Cairo.ImageList.AddSurface "hourCache2", Cairo.ImageList("small5")
+        Case 6
+            Cairo.ImageList.AddSurface "hourCache2", Cairo.ImageList("small6")
+        Case 7
+            Cairo.ImageList.AddSurface "hourCache2", Cairo.ImageList("small7")
+        Case 8
+            Cairo.ImageList.AddSurface "hourCache2", Cairo.ImageList("small8")
+        Case 9
+            Cairo.ImageList.AddSurface "hourCache2", Cairo.ImageList("small9")
+    End Select
+
+
+   On Error GoTo 0
+   Exit Sub
+
+populateDigitalHours_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure populateDigitalHours of Class Module cwOverlay"
+
+End Sub
+
+' ----------------------------------------------------------------
+' Procedure Name: populateDigitalMins
+' Purpose:
+' Procedure Kind: Sub
+' Procedure Access: Private
+' Parameter CC (cCairoContext):
+' Author: beededea
+' Date: 24/06/2024
+' ----------------------------------------------------------------
+Private Sub populateDigitalMins(ByRef CC As cCairoContext, Optional ByVal alarmMins As String)
+
+    Dim minString As String: minString = vbNullString
+    Dim localMins As Integer: localMins = 0
+       
+    On Error GoTo populateDigitalMins_Error
+
+    If alarmMins <> vbNullString Then
+        localMins = CInt(alarmMins)
+        minString = CStr(localMins)
+    Else
+        localMins = CInt(thisMin)
+        minString = CStr(thisMin)
+    End If
+    
+    If localMins < 10 Then ' uses vb6 coerce a string to a numeric without calling a cast function, quicker?
+        minString = "0" & localMins '
+    End If
+
+    ' Min digits for digital display
+        
+    Select Case Left$(minString, 1)
+        Case 0
+            Cairo.ImageList.AddSurface "minuteCache1", Cairo.ImageList("small0")
+        Case 1
+            Cairo.ImageList.AddSurface "minuteCache1", Cairo.ImageList("small1")
+        Case 2
+            Cairo.ImageList.AddSurface "minuteCache1", Cairo.ImageList("small2")
+        Case 3
+            Cairo.ImageList.AddSurface "minuteCache1", Cairo.ImageList("small3")
+        Case 4
+            Cairo.ImageList.AddSurface "minuteCache1", Cairo.ImageList("small4")
+        Case 5
+            Cairo.ImageList.AddSurface "minuteCache1", Cairo.ImageList("small5")
+        Case 6
+            Cairo.ImageList.AddSurface "minuteCache1", Cairo.ImageList("small6")
+        Case 7
+            Cairo.ImageList.AddSurface "minuteCache1", Cairo.ImageList("small7")
+        Case 8
+            Cairo.ImageList.AddSurface "minuteCache1", Cairo.ImageList("small8")
+        Case 9
+            Cairo.ImageList.AddSurface "minuteCache1", Cairo.ImageList("small9")
+    End Select
+        
+    Select Case Mid$(minString, 2, 1)
+        Case 0
+            Cairo.ImageList.AddSurface "minuteCache2", Cairo.ImageList("small0")
+        Case 1
+            Cairo.ImageList.AddSurface "minuteCache2", Cairo.ImageList("small1")
+        Case 2
+            Cairo.ImageList.AddSurface "minuteCache2", Cairo.ImageList("small2")
+        Case 3
+            Cairo.ImageList.AddSurface "minuteCache2", Cairo.ImageList("small3")
+        Case 4
+            Cairo.ImageList.AddSurface "minuteCache2", Cairo.ImageList("small4")
+        Case 5
+            Cairo.ImageList.AddSurface "minuteCache2", Cairo.ImageList("small5")
+        Case 6
+            Cairo.ImageList.AddSurface "minuteCache2", Cairo.ImageList("small6")
+        Case 7
+            Cairo.ImageList.AddSurface "minuteCache2", Cairo.ImageList("small7")
+        Case 8
+            Cairo.ImageList.AddSurface "minuteCache2", Cairo.ImageList("small8")
+        Case 9
+            Cairo.ImageList.AddSurface "minuteCache2", Cairo.ImageList("small9")
+    End Select
+    
+
+   On Error GoTo 0
+   Exit Sub
+
+populateDigitalMins_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure populateDigitalMins of Class Module cwOverlay"
+
+End Sub
+
+
+
+' ----------------------------------------------------------------
+' Procedure Name: populateDigitalYear
+' Purpose: year digits for digital display
+' Procedure Kind: Sub
+' Procedure Access: Private
+' Parameter CC (cCairoContext):
+' Author: beededea
+' Date: 24/06/2024
+' ----------------------------------------------------------------
+Private Sub populateDigitalYear(ByRef CC As cCairoContext, Optional ByVal alarmYear As String)
+
+    Dim yearString As String: yearString = vbNullString
+           
+    On Error GoTo populateDigitalYear_Error
+
+    If alarmYear <> vbNullString Then
+        yearString = alarmYear
+    Else
+        yearString = Year(Now) ' coerce date variant to integer
+    End If
+
+    Select Case Left$(yearString, 1)
+        Case 0
+            Cairo.ImageList.AddSurface "yearCache1", Cairo.ImageList("num0large")
+        Case 1
+            Cairo.ImageList.AddSurface "yearCache1", Cairo.ImageList("num1large")
+        Case 2
+            Cairo.ImageList.AddSurface "yearCache1", Cairo.ImageList("num2large")
+        Case 3
+            Cairo.ImageList.AddSurface "yearCache1", Cairo.ImageList("num3large")
+        Case 4
+            Cairo.ImageList.AddSurface "yearCache1", Cairo.ImageList("num4large")
+        Case 5
+            Cairo.ImageList.AddSurface "yearCache1", Cairo.ImageList("num5large")
+        Case 6
+            Cairo.ImageList.AddSurface "yearCache1", Cairo.ImageList("num6large")
+        Case 7
+            Cairo.ImageList.AddSurface "yearCache1", Cairo.ImageList("num7large")
+        Case 8
+            Cairo.ImageList.AddSurface "yearCache1", Cairo.ImageList("num8large")
+        Case 9
+            Cairo.ImageList.AddSurface "yearCache1", Cairo.ImageList("num9large")
+    End Select
+    
+    Select Case Mid$(yearString, 2, 1)
+        Case 0
+            Cairo.ImageList.AddSurface "yearCache2", Cairo.ImageList("num0large")
+        Case 1
+            Cairo.ImageList.AddSurface "yearCache2", Cairo.ImageList("num1large")
+        Case 2
+            Cairo.ImageList.AddSurface "yearCache2", Cairo.ImageList("num2large")
+        Case 3
+            Cairo.ImageList.AddSurface "yearCache2", Cairo.ImageList("num3large")
+        Case 4
+            Cairo.ImageList.AddSurface "yearCache2", Cairo.ImageList("num4large")
+        Case 5
+            Cairo.ImageList.AddSurface "yearCache2", Cairo.ImageList("num5large")
+        Case 6
+            Cairo.ImageList.AddSurface "yearCache2", Cairo.ImageList("num6large")
+        Case 7
+            Cairo.ImageList.AddSurface "yearCache2", Cairo.ImageList("num7large")
+        Case 8
+            Cairo.ImageList.AddSurface "yearCache2", Cairo.ImageList("num8large")
+        Case 9
+            Cairo.ImageList.AddSurface "yearCache2", Cairo.ImageList("num9large")
+    End Select
+        
+    Select Case Mid$(yearString, 3, 1)
+        Case 0
+            Cairo.ImageList.AddSurface "yearCache3", Cairo.ImageList("num0large")
+        Case 1
+            Cairo.ImageList.AddSurface "yearCache3", Cairo.ImageList("num1large")
+        Case 2
+            Cairo.ImageList.AddSurface "yearCache3", Cairo.ImageList("num2large")
+        Case 3
+            Cairo.ImageList.AddSurface "yearCache3", Cairo.ImageList("num3large")
+        Case 4
+            Cairo.ImageList.AddSurface "yearCache3", Cairo.ImageList("num4large")
+        Case 5
+            Cairo.ImageList.AddSurface "yearCache3", Cairo.ImageList("num5large")
+        Case 6
+            Cairo.ImageList.AddSurface "yearCache3", Cairo.ImageList("num6large")
+        Case 7
+            Cairo.ImageList.AddSurface "yearCache3", Cairo.ImageList("num7large")
+        Case 8
+            Cairo.ImageList.AddSurface "yearCache3", Cairo.ImageList("num8large")
+        Case 9
+            Cairo.ImageList.AddSurface "yearCache3", Cairo.ImageList("num9large")
+    End Select
+    
+    Select Case Mid$(yearString, 4, 1)
+        Case 0
+            Cairo.ImageList.AddSurface "yearCache4", Cairo.ImageList("num0large")
+        Case 1
+            Cairo.ImageList.AddSurface "yearCache4", Cairo.ImageList("num1large")
+        Case 2
+            Cairo.ImageList.AddSurface "yearCache4", Cairo.ImageList("num2large")
+        Case 3
+            Cairo.ImageList.AddSurface "yearCache4", Cairo.ImageList("num3large")
+        Case 4
+            Cairo.ImageList.AddSurface "yearCache4", Cairo.ImageList("num4large")
+        Case 5
+            Cairo.ImageList.AddSurface "yearCache4", Cairo.ImageList("num5large")
+        Case 6
+            Cairo.ImageList.AddSurface "yearCache4", Cairo.ImageList("num6large")
+        Case 7
+            Cairo.ImageList.AddSurface "yearCache4", Cairo.ImageList("num7large")
+        Case 8
+            Cairo.ImageList.AddSurface "yearCache4", Cairo.ImageList("num8large")
+        Case 9
+            Cairo.ImageList.AddSurface "yearCache4", Cairo.ImageList("num9large")
+    End Select
+
+   On Error GoTo 0
+   Exit Sub
+
+populateDigitalYear_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure populateDigitalYear of Class Module cwOverlay"
+End Sub
+
+' ----------------------------------------------------------------
+' Procedure Name: populateDigitalMonth
+' Purpose: month digits for digital display
+' Procedure Kind: Sub
+' Procedure Access: Private
+' Parameter CC (cCairoContext):
+' Author: beededea
+' Date: 24/06/2024
+' ----------------------------------------------------------------
+Private Sub populateDigitalMonth(ByRef CC As cCairoContext, Optional ByVal alarmMonth As String)
+
+    Dim thismonth As Integer: thismonth = 0
+
+    On Error GoTo populateDigitalMonth_Error
+
+    thismonth = Month(Now) ' coerce date variant to integer
+       
+    If alarmMonth <> vbNullString Then
+        thismonth = CInt(alarmMonth)
+    Else
+        thismonth = Month(Now) ' coerce date variant to integer
+    End If
+
+    Select Case thismonth
+        Case 1
+            Cairo.ImageList.AddSurface "monthCache", Cairo.ImageList("jan")
+        Case 2
+            Cairo.ImageList.AddSurface "monthCache", Cairo.ImageList("feb")
+        Case 3
+            Cairo.ImageList.AddSurface "monthCache", Cairo.ImageList("mar")
+        Case 4
+            Cairo.ImageList.AddSurface "monthCache", Cairo.ImageList("apr")
+        Case 5
+            Cairo.ImageList.AddSurface "monthCache", Cairo.ImageList("may")
+        Case 6
+            Cairo.ImageList.AddSurface "monthCache", Cairo.ImageList("jun")
+        Case 7
+            Cairo.ImageList.AddSurface "monthCache", Cairo.ImageList("jul")
+        Case 8
+            Cairo.ImageList.AddSurface "monthCache", Cairo.ImageList("aug")
+        Case 9
+            Cairo.ImageList.AddSurface "monthCache", Cairo.ImageList("sep")
+        Case 10
+            Cairo.ImageList.AddSurface "monthCache", Cairo.ImageList("oct")
+        Case 11
+            Cairo.ImageList.AddSurface "monthCache", Cairo.ImageList("nov")
+        Case 12
+            Cairo.ImageList.AddSurface "monthCache", Cairo.ImageList("dec")
+    End Select
+    
+   On Error GoTo 0
+   Exit Sub
+
+populateDigitalMonth_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure populateDigitalMonth of Class Module cwOverlay"
+
+End Sub
+
+
+
+' ----------------------------------------------------------------
+' Procedure Name: populateDigitalDayofMonth
+' Purpose: ' day digits for digital display
+' Procedure Kind: Sub
+' Procedure Access: Private
+' Parameter CC (cCairoContext):
+' Author: beededea
+' Date: 24/06/2024
+' ----------------------------------------------------------------
+Private Sub populateDigitalDayofMonth(ByRef CC As cCairoContext, Optional ByVal alarmDay As String)
+    
+    Dim dayString As String: dayString = vbNullString
+    Dim localDay As Integer: localDay = 0
+    Dim thisDay As Integer: thisDay = 0
+
+   On Error GoTo populateDigitalDayofMonth_Error
+
+    thisDay = Day(Now)
+       
+    If alarmDay <> vbNullString Then
+        localDay = CInt(alarmDay)
+        dayString = CStr(localDay)
+    Else
+        localDay = CInt(thisDay)
+        dayString = CStr(thisDay)
+    End If
+    
+    If localDay < 10 Then ' uses vb6 coerce a string to a numeric without calling a cast function, quicker?
+        dayString = "0" & localDay '
+    End If
+        
+    Select Case Left$(dayString, 1)
+        Case 0
+           Cairo.ImageList.AddSurface "dayCache1", Cairo.ImageList("num0large")
+        Case 1
+           Cairo.ImageList.AddSurface "dayCache1", Cairo.ImageList("num1large")
+        Case 2
+           Cairo.ImageList.AddSurface "dayCache1", Cairo.ImageList("num2large")
+        Case 3
+           Cairo.ImageList.AddSurface "dayCache1", Cairo.ImageList("num3large")
+        Case 4
+           Cairo.ImageList.AddSurface "dayCache1", Cairo.ImageList("num4large")
+        Case 5
+           Cairo.ImageList.AddSurface "dayCache1", Cairo.ImageList("num5large")
+        Case 6
+           Cairo.ImageList.AddSurface "dayCache1", Cairo.ImageList("num6large")
+        Case 7
+           Cairo.ImageList.AddSurface "dayCache1", Cairo.ImageList("num7large")
+        Case 8
+           Cairo.ImageList.AddSurface "dayCache1", Cairo.ImageList("num8large")
+        Case 9
+           Cairo.ImageList.AddSurface "dayCache1", Cairo.ImageList("num9large")
+    End Select
+    
+    Select Case Mid$(dayString, 2, 1)
+        Case 0
+           Cairo.ImageList.AddSurface "dayCache2", Cairo.ImageList("num0large")
+        Case 1
+           Cairo.ImageList.AddSurface "dayCache2", Cairo.ImageList("num1large")
+        Case 2
+           Cairo.ImageList.AddSurface "dayCache2", Cairo.ImageList("num2large")
+        Case 3
+           Cairo.ImageList.AddSurface "dayCache2", Cairo.ImageList("num3large")
+        Case 4
+           Cairo.ImageList.AddSurface "dayCache2", Cairo.ImageList("num4large")
+        Case 5
+           Cairo.ImageList.AddSurface "dayCache2", Cairo.ImageList("num5large")
+        Case 6
+           Cairo.ImageList.AddSurface "dayCache2", Cairo.ImageList("num6large")
+        Case 7
+           Cairo.ImageList.AddSurface "dayCache2", Cairo.ImageList("num7large")
+        Case 8
+           Cairo.ImageList.AddSurface "dayCache2", Cairo.ImageList("num8large")
+        Case 9
+           Cairo.ImageList.AddSurface "dayCache2", Cairo.ImageList("num9large")
+    End Select
+
+   On Error GoTo 0
+   Exit Sub
+
+populateDigitalDayofMonth_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure populateDigitalDayofMonth of Class Module cwOverlay"
+End Sub
+
+
+'---------------------------------------------------------------------------------------
+' Procedure : populateAMPMDigitalDay
+' Author    : beededea
+' Date      : 17/05/2023
+' Purpose   :
+'---------------------------------------------------------------------------------------
+'
+Private Sub populateAMPMDigitalDay(ByRef CC As cCairoContext, Optional ByVal alarmHour As String)
+
+    Dim localHour As Integer: localHour = 0
+    
+    On Error GoTo populateAMPMDigitalDay_Error
+
+    If alarmHour <> vbNullString Then
+        localHour = CInt(alarmHour)
+    Else
+        localHour = thisHour
+    End If
+    
+    If localHour < 12 Then ' uses vb6 coerce a string to a numeric without calling a cast function, quicker?
+         Cairo.ImageList.AddSurface "AMPMCache", Cairo.ImageList("AM")
+    Else
+         Cairo.ImageList.AddSurface "AMPMCache", Cairo.ImageList("PM")
+    End If
+
+   On Error GoTo 0
+   Exit Sub
+
+populateAMPMDigitalDay_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure populateAMPMDigitalDay of Class Module cwOverlay"
+
+End Sub
+
+
+'---------------------------------------------------------------------------------------
+' Procedure : populateDigitalClocks
+' Author    : beededea
+' Date      : 17/05/2023
+' Purpose   :
+'---------------------------------------------------------------------------------------
+'
+Private Sub populateDigitalClocks(ByRef CC As cCairoContext)
+    Dim theDay As String: theDay = vbNullString
+    Dim theMonth As String: theMonth = vbNullString
+    Dim theYear As String: theYear = vbNullString
+    Dim theHours As String: theHours = vbNullString
+    Dim theMins As String: theMins = vbNullString
+    
+    On Error GoTo populateDigitalClocks_Error
+
+    If gblAlarmToggle1Enabled = "True" Then
+        ' read the date and time variables for alarm 1
+        If gblAlarm1Date = "Alarm not yet set" Then
+            theDay = "01"
+            theMonth = "01"
+            theYear = "1970"
+            theHours = "00"
+            theMins = "00"
+        Else
+            theDay = Left$(gblAlarm1Date, 2)
+            theMonth = Mid$(gblAlarm1Date, 4, 2)
+            theYear = Mid$(gblAlarm1Date, 7, 4)
+            theHours = Left$(gblAlarm1Time, 2)
+            theMins = Mid$(gblAlarm1Time, 4, 2)
+        End If
+    End If
+        
+    If gblAlarmToggle2Enabled = "True" Then
+        ' read the date and time variables for alarm 2
+        If gblAlarm2Date = "Alarm not yet set" Then
+            theDay = "01"
+            theMonth = "01"
+            theYear = "1970"
+            theHours = "00"
+            theMins = "00"
+        Else
+            theDay = Left$(gblAlarm2Date, 2)
+            theMonth = Mid$(gblAlarm2Date, 4, 2)
+            theYear = Mid$(gblAlarm2Date, 7, 4)
+            theHours = Left$(gblAlarm2Time, 2)
+            theMins = Mid$(gblAlarm2Time, 4, 2)
+        End If
+    End If
+    
+    If gblAlarmToggle3Enabled = "True" Then
+        ' read the date and time variables for alarm 3
+        If gblAlarm3Date = "Alarm not yet set" Then
+            theDay = "01"
+            theMonth = "01"
+            theYear = "1970"
+            theHours = "00"
+            theMins = "00"
+        Else
+            theDay = Left$(gblAlarm3Date, 2)
+            theMonth = Mid$(gblAlarm3Date, 4, 2)
+            theYear = Mid$(gblAlarm3Date, 7, 4)
+            theHours = Left$(gblAlarm3Time, 2)
+            theMins = Mid$(gblAlarm3Time, 4, 2)
+        End If
+    End If
+    
+    If gblAlarmToggle4Enabled = "True" Then
+        ' read the date and time variables for alarm 4
+        If gblAlarm4Date = "Alarm not yet set" Then
+            theDay = "01"
+            theMonth = "01"
+            theYear = "1970"
+            theHours = "00"
+            theMins = "00"
+        Else
+            theDay = Left$(gblAlarm4Date, 2)
+            theMonth = Mid$(gblAlarm4Date, 4, 2)
+            theYear = Mid$(gblAlarm4Date, 7, 4)
+            theHours = Left$(gblAlarm4Time, 2)
+            theMins = Mid$(gblAlarm4Time, 4, 2)
+        End If
+    End If
+    
+    If gblAlarmToggle5Enabled = "True" Then
+         If gblAlarm4Date = "Alarm not yet set" Then
+            theDay = "01"
+            theMonth = "01"
+            theYear = "1970"
+            theHours = "00"
+            theMins = "00"
+        Else       ' read the date and time variables for alarm 5
+            theDay = Left$(gblAlarm5Date, 2)
+            theMonth = Mid$(gblAlarm5Date, 4, 2)
+            theYear = Mid$(gblAlarm5Date, 7, 4)
+            theHours = Left$(gblAlarm5Time, 2)
+            theMins = Mid$(gblAlarm5Time, 4, 2)
+        End If
+    End If
+    
+    Call populateDigitalDayofMonth(CC, theDay)
+    Call populateDigitalMonth(CC, theMonth)
+    Call populateDigitalYear(CC, theYear)
+    Call populateDigitalHours(CC, theHours)
+    Call populateDigitalMins(CC, theMins)
+    Call populateAMPMDigitalDay(CC, theHours)
+
+   On Error GoTo 0
+   Exit Sub
+
+populateDigitalClocks_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure populateDigitalClocks of Class Module cwOverlay"
+End Sub
 
 

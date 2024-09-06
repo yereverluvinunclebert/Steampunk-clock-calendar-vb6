@@ -472,8 +472,20 @@ Private Sub addImagesToImageList()
     Cairo.ImageList.AddImage "AM", App.path & "\Resources\images\AM.png"
     Cairo.ImageList.AddImage "PM", App.path & "\Resources\images\PM.png"
     
-    Cairo.ImageList.AddImage "month", App.path & "\Resources\images\jan.png"
+    'Cairo.ImageList.AddImage "month", App.path & "\Resources\images\jan.png"
     
+    Cairo.ImageList.AddImage "hourCache1", App.path & "\Resources\images\small0.png"
+    Cairo.ImageList.AddImage "hourCache2", App.path & "\Resources\images\small0.png"
+    Cairo.ImageList.AddImage "minuteCache1", App.path & "\Resources\images\small0.png"
+    Cairo.ImageList.AddImage "minuteCache2", App.path & "\Resources\images\small0.png"
+    Cairo.ImageList.AddImage "dayCache1", App.path & "\Resources\images\num0large.png"
+    Cairo.ImageList.AddImage "dayCache2", App.path & "\Resources\images\num1large.png"
+    Cairo.ImageList.AddImage "monthCache", App.path & "\Resources\images\jan.png"
+    Cairo.ImageList.AddImage "yearCache1", App.path & "\Resources\images\num1large.png"
+    Cairo.ImageList.AddImage "yearCache2", App.path & "\Resources\images\num9large.png"
+    Cairo.ImageList.AddImage "yearCache3", App.path & "\Resources\images\num7large.png"
+    Cairo.ImageList.AddImage "yearCache4", App.path & "\Resources\images\num0large.png"
+    Cairo.ImageList.AddImage "AMPMCache", App.path & "\Resources\images\AM.png"
     
    On Error GoTo 0
    Exit Sub

@@ -63,10 +63,10 @@ quiet/loud sounds
 
 ' HTML documentation WIP
 ' create CHM
+' resize the prefs on startup
 
 ' -oOo-
 
-' resize the prefs on startup
 ' test the auto resizing options
 
 ' TASK: create an image array/list and populate that with the date/time images that need to be displayed,

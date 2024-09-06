@@ -3498,7 +3498,7 @@ Public Property Let alarmtoggle1Enabled(ByVal newValue As Boolean)
     alphaVal = Val(gblOpacity) / 100
  
     ' NOTE: the code for displaying the alarm value when alarmtoggle1Enabled = true, is contained within the
-    '       subroutine drawDigitalClocks, this checks the current state if the alarm toggle and shows the alarm.
+    '       subroutine DrawDigitalClocks, this checks the current state if the alarm toggle and shows the alarm.
     
     If newValue = True Then
         gblAlarmToggle1Enabled = "True"
@@ -3517,6 +3517,7 @@ Public Property Let alarmtoggle1Enabled(ByVal newValue As Boolean)
         fClock.clockForm.Widgets("redalarmcover").Widget.Alpha = 0
         
         alarmtoggle1.ImageKey = "alarmtoggle1"
+        triggerPopulate = True
         
 '        If alarmtoggle1InitiatingControl = "alarmtoggle1" Then alarmtoggle1ToggleEnabled = True
     End If
@@ -3589,7 +3590,7 @@ Public Property Let alarmtoggle2Enabled(ByVal newValue As Boolean)
     alphaVal = Val(gblOpacity) / 100
  
     ' NOTE: the code for displaying the alarm value when alarmtoggle1Enabled = true, is contained within the
-    '       subroutine drawDigitalClocks, this checks the current state if the alarm toggle and shows the alarm.
+    '       subroutine DrawDigitalClocks, this checks the current state if the alarm toggle and shows the alarm.
     
     If newValue = True Then
         gblAlarmToggle2Enabled = "True"
@@ -3607,7 +3608,7 @@ Public Property Let alarmtoggle2Enabled(ByVal newValue As Boolean)
         fClock.clockForm.Widgets("alarm2till").Widget.Alpha = 0
         fClock.clockForm.Widgets("redalarmcover").Widget.Alpha = 0
         alarmtoggle2.ImageKey = "alarmtoggle2"
-
+        triggerPopulate = True
 '        If alarmtoggle2InitiatingControl = "alarmtoggle2" Then alarmtoggle2ToggleEnabled = True
     End If
     
@@ -3685,7 +3686,7 @@ Public Property Let alarmtoggle3Enabled(ByVal newValue As Boolean)
     alphaVal = Val(gblOpacity) / 100
  
     ' NOTE: the code for displaying the alarm value when alarmtoggle1Enabled = true, is contained within the
-    '       subroutine drawDigitalClocks, this checks the current state if the alarm toggle and shows the alarm.
+    '       subroutine DrawDigitalClocks, this checks the current state if the alarm toggle and shows the alarm.
     
     If newValue = True Then
         gblAlarmToggle3Enabled = "True"
@@ -3703,7 +3704,9 @@ Public Property Let alarmtoggle3Enabled(ByVal newValue As Boolean)
         fClock.clockForm.Widgets("alarm3till").Widget.Alpha = 0
         fClock.clockForm.Widgets("redalarmcover").Widget.Alpha = 0
         alarmtoggle3.ImageKey = "alarmtoggle3"
-'        If alarmtoggle3InitiatingControl = "alarmtoggle3" Then alarmtoggle3ToggleEnabled = True
+        triggerPopulate = True
+        
+        '        If alarmtoggle3InitiatingControl = "alarmtoggle3" Then alarmtoggle3ToggleEnabled = True
     End If
     
     sPutINISetting "Software\SteampunkClockCalendar", "alarmtoggle3Enabled", gblAlarmToggle3Enabled, gblSettingsFile
@@ -3774,7 +3777,7 @@ Public Property Let alarmtoggle4Enabled(ByVal newValue As Boolean)
     alphaVal = Val(gblOpacity) / 100
  
     ' NOTE: the code for displaying the alarm value when alarmtoggle1Enabled = true, is contained within the
-    '       subroutine drawDigitalClocks, this checks the current state if the alarm toggle and shows the alarm.
+    '       subroutine DrawDigitalClocks, this checks the current state if the alarm toggle and shows the alarm.
     
     If newValue = True Then
         gblAlarmToggle4Enabled = "True"
@@ -3792,8 +3795,9 @@ Public Property Let alarmtoggle4Enabled(ByVal newValue As Boolean)
         fClock.clockForm.Widgets("alarm4till").Widget.Alpha = 0
         fClock.clockForm.Widgets("redalarmcover").Widget.Alpha = 0
         alarmtoggle4.ImageKey = "alarmtoggle4"
+        triggerPopulate = True
         
-'        If alarmtoggle4InitiatingControl = "alarmtoggle4" Then alarmtoggle4ToggleEnabled = True
+        '        If alarmtoggle4InitiatingControl = "alarmtoggle4" Then alarmtoggle4ToggleEnabled = True
     End If
     
     sPutINISetting "Software\SteampunkClockCalendar", "alarmtoggle4Enabled", gblAlarmToggle4Enabled, gblSettingsFile
@@ -3865,7 +3869,7 @@ Public Property Let alarmtoggle5Enabled(ByVal newValue As Boolean)
     alphaVal = Val(gblOpacity) / 100
  
     ' NOTE: the code for displaying the alarm value when alarmtoggle1Enabled = true, is contained within the
-    '       subroutine drawDigitalClocks, this checks the current state if the alarm toggle and shows the alarm.
+    '       subroutine DrawDigitalClocks, this checks the current state if the alarm toggle and shows the alarm.
     
     If newValue = True Then
         gblAlarmToggle5Enabled = "True"
@@ -3883,8 +3887,9 @@ Public Property Let alarmtoggle5Enabled(ByVal newValue As Boolean)
         fClock.clockForm.Widgets("alarm5till").Widget.Alpha = 0
         fClock.clockForm.Widgets("redalarmcover").Widget.Alpha = 0
         alarmtoggle5.ImageKey = "alarmtoggle5"
+        triggerPopulate = True
         
-'        If alarmtoggle5InitiatingControl = "alarmtoggle5" Then alarmtoggle5ToggleEnabled = True
+        '        If alarmtoggle5InitiatingControl = "alarmtoggle5" Then alarmtoggle5ToggleEnabled = True
     End If
     
     sPutINISetting "Software\SteampunkClockCalendar", "alarmtoggle5Enabled", gblAlarmToggle5Enabled, gblSettingsFile
