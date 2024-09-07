@@ -3517,7 +3517,7 @@ Public Property Let alarmtoggle1Enabled(ByVal newValue As Boolean)
         fClock.clockForm.Widgets("redalarmcover").Widget.Alpha = 0
         
         alarmtoggle1.ImageKey = "alarmtoggle1"
-        triggerPopulate = True
+        triggerDigitalClockPopulation = True
         
 '        If alarmtoggle1InitiatingControl = "alarmtoggle1" Then alarmtoggle1ToggleEnabled = True
     End If
@@ -3608,7 +3608,7 @@ Public Property Let alarmtoggle2Enabled(ByVal newValue As Boolean)
         fClock.clockForm.Widgets("alarm2till").Widget.Alpha = 0
         fClock.clockForm.Widgets("redalarmcover").Widget.Alpha = 0
         alarmtoggle2.ImageKey = "alarmtoggle2"
-        triggerPopulate = True
+        triggerDigitalClockPopulation = True
 '        If alarmtoggle2InitiatingControl = "alarmtoggle2" Then alarmtoggle2ToggleEnabled = True
     End If
     
@@ -3704,7 +3704,7 @@ Public Property Let alarmtoggle3Enabled(ByVal newValue As Boolean)
         fClock.clockForm.Widgets("alarm3till").Widget.Alpha = 0
         fClock.clockForm.Widgets("redalarmcover").Widget.Alpha = 0
         alarmtoggle3.ImageKey = "alarmtoggle3"
-        triggerPopulate = True
+        triggerDigitalClockPopulation = True
         
         '        If alarmtoggle3InitiatingControl = "alarmtoggle3" Then alarmtoggle3ToggleEnabled = True
     End If
@@ -3795,7 +3795,7 @@ Public Property Let alarmtoggle4Enabled(ByVal newValue As Boolean)
         fClock.clockForm.Widgets("alarm4till").Widget.Alpha = 0
         fClock.clockForm.Widgets("redalarmcover").Widget.Alpha = 0
         alarmtoggle4.ImageKey = "alarmtoggle4"
-        triggerPopulate = True
+        triggerDigitalClockPopulation = True
         
         '        If alarmtoggle4InitiatingControl = "alarmtoggle4" Then alarmtoggle4ToggleEnabled = True
     End If
@@ -3887,7 +3887,7 @@ Public Property Let alarmtoggle5Enabled(ByVal newValue As Boolean)
         fClock.clockForm.Widgets("alarm5till").Widget.Alpha = 0
         fClock.clockForm.Widgets("redalarmcover").Widget.Alpha = 0
         alarmtoggle5.ImageKey = "alarmtoggle5"
-        triggerPopulate = True
+        triggerDigitalClockPopulation = True
         
         '        If alarmtoggle5InitiatingControl = "alarmtoggle5" Then alarmtoggle5ToggleEnabled = True
     End If

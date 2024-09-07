@@ -448,8 +448,9 @@ Private Sub W_Paint(CC As RC6.cCairoContext, ByVal xAbs As Single, ByVal yAbs As
             CC.Paint W.AlphaInherited * Arr(2), Pat  'finally we render the Pattern with the current PSD-LayerAlpha, present in Arr(2)
             CC.Restore
       End If
-     Next
+    Next
      
+    ' print the console text on the screen
     If gblDisplayScreenToggleEnabled = "True" Then
         For a = 0 To 14
             CC.DrawText 423, position, 220, 20, gblTerminalRows(a), , , 2, True, , someOpacity
@@ -462,21 +463,24 @@ Private Sub W_Paint(CC As RC6.cCairoContext, ByVal xAbs As Single, ByVal yAbs As
         CC.DrawText 423, 227, 200, 20, ".......", , , 2, True, , someOpacity
     End If
 
-    If triggerPopulate = True Then
+    ' if first time running then populate the dgitial clocks or if one of the alarms is currently being viewed then populate the clocks with the alarm digits.
+    If triggerDigitalClockPopulation = True Then
         Call populateDigitalClocks(CC)
-        triggerPopulate = False
+        triggerDigitalClockPopulation = False
     End If
     
+    ' during 2 secs close to midnight we regularly display the digital clocks to handle the midnight changeover
     If thisHour = 23 And thisMin = 59 And thisSec >= 58 Then
         Call populateDigitalClocks(CC)
-    ElseIf thisMin = 59 And thisSec >= 58 Then
+    ElseIf thisMin = 59 And thisSec >= 58 Then ' oitherwise just handle the normal minute, hour changeover
         Call populateDigitalHours(CC)
         Call populateDigitalMins(CC)
     End If
     
-    ' test for alarms
+    ' test for alarms, using globals to reduce the cpu cycles
     If gblAlarmToggle1Enabled = "True" Or gblAlarmToggle2Enabled = "True" Or gblAlarmToggle3Enabled = "True" Or gblAlarmToggle4Enabled = "True" Or gblAlarmToggle5Enabled = "True" Then Call populateDigitalClocks(CC)
     
+    ' the above routines populate the digital clock cache, this routine shows the digital clocks
     Call DrawDigitalClocks(CC)
      
     If mTimeMachine = True Then Call drawTimeMachineImages(CC)
@@ -1148,7 +1152,7 @@ Private Sub tmrClock_Timer()
     
         ' this should be called once then every hour on the hour, populate the cache
     If firstRun = True Then
-        triggerPopulate = True
+        triggerDigitalClockPopulation = True
         firstRun = False
     End If
           

@@ -488,7 +488,7 @@ Public startupFlg As Boolean
 Public msgBoxADynamicSizingFlg As Boolean
 Public monitorCount As Long
 Public gblTerminalRows(15) As String
-Public triggerPopulate As Boolean
+Public triggerDigitalClockPopulation As Boolean
 
 
 '---------------------------------------------------------------------------------------

@@ -237,7 +237,8 @@ Private Sub sleepTimer_Timer()
     strTimeThen = Now()
 
     If lngSecondsGap > 60 Then
-        'MsgBox "System has just woken up from a sleep"
+        'MsgBox "System has just woken up from a sleep" ' awoken, awake
+        triggerDigitalClockPopulation = True
         fClock.clockForm.Refresh
         'MessageBox Me.hwnd, "System has just woken up from a sleep - animatedIconsRaised =" & animatedIconsRaised, "SteamyDock Information Message", vbOKOnly
     End If
