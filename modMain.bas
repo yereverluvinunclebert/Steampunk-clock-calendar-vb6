@@ -847,7 +847,7 @@ Public Sub adjustMainControls()
         .Tag = 0.01
     End With
 
-    With fClock.clockForm.Widgets("weekday").Widget
+    With fClock.clockForm.Widgets("weekdaytill").Widget
         .HoverColor = 0
         .MousePointer = IDC_ARROW
         .Alpha = 0

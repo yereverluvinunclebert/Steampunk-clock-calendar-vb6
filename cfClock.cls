@@ -104,8 +104,8 @@ Private WithEvents crankdown As cWidgetBase
 Attribute crankdown.VB_VarHelpID = -1
 Private WithEvents weekdayred As cWidgetBase
 Attribute weekdayred.VB_VarHelpID = -1
-Private WithEvents weekday As cWidgetBase
-Attribute weekday.VB_VarHelpID = -1
+Private WithEvents weekdaytill As cWidgetBase
+Attribute weekdaytill.VB_VarHelpID = -1
 Private WithEvents weekdayshadow As cWidgetBase
 Attribute weekdayshadow.VB_VarHelpID = -1
 Private WithEvents dropdown As cWidgetBase
@@ -369,7 +369,7 @@ Public Sub InitFromPSD(ByRef PSD_FileNameOrByteArray As Variant)
     Set crankup = clockForm.Widgets("crankup").Widget
     Set crankdown = clockForm.Widgets("crankdown").Widget
     Set weekdayred = clockForm.Widgets("weekdayred").Widget
-    Set weekday = clockForm.Widgets("weekday").Widget
+    Set weekdaytill = clockForm.Widgets("weekdaytill").Widget
     Set weekdayshadow = clockForm.Widgets("weekdayshadow").Widget
     Set dropdown = clockForm.Widgets("dropdown").Widget
     Set bellset = clockForm.Widgets("bellset").Widget
@@ -505,7 +505,7 @@ Private Sub clockForm_BubblingEvent(ByRef sender As Object, ByRef EventName As S
                 If gblEnableBalloonTooltips = "1" Then CreateToolTip clockForm.hWnd, "Click here to lock the clock in place on the desktop.", _
                      TTIconInfo, widgetName & " Dropdown Pin Help", , , , True
                      
-            Case "weekday" ' this does the job for all the weekday tills underneath
+            Case "weekdaytill" ' this does the job for all the weekday tills underneath
                 If gblEnableBalloonTooltips = "1" Then CreateToolTip clockForm.hWnd, "Click here to lower the weekday flag.", _
                      TTIconInfo, widgetName & " Weekday Indicator Help", , , , True
                 ' set the weekday red cover to solid
@@ -2933,14 +2933,14 @@ Public Property Let weekdayToggleEnabled(ByVal newValue As Boolean)
 
     If newValue = True Then
         weekdaytoggle.Move weekdayToggleIn, weekdayToggleTop
-        clockForm.Widgets("weekday").Widget.Alpha = alphaVal
+        clockForm.Widgets("weekdaytill").Widget.Alpha = alphaVal
         clockForm.Widgets("weekdayshadow").Widget.Alpha = alphaVal
         clockForm.Widgets(thisDayOfWeek).Widget.Alpha = alphaVal
         gblWeekdayToggleEnabled = "True"
     Else
         weekdaytoggle.Move weekdayToggleOut, weekdayToggleTop
         clockForm.Widgets("weekdayred").Widget.Alpha = 0
-        clockForm.Widgets("weekday").Widget.Alpha = 0
+        clockForm.Widgets("weekdaytill").Widget.Alpha = 0
         clockForm.Widgets("weekdayshadow").Widget.Alpha = 0
         clockForm.Widgets(thisDayOfWeek).Widget.Alpha = 0
         gblWeekdayToggleEnabled = "False"

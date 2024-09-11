@@ -465,20 +465,23 @@ Private Sub W_Paint(CC As RC6.cCairoContext, ByVal xAbs As Single, ByVal yAbs As
 
     ' if first time running then populate the dgitial clocks or if one of the alarms is currently being viewed then populate the clocks with the alarm digits.
     If triggerDigitalClockPopulation = True Then
-        Call populateDigitalClocks(CC)
+        Call populateDigitalClockCache(CC)
         triggerDigitalClockPopulation = False
     End If
     
-    ' during 2 secs close to midnight we regularly display the digital clocks to handle the midnight changeover
-    If thisHour = 23 And thisMin = 59 And thisSec >= 58 Then
-        Call populateDigitalClocks(CC)
-    ElseIf thisMin = 59 And thisSec >= 58 Then ' oitherwise just handle the normal minute, hour changeover
-        Call populateDigitalHours(CC)
-        Call populateDigitalMins(CC)
+    If thisSec <= 1 Then
+        Call populateDigitalMinsCache(CC)
+        If thisMin = 0 Then
+            Call populateDigitalHoursCache(CC)
+            If thisHour = 0 Then
+                Call populateDigitalClockCache(CC)
+            End If
+        End If
     End If
+
     
     ' test for alarms, using globals to reduce the cpu cycles
-    If gblAlarmToggle1Enabled = "True" Or gblAlarmToggle2Enabled = "True" Or gblAlarmToggle3Enabled = "True" Or gblAlarmToggle4Enabled = "True" Or gblAlarmToggle5Enabled = "True" Then Call populateDigitalClocks(CC)
+    If gblAlarmToggle1Enabled = "True" Or gblAlarmToggle2Enabled = "True" Or gblAlarmToggle3Enabled = "True" Or gblAlarmToggle4Enabled = "True" Or gblAlarmToggle5Enabled = "True" Then Call populateDigitalClockCache(CC)
     
     ' the above routines populate the digital clock cache, this routine shows the digital clocks
     Call DrawDigitalClocks(CC)
@@ -1211,7 +1214,7 @@ End Sub
 
 
 ' ----------------------------------------------------------------
-' Procedure Name: populateDigitalHours
+' Procedure Name: populateDigitalHoursCache
 ' Purpose:
 ' Procedure Kind: Sub
 ' Procedure ACCess: Private
@@ -1219,12 +1222,12 @@ End Sub
 ' Author: beededea
 ' Date: 24/06/2024
 ' ----------------------------------------------------------------
-Private Sub populateDigitalHours(ByRef CC As cCairoContext, Optional ByVal alarmHour As String)
+Private Sub populateDigitalHoursCache(ByRef CC As cCairoContext, Optional ByVal alarmHour As String)
 
     Dim hourString As String: hourString = vbNullString
     Dim localHour As Integer: localHour = 0
 
-   On Error GoTo populateDigitalHours_Error
+   On Error GoTo populateDigitalHoursCache_Error
 
     If alarmHour <> vbNullString Then
         localHour = CInt(alarmHour)
@@ -1289,14 +1292,14 @@ Private Sub populateDigitalHours(ByRef CC As cCairoContext, Optional ByVal alarm
    On Error GoTo 0
    Exit Sub
 
-populateDigitalHours_Error:
+populateDigitalHoursCache_Error:
 
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure populateDigitalHours of Class Module cwOverlay"
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure populateDigitalHoursCache of Class Module cwOverlay"
 
 End Sub
 
 ' ----------------------------------------------------------------
-' Procedure Name: populateDigitalMins
+' Procedure Name: populateDigitalMinsCache
 ' Purpose:
 ' Procedure Kind: Sub
 ' Procedure Access: Private
@@ -1304,12 +1307,12 @@ End Sub
 ' Author: beededea
 ' Date: 24/06/2024
 ' ----------------------------------------------------------------
-Private Sub populateDigitalMins(ByRef CC As cCairoContext, Optional ByVal alarmMins As String)
+Private Sub populateDigitalMinsCache(ByRef CC As cCairoContext, Optional ByVal alarmMins As String)
 
     Dim minString As String: minString = vbNullString
     Dim localMins As Integer: localMins = 0
        
-    On Error GoTo populateDigitalMins_Error
+    On Error GoTo populateDigitalMinsCache_Error
 
     If alarmMins <> vbNullString Then
         localMins = CInt(alarmMins)
@@ -1375,16 +1378,16 @@ Private Sub populateDigitalMins(ByRef CC As cCairoContext, Optional ByVal alarmM
    On Error GoTo 0
    Exit Sub
 
-populateDigitalMins_Error:
+populateDigitalMinsCache_Error:
 
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure populateDigitalMins of Class Module cwOverlay"
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure populateDigitalMinsCache of Class Module cwOverlay"
 
 End Sub
 
 
 
 ' ----------------------------------------------------------------
-' Procedure Name: populateDigitalYear
+' Procedure Name: populateDigitalYearCache
 ' Purpose: year digits for digital display
 ' Procedure Kind: Sub
 ' Procedure Access: Private
@@ -1392,11 +1395,11 @@ End Sub
 ' Author: beededea
 ' Date: 24/06/2024
 ' ----------------------------------------------------------------
-Private Sub populateDigitalYear(ByRef CC As cCairoContext, Optional ByVal alarmYear As String)
+Private Sub populateDigitalYearCache(ByRef CC As cCairoContext, Optional ByVal alarmYear As String)
 
     Dim yearString As String: yearString = vbNullString
            
-    On Error GoTo populateDigitalYear_Error
+    On Error GoTo populateDigitalYearCache_Error
 
     If alarmYear <> vbNullString Then
         yearString = alarmYear
@@ -1499,13 +1502,13 @@ Private Sub populateDigitalYear(ByRef CC As cCairoContext, Optional ByVal alarmY
    On Error GoTo 0
    Exit Sub
 
-populateDigitalYear_Error:
+populateDigitalYearCache_Error:
 
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure populateDigitalYear of Class Module cwOverlay"
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure populateDigitalYearCache of Class Module cwOverlay"
 End Sub
 
 ' ----------------------------------------------------------------
-' Procedure Name: populateDigitalMonth
+' Procedure Name: populateDigitalMonthCache
 ' Purpose: month digits for digital display
 ' Procedure Kind: Sub
 ' Procedure Access: Private
@@ -1513,11 +1516,11 @@ End Sub
 ' Author: beededea
 ' Date: 24/06/2024
 ' ----------------------------------------------------------------
-Private Sub populateDigitalMonth(ByRef CC As cCairoContext, Optional ByVal alarmMonth As String)
+Private Sub populateDigitalMonthCache(ByRef CC As cCairoContext, Optional ByVal alarmMonth As String)
 
     Dim thismonth As Integer: thismonth = 0
 
-    On Error GoTo populateDigitalMonth_Error
+    On Error GoTo populateDigitalMonthCache_Error
 
     thismonth = Month(Now) ' coerce date variant to integer
        
@@ -1557,16 +1560,16 @@ Private Sub populateDigitalMonth(ByRef CC As cCairoContext, Optional ByVal alarm
    On Error GoTo 0
    Exit Sub
 
-populateDigitalMonth_Error:
+populateDigitalMonthCache_Error:
 
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure populateDigitalMonth of Class Module cwOverlay"
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure populateDigitalMonthCache of Class Module cwOverlay"
 
 End Sub
 
 
 
 ' ----------------------------------------------------------------
-' Procedure Name: populateDigitalDayofMonth
+' Procedure Name: populateDigitalDayofMonthCache
 ' Purpose: ' day digits for digital display
 ' Procedure Kind: Sub
 ' Procedure Access: Private
@@ -1574,13 +1577,13 @@ End Sub
 ' Author: beededea
 ' Date: 24/06/2024
 ' ----------------------------------------------------------------
-Private Sub populateDigitalDayofMonth(ByRef CC As cCairoContext, Optional ByVal alarmDay As String)
+Private Sub populateDigitalDayofMonthCache(ByRef CC As cCairoContext, Optional ByVal alarmDay As String)
     
     Dim dayString As String: dayString = vbNullString
     Dim localDay As Integer: localDay = 0
     Dim thisDay As Integer: thisDay = 0
 
-   On Error GoTo populateDigitalDayofMonth_Error
+   On Error GoTo populateDigitalDayofMonthCache_Error
 
     thisDay = Day(Now)
        
@@ -1645,24 +1648,24 @@ Private Sub populateDigitalDayofMonth(ByRef CC As cCairoContext, Optional ByVal 
    On Error GoTo 0
    Exit Sub
 
-populateDigitalDayofMonth_Error:
+populateDigitalDayofMonthCache_Error:
 
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure populateDigitalDayofMonth of Class Module cwOverlay"
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure populateDigitalDayofMonthCache of Class Module cwOverlay"
 End Sub
 
 
 '---------------------------------------------------------------------------------------
-' Procedure : populateAMPMDigitalDay
+' Procedure : populateAMPMDigitalDayCache
 ' Author    : beededea
 ' Date      : 17/05/2023
 ' Purpose   :
 '---------------------------------------------------------------------------------------
 '
-Private Sub populateAMPMDigitalDay(ByRef CC As cCairoContext, Optional ByVal alarmHour As String)
+Private Sub populateAMPMDigitalDayCache(ByRef CC As cCairoContext, Optional ByVal alarmHour As String)
 
     Dim localHour As Integer: localHour = 0
     
-    On Error GoTo populateAMPMDigitalDay_Error
+    On Error GoTo populateAMPMDigitalDayCache_Error
 
     If alarmHour <> vbNullString Then
         localHour = CInt(alarmHour)
@@ -1679,28 +1682,28 @@ Private Sub populateAMPMDigitalDay(ByRef CC As cCairoContext, Optional ByVal ala
    On Error GoTo 0
    Exit Sub
 
-populateAMPMDigitalDay_Error:
+populateAMPMDigitalDayCache_Error:
 
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure populateAMPMDigitalDay of Class Module cwOverlay"
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure populateAMPMDigitalDayCache of Class Module cwOverlay"
 
 End Sub
 
 
 '---------------------------------------------------------------------------------------
-' Procedure : populateDigitalClocks
+' Procedure : populateDigitalClockCache
 ' Author    : beededea
 ' Date      : 17/05/2023
 ' Purpose   :
 '---------------------------------------------------------------------------------------
 '
-Private Sub populateDigitalClocks(ByRef CC As cCairoContext)
+Private Sub populateDigitalClockCache(ByRef CC As cCairoContext)
     Dim theDay As String: theDay = vbNullString
     Dim theMonth As String: theMonth = vbNullString
     Dim theYear As String: theYear = vbNullString
     Dim theHours As String: theHours = vbNullString
     Dim theMins As String: theMins = vbNullString
     
-    On Error GoTo populateDigitalClocks_Error
+    On Error GoTo populateDigitalClockCache_Error
 
     If gblAlarmToggle1Enabled = "True" Then
         ' read the date and time variables for alarm 1
@@ -1786,19 +1789,19 @@ Private Sub populateDigitalClocks(ByRef CC As cCairoContext)
         End If
     End If
     
-    Call populateDigitalDayofMonth(CC, theDay)
-    Call populateDigitalMonth(CC, theMonth)
-    Call populateDigitalYear(CC, theYear)
-    Call populateDigitalHours(CC, theHours)
-    Call populateDigitalMins(CC, theMins)
-    Call populateAMPMDigitalDay(CC, theHours)
+    Call populateDigitalDayofMonthCache(CC, theDay)
+    Call populateDigitalMonthCache(CC, theMonth)
+    Call populateDigitalYearCache(CC, theYear)
+    Call populateDigitalHoursCache(CC, theHours)
+    Call populateDigitalMinsCache(CC, theMins)
+    Call populateAMPMDigitalDayCache(CC, theHours)
 
    On Error GoTo 0
    Exit Sub
 
-populateDigitalClocks_Error:
+populateDigitalClockCache_Error:
 
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure populateDigitalClocks of Class Module cwOverlay"
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure populateDigitalClockCache of Class Module cwOverlay"
 End Sub
 
 
