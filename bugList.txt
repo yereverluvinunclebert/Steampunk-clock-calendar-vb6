@@ -65,46 +65,17 @@ quiet/loud sounds
 ' create CHM
 ' resize the prefs on startup
 
-' -oOo-
-
-' test the auto resizing options
-
-' TASK: create an image array/list and populate that with the date/time images that need to be displayed,
+' create an image array/list and populate that with the date/time images that need to be displayed,
 ' always display the contents of that list on each paint event.
 
 ' de-couple the routines that populate the digital clocks so we can run those on a separate timer
-' so that the code to determine the month year does not run on each and every PAINT event consuming unnecessary CPU  - wip
+' so that the code to determine the month year does not run on each and every PAINT event consuming unnecessary CPU 
 
-' we only want the digital minute to refresh on a second by second basis
-' when the seconds reach 59+ then trigger a refresh of the digital cache to refresh the minutes
-'    when the minutes reach 59+ then trigger a refresh of the digital cache to refresh the hours
-'    when the hours reach 11 & 59 & 59 + then trigger a refresh of the digital cache to refresh the days
+' -oOo-
 
-' populate the cache with the correct image
+' test the various auto-resizing options
 
-' hourCache1
-' hourCache2
-
-' minCache1
-' minCache2
-
-' dayCache1
-' dayCache2
-
-' monthCache
-
-' yearCache1
-' yearCache2
-' yearCache3
-' yearCache4
-
-    Select Case thismonth
-        Case 1
-     	    Cairo.ImageList.AddSurface "jan", Cairo.ImageList("monthCache")
-    End Select
-
-    CC.RenderSurfaceContent Cairo.ImageList("monthCache"), 442, 312, , , , 1
-
+' remove the weekday timer when setting an alarm
 
 ' slider advancing/retarding time using timeShiftPercent modified not quite exponentially to shift time - wip
 ' in the timer, take the value of timeShiftPercent and do what to it?

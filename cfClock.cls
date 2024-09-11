@@ -158,7 +158,7 @@ Private Sub Class_Initialize()
     Set tmrZZZZSound = New_c.Timer(100, False)
         
     Set tmrTILLSound = Nothing
-    Set tmrTILLSound = New_c.Timer(900, False)
+    Set tmrTILLSound = New_c.Timer(300, False)
     
     Set tmrTickingSound = Nothing
     Set tmrTickingSound = New_c.Timer(300, False)
@@ -3041,6 +3041,7 @@ Public Property Let alarmtoggleEnabled(ByVal newValue As Boolean)
             And alarmtoggle3Enabled = False _
             And alarmtoggle4Enabled = False _
             And alarmtoggle5Enabled = False Then
+                Sleep 500
                 If gblAlarm1Date = "Alarm not yet set" Then
                     alarmtoggle1Enabled = True
                 ElseIf gblAlarm2Date = "Alarm not yet set" Then
@@ -3056,7 +3057,11 @@ Public Property Let alarmtoggleEnabled(ByVal newValue As Boolean)
                 End If
         End If
         
-        tmrTILLSound.Enabled = True ' does a little buzz after 9/10th of a second, not cutting off the preceding 'zzzz' prematurely
+        If weekdayToggleEnabled = True Then
+            weekdayToggleEnabled = False ' makes a till sound
+        Else
+            tmrTILLSound.Enabled = True ' does a little buzz after 9/10th of a second, not cutting off the preceding 'zzzz' prematurely
+        End If
         
     Else
         Call screenWrite("Cancelling Alarm Mode")
@@ -3065,6 +3070,13 @@ Public Property Let alarmtoggleEnabled(ByVal newValue As Boolean)
         alarmtoggle.Move alarmToggleOut, alarmtoggleTop
         SliderFreed = False
         fClock.timeShiftPercent = 0
+        
+        alarmtoggle1Enabled = False
+        alarmtoggle2Enabled = False
+        alarmtoggle3Enabled = False
+        alarmtoggle4Enabled = False
+        alarmtoggle5Enabled = False
+
     End If
         
     If mAlarmtoggleEnabled <> newValue Then mAlarmtoggleEnabled = newValue Else Exit Property
