@@ -233,6 +233,7 @@ Private Sub initialiseGlobalVars()
     gblShowTaskbar = vbNullString
     gblShowHelp = vbNullString
     gblTogglePendulum = vbNullString
+    gbl24HourClockMode = vbNullString
     
     gblDpiAwareness = vbNullString
     
@@ -915,6 +916,10 @@ Public Sub adjustMainControls()
     Else
         overlayWidget.SwingPendulum = True
     End If
+    
+    If gbl24HourClockMode = "1" Then
+    
+    End If
 
     ' set the slider position to the start point
     fClock.timeShiftPercent = 0
@@ -981,8 +986,6 @@ Public Sub adjustMainControls()
     fClock.clapperEnabled = CBool(gblClapperEnabled)
     
     fClock.alarmtoggleEnabled = False
-
-
     
     If gblAlarmToggle1Enabled = "True" Then
         fClock.alarmtoggle1Enabled = True
@@ -1002,6 +1005,26 @@ Public Sub adjustMainControls()
     
     If gblAlarmToggle5Enabled = "True" Then
         fClock.alarmtoggle5Enabled = True
+    End If
+    
+    If gblAlarm1Date <> "Alarm not yet set" Then
+        fClock.clockForm.Widgets("alarmtoggle1").Widget.ImageKey = "alarmtoggle1armed"
+    End If
+
+    If gblAlarm2Date <> "Alarm not yet set" Then
+        fClock.clockForm.Widgets("alarmtoggle2").Widget.ImageKey = "alarmtoggle2armed"
+    End If
+    
+    If gblAlarm3Date <> "Alarm not yet set" Then
+        fClock.clockForm.Widgets("alarmtoggle3").Widget.ImageKey = "alarmtoggle3armed"
+    End If
+    
+    If gblAlarm4Date <> "Alarm not yet set" Then
+        fClock.clockForm.Widgets("alarmtoggle4").Widget.ImageKey = "alarmtoggle4armed"
+    End If
+
+    If gblAlarm5Date <> "Alarm not yet set" Then
+        fClock.clockForm.Widgets("alarmtoggle5").Widget.ImageKey = "alarmtoggle5armed"
     End If
 
     ' set the z-ordering of the window
@@ -1085,6 +1108,7 @@ Public Sub readSettingsFile(ByVal Location As String, ByVal gblSettingsFile As S
         gblShowTaskbar = fGetINISetting(Location, "showTaskbar", gblSettingsFile)
         gblShowHelp = fGetINISetting(Location, "showHelp", gblSettingsFile)
         gblTogglePendulum = fGetINISetting(Location, "togglePendulum", gblSettingsFile)
+        gbl24HourClockMode = fGetINISetting(Location, "24HourClockMode", gblSettingsFile)
         
         gblDpiAwareness = fGetINISetting(Location, "dpiAwareness", gblSettingsFile)
         
@@ -1225,6 +1249,7 @@ Public Sub validateInputs()
         If gblShowTaskbar = vbNullString Then gblShowTaskbar = "0"
         If gblShowHelp = vbNullString Then gblShowHelp = "0"
         If gblTogglePendulum = vbNullString Then gblTogglePendulum = "0"
+        If gbl24HourClockMode = vbNullString Then gbl24HourClockMode = "1"
         
         If gblDpiAwareness = vbNullString Then gblDpiAwareness = "0"
         If gblGaugeSize = vbNullString Then gblGaugeSize = "25"

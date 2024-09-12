@@ -306,6 +306,7 @@ Public gblEnableBalloonTooltips As String
 Public gblShowTaskbar As String
 Public gblShowHelp As String
 Public gblTogglePendulum As String
+Public gbl24HourClockMode As String
 
 Public gblDpiAwareness As String
 

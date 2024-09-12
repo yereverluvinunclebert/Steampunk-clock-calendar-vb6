@@ -70,12 +70,15 @@ quiet/loud sounds
 
 ' de-couple the routines that populate the digital clocks so we can run those on a separate timer
 ' so that the code to determine the month year does not run on each and every PAINT event consuming unnecessary CPU 
-
-' -oOo-
+' remove the weekday timer when setting an alarm
 
 ' test the various auto-resizing options
 
-' remove the weekday timer when setting an alarm
+' -oOo-
+
+' add 24hr clock check box in prefs, plus, storing/reading/validation &c
+
+' add 12/24hr code in overlay 
 
 ' slider advancing/retarding time using timeShiftPercent modified not quite exponentially to shift time - wip
 ' in the timer, take the value of timeShiftPercent and do what to it?
@@ -99,6 +102,8 @@ Create a XP /ReactOS version using old APIs and RC5
 obtain a XP test system - wip
 
 text screenWrite alternative method - have one text widget and fill that - it will fit behind the weekday and alarm tills, whereas the text form has to be 'lifted' above 
+
+help dropdown displaying canvas two and three
 
 ' sync. E6410 win 7
 ' sync. Fast Dell laptop

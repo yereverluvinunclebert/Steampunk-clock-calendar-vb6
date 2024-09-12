@@ -237,6 +237,7 @@ Private Sub sleepTimer_Timer()
     strTimeThen = Now()
 
     If lngSecondsGap > 60 Then
+        Call screenWrite("system has just woken up from a sleep, refreshing. ")
         'MsgBox "System has just woken up from a sleep" ' awoken, awake
         triggerDigitalClockPopulation = True
         fClock.clockForm.Refresh

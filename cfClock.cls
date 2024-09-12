@@ -2491,17 +2491,17 @@ End Property
 '---------------------------------------------------------------------------------------
 '
 Private Sub clapperleft_myMouseDown()
-    'Dim fileToPlay As String: fileToPlay = vbNullString
+    Dim fileToPlay As String: fileToPlay = vbNullString
     
     On Error GoTo clapperleft_myMouseDown_Error
 
     muteInitiatingControl = "clapper"
 
-'    fileToPlay = "clunk.wav"
-'
-'    If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
-'        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
-'    End If
+    fileToPlay = "clunk.wav"
+
+    If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
+        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
+    End If
         
     If clapperEnabled = True Then
         clapperEnabled = False
@@ -3518,7 +3518,7 @@ Public Property Let alarmtoggle1Enabled(ByVal newValue As Boolean)
         Call hideAlarmTills
         fClock.clockForm.Widgets("alarm1till").Widget.Alpha = alphaVal
         
-        alarmtoggle1.ImageKey = "alarmtoggle1armed"
+        'alarmtoggle1.ImageKey = "alarmtoggle1armed"
         
 '        If alarmtoggle1InitiatingControl = "alarmtoggle1" Then alarmtoggle1ToggleEnabled = False ' prevents recurring calls
     Else
@@ -3528,7 +3528,7 @@ Public Property Let alarmtoggle1Enabled(ByVal newValue As Boolean)
         fClock.clockForm.Widgets("alarm1till").Widget.Alpha = 0
         fClock.clockForm.Widgets("redalarmcover").Widget.Alpha = 0
         
-        alarmtoggle1.ImageKey = "alarmtoggle1"
+        'alarmtoggle1.ImageKey = "alarmtoggle1"
         triggerDigitalClockPopulation = True
         
 '        If alarmtoggle1InitiatingControl = "alarmtoggle1" Then alarmtoggle1ToggleEnabled = True
@@ -3610,7 +3610,7 @@ Public Property Let alarmtoggle2Enabled(ByVal newValue As Boolean)
         Call hideAlarmTills
         fClock.clockForm.Widgets("alarm2till").Widget.Alpha = alphaVal
         
-        alarmtoggle2.ImageKey = "alarmtoggle2armed"
+        'alarmtoggle2.ImageKey = "alarmtoggle2armed"
 
 '        If alarmtoggle2InitiatingControl = "alarmtoggle2" Then alarmtoggle2ToggleEnabled = False ' prevents recurring calls
     Else
@@ -3619,7 +3619,7 @@ Public Property Let alarmtoggle2Enabled(ByVal newValue As Boolean)
         Call hideAlarmTills
         fClock.clockForm.Widgets("alarm2till").Widget.Alpha = 0
         fClock.clockForm.Widgets("redalarmcover").Widget.Alpha = 0
-        alarmtoggle2.ImageKey = "alarmtoggle2"
+        'alarmtoggle2.ImageKey = "alarmtoggle2"
         triggerDigitalClockPopulation = True
 '        If alarmtoggle2InitiatingControl = "alarmtoggle2" Then alarmtoggle2ToggleEnabled = True
     End If
@@ -3706,8 +3706,8 @@ Public Property Let alarmtoggle3Enabled(ByVal newValue As Boolean)
         Call hideAlarmTills
         fClock.clockForm.Widgets("alarm3till").Widget.Alpha = alphaVal
         
-        alarmtoggle3.ImageKey = "alarmtoggle3armed"
-
+        'alarmtoggle3.ImageKey = "alarmtoggle3armed"
+'
 '        If alarmtoggle3InitiatingControl = "alarmtoggle3" Then alarmtoggle3ToggleEnabled = False ' prevents recurring calls
     Else
         gblAlarmToggle3Enabled = "False"
@@ -3715,7 +3715,7 @@ Public Property Let alarmtoggle3Enabled(ByVal newValue As Boolean)
         Call hideAlarmTills
         fClock.clockForm.Widgets("alarm3till").Widget.Alpha = 0
         fClock.clockForm.Widgets("redalarmcover").Widget.Alpha = 0
-        alarmtoggle3.ImageKey = "alarmtoggle3"
+        'alarmtoggle3.ImageKey = "alarmtoggle3"
         triggerDigitalClockPopulation = True
         
         '        If alarmtoggle3InitiatingControl = "alarmtoggle3" Then alarmtoggle3ToggleEnabled = True
@@ -3797,7 +3797,7 @@ Public Property Let alarmtoggle4Enabled(ByVal newValue As Boolean)
         Call hideAlarmTills
         fClock.clockForm.Widgets("alarm4till").Widget.Alpha = alphaVal
         
-        alarmtoggle4.ImageKey = "alarmtoggle4armed"
+        'alarmtoggle4.ImageKey = "alarmtoggle4armed"
 
 '        If alarmtoggle4InitiatingControl = "alarmtoggle4" Then alarmtoggle4ToggleEnabled = False ' prevents recurring calls
     Else
@@ -3806,7 +3806,7 @@ Public Property Let alarmtoggle4Enabled(ByVal newValue As Boolean)
         Call hideAlarmTills
         fClock.clockForm.Widgets("alarm4till").Widget.Alpha = 0
         fClock.clockForm.Widgets("redalarmcover").Widget.Alpha = 0
-        alarmtoggle4.ImageKey = "alarmtoggle4"
+        'alarmtoggle4.ImageKey = "alarmtoggle4"
         triggerDigitalClockPopulation = True
         
         '        If alarmtoggle4InitiatingControl = "alarmtoggle4" Then alarmtoggle4ToggleEnabled = True
@@ -3889,7 +3889,7 @@ Public Property Let alarmtoggle5Enabled(ByVal newValue As Boolean)
         Call hideAlarmTills
         fClock.clockForm.Widgets("alarm5till").Widget.Alpha = alphaVal
         
-        alarmtoggle5.ImageKey = "alarmtoggle5armed"
+        'alarmtoggle5.ImageKey = "alarmtoggle5armed"
         
 '        If alarmtoggle5InitiatingControl = "alarmtoggle5" Then alarmtoggle5ToggleEnabled = False ' prevents recurring calls
     Else
@@ -3898,7 +3898,7 @@ Public Property Let alarmtoggle5Enabled(ByVal newValue As Boolean)
         Call hideAlarmTills
         fClock.clockForm.Widgets("alarm5till").Widget.Alpha = 0
         fClock.clockForm.Widgets("redalarmcover").Widget.Alpha = 0
-        alarmtoggle5.ImageKey = "alarmtoggle5"
+        'alarmtoggle5.ImageKey = "alarmtoggle5"
         triggerDigitalClockPopulation = True
         
         '        If alarmtoggle5InitiatingControl = "alarmtoggle5" Then alarmtoggle5ToggleEnabled = True
