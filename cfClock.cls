@@ -730,6 +730,8 @@ Private Sub redalarmcover_myMouseDown()
     Dim fileToPlay As String: fileToPlay = vbNullString
    
     On Error GoTo redalarmcover_myMouseDown_Error
+    
+    If fClock.clockForm.Widgets("redalarmcover").Widget.Alpha = 0 Then Exit Sub
 
     If gblVolumeBoost = "1" Then
         fileToPlay = "till.wav"
@@ -1156,6 +1158,8 @@ Private Sub weekdayred_myMouseDown()
     Dim weekdayToggleLeft As Long: weekdayToggleLeft = 0
     
     On Error GoTo weekdayred_myMouseDown_Error
+    
+    If fClock.clockForm.Widgets("weekdayred").Widget.Alpha = 0 Then Exit Sub
     
     weekdayToggleTop = weekdaytoggle.Top
     weekdayToggleLeft = weekdaytoggle.Left
