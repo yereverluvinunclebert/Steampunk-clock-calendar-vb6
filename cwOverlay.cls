@@ -39,7 +39,8 @@ Private WithEvents tmrPendulum As cTimer
 Attribute tmrPendulum.VB_VarHelpID = -1
 Public WithEvents tmrTimeShift As cTimer
 Attribute tmrTimeShift.VB_VarHelpID = -1
-
+Private WithEvents tmrDigitRotator As cTimer
+Attribute tmrDigitRotator.VB_VarHelpID = -1
 
 Private WithEvents W As cWidgetBase
 Attribute W.VB_VarHelpID = -1
@@ -100,6 +101,11 @@ Private Sub Class_Initialize()
     Set tmrTimeShift = New_c.Timer(100, False)
     
     tmrTimeShift.Enabled = False
+   
+    Set tmrDigitRotator = Nothing
+    Set tmrDigitRotator = New_c.Timer(100, False)
+    
+    tmrDigitRotator.Enabled = False
    
    On Error GoTo 0
    Exit Sub
@@ -1108,6 +1114,32 @@ Private Sub tmrPendulum_Timer()
 tmrPendulum_Timer_Error:
 
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure tmrPendulum_Timer of Class Module cwOverlay"
+End Sub
+
+'---------------------------------------------------------------------------------------
+' Procedure : tmrDigitRotator_Timer
+' Author    : beededea
+' Date      : 13/09/2024
+' Purpose   :
+'---------------------------------------------------------------------------------------
+'
+Private Sub tmrDigitRotator_Timer()
+
+   On Error GoTo tmrDigitRotator_Timer_Error
+
+    ' which digit?
+    ' get current value
+    ' start at zero and increment to current value
+    ' if the value is
+    ' set the current displayed digit in the cache
+    ' trigger a display
+    
+   On Error GoTo 0
+   Exit Sub
+
+tmrDigitRotator_Timer_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure tmrDigitRotator_Timer of Class Module cwOverlay"
 End Sub
 
 ' ----------------------------------------------------------------
