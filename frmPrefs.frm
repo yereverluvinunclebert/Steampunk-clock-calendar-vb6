@@ -2130,6 +2130,9 @@ Private prefsDynamicSizingFlg As Boolean
 Private lastFormHeight As Long
 Private Const cPrefsFormHeight As Long = 11055
 Private Const cPrefsFormWidth  As Long = 9090
+
+'    gblPrefsCurrentWidth = 9075
+'    gblPrefsCurrentHeight = 16450
 '------------------------------------------------------ ENDS
 
 Private prefsStartupFlg As Boolean
@@ -2159,7 +2162,7 @@ Private Sub btnVerifyDateTime1_Click()
     If txtAlarm1Date.Text = "Alarm not yet set" Then
     
         answerMsg = "Alarm not yet set!"
-        answer = msgBoxA(answerMsg, vbExclamation + vbOK, "Alarm Message", True, "btnVerifyDateTime1_Click1")
+        answer = msgBoxA(answerMsg, vbExclamation + vbOK, "Alarm Message", False, "btnVerifyDateTime1_Click1")
         
         Exit Sub
     End If
@@ -2174,7 +2177,7 @@ Private Sub btnVerifyDateTime1_Click()
         txtAlarm1Date.BackColor = vbRed
         
         answerMsg = "Alarm date format invalid"
-        answer = msgBoxA(answerMsg, vbExclamation + vbOK, "Alarm Message", True, "btnVerifyDateTime1_Click2")
+        answer = msgBoxA(answerMsg, vbExclamation + vbOK, "Alarm Message", False, "btnVerifyDateTime1_Click2")
         
         Exit Sub
     End If
@@ -2184,14 +2187,14 @@ Private Sub btnVerifyDateTime1_Click()
         txtAlarm1Time.BackColor = vbRed
         
         answerMsg = "Alarm time format invalid"
-        answer = msgBoxA(answerMsg, vbExclamation + vbOK, "Alarm Message", True, "btnVerifyDateTime1_Click3")
+        answer = msgBoxA(answerMsg, vbExclamation + vbOK, "Alarm Message", False, "btnVerifyDateTime1_Click3")
                 
     End If
     
     If alarmDateStatus = True And alarmTimeStatus = True Then
     
         answerMsg = "Alarm date and time formats both valid and in the future"
-        answer = msgBoxA(answerMsg, vbExclamation + vbOK, "Alarm Information", True, "btnVerifyDateTime1_Click4")
+        answer = msgBoxA(answerMsg, vbExclamation + vbOK, "Alarm Information", False, "btnVerifyDateTime1_Click4")
         
     End If
     
@@ -2223,7 +2226,7 @@ Private Sub btnVerifyDateTime2_Click()
     If txtAlarm2Date.Text = "Alarm not yet set" Then
     
         answerMsg = "Alarm not yet set!"
-        answer = msgBoxA(answerMsg, vbExclamation + vbOK, "Alarm Message", True, "btnVerifyDateTime2_Click1")
+        answer = msgBoxA(answerMsg, vbExclamation + vbOK, "Alarm Message", False, "btnVerifyDateTime2_Click1")
         
         Exit Sub
     End If
@@ -2238,7 +2241,7 @@ Private Sub btnVerifyDateTime2_Click()
         txtAlarm2Date.BackColor = vbRed
         
         answerMsg = "Alarm date format invalid"
-        answer = msgBoxA(answerMsg, vbExclamation + vbOK, "Alarm Message", True, "btnVerifyDateTime2_Click2")
+        answer = msgBoxA(answerMsg, vbExclamation + vbOK, "Alarm Message", False, "btnVerifyDateTime2_Click2")
         
         Exit Sub
     End If
@@ -2248,14 +2251,14 @@ Private Sub btnVerifyDateTime2_Click()
         txtAlarm2Time.BackColor = vbRed
         
         answerMsg = "Alarm time format invalid"
-        answer = msgBoxA(answerMsg, vbExclamation + vbOK, "Alarm Message", True, "btnVerifyDateTime2_Click3")
+        answer = msgBoxA(answerMsg, vbExclamation + vbOK, "Alarm Message", False, "btnVerifyDateTime2_Click3")
                 
     End If
     
     If alarmDateStatus = True And alarmTimeStatus = True Then
     
         answerMsg = "Alarm date and time formats both valid and in the future"
-        answer = msgBoxA(answerMsg, vbExclamation + vbOK, "Alarm Information", True, "btnVerifyDateTime2_Click4")
+        answer = msgBoxA(answerMsg, vbExclamation + vbOK, "Alarm Information", False, "btnVerifyDateTime2_Click4")
         
     End If
     
@@ -2345,7 +2348,7 @@ Private Sub btnVerifyDateTime3_Click()
     If txtAlarm3Date.Text = "Alarm not yet set" Then
     
         answerMsg = "Alarm not yet set!"
-        answer = msgBoxA(answerMsg, vbExclamation + vbOK, "Alarm Message", True, "btnVerifyDateTime3_Click1")
+        answer = msgBoxA(answerMsg, vbExclamation + vbOK, "Alarm Message", False, "btnVerifyDateTime3_Click1")
         
         Exit Sub
     End If
@@ -2360,7 +2363,7 @@ Private Sub btnVerifyDateTime3_Click()
         txtAlarm3Date.BackColor = vbRed
         
         answerMsg = "Alarm date format invalid"
-        answer = msgBoxA(answerMsg, vbExclamation + vbOK, "Alarm Message", True, "btnVerifyDateTime3_Click2")
+        answer = msgBoxA(answerMsg, vbExclamation + vbOK, "Alarm Message", False, "btnVerifyDateTime3_Click2")
         
         Exit Sub
     End If
@@ -2370,14 +2373,14 @@ Private Sub btnVerifyDateTime3_Click()
         txtAlarm3Time.BackColor = vbRed
         
         answerMsg = "Alarm time format invalid"
-        answer = msgBoxA(answerMsg, vbExclamation + vbOK, "Alarm Message", True, "btnVerifyDateTime3_Click3")
+        answer = msgBoxA(answerMsg, vbExclamation + vbOK, "Alarm Message", False, "btnVerifyDateTime3_Click3")
                 
     End If
     
     If alarmDateStatus = True And alarmTimeStatus = True Then
     
         answerMsg = "Alarm date and time formats both valid and in the future"
-        answer = msgBoxA(answerMsg, vbExclamation + vbOK, "Alarm Information", True, "btnVerifyDateTime3_Click4")
+        answer = msgBoxA(answerMsg, vbExclamation + vbOK, "Alarm Information", False, "btnVerifyDateTime3_Click4")
         
     End If
     
@@ -2409,7 +2412,7 @@ Private Sub btnVerifyDateTime4_Click()
     If txtAlarm4Date.Text = "Alarm not yet set" Then
     
         answerMsg = "Alarm not yet set!"
-        answer = msgBoxA(answerMsg, vbExclamation + vbOK, "Alarm Message", True, "btnVerifyDateTime4_Click1")
+        answer = msgBoxA(answerMsg, vbExclamation + vbOK, "Alarm Message", False, "btnVerifyDateTime4_Click1")
         
         Exit Sub
     End If
@@ -2424,7 +2427,7 @@ Private Sub btnVerifyDateTime4_Click()
         txtAlarm4Date.BackColor = vbRed
         
         answerMsg = "Alarm date format invalid"
-        answer = msgBoxA(answerMsg, vbExclamation + vbOK, "Alarm Message", True, "btnVerifyDateTime4_Click2")
+        answer = msgBoxA(answerMsg, vbExclamation + vbOK, "Alarm Message", False, "btnVerifyDateTime4_Click2")
         
         Exit Sub
     End If
@@ -2434,14 +2437,14 @@ Private Sub btnVerifyDateTime4_Click()
         txtAlarm4Time.BackColor = vbRed
         
         answerMsg = "Alarm time format invalid"
-        answer = msgBoxA(answerMsg, vbExclamation + vbOK, "Alarm Message", True, "btnVerifyDateTime4_Click3")
+        answer = msgBoxA(answerMsg, vbExclamation + vbOK, "Alarm Message", False, "btnVerifyDateTime4_Click3")
                 
     End If
     
     If alarmDateStatus = True And alarmTimeStatus = True Then
     
         answerMsg = "Alarm date and time formats both valid and in the future"
-        answer = msgBoxA(answerMsg, vbExclamation + vbOK, "Alarm Information", True, "btnVerifyDateTime4_Click4")
+        answer = msgBoxA(answerMsg, vbExclamation + vbOK, "Alarm Information", False, "btnVerifyDateTime4_Click4")
         
     End If
     
@@ -2473,7 +2476,7 @@ Private Sub btnVerifyDateTime5_Click()
     If txtAlarm5Date.Text = "Alarm not yet set" Then
     
         answerMsg = "Alarm not yet set!"
-        answer = msgBoxA(answerMsg, vbExclamation + vbOK, "Alarm Message", True, "btnVerifyDateTime5_Click1")
+        answer = msgBoxA(answerMsg, vbExclamation + vbOK, "Alarm Message", False, "btnVerifyDateTime5_Click1")
         
         Exit Sub
     End If
@@ -2488,7 +2491,7 @@ Private Sub btnVerifyDateTime5_Click()
         txtAlarm5Date.BackColor = vbRed
         
         answerMsg = "Alarm date format invalid"
-        answer = msgBoxA(answerMsg, vbExclamation + vbOK, "Alarm Message", True, "btnVerifyDateTime5_Click2")
+        answer = msgBoxA(answerMsg, vbExclamation + vbOK, "Alarm Message", False, "btnVerifyDateTime5_Click2")
         
         Exit Sub
     End If
@@ -2498,14 +2501,14 @@ Private Sub btnVerifyDateTime5_Click()
         txtAlarm5Time.BackColor = vbRed
         
         answerMsg = "Alarm time format invalid"
-        answer = msgBoxA(answerMsg, vbExclamation + vbOK, "Alarm Message", True, "btnVerifyDateTime5_Click3")
+        answer = msgBoxA(answerMsg, vbExclamation + vbOK, "Alarm Message", False, "btnVerifyDateTime5_Click3")
                 
     End If
     
     If alarmDateStatus = True And alarmTimeStatus = True Then
     
         answerMsg = "Alarm date and time formats both valid and in the future"
-        answer = msgBoxA(answerMsg, vbExclamation + vbOK, "Alarm Information", True, "btnVerifyDateTime5_Click4")
+        answer = msgBoxA(answerMsg, vbExclamation + vbOK, "Alarm Information", False, "btnVerifyDateTime5_Click4")
         
     End If
     
@@ -2658,8 +2661,8 @@ Private Sub Form_Load()
     gblPrefsLoadedFlg = True ' this is a variable tested by an added form property to indicate whether the form is loaded or not
     gblWindowLevelWasChanged = False
         
-    gblPrefsCurrentWidth = 9075
-    gblPrefsCurrentHeight = 16450
+    gblPrefsCurrentWidth = cPrefsFormWidth
+    gblPrefsCurrentHeight = cPrefsFormHeight
     
     prefsFormHeight = gblPrefsCurrentHeight
     
@@ -4593,7 +4596,7 @@ End Sub
 '
 Private Sub Form_Resize()
     Dim ratio As Double: ratio = 0
-    Dim currentFont As Long: currentFont = 0
+    Dim currentFontSize As Long: currentFontSize = 0
     
     On Error GoTo Form_Resize_Error
     
@@ -4612,11 +4615,11 @@ Private Sub Form_Resize()
         widgetPrefs.Width = widgetPrefs.Height / ratio ' maintain the aspect ratio, note: this change calls this routine again...
         
         If gblDpiAwareness = "1" Then
-            currentFont = gblPrefsFontSizeHighDPI
+            currentFontSize = gblPrefsFontSizeHighDPI
         Else
-            currentFont = gblPrefsFontSizeLowDPI
+            currentFontSize = gblPrefsFontSizeLowDPI
         End If
-        Call resizeControls(Me, prefsControlPositions(), gblPrefsCurrentWidth, gblPrefsCurrentHeight, currentFont)
+        Call resizeControls(Me, prefsControlPositions(), gblPrefsCurrentWidth, gblPrefsCurrentHeight, currentFontSize)
         Call tweakPrefsControlPositions(Me, gblPrefsCurrentWidth, gblPrefsCurrentHeight)
         
         Call loadHigherResPrefsImages
@@ -4896,9 +4899,6 @@ End Sub
 
 
 
-Private Sub lblDragCorner_MouseUp(Button As Integer, Shift As Integer, x As Single, y As Single)
-  MsgBox "arse"
-End Sub
 
 '---------------------------------------------------------------------------------------
 ' Procedure : lblGitHub_dblClick

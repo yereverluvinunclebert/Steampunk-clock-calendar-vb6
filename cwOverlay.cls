@@ -39,7 +39,7 @@ Private WithEvents tmrPendulum As cTimer
 Attribute tmrPendulum.VB_VarHelpID = -1
 Public WithEvents tmrTimeShift As cTimer
 Attribute tmrTimeShift.VB_VarHelpID = -1
-Private WithEvents tmrDigitRotator As cTimer
+Public WithEvents tmrDigitRotator As cTimer
 Attribute tmrDigitRotator.VB_VarHelpID = -1
 
 Private WithEvents W As cWidgetBase
@@ -60,7 +60,10 @@ Private mTimeMachine As Boolean
 Private mHidden As Boolean ' property Hidden
 Private mSwingPendulum As Boolean
 
+Private rotatorLimit As Integer
+Private minsRotatorString As String
 
+'Private CC As cCairoContext
 
 '---------------------------------------------------------------------------------------
 ' Procedure : Class_Initialize
@@ -87,6 +90,8 @@ Private Sub Class_Initialize()
     pendulumAcceleration = 0.6
     pendulumVelocity = 3.5
     
+    minsRotatorString = "00"
+    
     Set tmrClock = Nothing
     Set tmrClock = New_c.Timer(intervalValue, True)
     
@@ -103,7 +108,7 @@ Private Sub Class_Initialize()
     tmrTimeShift.Enabled = False
    
     Set tmrDigitRotator = Nothing
-    Set tmrDigitRotator = New_c.Timer(100, False)
+    Set tmrDigitRotator = New_c.Timer(25, False)
     
     tmrDigitRotator.Enabled = False
    
@@ -354,7 +359,7 @@ W_HitTest_Error:
 
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure W_HitTest of Class Module cwOverlay"
 End Sub
-
+'ByRef CC As cCairoContext,
 
 '---------------------------------------------------------------------------------------
 ' Procedure : W_Paint
@@ -363,7 +368,8 @@ End Sub
 ' Purpose   : this is run when the graphics are initially placed on the screen, refreshing and when a mouse cursor is interacting
 '---------------------------------------------------------------------------------------
 '
-Private Sub W_Paint(CC As RC6.cCairoContext, ByVal xAbs As Single, ByVal yAbs As Single, ByVal dx_Aligned As Single, ByVal dy_Aligned As Single, UserObj As Object)
+
+Private Sub W_Paint(ByRef CC As cCairoContext, ByVal xAbs As Single, ByVal yAbs As Single, ByVal dx_Aligned As Single, ByVal dy_Aligned As Single, UserObj As Object)
     Dim I As Long: I = 0
     Dim Arr As Variant
     Dim Key As String: Key = vbNullString
@@ -463,6 +469,8 @@ Private Sub W_Paint(CC As RC6.cCairoContext, ByVal xAbs As Single, ByVal yAbs As
             position = position - interval
         Next a
 
+
+
         CC.DrawText 423, 203, 200, 20, ".......", , , 2, True, , someOpacity
         CC.DrawText 423, 211, 200, 20, ".......", , , 2, True, , someOpacity
         CC.DrawText 423, 218, 200, 20, ".......", , , 2, True, , someOpacity
@@ -508,7 +516,7 @@ End Sub
 ' Date      : 17/05/2023
 ' Purpose   :
 '---------------------------------------------------------------------------------------
-'
+'ByRef CC As cCairoContext
 Private Sub drawTimeMachineImages(ByRef CC As cCairoContext)
     
     
@@ -523,7 +531,7 @@ End Sub
 ' Date      : 17/05/2023
 ' Purpose   :
 '---------------------------------------------------------------------------------------
-'
+'ByRef CC As cCairoContext,
 Private Sub drawAMPMDigitalDay(ByRef CC As cCairoContext, Optional ByVal alarmHour As String)
     ' no error handling code - for speed
     Dim localHour As Integer: localHour = 0
@@ -640,12 +648,12 @@ Private Sub oldDrawDigitalClocks(ByRef CC As cCairoContext)
         End If
     End If
     
-    'Call displayDigitalDayofMonth(CC, theDay)
-    'Call displayDigitalMonth(CC, theMonth)
-    'Call displayDigitalYear(CC, theYear)
-'    Call displayDigitalHours(CC, theHours)
-'    Call displayDigitalMins(CC, theMins)
-    'Call drawAMPMDigitalDay(CC, theHours)
+    'Call displayDigitalDayofMonth(theDay)
+    'Call displayDigitalMonth(theMonth)
+    'Call displayDigitalYear(theYear)
+'    Call displayDigitalHours(theHours)
+'    Call displayDigitalMins(theMins)
+    'Call drawAMPMDigitalDay(theHours)
    
 End Sub
 
@@ -662,6 +670,7 @@ End Sub
 ' Author: beededea
 ' Date: 24/06/2024
 ' ----------------------------------------------------------------
+' ByRef CC As cCairoContext,
 Private Sub displayDigitalHours(ByRef CC As cCairoContext, Optional ByVal alarmHour As String)
         
     Dim hourString As String: hourString = vbNullString
@@ -743,6 +752,7 @@ End Sub
 ' Author: beededea
 ' Date: 24/06/2024
 ' ----------------------------------------------------------------
+' ByRef CC As cCairoContext,
 Private Sub displayDigitalMins(ByRef CC As cCairoContext, Optional ByVal alarmMins As String)
 
     Dim minString As String: minString = vbNullString
@@ -822,6 +832,7 @@ End Sub
 ' Author: beededea
 ' Date: 24/06/2024
 ' ----------------------------------------------------------------
+' ByRef CC As cCairoContext,
 Private Sub displayDigitalMonth(ByRef CC As cCairoContext, Optional ByVal alarmMonth As String)
 
     Dim thismonth As Integer: thismonth = 0
@@ -883,6 +894,7 @@ End Sub
 ' Author: beededea
 ' Date: 24/06/2024
 ' ----------------------------------------------------------------
+' ByRef CC As cCairoContext,
 Private Sub displayDigitalDayofMonth(ByRef CC As cCairoContext, Optional ByVal alarmDay As String)
     
     Dim dayString As String: dayString = vbNullString
@@ -962,6 +974,7 @@ End Sub
 ' Author: beededea
 ' Date: 24/06/2024
 ' ----------------------------------------------------------------
+' ByRef CC As cCairoContext,
 Private Sub displayDigitalYear(ByRef CC As cCairoContext, Optional ByVal alarmYear As String)
 
     Dim yearString As String: yearString = vbNullString
@@ -1116,31 +1129,6 @@ tmrPendulum_Timer_Error:
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure tmrPendulum_Timer of Class Module cwOverlay"
 End Sub
 
-'---------------------------------------------------------------------------------------
-' Procedure : tmrDigitRotator_Timer
-' Author    : beededea
-' Date      : 13/09/2024
-' Purpose   :
-'---------------------------------------------------------------------------------------
-'
-Private Sub tmrDigitRotator_Timer()
-
-   On Error GoTo tmrDigitRotator_Timer_Error
-
-    ' which digit?
-    ' get current value
-    ' start at zero and increment to current value
-    ' if the value is
-    ' set the current displayed digit in the cache
-    ' trigger a display
-    
-   On Error GoTo 0
-   Exit Sub
-
-tmrDigitRotator_Timer_Error:
-
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure tmrDigitRotator_Timer of Class Module cwOverlay"
-End Sub
 
 ' ----------------------------------------------------------------
 ' Procedure Name: tmrClock_Timer
@@ -1212,7 +1200,7 @@ End Sub
 ' Purpose   : display the hours and mins
 '---------------------------------------------------------------------------------------
 '
-Sub DrawDigitalClocks(CC)
+Sub DrawDigitalClocks(ByRef CC As cCairoContext)
    On Error GoTo DrawDigitalClocks_Error
       
       
@@ -1254,6 +1242,7 @@ End Sub
 ' Author: beededea
 ' Date: 24/06/2024
 ' ----------------------------------------------------------------
+' ByRef CC As cCairoContext,
 Private Sub populateDigitalHoursCache(ByRef CC As cCairoContext, Optional ByVal alarmHour As String)
 
     Dim hourString As String: hourString = vbNullString
@@ -1339,6 +1328,7 @@ End Sub
 ' Author: beededea
 ' Date: 24/06/2024
 ' ----------------------------------------------------------------
+' ByRef CC As cCairoContext,
 Private Sub populateDigitalMinsCache(ByRef CC As cCairoContext, Optional ByVal alarmMins As String)
 
     Dim minString As String: minString = vbNullString
@@ -1427,6 +1417,7 @@ End Sub
 ' Author: beededea
 ' Date: 24/06/2024
 ' ----------------------------------------------------------------
+' ByRef CC As cCairoContext,
 Private Sub populateDigitalYearCache(ByRef CC As cCairoContext, Optional ByVal alarmYear As String)
 
     Dim yearString As String: yearString = vbNullString
@@ -1548,6 +1539,7 @@ End Sub
 ' Author: beededea
 ' Date: 24/06/2024
 ' ----------------------------------------------------------------
+' ByRef CC As cCairoContext,
 Private Sub populateDigitalMonthCache(ByRef CC As cCairoContext, Optional ByVal alarmMonth As String)
 
     Dim thismonth As Integer: thismonth = 0
@@ -1609,6 +1601,7 @@ End Sub
 ' Author: beededea
 ' Date: 24/06/2024
 ' ----------------------------------------------------------------
+' ByRef CC As cCairoContext,
 Private Sub populateDigitalDayofMonthCache(ByRef CC As cCairoContext, Optional ByVal alarmDay As String)
     
     Dim dayString As String: dayString = vbNullString
@@ -1692,7 +1685,7 @@ End Sub
 ' Date      : 17/05/2023
 ' Purpose   :
 '---------------------------------------------------------------------------------------
-'
+' ByRef CC As cCairoContext,
 Private Sub populateAMPMDigitalDayCache(ByRef CC As cCairoContext, Optional ByVal alarmHour As String)
 
     Dim localHour As Integer: localHour = 0
@@ -1727,7 +1720,7 @@ End Sub
 ' Date      : 17/05/2023
 ' Purpose   :
 '---------------------------------------------------------------------------------------
-'
+'ByRef CC As cCairoContext
 Private Sub populateDigitalClockCache(ByRef CC As cCairoContext)
     Dim theDay As String: theDay = vbNullString
     Dim theMonth As String: theMonth = vbNullString
@@ -1821,6 +1814,13 @@ Private Sub populateDigitalClockCache(ByRef CC As cCairoContext)
         End If
     End If
     
+    ' if the rotator is functioning then display the contents from that
+    If tmrDigitRotator.Enabled = True Then
+        theMins = minsRotatorString
+    Else
+        theMins = vbNullString
+    End If
+    
     Call populateDigitalDayofMonthCache(CC, theDay)
     Call populateDigitalMonthCache(CC, theMonth)
     Call populateDigitalYearCache(CC, theYear)
@@ -1835,5 +1835,46 @@ populateDigitalClockCache_Error:
 
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure populateDigitalClockCache of Class Module cwOverlay"
 End Sub
+'---------------------------------------------------------------------------------------
+' Procedure : tmrDigitRotator_Timer
+' Author    : beededea
+' Date      : 13/09/2024
+' Purpose   :
+'---------------------------------------------------------------------------------------
+'
+Public Sub tmrDigitRotator_Timer()
+    Static rotatorTimerCount As Integer
+    Dim rotatorLimit As Integer: rotatorLimit = 0
+    
+    On Error GoTo tmrDigitRotator_Timer_Error
+    
+    rotatorLimit = 10
 
+    rotatorTimerCount = rotatorTimerCount + 1
+    
+    ' start at zero and increment a counter to current value
+    ' if the value is equal to the counter, stop the timer
+    
+    If rotatorTimerCount <= rotatorLimit Then
+        ' set the current displayed digit in the cache
+        ' we can use populateDigitalMinsCache passing a value as a param to alarmMins
+        
+        minsRotatorString = CStr(rotatorTimerCount)
+        
+        ' trigger a paint event
+        'fClock.clockForm.Refresh
+        overlayWidget.Widget.Parent.Refresh
 
+    Else
+        tmrDigitRotator.Enabled = False
+        rotatorTimerCount = 0
+        minsRotatorString = "00"
+    End If
+    
+   On Error GoTo 0
+   Exit Sub
+
+tmrDigitRotator_Timer_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure tmrDigitRotator_Timer of Class Module cwOverlay"
+End Sub

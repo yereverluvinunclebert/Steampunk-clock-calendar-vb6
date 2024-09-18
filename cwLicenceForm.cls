@@ -156,7 +156,7 @@ End Property
 ' Purpose   :
 '---------------------------------------------------------------------------------------
 '
-Private Sub W_MouseDown(Button As Integer, Shift As Integer, ByVal x As Single, ByVal Y As Single)
+Private Sub W_MouseDown(Button As Integer, Shift As Integer, ByVal x As Single, ByVal y As Single)
    On Error GoTo W_MouseDown_Error
 
     tmrLicenceFadeOut.Enabled = True

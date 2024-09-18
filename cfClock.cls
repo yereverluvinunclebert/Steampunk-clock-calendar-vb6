@@ -956,6 +956,8 @@ Private Sub alarmtoggle1_myMouseDown()
         alarmtoggle1Enabled = False
     End If
     
+    
+    
     clockForm.Refresh
 
    On Error GoTo 0
@@ -2501,7 +2503,11 @@ Private Sub clapperleft_myMouseDown()
 
     muteInitiatingControl = "clapper"
 
-    fileToPlay = "clunk.wav"
+    If gblVolumeBoost = "1" Then
+        fileToPlay = "clunk.wav"
+    Else
+        fileToPlay = "clunk-quiet.wav"
+    End If
 
     If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
         PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
@@ -3548,6 +3554,8 @@ Public Property Let alarmtoggle1Enabled(ByVal newValue As Boolean)
     Else
         Call screenWrite("Cancelling Alarm View Mode")
     End If
+    
+    overlayWidget.tmrDigitRotator.Enabled = True
     
     clockForm.Refresh
      
