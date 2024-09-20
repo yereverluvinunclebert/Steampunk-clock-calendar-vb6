@@ -219,14 +219,19 @@ Register this using regsvr32, ie. in a CMD window with administrator privileges.
 This will allow the custom controls to be accessible to the VB6 IDE
 at design time and the sliders will function as intended (if this ocx is
 not registered correctly then the relevant controls will be replaced by picture boxes).
+Note: you only need to do this once for each widget you are developing.
 
 The above is only for development, for ordinary users, during runtime there is no 
 need to do the above. The OCX will reside in the program folder. The program reference 
 to this OCX is contained within the supplied resource file, saturn.RES. The reference 
 to this file is already compiled into the binary. As long as the OCX is in the same 
 folder as the binary the program will run without the need to register the OCX manually.
- 
-![dieselpunk-volume-prefs002](https://github.com/yereverluvinunclebert/Diesel-Volume-Control-VB6/assets/2788342/911deeb2-1649-42d6-9fd6-4339e09b7ea3)
+
+
+
+![references](https://github.com/user-attachments/assets/13213222-0253-4edf-9a2a-52adfed6400e)
+One of the preference screens for this utility.
+
 
  * SETUP.EXE - The program is currently distributed using setup2go, a very useful 
  and comprehensive installer program that builds a .exe installer. Youll have to 
