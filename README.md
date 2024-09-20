@@ -187,7 +187,7 @@ At the back-end there are more preferences that may be changed, all are document
  * Uses the latest version of the RC6 Cairo framework from Olaf Schmidt.
  
  During development the RC6 components need to be registered. These scripts are 
- used to register. Run each by double-clicking on them.
+ used to register. Run each by double-clicking on them. These reside in the project's BIN folder.
  
 	RegisterRC6inPlace.vbs
 	RegisterRC6WidgetsInPlace.vbs
@@ -226,22 +226,6 @@ to this OCX is contained within the supplied resource file, saturn.RES. The refe
 to this file is already compiled into the binary. As long as the OCX is in the same 
 folder as the binary the program will run without the need to register the OCX manually.
  
- * OLEGuids.tlb
- 
- This is a type library that defines types, object interfaces, and more specific 
- API definitions needed for COM interop / marshalling. It is only used at design 
- time (IDE). This is a Krool-modified version of the original .tlb from the 
- vbaccelerator website. The .tlb is compiled into the executable.
- For the compiled .exe this is NOT a dependency, only during design time.
- 
- From the command line, copy the tlb to a central location (system32 or wow64 
- folder) and register it.
- 
- COPY OLEGUIDS.TLB %SystemRoot%\System32\
- REGTLIB %SystemRoot%\System32\OLEGUIDS.TLB
- 
- In the VB6 IDE - project - references - browse - select the OLEGuids.tlb
- 
 ![dieselpunk-volume-prefs002](https://github.com/yereverluvinunclebert/Diesel-Volume-Control-VB6/assets/2788342/911deeb2-1649-42d6-9fd6-4339e09b7ea3)
 
  * SETUP.EXE - The program is currently distributed using setup2go, a very useful 
@@ -262,9 +246,11 @@ folder as the binary the program will run without the need to register the OCX m
 	VisualBasic Runtime Objects and Procedures  
 	VisualBasic Objects and Procedures  
 	OLE Automation  
-	vbRichClient6  
+	RC6Widgets
+ 	RC6
  
- 
+ ![references](https://github.com/user-attachments/assets/de65d3d1-6519-4f4c-a5f8-1715ad422dde)
+
  LICENCE AGREEMENTS:
  
  Copyright © 2023 Dean Beedell
