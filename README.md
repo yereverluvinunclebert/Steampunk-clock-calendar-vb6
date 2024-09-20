@@ -216,10 +216,16 @@ Register this using regsvr32, ie. in a CMD window with administrator privileges.
 	cd \windows\syswow64s	    ! change default folder to syswow64
 	regsvr32 CCRSlider.ocx	! register the ocx
 
+ ![ccrslider](https://github.com/user-attachments/assets/2a7bc8dd-4a54-47b8-990d-fcd1ab68df95)
+
 This will allow the custom controls to be accessible to the VB6 IDE
 at design time and the sliders will function as intended (if this ocx is
 not registered correctly then the relevant controls will be replaced by picture boxes).
-Note: you only need to do this once for each widget you are developing.
+Note: you only need to do this once for each VB6 widget you are developing.
+
+The CCR slider should appear in the VB6 IDE toolbar.
+
+![toolbar](https://github.com/user-attachments/assets/a35bf148-2150-45a2-93fc-f21ba2506bc2)
 
 The above is only for development, for ordinary users, during runtime there is no 
 need to do the above. The OCX will reside in the program folder. The program reference 
