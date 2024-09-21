@@ -235,7 +235,7 @@ folder as the binary the program will run without the need to register the OCX m
 
 
 
-![references](https://github.com/user-attachments/assets/13213222-0253-4edf-9a2a-52adfed6400e)
+![clockPrefs](https://github.com/user-attachments/assets/63b56785-fbc3-4e71-9acc-cf714be80507)
 
 One of the preference screens for this utility.
 
