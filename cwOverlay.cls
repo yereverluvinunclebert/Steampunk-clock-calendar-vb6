@@ -62,6 +62,8 @@ Private mSwingPendulum As Boolean
 
 Private rotatorLimit As Integer
 Private minsRotatorString As String
+Private hrsRotatorString As String
+
 
 'Private CC As cCairoContext
 
@@ -82,6 +84,7 @@ Private Sub Class_Initialize()
 
     intervalValue = 1000
     firstRun = True
+    rotatorLimit = 0
     
     ' variables set for the pendulum
     ' g = -0.1, a = 0.6, v = 2.5 uses 3% of cpu with a 40ms timer
@@ -91,7 +94,8 @@ Private Sub Class_Initialize()
     pendulumVelocity = 3.5
     
     minsRotatorString = "00"
-    
+    hrsRotatorString = "00"
+
     Set tmrClock = Nothing
     Set tmrClock = New_c.Timer(intervalValue, True)
     
@@ -551,111 +555,111 @@ Private Sub drawAMPMDigitalDay(ByRef CC As cCairoContext, Optional ByVal alarmHo
 
 End Sub
 '---------------------------------------------------------------------------------------
-' Procedure : oldDrawDigitalClocks
-' Author    : beededea
-' Date      : 17/05/2023
-' Purpose   :
-'---------------------------------------------------------------------------------------
+'' Procedure : oldDrawDigitalClocks
+'' Author    : beededea
+'' Date      : 17/05/2023
+'' Purpose   :
+''---------------------------------------------------------------------------------------
+''
+'Private Sub oldDrawDigitalClocks(ByRef CC As cCairoContext)
+'    Dim theDay As String: theDay = vbNullString
+'    Dim theMonth As String: theMonth = vbNullString
+'    Dim theYear As String: theYear = vbNullString
+'    Dim theHours As String: theHours = vbNullString
+'    Dim theMins As String: theMins = vbNullString
 '
-Private Sub oldDrawDigitalClocks(ByRef CC As cCairoContext)
-    Dim theDay As String: theDay = vbNullString
-    Dim theMonth As String: theMonth = vbNullString
-    Dim theYear As String: theYear = vbNullString
-    Dim theHours As String: theHours = vbNullString
-    Dim theMins As String: theMins = vbNullString
-    
-    If fClock.alarmtoggle1Enabled = True Then
-        ' read the date and time variables for alarm 1
-        If gblAlarm1Date = "Alarm not yet set" Then
-            theDay = "01"
-            theMonth = "01"
-            theYear = "1970"
-            theHours = "00"
-            theMins = "00"
-        Else
-            theDay = Left$(gblAlarm1Date, 2)
-            theMonth = Mid$(gblAlarm1Date, 4, 2)
-            theYear = Mid$(gblAlarm1Date, 7, 4)
-            theHours = Left$(gblAlarm1Time, 2)
-            theMins = Mid$(gblAlarm1Time, 4, 2)
-        End If
-    End If
-        
-    If fClock.alarmtoggle2Enabled = True Then
-        ' read the date and time variables for alarm 2
-        If gblAlarm2Date = "Alarm not yet set" Then
-            theDay = "01"
-            theMonth = "01"
-            theYear = "1970"
-            theHours = "00"
-            theMins = "00"
-        Else
-            theDay = Left$(gblAlarm2Date, 2)
-            theMonth = Mid$(gblAlarm2Date, 4, 2)
-            theYear = Mid$(gblAlarm2Date, 7, 4)
-            theHours = Left$(gblAlarm2Time, 2)
-            theMins = Mid$(gblAlarm2Time, 4, 2)
-        End If
-    End If
-    
-    If fClock.alarmtoggle3Enabled = True Then
-        ' read the date and time variables for alarm 3
-        If gblAlarm3Date = "Alarm not yet set" Then
-            theDay = "01"
-            theMonth = "01"
-            theYear = "1970"
-            theHours = "00"
-            theMins = "00"
-        Else
-            theDay = Left$(gblAlarm3Date, 2)
-            theMonth = Mid$(gblAlarm3Date, 4, 2)
-            theYear = Mid$(gblAlarm3Date, 7, 4)
-            theHours = Left$(gblAlarm3Time, 2)
-            theMins = Mid$(gblAlarm3Time, 4, 2)
-        End If
-    End If
-    
-    If fClock.alarmtoggle4Enabled = True Then
-        ' read the date and time variables for alarm 4
-        If gblAlarm4Date = "Alarm not yet set" Then
-            theDay = "01"
-            theMonth = "01"
-            theYear = "1970"
-            theHours = "00"
-            theMins = "00"
-        Else
-            theDay = Left$(gblAlarm4Date, 2)
-            theMonth = Mid$(gblAlarm4Date, 4, 2)
-            theYear = Mid$(gblAlarm4Date, 7, 4)
-            theHours = Left$(gblAlarm4Time, 2)
-            theMins = Mid$(gblAlarm4Time, 4, 2)
-        End If
-    End If
-    
-    If fClock.alarmtoggle5Enabled = True Then
-         If gblAlarm4Date = "Alarm not yet set" Then
-            theDay = "01"
-            theMonth = "01"
-            theYear = "1970"
-            theHours = "00"
-            theMins = "00"
-        Else       ' read the date and time variables for alarm 5
-            theDay = Left$(gblAlarm5Date, 2)
-            theMonth = Mid$(gblAlarm5Date, 4, 2)
-            theYear = Mid$(gblAlarm5Date, 7, 4)
-            theHours = Left$(gblAlarm5Time, 2)
-            theMins = Mid$(gblAlarm5Time, 4, 2)
-        End If
-    End If
-    
-    'Call displayDigitalDayofMonth(theDay)
-    'Call displayDigitalMonth(theMonth)
-    'Call displayDigitalYear(theYear)
-'    Call displayDigitalHours(theHours)
-'    Call displayDigitalMins(theMins)
-    'Call drawAMPMDigitalDay(theHours)
-   
-End Sub
+'    If fClock.alarmtoggle1Enabled = True Then
+'        ' read the date and time variables for alarm 1
+'        If gblAlarm1Date = "Alarm not yet set" Then
+'            theDay = "01"
+'            theMonth = "01"
+'            theYear = "1970"
+'            theHours = "00"
+'            theMins = "00"
+'        Else
+'            theDay = Left$(gblAlarm1Date, 2)
+'            theMonth = Mid$(gblAlarm1Date, 4, 2)
+'            theYear = Mid$(gblAlarm1Date, 7, 4)
+'            theHours = Left$(gblAlarm1Time, 2)
+'            theMins = Mid$(gblAlarm1Time, 4, 2)
+'        End If
+'    End If
+'
+'    If fClock.alarmtoggle2Enabled = True Then
+'        ' read the date and time variables for alarm 2
+'        If gblAlarm2Date = "Alarm not yet set" Then
+'            theDay = "01"
+'            theMonth = "01"
+'            theYear = "1970"
+'            theHours = "00"
+'            theMins = "00"
+'        Else
+'            theDay = Left$(gblAlarm2Date, 2)
+'            theMonth = Mid$(gblAlarm2Date, 4, 2)
+'            theYear = Mid$(gblAlarm2Date, 7, 4)
+'            theHours = Left$(gblAlarm2Time, 2)
+'            theMins = Mid$(gblAlarm2Time, 4, 2)
+'        End If
+'    End If
+'
+'    If fClock.alarmtoggle3Enabled = True Then
+'        ' read the date and time variables for alarm 3
+'        If gblAlarm3Date = "Alarm not yet set" Then
+'            theDay = "01"
+'            theMonth = "01"
+'            theYear = "1970"
+'            theHours = "00"
+'            theMins = "00"
+'        Else
+'            theDay = Left$(gblAlarm3Date, 2)
+'            theMonth = Mid$(gblAlarm3Date, 4, 2)
+'            theYear = Mid$(gblAlarm3Date, 7, 4)
+'            theHours = Left$(gblAlarm3Time, 2)
+'            theMins = Mid$(gblAlarm3Time, 4, 2)
+'        End If
+'    End If
+'
+'    If fClock.alarmtoggle4Enabled = True Then
+'        ' read the date and time variables for alarm 4
+'        If gblAlarm4Date = "Alarm not yet set" Then
+'            theDay = "01"
+'            theMonth = "01"
+'            theYear = "1970"
+'            theHours = "00"
+'            theMins = "00"
+'        Else
+'            theDay = Left$(gblAlarm4Date, 2)
+'            theMonth = Mid$(gblAlarm4Date, 4, 2)
+'            theYear = Mid$(gblAlarm4Date, 7, 4)
+'            theHours = Left$(gblAlarm4Time, 2)
+'            theMins = Mid$(gblAlarm4Time, 4, 2)
+'        End If
+'    End If
+'
+'    If fClock.alarmtoggle5Enabled = True Then
+'         If gblAlarm4Date = "Alarm not yet set" Then
+'            theDay = "01"
+'            theMonth = "01"
+'            theYear = "1970"
+'            theHours = "00"
+'            theMins = "00"
+'        Else       ' read the date and time variables for alarm 5
+'            theDay = Left$(gblAlarm5Date, 2)
+'            theMonth = Mid$(gblAlarm5Date, 4, 2)
+'            theYear = Mid$(gblAlarm5Date, 7, 4)
+'            theHours = Left$(gblAlarm5Time, 2)
+'            theMins = Mid$(gblAlarm5Time, 4, 2)
+'        End If
+'    End If
+'
+'    'Call displayDigitalDayofMonth(theDay)
+'    'Call displayDigitalMonth(theMonth)
+'    'Call displayDigitalYear(theYear)
+''    Call displayDigitalHours(theHours)
+''    Call displayDigitalMins(theMins)
+'    'Call drawAMPMDigitalDay(theHours)
+'
+'End Sub
 
 
 
@@ -1249,13 +1253,19 @@ Private Sub populateDigitalHoursCache(ByRef CC As cCairoContext, Optional ByVal 
     Dim localHour As Integer: localHour = 0
 
    On Error GoTo populateDigitalHoursCache_Error
-
-    If alarmHour <> vbNullString Then
-        localHour = CInt(alarmHour)
-        hourString = CStr(localHour)
+       
+    ' if the rotator is functioning then display the contents from that...
+    If tmrDigitRotator.Enabled = True Then
+        localHour = CInt(hrsRotatorString)
+        hourString = hrsRotatorString
     Else
-        localHour = CInt(thisHour)
-        hourString = CStr(thisHour)
+        If alarmHour <> vbNullString Then
+            localHour = CInt(alarmHour)
+            hourString = CStr(localHour)
+        Else
+            localHour = CInt(thisHour)
+            hourString = CStr(thisHour)
+        End If
     End If
 
     If localHour < 10 Then ' uses vb6 coerce a string to a numeric without calling a cast function, quicker?
@@ -1336,12 +1346,18 @@ Private Sub populateDigitalMinsCache(ByRef CC As cCairoContext, Optional ByVal a
        
     On Error GoTo populateDigitalMinsCache_Error
 
-    If alarmMins <> vbNullString Then
-        localMins = CInt(alarmMins)
-        minString = CStr(localMins)
+    ' if the rotator is functioning then display the contents from that...
+    If tmrDigitRotator.Enabled = True Then
+        localMins = CInt(minsRotatorString)
+        minString = hrsRotatorString
     Else
-        localMins = CInt(thisMin)
-        minString = CStr(thisMin)
+        If alarmMins <> vbNullString Then
+            localMins = CInt(alarmMins)
+            minString = CStr(localMins)
+        Else
+            localMins = CInt(thisMin)
+            minString = CStr(thisMin)
+        End If
     End If
     
     If localMins < 10 Then ' uses vb6 coerce a string to a numeric without calling a cast function, quicker?
@@ -1814,13 +1830,7 @@ Private Sub populateDigitalClockCache(ByRef CC As cCairoContext)
         End If
     End If
     
-    ' if the rotator is functioning then display the contents from that
-    If tmrDigitRotator.Enabled = True Then
-        theMins = minsRotatorString
-    Else
-        theMins = vbNullString
-    End If
-    
+
     Call populateDigitalDayofMonthCache(CC, theDay)
     Call populateDigitalMonthCache(CC, theMonth)
     Call populateDigitalYearCache(CC, theYear)
@@ -1842,9 +1852,9 @@ End Sub
 ' Purpose   :
 '---------------------------------------------------------------------------------------
 '
-Public Sub tmrDigitRotator_Timer()
+Private Sub tmrDigitRotator_Timer()
     Static rotatorTimerCount As Integer
-    Dim rotatorLimit As Integer: rotatorLimit = 0
+'    Dim rotatorLimit As Integer: rotatorLimit = 0
     
     On Error GoTo tmrDigitRotator_Timer_Error
     
@@ -1860,6 +1870,7 @@ Public Sub tmrDigitRotator_Timer()
         ' we can use populateDigitalMinsCache passing a value as a param to alarmMins
         
         minsRotatorString = CStr(rotatorTimerCount)
+        hrsRotatorString = CStr(rotatorTimerCount)
         
         ' trigger a paint event
         'fClock.clockForm.Refresh
@@ -1869,6 +1880,10 @@ Public Sub tmrDigitRotator_Timer()
         tmrDigitRotator.Enabled = False
         rotatorTimerCount = 0
         minsRotatorString = "00"
+        hrsRotatorString = "00"
+        
+        triggerDigitalClockPopulation = True
+        fClock.clockForm.Refresh
     End If
     
    On Error GoTo 0

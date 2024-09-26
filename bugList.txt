@@ -73,10 +73,20 @@ quiet/loud sounds
 ' remove the weekday timer when setting an alarm
 
 ' test the various auto-resizing options
+' added trigger of digital clocks on awake from sleep
+
+' add 24hr clock check box in prefs, plus, storing/reading/validation &c
+' prevent spurious clicks on tills that have alpha of 0
+' alarm toggles indicate alarm state
+' screenwrite when awoken from sleep
 
 ' -oOo-
 
-' add 24hr clock check box in prefs, plus, storing/reading/validation &c
+' why is the RC5 prefs drag and resize so much smoother than the RC6 version? - research
+
+' cancel an automatic resize after a wake from sleep, due to Windows sometimes pushing all windows onto one monitor, after a wake from sleep
+
+' digital counter animation from zero - wip
 
 ' add 12/24hr code in overlay 
 
@@ -84,8 +94,6 @@ quiet/loud sounds
 ' in the timer, take the value of timeShiftPercent and do what to it?
 
 ' click on alarm till deletes alarm with confirmation pop-up - wip
-
-digital counter animation from zero
 
 investigate the accumulating shadow when moving across the transparent surface of the screen
 
@@ -98,7 +106,10 @@ centre the clock hands more accurately
 ' chiming
 ' editing the alarm via clicking on the digital displays
 
-Create a XP /ReactOS version using old APIs and RC5
+Create a XP /ReactOS version using old APIs and RC5 - no DPI awareness, as it XP does not have the API nor the capability.
+
+https://www.vbforums.com/showthread.php?896944-VB6-QUESTION-Check-if-API-exists
+
 obtain a XP test system - wip
 
 text screenWrite alternative method - have one text widget and fill that - it will fit behind the weekday and alarm tills, whereas the text form has to be 'lifted' above 
@@ -116,6 +127,8 @@ help dropdown displaying canvas two and three
 ' adjustFormPositionToCorrectMonitor - help form
 
 ' identify the resizing code changes/additions for multi monitor systems so the code can be back-ported to older VB6 widgets
+
+' public vars in classes to GET/SET
 
 ' create setup.exe with a different name.
 
