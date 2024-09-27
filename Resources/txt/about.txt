@@ -8,9 +8,9 @@ This widgets UI functionality is 'complex' as I am using my complex template for
 
 It can be increased in size, opacity/transparency may be set as to the users discretion. The widget can also be made to hide for a pre-determined period.
 
-Right-click on the widget to display the function menu, mouse hover over the widget and press CTRL+mousewheel up/down to resize. It works well on Windows Vista, Win7/8/10 to Windows 11 as well as Linux and Mac os x using Wine.
+Right-click on the widget to display the function menu, mouse hover over the widget and press CTRL+mousewheel up/down to resize. It works well on Windows Vista, Win7/8/10 to Windows 11 as well as Linux and Mac os x using Wine. There will also be a separate version for Windows XP and ReactOS without high DPI awareness.
 
-This version was initially developed on Windows 7 using 32 bit VisualBasic 6 as a FOSS project creating a WoW64 widget for the desktop.
+This version was initially developed on Windows 7/10 using 32 bit VisualBasic 6 as a FOSS project creating a WoW64 widget for the desktop.
 
 It is open source to allow easy configuration, bug-fixing, enhancement and community contribution towards free-and-useful VB6 utilities that can be created by anyone. The first step was the creation of a template program to form the basis for the conversion of several desktop utilities or 'widgets'. This program is one of them. A future step is new VB6 widgets with more functionality and then hopefully, conversion of each to RADBasic/TwinBasic for future-proofing and 64bit-ness.
 
@@ -22,9 +22,9 @@ CREDITS:
 
 I have really tried to maintain the credits as the project has progressed. If I have made a mistake and left someone out then do forgive me. I will make amends if anyone points out my mistake in leaving someone out.
 
-MicroSoft in the 90s - MS built good, lean and useful tools in the late 90s/early 2000s. Thanks for VB6.
+MicroSoft in the 90s - MS built good, lean and useful tools in the late 90s/early 2000s. Thanks MicroSoft for VB6.
 
-Olaf Schmidt    - This tool was built using the RichClient RC6 Cairo wrapper for VB6. Specifically the components using transparency. Thanks for the massive effort Olaf in creating Cairo counterparts for all VB6 native controls and giving us access to advanced features on controls such as transparency.
+Olaf Schmidt    - This tool was built using the RichClient RC6 Cairo wrapper for VB6. Specifically, the components using transparency. Thanks for the massive effort Olaf in creating Cairo counterparts for all VB6 native controls and giving us access to advanced features on controls such as transparency.
 
 Shuja Ali @ codeguru for his settings.ini code.
 
@@ -36,8 +36,6 @@ si_the_geek       for his special folder code
 
 Elroy on VB forums for the balloon tooltips
 
-Randy Birch for his timezone code - http://vbnet.mvps.org/index.html?code/locale/timezonebiaslookup.htm
-
 -oOo-
 
 Harry Whitfield for his quality testing, brain stimulation and being an unwitting source of inspiration.
@@ -45,7 +43,7 @@ Harry Whitfield for his quality testing, brain stimulation and being an unwittin
 
 LICENCE AGREEMENTS:
 
-Copyright © 2023 Dean Beedell
+Copyright © 2024 Dean Beedell
 
 Using this program implies you have accepted the licence. The GPL licence applies to the code this software Is provided as-is, without any express or implied warranty. In no event will the
 author be held liable for any damages arising from the use of this software. Permission is granted to anyone to use this software for any purpose, including commercial applications, and to alter it and redistribute it freely, subject to the following restrictions:

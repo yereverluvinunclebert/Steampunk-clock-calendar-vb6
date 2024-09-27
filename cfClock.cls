@@ -3527,22 +3527,12 @@ Public Property Let alarmtoggle1Enabled(ByVal newValue As Boolean)
         alarmtoggle1.Move alarmtoggle1Out, alarmtoggle1Top
         Call hideAlarmTills
         fClock.clockForm.Widgets("alarm1till").Widget.Alpha = alphaVal
-        
-        'alarmtoggle1.ImageKey = "alarmtoggle1armed"
-        
-'        If alarmtoggle1InitiatingControl = "alarmtoggle1" Then alarmtoggle1ToggleEnabled = False ' prevents recurring calls
     Else
         gblAlarmToggle1Enabled = "False"
         alarmtoggle1.Move alarmtoggle1In, alarmtoggle1Top
         Call hideAlarmTills
         fClock.clockForm.Widgets("alarm1till").Widget.Alpha = 0
         fClock.clockForm.Widgets("redalarmcover").Widget.Alpha = 0
-        
-        'alarmtoggle1.ImageKey = "alarmtoggle1"
-        triggerDigitalClockPopulation = True
-        fClock.clockForm.Refresh
-        
-'        If alarmtoggle1InitiatingControl = "alarmtoggle1" Then alarmtoggle1ToggleEnabled = True
     End If
     
     sPutINISetting "Software\SteampunkClockCalendar", "alarmToggle1Enabled", gblAlarmToggle1Enabled, gblSettingsFile
@@ -3556,6 +3546,7 @@ Public Property Let alarmtoggle1Enabled(ByVal newValue As Boolean)
         Call screenWrite("Cancelling Alarm View Mode")
     End If
     
+    triggerDigitalClockPopulation = True
     overlayWidget.tmrDigitRotator.Enabled = True
     
     clockForm.Refresh
@@ -3622,21 +3613,12 @@ Public Property Let alarmtoggle2Enabled(ByVal newValue As Boolean)
         alarmtoggle2.Move alarmtoggle2Out, alarmtoggle2Top
         Call hideAlarmTills
         fClock.clockForm.Widgets("alarm2till").Widget.Alpha = alphaVal
-        
-        'alarmtoggle2.ImageKey = "alarmtoggle2armed"
-
-'        If alarmtoggle2InitiatingControl = "alarmtoggle2" Then alarmtoggle2ToggleEnabled = False ' prevents recurring calls
     Else
         gblAlarmToggle2Enabled = "False"
         alarmtoggle2.Move alarmtoggle2In, alarmtoggle2Top
         Call hideAlarmTills
         fClock.clockForm.Widgets("alarm2till").Widget.Alpha = 0
         fClock.clockForm.Widgets("redalarmcover").Widget.Alpha = 0
-        
-        'alarmtoggle2.ImageKey = "alarmtoggle2"
-        triggerDigitalClockPopulation = True
-        fClock.clockForm.Refresh
-'        If alarmtoggle2InitiatingControl = "alarmtoggle2" Then alarmtoggle2ToggleEnabled = True
     End If
     
     sPutINISetting "Software\SteampunkClockCalendar", "alarmtoggle2Enabled", gblAlarmToggle2Enabled, gblSettingsFile
@@ -3654,10 +3636,12 @@ Public Property Let alarmtoggle2Enabled(ByVal newValue As Boolean)
     Else
         Call screenWrite("Cancelling Alarm View Mode")
     End If
-
+    
+    triggerDigitalClockPopulation = True
+    overlayWidget.tmrDigitRotator.Enabled = True
     
     clockForm.Refresh
-     
+         
    On Error GoTo 0
    Exit Property
 
@@ -3720,22 +3704,12 @@ Public Property Let alarmtoggle3Enabled(ByVal newValue As Boolean)
         alarmtoggle3.Move alarmtoggle3Out, alarmtoggle3Top
         Call hideAlarmTills
         fClock.clockForm.Widgets("alarm3till").Widget.Alpha = alphaVal
-        
-        'alarmtoggle3.ImageKey = "alarmtoggle3armed"
-'
-'        If alarmtoggle3InitiatingControl = "alarmtoggle3" Then alarmtoggle3ToggleEnabled = False ' prevents recurring calls
     Else
         gblAlarmToggle3Enabled = "False"
         alarmtoggle3.Move alarmtoggle3In, alarmtoggle3Top
         Call hideAlarmTills
         fClock.clockForm.Widgets("alarm3till").Widget.Alpha = 0
         fClock.clockForm.Widgets("redalarmcover").Widget.Alpha = 0
-        'alarmtoggle3.ImageKey = "alarmtoggle3"
-        
-        triggerDigitalClockPopulation = True
-        fClock.clockForm.Refresh
-        
-        '        If alarmtoggle3InitiatingControl = "alarmtoggle3" Then alarmtoggle3ToggleEnabled = True
     End If
     
     sPutINISetting "Software\SteampunkClockCalendar", "alarmtoggle3Enabled", gblAlarmToggle3Enabled, gblSettingsFile
@@ -3748,6 +3722,9 @@ Public Property Let alarmtoggle3Enabled(ByVal newValue As Boolean)
     Else
         Call screenWrite("Cancelling Alarm View Mode")
     End If
+    
+    triggerDigitalClockPopulation = True
+    overlayWidget.tmrDigitRotator.Enabled = True
     
     clockForm.Refresh
      
@@ -3813,22 +3790,12 @@ Public Property Let alarmtoggle4Enabled(ByVal newValue As Boolean)
         alarmtoggle4.Move alarmtoggle4Out, alarmtoggle4Top
         Call hideAlarmTills
         fClock.clockForm.Widgets("alarm4till").Widget.Alpha = alphaVal
-        
-        'alarmtoggle4.ImageKey = "alarmtoggle4armed"
-
-'        If alarmtoggle4InitiatingControl = "alarmtoggle4" Then alarmtoggle4ToggleEnabled = False ' prevents recurring calls
     Else
         gblAlarmToggle4Enabled = "False"
         alarmtoggle4.Move alarmtoggle4In, alarmtoggle4Top
         Call hideAlarmTills
         fClock.clockForm.Widgets("alarm4till").Widget.Alpha = 0
         fClock.clockForm.Widgets("redalarmcover").Widget.Alpha = 0
-        'alarmtoggle4.ImageKey = "alarmtoggle4"
-
-        triggerDigitalClockPopulation = True
-        fClock.clockForm.Refresh
-        
-        '        If alarmtoggle4InitiatingControl = "alarmtoggle4" Then alarmtoggle4ToggleEnabled = True
     End If
     
     sPutINISetting "Software\SteampunkClockCalendar", "alarmtoggle4Enabled", gblAlarmToggle4Enabled, gblSettingsFile
@@ -3841,6 +3808,9 @@ Public Property Let alarmtoggle4Enabled(ByVal newValue As Boolean)
     Else
         Call screenWrite("Cancelling Alarm View Mode")
     End If
+    
+    triggerDigitalClockPopulation = True
+    overlayWidget.tmrDigitRotator.Enabled = True
     
     clockForm.Refresh
      
@@ -3907,22 +3877,12 @@ Public Property Let alarmtoggle5Enabled(ByVal newValue As Boolean)
         alarmtoggle5.Move alarmtoggle5Out, alarmtoggle5Top
         Call hideAlarmTills
         fClock.clockForm.Widgets("alarm5till").Widget.Alpha = alphaVal
-        
-        'alarmtoggle5.ImageKey = "alarmtoggle5armed"
-        
-'        If alarmtoggle5InitiatingControl = "alarmtoggle5" Then alarmtoggle5ToggleEnabled = False ' prevents recurring calls
     Else
         gblAlarmToggle5Enabled = "False"
         alarmtoggle5.Move alarmtoggle5In, alarmtoggle5Top
         Call hideAlarmTills
         fClock.clockForm.Widgets("alarm5till").Widget.Alpha = 0
         fClock.clockForm.Widgets("redalarmcover").Widget.Alpha = 0
-        'alarmtoggle5.ImageKey = "alarmtoggle5"
-
-        triggerDigitalClockPopulation = True
-        fClock.clockForm.Refresh
-        
-        '        If alarmtoggle5InitiatingControl = "alarmtoggle5" Then alarmtoggle5ToggleEnabled = True
     End If
     
     sPutINISetting "Software\SteampunkClockCalendar", "alarmtoggle5Enabled", gblAlarmToggle5Enabled, gblSettingsFile
@@ -3935,6 +3895,9 @@ Public Property Let alarmtoggle5Enabled(ByVal newValue As Boolean)
     Else
         Call screenWrite("Cancelling Alarm View Mode")
     End If
+    
+    triggerDigitalClockPopulation = True
+    overlayWidget.tmrDigitRotator.Enabled = True
     
     clockForm.Refresh
      

@@ -63,6 +63,8 @@ Private mSwingPendulum As Boolean
 Private rotatorLimit As Integer
 Private minsRotatorString As String
 Private hrsRotatorString As String
+Private daysRotatorString As String
+Private yearRotatorString As String
 
 
 'Private CC As cCairoContext
@@ -95,6 +97,8 @@ Private Sub Class_Initialize()
     
     minsRotatorString = "00"
     hrsRotatorString = "00"
+    daysRotatorString = "00"
+    yearRotatorString = "0000"
 
     Set tmrClock = Nothing
     Set tmrClock = New_c.Timer(intervalValue, True)
@@ -1440,10 +1444,15 @@ Private Sub populateDigitalYearCache(ByRef CC As cCairoContext, Optional ByVal a
            
     On Error GoTo populateDigitalYearCache_Error
 
-    If alarmYear <> vbNullString Then
-        yearString = alarmYear
+    ' if the rotator is functioning then display the contents from that...
+    If tmrDigitRotator.Enabled = True Then
+        yearString = yearRotatorString
     Else
-        yearString = Year(Now) ' coerce date variant to integer
+        If alarmYear <> vbNullString Then
+            yearString = alarmYear
+        Else
+            yearString = Year(Now) ' coerce date variant to integer
+        End If
     End If
 
     Select Case Left$(yearString, 1)
@@ -1625,15 +1634,21 @@ Private Sub populateDigitalDayofMonthCache(ByRef CC As cCairoContext, Optional B
     Dim thisDay As Integer: thisDay = 0
 
    On Error GoTo populateDigitalDayofMonthCache_Error
-
-    thisDay = Day(Now)
-       
-    If alarmDay <> vbNullString Then
-        localDay = CInt(alarmDay)
-        dayString = CStr(localDay)
+   
+    ' if the rotator is functioning then display the contents from that...
+    If tmrDigitRotator.Enabled = True Then
+        localDay = CInt(daysRotatorString)
+        dayString = daysRotatorString
     Else
-        localDay = CInt(thisDay)
-        dayString = CStr(thisDay)
+        thisDay = Day(Now)
+           
+        If alarmDay <> vbNullString Then
+            localDay = CInt(alarmDay)
+            dayString = CStr(localDay)
+        Else
+            localDay = CInt(thisDay)
+            dayString = CStr(thisDay)
+        End If
     End If
     
     If localDay < 10 Then ' uses vb6 coerce a string to a numeric without calling a cast function, quicker?
@@ -1871,21 +1886,24 @@ Private Sub tmrDigitRotator_Timer()
         
         minsRotatorString = CStr(rotatorTimerCount)
         hrsRotatorString = CStr(rotatorTimerCount)
-        
-        ' trigger a paint event
-        'fClock.clockForm.Refresh
-        overlayWidget.Widget.Parent.Refresh
+        daysRotatorString = CStr(rotatorTimerCount)
+        yearRotatorString = "19" & CStr(rotatorTimerCount)
 
     Else
         tmrDigitRotator.Enabled = False
         rotatorTimerCount = 0
         minsRotatorString = "00"
         hrsRotatorString = "00"
+        daysRotatorString = "00"
+        yearRotatorString = "0000"
         
-        triggerDigitalClockPopulation = True
-        fClock.clockForm.Refresh
     End If
-    
+         
+    ' trigger a paint event
+        
+    triggerDigitalClockPopulation = True
+    overlayWidget.Widget.Parent.Refresh
+   
    On Error GoTo 0
    Exit Sub
 

@@ -80,13 +80,15 @@ quiet/loud sounds
 ' alarm toggles indicate alarm state
 ' screenwrite when awoken from sleep
 
+' digital counter animation from zero
+
 ' -oOo-
 
-' why is the RC5 prefs drag and resize so much smoother than the RC6 version? - research
+' when you click on A alarm toggle, it should not set to 01Jan 1970 as it needs to start at the current date/time to set the next alarm
 
 ' cancel an automatic resize after a wake from sleep, due to Windows sometimes pushing all windows onto one monitor, after a wake from sleep
 
-' digital counter animation from zero - wip
+' after a digital reset set each to -- --  and ** *** **** one by one
 
 ' add 12/24hr code in overlay 
 
@@ -95,7 +97,9 @@ quiet/loud sounds
 
 ' click on alarm till deletes alarm with confirmation pop-up - wip
 
-investigate the accumulating shadow when moving across the transparent surface of the screen
+' investigate the accumulating shadow when moving across the transparent surface of the screen
+
+' why is the RC5 prefs drag and resize so much smoother than the RC6 version? - research
 
 look at Olaf's pendulum code
 
