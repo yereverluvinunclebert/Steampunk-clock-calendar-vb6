@@ -22,53 +22,58 @@ Attribute VB_Exposed = False
 
 Option Explicit
 
-Public cCollOverlayImages As cCollection
-Public sldCurWidth As Double
+' public vars
 
-Public cxPerc As Single
-Public cyPerc As Single
+Public cCollOverlayImages As cCollection ' need to add set/get for these public vars
+Private WithEvents W As cWidgetBase
+Attribute W.VB_VarHelpID = -1
 
-Private hdeg As Double
-Private mdeg As Double
-Private SDeg As Double
-Private Sec As Integer
+Public sldCurWidth As Double ' need to add set/get for these public vars
+Public cxPerc As Single      ' need to add set/get for these public vars
+Public cyPerc As Single      ' need to add set/get for these public vars
+
+' timer vars
 
 Private WithEvents tmrClock As cTimer
 Attribute tmrClock.VB_VarHelpID = -1
 Private WithEvents tmrPendulum As cTimer
 Attribute tmrPendulum.VB_VarHelpID = -1
-Public WithEvents tmrTimeShift As cTimer
+
+Public WithEvents tmrTimeShift As cTimer    ' need to add set/get for these public timers
 Attribute tmrTimeShift.VB_VarHelpID = -1
-Public WithEvents tmrDigitRotator As cTimer
+Public WithEvents tmrDigitRotator As cTimer ' need to add set/get for these
 Attribute tmrDigitRotator.VB_VarHelpID = -1
 
-Private WithEvents W As cWidgetBase
-Attribute W.VB_VarHelpID = -1
-
-Private firstRun As Boolean
-Private thisHour As Integer
-Private thisMin As Integer
-Private thisSec As Integer
-
-Private pendulumAcceleration As Double
-Private gravity As Double
-Private pendulumAngle As Double
-Private pendulumVelocity As Double
+' class member vars
 
 Private mLocked As Boolean ' property Locked
 Private mTimeMachine As Boolean
 Private mHidden As Boolean ' property Hidden
 Private mSwingPendulum As Boolean
 
-Private rotatorLimit As Integer
-Private minsRotatorString As String
-Private hrsRotatorString As String
-Private daysRotatorString As String
-Private monthRotatorString As String
-Private yearRotatorString As String
+' private vars general usage
 
+Private pvtHourDegrees As Double
+Private pvtMinsDegrees As Double
+Private pvtSecsDegrees As Double
+Private pvtSeconds As Integer
 
-'Private CC As cCairoContext
+Private pvtFirstRun As Boolean
+Private pvtThisHour As Integer
+Private pvtThisMins As Integer
+Private pvtThisSecs As Integer
+
+Private pvtPendulumAcceleration As Double
+Private pvtGravity As Double
+Private pvtPendulumAngle As Double
+Private pvtPendulumVelocity As Double
+
+Private pvtRotatorLimit As Integer
+Private pvtMinsRotatorString As String
+Private pvtHoursRotatorString As String
+Private pvtDaysRotatorString As String
+Private pvtMonthRotatorString As String
+Private pvtYearRotatorString As String
 
 '---------------------------------------------------------------------------------------
 ' Procedure : Class_Initialize
@@ -86,21 +91,21 @@ Private Sub Class_Initialize()
         W.ImplementsHitTest = True  ' essential
 
     intervalValue = 1000
-    firstRun = True
-    rotatorLimit = 0
+    pvtFirstRun = True
+    pvtRotatorLimit = 0
     
     ' variables set for the pendulum
     ' g = -0.1, a = 0.6, v = 2.5 uses 3% of cpu with a 40ms timer
 
-    gravity = -0.2
-    pendulumAcceleration = 0.6
-    pendulumVelocity = 3.5
+    pvtGravity = -0.2
+    pvtPendulumAcceleration = 0.6
+    pvtPendulumVelocity = 3.5
     
-    minsRotatorString = "00"
-    hrsRotatorString = "00"
-    daysRotatorString = "00"
-    monthRotatorString = "0"
-    yearRotatorString = "0000"
+    pvtMinsRotatorString = "00"
+    pvtHoursRotatorString = "00"
+    pvtDaysRotatorString = "00"
+    pvtMonthRotatorString = "0"
+    pvtYearRotatorString = "0000"
 
     Set tmrClock = Nothing
     Set tmrClock = New_c.Timer(intervalValue, True)
@@ -423,21 +428,21 @@ Private Sub W_Paint(ByRef CC As cCairoContext, ByVal xAbs As Single, ByVal yAbs 
                     CC.TranslateDrawings W.Width * cxPerc, W.Height * cyPerc 'shift to the center-point of the Overlay-Widget-area
 
                     'CC.TranslateDrawings 645, 333 'shift to the center-point of the Overlay-Widget-area
-                    CC.RotateDrawingsDeg -90 + hdeg  'now we can rotate (the leading negative degrees are the rotation-offsets for 12 o'clock)
+                    CC.RotateDrawingsDeg -90 + pvtHourDegrees  'now we can rotate (the leading negative degrees are the rotation-offsets for 12 o'clock)
 
                  Case "minutehand"  'minutes-shadow- and minutes-hand
                     Set Pat = Cairo.ImageList(Key).CreateSurfacePattern
                     Set Pat.Matrix = Pat.Matrix.TranslateCoords(3, 3) 'shift to the "rotation-point" within the Pattern
                     CC.TranslateDrawings 646.5, 332 'shift to the center-point of the Overlay-Widget-area
 
-                    CC.RotateDrawingsDeg -90 + mdeg 'now we can rotate (the leading negative degrees are the rotation-offsets for 12 o'clock)
+                    CC.RotateDrawingsDeg -90 + pvtMinsDegrees 'now we can rotate (the leading negative degrees are the rotation-offsets for 12 o'clock)
 
                  Case "secondhand" 'seconds-shadow- and seconds-hand
                     Set Pat = Cairo.ImageList(Key).CreateSurfacePattern
                     Set Pat.Matrix = Pat.Matrix.TranslateCoords(3, 3) 'shift to the "rotation-point" within the Pattern
                     CC.TranslateDrawings 646.5, 332 'shift to the center-point of the Overlay-Widget-area
 
-                    CC.RotateDrawingsDeg -90 + SDeg 'now we can rotate (the leading negative degrees are the rotation-offsets for 12 o'clock)
+                    CC.RotateDrawingsDeg -90 + pvtSecsDegrees 'now we can rotate (the leading negative degrees are the rotation-offsets for 12 o'clock)
 
                  Case "hole"
                     Set Pat = Cairo.ImageList(Key).CreateSurfacePattern
@@ -459,7 +464,7 @@ Private Sub W_Paint(ByRef CC As cCairoContext, ByVal xAbs As Single, ByVal yAbs 
                     Set Pat.Matrix = Pat.Matrix.TranslateCoords(21, 0) 'shift to the "rotation-point" within the Pattern
                     CC.TranslateDrawings 624, 325
 
-                    CC.RotateDrawingsDeg pendulumAngle 'now we can rotate (the leading negative degrees are the rotation-offsets for 12 o'clock)
+                    CC.RotateDrawingsDeg pvtPendulumAngle 'now we can rotate (the leading negative degrees are the rotation-offsets for 12 o'clock)
                 
                 Case Else 'plain output for everything else
                        
@@ -493,16 +498,15 @@ Private Sub W_Paint(ByRef CC As cCairoContext, ByVal xAbs As Single, ByVal yAbs 
         triggerDigitalClockPopulation = False
     End If
     
-    If thisSec <= 1 Then
+    If pvtThisSecs <= 1 Then
         Call populateDigitalMinsCache(CC)
-        If thisMin = 0 Then
+        If pvtThisMins = 0 Then
             Call populateDigitalHoursCache(CC)
-            If thisHour = 0 Then
+            If pvtThisHour = 0 Then
                 Call populateDigitalClockCache(CC)
             End If
         End If
     End If
-
     
     ' test for alarms, using globals to reduce the cpu cycles
     If gblAlarmToggle1Enabled = "True" Or gblAlarmToggle2Enabled = "True" Or gblAlarmToggle3Enabled = "True" Or gblAlarmToggle4Enabled = "True" Or gblAlarmToggle5Enabled = "True" Then Call populateDigitalClockCache(CC)
@@ -549,7 +553,7 @@ Private Sub drawAMPMDigitalDay(ByRef CC As cCairoContext, Optional ByVal alarmHo
     If alarmHour <> vbNullString Then
         localHour = CInt(alarmHour)
     Else
-        localHour = thisHour
+        localHour = pvtThisHour
     End If
     
     If localHour < 12 Then ' uses vb6 coerce a string to a numeric without calling a cast function, quicker?
@@ -583,8 +587,8 @@ Private Sub displayDigitalHours(ByRef CC As cCairoContext, Optional ByVal alarmH
         localHour = CInt(alarmHour)
         hourString = CStr(localHour)
     Else
-        localHour = CInt(thisHour)
-        hourString = CStr(thisHour)
+        localHour = CInt(pvtThisHour)
+        hourString = CStr(pvtThisHour)
     End If
     
     If localHour < 10 Then ' uses vb6 coerce a string to a numeric without calling a cast function, quicker?
@@ -665,8 +669,8 @@ Private Sub displayDigitalMins(ByRef CC As cCairoContext, Optional ByVal alarmMi
         localMins = CInt(alarmMins)
         minString = CStr(localMins)
     Else
-        localMins = CInt(thisMin)
-        minString = CStr(thisMin)
+        localMins = CInt(pvtThisMins)
+        minString = CStr(pvtThisMins)
     End If
     
     If localMins < 10 Then ' uses vb6 coerce a string to a numeric without calling a cast function, quicker?
@@ -1015,9 +1019,9 @@ Private Sub tmrPendulum_Timer()
     
     On Error GoTo tmrPendulum_Timer_Error
 
-    pendulumAcceleration = gravity * pendulumAngle
-    pendulumVelocity = pendulumVelocity + pendulumAcceleration
-    pendulumAngle = pendulumAngle + pendulumVelocity
+    pvtPendulumAcceleration = pvtGravity * pvtPendulumAngle
+    pvtPendulumVelocity = pvtPendulumVelocity + pvtPendulumAcceleration
+    pvtPendulumAngle = pvtPendulumAngle + pvtPendulumVelocity
 
     W.Parent.Refresh ' causes a paint event to fire
     
@@ -1044,24 +1048,24 @@ Private Sub tmrClock_Timer()
     On Error GoTo tmrClock_Timer_Error
     
     ' just for the analogue clock
-    thisHour = Hour(Now)
-    thisMin = Minute(Now)
-    thisSec = Second(Now)
+    pvtThisHour = Hour(Now)
+    pvtThisMins = Minute(Now)
+    pvtThisSecs = Second(Now)
     
     ' calculate angles of hour and second hand
-    hdeg = 30 * (thisHour Mod 12 + (thisMin) / 60) ' global vars used in the paint event
-    mdeg = 6 * ((thisMin) + (thisSec / 60))
-    Sec = thisSec
+    pvtHourDegrees = 30 * (pvtThisHour Mod 12 + (pvtThisMins) / 60) ' global vars used in the paint event
+    pvtMinsDegrees = 6 * ((pvtThisMins) + (pvtThisSecs / 60))
+    pvtSeconds = pvtThisSecs
 
-    If SDeg <> 6 * Sec Then
-        SDeg = 6 * Sec
+    If pvtSecsDegrees <> 6 * pvtSeconds Then
+        pvtSecsDegrees = 6 * pvtSeconds
     Else
-        Exit Sub  'only refresh when SDeg has changed to a new value
+        Exit Sub  'only refresh when pvtSecsDegrees has changed to a new value
     End If
     
     ' only clear any existing weekday indicator in the first three seconds of the day
     If fClock.weekdayToggleEnabled = True Then
-        If thisHour <= 1 And thisMin = 1 And thisSec < 3 Then
+        If pvtThisHour <= 1 And pvtThisMins = 1 And pvtThisSecs < 3 Then
             fClock.clockForm.Widgets("monday").Widget.Alpha = 0
             fClock.clockForm.Widgets("tuesday").Widget.Alpha = 0
             fClock.clockForm.Widgets("wednesday").Widget.Alpha = 0
@@ -1074,9 +1078,9 @@ Private Sub tmrClock_Timer()
     End If
     
         ' this should be called once then every hour on the hour, populate the cache
-    If firstRun = True Then
+    If pvtFirstRun = True Then
         triggerDigitalClockPopulation = True
-        firstRun = False
+        pvtFirstRun = False
     End If
           
     ' very few routines are called from this timer but instead this subsequent refresh will trigger a PAINT event
@@ -1152,15 +1156,15 @@ Private Sub populateDigitalHoursCache(ByRef CC As cCairoContext, Optional ByVal 
        
     ' if the rotator is functioning then display the contents from that...
     If tmrDigitRotator.Enabled = True Then
-        localHour = CInt(hrsRotatorString)
-        hourString = hrsRotatorString
+        localHour = CInt(pvtHoursRotatorString)
+        hourString = pvtHoursRotatorString
     Else
         If alarmHour <> vbNullString Then
             localHour = CInt(alarmHour)
             hourString = CStr(localHour)
         Else
-            localHour = CInt(thisHour)
-            hourString = CStr(thisHour)
+            localHour = CInt(pvtThisHour)
+            hourString = CStr(pvtThisHour)
         End If
     End If
 
@@ -1244,15 +1248,15 @@ Private Sub populateDigitalMinsCache(ByRef CC As cCairoContext, Optional ByVal a
 
     ' if the rotator is functioning then display the contents from that...
     If tmrDigitRotator.Enabled = True Then
-        localMins = CInt(minsRotatorString)
-        minString = hrsRotatorString
+        localMins = CInt(pvtMinsRotatorString)
+        minString = pvtHoursRotatorString
     Else
         If alarmMins <> vbNullString Then
             localMins = CInt(alarmMins)
             minString = CStr(localMins)
         Else
-            localMins = CInt(thisMin)
-            minString = CStr(thisMin)
+            localMins = CInt(pvtThisMins)
+            minString = CStr(pvtThisMins)
         End If
     End If
     
@@ -1338,7 +1342,7 @@ Private Sub populateDigitalYearCache(ByRef CC As cCairoContext, Optional ByVal a
 
     ' if the rotator is functioning then display the contents from that...
     If tmrDigitRotator.Enabled = True Then
-        yearString = yearRotatorString
+        yearString = pvtYearRotatorString
     Else
         If alarmYear <> vbNullString Then
             yearString = alarmYear
@@ -1465,7 +1469,7 @@ Private Sub populateDigitalMonthCache(ByRef CC As cCairoContext, Optional ByVal 
     
     ' if the rotator is functioning then display the contents from that...
     If tmrDigitRotator.Enabled = True Then
-        thismonth = CInt(monthRotatorString)
+        thismonth = CInt(pvtMonthRotatorString)
     Else
         thismonth = Month(Now) ' coerce date variant to integer
            
@@ -1534,8 +1538,8 @@ Private Sub populateDigitalDayofMonthCache(ByRef CC As cCairoContext, Optional B
    
     ' if the rotator is functioning then display the contents from that...
     If tmrDigitRotator.Enabled = True Then
-        localDay = CInt(daysRotatorString)
-        dayString = daysRotatorString
+        localDay = CInt(pvtDaysRotatorString)
+        dayString = pvtDaysRotatorString
     Else
         thisDay = Day(Now)
            
@@ -1623,7 +1627,7 @@ Private Sub populateAMPMDigitalDayCache(ByRef CC As cCairoContext, Optional ByVa
     If alarmHour <> vbNullString Then
         localHour = CInt(alarmHour)
     Else
-        localHour = thisHour
+        localHour = pvtThisHour
     End If
     
     If localHour < 12 Then ' uses vb6 coerce a string to a numeric without calling a cast function, quicker?
@@ -1766,35 +1770,35 @@ End Sub
 '
 Private Sub tmrDigitRotator_Timer()
     Static rotatorTimerCount As Integer
-'    Dim rotatorLimit As Integer: rotatorLimit = 0
+'    Dim pvtRotatorLimit As Integer: pvtRotatorLimit = 0
     
     On Error GoTo tmrDigitRotator_Timer_Error
     
-    rotatorLimit = 24
+    pvtRotatorLimit = 24
 
     rotatorTimerCount = rotatorTimerCount + 1
     
     ' start at zero and increment a counter to current value
     ' if the value is equal to the counter, stop the timer
     
-    If rotatorTimerCount <= rotatorLimit Then
+    If rotatorTimerCount <= pvtRotatorLimit Then
         ' set the current displayed digit in the cache
         ' we can use populateDigitalMinsCache passing a value as a param to alarmMins
         
-        minsRotatorString = CStr(rotatorTimerCount)
-        hrsRotatorString = CStr(rotatorTimerCount)
-        daysRotatorString = CStr(rotatorTimerCount)
-        yearRotatorString = "19" & CStr(rotatorTimerCount)
-        monthRotatorString = CStr(rotatorTimerCount)
+        pvtMinsRotatorString = CStr(rotatorTimerCount)
+        pvtHoursRotatorString = CStr(rotatorTimerCount)
+        pvtDaysRotatorString = CStr(rotatorTimerCount)
+        pvtYearRotatorString = "19" & CStr(rotatorTimerCount)
+        pvtMonthRotatorString = CStr(rotatorTimerCount)
 
     Else
         tmrDigitRotator.Enabled = False
         rotatorTimerCount = 0
         
-'        minsRotatorString = "00"
-'        hrsRotatorString = "00"
-'        daysRotatorString = "00"
-'        yearRotatorString = "0000"
+'        pvtMinsRotatorString = "00"
+'        pvtHoursRotatorString = "00"
+'        pvtDaysRotatorString = "00"
+'        pvtYearRotatorString = "0000"
         
     End If
          

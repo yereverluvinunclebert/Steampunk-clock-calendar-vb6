@@ -3520,7 +3520,7 @@ Public Property Let alarmtoggle1Enabled(ByVal newValue As Boolean)
     alphaVal = Val(gblOpacity) / 100
  
     ' NOTE: the code for displaying the alarm value when alarmtoggle1Enabled = true, is contained within the
-    '       subroutine DrawDigitalClocks, this checks the current state if the alarm toggle and shows the alarm.
+    '       subroutine populateDigitalClockCache, this checks the current state if the alarm toggle and shows the alarm.
     
     If newValue = True Then
         gblAlarmToggle1Enabled = "True"
@@ -3606,7 +3606,7 @@ Public Property Let alarmtoggle2Enabled(ByVal newValue As Boolean)
     alphaVal = Val(gblOpacity) / 100
  
     ' NOTE: the code for displaying the alarm value when alarmtoggle1Enabled = true, is contained within the
-    '       subroutine DrawDigitalClocks, this checks the current state if the alarm toggle and shows the alarm.
+    '       subroutine populateDigitalClockCache, this checks the current state if the alarm toggle and shows the alarm.
     
     If newValue = True Then
         gblAlarmToggle2Enabled = "True"
@@ -3697,7 +3697,7 @@ Public Property Let alarmtoggle3Enabled(ByVal newValue As Boolean)
     alphaVal = Val(gblOpacity) / 100
  
     ' NOTE: the code for displaying the alarm value when alarmtoggle1Enabled = true, is contained within the
-    '       subroutine DrawDigitalClocks, this checks the current state if the alarm toggle and shows the alarm.
+    '       subroutine populateDigitalClockCache, this checks the current state if the alarm toggle and shows the alarm.
     
     If newValue = True Then
         gblAlarmToggle3Enabled = "True"
@@ -3783,7 +3783,7 @@ Public Property Let alarmtoggle4Enabled(ByVal newValue As Boolean)
     alphaVal = Val(gblOpacity) / 100
  
     ' NOTE: the code for displaying the alarm value when alarmtoggle1Enabled = true, is contained within the
-    '       subroutine DrawDigitalClocks, this checks the current state if the alarm toggle and shows the alarm.
+    '       subroutine populateDigitalClockCache, this checks the current state if the alarm toggle and shows the alarm.
     
     If newValue = True Then
         gblAlarmToggle4Enabled = "True"
@@ -3870,7 +3870,7 @@ Public Property Let alarmtoggle5Enabled(ByVal newValue As Boolean)
     alphaVal = Val(gblOpacity) / 100
  
     ' NOTE: the code for displaying the alarm value when alarmtoggle1Enabled = true, is contained within the
-    '       subroutine DrawDigitalClocks, this checks the current state if the alarm toggle and shows the alarm.
+    '       subroutine populateDigitalClockCache, this checks the current state if the alarm toggle and shows the alarm.
     
     If newValue = True Then
         gblAlarmToggle5Enabled = "True"
