@@ -13,6 +13,7 @@ Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
 '@IgnoreModule IntegerDataType, ModuleWithoutFolder
 Option Explicit
+
 Private Declare Sub Sleep Lib "kernel32.dll" (ByVal dwMilliseconds As Long)
 
 Private Declare Function mciSendString Lib "winmm.dll" Alias "mciSendStringA" _
@@ -22,12 +23,20 @@ Private Declare Function mciSendString Lib "winmm.dll" Alias "mciSendStringA" _
 Public WithEvents clockForm As cWidgetForm
 Attribute clockForm.VB_VarHelpID = -1
 
-Public collPSDNonUIElements As cCollection, FX As Long, FY As Long, FZ As Single  'available on the outside, even after the Form was closed
+Private WithEvents tmrZZZZSound As cTimer
+Attribute tmrZZZZSound.VB_VarHelpID = -1
+Private WithEvents tmrTILLSound As cTimer
+Attribute tmrTILLSound.VB_VarHelpID = -1
+Private WithEvents tmrTickingSound As cTimer
+Attribute tmrTickingSound.VB_VarHelpID = -1
 
-Private PSDWidth As Long
-Private PSDHeight As Long
+Public collPSDNonUIElements As cCollection
+Public FX As Long
+Public FY As Long
+Public FZ As Single  'available on the outside, even after the Form is closed
 
-' properties
+' private member properties
+
 Private mMute As Integer
 Private mSliderFreed As Boolean
 Private msetToggleEnabled As Boolean
@@ -48,10 +57,12 @@ Private mAlarmToggle2Enabled As Boolean
 Private mAlarmToggle3Enabled As Boolean
 Private mAlarmToggle4Enabled As Boolean
 Private mAlarmToggle5Enabled As Boolean
+Private mTimeShiftPercent As Currency
 
-Public mShowHelp As Boolean
+Public mShowHelp As Boolean 'change to property get/set
 
 ' widgets
+
 Private WithEvents helpbottom As cWidgetBase
 Attribute helpbottom.VB_VarHelpID = -1
 Private WithEvents sliderset As cWidgetBase
@@ -116,28 +127,22 @@ Private WithEvents helpdropdown As cWidgetBase
 Attribute helpdropdown.VB_VarHelpID = -1
 Private WithEvents pendulumtransparent As cWidgetBase
 Attribute pendulumtransparent.VB_VarHelpID = -1
-
 Private WithEvents glow As cWidgetBase
 Attribute glow.VB_VarHelpID = -1
 
-'general
-Private sldFixedTop As Double
-Private sldXMax As Double
-Private sldXMin As Double
-Private sldX As Double
-Private mTimeShiftPercent As Currency
-Private helpMoved As Boolean
-Private muteInitiatingControl As String
-Private alarmInitiatingControl As String
-Private slidersetMousedown As Boolean
+'general vars
 
-Private WithEvents tmrZZZZSound As cTimer
-Attribute tmrZZZZSound.VB_VarHelpID = -1
-Private WithEvents tmrTILLSound As cTimer
-Attribute tmrTILLSound.VB_VarHelpID = -1
+Private pvtSldFixedTop As Double
+Private pvtSldXMax As Double
+Private pvtSldXMin As Double
+Private pvtSldX As Double
+Private pvtHelpMoved As Boolean
+Private pvtMuteInitiatingControl As String
+Private pvtAlarmInitiatingControl As String
+Private pvtSlidersetMousedown As Boolean
+Private pvtPSDWidth As Long
+Private pvtPSDHeight As Long
 
-Private WithEvents tmrTickingSound As cTimer
-Attribute tmrTickingSound.VB_VarHelpID = -1
 
 
 '---------------------------------------------------------------------------------------
@@ -217,10 +222,10 @@ Public Property Let ShowHelp(ByVal newValue As Boolean)
         
     If mShowHelp = True Then
 
-         If helpMoved = True Then  ' now copes with f5 reloads
+         If pvtHelpMoved = True Then  ' now copes with f5 reloads
              helpbottom.Move 220, helpbottomTop
              labellayer.Move 2, labellayerTop
-             helpMoved = False
+             pvtHelpMoved = False
          End If
          
          helpbottom.Alpha = Val(gblOpacity) / 100
@@ -235,10 +240,10 @@ Public Property Let ShowHelp(ByVal newValue As Boolean)
          helpbottom.Alpha = 0
          labellayer.Alpha = 0
 
-        If helpMoved = False Then
+        If pvtHelpMoved = False Then
             helpbottom.Move helpbottomLeft + 700, helpbottomTop
             labellayer.Move labellayerLeft + 400, labellayerTop ' the 400 is a magical number that moves them just out of the way without causing tearing
-            helpMoved = True
+            pvtHelpMoved = True
         End If
     
     End If
@@ -291,8 +296,8 @@ Public Sub InitFromPSD(ByRef PSD_FileNameOrByteArray As Variant)
         clockForm.WidgetRoot.BackColor = -1 ' transparent
  
     With New_c.SimplePSD(PSD_FileNameOrByteArray)  'create a new PSD-Parser.instance (and load the passed content)
-        PSDWidth = .Width
-        PSDHeight = .Height       'store the original Psd-Pixel-Width/Height in Private vars (as the base from which we calculate the zoomed Form-Width/Height)
+        pvtPSDWidth = .Width
+        pvtPSDHeight = .Height       'store the original Psd-Pixel-Width/Height in Private vars (as the base from which we calculate the zoomed Form-Width/Height)
     
         For I = 0 To .LayersCount - 1 ' loop through each of the Layers in the PSD
             If .LayerByteSize(I) Then  ' this is a true Alpha-Surface-Layer and not just a PSD layer 'group'
@@ -324,7 +329,7 @@ Public Sub InitFromPSD(ByRef PSD_FileNameOrByteArray As Variant)
         Next I
     End With '<-- the Parser-instance will be destroyed here (freeing the Memory, the internal PSD-Layers have occupied)
         
-    Set overlayWidget = clockForm.Widgets.Add(New cwOverlay, "Overlay", 0, 0, PSDWidth, PSDHeight)
+    Set overlayWidget = clockForm.Widgets.Add(New cwOverlay, "Overlay", 0, 0, pvtPSDWidth, pvtPSDHeight)
     Set overlayWidget.cCollOverlayImages = collPSDNonUIElements 'make the excluded PSD-Surface-Paths known to the Overlay-Widget
         overlayWidget.cxPerc = 0.645 'define the relative center (within cwOverlay, which has the same size as the Form and the PSD...) this is used for clock-hand-positioning
         overlayWidget.cyPerc = 0.334
@@ -339,9 +344,9 @@ Public Sub InitFromPSD(ByRef PSD_FileNameOrByteArray As Variant)
         .Tag = 0.01
     End With
     
-    sldFixedTop = sliderset.Top   'and store the initial position-data for y-direction (which will not be changed)
-    sldXMax = sliderset.Left      'as well as the x-direction related pos (which is initially at the "100%-Volume, right-endswitch" )
-    sldXMin = sldXMax - 116       'the Min-Value is simply the Max-Value minus Slider-Range (the 300pxl-range was determined by "probing")
+    pvtSldFixedTop = sliderset.Top   'and store the initial position-data for y-direction (which will not be changed)
+    pvtSldXMax = sliderset.Left      'as well as the x-direction related pos (which is initially at the "100%-Volume, right-endswitch" )
+    pvtSldXMin = pvtSldXMax - 116       'the Min-Value is simply the Max-Value minus Slider-Range (the 300pxl-range was determined by "probing")
 
     Set helpbottom = clockForm.Widgets("helpbottom").Widget
     Set screentop = clockForm.Widgets("screentop").Widget
@@ -702,7 +707,7 @@ Private Sub clockForm_BubblingEvent(ByRef sender As Object, ByRef EventName As S
 
                 tmrZZZZSound.Enabled = True
             Case "sliderset"
-                slidersetMousedown = False ' never called!
+                pvtSlidersetMousedown = False ' never called!
                 
             Case Else
                 Debug.Print sender.Widget.Key
@@ -774,7 +779,7 @@ Private Sub sliderset_myMouseDown()
     
     overlayWidget.Locked = True
 
-    slidersetMousedown = True
+    pvtSlidersetMousedown = True
                 
     If SliderFreed = False Then
         If gblVolumeBoost = "1" Then
@@ -1296,7 +1301,7 @@ Private Sub alarmtoggle_myMouseDown()
     
     On Error GoTo alarmtoggle_myMouseDown_Error
     
-    slidersetMousedown = False
+    pvtSlidersetMousedown = False
 
     If gblVolumeBoost = "1" Then
         fileToPlay = "clunk.wav"
@@ -1473,7 +1478,7 @@ Private Sub mutetoggle_myMouseDown()
     
     On Error GoTo mutetoggle_myMouseDown_Error
     
-    muteInitiatingControl = "muteToggle"
+    pvtMuteInitiatingControl = "muteToggle"
      
     If gblMuteToggleEnabled = "False" Then
         muteToggleEnabled = True
@@ -2101,7 +2106,7 @@ Public Sub AdjustZoom(ByVal NewZoom As Single)
     FZ = NewZoom
     If FZ < 0.05 Then FZ = 0.05 Else If FZ > 3 Then FZ = 3 'keep FZ within a sane ZoomInterval
     clockForm.WidgetRoot.Zoom = FZ '* clockForm.WidgetRoot.CurrentMonitor.Zoom '<-- if the multiplicator is activated, we'd have DPI-awareness on high-res monitors
-    clockForm.Move clockForm.Left, clockForm.Top, PSDWidth * clockForm.WidgetRoot.Zoom, PSDHeight * clockForm.WidgetRoot.Zoom
+    clockForm.Move clockForm.Left, clockForm.Top, pvtPSDWidth * clockForm.WidgetRoot.Zoom, pvtPSDHeight * clockForm.WidgetRoot.Zoom
     
     ' when resized from the gauge scroll up/down it needs to write it back so the size is correct when prefs opened.
     gblGaugeSize = LTrim$(Str$(NewZoom * 100))
@@ -2162,12 +2167,12 @@ Private Sub sliderset_Moving() ' this is an explicit Event-Handler derived from 
    
     On Error GoTo sliderset_Moving_Error
          
-    sldX = sliderset.Left
-    If sldX < sldXMin Then sldX = sldXMin Else If sldX > sldXMax Then sldX = sldXMax 'keep sldX "in range"
+    pvtSldX = sliderset.Left
+    If pvtSldX < pvtSldXMin Then pvtSldX = pvtSldXMin Else If pvtSldX > pvtSldXMax Then pvtSldX = pvtSldXMax 'keep pvtSldX "in range"
     
-    If tmrZZZZSound.Enabled = False And slidersetMousedown = True Then tmrZZZZSound.Enabled = True
+    If tmrZZZZSound.Enabled = False And pvtSlidersetMousedown = True Then tmrZZZZSound.Enabled = True
     
-    timeShiftPercent = (sldX - sldXMin) / (sldXMax - sldXMin) 'assign the new Value to the Public Prop, to trigger all the necessary refreshs
+    timeShiftPercent = (pvtSldX - pvtSldXMin) / (pvtSldXMax - pvtSldXMin) 'assign the new Value to the Public Prop, to trigger all the necessary refreshs
     
     ' if the slider is enabled and the timeShiftPercent <> 0.5 then start the timer that shifts the digital clocks forwards or backwards
     If SliderFreed = True And timeShiftPercent <> 0.5 Then
@@ -2368,11 +2373,11 @@ Public Property Let timeShiftPercent(ByVal RHS As Currency)
     On Error GoTo timeShiftPercent_Error
     
     If RHS < 0 Then RHS = 0 Else If RHS > 1 Then RHS = 1 'keep RHS "in range"
-    sldX = RHS * (sldXMax - sldXMin) + sldXMin
-    overlayWidget.sldCurWidth = sldXMax - sldX 'inform the Overlay about the new current "Cable-Width"
+    pvtSldX = RHS * (pvtSldXMax - pvtSldXMin) + pvtSldXMin
+    overlayWidget.sldCurWidth = pvtSldXMax - pvtSldX 'inform the Overlay about the new current "Cable-Width"
     
-    sliderset.Move sldX, sldFixedTop 'move the sliderset-widget accordingly
-    glow.Move sldX + 29, sldFixedTop - 13 'move the glow along with the sliderset-widget accordingly
+    sliderset.Move pvtSldX, pvtSldFixedTop 'move the sliderset-widget accordingly
+    glow.Move pvtSldX + 29, pvtSldFixedTop - 13 'move the glow along with the sliderset-widget accordingly
     
     If mTimeShiftPercent <> RHS Then mTimeShiftPercent = RHS Else Exit Property  'only refresh, when there was a change to the previous value
     
@@ -2501,7 +2506,7 @@ Private Sub clapperleft_myMouseDown()
     
     On Error GoTo clapperleft_myMouseDown_Error
 
-    muteInitiatingControl = "clapper"
+    pvtMuteInitiatingControl = "clapper"
 
     If gblVolumeBoost = "1" Then
         fileToPlay = "clunk.wav"
@@ -2542,7 +2547,7 @@ Private Sub clapperright_myMouseDown()
 
     On Error GoTo clapperright_myMouseDown_Error
     
-    muteInitiatingControl = "clapper"
+    pvtMuteInitiatingControl = "clapper"
 
     If clapperEnabled = True Then
         clapperEnabled = False
@@ -2581,7 +2586,7 @@ Public Property Let clapperEnabled(ByVal newValue As Boolean)
         clapperright.Alpha = 0
         clapperLeft.Alpha = alphaVal
         widgetPrefs.chkEnableChimes.Value = 1
-        If muteInitiatingControl = "clapper" Then
+        If pvtMuteInitiatingControl = "clapper" Then
                 If gblVolumeBoost = "1" Then
                     fileToPlay = "singleBell.wav"
                 Else
@@ -2593,7 +2598,7 @@ Public Property Let clapperEnabled(ByVal newValue As Boolean)
         End If
     Else
         gblClapperEnabled = "False"
-        'If muteInitiatingControl = "clapper" Then muteToggleEnabled = True
+        'If pvtMuteInitiatingControl = "clapper" Then muteToggleEnabled = True
         clapperright.Alpha = alphaVal
         clapperLeft.Alpha = 0
         widgetPrefs.chkEnableChimes.Value = 0
@@ -3515,7 +3520,7 @@ Public Property Let alarmtoggle1Enabled(ByVal newValue As Boolean)
     alarmtoggle1Out = 664
     alarmtoggle1In = 654
     
-    alarmInitiatingControl = "Alarm 1"
+    pvtAlarmInitiatingControl = "Alarm 1"
     
     alphaVal = Val(gblOpacity) / 100
  
@@ -3541,7 +3546,7 @@ Public Property Let alarmtoggle1Enabled(ByVal newValue As Boolean)
     alarmtoggle1Enabled = mAlarmToggle1Enabled
     
     If mAlarmToggle1Enabled = True Then
-        Call screenWrite("Viewing Alarm - " & alarmInitiatingControl)
+        Call screenWrite("Viewing Alarm - " & pvtAlarmInitiatingControl)
     Else
         Call screenWrite("Cancelling Alarm View Mode")
     End If
@@ -3601,7 +3606,7 @@ Public Property Let alarmtoggle2Enabled(ByVal newValue As Boolean)
     alarmtoggle2Out = 678
     alarmtoggle2In = 670
 
-    alarmInitiatingControl = "Alarm 2"
+    pvtAlarmInitiatingControl = "Alarm 2"
         
     alphaVal = Val(gblOpacity) / 100
  
@@ -3632,7 +3637,7 @@ Public Property Let alarmtoggle2Enabled(ByVal newValue As Boolean)
     
         
     If mAlarmToggle2Enabled = True Then
-        Call screenWrite("Viewing Alarm - " & alarmInitiatingControl)
+        Call screenWrite("Viewing Alarm - " & pvtAlarmInitiatingControl)
     Else
         Call screenWrite("Cancelling Alarm View Mode")
     End If
@@ -3692,7 +3697,7 @@ Public Property Let alarmtoggle3Enabled(ByVal newValue As Boolean)
     alarmtoggle3Out = 690
     alarmtoggle3In = 682
         
-    alarmInitiatingControl = "Alarm 3"
+    pvtAlarmInitiatingControl = "Alarm 3"
     
     alphaVal = Val(gblOpacity) / 100
  
@@ -3718,7 +3723,7 @@ Public Property Let alarmtoggle3Enabled(ByVal newValue As Boolean)
     alarmtoggle3Enabled = mAlarmToggle3Enabled
     
     If mAlarmToggle3Enabled = True Then
-        Call screenWrite("Viewing Alarm - " & alarmInitiatingControl)
+        Call screenWrite("Viewing Alarm - " & pvtAlarmInitiatingControl)
     Else
         Call screenWrite("Cancelling Alarm View Mode")
     End If
@@ -3778,7 +3783,7 @@ Public Property Let alarmtoggle4Enabled(ByVal newValue As Boolean)
     alarmtoggle4Out = 690
     alarmtoggle4In = 682
 
-    alarmInitiatingControl = "Alarm 4"
+    pvtAlarmInitiatingControl = "Alarm 4"
     
     alphaVal = Val(gblOpacity) / 100
  
@@ -3804,7 +3809,7 @@ Public Property Let alarmtoggle4Enabled(ByVal newValue As Boolean)
     alarmtoggle4Enabled = mAlarmToggle4Enabled
         
     If mAlarmToggle4Enabled = True Then
-        Call screenWrite("Viewing Alarm - " & alarmInitiatingControl)
+        Call screenWrite("Viewing Alarm - " & pvtAlarmInitiatingControl)
     Else
         Call screenWrite("Cancelling Alarm View Mode")
     End If
@@ -3865,7 +3870,7 @@ Public Property Let alarmtoggle5Enabled(ByVal newValue As Boolean)
     alarmtoggle5Out = 678
     alarmtoggle5In = 670
     
-    alarmInitiatingControl = "Alarm 5"
+    pvtAlarmInitiatingControl = "Alarm 5"
         
     alphaVal = Val(gblOpacity) / 100
  
@@ -3891,7 +3896,7 @@ Public Property Let alarmtoggle5Enabled(ByVal newValue As Boolean)
     alarmtoggle5Enabled = mAlarmToggle5Enabled
     
     If mAlarmToggle5Enabled = True Then
-        Call screenWrite("Viewing Alarm - " & alarmInitiatingControl)
+        Call screenWrite("Viewing Alarm - " & pvtAlarmInitiatingControl)
     Else
         Call screenWrite("Cancelling Alarm View Mode")
     End If
@@ -3943,11 +3948,11 @@ End Property
 Private Sub hideAlarmTills()
     On Error GoTo fDayOfWeek_Error
             
-    If alarmInitiatingControl <> "Alarm 1" And alarmtoggle1Enabled = True Then alarmtoggle1Enabled = False
-    If alarmInitiatingControl <> "Alarm 2" And alarmtoggle2Enabled = True Then alarmtoggle2Enabled = False
-    If alarmInitiatingControl <> "Alarm 3" And alarmtoggle3Enabled = True Then alarmtoggle3Enabled = False
-    If alarmInitiatingControl <> "Alarm 4" And alarmtoggle4Enabled = True Then alarmtoggle4Enabled = False
-    If alarmInitiatingControl <> "Alarm 5" And alarmtoggle5Enabled = True Then alarmtoggle5Enabled = False
+    If pvtAlarmInitiatingControl <> "Alarm 1" And alarmtoggle1Enabled = True Then alarmtoggle1Enabled = False
+    If pvtAlarmInitiatingControl <> "Alarm 2" And alarmtoggle2Enabled = True Then alarmtoggle2Enabled = False
+    If pvtAlarmInitiatingControl <> "Alarm 3" And alarmtoggle3Enabled = True Then alarmtoggle3Enabled = False
+    If pvtAlarmInitiatingControl <> "Alarm 4" And alarmtoggle4Enabled = True Then alarmtoggle4Enabled = False
+    If pvtAlarmInitiatingControl <> "Alarm 5" And alarmtoggle5Enabled = True Then alarmtoggle5Enabled = False
     
     On Error GoTo 0
     Exit Sub

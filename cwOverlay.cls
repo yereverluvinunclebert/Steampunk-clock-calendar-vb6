@@ -24,7 +24,8 @@ Option Explicit
 
 ' public vars
 
-Public cCollOverlayImages As cCollection ' need to add set/get for these public vars
+Public cCollOverlayImages As cCollection 'collection made available publically, can't easily pass collections via property get/set
+
 Private WithEvents W As cWidgetBase
 Attribute W.VB_VarHelpID = -1
 
@@ -84,6 +85,7 @@ Private pvtYearRotatorString As String
 '
 Private Sub Class_Initialize()
     Dim intervalValue As Integer: intervalValue = 0
+    
     On Error GoTo Class_Initialize_Error
 
     Set W = Cairo.WidgetBase
@@ -483,8 +485,6 @@ Private Sub W_Paint(ByRef CC As cCairoContext, ByVal xAbs As Single, ByVal yAbs 
             CC.DrawText 423, position, 220, 20, gblTerminalRows(a), , , 2, True, , someOpacity
             position = position - interval
         Next a
-
-
 
         CC.DrawText 423, 203, 200, 20, ".......", , , 2, True, , someOpacity
         CC.DrawText 423, 211, 200, 20, ".......", , , 2, True, , someOpacity
@@ -1770,7 +1770,6 @@ End Sub
 '
 Private Sub tmrDigitRotator_Timer()
     Static rotatorTimerCount As Integer
-'    Dim pvtRotatorLimit As Integer: pvtRotatorLimit = 0
     
     On Error GoTo tmrDigitRotator_Timer_Error
     
