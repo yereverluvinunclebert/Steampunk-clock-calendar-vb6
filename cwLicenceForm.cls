@@ -33,13 +33,7 @@ Private licenceyo As Integer
 
 Private mMyOpacity As Double
 Private mShowMe As Boolean
-'Private opacityflag As Integer ' needs this var as it appears there is a bug in RC that causes the widget to lose opacity
 Private mZoom As Double
-
-
-
-'property MyOpacity is a property that populates mMyOpacity used by RenderSurfaceContent
-'property ShowMe is a property that populates mShowMe that triggers a fade in timer
 
 '---------------------------------------------------------------------------------------
 ' Procedure : Class_Initialize

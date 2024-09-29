@@ -83,6 +83,8 @@ quiet/loud sounds
 ' digital counter animation from zero
 
 ' when you click on A alarm toggle, it should not set to 01Jan 1970 as it needs to start at the current date/time to set the next alarm
+' click on alarm till deletes alarm with confirmation pop-up
+' if in alarm mode, when you delete the alarm it also cancels alarm mode, moving slider back in
 
 ' -oOo-
 
@@ -95,7 +97,13 @@ quiet/loud sounds
 ' slider advancing/retarding time using timeShiftPercent modified not quite exponentially to shift time - wip
 ' in the timer, take the value of timeShiftPercent and do what to it?
 
-' click on alarm till deletes alarm with confirmation pop-up - wip
+' centre the clock hands more accurately
+
+' look at the .js and determine what it does and identify any missing functionality
+' alarms 
+' chiming
+
+
 
 ' investigate the accumulating shadow when moving across the transparent surface of the screen
 
@@ -103,16 +111,9 @@ quiet/loud sounds
 
 ' dragflag and finished resize?
 
-' replace globals within classes with property GET/SETs
+' find and replace globals within classes with property GET/SETs
 
-look at Olaf's pendulum code
-
-' centre the clock hands more accurately
-
-' look at the .js and determine what it does and identify any missing functionality
-' alarms 
-' chiming
-' editing the alarm via clicking on the digital displays
+' look at Olaf's pendulum code
 
 ' add the date/time picker FOSS to the prefs
 

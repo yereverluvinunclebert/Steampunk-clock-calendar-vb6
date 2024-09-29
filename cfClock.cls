@@ -732,7 +732,7 @@ End Sub
 '
 Private Sub redalarmcover_myMouseDown()
     Dim fileToPlay As String: fileToPlay = vbNullString
-    Dim deletion As Boolean: deletion = False
+    Dim anAlarmDeleted As Boolean: anAlarmDeleted = False
    
     On Error GoTo redalarmcover_myMouseDown_Error
     
@@ -749,15 +749,15 @@ Private Sub redalarmcover_myMouseDown()
     End If
     
     If gblRaisedAlarm = 1 And gblAlarm1Date <> "Alarm not yet set" Then
-        Call deleteAlarm1(deletion)
+        Call deleteAlarm1(anAlarmDeleted)
     ElseIf gblRaisedAlarm = 2 And gblAlarm2Date <> "Alarm not yet set" Then
-        Call deleteAlarm2(deletion)
+        Call deleteAlarm2(anAlarmDeleted)
     ElseIf gblRaisedAlarm = 3 And gblAlarm3Date <> "Alarm not yet set" Then
-        Call deleteAlarm3(deletion)
+        Call deleteAlarm3(anAlarmDeleted)
     ElseIf gblRaisedAlarm = 4 And gblAlarm4Date <> "Alarm not yet set" Then
-        Call deleteAlarm4(deletion)
+        Call deleteAlarm4(anAlarmDeleted)
     ElseIf gblRaisedAlarm = 5 And gblAlarm5Date <> "Alarm not yet set" Then
-        Call deleteAlarm5(deletion)
+        Call deleteAlarm5(anAlarmDeleted)
     Else
         If alarmtoggle1Enabled = True Then alarmtoggle1Enabled = False
         If alarmtoggle2Enabled = True Then alarmtoggle2Enabled = False
@@ -771,25 +771,28 @@ Private Sub redalarmcover_myMouseDown()
         .Refresh
     End With
 
-    If deletion = True Then
-       If gblVolumeBoost = "1" Then
+    If anAlarmDeleted = True Then
+        If gblVolumeBoost = "1" Then
             fileToPlay = "till.wav"
         Else
             fileToPlay = "till-quiet.wav"
         End If
     Else
-       If gblVolumeBoost = "1" Then
+        If gblVolumeBoost = "1" Then
             fileToPlay = "clunk.wav"
         Else
             fileToPlay = "clunk-quiet.wav"
         End If
     End If
-
+    
     If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
         PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
     End If
     
-    ' if no then do nothing
+        
+    If alarmtoggleEnabled = True Then
+        alarmtoggleEnabled = False
+    End If
      
    On Error GoTo 0
    Exit Sub
@@ -808,31 +811,34 @@ End Sub
 ' Purpose   :
 '---------------------------------------------------------------------------------------
 '
-Private Sub deleteAlarm1(ByRef deletion As Boolean)
+Private Sub deleteAlarm1(ByRef anAlarmDeleted As Boolean)
     Dim answer As VbMsgBoxResult: answer = vbNo
     Dim answerMsg As String: answerMsg = vbNullString
 
-        ' msgbox for deletion of alarm
-   On Error GoTo deleteAlarm1_Error
-
-        answer = vbYes
-        answerMsg = " Delete this alarm?"
-        answer = msgBoxA(answerMsg, vbExclamation + vbYesNo, "Alarm Deletion", False)
+    ' msgbox for deletion of alarm
+    On Error GoTo deleteAlarm1_Error
     
-        If answer = vbYes Then
-            ' read the date and time variables for alarms
-            If alarmtoggle1Enabled = True And gblAlarm1Date <> "Alarm not yet set" Then
-                gblAlarm1Date = "Alarm not yet set"
-                gblAlarm1Time = ""
-                sPutINISetting "Software\SteampunkClockCalendar", "alarm1Date", gblAlarm1Date, gblSettingsFile
-                sPutINISetting "Software\SteampunkClockCalendar", "alarm1Time", gblAlarm1Time, gblSettingsFile
-                alarmtoggle1Enabled = False
-                fClock.clockForm.Widgets("alarmtoggle1").Widget.ImageKey = "alarmtoggle1"
-                widgetPrefs.txtAlarm1Date.Text = gblAlarm1Date
-                widgetPrefs.txtAlarm1Time.Text = gblAlarm1Time
-                deletion = True
-            End If
+    anAlarmDeleted = False
+
+    answer = vbYes
+    answerMsg = " Delete this alarm?"
+    answer = msgBoxA(answerMsg, vbExclamation + vbYesNo, "Alarm Deletion", False)
+
+    If answer = vbYes Then
+        ' read the date and time variables for alarms
+        If alarmtoggle1Enabled = True And gblAlarm1Date <> "Alarm not yet set" Then
+            gblAlarm1Date = "Alarm not yet set"
+            gblAlarm1Time = ""
+            sPutINISetting "Software\SteampunkClockCalendar", "alarm1Date", gblAlarm1Date, gblSettingsFile
+            sPutINISetting "Software\SteampunkClockCalendar", "alarm1Time", gblAlarm1Time, gblSettingsFile
+            alarmtoggle1Enabled = False
+            fClock.clockForm.Widgets("alarmtoggle1").Widget.ImageKey = "alarmtoggle1"
+            widgetPrefs.txtAlarm1Date.Text = gblAlarm1Date
+            widgetPrefs.txtAlarm1Time.Text = gblAlarm1Time
+            
+            anAlarmDeleted = True
         End If
+    End If
 
    On Error GoTo 0
    Exit Sub
@@ -849,32 +855,34 @@ deleteAlarm1_Error:
 ' Purpose   :
 '---------------------------------------------------------------------------------------
 '
-Private Sub deleteAlarm2(ByRef deletion As Boolean)
+Private Sub deleteAlarm2(ByRef anAlarmDeleted As Boolean)
     Dim answer As VbMsgBoxResult: answer = vbNo
     Dim answerMsg As String: answerMsg = vbNullString
 
-        ' msgbox for deletion of alarm
-   On Error GoTo deleteAlarm2_Error
+    ' msgbox for deletion of alarm
+    On Error GoTo deleteAlarm2_Error
 
-        answer = vbYes
-        answerMsg = " Delete this alarm?"
-        answer = msgBoxA(answerMsg, vbExclamation + vbYesNo, "Alarm Deletion", False)
-    
-        If answer = vbYes Then
-            ' read the date and time variables for alarms
-            If alarmtoggle2Enabled = True And gblAlarm2Date <> "Alarm not yet set" Then
-                gblAlarm2Date = "Alarm not yet set"
-                gblAlarm2Time = ""
-                sPutINISetting "Software\SteampunkClockCalendar", "alarm2Date", gblAlarm2Date, gblSettingsFile
-                sPutINISetting "Software\SteampunkClockCalendar", "alarm2Time", gblAlarm2Time, gblSettingsFile
-                alarmtoggle2Enabled = False
-                fClock.clockForm.Widgets("alarmtoggle2").Widget.ImageKey = "alarmtoggle2"
-                widgetPrefs.txtAlarm2Date.Text = gblAlarm2Date
-                widgetPrefs.txtAlarm2Time.Text = gblAlarm2Time
-               
-                deletion = True
-            End If
+    anAlarmDeleted = False
+        
+    answer = vbYes
+    answerMsg = " Delete this alarm?"
+    answer = msgBoxA(answerMsg, vbExclamation + vbYesNo, "Alarm Deletion", False)
+
+    If answer = vbYes Then
+        ' read the date and time variables for alarms
+        If alarmtoggle2Enabled = True And gblAlarm2Date <> "Alarm not yet set" Then
+            gblAlarm2Date = "Alarm not yet set"
+            gblAlarm2Time = ""
+            sPutINISetting "Software\SteampunkClockCalendar", "alarm2Date", gblAlarm2Date, gblSettingsFile
+            sPutINISetting "Software\SteampunkClockCalendar", "alarm2Time", gblAlarm2Time, gblSettingsFile
+            alarmtoggle2Enabled = False
+            fClock.clockForm.Widgets("alarmtoggle2").Widget.ImageKey = "alarmtoggle2"
+            widgetPrefs.txtAlarm2Date.Text = gblAlarm2Date
+            widgetPrefs.txtAlarm2Time.Text = gblAlarm2Time
+           
+            anAlarmDeleted = True
         End If
+    End If
 
    On Error GoTo 0
    Exit Sub
@@ -891,32 +899,34 @@ deleteAlarm2_Error:
 ' Purpose   :
 '---------------------------------------------------------------------------------------
 '
-Private Sub deleteAlarm3(ByRef deletion As Boolean)
+Private Sub deleteAlarm3(ByRef anAlarmDeleted As Boolean)
     Dim answer As VbMsgBoxResult: answer = vbNo
     Dim answerMsg As String: answerMsg = vbNullString
 
-        ' msgbox for deletion of alarm
-   On Error GoTo deleteAlarm3_Error
+    ' msgbox for deletion of alarm
+    On Error GoTo deleteAlarm3_Error
 
-        answer = vbYes
-        answerMsg = " Delete this alarm?"
-        answer = msgBoxA(answerMsg, vbExclamation + vbYesNo, "Alarm Deletion", False)
-    
-        If answer = vbYes Then
-            ' read the date and time variables for alarms
-            If alarmtoggle3Enabled = True And gblAlarm3Date <> "Alarm not yet set" Then
-                gblAlarm3Date = "Alarm not yet set"
-                gblAlarm3Time = ""
-                sPutINISetting "Software\SteampunkClockCalendar", "alarm3Date", gblAlarm3Date, gblSettingsFile
-                sPutINISetting "Software\SteampunkClockCalendar", "alarm3Time", gblAlarm3Time, gblSettingsFile
-                alarmtoggle3Enabled = False
-                fClock.clockForm.Widgets("alarmtoggle3").Widget.ImageKey = "alarmtoggle3"
-                widgetPrefs.txtAlarm3Date.Text = gblAlarm3Date
-                widgetPrefs.txtAlarm3Time.Text = gblAlarm3Time
-                
-                deletion = True
-            End If
+    anAlarmDeleted = False
+        
+    answer = vbYes
+    answerMsg = " Delete this alarm?"
+    answer = msgBoxA(answerMsg, vbExclamation + vbYesNo, "Alarm Deletion", False)
+
+    If answer = vbYes Then
+        ' read the date and time variables for alarms
+        If alarmtoggle3Enabled = True And gblAlarm3Date <> "Alarm not yet set" Then
+            gblAlarm3Date = "Alarm not yet set"
+            gblAlarm3Time = ""
+            sPutINISetting "Software\SteampunkClockCalendar", "alarm3Date", gblAlarm3Date, gblSettingsFile
+            sPutINISetting "Software\SteampunkClockCalendar", "alarm3Time", gblAlarm3Time, gblSettingsFile
+            alarmtoggle3Enabled = False
+            fClock.clockForm.Widgets("alarmtoggle3").Widget.ImageKey = "alarmtoggle3"
+            widgetPrefs.txtAlarm3Date.Text = gblAlarm3Date
+            widgetPrefs.txtAlarm3Time.Text = gblAlarm3Time
+            
+            anAlarmDeleted = True
         End If
+    End If
 
    On Error GoTo 0
    Exit Sub
@@ -933,31 +943,34 @@ deleteAlarm3_Error:
 ' Purpose   :
 '---------------------------------------------------------------------------------------
 '
-    Private Sub deleteAlarm4(ByRef deletion As Boolean)
+    Private Sub deleteAlarm4(ByRef anAlarmDeleted As Boolean)
     Dim answer As VbMsgBoxResult: answer = vbNo
     Dim answerMsg As String: answerMsg = vbNullString
 
-        ' msgbox for deletion of alarm
-   On Error GoTo deleteAlarm4_Error
+    ' msgbox for deletion of alarm
+    On Error GoTo deleteAlarm4_Error
 
-        answer = vbYes
-        answerMsg = " Delete this alarm?"
-        answer = msgBoxA(answerMsg, vbExclamation + vbYesNo, "Alarm Deletion", False)
-    
-        If answer = vbYes Then
-            ' read the date and time variables for alarms
-            If alarmtoggle4Enabled = True And gblAlarm4Date <> "Alarm not yet set" Then
-                gblAlarm4Date = "Alarm not yet set"
-                gblAlarm4Time = ""
-                sPutINISetting "Software\SteampunkClockCalendar", "alarm4Date", gblAlarm4Date, gblSettingsFile
-                sPutINISetting "Software\SteampunkClockCalendar", "alarm4Time", gblAlarm4Time, gblSettingsFile
-                alarmtoggle4Enabled = False
-                fClock.clockForm.Widgets("alarmtoggle4").Widget.ImageKey = "alarmtoggle4"
-                widgetPrefs.txtAlarm4Date.Text = gblAlarm4Date
-                widgetPrefs.txtAlarm4Time.Text = gblAlarm4Time
-                deletion = True
-            End If
+    anAlarmDeleted = False
+        
+    answer = vbYes
+    answerMsg = " Delete this alarm?"
+    answer = msgBoxA(answerMsg, vbExclamation + vbYesNo, "Alarm Deletion", False)
+
+    If answer = vbYes Then
+        ' read the date and time variables for alarms
+        If alarmtoggle4Enabled = True And gblAlarm4Date <> "Alarm not yet set" Then
+            gblAlarm4Date = "Alarm not yet set"
+            gblAlarm4Time = ""
+            sPutINISetting "Software\SteampunkClockCalendar", "alarm4Date", gblAlarm4Date, gblSettingsFile
+            sPutINISetting "Software\SteampunkClockCalendar", "alarm4Time", gblAlarm4Time, gblSettingsFile
+            alarmtoggle4Enabled = False
+            fClock.clockForm.Widgets("alarmtoggle4").Widget.ImageKey = "alarmtoggle4"
+            widgetPrefs.txtAlarm4Date.Text = gblAlarm4Date
+            widgetPrefs.txtAlarm4Time.Text = gblAlarm4Time
+            
+            anAlarmDeleted = True
         End If
+    End If
 
    On Error GoTo 0
    Exit Sub
@@ -974,32 +987,34 @@ deleteAlarm4_Error:
 ' Purpose   :
 '---------------------------------------------------------------------------------------
 '
-Private Sub deleteAlarm5(ByRef deletion As Boolean)
+Private Sub deleteAlarm5(ByRef anAlarmDeleted As Boolean)
     Dim answer As VbMsgBoxResult: answer = vbNo
     Dim answerMsg As String: answerMsg = vbNullString
 
     ' msgbox for deletion of alarm
     On Error GoTo deleteAlarm5_Error
 
-        answer = vbYes
-        answerMsg = " Delete this alarm?"
-        answer = msgBoxA(answerMsg, vbExclamation + vbYesNo, "Alarm Deletion", False)
-    
-        If answer = vbYes Then
-            ' read the date and time variables for alarms
-            If alarmtoggle5Enabled = True And gblAlarm5Date <> "Alarm not yet set" Then
-                gblAlarm5Date = "Alarm not yet set"
-                gblAlarm5Time = ""
-                sPutINISetting "Software\SteampunkClockCalendar", "alarm5Date", gblAlarm5Date, gblSettingsFile
-                sPutINISetting "Software\SteampunkClockCalendar", "alarm5Time", gblAlarm5Time, gblSettingsFile
-                alarmtoggle5Enabled = False
-                fClock.clockForm.Widgets("alarmtoggle5").Widget.ImageKey = "alarmtoggle5"
-                widgetPrefs.txtAlarm5Date.Text = gblAlarm5Date
-                widgetPrefs.txtAlarm5Time.Text = gblAlarm5Time
+    anAlarmDeleted = False
+        
+    answer = vbYes
+    answerMsg = " Delete this alarm?"
+    answer = msgBoxA(answerMsg, vbExclamation + vbYesNo, "Alarm Deletion", False)
 
-                deletion = True
-            End If
+    If answer = vbYes Then
+        ' read the date and time variables for alarms
+        If alarmtoggle5Enabled = True And gblAlarm5Date <> "Alarm not yet set" Then
+            gblAlarm5Date = "Alarm not yet set"
+            gblAlarm5Time = ""
+            sPutINISetting "Software\SteampunkClockCalendar", "alarm5Date", gblAlarm5Date, gblSettingsFile
+            sPutINISetting "Software\SteampunkClockCalendar", "alarm5Time", gblAlarm5Time, gblSettingsFile
+            alarmtoggle5Enabled = False
+            fClock.clockForm.Widgets("alarmtoggle5").Widget.ImageKey = "alarmtoggle5"
+            widgetPrefs.txtAlarm5Date.Text = gblAlarm5Date
+            widgetPrefs.txtAlarm5Time.Text = gblAlarm5Time
+
+            anAlarmDeleted = True
         End If
+    End If
 
    On Error GoTo 0
    Exit Sub
@@ -1048,34 +1063,6 @@ sliderset_myMouseDown_Error:
 
 End Sub
 
-''---------------------------------------------------------------------------------------
-'' Procedure : pendulum_myMouseDown
-'' Author    : beededea
-'' Date      : 03/08/2023
-'' Purpose   :  - note: - can't use a std MouseDown as
-''             declaring a widget as cWidgetBase 'WithEvents' does not provide a std MouseDown with a sender object
-''---------------------------------------------------------------------------------------
-''
-'Private Sub pendulum_myMouseDown()
-'
-'    On Error GoTo pendulum_myMouseDown_Error
-'
-'    pendulumInitiatingControl = "pendulum"
-'
-'    If pendulumEnabled = True Then
-'        pendulumEnabled = False
-'    Else
-'        pendulumEnabled = True
-'    End If
-'
-'   On Error GoTo 0
-'   Exit Sub
-'
-'pendulum_myMouseDown_Error:
-'
-'    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure pendulum_myMouseDown of Class Module cfClock"
-'
-'End Sub
 
 
 '---------------------------------------------------------------------------------------
@@ -2107,71 +2094,6 @@ helpbottom_myMouseDown_Error:
 
 End Sub
 
-''---------------------------------------------------------------------------------------
-'' Procedure : bell_mouseDown
-'' Author    : beededea
-'' Date      : 03/08/2023
-'' Purpose   :
-''---------------------------------------------------------------------------------------
-''
-'Private Sub bell_mouseDown(ByRef Sender As Object)
-'   On Error GoTo bell_mouseDown_Error
-'
-'    Dim fileToPlay As String: fileToPlay = vbNullString
-'
-'    'tmrSampleAudioMute.Enabled = False
-'
-'    fileToPlay = "buzzer.wav"
-'
-'    If Mute = 1 Then
-'        Mute = 0
-'    Else
-'        Mute = 1
-'    End If
-'
-'    If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
-'        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
-'    End If
-'
-'    Sender.Widget.Alpha = 0
-'    Sender.Widget.Refresh ' this removes the delay in the bell depressing
-'
-''    tmrSampleAudioMute.Enabled = True
-'
-'   On Error GoTo 0
-'   Exit Sub
-'
-'bell_mouseDown_Error:
-'
-'    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure bell_mouseDown of Class Module cfClock"
-'
-'End Sub
-
-
-''---------------------------------------------------------------------------------------
-'' Procedure : bell_mouseUp
-'' Author    : beededea
-'' Date      : 03/08/2023
-'' Purpose   :
-''---------------------------------------------------------------------------------------
-''
-'Private Sub bell_mouseUp(ByRef Sender As Object)
-'   On Error GoTo bell_mouseUp_Error
-'
-'    Sender.Widget.Alpha = Val(gblOpacity) / 100
-'    Sender.Widget.Refresh ' this removes the delay in the bell depressing
-'
-'   On Error GoTo 0
-'   Exit Sub
-'
-'bell_mouseUp_Error:
-'
-'    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure bell_mouseUp of Class Module cfClock"
-'
-'End Sub
-
-
-
 
 
 '---------------------------------------------------------------------------------------
@@ -2445,101 +2367,6 @@ sliderset_Moving_Error:
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure sliderset_Moving, line " & Erl & "."
 
 End Sub
-''---------------------------------------------------------------------------------------
-'' Property  : SystemAudioLevel
-'' Author    : beededea
-'' Date      : 17/05/2023
-'' Purpose   :
-''---------------------------------------------------------------------------------------
-''
-'Public Property Let SystemAudioLevel(ByVal newValue As Currency)
-'   On Error GoTo SystemAudioLevelLet_Error
-'
-'   If mSystemAudioLevel <> newValue Then mSystemAudioLevel = newValue Else Exit Property
-'
-'   On Error GoTo 0
-'   Exit Property
-'
-'SystemAudioLevelLet_Error:
-'
-'    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property SystemAudioLevel of Class Module cfClock"
-'End Property
-'
-'' ----------------------------------------------------------------
-'' Procedure Name: SystemAudioLevel
-'' Purpose:
-'' Procedure Kind: Property (Get)
-'' Procedure Access: Public
-'' Return Type: Currency
-'' Author: beededea
-'' Date: 26/05/2024
-'' ----------------------------------------------------------------
-'Public Property Get SystemAudioLevel() As Currency
-'
-'    On Error GoTo SystemAudioLevel_Error
-'
-'    mSystemAudioLevel = SystemVolume.GetMasterVolume
-'    SystemAudioLevel = mSystemAudioLevel
-'
-'
-'    On Error GoTo 0
-'    Exit Property
-'
-'SystemAudioLevel_Error:
-'
-'    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure SystemAudioLevel, line " & Erl & "."
-'
-'End Property
-
-''---------------------------------------------------------------------------------------
-'' Property  : Mute
-'' Author    : beededea
-'' Date      : 10/05/2023
-'' Purpose   :
-''---------------------------------------------------------------------------------------
-''
-'Public Property Let Mute(ByVal newValue As Integer)
-'   On Error GoTo MuteLet_Error
-'
-'    If mMute <> newValue Then mMute = newValue Else Exit Property
-'
-'    Mute = mMute
-'
-'    SystemVolume.SetMute mMute
-'
-'    Call setLamps
-'
-'   On Error GoTo 0
-'   Exit Property
-'
-'MuteLet_Error:
-'
-'    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property Mute of Class Module cfClock"
-'End Property
-'
-''---------------------------------------------------------------------------------------
-'' Property  : Mute
-'' Author    : beededea
-'' Date      : 17/05/2023
-'' Purpose   :
-''---------------------------------------------------------------------------------------
-''
-'Public Property Get Mute() As Integer
-'   On Error GoTo MuteGet_Error
-'
-'    Mute = mMute
-'
-'    SystemVolume.SetMute mMute
-'
-'    Call setLamps
-'
-'   On Error GoTo 0
-'   Exit Property
-'
-'MuteGet_Error:
-'
-'    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property Mute of Class Module cfClock"
-'End Property
 
 '---------------------------------------------------------------------------------------
 ' Property  : SliderFreed
@@ -2639,8 +2466,6 @@ Public Property Let timeShiftPercent(ByVal RHS As Currency)
     
     If Not Cairo.ToolTipForm Is Nothing Then Cairo.ToolTipForm.Visible = False
     clockForm.Refresh
-    
-'    Call HandleVolumeChangeForHardware
     
     On Error GoTo 0
     Exit Property
@@ -3697,63 +3522,7 @@ pendulumToggleGet_Error:
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property pendulumToggleEnabled of Class Module cfClock"
 End Property
 
-
-
-''---------------------------------------------------------------------------------------
-'' Property  : pendulumEnabled
-'' Author    : beededea
-'' Date      : 10/05/2023
-'' Purpose   :
-''---------------------------------------------------------------------------------------
-''
-'Public Property Let pendulumEnabled(ByVal newValue As Boolean)
-'
-'    On Error GoTo pendulumEnabledLet_Error
-'
-'    If newValue = True Then
-'        gblPendulumEnabled = "True"
-'        If pendulumInitiatingControl = "pendulum" Then pendulumToggleEnabled = False ' prevents recurring calls
-'    Else
-'        gblPendulumEnabled = "False"
-'        If pendulumInitiatingControl = "pendulum" Then pendulumToggleEnabled = True
-'    End If
-'
-'    sPutINISetting "Software\SteampunkClockCalendar", "pendulumEnabled", gblPendulumEnabled, gblSettingsFile
-'
-'    If mPendulumEnabled <> newValue Then mPendulumEnabled = newValue Else Exit Property
-'    pendulumEnabled = mPendulumEnabled
-'
-'    clockForm.Refresh
-'
-'   On Error GoTo 0
-'   Exit Property
-'
-'pendulumEnabledLet_Error:
-'
-'    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property pendulumEnabled of Class Module cfClock"
-'End Property
-
-'---------------------------------------------------------------------------------------
-' Property  : pendulumEnabled
-' Author    : beededea
-' Date      : 17/05/2023
-' Purpose   :
-'---------------------------------------------------------------------------------------
-'
-'Public Property Get pendulumEnabled() As Boolean
-'   On Error GoTo pendulumGet_Error
-'
-'    pendulumEnabled = mPendulumEnabled
-'
-'   On Error GoTo 0
-'   Exit Property
-'
-'pendulumGet_Error:
-'
-'    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property pendulumEnabled of Class Module cfClock"
-'End Property
-
-     
+ 
 
 
 '---------------------------------------------------------------------------------------
