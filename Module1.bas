@@ -385,6 +385,7 @@ Public gblBackToggleEnabled As String
 Public gblClapperEnabled As String
 Public gblChainEnabled As String
 Public gblCrankEnabled As String
+Public gblShowAlarmDateTime As Boolean
 Public gblAlarmToggle1Enabled As String
 Public gblAlarmToggle2Enabled As String
 Public gblAlarmToggle3Enabled As String

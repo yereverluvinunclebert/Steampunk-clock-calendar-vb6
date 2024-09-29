@@ -945,6 +945,8 @@ Private Sub alarmtoggle1_myMouseDown()
 
     On Error GoTo alarmtoggle1_myMouseDown_Error
     
+    gblShowAlarmDateTime = True ' var that allows the stored alarm date/time to be displayed
+
     If gblVolumeBoost = "1" Then
         fileToPlay = "till.wav"
     Else
@@ -989,6 +991,8 @@ Private Sub alarmtoggle2_myMouseDown()
 
     On Error GoTo alarmtoggle2_myMouseDown_Error
     
+    gblShowAlarmDateTime = True ' var that allows the stored alarm date/time to be displayed 'alarmtoggle2"
+    
     If gblVolumeBoost = "1" Then
         fileToPlay = "till.wav"
     Else
@@ -1030,6 +1034,8 @@ Private Sub alarmtoggle3_myMouseDown()
     Dim fileToPlay As String: fileToPlay = vbNullString
 
     On Error GoTo alarmtoggle3_myMouseDown_Error
+    
+    gblShowAlarmDateTime = True ' var that allows the stored alarm date/time to be displayed 'alarmtoggle3"
     
     If gblVolumeBoost = "1" Then
         fileToPlay = "till.wav"
@@ -1074,6 +1080,8 @@ Private Sub alarmtoggle4_myMouseDown()
 
     On Error GoTo alarmtoggle4_myMouseDown_Error
     
+    gblShowAlarmDateTime = True ' var that allows the stored alarm date/time to be displayed 'alarmtoggle4"
+    
     If gblVolumeBoost = "1" Then
         fileToPlay = "till.wav"
     Else
@@ -1115,6 +1123,8 @@ Private Sub alarmtoggle5_myMouseDown()
     Dim fileToPlay As String: fileToPlay = vbNullString
 
     On Error GoTo alarmtoggle5_myMouseDown_Error
+    
+    gblShowAlarmDateTime = True ' var that allows the stored alarm date/time to be displayed 'alarmtoggle5"
     
     If gblVolumeBoost = "1" Then
         fileToPlay = "till.wav"
@@ -1314,8 +1324,10 @@ Private Sub alarmtoggle_myMouseDown()
     End If
         
     If alarmtoggleEnabled = False Then
+        gblShowAlarmDateTime = False
         alarmtoggleEnabled = True
     Else
+        gblShowAlarmDateTime = True ' var that allows the stored alarm date/time to be displayed
         alarmtoggleEnabled = False
     End If
 
@@ -3520,12 +3532,12 @@ Public Property Let alarmtoggle1Enabled(ByVal newValue As Boolean)
     alarmtoggle1Out = 664
     alarmtoggle1In = 654
     
-    pvtAlarmInitiatingControl = "Alarm 1"
+    pvtAlarmInitiatingControl = "alarmtoggle1"
     
     alphaVal = Val(gblOpacity) / 100
  
     ' NOTE: the code for displaying the alarm value when alarmtoggle1Enabled = true, is contained within the
-    '       subroutine populateDigitalClockCache, this checks the current state if the alarm toggle and shows the alarm.
+    '       subroutine populateDigitalClockCache, this checks the current state of the alarm toggle and shows the alarm.
     
     If newValue = True Then
         gblAlarmToggle1Enabled = "True"
@@ -3606,7 +3618,7 @@ Public Property Let alarmtoggle2Enabled(ByVal newValue As Boolean)
     alarmtoggle2Out = 678
     alarmtoggle2In = 670
 
-    pvtAlarmInitiatingControl = "Alarm 2"
+    pvtAlarmInitiatingControl = "alarmtoggle2"
         
     alphaVal = Val(gblOpacity) / 100
  
@@ -3697,7 +3709,7 @@ Public Property Let alarmtoggle3Enabled(ByVal newValue As Boolean)
     alarmtoggle3Out = 690
     alarmtoggle3In = 682
         
-    pvtAlarmInitiatingControl = "Alarm 3"
+    pvtAlarmInitiatingControl = "alarmtoggle3"
     
     alphaVal = Val(gblOpacity) / 100
  
@@ -3783,7 +3795,7 @@ Public Property Let alarmtoggle4Enabled(ByVal newValue As Boolean)
     alarmtoggle4Out = 690
     alarmtoggle4In = 682
 
-    pvtAlarmInitiatingControl = "Alarm 4"
+     pvtAlarmInitiatingControl = "alarmtoggle4"
     
     alphaVal = Val(gblOpacity) / 100
  
@@ -3870,7 +3882,7 @@ Public Property Let alarmtoggle5Enabled(ByVal newValue As Boolean)
     alarmtoggle5Out = 678
     alarmtoggle5In = 670
     
-    pvtAlarmInitiatingControl = "Alarm 5"
+    pvtAlarmInitiatingControl = "alarmtoggle5"
         
     alphaVal = Val(gblOpacity) / 100
  
@@ -3948,11 +3960,11 @@ End Property
 Private Sub hideAlarmTills()
     On Error GoTo fDayOfWeek_Error
             
-    If pvtAlarmInitiatingControl <> "Alarm 1" And alarmtoggle1Enabled = True Then alarmtoggle1Enabled = False
-    If pvtAlarmInitiatingControl <> "Alarm 2" And alarmtoggle2Enabled = True Then alarmtoggle2Enabled = False
-    If pvtAlarmInitiatingControl <> "Alarm 3" And alarmtoggle3Enabled = True Then alarmtoggle3Enabled = False
-    If pvtAlarmInitiatingControl <> "Alarm 4" And alarmtoggle4Enabled = True Then alarmtoggle4Enabled = False
-    If pvtAlarmInitiatingControl <> "Alarm 5" And alarmtoggle5Enabled = True Then alarmtoggle5Enabled = False
+    If pvtAlarmInitiatingControl <> "alarmtoggle1" And alarmtoggle1Enabled = True Then alarmtoggle1Enabled = False
+    If pvtAlarmInitiatingControl <> "alarmtoggle2" And alarmtoggle2Enabled = True Then alarmtoggle2Enabled = False
+    If pvtAlarmInitiatingControl <> "alarmtoggle3" And alarmtoggle3Enabled = True Then alarmtoggle3Enabled = False
+    If pvtAlarmInitiatingControl <> "alarmtoggle4" And alarmtoggle4Enabled = True Then alarmtoggle4Enabled = False
+    If pvtAlarmInitiatingControl <> "alarmtoggle5" And alarmtoggle5Enabled = True Then alarmtoggle5Enabled = False
     
     On Error GoTo 0
     Exit Sub

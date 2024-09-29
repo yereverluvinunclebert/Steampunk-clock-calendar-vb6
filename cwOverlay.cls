@@ -1661,91 +1661,92 @@ Private Sub populateDigitalClockCache(ByRef CC As cCairoContext)
     Dim theMins As String: theMins = vbNullString
     
     On Error GoTo populateDigitalClockCache_Error
-
-    If gblAlarmToggle1Enabled = "True" Then
-        ' read the date and time variables for alarm 1
-        If gblAlarm1Date = "Alarm not yet set" Then
-            theDay = "01"
-            theMonth = "01"
-            theYear = "1970"
-            theHours = "00"
-            theMins = "00"
-        Else
-            theDay = Left$(gblAlarm1Date, 2)
-            theMonth = Mid$(gblAlarm1Date, 4, 2)
-            theYear = Mid$(gblAlarm1Date, 7, 4)
-            theHours = Left$(gblAlarm1Time, 2)
-            theMins = Mid$(gblAlarm1Time, 4, 2)
+    
+    If gblShowAlarmDateTime = True Then ' don't always want the stored dates/times to show when setting a new alarm
+        If gblAlarmToggle1Enabled = "True" Then
+            ' read the date and time variables for alarmtoggle1
+            If gblAlarm1Date = "Alarm not yet set" Then
+                theDay = "01"
+                theMonth = "01"
+                theYear = "1970"
+                theHours = "00"
+                theMins = "00"
+            Else
+                theDay = Left$(gblAlarm1Date, 2)
+                theMonth = Mid$(gblAlarm1Date, 4, 2)
+                theYear = Mid$(gblAlarm1Date, 7, 4)
+                theHours = Left$(gblAlarm1Time, 2)
+                theMins = Mid$(gblAlarm1Time, 4, 2)
+            End If
         End If
-    End If
+            
+        If gblAlarmToggle2Enabled = "True" Then
+            ' read the date and time variables for alarmtoggle2
+            If gblAlarm2Date = "Alarm not yet set" Then
+                theDay = "01"
+                theMonth = "01"
+                theYear = "1970"
+                theHours = "00"
+                theMins = "00"
+            Else
+                theDay = Left$(gblAlarm2Date, 2)
+                theMonth = Mid$(gblAlarm2Date, 4, 2)
+                theYear = Mid$(gblAlarm2Date, 7, 4)
+                theHours = Left$(gblAlarm2Time, 2)
+                theMins = Mid$(gblAlarm2Time, 4, 2)
+            End If
+        End If
         
-    If gblAlarmToggle2Enabled = "True" Then
-        ' read the date and time variables for alarm 2
-        If gblAlarm2Date = "Alarm not yet set" Then
-            theDay = "01"
-            theMonth = "01"
-            theYear = "1970"
-            theHours = "00"
-            theMins = "00"
-        Else
-            theDay = Left$(gblAlarm2Date, 2)
-            theMonth = Mid$(gblAlarm2Date, 4, 2)
-            theYear = Mid$(gblAlarm2Date, 7, 4)
-            theHours = Left$(gblAlarm2Time, 2)
-            theMins = Mid$(gblAlarm2Time, 4, 2)
+        If gblAlarmToggle3Enabled = "True" Then
+            ' read the date and time variables for alarmtoggle3
+            If gblAlarm3Date = "Alarm not yet set" Then
+                theDay = "01"
+                theMonth = "01"
+                theYear = "1970"
+                theHours = "00"
+                theMins = "00"
+            Else
+                theDay = Left$(gblAlarm3Date, 2)
+                theMonth = Mid$(gblAlarm3Date, 4, 2)
+                theYear = Mid$(gblAlarm3Date, 7, 4)
+                theHours = Left$(gblAlarm3Time, 2)
+                theMins = Mid$(gblAlarm3Time, 4, 2)
+            End If
+        End If
+        
+        If gblAlarmToggle4Enabled = "True" Then
+            ' read the date and time variables for alarmtoggle4
+            If gblAlarm4Date = "Alarm not yet set" Then
+                theDay = "01"
+                theMonth = "01"
+                theYear = "1970"
+                theHours = "00"
+                theMins = "00"
+            Else
+                theDay = Left$(gblAlarm4Date, 2)
+                theMonth = Mid$(gblAlarm4Date, 4, 2)
+                theYear = Mid$(gblAlarm4Date, 7, 4)
+                theHours = Left$(gblAlarm4Time, 2)
+                theMins = Mid$(gblAlarm4Time, 4, 2)
+            End If
+        End If
+        
+        If gblAlarmToggle5Enabled = "True" Then
+             If gblAlarm4Date = "Alarm not yet set" Then
+                theDay = "01"
+                theMonth = "01"
+                theYear = "1970"
+                theHours = "00"
+                theMins = "00"
+            Else       ' read the date and time variables for alarmtoggle5
+                theDay = Left$(gblAlarm5Date, 2)
+                theMonth = Mid$(gblAlarm5Date, 4, 2)
+                theYear = Mid$(gblAlarm5Date, 7, 4)
+                theHours = Left$(gblAlarm5Time, 2)
+                theMins = Mid$(gblAlarm5Time, 4, 2)
+            End If
         End If
     End If
-    
-    If gblAlarmToggle3Enabled = "True" Then
-        ' read the date and time variables for alarm 3
-        If gblAlarm3Date = "Alarm not yet set" Then
-            theDay = "01"
-            theMonth = "01"
-            theYear = "1970"
-            theHours = "00"
-            theMins = "00"
-        Else
-            theDay = Left$(gblAlarm3Date, 2)
-            theMonth = Mid$(gblAlarm3Date, 4, 2)
-            theYear = Mid$(gblAlarm3Date, 7, 4)
-            theHours = Left$(gblAlarm3Time, 2)
-            theMins = Mid$(gblAlarm3Time, 4, 2)
-        End If
-    End If
-    
-    If gblAlarmToggle4Enabled = "True" Then
-        ' read the date and time variables for alarm 4
-        If gblAlarm4Date = "Alarm not yet set" Then
-            theDay = "01"
-            theMonth = "01"
-            theYear = "1970"
-            theHours = "00"
-            theMins = "00"
-        Else
-            theDay = Left$(gblAlarm4Date, 2)
-            theMonth = Mid$(gblAlarm4Date, 4, 2)
-            theYear = Mid$(gblAlarm4Date, 7, 4)
-            theHours = Left$(gblAlarm4Time, 2)
-            theMins = Mid$(gblAlarm4Time, 4, 2)
-        End If
-    End If
-    
-    If gblAlarmToggle5Enabled = "True" Then
-         If gblAlarm4Date = "Alarm not yet set" Then
-            theDay = "01"
-            theMonth = "01"
-            theYear = "1970"
-            theHours = "00"
-            theMins = "00"
-        Else       ' read the date and time variables for alarm 5
-            theDay = Left$(gblAlarm5Date, 2)
-            theMonth = Mid$(gblAlarm5Date, 4, 2)
-            theYear = Mid$(gblAlarm5Date, 7, 4)
-            theHours = Left$(gblAlarm5Time, 2)
-            theMins = Mid$(gblAlarm5Time, 4, 2)
-        End If
-    End If
-    
 
     Call populateDigitalDayofMonthCache(CC, theDay)
     Call populateDigitalMonthCache(CC, theMonth)
