@@ -828,6 +828,8 @@ Private Sub deleteAlarm1(ByRef deletion As Boolean)
                 sPutINISetting "Software\SteampunkClockCalendar", "alarm1Time", gblAlarm1Time, gblSettingsFile
                 alarmtoggle1Enabled = False
                 fClock.clockForm.Widgets("alarmtoggle1").Widget.ImageKey = "alarmtoggle1"
+                widgetPrefs.txtAlarm1Date.Text = gblAlarm1Date
+                widgetPrefs.txtAlarm1Time.Text = gblAlarm1Time
                 deletion = True
             End If
         End If
@@ -867,6 +869,9 @@ Private Sub deleteAlarm2(ByRef deletion As Boolean)
                 sPutINISetting "Software\SteampunkClockCalendar", "alarm2Time", gblAlarm2Time, gblSettingsFile
                 alarmtoggle2Enabled = False
                 fClock.clockForm.Widgets("alarmtoggle2").Widget.ImageKey = "alarmtoggle2"
+                widgetPrefs.txtAlarm2Date.Text = gblAlarm2Date
+                widgetPrefs.txtAlarm2Time.Text = gblAlarm2Time
+               
                 deletion = True
             End If
         End If
@@ -906,6 +911,9 @@ Private Sub deleteAlarm3(ByRef deletion As Boolean)
                 sPutINISetting "Software\SteampunkClockCalendar", "alarm3Time", gblAlarm3Time, gblSettingsFile
                 alarmtoggle3Enabled = False
                 fClock.clockForm.Widgets("alarmtoggle3").Widget.ImageKey = "alarmtoggle3"
+                widgetPrefs.txtAlarm3Date.Text = gblAlarm3Date
+                widgetPrefs.txtAlarm3Time.Text = gblAlarm3Time
+                
                 deletion = True
             End If
         End If
@@ -945,6 +953,8 @@ deleteAlarm3_Error:
                 sPutINISetting "Software\SteampunkClockCalendar", "alarm4Time", gblAlarm4Time, gblSettingsFile
                 alarmtoggle4Enabled = False
                 fClock.clockForm.Widgets("alarmtoggle4").Widget.ImageKey = "alarmtoggle4"
+                widgetPrefs.txtAlarm4Date.Text = gblAlarm4Date
+                widgetPrefs.txtAlarm4Time.Text = gblAlarm4Time
                 deletion = True
             End If
         End If
@@ -968,8 +978,8 @@ Private Sub deleteAlarm5(ByRef deletion As Boolean)
     Dim answer As VbMsgBoxResult: answer = vbNo
     Dim answerMsg As String: answerMsg = vbNullString
 
-        ' msgbox for deletion of alarm
-   On Error GoTo deleteAlarm5_Error
+    ' msgbox for deletion of alarm
+    On Error GoTo deleteAlarm5_Error
 
         answer = vbYes
         answerMsg = " Delete this alarm?"
@@ -984,6 +994,9 @@ Private Sub deleteAlarm5(ByRef deletion As Boolean)
                 sPutINISetting "Software\SteampunkClockCalendar", "alarm5Time", gblAlarm5Time, gblSettingsFile
                 alarmtoggle5Enabled = False
                 fClock.clockForm.Widgets("alarmtoggle5").Widget.ImageKey = "alarmtoggle5"
+                widgetPrefs.txtAlarm5Date.Text = gblAlarm5Date
+                widgetPrefs.txtAlarm5Time.Text = gblAlarm5Time
+
                 deletion = True
             End If
         End If
