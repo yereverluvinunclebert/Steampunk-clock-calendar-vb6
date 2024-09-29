@@ -1662,7 +1662,7 @@ Private Sub populateDigitalClockCache(ByRef CC As cCairoContext)
     
     On Error GoTo populateDigitalClockCache_Error
     
-    If gblShowAlarmDateTime = True Then ' don't always want the stored dates/times to show when setting a new alarm
+    If gblShowAlarmDateTime = True Then ' don't always want the stored dates/times to show when setting a new alarm ' replace with a property get/set?
         If gblAlarmToggle1Enabled = "True" Then
             ' read the date and time variables for alarmtoggle1
             If gblAlarm1Date = "Alarm not yet set" Then

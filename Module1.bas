@@ -392,6 +392,8 @@ Public gblAlarmToggle3Enabled As String
 Public gblAlarmToggle4Enabled As String
 Public gblAlarmToggle5Enabled As String
 
+Public gblRaisedAlarm As Integer
+
 ' vars stored for positioning the prefs form
 Public gblPrefsHighDpiXPosTwips As String
 Public gblPrefsHighDpiYPosTwips As String

@@ -82,13 +82,13 @@ quiet/loud sounds
 
 ' digital counter animation from zero
 
-' -oOo-
-
 ' when you click on A alarm toggle, it should not set to 01Jan 1970 as it needs to start at the current date/time to set the next alarm
+
+' -oOo-
 
 ' cancel an automatic resize after a wake from sleep, due to Windows sometimes pushing all windows onto one monitor, after a wake from sleep
 
-' after a digital reset set each to -- --  and ** *** **** one by one
+' after a digital reset set each to -- --  and ** *** **** one by one - wip
 
 ' add 12/24hr code in overlay 
 
@@ -101,16 +101,22 @@ quiet/loud sounds
 
 ' why is the RC5 prefs drag and resize so much smoother than the RC6 version? - research
 
+' dragflag and finished resize?
+
+' replace globals within classes with property GET/SETs
+
 look at Olaf's pendulum code
 
-centre the clock hands more accurately
+' centre the clock hands more accurately
 
 ' look at the .js and determine what it does and identify any missing functionality
 ' alarms 
 ' chiming
 ' editing the alarm via clicking on the digital displays
 
-Create a XP /ReactOS version using old APIs and RC5 - no DPI awareness, as it XP does not have the API nor the capability.
+' add the date/time picker FOSS to the prefs
+
+Create a XP /ReactOS version using old APIs and RC5 - no DPI awareness, as XP does not have the API nor the capability.
 
 https://www.vbforums.com/showthread.php?896944-VB6-QUESTION-Check-if-API-exists
 
