@@ -89,6 +89,7 @@ quiet/loud sounds
 ' -oOo-
 
 ' cancel an automatic resize after a wake from sleep, due to Windows sometimes pushing all windows onto one monitor, after a wake from sleep
+' at mouseUP test current monitor is not the same monitor?
 
 ' after a digital reset set each to -- --  and ** *** **** one by one - wip
 
@@ -103,7 +104,7 @@ quiet/loud sounds
 ' alarms 
 ' chiming
 
-
+' help dropdown 1,2,3,4
 
 ' investigate the accumulating shadow when moving across the transparent surface of the screen
 
@@ -115,6 +116,8 @@ quiet/loud sounds
 
 ' look at Olaf's pendulum code
 
+' text screenWrite alternative method - have one text widget and fill that - it will fit behind the weekday and alarm tills, whereas the text form has to be 'lifted' above 
+
 ' add the date/time picker FOSS to the prefs
 
 Create a XP /ReactOS version using old APIs and RC5 - no DPI awareness, as XP does not have the API nor the capability.
@@ -123,11 +126,8 @@ https://www.vbforums.com/showthread.php?896944-VB6-QUESTION-Check-if-API-exists
 
 obtain a XP test system - wip
 
-text screenWrite alternative method - have one text widget and fill that - it will fit behind the weekday and alarm tills, whereas the text form has to be 'lifted' above 
 
-help dropdown displaying canvas two and three
-
-' sync. E6410 win 7
+' sync. E6410 win 7 and test - wip
 ' sync. Fast Dell laptop
 
 ' test on Dell win 11 high DPI with slicence = 
@@ -139,10 +139,7 @@ help dropdown displaying canvas two and three
 
 ' identify the resizing code changes/additions for multi monitor systems so the code can be back-ported to older VB6 widgets
 
-' public vars in classes to GET/SET
-
-' create setup.exe with a different name.
-
+'  create setup.exe with a different name.
 
 ' -oOo-
 
