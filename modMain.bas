@@ -369,6 +369,8 @@ Private Sub initialiseGlobalVars()
 '    oldMonitorStructWidthTwips = 0
 '    oldMonitorStructHeightTwips = 0
 
+    gblSystemAwokenFromSleep = False
+
    On Error GoTo 0
    Exit Sub
 

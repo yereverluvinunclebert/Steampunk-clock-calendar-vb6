@@ -388,16 +388,8 @@ Public Function formScreenProperties(ByVal frm As Form, ByRef monitorID As Long)
         .Top = MONITORINFO.rcMonitor.Top * screenTwipsPerPixelY
         .Bottom = MONITORINFO.rcMonitor.Bottom * screenTwipsPerPixelY
 
-'        .WorkLeft = MONITORINFO.rcWork.Left * screenTwipsPerPixelX
-'        .WorkRight = MONITORINFO.rcWork.Right * screenTwipsPerPixelX
-'        .WorkTop = MONITORINFO.rcWork.Top * screenTwipsPerPixelY
-'        .Workbottom = MONITORINFO.rcWork.Bottom * screenTwipsPerPixelY
-
         .Height = (MONITORINFO.rcMonitor.Bottom - MONITORINFO.rcMonitor.Top) * screenTwipsPerPixelY
         .Width = (MONITORINFO.rcMonitor.Right - MONITORINFO.rcMonitor.Left) * screenTwipsPerPixelX
-'
-'        .WorkHeight = (MONITORINFO.rcWork.Bottom - MONITORINFO.rcWork.Top) * screenTwipsPerPixelY
-'        .WorkWidth = (MONITORINFO.rcWork.Right - MONITORINFO.rcWork.Left) * screenTwipsPerPixelX
 
         .IsPrimary = MONITORINFO.dwFlags And MONITORINFOF_PRIMARY
     End With
@@ -564,9 +556,17 @@ Public Sub positionClockByMonitorSize()
     
         ' if the monitor ID has changed
         If oldClockFormMonitorID <> clockFormMonitorID Then
+            
+            If gblSystemAwokenFromSleep = True Then
+                gblSystemAwokenFromSleep = False
+                oldClockFormMonitorID = 0
+                Exit Sub
+            End If
+            
             If LTrim$(gblMultiMonitorResize) = "1" Then
                 'if the resolution is different then calculate new size proportion
                 If monitorStructWidthTwips <> oldMonitorStructWidthTwips Or monitorStructHeightTwips <> oldMonitorStructHeightTwips Then
+                    screenWrite ("Resizing by proportion per monitor ")
                     
                     'now calculate the size of the widget according to the screen HeightTwips.
                     resizeProportion = clockMonitorStruct.Height / oldMonitorStructHeightTwips
@@ -582,6 +582,7 @@ Public Sub positionClockByMonitorSize()
                     Call fClock.AdjustZoom(resizeProportion)
                 End If
             ElseIf LTrim$(gblMultiMonitorResize) = "2" Then
+                screenWrite ("Resizing per monitor stored size ")
                 If clockMonitorStruct.IsPrimary = True Then
                     If gblClockPrimaryHeightRatio = "" Then gblClockPrimaryHeightRatio = "1"
                     resizeProportion = Val(gblClockPrimaryHeightRatio)
@@ -600,6 +601,9 @@ Public Sub positionClockByMonitorSize()
                 fClock.clockForm.Refresh
                 Call fClock.AdjustZoom(resizeProportion)
             End If
+            screenWrite ("old monitor ID " & oldClockFormMonitorID)
+            screenWrite ("current monitor ID " & clockFormMonitorID)
+            
         End If
     
         oldClockFormMonitorID = clockFormMonitorID

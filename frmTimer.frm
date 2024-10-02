@@ -238,9 +238,13 @@ Private Sub sleepTimer_Timer()
 
     If lngSecondsGap > 60 Then
         Call screenWrite("system has just woken up from a sleep, updating... ")
+        
+        gblSystemAwokenFromSleep = True
+
         'MsgBox "System has just woken up from a sleep" ' awoken, awake
         triggerDigitalClockPopulation = True
-        fClock.clockForm.Refresh
+        'fClock.clockForm.Refresh
+        overlayWidget.Widget.Parent.Refresh
         'MessageBox Me.hwnd, "System has just woken up from a sleep - animatedIconsRaised =" & animatedIconsRaised, "SteamyDock Information Message", vbOKOnly
     End If
     

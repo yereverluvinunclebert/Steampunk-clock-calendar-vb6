@@ -494,6 +494,8 @@ Public monitorCount As Long
 Public gblTerminalRows(15) As String
 Public triggerDigitalClockPopulation As Boolean
 
+Public gblSystemAwokenFromSleep As Boolean
+
 
 '---------------------------------------------------------------------------------------
 ' Procedure : ScreenWrite

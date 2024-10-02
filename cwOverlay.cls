@@ -355,174 +355,7 @@ HiddenLet_Error:
 
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property Hidden of Class Module cwGlobe"
 End Property
-'
-'---------------------------------------------------------------------------------------------
-' Procedure : W_HitTest
-' Author    : olaf schmidt
-' Date      : 01/08/2023
-' Purpose   : This is run continuously for the whole widget.
-'             For this Overlay-Widget alone, we make everything "fully click-through"
-'---------------------------------------------------------------------------------------------
-'
-Private Sub W_HitTest(ByVal x As Single, ByVal y As Single, HitResultHit As Boolean) 'ensure ClickThrough-behaviour in ImagePixels which are "fully Alpha"
-   On Error GoTo W_HitTest_Error
 
-   HitResultHit = False
-
-   On Error GoTo 0
-   Exit Sub
-
-W_HitTest_Error:
-
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure W_HitTest of Class Module cwOverlay"
-End Sub
-'ByRef CC As cCairoContext,
-
-'---------------------------------------------------------------------------------------
-' Procedure : W_Paint
-' Author    : olaf schmidt
-' Date      : 01/08/2023
-' Purpose   : this is run when the graphics are initially placed on the screen, refreshing and when a mouse cursor is interacting
-'---------------------------------------------------------------------------------------
-'
-
-Private Sub W_Paint(ByRef CC As cCairoContext, ByVal xAbs As Single, ByVal yAbs As Single, ByVal dx_Aligned As Single, ByVal dy_Aligned As Single, UserObj As Object)
-    Dim I As Long: I = 0
-    Dim Arr As Variant
-    Dim Key As String: Key = vbNullString
-    Dim Pat As cCairoPattern
-    Dim someOpacity As Double: someOpacity = 0
-    Dim grey As String: grey = vbNullString
-    Dim interval As Integer: interval = 0
-    Dim position As Integer: position = 0
-    Dim a As Integer: a = 0
-    
-    grey = RGB(18, 18, 18)
-    
-    'set some Font- and ForeColor-Properties and draw some Text on the Widget
-    W.FontName = "courier new"
-    W.ForeColor = grey
-    W.FontSize = 5
-    'W.FontBold = True
-    W.SelectFontSettingsInto CC
-    W.Refresh
-    
-    someOpacity = 0.6
-    position = 194
-    interval = 9
-       
-    On Error GoTo W_Paint_Error
-  
-    For I = 0 To cCollOverlayImages.Count - 1 ' this is the ExcludedPaths collection populated in cfClock by duplicating collPSDNonUIElements.
-      Arr = cCollOverlayImages.ItemByIndex(I)
-      Key = cCollOverlayImages.KeyByIndex(I)
-      
-      If IsArray(Arr) Then
-             CC.Save
-             'derive a Pattern-Obj from each retrieved ImageList-Surface-reference
-             Set Pat = Cairo.ImageList(Key).CreateSurfacePattern
-            
-            ' for specific keys, perform actions &c
-             Select Case Key
-                 Case "hourhand"
-                    Set Pat = Cairo.ImageList(Key).CreateSurfacePattern
-                    Set Pat.Matrix = Pat.Matrix.TranslateCoords(4, 4) 'shift to the "rotation-point" within the Pattern
-                    CC.TranslateDrawings W.Width * cxPerc, W.Height * cyPerc 'shift to the center-point of the Overlay-Widget-area
-
-                    'CC.TranslateDrawings 645, 333 'shift to the center-point of the Overlay-Widget-area
-                    CC.RotateDrawingsDeg -90 + pvtHourDegrees  'now we can rotate (the leading negative degrees are the rotation-offsets for 12 o'clock)
-
-                 Case "minutehand"  'minutes-shadow- and minutes-hand
-                    Set Pat = Cairo.ImageList(Key).CreateSurfacePattern
-                    Set Pat.Matrix = Pat.Matrix.TranslateCoords(3, 3) 'shift to the "rotation-point" within the Pattern
-                    CC.TranslateDrawings 646.5, 332 'shift to the center-point of the Overlay-Widget-area
-
-                    CC.RotateDrawingsDeg -90 + pvtMinsDegrees 'now we can rotate (the leading negative degrees are the rotation-offsets for 12 o'clock)
-
-                 Case "secondhand" 'seconds-shadow- and seconds-hand
-                    Set Pat = Cairo.ImageList(Key).CreateSurfacePattern
-                    Set Pat.Matrix = Pat.Matrix.TranslateCoords(3, 3) 'shift to the "rotation-point" within the Pattern
-                    CC.TranslateDrawings 646.5, 332 'shift to the center-point of the Overlay-Widget-area
-
-                    CC.RotateDrawingsDeg -90 + pvtSecsDegrees 'now we can rotate (the leading negative degrees are the rotation-offsets for 12 o'clock)
-
-                 Case "hole"
-                    Set Pat = Cairo.ImageList(Key).CreateSurfacePattern
-                    Set Pat.Matrix = Pat.Matrix.TranslateCoords(4, 4) 'shift to the "rotation-point" within the Pattern
-
-                    CC.TranslateDrawings 646, 332 'shift to the center-point of the Overlay-Widget-area
-
-                Case "cable"
-                    Set Pat = Cairo.ImageList(Key).CropSurface(0, 0, 200, 27).CreateSurfacePattern 'cut-out a nice (repeatable) part of the original "cable"-image (via CropSurface)
-                    
-                    Set Pat.Matrix = Pat.Matrix.TranslateCoords(sldCurWidth, -Arr(1)) 'sldCurWidth in the x-Coord will ensure that nice "spooling-effect"
-                        Pat.Extend = CAIRO_EXTEND_REPEAT
-
-                    'since we've set CAIRO_EXTEND_REPEAT, we now have to clip the range it is "allowed to extend to"
-                    CC.ClipExplicit Arr(0) - sldCurWidth, Arr(1), sldCurWidth + 15, 27
-                
-                Case "pendulum"
-                    Set Pat = Cairo.ImageList(Key).CreateSurfacePattern
-                    Set Pat.Matrix = Pat.Matrix.TranslateCoords(21, 0) 'shift to the "rotation-point" within the Pattern
-                    CC.TranslateDrawings 624, 325
-
-                    CC.RotateDrawingsDeg pvtPendulumAngle 'now we can rotate (the leading negative degrees are the rotation-offsets for 12 o'clock)
-                
-                Case Else 'plain output for everything else
-                       
-                    Set Pat.Matrix = Pat.Matrix.TranslateCoords(-Arr(0), -Arr(1)) 'here we only shift the Pattern via the original PSD-Offsets (stored in Arr(0) and Arr(1))
-                    
-             End Select
-    
-            CC.Paint W.AlphaInherited * Arr(2), Pat  'finally we render the Pattern with the current PSD-LayerAlpha, present in Arr(2)
-            CC.Restore
-      End If
-    Next
-     
-    ' print the console text on the screen
-    If gblDisplayScreenToggleEnabled = "True" Then
-        For a = 0 To 14
-            CC.DrawText 423, position, 220, 20, gblTerminalRows(a), , , 2, True, , someOpacity
-            position = position - interval
-        Next a
-
-        CC.DrawText 423, 203, 200, 20, ".......", , , 2, True, , someOpacity
-        CC.DrawText 423, 211, 200, 20, ".......", , , 2, True, , someOpacity
-        CC.DrawText 423, 218, 200, 20, ".......", , , 2, True, , someOpacity
-        CC.DrawText 423, 227, 200, 20, ".......", , , 2, True, , someOpacity
-    End If
-
-    ' if first time running then populate the dgitial clocks or if one of the alarms is currently being viewed then populate the clocks with the alarm digits.
-    If triggerDigitalClockPopulation = True Then
-        Call populateDigitalClockCache(CC)
-        triggerDigitalClockPopulation = False
-    End If
-    
-    If pvtThisSecs <= 1 Then
-        Call populateDigitalMinsCache(CC)
-        If pvtThisMins = 0 Then
-            Call populateDigitalHoursCache(CC)
-            If pvtThisHour = 0 Then
-                Call populateDigitalClockCache(CC)
-            End If
-        End If
-    End If
-    
-    ' test for alarms, using globals to reduce the cpu cycles
-    If gblAlarmToggle1Enabled = "True" Or gblAlarmToggle2Enabled = "True" Or gblAlarmToggle3Enabled = "True" Or gblAlarmToggle4Enabled = "True" Or gblAlarmToggle5Enabled = "True" Then Call populateDigitalClockCache(CC)
-    
-    ' the above routines populate the digital clock cache, this routine shows the digital clocks
-    Call DrawDigitalClocks(CC)
-     
-    If mTimeMachine = True Then Call drawTimeMachineImages(CC)
-
-   On Error GoTo 0
-   Exit Sub
-
-W_Paint_Error:
-
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure W_Paint of Class Module cwOverlay"
-End Sub
  
 '---------------------------------------------------------------------------------------
 ' Procedure : drawTimeMachineImages
@@ -986,116 +819,6 @@ End Sub
 
 
 
-' ----------------------------------------------------------------
-' Procedure Name: tmrTimeShift_Timer
-' Purpose:  timer controlling the pendulum only,
-' Procedure Kind: Sub
-' Procedure Access: Private
-' Author: beededea
-' Date: 21/06/2024
-' ----------------------------------------------------------------
-Private Sub tmrTimeShift_Timer()
-    
-    On Error GoTo tmrTimeShift_Timer_Error
-
-    W.Parent.Refresh ' causes a paint event to fire
-    
-   On Error GoTo 0
-   Exit Sub
-
-tmrTimeShift_Timer_Error:
-
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure tmrTimeShift_Timer of Class Module cwOverlay"
-End Sub
-' ----------------------------------------------------------------
-' Procedure Name: tmrPendulum_Timer
-' Purpose:  timer controlling the pendulum only,
-' Procedure Kind: Sub
-' Procedure Access: Private
-' Author: beededea
-' Date: 21/06/2024
-' ----------------------------------------------------------------
-Private Sub tmrPendulum_Timer()
-    
-    On Error GoTo tmrPendulum_Timer_Error
-
-    pvtPendulumAcceleration = pvtGravity * pvtPendulumAngle
-    pvtPendulumVelocity = pvtPendulumVelocity + pvtPendulumAcceleration
-    pvtPendulumAngle = pvtPendulumAngle + pvtPendulumVelocity
-
-    W.Parent.Refresh ' causes a paint event to fire
-    
-   On Error GoTo 0
-   Exit Sub
-
-tmrPendulum_Timer_Error:
-
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure tmrPendulum_Timer of Class Module cwOverlay"
-End Sub
-
-
-' ----------------------------------------------------------------
-' Procedure Name: tmrClock_Timer
-' Purpose: main timer controlling the analogue clock only,
-' very few routines are called from this timer but instead the subsequent refresh will trigger a PAINT event
-' Procedure Kind: Sub
-' Procedure Access: Private
-' Author: beededea
-' Date: 21/06/2024
-' ----------------------------------------------------------------
-Private Sub tmrClock_Timer()
-    
-    On Error GoTo tmrClock_Timer_Error
-    
-    ' just for the analogue clock
-    pvtThisHour = Hour(Now)
-    pvtThisMins = Minute(Now)
-    pvtThisSecs = Second(Now)
-    
-    ' calculate angles of hour and second hand
-    pvtHourDegrees = 30 * (pvtThisHour Mod 12 + (pvtThisMins) / 60) ' global vars used in the paint event
-    pvtMinsDegrees = 6 * ((pvtThisMins) + (pvtThisSecs / 60))
-    pvtSeconds = pvtThisSecs
-
-    If pvtSecsDegrees <> 6 * pvtSeconds Then
-        pvtSecsDegrees = 6 * pvtSeconds
-    Else
-        Exit Sub  'only refresh when pvtSecsDegrees has changed to a new value
-    End If
-    
-    ' only clear any existing weekday indicator in the first three seconds of the day
-    If fClock.weekdayToggleEnabled = True Then
-        If pvtThisHour <= 1 And pvtThisMins = 1 And pvtThisSecs < 3 Then
-            fClock.clockForm.Widgets("monday").Widget.Alpha = 0
-            fClock.clockForm.Widgets("tuesday").Widget.Alpha = 0
-            fClock.clockForm.Widgets("wednesday").Widget.Alpha = 0
-            fClock.clockForm.Widgets("thursday").Widget.Alpha = 0
-            fClock.clockForm.Widgets("friday").Widget.Alpha = 0
-            fClock.clockForm.Widgets("saturday").Widget.Alpha = 0
-            fClock.clockForm.Widgets("sunday").Widget.Alpha = 0
-        End If
-        fClock.clockForm.Widgets(fDayOfWeek).Widget.Alpha = 1
-    End If
-    
-        ' this should be called once then every hour on the hour, populate the cache
-    If pvtFirstRun = True Then
-        triggerDigitalClockPopulation = True
-        pvtFirstRun = False
-    End If
-          
-    ' very few routines are called from this timer but instead this subsequent refresh will trigger a PAINT event
-    
-    W.Parent.Refresh ' causes a paint event to fire - lots happens in the paint event
-    
-   On Error GoTo 0
-   Exit Sub
-
-tmrClock_Timer_Error:
-
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure tmrClock_Timer of Class Module cwOverlay"
-End Sub
-
-
 
 '---------------------------------------------------------------------------------------
 ' Procedure : DrawDigitalClocks
@@ -1152,7 +875,7 @@ Private Sub populateDigitalHoursCache(ByRef CC As cCairoContext, Optional ByVal 
     Dim hourString As String: hourString = vbNullString
     Dim localHour As Integer: localHour = 0
 
-   On Error GoTo populateDigitalHoursCache_Error
+    On Error GoTo populateDigitalHoursCache_Error
        
     ' if the rotator is functioning then display the contents from that...
     If tmrDigitRotator.Enabled = True Then
@@ -1813,4 +1536,285 @@ Private Sub tmrDigitRotator_Timer()
 tmrDigitRotator_Timer_Error:
 
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure tmrDigitRotator_Timer of Class Module cwOverlay"
+End Sub
+
+
+' ----------------------------------------------------------------
+' Procedure Name: tmrTimeShift_Timer
+' Purpose:  timer controlling the pendulum only,
+' Procedure Kind: Sub
+' Procedure Access: Private
+' Author: beededea
+' Date: 21/06/2024
+' ----------------------------------------------------------------
+Private Sub tmrTimeShift_Timer()
+    
+    On Error GoTo tmrTimeShift_Timer_Error
+
+    W.Parent.Refresh ' causes a paint event to fire
+    
+   On Error GoTo 0
+   Exit Sub
+
+tmrTimeShift_Timer_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure tmrTimeShift_Timer of Class Module cwOverlay"
+End Sub
+' ----------------------------------------------------------------
+' Procedure Name: tmrPendulum_Timer
+' Purpose:  timer controlling the pendulum only,
+' Procedure Kind: Sub
+' Procedure Access: Private
+' Author: beededea
+' Date: 21/06/2024
+' ----------------------------------------------------------------
+Private Sub tmrPendulum_Timer()
+    
+    On Error GoTo tmrPendulum_Timer_Error
+
+    pvtPendulumAcceleration = pvtGravity * pvtPendulumAngle
+    pvtPendulumVelocity = pvtPendulumVelocity + pvtPendulumAcceleration
+    pvtPendulumAngle = pvtPendulumAngle + pvtPendulumVelocity
+
+    W.Parent.Refresh ' causes a paint event to fire
+    
+   On Error GoTo 0
+   Exit Sub
+
+tmrPendulum_Timer_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure tmrPendulum_Timer of Class Module cwOverlay"
+End Sub
+
+
+' ----------------------------------------------------------------
+' Procedure Name: tmrClock_Timer
+' Purpose: main timer controlling the analogue clock only,
+' very few routines are called from this timer but instead the subsequent refresh will trigger a PAINT event
+' Procedure Kind: Sub
+' Procedure Access: Private
+' Author: beededea
+' Date: 21/06/2024
+' ----------------------------------------------------------------
+Private Sub tmrClock_Timer()
+    
+    On Error GoTo tmrClock_Timer_Error
+    
+    ' just for the analogue clock
+    pvtThisHour = Hour(Now)
+    pvtThisMins = Minute(Now)
+    pvtThisSecs = Second(Now)
+    
+    ' calculate angles of hour and second hand
+    pvtHourDegrees = 30 * (pvtThisHour Mod 12 + (pvtThisMins) / 60) ' global vars used in the paint event
+    pvtMinsDegrees = 6 * ((pvtThisMins) + (pvtThisSecs / 60))
+    pvtSeconds = pvtThisSecs
+
+    If pvtSecsDegrees <> 6 * pvtSeconds Then
+        pvtSecsDegrees = 6 * pvtSeconds
+    Else
+        Exit Sub  'only refresh when pvtSecsDegrees has changed to a new value
+    End If
+    
+    ' only clear any existing weekday indicator in the first three seconds of the day
+    If fClock.weekdayToggleEnabled = True Then
+        If pvtThisHour <= 1 And pvtThisMins = 1 And pvtThisSecs < 3 Then
+            fClock.clockForm.Widgets("monday").Widget.Alpha = 0
+            fClock.clockForm.Widgets("tuesday").Widget.Alpha = 0
+            fClock.clockForm.Widgets("wednesday").Widget.Alpha = 0
+            fClock.clockForm.Widgets("thursday").Widget.Alpha = 0
+            fClock.clockForm.Widgets("friday").Widget.Alpha = 0
+            fClock.clockForm.Widgets("saturday").Widget.Alpha = 0
+            fClock.clockForm.Widgets("sunday").Widget.Alpha = 0
+        End If
+        fClock.clockForm.Widgets(fDayOfWeek).Widget.Alpha = 1
+    End If
+    
+        ' this should be called once then every hour on the hour, populate the cache
+    If pvtFirstRun = True Then
+        triggerDigitalClockPopulation = True
+        pvtFirstRun = False
+    End If
+          
+    ' very few routines are called from this timer but instead this subsequent refresh will trigger a PAINT event
+    
+    W.Parent.Refresh ' causes a paint event to fire - lots happens in the paint event
+    
+   On Error GoTo 0
+   Exit Sub
+
+tmrClock_Timer_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure tmrClock_Timer of Class Module cwOverlay"
+End Sub
+
+
+
+'
+'---------------------------------------------------------------------------------------------
+' Procedure : W_HitTest
+' Author    : olaf schmidt
+' Date      : 01/08/2023
+' Purpose   : This is run continuously for the whole widget.
+'             For this Overlay-Widget alone, we make everything "fully click-through"
+'---------------------------------------------------------------------------------------------
+'
+Private Sub W_HitTest(ByVal x As Single, ByVal y As Single, HitResultHit As Boolean) 'ensure ClickThrough-behaviour in ImagePixels which are "fully Alpha"
+   On Error GoTo W_HitTest_Error
+
+   HitResultHit = False
+
+   On Error GoTo 0
+   Exit Sub
+
+W_HitTest_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure W_HitTest of Class Module cwOverlay"
+End Sub
+'ByRef CC As cCairoContext,
+
+'---------------------------------------------------------------------------------------
+' Procedure : W_Paint
+' Author    : olaf schmidt
+' Date      : 01/08/2023
+' Purpose   : this is run when the graphics are initially placed on the screen, refreshing and when a mouse cursor is interacting
+'---------------------------------------------------------------------------------------
+'
+
+Private Sub W_Paint(ByRef CC As cCairoContext, ByVal xAbs As Single, ByVal yAbs As Single, ByVal dx_Aligned As Single, ByVal dy_Aligned As Single, UserObj As Object)
+    Dim I As Long: I = 0
+    Dim Arr As Variant
+    Dim Key As String: Key = vbNullString
+    Dim Pat As cCairoPattern
+    Dim someOpacity As Double: someOpacity = 0
+    Dim grey As String: grey = vbNullString
+    Dim interval As Integer: interval = 0
+    Dim position As Integer: position = 0
+    Dim a As Integer: a = 0
+    
+    grey = RGB(18, 18, 18)
+    
+    'set some Font- and ForeColor-Properties and draw some Text on the Widget
+    W.FontName = "courier new"
+    W.ForeColor = grey
+    W.FontSize = 5
+    'W.FontBold = True
+    W.SelectFontSettingsInto CC
+    W.Refresh
+    
+    someOpacity = 0.6
+    position = 194
+    interval = 9
+       
+    On Error GoTo W_Paint_Error
+  
+    For I = 0 To cCollOverlayImages.Count - 1 ' this is the ExcludedPaths collection populated in cfClock by duplicating collPSDNonUIElements.
+      Arr = cCollOverlayImages.ItemByIndex(I)
+      Key = cCollOverlayImages.KeyByIndex(I)
+      
+      If IsArray(Arr) Then
+             CC.Save
+             'derive a Pattern-Obj from each retrieved ImageList-Surface-reference
+             Set Pat = Cairo.ImageList(Key).CreateSurfacePattern
+            
+            ' for specific keys, perform actions &c
+             Select Case Key
+                 Case "hourhand"
+                    Set Pat = Cairo.ImageList(Key).CreateSurfacePattern
+                    Set Pat.Matrix = Pat.Matrix.TranslateCoords(4, 4) 'shift to the "rotation-point" within the Pattern
+                    CC.TranslateDrawings W.Width * cxPerc, W.Height * cyPerc 'shift to the center-point of the Overlay-Widget-area
+
+                    'CC.TranslateDrawings 645, 333 'shift to the center-point of the Overlay-Widget-area
+                    CC.RotateDrawingsDeg -90 + pvtHourDegrees  'now we can rotate (the leading negative degrees are the rotation-offsets for 12 o'clock)
+
+                 Case "minutehand"  'minutes-shadow- and minutes-hand
+                    Set Pat = Cairo.ImageList(Key).CreateSurfacePattern
+                    Set Pat.Matrix = Pat.Matrix.TranslateCoords(3, 3) 'shift to the "rotation-point" within the Pattern
+                    CC.TranslateDrawings 646.5, 332 'shift to the center-point of the Overlay-Widget-area
+
+                    CC.RotateDrawingsDeg -90 + pvtMinsDegrees 'now we can rotate (the leading negative degrees are the rotation-offsets for 12 o'clock)
+
+                 Case "secondhand" 'seconds-shadow- and seconds-hand
+                    Set Pat = Cairo.ImageList(Key).CreateSurfacePattern
+                    Set Pat.Matrix = Pat.Matrix.TranslateCoords(3, 3) 'shift to the "rotation-point" within the Pattern
+                    CC.TranslateDrawings 646.5, 332 'shift to the center-point of the Overlay-Widget-area
+
+                    CC.RotateDrawingsDeg -90 + pvtSecsDegrees 'now we can rotate (the leading negative degrees are the rotation-offsets for 12 o'clock)
+
+                 Case "hole"
+                    Set Pat = Cairo.ImageList(Key).CreateSurfacePattern
+                    Set Pat.Matrix = Pat.Matrix.TranslateCoords(4, 4) 'shift to the "rotation-point" within the Pattern
+
+                    CC.TranslateDrawings 646, 332 'shift to the center-point of the Overlay-Widget-area
+
+                Case "cable"
+                    Set Pat = Cairo.ImageList(Key).CropSurface(0, 0, 200, 27).CreateSurfacePattern 'cut-out a nice (repeatable) part of the original "cable"-image (via CropSurface)
+                    
+                    Set Pat.Matrix = Pat.Matrix.TranslateCoords(sldCurWidth, -Arr(1)) 'sldCurWidth in the x-Coord will ensure that nice "spooling-effect"
+                        Pat.Extend = CAIRO_EXTEND_REPEAT
+
+                    'since we've set CAIRO_EXTEND_REPEAT, we now have to clip the range it is "allowed to extend to"
+                    CC.ClipExplicit Arr(0) - sldCurWidth, Arr(1), sldCurWidth + 15, 27
+                
+                Case "pendulum"
+                    Set Pat = Cairo.ImageList(Key).CreateSurfacePattern
+                    Set Pat.Matrix = Pat.Matrix.TranslateCoords(21, 0) 'shift to the "rotation-point" within the Pattern
+                    CC.TranslateDrawings 624, 325
+
+                    CC.RotateDrawingsDeg pvtPendulumAngle 'now we can rotate (the leading negative degrees are the rotation-offsets for 12 o'clock)
+                
+                Case Else 'plain output for everything else
+                       
+                    Set Pat.Matrix = Pat.Matrix.TranslateCoords(-Arr(0), -Arr(1)) 'here we only shift the Pattern via the original PSD-Offsets (stored in Arr(0) and Arr(1))
+                    
+             End Select
+    
+            CC.Paint W.AlphaInherited * Arr(2), Pat  'finally we render the Pattern with the current PSD-LayerAlpha, present in Arr(2)
+            CC.Restore
+      End If
+    Next
+     
+    ' print the console text on the screen
+    If gblDisplayScreenToggleEnabled = "True" Then
+        For a = 0 To 14
+            CC.DrawText 423, position, 220, 20, gblTerminalRows(a), , , 2, True, , someOpacity
+            position = position - interval
+        Next a
+
+        CC.DrawText 423, 203, 200, 20, ".......", , , 2, True, , someOpacity
+        CC.DrawText 423, 211, 200, 20, ".......", , , 2, True, , someOpacity
+        CC.DrawText 423, 218, 200, 20, ".......", , , 2, True, , someOpacity
+        CC.DrawText 423, 227, 200, 20, ".......", , , 2, True, , someOpacity
+    End If
+
+    ' if first time running then populate the dgitial clocks or if one of the alarms is currently being viewed then populate the clocks with the alarm digits.
+    If triggerDigitalClockPopulation = True Then
+        Call populateDigitalClockCache(CC)
+        triggerDigitalClockPopulation = False
+    Else
+        If pvtThisSecs <= 1 Then
+            Call populateDigitalMinsCache(CC)
+            If pvtThisMins = 0 Then
+                Call populateDigitalHoursCache(CC)
+                If pvtThisHour = 0 Then
+                    Call populateDigitalClockCache(CC)
+                End If
+            End If
+        End If
+    End If
+        
+    ' test for alarms, using globals to reduce the cpu cycles
+    If gblAlarmToggle1Enabled = "True" Or gblAlarmToggle2Enabled = "True" Or gblAlarmToggle3Enabled = "True" Or gblAlarmToggle4Enabled = "True" Or gblAlarmToggle5Enabled = "True" Then Call populateDigitalClockCache(CC)
+    
+    ' the above routines populate the digital clock cache, this routine shows the digital clocks
+    Call DrawDigitalClocks(CC)
+     
+    If mTimeMachine = True Then Call drawTimeMachineImages(CC)
+
+   On Error GoTo 0
+   Exit Sub
+
+W_Paint_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure W_Paint of Class Module cwOverlay"
 End Sub

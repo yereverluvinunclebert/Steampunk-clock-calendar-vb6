@@ -4979,6 +4979,12 @@ Private Sub tmrPrefsScreenResolution_Timer()
     ' if just one monitor or the global switch is off then exit
     If monitorCount > 1 And (LTrim$(gblMultiMonitorResize) = "1" Or LTrim$(gblMultiMonitorResize) = "2") Then
     
+        If gblSystemAwokenFromSleep = True Then
+            gblSystemAwokenFromSleep = False
+            oldPrefsFormMonitorID = 0
+            Exit Sub
+        End If
+    
         ' when the timer frequency is reduced caused some weird async. effects, 500 ms seems fine, disable the timer first
         tmrPrefsScreenResolution.Enabled = False
    
