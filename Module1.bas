@@ -1661,30 +1661,137 @@ Public Sub setMainTooltips()
         overlayWidget.Widget.ToolTip = "Use CTRL+mouse scrollwheel up/down to resize."
         'helpWidget.Widget.ToolTip = "Click on me to make me go away."
         aboutWidget.Widget.ToolTip = "Click on me to make me go away."
+    
         
-        'fClock.clockForm.Widgets("tickbutton").Widget.ToolTip = "Choose smooth movement or regular ticks"
-        'fClock.clockForm.Widgets("helpbutton").Widget.ToolTip = "Press for a little help"
-        'fClock.clockForm.Widgets("startbutton").Widget.ToolTip = "Press to restart (when stopped)"
-        'fClock.clockForm.Widgets("stopbutton").Widget.ToolTip = "Press to stop clock operation."
-        'fClock.clockForm.Widgets("switchfacesbutton").Widget.ToolTip = "Press to do nothing at all."
-        'fClock.clockForm.Widgets("lockingpin").Widget.ToolTip = "Press to lock the widget in place"
-        'fClock.clockForm.Widgets("prefsbutton").Widget.ToolTip = "Press to open the widget preferences"
-        'fClock.clockForm.Widgets("surround").Widget.ToolTip = "Ctrl + mouse scrollwheel up/down to resize, you can also drag me to a new position."
+        fClock.clockForm.Widgets("helpbottom").Widget.ToolTip = "This is the Widget Help. Click on me to make me go away."
+        fClock.clockForm.Widgets("sliderset").Widget.ToolTip = "This is the Time Slider. Click and drag me left/right to alter time."
+        fClock.clockForm.Widgets("screentop").Widget.ToolTip = "Press to "
+        fClock.clockForm.Widgets("displayscreen").Widget.ToolTip = "To lower kinematoscope press S toggle."
+        fClock.clockForm.Widgets("screenbackground").Widget.ToolTip = "Press to "
+        fClock.clockForm.Widgets("displayscreentoggle").Widget.ToolTip = "Toggle back screen."
+        fClock.clockForm.Widgets("weekdaytoggle").Widget.ToolTip = "Toggle weekday indicator. "
+        fClock.clockForm.Widgets("helpToggle").Widget.ToolTip = "Click me to show the help."
+        fClock.clockForm.Widgets("pendulumtoggle").Widget.ToolTip = "Stop/start the pendulum by clicking on it."
+        fClock.clockForm.Widgets("mutetoggle").Widget.ToolTip = "Mute chimes and sounds on/off."
+        fClock.clockForm.Widgets("alarmtoggle").Widget.ToolTip = "Press to Click here to enter alarm mode"
+        fClock.clockForm.Widgets("settoggle").Widget.ToolTip = "In alarm mode, when you are editing an alarm, press this toggle (or the bell) to save the alarm."
+        fClock.clockForm.Widgets("timemachinetoggle").Widget.ToolTip = "Toggle the time machine images."
+        fClock.clockForm.Widgets("backtoggle").Widget.ToolTip = "Toggle the Back Screen to make the text easier to read."
+        fClock.clockForm.Widgets("alarmtoggle1").Widget.ToolTip = "Click to set alarm number one."
+        fClock.clockForm.Widgets("alarmtoggle2").Widget.ToolTip = "Click to set alarm number two."
+        fClock.clockForm.Widgets("alarmtoggle3").Widget.ToolTip = "Click to set alarm number three."
+        fClock.clockForm.Widgets("alarmtoggle4").Widget.ToolTip = "Click to set alarm number four. "
+        fClock.clockForm.Widgets("alarmtoggle5").Widget.ToolTip = "Click to set alarm number five. "
+        fClock.clockForm.Widgets("clapperLeft").Widget.ToolTip = "Mute the chimes."
+        fClock.clockForm.Widgets("clapperright").Widget.ToolTip = "Enable the chimes. "
+        fClock.clockForm.Widgets("labellayer").Widget.ToolTip = "This is the Widget Help. Click on me to make me go away."
+        fClock.clockForm.Widgets("chain").Widget.ToolTip = "Pulling the chain will silence the ticks."
+        fClock.clockForm.Widgets("crankup").Widget.ToolTip = "Crank me down to quieten the whole clock."
+        fClock.clockForm.Widgets("crankdown").Widget.ToolTip = "Crank up the sound! Crank me up to make more sound throughout the whole clock."
+        fClock.clockForm.Widgets("weekdayred").Widget.ToolTip = "Click here to lower the weekday flag."
+        fClock.clockForm.Widgets("weekdaytill").Widget.ToolTip = "Click here to lower the weekday flag."
+        fClock.clockForm.Widgets("weekdayshadow").Widget.ToolTip = "Click here to lower the weekday flag."
+        fClock.clockForm.Widgets("dropdown").Widget.ToolTip = "Click me for information."
+        fClock.clockForm.Widgets("bellset").Widget.ToolTip = "Press to "
+        fClock.clockForm.Widgets("helpdropdown").Widget.ToolTip = "Click here to lock the clock in place on the desktop."
+        fClock.clockForm.Widgets("pendulumtransparent").Widget.ToolTip = "Stop/start the pendulum."
+        fClock.clockForm.Widgets("glow").Widget.ToolTip = "This is the Time Slider. Click and drag me left/right to alter time."
+        fClock.clockForm.Widgets("lockingpinlocked").Widget.ToolTip = "Click here to unlock the clock and make it moveable using mouse. "
+        fClock.clockForm.Widgets("lockingpin").Widget.ToolTip = "Click here to lock the clock in place on the desktop."
+        fClock.clockForm.Widgets("redalarmcover").Widget.ToolTip = "Click this alarm flag to delete this alarm."
+        
+        
+'            Case "bellset"
+'                If gblEnableBalloonTooltips = "1" Then CreateToolTip clockForm.hWnd, "Click here to set or edit an alarm.", _
+'                     TTIconInfo, widgetName & " Alarm Toggle Help", , , , True
+'                With clockForm.Widgets("redalarmcover").Widget
+'                    .Alpha = 0
+'                    .Refresh
+'                End With
+
+
+'            Case "monday"
+'                If weekdayToggleEnabled = "true" Then
+'                    weekdayred.Alpha = Val(gblOpacity) / 100
+'                    weekdayred.Refresh
+'                End If
+'            Case "tuesday"
+'                If weekdayToggleEnabled = "true" Then
+'                    weekdayred.Alpha = Val(gblOpacity) / 100
+'                    weekdayred.Refresh
+'                End If
+'            Case "wednesday"
+'                If weekdayToggleEnabled = "true" Then
+'                    weekdayred.Alpha = Val(gblOpacity) / 100
+'                    weekdayred.Refresh
+'                End If
+'            Case "thursday"
+'                If weekdayToggleEnabled = "true" Then
+'                    weekdayred.Alpha = Val(gblOpacity) / 100
+'                    weekdayred.Refresh
+'                End If
+'            Case "friday"
+'                If weekdayToggleEnabled = "true" Then
+'                    weekdayred.Alpha = Val(gblOpacity) / 100
+'                    weekdayred.Refresh
+'                End If
+'            Case "saturday"
+'                If weekdayToggleEnabled = "true" Then
+'                    weekdayred.Alpha = Val(gblOpacity) / 100
+'                    weekdayred.Refresh
+'                End If
+'            Case "sunday"
+'                If weekdayToggleEnabled = "true" Then
+'                    weekdayred.Alpha = Val(gblOpacity) / 100
+'                    weekdayred.Refresh
+'                End If
+'
+
+        
+        
+        
+        
+        
         
     Else
         overlayWidget.Widget.ToolTip = vbNullString
         'helpWidget.Widget.ToolTip = vbNullString
         aboutWidget.Widget.ToolTip = vbNullString
         
-        'fClock.clockForm.Widgets("tickbutton").Widget.ToolTip = vbNullString
-        'fClock.clockForm.Widgets("helpbutton").Widget.ToolTip = vbNullString
-        'fClock.clockForm.Widgets("startbutton").Widget.ToolTip = vbNullString
-        'fClock.clockForm.Widgets("stopbutton").Widget.ToolTip = vbNullString
-        'fClock.clockForm.Widgets("switchfacesbutton").Widget.ToolTip = vbNullString
-        'fClock.clockForm.Widgets("lockingpin").Widget.ToolTip = vbNullString
-        'fClock.clockForm.Widgets("prefsbutton").Widget.ToolTip = vbNullString
-        'fClock.clockForm.Widgets("surround").Widget.ToolTip = vbNullString
         
+        fClock.clockForm.Widgets("helpbottom").Widget.ToolTip = vbNullString
+        fClock.clockForm.Widgets("sliderset").Widget.ToolTip = vbNullString
+        fClock.clockForm.Widgets("screentop").Widget.ToolTip = vbNullString
+        fClock.clockForm.Widgets("displayscreen").Widget.ToolTip = vbNullString
+        fClock.clockForm.Widgets("screenbackground").Widget.ToolTip = vbNullString
+        fClock.clockForm.Widgets("displayscreentoggle").Widget.ToolTip = vbNullString
+        fClock.clockForm.Widgets("weekdaytoggle").Widget.ToolTip = vbNullString
+        fClock.clockForm.Widgets("helpToggle").Widget.ToolTip = vbNullString
+        fClock.clockForm.Widgets("pendulumtoggle").Widget.ToolTip = vbNullString
+        fClock.clockForm.Widgets("mutetoggle").Widget.ToolTip = vbNullString
+        fClock.clockForm.Widgets("alarmtoggle").Widget.ToolTip = vbNullString
+        fClock.clockForm.Widgets("settoggle").Widget.ToolTip = vbNullString
+        fClock.clockForm.Widgets("timemachinetoggle").Widget.ToolTip = vbNullString
+        fClock.clockForm.Widgets("backtoggle").Widget.ToolTip = vbNullString
+        fClock.clockForm.Widgets("alarmtoggle1").Widget.ToolTip = vbNullString
+        fClock.clockForm.Widgets("alarmtoggle2").Widget.ToolTip = vbNullString
+        fClock.clockForm.Widgets("alarmtoggle3").Widget.ToolTip = vbNullString
+        fClock.clockForm.Widgets("alarmtoggle4").Widget.ToolTip = vbNullString
+        fClock.clockForm.Widgets("alarmtoggle5").Widget.ToolTip = vbNullString
+        fClock.clockForm.Widgets("clapperLeft").Widget.ToolTip = vbNullString
+        fClock.clockForm.Widgets("clapperright").Widget.ToolTip = vbNullString
+        fClock.clockForm.Widgets("labellayer").Widget.ToolTip = vbNullString
+        fClock.clockForm.Widgets("chain").Widget.ToolTip = vbNullString
+        fClock.clockForm.Widgets("crankup").Widget.ToolTip = vbNullString
+        fClock.clockForm.Widgets("crankdown").Widget.ToolTip = vbNullString
+        fClock.clockForm.Widgets("weekdayred").Widget.ToolTip = vbNullString
+        fClock.clockForm.Widgets("weekdaytill").Widget.ToolTip = vbNullString
+        fClock.clockForm.Widgets("weekdayshadow").Widget.ToolTip = vbNullString
+        fClock.clockForm.Widgets("dropdown").Widget.ToolTip = vbNullString
+        fClock.clockForm.Widgets("bellset").Widget.ToolTip = vbNullString
+        fClock.clockForm.Widgets("helpdropdown").Widget.ToolTip = vbNullString
+        fClock.clockForm.Widgets("pendulumtransparent").Widget.ToolTip = vbNullString
+        fClock.clockForm.Widgets("glow").Widget.ToolTip = vbNullString
     End If
     
     Call ChangeToolTipWidgetDefaultSettings(Cairo.ToolTipWidget.Widget)

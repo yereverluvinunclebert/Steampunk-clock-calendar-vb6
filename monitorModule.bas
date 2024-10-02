@@ -318,16 +318,8 @@ Public Function cWidgetFormScreenProperties(ByVal frm As cWidgetForm, ByRef moni
         .Top = MONITORINFO.rcMonitor.Top * screenTwipsPerPixelY
         .Bottom = MONITORINFO.rcMonitor.Bottom * screenTwipsPerPixelY
 
-'        .WorkLeft = MONITORINFO.rcWork.Left * screenTwipsPerPixelX
-'        .WorkRight = MONITORINFO.rcWork.Right * screenTwipsPerPixelX
-'        .WorkTop = MONITORINFO.rcWork.Top * screenTwipsPerPixelY
-'        .Workbottom = MONITORINFO.rcWork.Bottom * screenTwipsPerPixelY
-
         .Height = (MONITORINFO.rcMonitor.Bottom - MONITORINFO.rcMonitor.Top) * screenTwipsPerPixelY
         .Width = (MONITORINFO.rcMonitor.Right - MONITORINFO.rcMonitor.Left) * screenTwipsPerPixelX
-'
-'        .WorkHeight = (MONITORINFO.rcWork.Bottom - MONITORINFO.rcWork.Top) * screenTwipsPerPixelY
-'        .WorkWidth = (MONITORINFO.rcWork.Right - MONITORINFO.rcWork.Left) * screenTwipsPerPixelX
 
         .IsPrimary = MONITORINFO.dwFlags And MONITORINFOF_PRIMARY
     End With
@@ -543,6 +535,10 @@ Public Sub positionClockByMonitorSize()
     On Error GoTo positionClockByMonitorSize_Error
   
     If monitorCount > 1 And (LTrim$(gblMultiMonitorResize) = "1" Or LTrim$(gblMultiMonitorResize) = "2") Then
+    
+        If fClock.clockForm.Left = oldClockLeftPixels Then Exit Sub ' this can only work if the reposition is being performed by the timer
+        ' we are also calling it on a mouseUP event, so the comparison to original position is lost to us
+        
         ' note the monitor ID at clockForm form_load and store as the clockFormMonitorID
         clockMonitorStruct = cWidgetFormScreenProperties(fClock.clockForm, clockFormMonitorID)
         ' sample the physical monitor resolution
@@ -559,7 +555,7 @@ Public Sub positionClockByMonitorSize()
             
             If gblSystemAwokenFromSleep = True Then
                 gblSystemAwokenFromSleep = False
-                oldClockFormMonitorID = 0
+                oldClockFormMonitorID = 0 ' monitor ID is new  for each monitor after wake from sleep or even an auto-screen blank
                 Exit Sub
             End If
             
