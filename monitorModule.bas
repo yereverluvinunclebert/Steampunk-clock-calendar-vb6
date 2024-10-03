@@ -60,8 +60,8 @@ Public Declare Function ReleaseDC Lib "user32" (ByVal hWnd As Long, ByVal hDC As
 Public Declare Function GetDeviceCaps Lib "gdi32" (ByVal hDC As Long, ByVal nIndex As Long) As Long
 'Private Declare Function CreateDC Lib "gdi32" Alias "CreateDCA" (ByVal lpDriverName As String, ByVal lpDeviceName As String, ByVal lpOutput As String, ByVal lpInitData As Long) As Long
 Private Declare Function UnionRect Lib "user32" (lprcDst As RECT, lprcSrc1 As RECT, lprcSrc2 As RECT) As Long
-Private Declare Function OffsetRect Lib "user32" (lpRect As RECT, ByVal x As Long, ByVal y As Long) As Long
-Private Declare Function MoveWindow Lib "user32" (ByVal hWnd As Long, ByVal x As Long, ByVal y As Long, ByVal nWidth As Long, ByVal nHeight As Long, ByVal bRepaint As Long) As Long
+Private Declare Function OffsetRect Lib "user32" (lpRect As RECT, ByVal X As Long, ByVal Y As Long) As Long
+Private Declare Function MoveWindow Lib "user32" (ByVal hWnd As Long, ByVal X As Long, ByVal Y As Long, ByVal nWidth As Long, ByVal nHeight As Long, ByVal bRepaint As Long) As Long
 Private Declare Function GetWindowRect Lib "user32.dll" (ByVal hWnd As Long, lpRect As RECT) As Long
 Private Declare Function MonitorFromRect Lib "user32" (rc As RECT, ByVal dwFlags As dwFlags) As Long
 Private Declare Function GetMonitorInfo Lib "user32" Alias "GetMonitorInfoA" (ByVal hMonitor As Long, MonInfo As tagMONITORINFO) As Long
@@ -522,12 +522,16 @@ End Function
 '---------------------------------------------------------------------------------------
 '
 Public Sub positionClockByMonitorSize()
-    Static oldClockFormMonitorID As Long
+'    Static oldClockFormMonitorID As Long
+    Static oldClockFormMonitorPrimary As Long
+    
     Static oldMonitorStructWidthTwips As Long
     Static oldMonitorStructHeightTwips As Long
     Static oldClockLeftPixels As Long
         
+    Dim clockFormMonitorPrimary As Long: clockFormMonitorPrimary = 0
     Dim clockFormMonitorID As Long: clockFormMonitorID = 0
+    
     Dim monitorStructWidthTwips As Long: monitorStructWidthTwips = 0
     Dim monitorStructHeightTwips As Long: monitorStructHeightTwips = 0
     Dim resizeProportion As Double: resizeProportion = 0
@@ -541,23 +545,35 @@ Public Sub positionClockByMonitorSize()
         
         ' note the monitor ID at clockForm form_load and store as the clockFormMonitorID
         clockMonitorStruct = cWidgetFormScreenProperties(fClock.clockForm, clockFormMonitorID)
+        
+        clockFormMonitorPrimary = clockMonitorStruct.IsPrimary
+        
         ' sample the physical monitor resolution
         monitorStructWidthTwips = clockMonitorStruct.Width
         monitorStructHeightTwips = clockMonitorStruct.Height
         
-        If oldClockFormMonitorID = 0 Then oldClockFormMonitorID = clockFormMonitorID
+'        If oldClockFormMonitorID = 0 Then oldClockFormMonitorID = clockFormMonitorID
+        'oldClockFormMonitorPrimary = CInt(clockMonitorStruct.IsPrimary)
+        
         If oldMonitorStructWidthTwips = 0 Then oldMonitorStructWidthTwips = monitorStructWidthTwips
         If oldMonitorStructHeightTwips = 0 Then oldMonitorStructHeightTwips = monitorStructHeightTwips
         If oldClockLeftPixels = 0 Then oldClockLeftPixels = fClock.clockForm.Left
     
         ' if the monitor ID has changed
-        If oldClockFormMonitorID <> clockFormMonitorID Then
-            
+        
+'        screenWrite ("old monitor ID " & oldClockFormMonitorID)
+'        screenWrite ("current monitor ID " & clockFormMonitorID)
+
+        'If oldClockFormMonitorID <> clockFormMonitorID Then
+        If oldClockFormMonitorPrimary <> clockFormMonitorPrimary Then
             If gblSystemAwokenFromSleep = True Then
                 gblSystemAwokenFromSleep = False
-                oldClockFormMonitorID = 0 ' monitor ID is new  for each monitor after wake from sleep or even an auto-screen blank
+                'oldClockFormMonitorID = 0 ' monitor ID is new  for each monitor after wake from sleep or even an auto-screen blank
                 Exit Sub
             End If
+            
+            screenWrite ("Stored monitor primary status = " & CBool(oldClockFormMonitorPrimary))
+            screenWrite ("Current monitor primary status = " & CBool(clockFormMonitorPrimary))
             
             If LTrim$(gblMultiMonitorResize) = "1" Then
                 'if the resolution is different then calculate new size proportion
@@ -597,12 +613,13 @@ Public Sub positionClockByMonitorSize()
                 fClock.clockForm.Refresh
                 Call fClock.AdjustZoom(resizeProportion)
             End If
-            screenWrite ("old monitor ID " & oldClockFormMonitorID)
-            screenWrite ("current monitor ID " & clockFormMonitorID)
-            
+'            screenWrite ("old monitor ID " & oldClockFormMonitorID)
+'            screenWrite ("current monitor ID " & clockFormMonitorID)
+
         End If
     
-        oldClockFormMonitorID = clockFormMonitorID
+        oldClockFormMonitorPrimary = clockFormMonitorPrimary
+'        oldClockFormMonitorID = clockFormMonitorID
         oldMonitorStructWidthTwips = monitorStructWidthTwips
         oldMonitorStructHeightTwips = monitorStructHeightTwips
         oldClockLeftPixels = fClock.clockForm.Left

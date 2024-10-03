@@ -87,13 +87,21 @@ quiet/loud sounds
 ' if in alarm mode, when you delete the alarm it also cancels alarm mode, moving slider back in
 
 ' subclassing comboboxes Elroy's subclasser
-' Olaf tooltips for the UI controls
+' Added Olaf tooltips for the UI controls
 ' tooltips for the prefs multi monitor combo
+
+' cancel an automatic resize after a wake from sleep, due to Windows sometimes pushing all windows onto one monitor, after a wake from sleep
+' Added Elroy's subclassing code to assist in capturing WM_MOVE and WM_MOVED.
+' Added subclassing to remaining prefs comboboxes to capture mouseOver and generate balloon tooltips
+' Add balloon tooltips to all comboboxes, vars and assignments
 
 ' -oOo-
 
-' cancel an automatic resize after a wake from sleep, due to Windows sometimes pushing all windows onto one monitor, after a wake from sleep
-' at mouseUP test current monitor is not the same monitor?
+' all remaining controls, text, buttons,  chk boxes, scrollbars and image boxes to receive balloon tooltips
+' code to save, validate and restore balloon tooltip config.
+' tooltips for new controls
+
+' at mouseUP test current monitor is not the same monitor, problem with monitors awakening out of sequence causing new monitorIDs.
 
 ' after a digital reset set each to -- --  and ** *** **** one by one - wip
 
