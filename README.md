@@ -132,7 +132,7 @@ At the back-end there are more preferences that may be changed, all are document
 	Registry code ALLAPI.COM  
 	La Volpe http://www.planet-source-code.com/vb/scripts/ShowCode.asp?txtCodeId=67466&lngWId=1  
 	PrivateExtractIcons code http://www.activevb.de/rubriken/  
-	Persistent debug code http://www.vbforums.com/member.php?234143-Elroy  
+	Subclassing code - Elroy  
 	Open File common dialog code without dependent OCX - http://forums.codeguru.com/member.php?92278-rxbagain  
 	VBAdvance  
  
@@ -169,7 +169,7 @@ At the back-end there are more preferences that may be changed, all are document
  
  si_the_geek       for his special folder code
  
- Elroy on VB forums for the balloon tooltips
+ Elroy on VB forums for the balloon tooltips and his essential subclassing code.
  
  Harry Whitfield for his quality testing, brain stimulation and being an 
  unwitting source of inspiration. 
