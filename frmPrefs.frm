@@ -12,193 +12,6 @@ Begin VB.Form widgetPrefs
    ScaleMode       =   0  'User
    ScaleWidth      =   8880
    Visible         =   0   'False
-   Begin VB.Frame fraWindow 
-      Caption         =   "Window"
-      Height          =   7935
-      Left            =   225
-      TabIndex        =   10
-      Top             =   1620
-      Width           =   8235
-      Begin VB.Frame fraWindowInner 
-         BorderStyle     =   0  'None
-         Height          =   7500
-         Left            =   165
-         TabIndex        =   14
-         Top             =   345
-         Width           =   7005
-         Begin VB.ComboBox cmbMultiMonitorResize 
-            Height          =   315
-            Left            =   2220
-            Style           =   2  'Dropdown List
-            TabIndex        =   186
-            Top             =   5805
-            Width           =   3720
-         End
-         Begin VB.Frame fraHiding 
-            BorderStyle     =   0  'None
-            Height          =   2010
-            Left            =   1395
-            TabIndex        =   119
-            Top             =   2325
-            Width           =   5130
-            Begin VB.ComboBox cmbHidingTime 
-               Height          =   315
-               Left            =   825
-               Style           =   2  'Dropdown List
-               TabIndex        =   122
-               Top             =   1605
-               Width           =   3720
-            End
-            Begin VB.CheckBox chkWidgetHidden 
-               Caption         =   "Hiding Widget *"
-               Height          =   225
-               Left            =   855
-               TabIndex        =   120
-               Top             =   210
-               Width           =   2955
-            End
-            Begin VB.Label lblWindowLevel 
-               Caption         =   "Hiding :"
-               Height          =   345
-               Index           =   2
-               Left            =   90
-               TabIndex        =   123
-               Top             =   210
-               Width           =   720
-            End
-            Begin VB.Label lblWindowLevel 
-               Caption         =   $"frmPrefs.frx":0ECA
-               Height          =   975
-               Index           =   1
-               Left            =   855
-               TabIndex        =   121
-               Top             =   600
-               Width           =   3900
-            End
-         End
-         Begin VB.ComboBox cmbWindowLevel 
-            Height          =   315
-            Left            =   2220
-            Style           =   2  'Dropdown List
-            TabIndex        =   17
-            Top             =   0
-            Width           =   3720
-         End
-         Begin VB.CheckBox chkIgnoreMouse 
-            Caption         =   "Ignore Mouse *"
-            Height          =   225
-            Left            =   2250
-            TabIndex        =   15
-            ToolTipText     =   "Checking this box causes the program to ignore all mouse events."
-            Top             =   1500
-            Width           =   2535
-         End
-         Begin vb6projectCCRSlider.Slider sliOpacity 
-            Height          =   390
-            Left            =   2115
-            TabIndex        =   16
-            ToolTipText     =   "Set the transparency of the Program."
-            Top             =   4560
-            Width           =   3870
-            _ExtentX        =   6826
-            _ExtentY        =   688
-            Min             =   20
-            Max             =   100
-            Value           =   20
-            SelStart        =   20
-         End
-         Begin VB.Label lblWindowLevel 
-            Caption         =   "Multi-Monitor Resizing :"
-            Height          =   255
-            Index           =   11
-            Left            =   375
-            TabIndex        =   185
-            Top             =   5835
-            Width           =   1830
-         End
-         Begin VB.Label lblWindowLevel 
-            Caption         =   $"frmPrefs.frx":0F6D
-            Height          =   1140
-            Index           =   10
-            Left            =   2235
-            TabIndex        =   184
-            Top             =   6255
-            Width           =   4050
-         End
-         Begin VB.Label lblWindowLevel 
-            Caption         =   "This setting controls the relative layering of this widget. You may use it to place it on top of other windows or underneath. "
-            Height          =   660
-            Index           =   3
-            Left            =   2235
-            TabIndex        =   128
-            Top             =   570
-            Width           =   3810
-         End
-         Begin VB.Label lblWindowLevel 
-            Caption         =   "Window Level :"
-            Height          =   345
-            Index           =   0
-            Left            =   915
-            TabIndex        =   24
-            Top             =   60
-            Width           =   1740
-         End
-         Begin VB.Label lblWindowLevel 
-            Caption         =   "20%"
-            Height          =   315
-            Index           =   7
-            Left            =   2205
-            TabIndex        =   23
-            Top             =   5070
-            Width           =   345
-         End
-         Begin VB.Label lblWindowLevel 
-            Caption         =   "100%"
-            Height          =   315
-            Index           =   9
-            Left            =   5565
-            TabIndex        =   22
-            Top             =   5070
-            Width           =   405
-         End
-         Begin VB.Label lblWindowLevel 
-            Caption         =   "Opacity"
-            Height          =   315
-            Index           =   8
-            Left            =   3690
-            TabIndex        =   21
-            Top             =   5070
-            Width           =   840
-         End
-         Begin VB.Label lblWindowLevel 
-            Caption         =   "Opacity:"
-            Height          =   315
-            Index           =   6
-            Left            =   1470
-            TabIndex        =   20
-            Top             =   4620
-            Width           =   780
-         End
-         Begin VB.Label lblWindowLevel 
-            Caption         =   "Set the program transparency level."
-            Height          =   330
-            Index           =   5
-            Left            =   2250
-            TabIndex        =   19
-            Top             =   5385
-            Width           =   3810
-         End
-         Begin VB.Label lblWindowLevel 
-            Caption         =   "Checking this box causes the program to ignore all mouse events except right click menu interactions."
-            Height          =   660
-            Index           =   4
-            Left            =   2235
-            TabIndex        =   18
-            Top             =   1890
-            Width           =   3810
-         End
-      End
-   End
    Begin VB.Timer tmrPrefsMonitorSaveHeight 
       Interval        =   5000
       Left            =   1665
@@ -228,7 +41,7 @@ Begin VB.Form widgetPrefs
       Begin VB.Image imgDevelopment 
          Height          =   600
          Left            =   150
-         Picture         =   "frmPrefs.frx":1084
+         Picture         =   "frmPrefs.frx":0ECA
          Stretch         =   -1  'True
          Top             =   225
          Width           =   600
@@ -236,7 +49,7 @@ Begin VB.Form widgetPrefs
       Begin VB.Image imgDevelopmentClicked 
          Height          =   600
          Left            =   160
-         Picture         =   "frmPrefs.frx":163C
+         Picture         =   "frmPrefs.frx":1482
          Stretch         =   -1  'True
          Top             =   225
          Width           =   600
@@ -276,7 +89,7 @@ Begin VB.Form widgetPrefs
       Begin VB.Image imgAbout 
          Height          =   600
          Left            =   160
-         Picture         =   "frmPrefs.frx":19C2
+         Picture         =   "frmPrefs.frx":1808
          Stretch         =   -1  'True
          Top             =   225
          Width           =   600
@@ -284,7 +97,7 @@ Begin VB.Form widgetPrefs
       Begin VB.Image imgAboutClicked 
          Height          =   600
          Left            =   160
-         Picture         =   "frmPrefs.frx":1F4A
+         Picture         =   "frmPrefs.frx":1D90
          Stretch         =   -1  'True
          Top             =   225
          Width           =   600
@@ -309,7 +122,7 @@ Begin VB.Form widgetPrefs
       Begin VB.Image imgConfig 
          Height          =   600
          Left            =   165
-         Picture         =   "frmPrefs.frx":2435
+         Picture         =   "frmPrefs.frx":227B
          Stretch         =   -1  'True
          Top             =   225
          Width           =   600
@@ -317,7 +130,7 @@ Begin VB.Form widgetPrefs
       Begin VB.Image imgConfigClicked 
          Height          =   600
          Left            =   165
-         Picture         =   "frmPrefs.frx":2A14
+         Picture         =   "frmPrefs.frx":285A
          Stretch         =   -1  'True
          Top             =   225
          Width           =   600
@@ -342,7 +155,7 @@ Begin VB.Form widgetPrefs
       Begin VB.Image imgPosition 
          Height          =   600
          Left            =   160
-         Picture         =   "frmPrefs.frx":2F19
+         Picture         =   "frmPrefs.frx":2D5F
          Stretch         =   -1  'True
          Top             =   225
          Width           =   600
@@ -350,7 +163,7 @@ Begin VB.Form widgetPrefs
       Begin VB.Image imgPositionClicked 
          Height          =   600
          Left            =   160
-         Picture         =   "frmPrefs.frx":34EA
+         Picture         =   "frmPrefs.frx":3330
          Stretch         =   -1  'True
          Top             =   225
          Width           =   600
@@ -395,7 +208,7 @@ Begin VB.Form widgetPrefs
       Begin VB.Image imgSounds 
          Height          =   600
          Left            =   160
-         Picture         =   "frmPrefs.frx":3888
+         Picture         =   "frmPrefs.frx":36CE
          Stretch         =   -1  'True
          Top             =   225
          Width           =   600
@@ -403,7 +216,7 @@ Begin VB.Form widgetPrefs
       Begin VB.Image imgSoundsClicked 
          Height          =   600
          Left            =   160
-         Picture         =   "frmPrefs.frx":3E47
+         Picture         =   "frmPrefs.frx":3C8D
          Stretch         =   -1  'True
          Top             =   225
          Width           =   600
@@ -443,7 +256,7 @@ Begin VB.Form widgetPrefs
       Begin VB.Image imgWindow 
          Height          =   600
          Left            =   160
-         Picture         =   "frmPrefs.frx":4317
+         Picture         =   "frmPrefs.frx":415D
          Stretch         =   -1  'True
          Top             =   225
          Width           =   600
@@ -451,7 +264,7 @@ Begin VB.Form widgetPrefs
       Begin VB.Image imgWindowClicked 
          Height          =   600
          Left            =   160
-         Picture         =   "frmPrefs.frx":47E1
+         Picture         =   "frmPrefs.frx":4627
          Stretch         =   -1  'True
          Top             =   225
          Width           =   600
@@ -475,7 +288,7 @@ Begin VB.Form widgetPrefs
       Begin VB.Image imgFonts 
          Height          =   600
          Left            =   180
-         Picture         =   "frmPrefs.frx":4B8D
+         Picture         =   "frmPrefs.frx":49D3
          Stretch         =   -1  'True
          Top             =   195
          Width           =   600
@@ -483,7 +296,7 @@ Begin VB.Form widgetPrefs
       Begin VB.Image imgFontsClicked 
          Height          =   600
          Left            =   180
-         Picture         =   "frmPrefs.frx":50E3
+         Picture         =   "frmPrefs.frx":4F29
          Stretch         =   -1  'True
          Top             =   195
          Width           =   600
@@ -712,7 +525,7 @@ Begin VB.Form widgetPrefs
             Width           =   2115
          End
          Begin VB.Label lblPosition 
-            Caption         =   $"frmPrefs.frx":557C
+            Caption         =   $"frmPrefs.frx":53C2
             Height          =   3435
             Index           =   12
             Left            =   5145
@@ -732,7 +545,7 @@ Begin VB.Form widgetPrefs
             Width           =   2040
          End
          Begin VB.Label lblPosition 
-            Caption         =   $"frmPrefs.frx":574E
+            Caption         =   $"frmPrefs.frx":5594
             Height          =   705
             Index           =   10
             Left            =   2250
@@ -752,7 +565,7 @@ Begin VB.Form widgetPrefs
             Width           =   2355
          End
          Begin VB.Label lblPosition 
-            Caption         =   $"frmPrefs.frx":57ED
+            Caption         =   $"frmPrefs.frx":5633
             Height          =   3045
             Index           =   6
             Left            =   2265
@@ -970,7 +783,7 @@ Begin VB.Form widgetPrefs
             Width           =   2400
          End
          Begin VB.Label lblFontsTab 
-            Caption         =   $"frmPrefs.frx":5992
+            Caption         =   $"frmPrefs.frx":57D8
             Height          =   1710
             Index           =   0
             Left            =   1725
@@ -1063,7 +876,7 @@ Begin VB.Form widgetPrefs
                Width           =   3660
             End
             Begin VB.Label lblGitHub 
-               Caption         =   $"frmPrefs.frx":5AD0
+               Caption         =   $"frmPrefs.frx":5916
                ForeColor       =   &H8000000D&
                Height          =   915
                Left            =   1560
@@ -1073,7 +886,7 @@ Begin VB.Form widgetPrefs
                Width           =   4935
             End
             Begin VB.Label lblDebug 
-               Caption         =   $"frmPrefs.frx":5B97
+               Caption         =   $"frmPrefs.frx":59DD
                Height          =   930
                Index           =   9
                Left            =   1545
@@ -1120,9 +933,9 @@ Begin VB.Form widgetPrefs
          End
          Begin VB.ComboBox cmbDebug 
             Height          =   315
-            ItemData        =   "frmPrefs.frx":5C3B
+            ItemData        =   "frmPrefs.frx":5A81
             Left            =   1530
-            List            =   "frmPrefs.frx":5C3D
+            List            =   "frmPrefs.frx":5A83
             Style           =   2  'Dropdown List
             TabIndex        =   52
             ToolTipText     =   "Choose to set debug mode."
@@ -1192,25 +1005,34 @@ Begin VB.Form widgetPrefs
    End
    Begin VB.Frame fraConfig 
       Caption         =   "Configuration"
-      Height          =   6690
+      Height          =   7035
       Left            =   225
       TabIndex        =   8
       Top             =   1200
       Width           =   7605
       Begin VB.Frame fraConfigInner 
          BorderStyle     =   0  'None
-         Height          =   6120
+         Height          =   6345
          Left            =   435
          TabIndex        =   34
          Top             =   435
          Width           =   6450
+         Begin VB.CheckBox Check1 
+            Caption         =   "Prefs - Enable Balloon Tooltips *"
+            Height          =   225
+            Left            =   2010
+            TabIndex        =   189
+            ToolTipText     =   "Check the box to enable tooltips for all controls in the preferences utility"
+            Top             =   4080
+            Width           =   3345
+         End
          Begin VB.CheckBox chkShowHelp 
             Caption         =   "Show Help on Widget Start"
             Height          =   225
             Left            =   2010
             TabIndex        =   151
             ToolTipText     =   "Check the box to show the widget in the taskbar"
-            Top             =   4515
+            Top             =   4860
             Width           =   3405
          End
          Begin VB.CheckBox chkEnablePrefsTooltips 
@@ -1228,7 +1050,7 @@ Begin VB.Form widgetPrefs
             Left            =   2010
             TabIndex        =   140
             ToolTipText     =   "Check the box to make the program DPI aware. RESTART required."
-            Top             =   4860
+            Top             =   5205
             Width           =   3405
          End
          Begin VB.CheckBox chkShowTaskbar 
@@ -1237,7 +1059,7 @@ Begin VB.Form widgetPrefs
             Left            =   2010
             TabIndex        =   138
             ToolTipText     =   "Check the box to show the widget in the taskbar"
-            Top             =   4110
+            Top             =   4455
             Width           =   3405
          End
          Begin VB.ComboBox cmbScrollWheelDirection 
@@ -1283,12 +1105,12 @@ Begin VB.Form widgetPrefs
             SelStart        =   5
          End
          Begin VB.Label lblConfiguration 
-            Caption         =   $"frmPrefs.frx":5C3F
+            Caption         =   $"frmPrefs.frx":5A85
             Height          =   915
             Index           =   0
             Left            =   1980
             TabIndex        =   141
-            Top             =   5220
+            Top             =   5565
             Width           =   4335
          End
          Begin VB.Label lblConfiguration 
@@ -1410,7 +1232,7 @@ Begin VB.Form widgetPrefs
          MultiLine       =   -1  'True
          ScrollBars      =   2  'Vertical
          TabIndex        =   112
-         Text            =   "frmPrefs.frx":5CF3
+         Text            =   "frmPrefs.frx":5B39
          Top             =   2205
          Width           =   8010
       End
@@ -1869,7 +1691,7 @@ Begin VB.Form widgetPrefs
                Width           =   1320
             End
             Begin VB.Label lblGeneral 
-               Caption         =   $"frmPrefs.frx":6CAA
+               Caption         =   $"frmPrefs.frx":6AF0
                Height          =   960
                Index           =   10
                Left            =   2070
@@ -2002,6 +1824,193 @@ Begin VB.Form widgetPrefs
             Tag             =   "lblRefreshInterval"
             Top             =   1350
             Width           =   1740
+         End
+      End
+   End
+   Begin VB.Frame fraWindow 
+      Caption         =   "Window"
+      Height          =   7935
+      Left            =   225
+      TabIndex        =   10
+      Top             =   1620
+      Width           =   8235
+      Begin VB.Frame fraWindowInner 
+         BorderStyle     =   0  'None
+         Height          =   7500
+         Left            =   165
+         TabIndex        =   14
+         Top             =   345
+         Width           =   7005
+         Begin VB.ComboBox cmbMultiMonitorResize 
+            Height          =   315
+            Left            =   2220
+            Style           =   2  'Dropdown List
+            TabIndex        =   186
+            Top             =   5805
+            Width           =   3720
+         End
+         Begin VB.Frame fraHiding 
+            BorderStyle     =   0  'None
+            Height          =   2010
+            Left            =   1395
+            TabIndex        =   119
+            Top             =   2325
+            Width           =   5130
+            Begin VB.ComboBox cmbHidingTime 
+               Height          =   315
+               Left            =   825
+               Style           =   2  'Dropdown List
+               TabIndex        =   122
+               Top             =   1605
+               Width           =   3720
+            End
+            Begin VB.CheckBox chkWidgetHidden 
+               Caption         =   "Hiding Widget *"
+               Height          =   225
+               Left            =   855
+               TabIndex        =   120
+               Top             =   210
+               Width           =   2955
+            End
+            Begin VB.Label lblWindowLevel 
+               Caption         =   "Hiding :"
+               Height          =   345
+               Index           =   2
+               Left            =   90
+               TabIndex        =   123
+               Top             =   210
+               Width           =   720
+            End
+            Begin VB.Label lblWindowLevel 
+               Caption         =   $"frmPrefs.frx":6BAD
+               Height          =   975
+               Index           =   1
+               Left            =   855
+               TabIndex        =   121
+               Top             =   600
+               Width           =   3900
+            End
+         End
+         Begin VB.ComboBox cmbWindowLevel 
+            Height          =   315
+            Left            =   2220
+            Style           =   2  'Dropdown List
+            TabIndex        =   17
+            Top             =   0
+            Width           =   3720
+         End
+         Begin VB.CheckBox chkIgnoreMouse 
+            Caption         =   "Ignore Mouse *"
+            Height          =   225
+            Left            =   2250
+            TabIndex        =   15
+            ToolTipText     =   "Checking this box causes the program to ignore all mouse events."
+            Top             =   1500
+            Width           =   2535
+         End
+         Begin vb6projectCCRSlider.Slider sliOpacity 
+            Height          =   390
+            Left            =   2115
+            TabIndex        =   16
+            ToolTipText     =   "Set the transparency of the Program."
+            Top             =   4560
+            Width           =   3870
+            _ExtentX        =   6826
+            _ExtentY        =   688
+            Min             =   20
+            Max             =   100
+            Value           =   20
+            SelStart        =   20
+         End
+         Begin VB.Label lblWindowLevel 
+            Caption         =   "Multi-Monitor Resizing :"
+            Height          =   255
+            Index           =   11
+            Left            =   375
+            TabIndex        =   185
+            Top             =   5835
+            Width           =   1830
+         End
+         Begin VB.Label lblWindowLevel 
+            Caption         =   $"frmPrefs.frx":6C50
+            Height          =   1140
+            Index           =   10
+            Left            =   2235
+            TabIndex        =   184
+            Top             =   6255
+            Width           =   4050
+         End
+         Begin VB.Label lblWindowLevel 
+            Caption         =   "This setting controls the relative layering of this widget. You may use it to place it on top of other windows or underneath. "
+            Height          =   660
+            Index           =   3
+            Left            =   2235
+            TabIndex        =   128
+            Top             =   570
+            Width           =   3810
+         End
+         Begin VB.Label lblWindowLevel 
+            Caption         =   "Window Level :"
+            Height          =   345
+            Index           =   0
+            Left            =   915
+            TabIndex        =   24
+            Top             =   60
+            Width           =   1740
+         End
+         Begin VB.Label lblWindowLevel 
+            Caption         =   "20%"
+            Height          =   315
+            Index           =   7
+            Left            =   2205
+            TabIndex        =   23
+            Top             =   5070
+            Width           =   345
+         End
+         Begin VB.Label lblWindowLevel 
+            Caption         =   "100%"
+            Height          =   315
+            Index           =   9
+            Left            =   5565
+            TabIndex        =   22
+            Top             =   5070
+            Width           =   405
+         End
+         Begin VB.Label lblWindowLevel 
+            Caption         =   "Opacity"
+            Height          =   315
+            Index           =   8
+            Left            =   3690
+            TabIndex        =   21
+            Top             =   5070
+            Width           =   840
+         End
+         Begin VB.Label lblWindowLevel 
+            Caption         =   "Opacity:"
+            Height          =   315
+            Index           =   6
+            Left            =   1470
+            TabIndex        =   20
+            Top             =   4620
+            Width           =   780
+         End
+         Begin VB.Label lblWindowLevel 
+            Caption         =   "Set the program transparency level."
+            Height          =   330
+            Index           =   5
+            Left            =   2250
+            TabIndex        =   19
+            Top             =   5385
+            Width           =   3810
+         End
+         Begin VB.Label lblWindowLevel 
+            Caption         =   "Checking this box causes the program to ignore all mouse events except right click menu interactions."
+            Height          =   660
+            Index           =   4
+            Left            =   2235
+            TabIndex        =   18
+            Top             =   1890
+            Width           =   3810
          End
       End
    End
@@ -2139,11 +2148,16 @@ Private prefsStartupFlg As Boolean
 Private gblAllowSizeChangeFlg As Boolean
 
 ' module level balloon tooltip variables for subclassed comboBoxes ONLY.
-'Private gCmbMultiMonitorResizeBalloonTooltip As String
-
-
-' module level balloon tooltip variables for comboBoxes ONLY.
 Private gCmbMultiMonitorResizeBalloonTooltip As String
+Private gCmbScrollWheelDirectionBalloonTooltip As String
+Private gCmbWindowLevelBalloonTooltip As String
+Private gCmbHidingTimeBalloonTooltip As String
+Private gCmbAspectHiddenBalloonTooltip As String
+Private gCmbWidgetPositionBalloonTooltip As String
+Private gCmbWidgetLandscapeBalloonTooltip As String
+Private gCmbWidgetPortraitBalloonTooltip As String
+
+
 
 
 
@@ -2777,12 +2791,19 @@ Private Sub subClassControls()
         ' sub classing code to intercept messages to the thumbnail frames to pump the VB6 scrollbar with mousewheel up/down.
 '        Call SubclassMouseWheel(picFrameThumbs.hWnd, ObjPtr(picFrameThumbs))
 '        Call SubclassMouseWheel(picRdThumbFrame.hWnd, ObjPtr(picRdThumbFrame))
-'
-'        ' sub classing code to intercept messages to the comboboxes frame to provide missing balloon tooltips functionality
+
+        ' sub classing code to intercept messages to the comboboxes frame to provide missing balloon tooltips functionality
         
         Call SubclassComboBox(cmbMultiMonitorResize.hWnd, ObjPtr(cmbMultiMonitorResize))
-'        Call SubclassComboBox(cmbOpenRunning.hWnd, ObjPtr(cmbOpenRunning))
-'        Call SubclassComboBox(cmbIconTypesFilter.hWnd, ObjPtr(cmbIconTypesFilter))
+        Call SubclassComboBox(cmbScrollWheelDirection.hWnd, ObjPtr(cmbScrollWheelDirection))
+        Call SubclassComboBox(cmbWindowLevel.hWnd, ObjPtr(cmbWindowLevel))
+        Call SubclassComboBox(cmbHidingTime.hWnd, ObjPtr(cmbHidingTime))
+        
+        Call SubclassComboBox(cmbWidgetLandscape.hWnd, ObjPtr(cmbWidgetLandscape))
+        Call SubclassComboBox(cmbWidgetPortrait.hWnd, ObjPtr(cmbWidgetPortrait))
+        Call SubclassComboBox(cmbWidgetPosition.hWnd, ObjPtr(cmbWidgetPosition))
+        Call SubclassComboBox(cmbAspectHidden.hWnd, ObjPtr(cmbAspectHidden))
+        
     End If
 
     On Error GoTo 0
@@ -2798,7 +2819,7 @@ End Sub
 ' Procedure : MouseMoveOnComboText
 ' Author    : beededea
 ' Date      : 16/07/2024
-' Purpose   :
+' Purpose   : Note: Each control must also be added to the subClassControls routine
 '---------------------------------------------------------------------------------------
 '
 Public Sub MouseMoveOnComboText(sComboName As String)
@@ -2806,15 +2827,43 @@ Public Sub MouseMoveOnComboText(sComboName As String)
     Dim sText As String
 
     On Error GoTo MouseMoveOnComboText_Error
-
+    
     Select Case sComboName
         Case "cmbMultiMonitorResize"
-            'MsgBox "MouseMoveOnComboText"
             sTitle = "Help on the Drop Down Icon Filter"
             sText = gCmbMultiMonitorResizeBalloonTooltip
             If gblEnableBalloonTooltips = "1" Then CreateToolTip cmbMultiMonitorResize.hWnd, sText, , sTitle, , , , True
+        Case "cmbScrollWheelDirection"
+            sTitle = "Help on the Scroll Wheel Direction"
+            sText = gCmbScrollWheelDirectionBalloonTooltip
+            If gblEnableBalloonTooltips = "1" Then CreateToolTip cmbScrollWheelDirection.hWnd, sText, , sTitle, , , , True
+        Case "cmbWindowLevel"
+            sTitle = "Help on the Window Level"
+            sText = gCmbWindowLevelBalloonTooltip
+            If gblEnableBalloonTooltips = "1" Then CreateToolTip cmbWindowLevel.hWnd, sText, , sTitle, , , , True
+        Case "cmbHidingTime"
+            sTitle = "Help on the Hiding Time"
+            sText = gCmbHidingTimeBalloonTooltip
+            If gblEnableBalloonTooltips = "1" Then CreateToolTip cmbHidingTime.hWnd, sText, , sTitle, , , , True
+            
+        Case "cmbAspectHidden"
+            sTitle = "Help on Hiding in Landscape/Portrait Mode"
+            sText = gCmbAspectHiddenBalloonTooltip
+            If gblEnableBalloonTooltips = "1" Then CreateToolTip cmbAspectHidden.hWnd, sText, , sTitle, , , , True
+        Case "cmbWidgetPosition"
+            sTitle = "Help on Widget Position in Landscape/Portrait Modes"
+            sText = gCmbWidgetPositionBalloonTooltip
+            If gblEnableBalloonTooltips = "1" Then CreateToolTip cmbWidgetPosition.hWnd, sText, , sTitle, , , , True
+        Case "cmbWidgetLandscape"
+            sTitle = "Help on Widget Locking in Landscape Modes"
+            sText = gCmbWidgetLandscapeBalloonTooltip
+            If gblEnableBalloonTooltips = "1" Then CreateToolTip cmbWidgetLandscape.hWnd, sText, , sTitle, , , , True
+        Case "cmbWidgetPortrait"
+            sTitle = "Help on Widget Locking in Portrait Modes"
+            sText = gCmbWidgetPortraitBalloonTooltip
+            If gblEnableBalloonTooltips = "1" Then CreateToolTip cmbWidgetPortrait.hWnd, sText, , sTitle, , , , True
     End Select
-
+    
    On Error GoTo 0
    Exit Sub
 
@@ -5502,6 +5551,16 @@ Public Sub setPrefsTooltips()
             "For monitors of different sizes, this allows you to resize the widget to suit the monitor it is currently sitting on. The automatic option resizes according to the relative proportions of the two screens.  " & vbCrLf & vbCrLf & _
             "The manual option resizes according to sizes that you set manually. Just resize the clock on the monitor of your choice and the program will store it. This option only works for no more than TWO monitors."
    
+        gCmbScrollWheelDirectionBalloonTooltip = "This option will allow you to change the direction of the mouse scroll wheel when resizing the globe gauge. IF you want to resize the clock on your desktop, hold the CTRL key along with moving the scroll wheel UP/DOWN. Some prefer scrolling UP rather than DOWN. You configure that here."
+        gCmbWindowLevelBalloonTooltip = "You can determine the window level here. You can keep it above all other windows or you can set it to bottom to keep the widget below all other windows."
+        gCmbHidingTimeBalloonTooltip = "The hiding time that you can set here determines how long the widget will disappear when you click the menu option to hide the widget."
+        
+        gCmbWidgetLandscapeBalloonTooltip = "The widget can be locked into landscape mode, it ensures that the widget always appears where you want it to. Using the fields below, you can assign a default x/y position for Landscape mode. "
+        gCmbWidgetPortraitBalloonTooltip = "The widget can be locked into portrait mode, it ensures that the widget always appears where you want it to. Using the fields below, you can assign a default x/y position for portrait mode. "
+        gCmbWidgetPositionBalloonTooltip = "Tablets only. The widget can be positioned proportionally when switching between portrait/landscape. If you want to enable this, disable the options below."
+        gCmbAspectHiddenBalloonTooltip = " Here you can choose whether the widget is hidden by default in either landscape or portrait mode or not at all. This allows you to have certain widgets that do not obscure the screen in one mode or another. If you accidentally set it so you can't find it on screen then change the setting here to none."
+        
+   
         imgConfig.ToolTipText = "Opens the configuration tab"
         imgConfigClicked.ToolTipText = "Opens the configuration tab"
         imgDevelopment.ToolTipText = "Opens the Development tab"
@@ -5550,7 +5609,7 @@ Public Sub setPrefsTooltips()
         txtPrefsFont.ToolTipText = "Disabled for manual input. Choose a font via the font selector to be used only for this preferences window"
         txtPrefsFontSize.ToolTipText = "Disabled for manual input. Choose a font size via the font selector that fits the text boxes"
         cmbWindowLevel.ToolTipText = "You can determine the window position here. Set to bottom to keep the widget below other windows."
-        cmbHidingTime.ToolTipText = "."
+        cmbHidingTime.ToolTipText = "The hiding time that you can set here determines how long the widget will disappear when you click the menu option to hide the widget."
         cmbMultiMonitorResize.ToolTipText = "When you have a multi-monitor set-up, the widget can auto-resize on a smaller secondary monitor. Here you determine the proportion of the resize."
         
         chkEnableResizing.ToolTipText = "Provides an alternative method of supporting high DPI screens."
@@ -6376,7 +6435,7 @@ Private Sub setframeHeights()
         'End If
     Else
         fraGeneral.Height = 7737
-        fraConfig.Height = 6784
+        fraConfig.Height = 7134
         fraSounds.Height = 3376
         fraPosition.Height = 7544
         fraFonts.Height = 4481

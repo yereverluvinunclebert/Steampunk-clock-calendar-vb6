@@ -1659,9 +1659,7 @@ Public Sub setMainTooltips()
     If gblEnableTooltips = "1" Then
 
         overlayWidget.Widget.ToolTip = "Use CTRL+mouse scrollwheel up/down to resize."
-        'helpWidget.Widget.ToolTip = "Click on me to make me go away."
         aboutWidget.Widget.ToolTip = "Click on me to make me go away."
-    
         
         fClock.clockForm.Widgets("helpbottom").Widget.ToolTip = "This is the Widget Help. Click on me to make me go away."
         fClock.clockForm.Widgets("sliderset").Widget.ToolTip = "This is the Time Slider. Click and drag me left/right to alter time."
@@ -1746,18 +1744,11 @@ Public Sub setMainTooltips()
 '                    weekdayred.Refresh
 '                End If
 '
-
-        
-        
-        
-        
         
         
     Else
         overlayWidget.Widget.ToolTip = vbNullString
-        'helpWidget.Widget.ToolTip = vbNullString
         aboutWidget.Widget.ToolTip = vbNullString
-        
         
         fClock.clockForm.Widgets("helpbottom").Widget.ToolTip = vbNullString
         fClock.clockForm.Widgets("sliderset").Widget.ToolTip = vbNullString

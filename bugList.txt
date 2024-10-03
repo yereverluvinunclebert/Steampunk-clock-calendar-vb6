@@ -86,6 +86,10 @@ quiet/loud sounds
 ' click on alarm till deletes alarm with confirmation pop-up
 ' if in alarm mode, when you delete the alarm it also cancels alarm mode, moving slider back in
 
+' subclassing comboboxes Elroy's subclasser
+' Olaf tooltips for the UI controls
+' tooltips for the prefs multi monitor combo
+
 ' -oOo-
 
 ' cancel an automatic resize after a wake from sleep, due to Windows sometimes pushing all windows onto one monitor, after a wake from sleep
