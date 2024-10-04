@@ -2242,6 +2242,27 @@ btnVerifyDateTime1_Click_Error:
 End Sub
 
 
+Private Sub btnVerifyDateTime1_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
+    If gblEnableBalloonTooltips = "1" Then CreateToolTip btnVerifyDateTime1.hWnd, "Validate a future date and time here in 24hr military format, eg: 23/11/2036 23:45. If the date and time are not valid nor in the future the invalid fields will be highlighted in red.", _
+                  TTIconInfo, "Help on Validating Alarm Number One", , , , True
+End Sub
+Private Sub btnVerifyDateTime2_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
+    If gblEnableBalloonTooltips = "1" Then CreateToolTip btnVerifyDateTime2.hWnd, "Validate a future date and time here in 24hr military format, eg: 23/11/2036 23:45. If the date and time are not valid nor in the future the invalid fields will be highlighted in red.", _
+                  TTIconInfo, "Help on Validating Alarm Number Two", , , True
+End Sub
+Private Sub btnVerifyDateTime3_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
+    If gblEnableBalloonTooltips = "1" Then CreateToolTip btnVerifyDateTime3.hWnd, "Validate a future date and time here in 24hr military format, eg: 23/11/2036 23:45. If the date and time are not valid nor in the future the invalid fields will be highlighted in red.", _
+                  TTIconInfo, "Help on Validating Alarm Number Three", , , , True
+End Sub
+Private Sub btnVerifyDateTime4_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
+    If gblEnableBalloonTooltips = "1" Then CreateToolTip btnVerifyDateTime4.hWnd, "Validate a future date and time here in 24hr military format, eg: 23/11/2036 23:45. If the date and time are not valid nor in the future the invalid fields will be highlighted in red.", _
+                  TTIconInfo, "Help on Validating Alarm Number Four", , , , True
+End Sub
+Private Sub btnVerifyDateTime5_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
+    If gblEnableBalloonTooltips = "1" Then CreateToolTip btnVerifyDateTime5.hWnd, "Validate a future date and time here in 24hr military format, eg: 23/11/2036 23:45. If the date and time are not valid nor in the future the invalid fields will be highlighted in red.", _
+                  TTIconInfo, "Help on Validating Alarm Number Five", , , , True
+End Sub
+
 '---------------------------------------------------------------------------------------
 ' Procedure : btnVerifyDateTime2_Click
 ' Author    : beededea
@@ -4910,13 +4931,19 @@ Private Sub fraAbout_MouseMove(Button As Integer, Shift As Integer, X As Single,
     If gblEnableBalloonTooltips = "1" Then CreateToolTip fraAbout.hWnd, "The About tab tells you all about this program and its creation using VB6.", _
                   TTIconInfo, "Help on the About Tab", , , , True
 End Sub
+
+
+
+
+
+
 Private Sub fraConfigInner_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
     If Button = 2 Then
         Me.PopupMenu prefsMnuPopmenu, vbPopupMenuRightButton
     End If
 End Sub
 Private Sub fraConfigInner_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
-    If gblEnableBalloonTooltips = "1" Then CreateToolTip fraConfigInner.hWnd, "The configuration panel is the location for optional configuration items. These items change how the volume control operates, configure them to suit your needs and your mode of operation.", _
+    If gblEnableBalloonTooltips = "1" Then CreateToolTip fraConfigInner.hWnd, "The configuration panel is the location for optional configuration items. These items change how the widget operates, configure them to suit your needs and your mode of operation.", _
                   TTIconInfo, "Help on Configuration", , , , True
 
 End Sub
@@ -4926,7 +4953,7 @@ Private Sub fraConfig_MouseDown(Button As Integer, Shift As Integer, X As Single
     End If
 End Sub
 Private Sub fraConfig_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
-    If gblEnableBalloonTooltips = "1" Then CreateToolTip fraConfig.hWnd, "The configuration panel is the location for optional configuration items. These items change how the volume control operates, configure them to suit your needs and your mode of operation.", _
+    If gblEnableBalloonTooltips = "1" Then CreateToolTip fraConfig.hWnd, "The configuration panel is the location for important configuration items. These items change how the widget operates, configure them to suit your needs and your mode of operation.", _
                   TTIconInfo, "Help on Configuration", , , , True
 
 End Sub
@@ -5055,6 +5082,42 @@ Private Sub imgGeneral_Click()
     imgGeneral.Visible = False
     imgGeneralClicked.Visible = True
 End Sub
+
+Private Sub fraGeneralButton_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
+    If gblEnableBalloonTooltips = "1" Then CreateToolTip fraGeneralButton.hWnd, "Clicking on the General icon reveals the General Tab where the essential items can be configured, alarms, startup &c.", _
+                  TTIconInfo, "Help on the General Tab Icon", , , , True
+End Sub
+
+Private Sub fraConfigButton_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
+    If gblEnableBalloonTooltips = "1" Then CreateToolTip fraConfigButton.hWnd, "Clicking on the Config icon reveals the Configuration Tab where the optional items can be configured, DPI, tooltips &c.", _
+                  TTIconInfo, "Help on the Configuration Tab Icon", , , , True
+End Sub
+
+Private Sub fraFontsButton_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
+    If gblEnableBalloonTooltips = "1" Then CreateToolTip fraFontsButton.hWnd, "Clicking on the Fonts icon reveals the Fonts Tab where the font related items can be configured, size, type, popups &c.", _
+                  TTIconInfo, "Help on the Font Tab Icon", , , , True
+End Sub
+Private Sub fraSoundsButton_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
+    If gblEnableBalloonTooltips = "1" Then CreateToolTip fraSoundsButton.hWnd, "Clicking on the Sounds icon reveals the Sounds Tab where sound related items can be configured, volume, type &c.", _
+                  TTIconInfo, "Help on the Sounds Tab Icon", , , , True
+End Sub
+Private Sub fraPositionButton_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
+    If gblEnableBalloonTooltips = "1" Then CreateToolTip fraPositionButton.hWnd, "Clicking on the Position icon reveals the Position Tab where items related to Positioning can be configured, aspect ratios, landscape, &c.", _
+                  TTIconInfo, "Help on the Position Tab Icon", , , , True
+End Sub
+Private Sub fraDevelopmentButton_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
+    If gblEnableBalloonTooltips = "1" Then CreateToolTip fraDevelopmentButton.hWnd, "Clicking on the Development icon reveals the Development Tab where items relating to Development can be configured, debug, VBP location, &c.", _
+                  TTIconInfo, "Help on the Development Tab Icon", , , , True
+End Sub
+Private Sub fraWindowButton_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
+    If gblEnableBalloonTooltips = "1" Then CreateToolTip fraWindowButton.hWnd, "Clicking on the Window icon reveals the Window Tab where items relating to window sizing and layering can be configured &c.", _
+                  TTIconInfo, "Help on the Window Tab Icon", , , , True
+End Sub
+Private Sub fraAboutButton_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
+    If gblEnableBalloonTooltips = "1" Then CreateToolTip fraAboutButton.hWnd, "Clicking on the About icon reveals the About Tab where information about this desktop widget can be revealed.", _
+                  TTIconInfo, "Help on the About Tab Icon", , , , True
+End Sub
+
 
 Private Sub imgGeneral_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
     Call picButtonMouseUpEvent("general", imgGeneral, imgGeneralClicked, fraGeneral, fraGeneralButton) ' was imgGeneralMouseUpEvent
@@ -5451,6 +5514,57 @@ Private Sub txtAlarm1Date_Click()
 
 End Sub
 
+Private Sub txtAlarm1Time_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
+    If gblEnableBalloonTooltips = "1" Then CreateToolTip txtAlarm1Time.hWnd, "Enter a valid Time here by typing a future time in 24hr military format, eg: 23:45. When you have entered both a date in the previous field and a time here, then click the > key to validate.", _
+                  TTIconInfo, "Help on Alarm Time Number One", , , , True
+End Sub
+
+Private Sub txtAlarm2Time_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
+    If gblEnableBalloonTooltips = "1" Then CreateToolTip txtAlarm2Time.hWnd, "Enter a valid Time here by typing a future time in 24hr military format, eg: 23:45. When you have entered both a date in the previous field and a time here, then click the > key to validate.", _
+                  TTIconInfo, "Help on Alarm Time Number Two", , , , True
+End Sub
+
+Private Sub txtAlarm3Time_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
+    If gblEnableBalloonTooltips = "1" Then CreateToolTip txtAlarm3Time.hWnd, "Enter a valid Time here by typing a future time in 24hr military format, eg: 23:45. When you have entered both a date in the previous field and a time here, then click the > key to validate.", _
+                  TTIconInfo, "Help on Alarm Time Number Three", , , , True
+End Sub
+
+Private Sub txtAlarm4Time_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
+    If gblEnableBalloonTooltips = "1" Then CreateToolTip txtAlarm4Time.hWnd, "Enter a valid Time here by typing a future time in 24hr military format, eg: 23:45. When you have entered both a date in the previous field and a time here, then click the > key to validate.", _
+                  TTIconInfo, "Help on Alarm Time Number Four", , , , True
+End Sub
+
+Private Sub txtAlarm5Time_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
+    If gblEnableBalloonTooltips = "1" Then CreateToolTip txtAlarm5Time.hWnd, "Enter a valid Time here by typing a future time in 24hr military format, eg: 23:45. When you have entered both a date in the previous field and a time here, then click the > key to validate.", _
+                  TTIconInfo, "Help on Alarm Time Number Five", , , , True
+End Sub
+
+
+Private Sub txtAlarm1Date_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
+    If gblEnableBalloonTooltips = "1" Then CreateToolTip txtAlarm1Date.hWnd, "Enter a valid date here by typing a future date in format dd/mm/yyyy. When you have entered both a date here and a time in the adjacent field, then click the > key to validate.", _
+                  TTIconInfo, "Help on Alarm Date Number One", , , , True
+End Sub
+
+
+Private Sub txtAlarm2Date_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
+    If gblEnableBalloonTooltips = "1" Then CreateToolTip txtAlarm2Date.hWnd, "Enter a valid date here by typing a future date in format dd/mm/yyyy. When you have entered both a date here and a time in the adjacent field, then click the > key to validate.", _
+                  TTIconInfo, "Help on Alarm Date Number Two", , , , True
+End Sub
+
+Private Sub txtAlarm3Date_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
+    If gblEnableBalloonTooltips = "1" Then CreateToolTip txtAlarm3Date.hWnd, "Enter a valid date here by typing a future date in format dd/mm/yyyy. When you have entered both a date here and a time in the adjacent field, then click the > key to validate.", _
+                  TTIconInfo, "Help on Alarm Date Number Three", , , , True
+End Sub
+
+Private Sub txtAlarm4Date_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
+    If gblEnableBalloonTooltips = "1" Then CreateToolTip txtAlarm4Date.hWnd, "Enter a valid date here by typing a future date in format dd/mm/yyyy. When you have entered both a date here and a time in the adjacent field, then click the > key to validate.", _
+                  TTIconInfo, "Help on Alarm Date Number Four", , , , True
+End Sub
+
+Private Sub txtAlarm5Date_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
+    If gblEnableBalloonTooltips = "1" Then CreateToolTip txtAlarm5Date.hWnd, "Enter a valid date here by typing a future date in format dd/mm/yyyy. When you have entered both a date here and a time in the adjacent field, then click the > key to validate.", _
+                  TTIconInfo, "Help on Alarm Date Number Five", , , , True
+End Sub
 Private Sub txtAlarm1Time_Change()
     btnSave.Enabled = True ' enable the save button
 
@@ -5623,7 +5737,7 @@ Public Sub setPrefsTooltips()
         imgFontsClicked.ToolTipText = "Opens the Fonts tab"
         imgGeneral.ToolTipText = "Opens the general tab"
         imgGeneralClicked.ToolTipText = "Opens the general tab"
-        lblPosition(6).ToolTipText = "Tablets only. Don't fiddle with this unless you really know what you are doing. Here you can choose whether this the volume control widget is hidden by default in either landscape or portrait mode or not at all. This option allows you to have certain widgets that do not obscure the screen in either landscape or portrait. If you accidentally set it so you can't find your widget on screen then change the setting here to NONE."
+        lblPosition(6).ToolTipText = "Tablets only. Don't fiddle with this unless you really know what you are doing. Here you can choose whether this the widget widget is hidden by default in either landscape or portrait mode or not at all. This option allows you to have certain widgets that do not obscure the screen in either landscape or portrait. If you accidentally set it so you can't find your widget on screen then change the setting here to NONE."
         chkGenStartup.ToolTipText = "Check this box to enable the automatic start of the program when Windows is started."
         chkTogglePendulum.ToolTipText = "Decide whether the pendulum swings or not. The math behind the graphics of a swinging pendulum requires processor power. Older single-core machines may experience a lot of cpu usage."
         chk24HourClockMode.ToolTipText = "Decide whether the digital clock display should use military/twenty-four hour time or the 12-hour clock."
@@ -6326,7 +6440,7 @@ Private Sub setModernThemeColours()
     
     On Error GoTo setModernThemeColours_Error
     
-    'the volume controlPrefs.mnuAuto.Caption = "Auto Theme Selection Cannot be Enabled"
+    'the widgetPrefs.mnuAuto.Caption = "Auto Theme Selection Cannot be Enabled"
 
     'MsgBox "Windows Alternate Theme detected"
     SysClr = GetSysColor(COLOR_BTNFACE)

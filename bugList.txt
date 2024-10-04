@@ -94,6 +94,7 @@ quiet/loud sounds
 ' Added Elroy's subclassing code to assist in capturing WM_MOVE and WM_MOVED.
 ' Added subclassing to remaining prefs comboboxes to capture mouseOver and generate balloon tooltips
 ' Add balloon tooltips to all comboboxes, vars and assignments
+' at mouseUP test current monitor using isPrimary instead of monitorIDs.
 
 ' -oOo-
 
@@ -101,7 +102,7 @@ quiet/loud sounds
 ' code to save, validate and restore balloon tooltip config.
 ' tooltips for new controls
 
-' at mouseUP test current monitor is not the same monitor, problem with monitors awakening out of sequence causing new monitorIDs.
+
 
 ' after a digital reset set each to -- --  and ** *** **** one by one - wip
 
