@@ -566,12 +566,12 @@ Public Sub positionClockByMonitorSize()
 
         'If oldClockFormMonitorID <> clockFormMonitorID Then
         If oldClockFormMonitorPrimary <> clockFormMonitorPrimary Then
-            If gblSystemAwokenFromSleep = True Then
-                gblSystemAwokenFromSleep = False
-                screenWrite ("Awoken from Sleep")
-                'oldClockFormMonitorID = 0 ' monitor ID is new  for each monitor after wake from sleep or even an auto-screen blank
-                Exit Sub
-            End If
+'            If gblSystemAwokenFromSleep = True Then
+'                gblSystemAwokenFromSleep = False
+'                screenWrite ("Awoken from Sleep")
+'                'oldClockFormMonitorID = 0 ' monitor ID is new  for each monitor after wake from sleep or even an auto-screen blank
+'                Exit Sub
+'            End If
             
             screenWrite ("Stored monitor primary status = " & CBool(oldClockFormMonitorPrimary))
             screenWrite ("Current monitor primary status = " & CBool(clockFormMonitorPrimary))
