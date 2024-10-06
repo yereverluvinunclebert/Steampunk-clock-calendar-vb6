@@ -96,17 +96,25 @@ quiet/loud sounds
 ' Add balloon tooltips to all comboboxes, vars and assignments
 ' at mouseUP test current monitor using isPrimary instead of monitorIDs.
 
+' balloon tooltips font size - not possible unless I roll my own
+' general tab added balloon tooltips
 ' windows tab added balloon tooltips
 ' fonts tab added balloon tooltips
+' sounds tab added balloon tooltips
+' position tab added balloon tooltips
+' config tab added balloon tooltips
+' about tab added balloon tooltips
 
 ' -oOo-
 
+' prefs auto resizing, 
+' prefs intercept WM_MOVE and resize on WM_MOVED /MouseUP?
+' main GUI, resize on timer?
+
 ' all remaining controls, text, buttons,  chk boxes, scrollbars and image boxes to receive balloon tooltips - wip
 
-' code to save, validate and restore balloon tooltip config.
+' code to save, validate and restore prefs balloon tooltip config.
 ' tooltips for recent controls missing tooltips
-
-' balloon tooltips font size - wip
 
 ' digital display indicators, respect opacity
 
