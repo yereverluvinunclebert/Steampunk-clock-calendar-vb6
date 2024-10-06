@@ -96,13 +96,19 @@ quiet/loud sounds
 ' Add balloon tooltips to all comboboxes, vars and assignments
 ' at mouseUP test current monitor using isPrimary instead of monitorIDs.
 
+' windows tab added balloon tooltips
+' fonts tab added balloon tooltips
+
 ' -oOo-
 
-' all remaining controls, text, buttons,  chk boxes, scrollbars and image boxes to receive balloon tooltips
+' all remaining controls, text, buttons,  chk boxes, scrollbars and image boxes to receive balloon tooltips - wip
+
 ' code to save, validate and restore balloon tooltip config.
-' tooltips for new controls
+' tooltips for recent controls missing tooltips
 
+' balloon tooltips font size - wip
 
+' digital display indicators, respect opacity
 
 ' after a digital reset set each to -- --  and ** *** **** one by one - wip
 
