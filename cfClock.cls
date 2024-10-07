@@ -1108,7 +1108,7 @@ End Sub
 Private Sub dropdown_myMouseDown()
 
     Dim fileToPlay As String: fileToPlay = vbNullString
-    Dim alphaVal As Integer: alphaVal = 0
+    Dim alphaVal As Single: alphaVal = 0
     Dim thisDayOfWeek As String: thisDayOfWeek = vbNullString
     
     Dim dropdownTop As Long: dropdownTop = 0
@@ -1399,7 +1399,7 @@ End Sub
 Private Sub weekdayred_myMouseDown()
 
     Dim fileToPlay As String: fileToPlay = vbNullString
-    Dim alphaVal As Integer: alphaVal = 0
+    Dim alphaVal As Single: alphaVal = 0
     Dim thisDayOfWeek As String: thisDayOfWeek = vbNullString
     
     Dim weekdayToggleTop As Long: weekdayToggleTop = 0
@@ -1780,7 +1780,7 @@ Private Sub displayScreenToggle_myMouseDown()
     Dim fileToPlay As String: fileToPlay = vbNullString
     Dim displayScreenToggleTop As Long: displayScreenToggleTop = 0
     Dim displayScreenToggleLeft As Long: displayScreenToggleLeft = 0
-    Dim alphaVal As Integer: alphaVal = 0
+    Dim alphaVal As Single: alphaVal = 0
     
     displayScreenToggleTop = displayscreentoggle.Top
     displayScreenToggleLeft = displayscreentoggle.Left
@@ -1827,7 +1827,7 @@ Private Sub helptoggle_myMouseDown()
     Dim fileToPlay As String: fileToPlay = vbNullString
     Dim helptoggleTop As Long: helptoggleTop = 0
     Dim helptoggleLeft As Long: helptoggleLeft = 0
-    Dim alphaVal As Integer: alphaVal = 0
+    Dim alphaVal As Single: alphaVal = 0
     Dim helpToggleFlg As Boolean: helpToggleFlg = False
 
     helptoggleTop = helpToggle.Top
@@ -1934,7 +1934,7 @@ Private Sub helpdropdown_myMouseDown()
     Dim fileToPlay As String: fileToPlay = vbNullString
     Dim helpdropdownTop As Long: helpdropdownTop = 0
     Dim helpdropdownLeft As Long: helpdropdownLeft = 0
-    Dim alphaVal As Integer: alphaVal = 0
+    Dim alphaVal As Single: alphaVal = 0
 
     If helpdropdown.Alpha <> 0 Then
         Call screenWrite("Dropdown canvas rolling up")
@@ -2043,7 +2043,7 @@ Private Sub helpbottom_myMouseDown()
 '    Dim helpbottomLeft As Long: helpbottomLeft = 0
 '    Dim labellayerTop As Long: labellayerTop = 0
 '    Dim labellayerLeft As Long: labellayerLeft = 0
-'    Dim alphaVal As Integer: alphaVal = 0
+'    Dim alphaVal As single: alphaVal = 0
 
 '    Dim fileToPlay As String: fileToPlay = vbNullString
     
@@ -2498,7 +2498,7 @@ Public Property Let displayScreenToggleEnabled(ByVal newValue As Boolean)
     Dim displayScreenToggleIn As Long: displayScreenToggleIn = 0
     Dim displayScreenToggleOut As Long: displayScreenToggleOut = 0
     Dim fileToPlay As String: fileToPlay = vbNullString
-    Dim alphaVal As Integer: alphaVal = 0
+    Dim alphaVal As Single: alphaVal = 0
     Dim thisDayOfWeek As String: thisDayOfWeek = vbNullString
     
     On Error GoTo displayScreenToggleEnabledLet_Error
@@ -2661,7 +2661,7 @@ End Sub
 '
 Public Property Let clapperEnabled(ByVal newValue As Boolean)
     Dim fileToPlay As String: fileToPlay = vbNullString
-    Dim alphaVal As Integer: alphaVal = 0
+    Dim alphaVal As Single: alphaVal = 0
 
     On Error GoTo clapperEnabledLet_Error
     
@@ -2740,7 +2740,7 @@ Public Property Let backToggleEnabled(ByVal newValue As Boolean)
     Dim backToggleIn As Long: backToggleIn = 0
     Dim backToggleOut As Long: backToggleOut = 0
     Dim fileToPlay As String: fileToPlay = vbNullString
-    Dim alphaVal As Integer: alphaVal = 0
+    Dim alphaVal As Single: alphaVal = 0
     Dim thisDayOfWeek As String: thisDayOfWeek = vbNullString
     
     On Error GoTo backToggleEnabledLet_Error
@@ -2881,7 +2881,7 @@ End Sub
 '---------------------------------------------------------------------------------------
 '
 Public Property Let crankedRaised(ByVal newValue As Boolean)
-    Dim alphaVal As Integer: alphaVal = 0
+    Dim alphaVal As Single: alphaVal = 0
   
     On Error GoTo crankedRaisedLet_Error
     
@@ -3018,7 +3018,7 @@ Public Property Let weekdayToggleEnabled(ByVal newValue As Boolean)
     Dim weekdayToggleIn As Long: weekdayToggleIn = 0
     Dim weekdayToggleOut As Long: weekdayToggleOut = 0
     Dim fileToPlay As String: fileToPlay = vbNullString
-    Dim alphaVal As Integer: alphaVal = 0
+    Dim alphaVal As Single: alphaVal = 0
     Dim thisDayOfWeek As String: thisDayOfWeek = vbNullString
     
     On Error GoTo weekdayToggleEnabledLet_Error
@@ -3542,7 +3542,7 @@ Public Property Let alarmtoggle1Enabled(ByVal newValue As Boolean)
     Dim alarmtoggle1Top As Long: alarmtoggle1Top = 0
     Dim alarmtoggle1In As Long: alarmtoggle1In = 0
     Dim alarmtoggle1Out As Long: alarmtoggle1Out = 0
-    Dim alphaVal As Integer: alphaVal = 0
+    Dim alphaVal As Single: alphaVal = 0
 
     On Error GoTo alarmtoggle1EnabledLet_Error
     
@@ -3630,7 +3630,7 @@ Public Property Let alarmtoggle2Enabled(ByVal newValue As Boolean)
     Dim alarmtoggle2Top As Long: alarmtoggle2Top = 0
     Dim alarmtoggle2In As Long: alarmtoggle2In = 0
     Dim alarmtoggle2Out As Long: alarmtoggle2Out = 0
-    Dim alphaVal As Integer: alphaVal = 0
+    Dim alphaVal As Single: alphaVal = 0
    
     On Error GoTo alarmtoggle2EnabledLet_Error
     
@@ -3723,7 +3723,7 @@ Public Property Let alarmtoggle3Enabled(ByVal newValue As Boolean)
     Dim alarmtoggle3Top As Long: alarmtoggle3Top = 0
     Dim alarmtoggle3In As Long: alarmtoggle3In = 0
     Dim alarmtoggle3Out As Long: alarmtoggle3Out = 0
-    Dim alphaVal As Integer: alphaVal = 0
+    Dim alphaVal As Single: alphaVal = 0
    
     On Error GoTo alarmtoggle3EnabledLet_Error
     
@@ -3810,7 +3810,7 @@ Public Property Let alarmtoggle4Enabled(ByVal newValue As Boolean)
     Dim alarmtoggle4Top As Long: alarmtoggle4Top = 0
     Dim alarmtoggle4In As Long: alarmtoggle4In = 0
     Dim alarmtoggle4Out As Long: alarmtoggle4Out = 0
-    Dim alphaVal As Integer: alphaVal = 0
+    Dim alphaVal As Single: alphaVal = 0
    
     On Error GoTo alarmtoggle4EnabledLet_Error
     
@@ -3899,7 +3899,7 @@ Public Property Let alarmtoggle5Enabled(ByVal newValue As Boolean)
     Dim alarmtoggle5Top As Long: alarmtoggle5Top = 0
     Dim alarmtoggle5In As Long: alarmtoggle5In = 0
     Dim alarmtoggle5Out As Long: alarmtoggle5Out = 0
-    Dim alphaVal As Integer: alphaVal = 0
+    Dim alphaVal As Single: alphaVal = 0
    
     On Error GoTo alarmtoggle5EnabledLet_Error
     
@@ -4121,7 +4121,7 @@ End Sub
 '
 Public Property Let ticking(ByVal newValue As Boolean)
     Dim fileToPlay As String: fileToPlay = vbNullString
-    Dim alphaVal As Integer: alphaVal = 0
+    Dim alphaVal As Single: alphaVal = 0
     Dim mciFileToPlay As String: mciFileToPlay = vbNullString
     Dim lngReturn As Long: lngReturn = 0
     

@@ -1031,6 +1031,8 @@ Public Sub adjustMainControls()
         fClock.clockForm.Widgets("alarmtoggle5").Widget.ImageKey = "alarmtoggle5armed"
     End If
 
+    overlayWidget.MyOpacity = Val(gblOpacity) / 100
+
     ' set the z-ordering of the window
     Call setAlphaFormZordering
     
