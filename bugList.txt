@@ -1,3 +1,5 @@
+Tasks Incomplete:
+=================
 
 dealing with increased density shadows, the simple PSD parser function seems to increase to opacity of shadows in the transparent regions. Sent PSD to Olaf - done
 
@@ -97,6 +99,7 @@ quiet/loud sounds
 ' at mouseUP test current monitor using isPrimary instead of monitorIDs.
 
 ' balloon tooltips font size - not possible unless I roll my own
+' all remaining controls, text, buttons,  chk boxes, scrollbars and image boxes to receive balloon tooltips - wip
 ' general tab added balloon tooltips
 ' windows tab added balloon tooltips
 ' fonts tab added balloon tooltips
@@ -107,16 +110,24 @@ quiet/loud sounds
 
 ' -oOo-
 
-' prefs auto resizing, 
-' prefs intercept WM_MOVE and resize on WM_MOVED /MouseUP?
-' main GUI, resize on timer?
-
-' all remaining controls, text, buttons,  chk boxes, scrollbars and image boxes to receive balloon tooltips - wip
+Tasks to do:
+============
 
 ' code to save, validate and restore prefs balloon tooltip config.
-' tooltips for recent controls missing tooltips
+' tooltips for recent controls, missing tooltips
+
+' prefs auto resizing, fix since isPrimary
 
 ' digital display indicators, respect opacity
+
+' prefs intercept WM_MOVE, WM_MOVING and resize on WM_MOVED /MouseUP?
+
+https://forums.codeguru.com/showthread.php?255281-VB6-Form-s-Move-event
+https://www.vbforums.com/showthread.php?817819-How-to-catch-WM_MOVING-message
+
+' main GUI, resize on timer?
+
+' help dropdown 1,2,3,4
 
 ' after a digital reset set each to -- --  and ** *** **** one by one - wip
 
@@ -130,8 +141,6 @@ quiet/loud sounds
 ' look at the .js and determine what it does and identify any missing functionality
 ' alarms 
 ' chiming
-
-' help dropdown 1,2,3,4
 
 ' investigate the accumulating shadow when moving across the transparent surface of the screen
 

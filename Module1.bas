@@ -302,6 +302,7 @@ Public gblSmoothSecondHand As String
 Public gblEnableTooltips As String
 Public gblEnablePrefsTooltips As String
 Public gblEnableBalloonTooltips As String
+Public gblEnablePrefsBalloonTooltips As String
 
 Public gblShowTaskbar As String
 Public gblShowHelp As String

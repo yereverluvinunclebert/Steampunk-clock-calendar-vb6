@@ -230,6 +230,8 @@ Private Sub initialiseGlobalVars()
     gblEnableTooltips = vbNullString
     gblEnablePrefsTooltips = vbNullString
     gblEnableBalloonTooltips = vbNullString
+    gblEnablePrefsBalloonTooltips = vbNullString
+    
     gblShowTaskbar = vbNullString
     gblShowHelp = vbNullString
     gblTogglePendulum = vbNullString
@@ -1107,6 +1109,8 @@ Public Sub readSettingsFile(ByVal Location As String, ByVal gblSettingsFile As S
         gblEnableTooltips = fGetINISetting(Location, "enableTooltips", gblSettingsFile)
         gblEnablePrefsTooltips = fGetINISetting(Location, "enablePrefsTooltips", gblSettingsFile)
         gblEnableBalloonTooltips = fGetINISetting(Location, "enableBalloonTooltips", gblSettingsFile)
+        gblEnablePrefsBalloonTooltips = fGetINISetting(Location, "enablePrefsBalloonTooltips", gblSettingsFile)
+        
         gblShowTaskbar = fGetINISetting(Location, "showTaskbar", gblSettingsFile)
         gblShowHelp = fGetINISetting(Location, "showHelp", gblSettingsFile)
         gblTogglePendulum = fGetINISetting(Location, "togglePendulum", gblSettingsFile)
@@ -1248,6 +1252,7 @@ Public Sub validateInputs()
         If gblEnableTooltips = vbNullString Then gblEnableTooltips = "0"
         If gblEnablePrefsTooltips = vbNullString Then gblEnablePrefsTooltips = "1"
         If gblEnableBalloonTooltips = vbNullString Then gblEnableBalloonTooltips = "1"
+        If gblEnablePrefsBalloonTooltips = vbNullString Then gblEnablePrefsBalloonTooltips = "1"
         If gblShowTaskbar = vbNullString Then gblShowTaskbar = "0"
         If gblShowHelp = vbNullString Then gblShowHelp = "0"
         If gblTogglePendulum = vbNullString Then gblTogglePendulum = "0"
