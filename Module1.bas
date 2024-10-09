@@ -495,6 +495,10 @@ Public monitorCount As Long
 Public gblTerminalRows(15) As String
 Public triggerDigitalClockPopulation As Boolean
 
+Public oldPrefsFormMonitorPrimary As Long
+Public oldClockFormMonitorPrimary As Long
+        
+
 'Public gblSystemAwokenFromSleep As Boolean
 
 

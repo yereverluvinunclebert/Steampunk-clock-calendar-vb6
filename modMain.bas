@@ -6,7 +6,7 @@ Option Explicit
 
 '------------------------------------------------------ STARTS
 ' for SetWindowPos z-ordering
-Public Declare Function SetWindowPos Lib "user32" (ByVal hWnd As Long, ByVal hWndInsertAfter As Long, ByVal X As Long, ByVal Y As Long, ByVal cx As Long, ByVal cy As Long, ByVal wFlags As Long) As Long
+Public Declare Function SetWindowPos Lib "user32" (ByVal hWnd As Long, ByVal hWndInsertAfter As Long, ByVal x As Long, ByVal y As Long, ByVal cx As Long, ByVal cy As Long, ByVal wFlags As Long) As Long
 
 Public Const HWND_TOP As Long = 0 ' for SetWindowPos z-ordering
 Public Const HWND_TOPMOST As Long = -1
@@ -74,6 +74,7 @@ Public Sub mainRoutine(ByVal restart As Boolean)
     Dim extractCommand As String: extractCommand = vbNullString
     Dim thisPSDFullPath As String: thisPSDFullPath = vbNullString
     Dim licenceState As Integer: licenceState = 0
+    Dim clockFormMonitorID As Long: clockFormMonitorID = 0
 
     On Error GoTo main_routine_Error
     
@@ -164,6 +165,10 @@ Public Sub mainRoutine(ByVal restart As Boolean)
     ' configure any global timers here
     Call configureTimers
     
+        ' note the monitor primary at clockForm form_load and store oldClockFormMonitorPrimary
+    clockMonitorStruct = cWidgetFormScreenProperties(fClock.clockForm, clockFormMonitorID)
+    oldClockFormMonitorPrimary = clockMonitorStruct.IsPrimary
+
     startupFlg = False
         
     ' RC message pump will auto-exit when Cairo Forms > 0 so we run it only when 0, this prevents message interruption

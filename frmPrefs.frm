@@ -2873,6 +2873,7 @@ Form_Initialize_Error:
 '
 Private Sub Form_Load()
     Dim prefsFormHeight As Long: prefsFormHeight = 0
+    Dim prefsFormMonitorID As Long: prefsFormMonitorID = 0
 
     On Error GoTo Form_Load_Error
         
@@ -2907,6 +2908,10 @@ Private Sub Form_Load()
     
     ' subclass controls that need additional functionality that VB6 does not provide (scrollwheel/balloon tooltips)
     Call subClassControls
+    
+    ' note the monitor primary at the preferences form_load and store as oldClockFormMonitorPrimary
+    prefsMonitorStruct = formScreenProperties(widgetPrefs, prefsFormMonitorID)
+    oldPrefsFormMonitorPrimary = prefsMonitorStruct.IsPrimary ' -1 true
       
     ' read the last saved position from the settings.ini
     Call readPrefsPosition

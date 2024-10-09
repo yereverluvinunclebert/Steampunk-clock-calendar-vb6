@@ -299,7 +299,7 @@ Public Function cWidgetFormScreenProperties(ByVal frm As cWidgetForm, ByRef moni
     
     On Error GoTo cWidgetFormScreenProperties_Error
    
-    If debugFlg = 1 Then MsgBox "%" & " func cWidgetFormScreenProperties"
+    'If debugFlg = 1 Then MsgBox "%" & " func cWidgetFormScreenProperties"
     
     ' reads the size and position of the user supplied form window
     GetWindowRect frm.hWnd, Frect
@@ -422,14 +422,13 @@ Public Sub positionPrefsByMonitorSize()
     Static oldWidgetPrefsTop As Long
     Static beenMovingFlg As Boolean
     
-    Static oldPrefsFormMonitorID As Long
-'    Static oldPrefsFormMonitorPrimary As Long
+    'Static oldPrefsFormMonitorID As Long
     Static oldPrefsMonitorStructWidthTwips As Long
     Static oldPrefsMonitorStructHeightTwips As Long
     Static oldPrefsClockLeftPixels As Long
         
     Dim prefsFormMonitorID As Long: prefsFormMonitorID = 0
-    'Dim prefsFormMonitorPrimary As Long: prefsFormMonitorPrimary = 0
+    Dim prefsFormMonitorPrimary As Long: prefsFormMonitorPrimary = 0
     Dim monitorStructWidthTwips As Long: monitorStructWidthTwips = 0
     Dim monitorStructHeightTwips As Long: monitorStructHeightTwips = 0
     Dim resizeProportion As Double: resizeProportion = 0
@@ -438,87 +437,71 @@ Public Sub positionPrefsByMonitorSize()
     Dim answerMsg As String: answerMsg = vbNullString
     
     ' calls a routine that tests for a change in the monitor upon which the form sits, if so, resizes
-   On Error GoTo positionPrefsByMonitorSize_Error
+    On Error GoTo positionPrefsByMonitorSize_Error
 
-    If widgetPrefs.IsVisible = False Then Exit Sub
-    
-    ' prefs hasn't moved at all
-    If widgetPrefs.Left = oldWidgetPrefsLeft Then Exit Sub  ' this can only work if the reposition is being performed by the timer
-    ' we are also hopefully calling this routine on a mouseUP event after a form move, where the above line will not apply.
-    
     ' if just one monitor or the global switch is off then exit
     If monitorCount > 1 And (LTrim$(gblMultiMonitorResize) = "1" Or LTrim$(gblMultiMonitorResize) = "2") Then
     
         ' turn off the timer that saves the prefs height and position
         widgetPrefs.tmrPrefsMonitorSaveHeight.Enabled = False
         widgetPrefs.tmrWritePosition.Enabled = False
-        'tmrPrefsScreenResolution.Enabled = False ' turn off this very timer here
    
         ' populate the OLD vars if empty, to allow valid comparison next run
         If oldWidgetPrefsLeft <= 0 Then oldWidgetPrefsLeft = widgetPrefs.Left
         If oldWidgetPrefsTop <= 0 Then oldWidgetPrefsTop = widgetPrefs.Top
 
-        ' test whether the form has been moved (VB6 has no FORM_MOVING nor FORM_MOVED EVENTS)
-        If widgetPrefs.Left <> oldWidgetPrefsLeft Or widgetPrefs.Top <> oldWidgetPrefsTop Then
+       ' note the monitor ID at PrefsForm form_load and store as the prefsFormMonitorID
+        prefsMonitorStruct = formScreenProperties(widgetPrefs, prefsFormMonitorID)
+        
+        ' test whether the current monitor is the primary
+        prefsFormMonitorPrimary = prefsMonitorStruct.IsPrimary ' -1 true
+        
+        ' sample the physical monitor resolution
+        monitorStructWidthTwips = prefsMonitorStruct.Width
+        monitorStructHeightTwips = prefsMonitorStruct.Height
+        
+        ' store other values as 'old' vars for latter comparison and usage
+        If oldPrefsMonitorStructWidthTwips = 0 Then oldPrefsMonitorStructWidthTwips = monitorStructWidthTwips
+        If oldPrefsMonitorStructHeightTwips = 0 Then oldPrefsMonitorStructHeightTwips = monitorStructHeightTwips
+        If oldPrefsClockLeftPixels = 0 Then oldPrefsClockLeftPixels = widgetPrefs.Left
     
-               ' note the monitor ID at PrefsForm form_load and store as the prefsFormMonitorID
-                prefsMonitorStruct = formScreenProperties(widgetPrefs, prefsFormMonitorID)
-                
-                'prefsFormMonitorPrimary = prefsMonitorStruct.IsPrimary ' -1 true
-                
-                ' sample the physical monitor resolution
-                monitorStructWidthTwips = prefsMonitorStruct.Width
-                monitorStructHeightTwips = prefsMonitorStruct.Height
-                
-                'if the old monitor ID has not been stored already (form load) then do so now
-                If oldPrefsFormMonitorID = 0 Then oldPrefsFormMonitorID = prefsFormMonitorID
-
-                ' same with other 'old' vars
-                If oldPrefsMonitorStructWidthTwips = 0 Then oldPrefsMonitorStructWidthTwips = monitorStructWidthTwips
-                If oldPrefsMonitorStructHeightTwips = 0 Then oldPrefsMonitorStructHeightTwips = monitorStructHeightTwips
-                If oldPrefsClockLeftPixels = 0 Then oldPrefsClockLeftPixels = widgetPrefs.Left
-            
-                ' if the monitor ID has changed
-                If oldPrefsFormMonitorID <> prefsFormMonitorID Then
-                'If oldPrefsFormMonitorPrimary <> prefsFormMonitorPrimary Then
-            
-'                    screenWrite ("Prefs Stored monitor primary status = " & CBool(oldPrefsFormMonitorPrimary))
-'                    screenWrite ("Prefs Current monitor primary status = " & CBool(prefsFormMonitorPrimary))
-                   
-                    If LTrim$(gblMultiMonitorResize) = "1" Then
-                        'if the resolution is different then calculate new size proportion
-                        If monitorStructWidthTwips <> oldPrefsMonitorStructWidthTwips Or monitorStructHeightTwips <> oldPrefsMonitorStructHeightTwips Then
-                            'now calculate the size of the widget according to the screen HeightTwips.
-                            resizeProportion = prefsMonitorStruct.Height / oldPrefsMonitorStructHeightTwips
-                            newPrefsWidth = widgetPrefs.Height * resizeProportion
-                            widgetPrefs.Height = newPrefsWidth
-                        End If
-                    ElseIf LTrim$(gblMultiMonitorResize) = "2" Then
-                        ' set the size according to saved values
-                        If prefsMonitorStruct.IsPrimary = True Then
-                            widgetPrefs.Height = Val(gblPrefsPrimaryHeightTwips)
-                        Else
-                            'gblPrefsSecondaryHeightTwips = "15000"
-                            widgetPrefs.Height = Val(gblPrefsSecondaryHeightTwips)
-                        End If
-                    End If
-                    
+        ' if the monitor ID has changed
+        If oldPrefsFormMonitorPrimary <> prefsFormMonitorPrimary Then
+    
+            screenWrite ("Prefs Stored monitor primary status = " & CBool(oldPrefsFormMonitorPrimary))
+            screenWrite ("Prefs Current monitor primary status = " & CBool(prefsFormMonitorPrimary))
+           
+            If LTrim$(gblMultiMonitorResize) = "1" Then
+                'if the resolution is different then calculate new size proportion
+                If monitorStructWidthTwips <> oldPrefsMonitorStructWidthTwips Or monitorStructHeightTwips <> oldPrefsMonitorStructHeightTwips Then
+                    'now calculate the size of the widget according to the screen HeightTwips.
+                    resizeProportion = prefsMonitorStruct.Height / oldPrefsMonitorStructHeightTwips
+                    newPrefsWidth = widgetPrefs.Height * resizeProportion
+                    widgetPrefs.Height = newPrefsWidth
                 End If
-                
-                ' set the current values as 'old' for comparison on next run
-                'oldPrefsFormMonitorPrimary = prefsFormMonitorPrimary
-                oldPrefsFormMonitorID = prefsFormMonitorID
-                oldPrefsMonitorStructWidthTwips = monitorStructWidthTwips
-                oldPrefsMonitorStructHeightTwips = monitorStructHeightTwips
-                oldPrefsClockLeftPixels = widgetPrefs.Left
+            ElseIf LTrim$(gblMultiMonitorResize) = "2" Then
+                ' set the widget size according to saved values
+                If prefsMonitorStruct.IsPrimary = True Then
+                    widgetPrefs.Height = Val(gblPrefsPrimaryHeightTwips)
+                Else
+                    widgetPrefs.Height = Val(gblPrefsSecondaryHeightTwips)
+                End If
             End If
+            
+        End If
+        
+        ' set the current values as 'old' for comparison on next run
+        oldPrefsFormMonitorPrimary = prefsFormMonitorPrimary
+        
+        oldPrefsMonitorStructWidthTwips = monitorStructWidthTwips
+        oldPrefsMonitorStructHeightTwips = monitorStructHeightTwips
+        oldPrefsClockLeftPixels = widgetPrefs.Left
 
     End If
 
     oldWidgetPrefsLeft = widgetPrefs.Left
     oldWidgetPrefsTop = widgetPrefs.Top
     
-    'tmrPrefsScreenResolution.Enabled = True
     widgetPrefs.tmrPrefsMonitorSaveHeight.Enabled = True
     widgetPrefs.tmrWritePosition.Enabled = True
 
@@ -646,8 +629,6 @@ End Function
 '---------------------------------------------------------------------------------------
 '
 Public Sub positionClockByMonitorSize()
-'    Static oldClockFormMonitorID As Long
-    Static oldClockFormMonitorPrimary As Long
     
     Static oldMonitorStructWidthTwips As Long
     Static oldMonitorStructHeightTwips As Long
@@ -666,7 +647,7 @@ Public Sub positionClockByMonitorSize()
     
         If fClock.clockForm.Left = oldClockLeftPixels Then Exit Sub ' this can only work if the reposition is being performed by the timer
         ' we are also calling it on a mouseUP event, so the comparison to original position is lost to us
-        
+                
         ' note the monitor ID at clockForm form_load and store as the clockFormMonitorID
         clockMonitorStruct = cWidgetFormScreenProperties(fClock.clockForm, clockFormMonitorID)
         
@@ -675,27 +656,12 @@ Public Sub positionClockByMonitorSize()
         ' sample the physical monitor resolution
         monitorStructWidthTwips = clockMonitorStruct.Width
         monitorStructHeightTwips = clockMonitorStruct.Height
-        
-'        If oldClockFormMonitorID = 0 Then oldClockFormMonitorID = clockFormMonitorID
-        'oldClockFormMonitorPrimary = CInt(clockMonitorStruct.IsPrimary)
-        
+                
         If oldMonitorStructWidthTwips = 0 Then oldMonitorStructWidthTwips = monitorStructWidthTwips
         If oldMonitorStructHeightTwips = 0 Then oldMonitorStructHeightTwips = monitorStructHeightTwips
         If oldClockLeftPixels = 0 Then oldClockLeftPixels = fClock.clockForm.Left
     
-        ' if the monitor ID has changed
-        
-'        screenWrite ("old monitor ID " & oldClockFormMonitorID)
-'        screenWrite ("current monitor ID " & clockFormMonitorID)
-
-        'If oldClockFormMonitorID <> clockFormMonitorID Then
         If oldClockFormMonitorPrimary <> clockFormMonitorPrimary Then
-'            If gblSystemAwokenFromSleep = True Then
-'                gblSystemAwokenFromSleep = False
-'                screenWrite ("Awoken from Sleep")
-'                'oldClockFormMonitorID = 0 ' monitor ID is new  for each monitor after wake from sleep or even an auto-screen blank
-'                Exit Sub
-'            End If
             
             screenWrite ("Stored monitor primary status = " & CBool(oldClockFormMonitorPrimary))
             screenWrite ("Current monitor primary status = " & CBool(clockFormMonitorPrimary))
@@ -738,13 +704,10 @@ Public Sub positionClockByMonitorSize()
                 fClock.clockForm.Refresh
                 Call fClock.AdjustZoom(resizeProportion)
             End If
-'            screenWrite ("old monitor ID " & oldClockFormMonitorID)
-'            screenWrite ("current monitor ID " & clockFormMonitorID)
-
         End If
     
         oldClockFormMonitorPrimary = clockFormMonitorPrimary
-'        oldClockFormMonitorID = clockFormMonitorID
+        
         oldMonitorStructWidthTwips = monitorStructWidthTwips
         oldMonitorStructHeightTwips = monitorStructHeightTwips
         oldClockLeftPixels = fClock.clockForm.Left
