@@ -13,7 +13,7 @@ Begin VB.Form frmTimer
    Visible         =   0   'False
    Begin VB.Timer sleepTimer 
       Interval        =   3000
-      Left            =   90
+      Left            =   105
       Tag             =   "stores and compares the last time to see if the PC has slept"
       Top             =   1575
    End
@@ -239,13 +239,8 @@ Private Sub sleepTimer_Timer()
     If lngSecondsGap > 60 Then
         Call screenWrite("system has just woken up from a sleep, updating... ")
         
-        'gblSystemAwokenFromSleep = True
-
-        'MsgBox "System has just woken up from a sleep" ' awoken, awake
         triggerDigitalClockPopulation = True
-        'fClock.clockForm.Refresh
         overlayWidget.Widget.Parent.Refresh
-        'MessageBox Me.hwnd, "System has just woken up from a sleep - animatedIconsRaised =" & animatedIconsRaised, "SteamyDock Information Message", vbOKOnly
     End If
     
     sleepTimer.Enabled = True

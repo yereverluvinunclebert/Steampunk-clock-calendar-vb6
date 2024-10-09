@@ -1,4 +1,4 @@
-Tasks Incomplete:
+Tasks Complete:
 =================
 
 dealing with increased density shadows, the simple PSD parser function seems to increase to opacity of shadows in the transparent regions. Sent PSD to Olaf - done
@@ -108,17 +108,18 @@ quiet/loud sounds
 ' config tab added balloon tooltips
 ' about tab added balloon tooltips
 
+' code to save, validate and restore prefs balloon tooltip config.
+' tooltips for recent controls, missing tooltips
+
+' digital display indicators, respect opacity
+' T toggle crank, hinges, respect opacity
+
 ' -oOo-
 
 Tasks to do:
 ============
 
-' code to save, validate and restore prefs balloon tooltip config.
-' tooltips for recent controls, missing tooltips
-
 ' prefs auto resizing, fix since isPrimary
-
-' digital display indicators, respect opacity
 
 ' prefs intercept WM_MOVE, WM_MOVING and resize on WM_MOVED /MouseUP?
 
