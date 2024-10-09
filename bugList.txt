@@ -121,7 +121,13 @@ Tasks to do:
 
 ' prefs auto resizing, fix since isPrimary
 
-' prefs intercept WM_MOVE, WM_MOVING and resize on WM_MOVED /MouseUP?
+' prefs intercept WM_EXITSIZEMOVE WM_MOVED via subclassing
+
+' create an equivalent of /MouseUP and call the code that is in the timer
+' create a new subroutine that both the timer and mouseUP can call?
+' or remove the timer call altogether
+
+
 
 https://forums.codeguru.com/showthread.php?255281-VB6-Form-s-Move-event
 https://www.vbforums.com/showthread.php?817819-How-to-catch-WM_MOVING-message

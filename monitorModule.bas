@@ -60,8 +60,8 @@ Public Declare Function ReleaseDC Lib "user32" (ByVal hWnd As Long, ByVal hDC As
 Public Declare Function GetDeviceCaps Lib "gdi32" (ByVal hDC As Long, ByVal nIndex As Long) As Long
 'Private Declare Function CreateDC Lib "gdi32" Alias "CreateDCA" (ByVal lpDriverName As String, ByVal lpDeviceName As String, ByVal lpOutput As String, ByVal lpInitData As Long) As Long
 Private Declare Function UnionRect Lib "user32" (lprcDst As RECT, lprcSrc1 As RECT, lprcSrc2 As RECT) As Long
-Private Declare Function OffsetRect Lib "user32" (lpRect As RECT, ByVal X As Long, ByVal Y As Long) As Long
-Private Declare Function MoveWindow Lib "user32" (ByVal hWnd As Long, ByVal X As Long, ByVal Y As Long, ByVal nWidth As Long, ByVal nHeight As Long, ByVal bRepaint As Long) As Long
+Private Declare Function OffsetRect Lib "user32" (lpRect As RECT, ByVal x As Long, ByVal y As Long) As Long
+Private Declare Function MoveWindow Lib "user32" (ByVal hWnd As Long, ByVal x As Long, ByVal y As Long, ByVal nWidth As Long, ByVal nHeight As Long, ByVal bRepaint As Long) As Long
 Private Declare Function GetWindowRect Lib "user32.dll" (ByVal hWnd As Long, lpRect As RECT) As Long
 Private Declare Function MonitorFromRect Lib "user32" (rc As RECT, ByVal dwFlags As dwFlags) As Long
 Private Declare Function GetMonitorInfo Lib "user32" Alias "GetMonitorInfoA" (ByVal hMonitor As Long, MonInfo As tagMONITORINFO) As Long
@@ -406,6 +406,130 @@ formScreenProperties_Error:
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure formScreenProperties of Module common"
 End Function
 
+
+
+'---------------------------------------------------------------------------------------
+' Procedure : positionPrefsByMonitorSize
+' Author    : beededea
+' Date      : 20/08/2024
+' Purpose   : at startup obtains monitor ID and characteristics
+'             in addition, if there is more than one screen, size the form by a ratio according to the form's physical monitor properties
+'---------------------------------------------------------------------------------------
+'
+Public Sub positionPrefsByMonitorSize()
+
+    Static oldWidgetPrefsLeft As Long
+    Static oldWidgetPrefsTop As Long
+    Static beenMovingFlg As Boolean
+    
+    Static oldPrefsFormMonitorID As Long
+'    Static oldPrefsFormMonitorPrimary As Long
+    Static oldPrefsMonitorStructWidthTwips As Long
+    Static oldPrefsMonitorStructHeightTwips As Long
+    Static oldPrefsClockLeftPixels As Long
+        
+    Dim prefsFormMonitorID As Long: prefsFormMonitorID = 0
+    'Dim prefsFormMonitorPrimary As Long: prefsFormMonitorPrimary = 0
+    Dim monitorStructWidthTwips As Long: monitorStructWidthTwips = 0
+    Dim monitorStructHeightTwips As Long: monitorStructHeightTwips = 0
+    Dim resizeProportion As Double: resizeProportion = 0
+    
+    Dim answer As VbMsgBoxResult: answer = vbNo
+    Dim answerMsg As String: answerMsg = vbNullString
+    
+    ' calls a routine that tests for a change in the monitor upon which the form sits, if so, resizes
+   On Error GoTo positionPrefsByMonitorSize_Error
+
+    If widgetPrefs.IsVisible = False Then Exit Sub
+    
+    ' prefs hasn't moved at all
+    If widgetPrefs.Left = oldWidgetPrefsLeft Then Exit Sub  ' this can only work if the reposition is being performed by the timer
+    ' we are also hopefully calling this routine on a mouseUP event after a form move, where the above line will not apply.
+    
+    ' if just one monitor or the global switch is off then exit
+    If monitorCount > 1 And (LTrim$(gblMultiMonitorResize) = "1" Or LTrim$(gblMultiMonitorResize) = "2") Then
+    
+        ' turn off the timer that saves the prefs height and position
+        widgetPrefs.tmrPrefsMonitorSaveHeight.Enabled = False
+        widgetPrefs.tmrWritePosition.Enabled = False
+        'tmrPrefsScreenResolution.Enabled = False ' turn off this very timer here
+   
+        ' populate the OLD vars if empty, to allow valid comparison next run
+        If oldWidgetPrefsLeft <= 0 Then oldWidgetPrefsLeft = widgetPrefs.Left
+        If oldWidgetPrefsTop <= 0 Then oldWidgetPrefsTop = widgetPrefs.Top
+
+        ' test whether the form has been moved (VB6 has no FORM_MOVING nor FORM_MOVED EVENTS)
+        If widgetPrefs.Left <> oldWidgetPrefsLeft Or widgetPrefs.Top <> oldWidgetPrefsTop Then
+    
+               ' note the monitor ID at PrefsForm form_load and store as the prefsFormMonitorID
+                prefsMonitorStruct = formScreenProperties(widgetPrefs, prefsFormMonitorID)
+                
+                'prefsFormMonitorPrimary = prefsMonitorStruct.IsPrimary ' -1 true
+                
+                ' sample the physical monitor resolution
+                monitorStructWidthTwips = prefsMonitorStruct.Width
+                monitorStructHeightTwips = prefsMonitorStruct.Height
+                
+                'if the old monitor ID has not been stored already (form load) then do so now
+                If oldPrefsFormMonitorID = 0 Then oldPrefsFormMonitorID = prefsFormMonitorID
+
+                ' same with other 'old' vars
+                If oldPrefsMonitorStructWidthTwips = 0 Then oldPrefsMonitorStructWidthTwips = monitorStructWidthTwips
+                If oldPrefsMonitorStructHeightTwips = 0 Then oldPrefsMonitorStructHeightTwips = monitorStructHeightTwips
+                If oldPrefsClockLeftPixels = 0 Then oldPrefsClockLeftPixels = widgetPrefs.Left
+            
+                ' if the monitor ID has changed
+                If oldPrefsFormMonitorID <> prefsFormMonitorID Then
+                'If oldPrefsFormMonitorPrimary <> prefsFormMonitorPrimary Then
+            
+'                    screenWrite ("Prefs Stored monitor primary status = " & CBool(oldPrefsFormMonitorPrimary))
+'                    screenWrite ("Prefs Current monitor primary status = " & CBool(prefsFormMonitorPrimary))
+                   
+                    If LTrim$(gblMultiMonitorResize) = "1" Then
+                        'if the resolution is different then calculate new size proportion
+                        If monitorStructWidthTwips <> oldPrefsMonitorStructWidthTwips Or monitorStructHeightTwips <> oldPrefsMonitorStructHeightTwips Then
+                            'now calculate the size of the widget according to the screen HeightTwips.
+                            resizeProportion = prefsMonitorStruct.Height / oldPrefsMonitorStructHeightTwips
+                            newPrefsWidth = widgetPrefs.Height * resizeProportion
+                            widgetPrefs.Height = newPrefsWidth
+                        End If
+                    ElseIf LTrim$(gblMultiMonitorResize) = "2" Then
+                        ' set the size according to saved values
+                        If prefsMonitorStruct.IsPrimary = True Then
+                            widgetPrefs.Height = Val(gblPrefsPrimaryHeightTwips)
+                        Else
+                            'gblPrefsSecondaryHeightTwips = "15000"
+                            widgetPrefs.Height = Val(gblPrefsSecondaryHeightTwips)
+                        End If
+                    End If
+                    
+                End If
+                
+                ' set the current values as 'old' for comparison on next run
+                'oldPrefsFormMonitorPrimary = prefsFormMonitorPrimary
+                oldPrefsFormMonitorID = prefsFormMonitorID
+                oldPrefsMonitorStructWidthTwips = monitorStructWidthTwips
+                oldPrefsMonitorStructHeightTwips = monitorStructHeightTwips
+                oldPrefsClockLeftPixels = widgetPrefs.Left
+            End If
+
+    End If
+
+    oldWidgetPrefsLeft = widgetPrefs.Left
+    oldWidgetPrefsTop = widgetPrefs.Top
+    
+    'tmrPrefsScreenResolution.Enabled = True
+    widgetPrefs.tmrPrefsMonitorSaveHeight.Enabled = True
+    widgetPrefs.tmrWritePosition.Enabled = True
+
+   On Error GoTo 0
+   Exit Sub
+
+positionPrefsByMonitorSize_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure positionPrefsByMonitorSize of Module Module2"
+    
+    End Sub
 
 
 'Function EnumMonitors(F As Form) As Long
