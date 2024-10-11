@@ -497,7 +497,7 @@ Public triggerDigitalClockPopulation As Boolean
 
 Public oldPrefsFormMonitorPrimary As Long
 Public oldClockFormMonitorPrimary As Long
-        
+Public gblPrefsFormResizedInCode As Boolean
 
 'Public gblSystemAwokenFromSleep As Boolean
 

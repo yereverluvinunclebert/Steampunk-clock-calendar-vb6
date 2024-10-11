@@ -2157,6 +2157,7 @@ Private gCmbWidgetPositionBalloonTooltip As String
 Private gCmbWidgetLandscapeBalloonTooltip As String
 Private gCmbWidgetPortraitBalloonTooltip As String
 Private gCmbDebugBalloonTooltip As String
+Private gPrefsFormResizedByDrag As Boolean
 
 
 
@@ -2948,6 +2949,7 @@ Private Sub Form_Load()
     
     ' set the height of the whole form not higher than the screen size, cause a form_resize event
     If gblDpiAwareness = "1" Then
+        gblPrefsFormResizedInCode = True
         If prefsFormHeight < physicalScreenHeightTwips Then
             widgetPrefs.Height = prefsFormHeight ' 16450
         Else
@@ -3104,11 +3106,21 @@ Public Sub Form_Moved(sForm As String)
     'passing a form name as it allows us to potentially subclass another form's movement
     Select Case sForm
         Case "widgetPrefs"
-            screenWrite "Preference form moved to X =" & widgetPrefs.Left & " Y =" & widgetPrefs.Top & " (twips)"
+            ' call a resize of all controls only when the form resize (by dragging) has completed (mouseUP)
+            If gPrefsFormResizedByDrag = True Then
+                Call PrefsForm_resize
+                gPrefsFormResizedByDrag = False
+                
+            End If
             
             ' call the procedure to resize the form automatically if it now resides on a different sized monitor
             Call positionPrefsByMonitorSize
-            
+           
+'           If gblPrefsFormResizedInCode = True Then
+'
+'
+'
+'            End If
         Case Else
     End Select
     
@@ -3187,6 +3199,7 @@ Public Sub positionPrefsMonitor()
     If monitorCount > 1 And LTrim$(gblMultiMonitorResize) = "2" Then
 
         If prefsMonitorStruct.IsPrimary = True Then
+            gblPrefsFormResizedInCode = True
             gblPrefsPrimaryHeightTwips = fGetINISetting("Software\SteampunkClockCalendar", "prefsPrimaryHeightTwips", gblSettingsFile)
             If Val(gblPrefsPrimaryHeightTwips) <= 0 Then
                 widgetPrefs.Height = gblPrefsCurrentHeight
@@ -3195,6 +3208,7 @@ Public Sub positionPrefsMonitor()
             End If
         Else
             gblPrefsSecondaryHeightTwips = fGetINISetting("Software\SteampunkClockCalendar", "prefsSecondaryHeightTwips", gblSettingsFile)
+            gblPrefsFormResizedInCode = True
             If Val(gblPrefsSecondaryHeightTwips) <= 0 Then
                 widgetPrefs.Height = gblPrefsCurrentHeight
             Else
@@ -4654,7 +4668,7 @@ Private Sub adjustPrefsControls()
     On Error GoTo adjustPrefsControls_Error
     
     ' note the monitor ID at PrefsForm form_load and store as the prefsFormMonitorID
-    prefsMonitorStruct = formScreenProperties(widgetPrefs, prefsFormMonitorID)
+    'prefsMonitorStruct = formScreenProperties(widgetPrefs, prefsFormMonitorID)
             
     ' general tab
     chkWidgetFunctions.Value = Val(gblWidgetFunctions)
@@ -4965,11 +4979,38 @@ End Sub
 '---------------------------------------------------------------------------------------
 '
 Private Sub Form_Resize()
+    
+    gPrefsFormResizedByDrag = True
+    
+    If gblPrefsFormResizedInCode = True Then Call PrefsForm_resize
+            
+    On Error GoTo 0
+    Exit Sub
+
+Form_Resize_Error:
+
+    With Err
+         If .Number <> 0 Then
+            MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure Form_Resize of Form widgetPrefs"
+            Resume Next
+          End If
+    End With
+End Sub
+
+'---------------------------------------------------------------------------------------
+' Procedure : PrefsForm_resize
+' Author    : beededea
+' Date      : 10/10/2024
+' Purpose   :
+'---------------------------------------------------------------------------------------
+'
+Public Sub PrefsForm_resize()
+
     Dim ratio As Double: ratio = 0
     Dim currentFontSize As Long: currentFontSize = 0
     
-    On Error GoTo Form_Resize_Error
-    
+    On Error GoTo PrefsForm_resize_Error
+
     If Me.WindowState = vbMinimized Then Exit Sub
     
     btnSave.Enabled = True ' enable the save button
@@ -4999,24 +5040,23 @@ Private Sub Form_Resize()
             If widgetPrefs.Width > 9090 Then widgetPrefs.Width = 9090
             If widgetPrefs.Width < 9085 Then widgetPrefs.Width = 9090
             If lastFormHeight <> 0 Then
+               gblPrefsFormResizedInCode = True
                widgetPrefs.Height = lastFormHeight
             End If
         End If
     End If
     
+    gblPrefsFormResizedInCode = False
+    
     'lblSize.Caption = "topIconWidth = " & topIconWidth & " imgGeneral width = " & imgGeneral.Width
-            
-    On Error GoTo 0
-    Exit Sub
 
-Form_Resize_Error:
+   On Error GoTo 0
+   Exit Sub
 
-    With Err
-         If .Number <> 0 Then
-            MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure Form_Resize of Form widgetPrefs"
-            Resume Next
-          End If
-    End With
+PrefsForm_resize_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure PrefsForm_resize of Form widgetPrefs"
+
 End Sub
 
 
@@ -5448,8 +5488,8 @@ Private Sub tmrPrefsScreenResolution_Timer()
 '                        If monitorStructWidthTwips <> oldPrefsMonitorStructWidthTwips Or monitorStructHeightTwips <> oldPrefsMonitorStructHeightTwips Then
 '                            'now calculate the size of the widget according to the screen HeightTwips.
 '                            resizeProportion = prefsMonitorStruct.Height / oldPrefsMonitorStructHeightTwips
-'                            newPrefsWidth = widgetPrefs.Height * resizeProportion
-'                            widgetPrefs.Height = newPrefsWidth
+'                            newPrefsHeight = widgetPrefs.Height * resizeProportion
+'                            widgetPrefs.Height = newPrefsHeight
 '                        End If
 '                    ElseIf LTrim$(gblMultiMonitorResize) = "2" Then
 '                        ' set the size according to saved values
@@ -6307,6 +6347,7 @@ Private Sub picButtonMouseUpEvent(ByVal thisTabName As String, ByRef thisPicName
         padding = 200 ' add normal padding below the help button to position the bottom of the form
 
         lastFormHeight = btnHelp.Top + btnHelp.Height + captionHeight + borderWidth + padding
+        gblPrefsFormResizedInCode = True
         widgetPrefs.Height = lastFormHeight
     End If
     

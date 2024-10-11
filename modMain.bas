@@ -165,7 +165,7 @@ Public Sub mainRoutine(ByVal restart As Boolean)
     ' configure any global timers here
     Call configureTimers
     
-        ' note the monitor primary at clockForm form_load and store oldClockFormMonitorPrimary
+    ' note the monitor primary at clockForm form_load and store oldClockFormMonitorPrimary
     clockMonitorStruct = cWidgetFormScreenProperties(fClock.clockForm, clockFormMonitorID)
     oldClockFormMonitorPrimary = clockMonitorStruct.IsPrimary
 

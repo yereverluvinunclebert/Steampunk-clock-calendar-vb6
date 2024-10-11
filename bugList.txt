@@ -114,25 +114,19 @@ quiet/loud sounds
 ' digital display indicators, respect opacity
 ' T toggle crank, hinges, respect opacity
 
+' prefs intercept WM_EXITSIZEMOVE WM_MOVED via subclassing
+' prefs auto resizing, fix since isPrimary
+' create a new subroutine that both the timer and mouseUP can call?
+
 ' -oOo-
 
 Tasks to do:
 ============
 
-' prefs auto resizing, fix since isPrimary
-
-' prefs intercept WM_EXITSIZEMOVE WM_MOVED via subclassing
-
-' create an equivalent of /MouseUP and call the code that is in the timer
-' create a new subroutine that both the timer and mouseUP can call?
-' or remove the timer call altogether
-
-
+' use the new wm_moved to call the resizing on the form on mouseUP.
 
 https://forums.codeguru.com/showthread.php?255281-VB6-Form-s-Move-event
 https://www.vbforums.com/showthread.php?817819-How-to-catch-WM_MOVING-message
-
-' main GUI, resize on timer?
 
 ' help dropdown 1,2,3,4
 

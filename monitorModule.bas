@@ -78,7 +78,7 @@ Public screenTwipsPerPixelY As Long ' .07 DAEB 26/04/2021 common.bas changed to 
 'Public physicalScreenWidthTwips As Long
 'Public physicalScreenHeightTwips As Long
 
-Public newPrefsWidth As Single
+
 
 '---------------------------------------------------------------------------------------
 ' Procedure : fPixelsPerInchX
@@ -432,7 +432,7 @@ Public Sub positionPrefsByMonitorSize()
     Dim monitorStructWidthTwips As Long: monitorStructWidthTwips = 0
     Dim monitorStructHeightTwips As Long: monitorStructHeightTwips = 0
     Dim resizeProportion As Double: resizeProportion = 0
-    
+    Dim newPrefsHeight As Single: newPrefsHeight = 0
     Dim answer As VbMsgBoxResult: answer = vbNo
     Dim answerMsg As String: answerMsg = vbNullString
     
@@ -476,11 +476,13 @@ Public Sub positionPrefsByMonitorSize()
                 If monitorStructWidthTwips <> oldPrefsMonitorStructWidthTwips Or monitorStructHeightTwips <> oldPrefsMonitorStructHeightTwips Then
                     'now calculate the size of the widget according to the screen HeightTwips.
                     resizeProportion = prefsMonitorStruct.Height / oldPrefsMonitorStructHeightTwips
-                    newPrefsWidth = widgetPrefs.Height * resizeProportion
-                    widgetPrefs.Height = newPrefsWidth
+                    newPrefsHeight = widgetPrefs.Height * resizeProportion
+                    gblPrefsFormResizedInCode = True
+                    widgetPrefs.Height = newPrefsHeight
                 End If
             ElseIf LTrim$(gblMultiMonitorResize) = "2" Then
                 ' set the widget size according to saved values
+                gblPrefsFormResizedInCode = True
                 If prefsMonitorStruct.IsPrimary = True Then
                     widgetPrefs.Height = Val(gblPrefsPrimaryHeightTwips)
                 Else
@@ -502,6 +504,7 @@ Public Sub positionPrefsByMonitorSize()
     oldWidgetPrefsLeft = widgetPrefs.Left
     oldWidgetPrefsTop = widgetPrefs.Top
     
+    ' restart any timers that position the prefs and store position/size values
     widgetPrefs.tmrPrefsMonitorSaveHeight.Enabled = True
     widgetPrefs.tmrWritePosition.Enabled = True
 
