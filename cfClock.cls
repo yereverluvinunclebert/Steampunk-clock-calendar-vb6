@@ -79,6 +79,13 @@ Private WithEvents weekdaytoggle As cWidgetBase
 Attribute weekdaytoggle.VB_VarHelpID = -1
 Private WithEvents helpToggle As cWidgetBase
 Attribute helpToggle.VB_VarHelpID = -1
+Private WithEvents help1toggle As cWidgetBase
+Attribute help1toggle.VB_VarHelpID = -1
+Private WithEvents help2toggle As cWidgetBase
+Attribute help2toggle.VB_VarHelpID = -1
+Private WithEvents help3toggle As cWidgetBase
+Attribute help3toggle.VB_VarHelpID = -1
+
 Private WithEvents pendulumtoggle As cWidgetBase
 Attribute pendulumtoggle.VB_VarHelpID = -1
 Private WithEvents mutetoggle As cWidgetBase
@@ -354,6 +361,10 @@ Public Sub InitFromPSD(ByRef PSD_FileNameOrByteArray As Variant)
     Set screenbackground = clockForm.Widgets("screenbackground").Widget
     Set weekdaytoggle = clockForm.Widgets("weekdaytoggle").Widget
     Set helpToggle = clockForm.Widgets("helptoggle").Widget
+    Set help1toggle = clockForm.Widgets("help1toggle").Widget
+    Set help2toggle = clockForm.Widgets("help2toggle").Widget
+    Set help3toggle = clockForm.Widgets("help3toggle").Widget
+    
     Set pendulumtoggle = clockForm.Widgets("pendulumtoggle").Widget
     Set mutetoggle = clockForm.Widgets("mutetoggle").Widget
     Set alarmtoggle = clockForm.Widgets("alarmtoggle").Widget
@@ -431,8 +442,18 @@ Private Sub clockForm_BubblingEvent(ByRef sender As Object, ByRef EventName As S
                 If gblEnableBalloonTooltips = "1" Then CreateToolTip clockForm.hWnd, "Toggle weekday indicator.", _
                      TTIconInfo, widgetName & " Weekday Toggle Help", , , , True
             Case "helptoggle"
-                If gblEnableBalloonTooltips = "1" Then CreateToolTip clockForm.hWnd, "Click me to show the help.", _
+                If gblEnableBalloonTooltips = "1" Then CreateToolTip clockForm.hWnd, "Click me to show the help dropdown canvas.", _
                      TTIconInfo, widgetName & " Help Toggle Help", , , , True
+            Case "help1toggle"
+                If gblEnableBalloonTooltips = "1" Then CreateToolTip clockForm.hWnd, "Click me to show help dropdown canvas number two.", _
+                     TTIconInfo, widgetName & " Help Number 1 Help Toggle", , , , True
+            Case "help2toggle"
+                If gblEnableBalloonTooltips = "1" Then CreateToolTip clockForm.hWnd, "Click me to show help dropdown canvas number three.", _
+                     TTIconInfo, widgetName & " Help Number 2 Help Toggle", , , , True
+            Case "help3toggle"
+                If gblEnableBalloonTooltips = "1" Then CreateToolTip clockForm.hWnd, "Click me to show help dropdown canvas number one.", _
+                     TTIconInfo, widgetName & " Help Number 3 Help Toggle", , , , True
+            
             Case "alarmtoggle"
                 If gblEnableBalloonTooltips = "1" Then CreateToolTip clockForm.hWnd, "Click here to enter alarm mode.", _
                      TTIconInfo, widgetName & " Alarm Toggle Help", , , , True
@@ -648,6 +669,12 @@ Private Sub clockForm_BubblingEvent(ByRef sender As Object, ByRef EventName As S
                 Call weekdayToggle_myMouseDown
             Case "helptoggle"
                 Call helptoggle_myMouseDown
+'            Case "help1toggle"
+'                Call help1toggle_myMouseDown
+'            Case "help2toggle"
+'                Call help2toggle_myMouseDown
+             Case "help3toggle"
+                Call help3toggle_myMouseDown
             Case "helpbottom"
                 Call helpbottom_myMouseDown
             Case "clapperleft"
@@ -1857,9 +1884,13 @@ Private Sub helptoggle_myMouseDown()
         helpToggle.Alpha = alphaVal
         clockForm.Widgets("woodenbar").Widget.Alpha = 0
         clockForm.Widgets("help1toggle").Widget.Alpha = 0
+        clockForm.Widgets("help2toggle").Widget.Alpha = 0
+        clockForm.Widgets("help3toggle").Widget.Alpha = 0
+        
         clockForm.Widgets("helpdropdown").Widget.Alpha = 0
         clockForm.Widgets("txthelp").Widget.Alpha = 0
-        
+        clockForm.Widgets("txtalarm").Widget.Alpha = 0
+        clockForm.Widgets("txtlinks").Widget.Alpha = 0
         helpToggleFlg = False
 
     End If
@@ -1867,8 +1898,7 @@ Private Sub helptoggle_myMouseDown()
         PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
     End If
     
-    
-    Call screenWrite("Dropdown canvas visible " & helpToggleFlg)
+    Call screenWrite("Help Dropdown canvas No. 1 visible " & helpToggleFlg)
     clockForm.Refresh
 
    On Error GoTo 0
@@ -1877,6 +1907,162 @@ Private Sub helptoggle_myMouseDown()
 helptoggle_myMouseDown_Error:
 
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure helptoggle_myMouseDown of Class Module cfClock"
+
+End Sub
+
+
+''---------------------------------------------------------------------------------------
+'' Procedure : help1toggle_myMouseDown
+'' Author    : beededea
+'' Date      : 03/08/2023
+'' Purpose   :
+''---------------------------------------------------------------------------------------
+''
+'Private Sub help1toggle_myMouseDown()
+'   On Error GoTo help1toggle_myMouseDown_Error
+'
+'    Dim fileToPlay As String: fileToPlay = vbNullString
+'    Dim alphaVal As Single: alphaVal = 0
+'    Dim helpToggleFlg As Boolean: helpToggleFlg = False
+'
+'    alphaVal = Val(gblOpacity) / 100
+'
+'    If help1toggle.Alpha > 0 Then
+'        If gblVolumeBoost = "1" Then
+'            fileToPlay = "rollerblinddown.wav"
+'        Else
+'            fileToPlay = "rollerblinddown-quiet.wav"
+'        End If
+'        helpToggleFlg = True
+'
+'        help1toggle.Alpha = 0
+'        help2toggle.Alpha = alphaVal
+'        clockForm.Widgets("txthelp").Widget.Alpha = 0
+'        clockForm.Widgets("txtalarm").Widget.Alpha = alphaVal
+'
+'    End If
+'    If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
+'        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
+'    End If
+'
+'    Call screenWrite("Help Dropdown canvas No. 2 visible " & helpToggleFlg)
+'    clockForm.Refresh
+'
+'   On Error GoTo 0
+'   Exit Sub
+'
+'help1toggle_myMouseDown_Error:
+'
+'    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure help1toggle_myMouseDown of Class Module cfClock"
+'
+'End Sub
+'
+'
+'
+'
+''---------------------------------------------------------------------------------------
+'' Procedure : help2toggle_myMouseDown
+'' Author    : beededea
+'' Date      : 03/08/2023
+'' Purpose   :
+''---------------------------------------------------------------------------------------
+''
+'Private Sub help2toggle_myMouseDown()
+'   On Error GoTo help2toggle_myMouseDown_Error
+'
+'    Dim fileToPlay As String: fileToPlay = vbNullString
+'    Dim alphaVal As Single: alphaVal = 0
+'    Dim helpToggleFlg As Boolean: helpToggleFlg = False
+'
+'    alphaVal = Val(gblOpacity) / 100
+'
+'    If help2toggle.Alpha > 0 Then
+'        If gblVolumeBoost = "1" Then
+'            fileToPlay = "rollerblinddown.wav"
+'        Else
+'            fileToPlay = "rollerblinddown-quiet.wav"
+'        End If
+'        helpToggleFlg = True
+'
+'        help2toggle.Alpha = 0
+'        help3toggle.Alpha = alphaVal
+'        clockForm.Widgets("txtalarm").Widget.Alpha = 0
+'        clockForm.Widgets("txtlinks").Widget.Alpha = alphaVal
+'
+'    End If
+'    If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
+'        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
+'    End If
+'
+'    Call screenWrite("Help Dropdown canvas No. 3 visible " & helpToggleFlg)
+'    clockForm.Refresh
+'
+'   On Error GoTo 0
+'   Exit Sub
+'
+'help2toggle_myMouseDown_Error:
+'
+'    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure help2toggle_myMouseDown of Class Module cfClock"
+'
+'End Sub
+
+
+
+'---------------------------------------------------------------------------------------
+' Procedure : help3toggle_myMouseDown
+' Author    : beededea
+' Date      : 03/08/2023
+' Purpose   : help3toggle is the topmost so ot receives all the clicks
+'---------------------------------------------------------------------------------------
+'
+Private Sub help3toggle_myMouseDown()
+   On Error GoTo help3toggle_myMouseDown_Error
+
+    Dim fileToPlay As String: fileToPlay = vbNullString
+    Dim alphaVal As Single: alphaVal = 0
+    Dim helpToggleFlg As Boolean: helpToggleFlg = False
+
+    alphaVal = Val(gblOpacity) / 100
+    
+    If gblVolumeBoost = "1" Then
+        fileToPlay = "rollerblinddown.wav"
+    Else
+        fileToPlay = "rollerblinddown-quiet.wav"
+    End If
+    helpToggleFlg = True
+
+    If help1toggle.Alpha > 0 Then ' equates to a click on the 1 toggle
+        help1toggle.Alpha = 0
+        help2toggle.Alpha = alphaVal
+        clockForm.Widgets("txthelp").Widget.Alpha = 0
+        clockForm.Widgets("txtalarm").Widget.Alpha = alphaVal
+        Call screenWrite("Help Dropdown canvas No. 2 visible " & helpToggleFlg)
+    ElseIf help2toggle.Alpha > 0 Then ' equates to a click on the 1 toggle
+        help2toggle.Alpha = 0
+        help3toggle.Alpha = alphaVal
+        clockForm.Widgets("txtalarm").Widget.Alpha = 0
+        clockForm.Widgets("txtlinks").Widget.Alpha = alphaVal
+        Call screenWrite("Help Dropdown canvas No. 3 visible " & helpToggleFlg)
+    ElseIf help3toggle.Alpha > 0 Then
+        help3toggle.Alpha = 0
+        help1toggle.Alpha = alphaVal
+        clockForm.Widgets("txtlinks").Widget.Alpha = 0
+        clockForm.Widgets("txthelp").Widget.Alpha = alphaVal
+        Call screenWrite("Help Dropdown canvas No. 1 visible " & helpToggleFlg)
+    End If
+    
+    If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
+        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
+    End If
+    
+    clockForm.Refresh
+
+   On Error GoTo 0
+   Exit Sub
+
+help3toggle_myMouseDown_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure help3toggle_myMouseDown of Class Module cfClock"
 
 End Sub
 
@@ -1953,8 +2139,12 @@ Private Sub helpdropdown_myMouseDown()
         
         clockForm.Widgets("woodenbar").Widget.Alpha = 0
         clockForm.Widgets("help1toggle").Widget.Alpha = 0
+        clockForm.Widgets("help2toggle").Widget.Alpha = 0
+        clockForm.Widgets("help3toggle").Widget.Alpha = 0
+        
         clockForm.Widgets("helpdropdown").Widget.Alpha = 0
         clockForm.Widgets("txthelp").Widget.Alpha = 0
+        clockForm.Widgets("txtlinks").Widget.Alpha = 0
         helpToggle.Alpha = alphaVal
         
         clockForm.Refresh
@@ -2180,7 +2370,7 @@ End Sub
 '                alter the size of the form to correspond to the monitor
 '---------------------------------------------------------------------------------------
 '
-Private Sub clockForm_MouseUp(ByRef Button As Integer, ByRef Shift As Integer, ByRef X As Single, ByRef Y As Single)
+Private Sub clockForm_MouseUp(ByRef Button As Integer, ByRef Shift As Integer, ByRef x As Single, ByRef y As Single)
 
     On Error GoTo clockForm_MouseUp_Error
     
@@ -2215,8 +2405,8 @@ End Sub
 ' Purpose   :
 '---------------------------------------------------------------------------------------
 '
-Private Sub clockForm_MouseMove(ByRef Button As Integer, ByRef Shift As Integer, ByRef X As Single, ByRef Y As Single)
-  Static x0 As Single, y0 As Single: If Button = 0 Then x0 = X: y0 = Y 'just store the offsets when no button is down
+Private Sub clockForm_MouseMove(ByRef Button As Integer, ByRef Shift As Integer, ByRef x As Single, ByRef y As Single)
+  Static x0 As Single, y0 As Single: If Button = 0 Then x0 = x: y0 = y 'just store the offsets when no button is down
   
    On Error GoTo clockForm_MouseMove_Error
     
@@ -2225,8 +2415,8 @@ Private Sub clockForm_MouseMove(ByRef Button As Integer, ByRef Shift As Integer,
 
     If Button = vbLeftButton And Not clockForm.ActiveWidget Is Nothing Then 'Form-Dragging (under certain conditions)
 
-      FX = (X - x0) * clockForm.WidgetRoot.Zoom + clockForm.Left
-      FY = (Y - y0) * clockForm.WidgetRoot.Zoom + clockForm.Top
+      FX = (x - x0) * clockForm.WidgetRoot.Zoom + clockForm.Left
+      FY = (y - y0) * clockForm.WidgetRoot.Zoom + clockForm.Top
       clockForm.Move FX, FY
       
       Debug.Print "FX " & FX
@@ -2316,7 +2506,7 @@ End Sub
 ' Purpose   :
 '---------------------------------------------------------------------------------------
 '
-Private Sub clockForm_MouseDown(ByRef Button As Integer, ByRef Shift As Integer, ByRef X As Single, ByRef Y As Single)
+Private Sub clockForm_MouseDown(ByRef Button As Integer, ByRef Shift As Integer, ByRef x As Single, ByRef y As Single)
    On Error GoTo W_MouseDown_Error
 
     frmTimer.tmrScreenResolution.Enabled = False

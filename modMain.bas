@@ -737,6 +737,30 @@ Public Sub adjustMainControls()
         .Tag = 0.01
     End With
     
+
+    With fClock.clockForm.Widgets("help1toggle").Widget
+        .HoverColor = 0
+        .MousePointer = IDC_HAND
+        .Alpha = 0
+        .Tag = 0.01
+    End With
+    
+    With fClock.clockForm.Widgets("help2toggle").Widget
+        .HoverColor = 0
+        .MousePointer = IDC_HAND
+        .Alpha = 0
+        .Tag = 0.01
+    End With
+    
+    
+    
+    With fClock.clockForm.Widgets("help3toggle").Widget
+        .HoverColor = 0
+        .MousePointer = IDC_HAND
+        .Alpha = 0
+        .Tag = 0.01
+    End With
+    
     With fClock.clockForm.Widgets("settoggle").Widget
         .HoverColor = 0
         .MousePointer = IDC_HAND

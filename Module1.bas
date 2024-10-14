@@ -1673,7 +1673,11 @@ Public Sub setMainTooltips()
         fClock.clockForm.Widgets("screenbackground").Widget.ToolTip = "Press to "
         fClock.clockForm.Widgets("displayscreentoggle").Widget.ToolTip = "Toggle back screen."
         fClock.clockForm.Widgets("weekdaytoggle").Widget.ToolTip = "Toggle weekday indicator. "
-        fClock.clockForm.Widgets("helpToggle").Widget.ToolTip = "Click me to show the help."
+        fClock.clockForm.Widgets("helpToggle").Widget.ToolTip = "Click me to show the help dropdown canvas."
+        fClock.clockForm.Widgets("help1toggle").Widget.ToolTip = "Click me to show help dropdown canvas number 2."
+        fClock.clockForm.Widgets("help2toggle").Widget.ToolTip = "Click me to show help dropdown canvas number 3."
+        fClock.clockForm.Widgets("help3toggle").Widget.ToolTip = "Click me to show help dropdown canvas number 1."
+        
         fClock.clockForm.Widgets("pendulumtoggle").Widget.ToolTip = "Stop/start the pendulum by clicking on it."
         fClock.clockForm.Widgets("mutetoggle").Widget.ToolTip = "Mute chimes and sounds on/off."
         fClock.clockForm.Widgets("alarmtoggle").Widget.ToolTip = "Press to Click here to enter alarm mode"
@@ -1763,6 +1767,10 @@ Public Sub setMainTooltips()
         fClock.clockForm.Widgets("displayscreentoggle").Widget.ToolTip = vbNullString
         fClock.clockForm.Widgets("weekdaytoggle").Widget.ToolTip = vbNullString
         fClock.clockForm.Widgets("helpToggle").Widget.ToolTip = vbNullString
+        fClock.clockForm.Widgets("help1toggle").Widget.ToolTip = vbNullString
+        fClock.clockForm.Widgets("help2toggle").Widget.ToolTip = vbNullString
+        fClock.clockForm.Widgets("help3toggle").Widget.ToolTip = vbNullString
+        
         fClock.clockForm.Widgets("pendulumtoggle").Widget.ToolTip = vbNullString
         fClock.clockForm.Widgets("mutetoggle").Widget.ToolTip = vbNullString
         fClock.clockForm.Widgets("alarmtoggle").Widget.ToolTip = vbNullString

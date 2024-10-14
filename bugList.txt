@@ -118,19 +118,18 @@ quiet/loud sounds
 ' prefs auto resizing, fix since isPrimary
 ' create a new subroutine that both the timer and mouseUP can call?
 
+' use the new wm_moved to call the resizing on the form on mouseUP.
+
 ' -oOo-
 
 Tasks to do:
 ============
 
-' use the new wm_moved to call the resizing on the form on mouseUP.
-
-https://forums.codeguru.com/showthread.php?255281-VB6-Form-s-Move-event
-https://www.vbforums.com/showthread.php?817819-How-to-catch-WM_MOVING-message
-
 ' help dropdown 1,2,3,4
 
 ' after a digital reset set each to -- --  and ** *** **** one by one - wip
+
+' change the check boxes that control tooltips to radio buttons
 
 ' add 12/24hr code in overlay 
 
@@ -146,8 +145,6 @@ https://www.vbforums.com/showthread.php?817819-How-to-catch-WM_MOVING-message
 ' investigate the accumulating shadow when moving across the transparent surface of the screen
 
 ' why is the RC5 prefs drag and resize so much smoother than the RC6 version? - research
-
-' dragflag and finished resize?
 
 ' find and replace globals within classes with property GET/SETs
 
