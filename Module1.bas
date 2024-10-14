@@ -2231,7 +2231,6 @@ Public Sub makeProgramPreferencesAvailable()
         ' set the current position of the utility according to previously stored positions
         
         Call readPrefsPosition
-        Call widgetPrefs.positionPrefsMonitor
     
         widgetPrefs.Visible = True
         widgetPrefs.Show  ' show it again
@@ -2240,6 +2239,9 @@ Public Sub makeProgramPreferencesAvailable()
         If widgetPrefs.WindowState = vbMinimized Then
             widgetPrefs.WindowState = vbNormal
         End If
+        
+        Call widgetPrefs.positionPrefsMonitor
+        
     End If
 
    On Error GoTo 0

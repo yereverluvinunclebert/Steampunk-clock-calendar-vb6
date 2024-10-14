@@ -3116,11 +3116,6 @@ Public Sub Form_Moved(sForm As String)
             ' call the procedure to resize the form automatically if it now resides on a different sized monitor
             Call positionPrefsByMonitorSize
            
-'           If gblPrefsFormResizedInCode = True Then
-'
-'
-'
-'            End If
         Case Else
     End Select
     
