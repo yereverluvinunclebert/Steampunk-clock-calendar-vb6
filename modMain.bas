@@ -233,9 +233,10 @@ Private Sub initialiseGlobalVars()
 
     ' config
     gblEnableTooltips = vbNullString
-    gblEnablePrefsTooltips = vbNullString
     gblEnableBalloonTooltips = vbNullString
+    
     gblEnablePrefsBalloonTooltips = vbNullString
+    gblEnablePrefsTooltips = vbNullString
     
     gblShowTaskbar = vbNullString
     gblShowHelp = vbNullString
@@ -1131,15 +1132,15 @@ Public Sub readSettingsFile(ByVal Location As String, ByVal gblSettingsFile As S
         
         gblSmoothSecondHand = fGetINISetting(Location, "smoothSecondHand", gblSettingsFile)
         
-
 '        gblClockFaceSwitchPref = fGetINISetting(location, "clockFaceSwitchPref", gblSettingsFile)
         'gblSecondaryGaugeTimeZone = fGetINISetting(location, "secondaryGaugeTimeZone", gblSettingsFile)
         'gblSecondaryDaylightSaving = fGetINISetting(location, "secondaryDaylightSaving", gblSettingsFile)
 
         ' configuration
         gblEnableTooltips = fGetINISetting(Location, "enableTooltips", gblSettingsFile)
-        gblEnablePrefsTooltips = fGetINISetting(Location, "enablePrefsTooltips", gblSettingsFile)
         gblEnableBalloonTooltips = fGetINISetting(Location, "enableBalloonTooltips", gblSettingsFile)
+        
+        gblEnablePrefsTooltips = fGetINISetting(Location, "enablePrefsTooltips", gblSettingsFile)
         gblEnablePrefsBalloonTooltips = fGetINISetting(Location, "enablePrefsBalloonTooltips", gblSettingsFile)
         
         gblShowTaskbar = fGetINISetting(Location, "showTaskbar", gblSettingsFile)
@@ -1280,10 +1281,12 @@ Public Sub validateInputs()
         'If gblSecondaryDaylightSaving = vbNullString Then gblSecondaryDaylightSaving = "1"
 
         ' Configuration
-        If gblEnableTooltips = vbNullString Then gblEnableTooltips = "0"
-        If gblEnablePrefsTooltips = vbNullString Then gblEnablePrefsTooltips = "1"
-        If gblEnableBalloonTooltips = vbNullString Then gblEnableBalloonTooltips = "1"
-        If gblEnablePrefsBalloonTooltips = vbNullString Then gblEnablePrefsBalloonTooltips = "1"
+        If gblEnableTooltips = vbNullString Then gblEnableTooltips = "False"
+        If gblEnableBalloonTooltips = vbNullString Then gblEnableBalloonTooltips = "True"
+        
+        If gblEnablePrefsTooltips = vbNullString Then gblEnablePrefsTooltips = "false"
+        If gblEnablePrefsBalloonTooltips = vbNullString Then gblEnablePrefsBalloonTooltips = "True"
+        
         If gblShowTaskbar = vbNullString Then gblShowTaskbar = "0"
         If gblShowHelp = vbNullString Then gblShowHelp = "0"
         If gblTogglePendulum = vbNullString Then gblTogglePendulum = "0"

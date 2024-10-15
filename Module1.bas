@@ -1661,7 +1661,7 @@ End Sub
 Public Sub setMainTooltips()
    On Error GoTo setMainTooltips_Error
 
-    If gblEnableTooltips = "1" Then
+    If gblEnableTooltips = "True" Then
 
         overlayWidget.Widget.ToolTip = "Use CTRL+mouse scrollwheel up/down to resize."
         aboutWidget.Widget.ToolTip = "Click on me to make me go away."
@@ -1674,9 +1674,9 @@ Public Sub setMainTooltips()
         fClock.clockForm.Widgets("displayscreentoggle").Widget.ToolTip = "Toggle back screen."
         fClock.clockForm.Widgets("weekdaytoggle").Widget.ToolTip = "Toggle weekday indicator. "
         fClock.clockForm.Widgets("helpToggle").Widget.ToolTip = "Click me to show the help dropdown canvas."
-        fClock.clockForm.Widgets("help1toggle").Widget.ToolTip = "Click me to show help dropdown canvas number 2."
-        fClock.clockForm.Widgets("help2toggle").Widget.ToolTip = "Click me to show help dropdown canvas number 3."
-        fClock.clockForm.Widgets("help3toggle").Widget.ToolTip = "Click me to show help dropdown canvas number 1."
+'        fClock.clockForm.Widgets("help1toggle").Widget.ToolTip = "Click me to show help dropdown canvas number 2."
+'        fClock.clockForm.Widgets("help2toggle").Widget.ToolTip = "Click me to show help dropdown canvas number 3."
+        fClock.clockForm.Widgets("help3toggle").Widget.ToolTip = "Click me to show the next help dropdown canvas."
         
         fClock.clockForm.Widgets("pendulumtoggle").Widget.ToolTip = "Stop/start the pendulum by clicking on it."
         fClock.clockForm.Widgets("mutetoggle").Widget.ToolTip = "Mute chimes and sounds on/off."
@@ -1709,7 +1709,7 @@ Public Sub setMainTooltips()
         
         
 '            Case "bellset"
-'                If gblEnableBalloonTooltips = "1" Then CreateToolTip clockForm.hWnd, "Click here to set or edit an alarm.", _
+'                If gblEnableBalloonTooltips = "True" Then CreateToolTip clockForm.hWnd, "Click here to set or edit an alarm.", _
 '                     TTIconInfo, widgetName & " Alarm Toggle Help", , , , True
 '                With clockForm.Widgets("redalarmcover").Widget
 '                    .Alpha = 0
@@ -1767,8 +1767,8 @@ Public Sub setMainTooltips()
         fClock.clockForm.Widgets("displayscreentoggle").Widget.ToolTip = vbNullString
         fClock.clockForm.Widgets("weekdaytoggle").Widget.ToolTip = vbNullString
         fClock.clockForm.Widgets("helpToggle").Widget.ToolTip = vbNullString
-        fClock.clockForm.Widgets("help1toggle").Widget.ToolTip = vbNullString
-        fClock.clockForm.Widgets("help2toggle").Widget.ToolTip = vbNullString
+'        fClock.clockForm.Widgets("help1toggle").Widget.ToolTip = vbNullString
+'        fClock.clockForm.Widgets("help2toggle").Widget.ToolTip = vbNullString
         fClock.clockForm.Widgets("help3toggle").Widget.ToolTip = vbNullString
         
         fClock.clockForm.Widgets("pendulumtoggle").Widget.ToolTip = vbNullString
@@ -2670,7 +2670,7 @@ Public Sub clearAllMessageBoxRegistryEntries()
     SaveSetting App.EXEName, "Options", "Show message" & "mnuSupportClickEvent", 0
     SaveSetting App.EXEName, "Options", "Show message" & "chkDpiAwarenessRestart", 0
     SaveSetting App.EXEName, "Options", "Show message" & "chkDpiAwarenessAbnormal", 0
-    SaveSetting App.EXEName, "Options", "Show message" & "chkEnableTooltipsClick", 0
+    SaveSetting App.EXEName, "Options", "Show message" & "optEnableTooltipsClick", 0
     SaveSetting App.EXEName, "Options", "Show message" & "lblGitHubDblClick", 0
     SaveSetting App.EXEName, "Options", "Show message" & "sliOpacityClick", 0
 

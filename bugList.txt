@@ -120,18 +120,19 @@ quiet/loud sounds
 
 ' use the new wm_moved to call the resizing on the form on mouseUP.
 
+' fix prefs show when minimised
+' help dropdown 1,2 & 3
+
 ' -oOo-
 
 Tasks to do:
 ============
 
-' help dropdown 1,2,3,4
-
-' after a digital reset set each to -- --  and ** *** **** one by one - wip
-
 ' change the check boxes that control tooltips to radio buttons
 
 ' add 12/24hr code in overlay 
+
+' after a digital reset set each to -- --  and ** *** **** one by one - wip
 
 ' slider advancing/retarding time using timeShiftPercent modified not quite exponentially to shift time - wip
 ' in the timer, take the value of timeShiftPercent and do what to it?
@@ -154,12 +155,11 @@ Tasks to do:
 
 ' add the date/time picker FOSS to the prefs
 
-Create a XP /ReactOS version using old APIs and RC5 - no DPI awareness, as XP does not have the API nor the capability.
+' Create a XP /ReactOS version using old APIs and RC5 - no DPI awareness, as XP does not have the API nor the capability.
 
 https://www.vbforums.com/showthread.php?896944-VB6-QUESTION-Check-if-API-exists
 
-obtain a XP test system - wip
-
+' obtain a XP test system - wip
 
 ' sync. E6410 win 7 and test - wip
 ' sync. Fast Dell laptop
@@ -191,10 +191,5 @@ obtain a XP test system - wip
 
 ' recreate the clock using 
 
-' RC BUGS & LIMITATIONS
-' =====================
-
-' tooltips also resize when the whole thing is resized, code received from Olaf tested - resizing results in missing text and blank tooltips, using non-standard font centurion light
-' RC6 needs a static tooltip option.
 
 
