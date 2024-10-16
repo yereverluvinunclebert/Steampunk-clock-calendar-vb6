@@ -499,6 +499,10 @@ Public oldPrefsFormMonitorPrimary As Long
 Public oldClockFormMonitorPrimary As Long
 Public gblPrefsFormResizedInCode As Boolean
 
+Public bigFlag As Boolean
+
+
+
 'Public gblSystemAwokenFromSleep As Boolean
 
 
@@ -510,8 +514,10 @@ Public gblPrefsFormResizedInCode As Boolean
 '---------------------------------------------------------------------------------------
 '
 Sub screenWrite(screentext As String)
-    Dim a As Integer
-
+    
+    Dim interimText As String
+    Dim a As Integer: a = 0
+    
     On Error GoTo ScreenWrite_Error
 
     For a = 0 To 14
@@ -519,6 +525,18 @@ Sub screenWrite(screentext As String)
     Next
 
     gblTerminalRows(0) = screentext
+    
+    ' print the console text on the screen
+    If gblDisplayScreenToggleEnabled = "True" Then
+        For a = 14 To 0 Step -1
+            interimText = interimText & gblTerminalRows(a) & vbCrLf
+        Next a
+    End If
+    
+    
+    If bigFlag = True Then Call writeCaption(interimText)
+    
+    'fClock.clockForm.Widgets("lblTerminalText").Caption = interimText
 
     'If debugFlg = 1 Then Print("%KON-I-INFO,terminal00 ", terminal00)
 
@@ -528,6 +546,12 @@ Sub screenWrite(screentext As String)
 ScreenWrite_Error:
 
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure ScreenWrite of Class Module cwOverlay"
+End Sub
+
+Private Sub writeCaption(ByVal interimText As String)
+
+    fClock.clockForm.Widgets("lblTerminalText").Caption = interimText
+
 End Sub
 
 

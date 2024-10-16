@@ -123,14 +123,15 @@ quiet/loud sounds
 ' fix prefs show when minimised
 ' help dropdown 1,2 & 3
 
+' change the check boxes that control tooltips to radio buttons
+' add 12/24hr code in overlay 
+
 ' -oOo-
 
 Tasks to do:
 ============
 
-' change the check boxes that control tooltips to radio buttons
-
-' add 12/24hr code in overlay 
+' text screenWrite alternative method - have one text widget and fill that - it will fit behind the weekday and alarm tills, whereas the text form has to be 'lifted' above 
 
 ' after a digital reset set each to -- --  and ** *** **** one by one - wip
 
@@ -151,9 +152,7 @@ Tasks to do:
 
 ' look at Olaf's pendulum code
 
-' text screenWrite alternative method - have one text widget and fill that - it will fit behind the weekday and alarm tills, whereas the text form has to be 'lifted' above 
-
-' add the date/time picker FOSS to the prefs
+' add the date/time picker FOSS code to the prefs
 
 ' Create a XP /ReactOS version using old APIs and RC5 - no DPI awareness, as XP does not have the API nor the capability.
 

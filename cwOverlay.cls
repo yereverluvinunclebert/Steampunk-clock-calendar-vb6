@@ -928,12 +928,19 @@ Private Sub populateDigitalHoursCache(ByRef CC As cCairoContext, Optional ByVal 
             localHour = CInt(pvtThisHour)
             hourString = CStr(pvtThisHour)
         End If
+        
+        ' if 24hr mode then convert
+        If gbl24HourClockMode = "0" Then
+            localHour = localHour - 12
+            hourString = CStr(localHour)
+       End If
     End If
-
+        
+    ' add a preceding zero to the time string
     If localHour < 10 Then ' uses vb6 coerce a string to a numeric without calling a cast function, quicker?
         hourString = "0" & localHour '
     End If
-    
+        
     ' hour digits for digital display
     Select Case Left$(hourString, 1)
         Case 0
@@ -1414,7 +1421,6 @@ End Sub
 ' Date      : 17/05/2023
 ' Purpose   :
 '---------------------------------------------------------------------------------------
-'ByRef CC As cCairoContext
 Private Sub populateDigitalClockCache(ByRef CC As cCairoContext)
     Dim theDay As String: theDay = vbNullString
     Dim theMonth As String: theMonth = vbNullString
@@ -1698,7 +1704,7 @@ End Sub
 '             For this Overlay-Widget alone, we make everything "fully click-through"
 '---------------------------------------------------------------------------------------------
 '
-Private Sub W_HitTest(ByVal X As Single, ByVal Y As Single, HitResultHit As Boolean) 'ensure ClickThrough-behaviour in ImagePixels which are "fully Alpha"
+Private Sub W_HitTest(ByVal x As Single, ByVal y As Single, HitResultHit As Boolean) 'ensure ClickThrough-behaviour in ImagePixels which are "fully Alpha"
    On Error GoTo W_HitTest_Error
 
    HitResultHit = False
@@ -1725,26 +1731,26 @@ Private Sub W_Paint(ByRef CC As cCairoContext, ByVal xAbs As Single, ByVal yAbs 
     Dim Arr As Variant
     Dim Key As String: Key = vbNullString
     Dim Pat As cCairoPattern
-    Dim someOpacity As Double: someOpacity = 0
+    'Dim someOpacity As Double: someOpacity = 0
     Dim grey As String: grey = vbNullString
     Dim interval As Integer: interval = 0
-    Dim position As Integer: position = 0
-    Dim a As Integer: a = 0
+'    Dim position As Integer: position = 0
+'    Dim a As Integer: a = 0
     
-    grey = RGB(18, 18, 18)
+    'grey = RGB(18, 18, 18)
     
     'set some Font- and ForeColor-Properties and draw some Text on the Widget
-    W.FontName = "courier new"
-    W.ForeColor = grey
-    W.FontSize = 5
-    'W.FontBold = True
-    W.SelectFontSettingsInto CC
+'    W.FontName = "courier new"
+'    W.ForeColor = grey
+'    W.FontSize = 5
+'    'W.FontBold = True
+'    W.SelectFontSettingsInto CC
     W.Refresh
     
-    someOpacity = mMyOpacity
-    position = 194
-    interval = 9
-       
+'    someOpacity = mMyOpacity
+'    position = 194
+'    interval = 9
+'
     On Error GoTo W_Paint_Error
   
     For I = 0 To cCollOverlayImages.Count - 1 ' this is the ExcludedPaths collection populated in cfClock by duplicating collPSDNonUIElements.
@@ -1812,19 +1818,7 @@ Private Sub W_Paint(ByRef CC As cCairoContext, ByVal xAbs As Single, ByVal yAbs 
             CC.Restore
       End If
     Next
-     
-    ' print the console text on the screen
-    If gblDisplayScreenToggleEnabled = "True" Then
-        For a = 0 To 14
-            CC.DrawText 423, position, 220, 20, gblTerminalRows(a), , , 2, True, , someOpacity
-            position = position - interval
-        Next a
-
-        CC.DrawText 423, 203, 200, 20, ".......", , , 2, True, , someOpacity
-        CC.DrawText 423, 211, 200, 20, ".......", , , 2, True, , someOpacity
-        CC.DrawText 423, 218, 200, 20, ".......", , , 2, True, , someOpacity
-        CC.DrawText 423, 227, 200, 20, ".......", , , 2, True, , someOpacity
-    End If
+    
 
     ' if first time running then populate the dgitial clocks or if one of the alarms is currently being viewed then populate the clocks with the alarm digits.
     If triggerDigitalClockPopulation = True Then

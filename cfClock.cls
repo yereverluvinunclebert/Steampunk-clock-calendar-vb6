@@ -23,6 +23,8 @@ Private Declare Function mciSendString Lib "winmm.dll" Alias "mciSendStringA" _
 Public WithEvents clockForm As cWidgetForm
 Attribute clockForm.VB_VarHelpID = -1
 
+Private WithEvents tmrDisplay As cTimer
+Attribute tmrDisplay.VB_VarHelpID = -1
 Private WithEvents tmrZZZZSound As cTimer
 Attribute tmrZZZZSound.VB_VarHelpID = -1
 Private WithEvents tmrTILLSound As cTimer
@@ -137,6 +139,8 @@ Attribute pendulumtransparent.VB_VarHelpID = -1
 Private WithEvents glow As cWidgetBase
 Attribute glow.VB_VarHelpID = -1
 
+Private lblTerminalText As cwLabel
+
 'general vars
 
 Private pvtSldFixedTop As Double
@@ -173,6 +177,9 @@ Private Sub Class_Initialize()
     
     Set tmrTickingSound = Nothing
     Set tmrTickingSound = New_c.Timer(300, False)
+    
+'    Set tmrDisplay = Nothing
+'    Set tmrDisplay = New_c.Timer(1000, True)
 
    On Error GoTo 0
    Exit Sub
@@ -294,10 +301,16 @@ Public Sub InitFromPSD(ByRef PSD_FileNameOrByteArray As Variant)
   
     Dim I As Long: I = 0
     Dim W As cWidgetBase
+    Dim grey As String: grey = vbNullString
+    Dim someOpacity As Double: someOpacity = 0
     
     On Error GoTo InitFromPSD_Error
 
-    'create the Alpha-capable Top-Level-Form
+    grey = RGB(18, 18, 18)
+    
+    someOpacity = Val(gblOpacity) / 100
+
+    'create the Top-Level-Form
     Set clockForm = Cairo.WidgetForms.Create(IIf(App.LogMode, AlphaNoTaskbarEntry, AlphaWithTaskbarEntry), widgetName, True, 1, 1)
         clockForm.WidgetRoot.BackColor = -1 ' transparent
  
@@ -314,7 +327,7 @@ Public Sub InitFromPSD(ByRef PSD_FileNameOrByteArray As Variant)
                     If collPSDNonUIElements.Exists(.LayerPath(I)) Then ' we do not create Widgets for those in this exclude list.
                         
                         'we add layer info. (used in cwOverlay) to the "excluded paths" previously defined in Sub Main,
-                        collPSDNonUIElements(.LayerPath(I)) = Array(.LayerX(I), .LayerY(I), Val(gblOpacity) / 100)  'here we update the so far empty slots with the PSD-offsets
+                        collPSDNonUIElements(.LayerPath(I)) = Array(.LayerX(I), .LayerY(I), someOpacity)  'here we update the so far empty slots with the PSD-offsets
                 
                     Else 'everything not in the exclude-list will get its own Widget-instance
                         Set W = clockForm.Widgets.Add(New cwAlphaImg, LCase$(.LayerPath(I)), .LayerX(I), .LayerY(I), .LayerWidth(I), .LayerHeight(I)).Widget
@@ -329,6 +342,26 @@ Public Sub InitFromPSD(ByRef PSD_FileNameOrByteArray As Variant)
                         If gblEnableTooltips = "True" Then W.ToolTip = "Ctrl + mouse scrollwheel up/down to resize, you can also drag me to a new position."
                         W.MousePointer = IDC_SIZEALL
                         
+                        Select Case W.Key
+                            Case "displayscreen"
+      
+                                'set some Font- and ForeColor-Properties and draw some Text on the Widget
+                                Set lblTerminalText = clockForm.Widgets.Add(New_W("cwLabel"), "lblTerminalText", 423, 74, 220, 165)
+                                
+                                lblTerminalText.Widget.FontSize = 5
+                                lblTerminalText.Widget.FontName = "courier new"
+                                lblTerminalText.Widget.ForeColor = grey
+                                lblTerminalText.Widget.Alpha = someOpacity
+                                
+                                lblTerminalText.Widget.FontBold = False
+                                lblTerminalText.borderWidth = 0
+                                lblTerminalText.WordWrap = True
+                                lblTerminalText.VAlign = 0
+                                lblTerminalText.Alignment = 0
+                                lblTerminalText.Widget.BackColor = -1
+                            
+                                'lblTerminalText.Caption = "Obtaining Weather data from " & "http://aviationweather.gov"
+                       End Select
                     End If
                 End If
             End If
@@ -357,6 +390,7 @@ Public Sub InitFromPSD(ByRef PSD_FileNameOrByteArray As Variant)
     Set helpbottom = clockForm.Widgets("helpbottom").Widget
     Set screentop = clockForm.Widgets("screentop").Widget
     Set displayscreen = clockForm.Widgets("displayscreen").Widget
+    
     Set displayscreentoggle = clockForm.Widgets("displayscreentoggle").Widget
     Set screenbackground = clockForm.Widgets("screenbackground").Widget
     Set weekdaytoggle = clockForm.Widgets("weekdaytoggle").Widget
@@ -393,8 +427,15 @@ Public Sub InitFromPSD(ByRef PSD_FileNameOrByteArray As Variant)
 
     Set glow = clockForm.Widgets("glow").Widget
     
+'    If gblDisplayScreenToggleEnabled = "True" Then
+'    For a = 0 To 14
+'        CC.DrawText 423, position, 220, 20, gblTerminalRows(a), , , 2, True, , someOpacity
+'        position = position - interval
+'    Next a
+
+    bigFlag = True
     
-   On Error GoTo 0
+    On Error GoTo 0
    Exit Sub
 
 InitFromPSD_Error:
@@ -2144,6 +2185,7 @@ Private Sub helpdropdown_myMouseDown()
         
         clockForm.Widgets("helpdropdown").Widget.Alpha = 0
         clockForm.Widgets("txthelp").Widget.Alpha = 0
+        clockForm.Widgets("txtalarm").Widget.Alpha = 0
         clockForm.Widgets("txtlinks").Widget.Alpha = 0
         helpToggle.Alpha = alphaVal
         
@@ -2214,13 +2256,7 @@ lockingpin_mouseDown_Error:
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure lockingpin_mouseDown of Class Module cfClock"
 
 End Sub
-'---------------------------------------------------------------------------------------
-' Procedure : helpbottom_mouseDown
-' Author    : beededea
-' Date      : 03/08/2023
-' Purpose   : make the elements that are displayed on startup seem to disappear (moved)
-'---------------------------------------------------------------------------------------
-'
+
 '---------------------------------------------------------------------------------------
 ' Procedure : helpbottom_myMouseDown
 ' Author    : beededea
@@ -2237,7 +2273,7 @@ Private Sub helpbottom_myMouseDown()
 
 '    Dim fileToPlay As String: fileToPlay = vbNullString
     
-    On Error GoTo helpbottom_mouseDown_Error
+    On Error GoTo helpbottom_myMouseDown_Error
 '
 '    helpbottomTop = helpbottom.Top
 '    helpbottomLeft = helpbottom.Left
@@ -2266,21 +2302,12 @@ Private Sub helpbottom_myMouseDown()
    On Error GoTo 0
    Exit Sub
 
-helpbottom_mouseDown_Error:
+helpbottom_myMouseDown_Error:
 
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure helpbottom_mouseDown of Class Module cfClock"
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure helpbottom_myMouseDown of Class Module cfClock"
 
     On Error GoTo 0
     Exit Sub
-
-helpbottom_myMouseDown_Error:
-
-    With Err
-         If .Number <> 0 Then
-            MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure helpbottom_myMouseDown of Class Module cfClock"
-            Resume Next
-          End If
-    End With
 
 End Sub
 
@@ -4399,3 +4426,62 @@ clearWeekdayTill_Error:
     End With
 
 End Sub
+
+'Private Sub tmrDisplay_Timer()
+
+'    Dim interimText As String
+'    Dim a As Integer: a = 0
+'
+'    ' print the console text on the screen
+'    If gblDisplayScreenToggleEnabled = "True" Then
+'        For a = 14 To 0 Step -1
+'            interimText = interimText & gblTerminalRows(a) & vbCrLf
+'
+''            CC.DrawText 423, position, 220, 20, gblTerminalRows(a), , , 2, True, , someOpacity
+''            position = position - interval
+'        Next a
+'
+''        CC.DrawText 423, 203, 200, 20, ".......", , , 2, True, , someOpacity
+''        CC.DrawText 423, 211, 200, 20, ".......", , , 2, True, , someOpacity
+''        CC.DrawText 423, 218, 200, 20, ".......", , , 2, True, , someOpacity
+''        CC.DrawText 423, 227, 200, 20, ".......", , , 2, True, , someOpacity
+'    End If
+'
+'    fClock.clockForm.Widgets("lblTerminalText").Caption = interimText
+
+'End Sub
+
+
+'---------------------------------------------------------------------------------------
+' Procedure : IsVisible
+' Author    : beededea
+' Date      : 08/05/2023
+' Purpose   : calling a manual property to a form allows external checks to the form to
+'             determine whether it is loaded, without also activating the form automatically.
+'---------------------------------------------------------------------------------------
+'
+Public Property Get IsVisible() As Boolean
+    On Error GoTo IsVisible_Error
+
+    'If gblPrefsLoadedFlg Then
+        If fClock.clockForm.WindowState = vbNormal Then
+            IsVisible = fClock.clockForm.Visible
+        Else
+            IsVisible = False
+        End If
+'    Else
+'        IsVisible = False
+'    End If
+
+    On Error GoTo 0
+    Exit Property
+
+IsVisible_Error:
+
+    With Err
+         If .Number <> 0 Then
+            MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure IsVisible of Form widgetPrefs"
+            Resume Next
+          End If
+    End With
+End Property
