@@ -1731,26 +1731,9 @@ Private Sub W_Paint(ByRef CC As cCairoContext, ByVal xAbs As Single, ByVal yAbs 
     Dim Arr As Variant
     Dim Key As String: Key = vbNullString
     Dim Pat As cCairoPattern
-    'Dim someOpacity As Double: someOpacity = 0
-    Dim grey As String: grey = vbNullString
-    Dim interval As Integer: interval = 0
-'    Dim position As Integer: position = 0
-'    Dim a As Integer: a = 0
-    
-    'grey = RGB(18, 18, 18)
-    
-    'set some Font- and ForeColor-Properties and draw some Text on the Widget
-'    W.FontName = "courier new"
-'    W.ForeColor = grey
-'    W.FontSize = 5
-'    'W.FontBold = True
-'    W.SelectFontSettingsInto CC
+
     W.Refresh
     
-'    someOpacity = mMyOpacity
-'    position = 194
-'    interval = 9
-'
     On Error GoTo W_Paint_Error
   
     For I = 0 To cCollOverlayImages.Count - 1 ' this is the ExcludedPaths collection populated in cfClock by duplicating collPSDNonUIElements.
@@ -1819,12 +1802,11 @@ Private Sub W_Paint(ByRef CC As cCairoContext, ByVal xAbs As Single, ByVal yAbs 
       End If
     Next
     
-
-    ' if first time running then populate the dgitial clocks or if one of the alarms is currently being viewed then populate the clocks with the alarm digits.
+    ' if first time running then populate the digital clocks.
     If triggerDigitalClockPopulation = True Then
         Call populateDigitalClockCache(CC)
         triggerDigitalClockPopulation = False
-    Else
+    Else ' update the correct digital display when a time change occurs
         If pvtThisSecs <= 1 Then
             Call populateDigitalMinsCache(CC)
             If pvtThisMins = 0 Then
@@ -1836,7 +1818,8 @@ Private Sub W_Paint(ByRef CC As cCairoContext, ByVal xAbs As Single, ByVal yAbs 
         End If
     End If
         
-    ' test for alarms, using globals to reduce the cpu cycles
+    ' if one of the alarms is currently being viewed then populate the clocks with the alarm digits
+    ' test for alarms, using globals to reduce the cpu cycles, if found, then populate the cache images
     If gblAlarmToggle1Enabled = "True" Or gblAlarmToggle2Enabled = "True" Or gblAlarmToggle3Enabled = "True" Or gblAlarmToggle4Enabled = "True" Or gblAlarmToggle5Enabled = "True" Then Call populateDigitalClockCache(CC)
     
     ' the above routines populate the digital clock cache, this routine shows the digital clocks

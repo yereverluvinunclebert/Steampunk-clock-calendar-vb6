@@ -499,7 +499,7 @@ Public oldPrefsFormMonitorPrimary As Long
 Public oldClockFormMonitorPrimary As Long
 Public gblPrefsFormResizedInCode As Boolean
 
-Public bigFlag As Boolean
+Public gblFClockAvailable As Boolean
 
 
 
@@ -533,12 +533,8 @@ Sub screenWrite(screentext As String)
         Next a
     End If
     
-    
-    If bigFlag = True Then Call writeCaption(interimText)
-    
-    'fClock.clockForm.Widgets("lblTerminalText").Caption = interimText
-
-    'If debugFlg = 1 Then Print("%KON-I-INFO,terminal00 ", terminal00)
+     ' Test to see whether the clockform is available to write console events to...
+     If gblFClockAvailable = True Then Call writeCaption(interimText)
 
    On Error GoTo 0
    Exit Sub
@@ -548,9 +544,26 @@ ScreenWrite_Error:
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure ScreenWrite of Class Module cwOverlay"
 End Sub
 
+'---------------------------------------------------------------------------------------
+' Procedure : writeCaption
+' Author    : beededea
+' Date      : 16/10/2024
+' Purpose   : Cannot reference clockForm in ScreenWrite as the clockform may not be available for sending messages to
+'             so kept here in a eparate routine that cane be called by ScreenWrite
+'---------------------------------------------------------------------------------------
+'
 Private Sub writeCaption(ByVal interimText As String)
 
+   On Error GoTo writeCaption_Error
+
     fClock.clockForm.Widgets("lblTerminalText").Caption = interimText
+
+   On Error GoTo 0
+   Exit Sub
+
+writeCaption_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure writeCaption of Module Module1"
 
 End Sub
 

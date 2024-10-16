@@ -348,7 +348,7 @@ Public Sub InitFromPSD(ByRef PSD_FileNameOrByteArray As Variant)
                                 'set some Font- and ForeColor-Properties and draw some Text on the Widget
                                 Set lblTerminalText = clockForm.Widgets.Add(New_W("cwLabel"), "lblTerminalText", 423, 74, 220, 165)
                                 
-                                lblTerminalText.Widget.FontSize = 5
+                                lblTerminalText.Widget.FontSize = 6
                                 lblTerminalText.Widget.FontName = "courier new"
                                 lblTerminalText.Widget.ForeColor = grey
                                 lblTerminalText.Widget.Alpha = someOpacity
@@ -359,6 +359,7 @@ Public Sub InitFromPSD(ByRef PSD_FileNameOrByteArray As Variant)
                                 lblTerminalText.VAlign = 0
                                 lblTerminalText.Alignment = 0
                                 lblTerminalText.Widget.BackColor = -1
+
                             
                                 'lblTerminalText.Caption = "Obtaining Weather data from " & "http://aviationweather.gov"
                        End Select
@@ -433,7 +434,8 @@ Public Sub InitFromPSD(ByRef PSD_FileNameOrByteArray As Variant)
 '        position = position - interval
 '    Next a
 
-    bigFlag = True
+    ' tell the screenwrite util that the clockform is now available to write console events to
+    gblFClockAvailable = True
     
     On Error GoTo 0
    Exit Sub
@@ -2401,7 +2403,7 @@ Private Sub clockForm_MouseUp(ByRef Button As Integer, ByRef Shift As Integer, B
 
     On Error GoTo clockForm_MouseUp_Error
     
-    frmTimer.tmrScreenResolution.interval = 4500
+    frmTimer.tmrScreenResolution.Interval = 4500
 
     ' save the form x,y position whenever the globe/form is dragged
     Call savePosition
@@ -2537,7 +2539,7 @@ Private Sub clockForm_MouseDown(ByRef Button As Integer, ByRef Shift As Integer,
    On Error GoTo W_MouseDown_Error
 
     frmTimer.tmrScreenResolution.Enabled = False
-    frmTimer.tmrScreenResolution.interval = 200
+    frmTimer.tmrScreenResolution.Interval = 200
     frmTimer.tmrScreenResolution.Enabled = True
     
     If Button = vbRightButton Then
@@ -4303,7 +4305,7 @@ Private Sub tmrTickingSound_Timer()
     On Error GoTo tmrTickingSound_Timer_Error
     
     tmrTickingSound.Enabled = False
-    tmrTickingSound.interval = 30000 ' 30 secs
+    tmrTickingSound.Interval = 30000 ' 30 secs
     
     If gblVolumeBoost = "1" Then
         fileToPlay = "ticktock.wav"
@@ -4347,7 +4349,7 @@ Public Property Let ticking(ByVal newValue As Boolean)
     alphaVal = Val(gblOpacity) / 100
     
     If newValue = True Then
-        tmrTickingSound.interval = 300
+        tmrTickingSound.Interval = 300
         tmrTickingSound.Enabled = True
      Else
         tmrTickingSound.Enabled = False
