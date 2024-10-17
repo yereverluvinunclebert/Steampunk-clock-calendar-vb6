@@ -303,6 +303,7 @@ Public Sub InitFromPSD(ByRef PSD_FileNameOrByteArray As Variant)
     Dim W As cWidgetBase
     Dim grey As String: grey = vbNullString
     Dim someOpacity As Double: someOpacity = 0
+    Dim thisZorder As Long: thisZorder = 0
     
     On Error GoTo InitFromPSD_Error
 
@@ -331,6 +332,7 @@ Public Sub InitFromPSD(ByRef PSD_FileNameOrByteArray As Variant)
                 
                     Else 'everything not in the exclude-list will get its own Widget-instance
                         Set W = clockForm.Widgets.Add(New cwAlphaImg, LCase$(.LayerPath(I)), .LayerX(I), .LayerY(I), .LayerWidth(I), .LayerHeight(I)).Widget
+                        
                         W.ImageKey = W.Key 'W.Key equals ImageList-Key, set above - and LayerPath(i) at this point ... set it also as the ImageKey of our new created Widget
 
                         W.Alpha = 0
@@ -342,25 +344,6 @@ Public Sub InitFromPSD(ByRef PSD_FileNameOrByteArray As Variant)
                         If gblEnableTooltips = "True" Then W.ToolTip = "Ctrl + mouse scrollwheel up/down to resize, you can also drag me to a new position."
                         W.MousePointer = IDC_SIZEALL
                         
-                        Select Case W.Key
-                            Case "displayscreen"
-                            
-                                'set some Font and ForeColor Properties and draw some Text on the Widget
-                                Set lblTerminalText = clockForm.Widgets.Add(New_W("cwLabel"), "lblTerminalText", 423, 74, 220, 165)
-                                
-                                lblTerminalText.Widget.FontSize = 6
-                                lblTerminalText.Widget.FontName = "courier new"
-                                lblTerminalText.Widget.ForeColor = grey
-                                lblTerminalText.Widget.Alpha = someOpacity
-                                
-                                lblTerminalText.Widget.FontBold = False
-                                lblTerminalText.borderWidth = 0
-                                lblTerminalText.WordWrap = True
-                                lblTerminalText.VAlign = 0
-                                lblTerminalText.Alignment = 0
-                                lblTerminalText.Widget.BackColor = -1
-
-                       End Select
                     End If
                 End If
             End If
@@ -372,6 +355,33 @@ Public Sub InitFromPSD(ByRef PSD_FileNameOrByteArray As Variant)
         overlayWidget.cxPerc = 0.645 'define the relative center (within cwOverlay, which has the same size as the Form and the PSD...) this is used for clock-hand-positioning
         overlayWidget.cyPerc = 0.334
         
+        
+    ' I have had to add a test for running in the IDE, if run here it will cause the IDE to crash at fClock.clockForm.show, works fine as a binary
+    If InIDE = False Then
+    
+        thisZorder = clockForm.Widgets.GetOneBasedChildIndexByKey("displayScreen")
+        
+    '    set some Font and ForeColor Properties and draw some Text on the Widget
+        Set lblTerminalText = clockForm.Widgets.Add(New_W("cwLabel"), "lblTerminalText", 423, 74, 220, 165, True, thisZorder + 1)
+    
+        lblTerminalText.Widget.FontSize = 6
+        lblTerminalText.Widget.FontName = "courier new"
+        lblTerminalText.Widget.ForeColor = grey
+        lblTerminalText.Widget.Alpha = someOpacity
+
+        lblTerminalText.Widget.FontBold = False
+        lblTerminalText.borderWidth = 0
+        lblTerminalText.WordWrap = True
+        lblTerminalText.VAlign = 0
+        lblTerminalText.Alignment = 0
+        lblTerminalText.Widget.BackColor = -1
+
+        ' tell the screenwrite util that the clockform is now available to write console events to
+        gblFClockAvailable = True
+    Else
+        gblFClockAvailable = False
+    End If
+
     'the next 5 lines will init a "moving Slider" (which was defined as "sliderset"-layer in the PSD)
     Set sliderset = clockForm.Widgets("sliderset").Widget 'store the already (in PSD-Loop created) Widget-reference in an explicit "WithEvents-Variable"
         
@@ -432,8 +442,7 @@ Public Sub InitFromPSD(ByRef PSD_FileNameOrByteArray As Variant)
 '        position = position - interval
 '    Next a
 
-    ' tell the screenwrite util that the clockform is now available to write console events to
-    gblFClockAvailable = True
+
     
     On Error GoTo 0
    Exit Sub
