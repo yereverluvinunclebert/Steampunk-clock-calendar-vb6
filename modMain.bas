@@ -87,13 +87,6 @@ Public Sub mainRoutine(ByVal restart As Boolean)
     Call screenWrite("Steampunk O/S ver 1.0 (mechanical 0.1 hz)")
     Call screenWrite("A VB6 (WoW64) and RC6 creation")
     Call screenWrite("Copyright 2024, BrickMoon Interplanetary Enterprises")
-    
-    If gbl24HourClockMode = "0" Then
-        Call screenWrite("Running startup " & "24hr mode")
-    Else
-        Call screenWrite("Running startup " & "12hr mode")
-    End If
-    
 
     ' resolve VB6 sizing width bug
     Call determineScreenDimensions
@@ -121,6 +114,12 @@ Public Sub mainRoutine(ByVal restart As Boolean)
     
     ' validate the inputs of any data from the input settings file
     Call validateInputs
+    
+    If gbl24HourClockMode = "1" Then
+        Call screenWrite("Running startup " & "24hr mode")
+    Else
+        Call screenWrite("Running startup " & "12hr mode")
+    End If
     
     ' check first usage via licence acceptance value and then set initial DPI awareness
     licenceState = fLicenceState()
@@ -958,9 +957,9 @@ Public Sub adjustMainControls()
         overlayWidget.SwingPendulum = True
     End If
     
-    If gbl24HourClockMode = "1" Then
-    
-    End If
+'    If gbl24HourClockMode = "1" Then
+'
+'    End If
 
     ' set the slider position to the start point
     fClock.timeShiftPercent = 0

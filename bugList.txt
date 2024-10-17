@@ -136,6 +136,12 @@ quiet/loud sounds
 ' add a font configuration fields to the prefs for the console text size and font
 ' add balloon and standard tooltips to the console font configuration controls
 
+' updated about text
+' removed dead files and references
+' Added MP3 sound files for later conversion
+' Added time machine images
+' changes to the about text,
+
 ' -oOo-
 
 Tasks to do:
@@ -149,6 +155,8 @@ Tasks to do:
 
 ' after a digital reset set each to -- --  and ** *** **** one by one - wip
 
+' combine a new counter rotating sound recording the current Konfabulator widget.
+
 ' slider advancing/retarding time using timeShiftPercent modified not quite exponentially to shift time - wip
 ' in the timer, take the value of timeShiftPercent and do what to it?
 
@@ -157,6 +165,11 @@ Tasks to do:
 ' look at the .js and determine what it does and identify any missing functionality
 ' alarms 
 ' chiming
+     first full hour chime must end at the hour with the first gong on the hour
+
+' convert mp3 chimes and alarms to .wav
+
+' add time machine functionality
 
 ' investigate the accumulating shadow when moving across the transparent surface of the screen
 
