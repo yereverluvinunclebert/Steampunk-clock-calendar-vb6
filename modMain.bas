@@ -85,9 +85,15 @@ Public Sub mainRoutine(ByVal restart As Boolean)
     thisPSDFullPath = App.path & "\Res\Steampunk Clock Calendar.psd"
     
     Call screenWrite("Steampunk O/S ver 1.0 (mechanical 0.1 hz)")
-    Call screenWrite("Written using VB6 (WoW64) and RC6")
-    Call screenWrite("Copyright, Brick Moon Interplanetary Enterprises")
-    Call screenWrite("Running startup " & "24hr mode")
+    Call screenWrite("A VB6 (WoW64) and RC6 creation")
+    Call screenWrite("Copyright 2024, BrickMoon Interplanetary Enterprises")
+    
+    If gbl24HourClockMode = "0" Then
+        Call screenWrite("Running startup " & "24hr mode")
+    Else
+        Call screenWrite("Running startup " & "12hr mode")
+    End If
+    
 
     ' resolve VB6 sizing width bug
     Call determineScreenDimensions

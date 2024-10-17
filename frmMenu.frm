@@ -152,13 +152,15 @@ Private Sub menuReload_Click()
     
     gblFClockAvailable = False ' tell the screenwrite util that the clockform is no longer available to write console events to
     
+    Erase gblTerminalRows ' remove the old text stored in the display screen array
+    
     If CTRL_1 = True Then
         CTRL_1 = False
         Call hardRestart
-    Else
+   Else
         Call reloadWidget
-    End If
-
+   End If
+    
     On Error GoTo 0
     Exit Sub
 

@@ -128,10 +128,13 @@ quiet/loud sounds
 
 ' text screenWrite alternative method - have one text widget and fill that - it will fit behind the weekday and alarm tills, whereas the text form has to be 'lifted' above 
 ' investigate use of alpha img instead when creating the cwlabel widget - not relevant
-
 ' the handwritten font text incorrect on the help dropdowns
+
 ' add zOrder divination to the console text label holder
 ' add inIDE call to prevent unexpected IDE crash caused by the addition of the cwLabel
+
+' add a font configuration fields to the prefs for the console text size and font
+' add balloon and standard tooltips to the console font configuration controls
 
 ' -oOo-
 
@@ -141,8 +144,6 @@ Tasks to do:
 ' fix IDE crash with creating label - forum post raised - wip
 '   test another control that can take text
 
-' add a font configuration fields to the prefs for the console text size and font
-' add balloon and standard tooltips to the console font configuration controls
 ' add global vars for storing the console text vars, read/write/vaidate &c
 ' add code to support the setting of the font characteristics for the comsole display
 
