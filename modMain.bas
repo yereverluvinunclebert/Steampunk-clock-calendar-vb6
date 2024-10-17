@@ -6,7 +6,7 @@ Option Explicit
 
 '------------------------------------------------------ STARTS
 ' for SetWindowPos z-ordering
-Public Declare Function SetWindowPos Lib "user32" (ByVal hWnd As Long, ByVal hWndInsertAfter As Long, ByVal x As Long, ByVal y As Long, ByVal cx As Long, ByVal cy As Long, ByVal wFlags As Long) As Long
+Public Declare Function SetWindowPos Lib "user32" (ByVal hWnd As Long, ByVal hWndInsertAfter As Long, ByVal X As Long, ByVal Y As Long, ByVal cx As Long, ByVal cy As Long, ByVal wFlags As Long) As Long
 
 Public Const HWND_TOP As Long = 0 ' for SetWindowPos z-ordering
 Public Const HWND_TOPMOST As Long = -1
@@ -85,7 +85,8 @@ Public Sub mainRoutine(ByVal restart As Boolean)
     thisPSDFullPath = App.path & "\Res\Steampunk Clock Calendar.psd"
     
     Call screenWrite("Steampunk O/S ver 1.0 (mechanical 0.1 hz)")
-    Call screenWrite("Copyright Brick Moon Interplanetary Enterprises")
+    Call screenWrite("Written using VB6 (WoW64) and RC6")
+    Call screenWrite("Copyright, Brick Moon Interplanetary Enterprises")
     Call screenWrite("Running startup " & "24hr mode")
 
     ' resolve VB6 sizing width bug

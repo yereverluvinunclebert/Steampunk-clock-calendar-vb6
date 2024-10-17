@@ -127,18 +127,24 @@ quiet/loud sounds
 ' add 12/24hr code in overlay 
 
 ' text screenWrite alternative method - have one text widget and fill that - it will fit behind the weekday and alarm tills, whereas the text form has to be 'lifted' above 
-' investigate use of alpha img instead when creating the cwlabel widget
+' investigate use of alpha img instead when creating the cwlabel widget - not relevant
+
+' the handwritten font text incorrect on the help dropdowns
+' add zOrder divination to the console text label holder
+' add inIDE call to prevent unexpected IDE crash caused by the addition of the cwLabel
 
 ' -oOo-
 
 Tasks to do:
 ============
 
-' fix IDE crash with creating label in sequence with the loop - forum post raised - wip
+' fix IDE crash with creating label - forum post raised - wip
+'   test another control that can take text
 
-' the handwritten font text is now incorrect on the help dropdown
-
-' add a font configuration to the prefs for the console text size and font
+' add a font configuration fields to the prefs for the console text size and font
+' add balloon and standard tooltips to the console font configuration controls
+' add global vars for storing the console text vars, read/write/vaidate &c
+' add code to support the setting of the font characteristics for the comsole display
 
 ' after a digital reset set each to -- --  and ** *** **** one by one - wip
 
@@ -153,9 +159,10 @@ Tasks to do:
 
 ' investigate the accumulating shadow when moving across the transparent surface of the screen
 
-' shadow behind cwlabel
+' shadow behind cwlabel background when background screen lowered, try adding a refresh 
 
-' why is the RC5 prefs drag and resize so much smoother than the RC6 version? - research
+' why is the RC5 prefs drag and resize so much smoother than the RC6 version? - wip
+'       it auto resizes the top icons
 
 ' find and replace globals within classes with property GET/SETs
 
