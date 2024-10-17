@@ -229,7 +229,7 @@ The CCR slider should appear in the VB6 IDE toolbar.
 
 The above is only for development, for ordinary users, during runtime there is no 
 need to do the above. The OCX will reside in the program folder. The program reference 
-to this OCX is contained within the supplied resource file, saturn.RES. The reference 
+to this OCX is contained within the supplied resource file, Steampunk Clock Calendar.RES. The reference 
 to this file is already compiled into the binary. As long as the OCX is in the same 
 folder as the binary the program will run without the need to register the OCX manually.
 
