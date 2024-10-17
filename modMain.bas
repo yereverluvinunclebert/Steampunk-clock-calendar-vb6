@@ -411,7 +411,7 @@ Private Sub addImagesToImageList()
 '    add Resources to the global ImageList that are not being pulled from the PSD directly
     
     Cairo.ImageList.AddImage "about", App.path & "\Resources\images\about.png"
-    Cairo.ImageList.AddImage "help", App.path & "\Resources\images\diesel-volume-help.png"
+    'Cairo.ImageList.AddImage "help", App.path & "\Resources\images\diesel-volume-help.png"
     Cairo.ImageList.AddImage "licence", App.path & "\Resources\images\frame.png"
     Cairo.ImageList.AddImage "frmIcon", App.path & "\Resources\images\Icon.png"
     
