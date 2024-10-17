@@ -126,12 +126,19 @@ quiet/loud sounds
 ' change the check boxes that control tooltips to radio buttons
 ' add 12/24hr code in overlay 
 
+' text screenWrite alternative method - have one text widget and fill that - it will fit behind the weekday and alarm tills, whereas the text form has to be 'lifted' above 
+' investigate use of alpha img instead when creating the cwlabel widget
+
 ' -oOo-
 
 Tasks to do:
 ============
 
-' text screenWrite alternative method - have one text widget and fill that - it will fit behind the weekday and alarm tills, whereas the text form has to be 'lifted' above 
+' fix IDE crash with creating label in sequence with the loop - forum post raised - wip
+
+' the handwritten font text is now incorrect on the help dropdown
+
+' add a font configuration to the prefs for the console text size and font
 
 ' after a digital reset set each to -- --  and ** *** **** one by one - wip
 
@@ -145,6 +152,8 @@ Tasks to do:
 ' chiming
 
 ' investigate the accumulating shadow when moving across the transparent surface of the screen
+
+' shadow behind cwlabel
 
 ' why is the RC5 prefs drag and resize so much smoother than the RC6 version? - research
 

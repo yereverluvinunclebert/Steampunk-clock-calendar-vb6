@@ -344,8 +344,8 @@ Public Sub InitFromPSD(ByRef PSD_FileNameOrByteArray As Variant)
                         
                         Select Case W.Key
                             Case "displayscreen"
-      
-                                'set some Font- and ForeColor-Properties and draw some Text on the Widget
+                            
+                                'set some Font and ForeColor Properties and draw some Text on the Widget
                                 Set lblTerminalText = clockForm.Widgets.Add(New_W("cwLabel"), "lblTerminalText", 423, 74, 220, 165)
                                 
                                 lblTerminalText.Widget.FontSize = 6
@@ -360,8 +360,6 @@ Public Sub InitFromPSD(ByRef PSD_FileNameOrByteArray As Variant)
                                 lblTerminalText.Alignment = 0
                                 lblTerminalText.Widget.BackColor = -1
 
-                            
-                                'lblTerminalText.Caption = "Obtaining Weather data from " & "http://aviationweather.gov"
                        End Select
                     End If
                 End If
