@@ -39,6 +39,8 @@ Private WithEvents tmrClock As cTimer
 Attribute tmrClock.VB_VarHelpID = -1
 Private WithEvents tmrPendulum As cTimer
 Attribute tmrPendulum.VB_VarHelpID = -1
+Private WithEvents tmrTollTimer As cTimer
+Attribute tmrTollTimer.VB_VarHelpID = -1
 
 Public WithEvents tmrTimeShift As cTimer    ' need to add set/get for these public timers
 Attribute tmrTimeShift.VB_VarHelpID = -1
@@ -129,6 +131,11 @@ Private Sub Class_Initialize()
     Set tmrDigitRotator = New_c.Timer(50, False)
     
     tmrDigitRotator.Enabled = False
+   
+    Set tmrTollTimer = Nothing
+    Set tmrTollTimer = New_c.Timer(2000, False)
+    
+    tmrTollTimer.Enabled = False
    
    On Error GoTo 0
    Exit Sub
@@ -931,7 +938,8 @@ Private Sub populateDigitalHoursCache(ByRef CC As cCairoContext, Optional ByVal 
         
         ' if 24hr mode then convert
         If gbl24HourClockMode = "0" Then
-            localHour = localHour - 12
+            If localHour > 12 Then localHour = (localHour - 12)
+        
             hourString = CStr(localHour)
        End If
     End If
@@ -1642,9 +1650,11 @@ End Sub
 ' Date: 21/06/2024
 ' ----------------------------------------------------------------
 Private Sub tmrClock_Timer()
+
+    Dim fileToPlay As String: fileToPlay = vbNullString
     
     On Error GoTo tmrClock_Timer_Error
-    
+
     ' just for the analogue clock
     pvtThisHour = Hour(Now)
     pvtThisMins = Minute(Now)
@@ -1680,9 +1690,65 @@ Private Sub tmrClock_Timer()
         triggerDigitalClockPopulation = True
         pvtFirstRun = False
     End If
+    
+    If fClock.clapperEnabled = True Then
+
+        If pvtThisMins = 14 And pvtThisSecs = 58 Then ' 2 seconds before
+            If gblVolumeBoost = "1" Then
+                fileToPlay = "quarterchime.wav"
+            Else
+                fileToPlay = "quarterchime-quiet.wav"
+            End If
+            If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
+                PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
+            End If
+
+           screenWrite ("chiming quarter hour")
+
+        ElseIf pvtThisMins = 29 And (pvtThisSecs = 54) Then ' 6 seconds before
+    
+            If gblVolumeBoost = "1" Then
+                fileToPlay = "halfchime.wav"
+            Else
+                fileToPlay = "halfchime-quiet.wav"
+            End If
+            If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
+                PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
+            End If
+
+            screenWrite ("chiming half hour ")
+
+        ElseIf pvtThisMins = 44 And (pvtThisSecs = 51) Then '9 seconds before
+
+            If gblVolumeBoost = "1" Then
+                fileToPlay = "threequarterchime.wav"
+            Else
+                fileToPlay = "threequarterchime-quiet.wav"
+            End If
+            If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
+                PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
+            End If
+
+            screenWrite ("chiming three-quarter hour ")
+
+        ElseIf pvtThisMins = 59 And (pvtThisSecs = 42) Then      ' 18 seconds before the o'clock
+
+            If gblVolumeBoost = "1" Then
+                fileToPlay = "fullchime.wav"
+            Else
+                fileToPlay = "fullchime-quiet.wav"
+            End If
+            If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
+                PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
+            End If
+            
+            screenWrite ("chiming full hour ")
+            tmrTollTimer.Enabled = True
+            
+        End If
+    End If
           
     ' very few routines are called from this timer but instead this subsequent refresh will trigger a PAINT event
-    
     W.Parent.Refresh ' causes a paint event to fire - lots happens in the paint event
     
    On Error GoTo 0
@@ -1693,6 +1759,94 @@ tmrClock_Timer_Error:
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure tmrClock_Timer of Class Module cwOverlay"
 End Sub
 
+
+'---------------------------------------------------------------------------------------
+' Procedure : tmrTollTimer_Timer
+' Author    : beededea
+' Date      : 18/10/2024
+' Purpose   :
+'---------------------------------------------------------------------------------------
+'
+Private Sub tmrTollTimer_Timer()
+
+   On Error GoTo tmrTollTimer_Timer_Error
+
+    Call tollbell
+
+   On Error GoTo 0
+   Exit Sub
+
+   On Error GoTo 0
+   Exit Sub
+
+tmrTollTimer_Timer_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure tmrTollTimer_Timer of Class Module cwOverlay"
+
+End Sub
+
+
+'---------------------------------------------------------------------------------------
+' Procedure : tollbell
+' Author    : beededea
+' Date      : 18/10/2024
+' Purpose   : function to toll the bell x no. of times, called by the tmrTollTimer
+'---------------------------------------------------------------------------------------
+'
+Private Sub tollbell()
+    Dim fileToPlay As String: fileToPlay = vbNullString
+    Dim tollhours As Integer: tollhours = 0
+    Dim hr As Integer: hr = 0
+    Static tollbellcount As Integer
+    
+    On Error GoTo tollbell_Error
+
+    hr = Hour(Now)
+    tollhours = Hour(Now)
+    
+    'stop it striking more than 12 times on a 24hr clock
+    
+    ' if 24hr mode then convert
+    If gbl24HourClockMode = "0" Then ' 12hr clock
+        If hr > 12 Then tollhours = (hr - 12)
+    End If
+     
+    ' do not ask for whom the bell tolls, it tolls for thee...when the counter reaches 8
+    If (tollbellcount >= 8) Then
+       If gblVolumeBoost = "1" Then
+           fileToPlay = "belltoll.wav"
+       Else
+           fileToPlay = "belltoll-quiet.wav"
+       End If
+       If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
+           PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
+       End If
+       
+        tollbellcount = tollbellcount + 1
+        screenWrite ("toll no." & (tollbellcount - 8) & " for " & CStr(hr) & " o'clock & tmrTollTimer = " & tmrTollTimer.Enabled)
+    Else         'pause for 16 seconds (8 x belltimer.interval (2))
+        tollbellcount = tollbellcount + 1
+        screenWrite ("tollbellcount =  " & tollbellcount)
+    End If
+     
+     ' turn off the belltimer to stop the bell from tolling
+     If (tollbellcount >= tollhours + 8) Then
+            tmrTollTimer.Enabled = False
+            tollbellcount = 0
+            screenWrite ("Just struck " & CStr(hr) & " o'clock, tmrTollTimer set to " & tmrTollTimer.Enabled)
+     End If
+
+   On Error GoTo 0
+   Exit Sub
+
+tollbell_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure tollbell of Class Module cwOverlay"
+End Sub
+
+'=====================
+'End function
+'=====================
 
 
 '
@@ -1716,7 +1870,7 @@ W_HitTest_Error:
 
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure W_HitTest of Class Module cwOverlay"
 End Sub
-'ByRef CC As cCairoContext,
+
 
 '---------------------------------------------------------------------------------------
 ' Procedure : W_Paint

@@ -6,7 +6,7 @@ Option Explicit
 
 '------------------------------------------------------ STARTS
 ' for SetWindowPos z-ordering
-Public Declare Function SetWindowPos Lib "user32" (ByVal hWnd As Long, ByVal hWndInsertAfter As Long, ByVal X As Long, ByVal Y As Long, ByVal cx As Long, ByVal cy As Long, ByVal wFlags As Long) As Long
+Public Declare Function SetWindowPos Lib "user32" (ByVal hWnd As Long, ByVal hWndInsertAfter As Long, ByVal x As Long, ByVal y As Long, ByVal cx As Long, ByVal cy As Long, ByVal wFlags As Long) As Long
 
 Public Const HWND_TOP As Long = 0 ' for SetWindowPos z-ordering
 Public Const HWND_TOPMOST As Long = -1
@@ -991,6 +991,12 @@ Public Sub adjustMainControls()
         fClock.ticking = False
     End If
     
+    If gblClapperEnabled = "True" Then
+        fClock.clapperEnabled = True
+    Else
+        fClock.clapperEnabled = False
+    End If
+        
     If gblEnableChimes = "1" Then
         fClock.clapperEnabled = True
     Else

@@ -11,6 +11,13 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = True
 Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
+'---------------------------------------------------------------------------------------
+' Module    : cfClock
+' Author    : beededea
+' Date      : 18/10/2024
+' Purpose   :
+'---------------------------------------------------------------------------------------
+
 '@IgnoreModule IntegerDataType, ModuleWithoutFolder
 Option Explicit
 
@@ -2894,6 +2901,7 @@ Public Property Let clapperEnabled(ByVal newValue As Boolean)
     alphaVal = Val(gblOpacity) / 100
  
     If newValue = True Then
+        gblEnableChimes = "1"
         gblClapperEnabled = "True"
         clapperright.Alpha = 0
         clapperLeft.Alpha = alphaVal
@@ -2909,6 +2917,7 @@ Public Property Let clapperEnabled(ByVal newValue As Boolean)
             End If
         End If
     Else
+        gblEnableChimes = "1"
         gblClapperEnabled = "False"
         'If pvtMuteInitiatingControl = "clapper" Then muteToggleEnabled = True
         clapperright.Alpha = alphaVal
@@ -2921,7 +2930,7 @@ Public Property Let clapperEnabled(ByVal newValue As Boolean)
     If mClapperEnabled <> newValue Then mClapperEnabled = newValue Else Exit Property
     clapperEnabled = mClapperEnabled
     
-    Call screenWrite("chime mute is set to " & mClapperEnabled)
+    Call screenWrite("Clock chime enabled is set to " & mClapperEnabled)
     
     clockForm.Refresh
      
@@ -3391,8 +3400,8 @@ Public Property Let alarmtoggleEnabled(ByVal newValue As Boolean)
         End If
         
     Else
-        Call screenWrite("Cancelling Alarm Mode")
-        Call screenWrite("Slider Mechanism Returned")
+        Call screenWrite("Cancelling Alarm Edit Mode")
+        Call screenWrite("Slider Mechanism Returned to Rest Position")
         
         alarmtoggle.Move alarmToggleOut, alarmtoggleTop
         SliderFreed = False

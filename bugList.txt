@@ -145,6 +145,7 @@ quiet/loud sounds
 ' add global vars for storing the console text vars, read/write/vaidate &c
 ' add github home
 ' add github menu option
+' added chiming for all the 1/4 hrs
 
 ' -oOo-
 
@@ -154,7 +155,9 @@ Tasks to do:
 ' fix IDE crash with creating label - forum post raised - wip
 '   test another control that can take text
 
-' add code to support the setting of the font characteristics for the comsole display
+' slider enabled to adjustControls 
+
+' add code to support the setting of the font characteristics for the comsole display - wip
 
 ' after a digital reset set each to -- --  and ** *** **** one by one - wip
 
