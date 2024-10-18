@@ -140,7 +140,11 @@ quiet/loud sounds
 ' removed dead files and references
 ' Added MP3 sound files for later conversion
 ' Added time machine images
-' changes to the about text,
+' changes to the about text
+
+' add global vars for storing the console text vars, read/write/vaidate &c
+' add github home
+' add github menu option
 
 ' -oOo-
 
@@ -150,7 +154,6 @@ Tasks to do:
 ' fix IDE crash with creating label - forum post raised - wip
 '   test another control that can take text
 
-' add global vars for storing the console text vars, read/write/vaidate &c
 ' add code to support the setting of the font characteristics for the comsole display
 
 ' after a digital reset set each to -- --  and ** *** **** one by one - wip

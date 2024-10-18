@@ -335,60 +335,52 @@ Begin VB.Form widgetPrefs
    End
    Begin VB.Frame fraFonts 
       Caption         =   "Fonts"
-      Height          =   4875
+      Height          =   4470
       Left            =   240
       TabIndex        =   9
       Top             =   1230
       Width           =   8280
       Begin VB.Frame fraFontsInner 
          BorderStyle     =   0  'None
-         Height          =   4155
+         Height          =   3810
          Left            =   705
          TabIndex        =   26
          Top             =   360
          Width           =   6105
-         Begin VB.TextBox txtDisplayFont 
+         Begin VB.TextBox txtDisplayScreenFont 
             Height          =   315
             Left            =   1695
             Locked          =   -1  'True
-            TabIndex        =   194
+            TabIndex        =   193
             Text            =   "Courier  New"
             Top             =   1830
             Width           =   3285
          End
-         Begin VB.CommandButton btnDisplayFont 
+         Begin VB.CommandButton btnDisplayScreenFont 
             Caption         =   "Font"
             Height          =   300
             Left            =   5010
             Style           =   1  'Graphical
-            TabIndex        =   193
+            TabIndex        =   192
             Top             =   1830
             Width           =   585
          End
-         Begin VB.TextBox txtDisplayFontSize 
+         Begin VB.TextBox txtDisplayScreenFontSize 
             Height          =   315
             Left            =   1695
             Locked          =   -1  'True
-            TabIndex        =   192
-            Text            =   "8"
-            Top             =   2805
-            Width           =   510
-         End
-         Begin VB.TextBox txtDisplayFontCurrentSize 
-            Height          =   315
-            Left            =   4185
-            Locked          =   -1  'True
             TabIndex        =   191
-            Top             =   2805
-            Width           =   600
+            Text            =   "8"
+            Top             =   2370
+            Width           =   510
          End
          Begin VB.CommandButton btnResetMessages 
             Caption         =   "Reset"
             Height          =   300
-            Left            =   1710
+            Left            =   1680
             Style           =   1  'Graphical
             TabIndex        =   143
-            Top             =   3615
+            Top             =   3270
             Width           =   885
          End
          Begin VB.TextBox txtPrefsFontCurrentSize 
@@ -430,60 +422,51 @@ Begin VB.Form widgetPrefs
             Width           =   3285
          End
          Begin VB.Label lblFontsTab 
-            Caption         =   "Choose a font to be used for the text in the console display screen."
+            Caption         =   "Choose a font to be used for the text in the console display screen on the main clock"
             Height          =   480
             Index           =   9
-            Left            =   1680
-            TabIndex        =   198
-            Top             =   2220
+            Left            =   2415
+            TabIndex        =   196
+            Top             =   2355
             Width           =   4035
          End
          Begin VB.Label lblFontsTab 
-            Caption         =   "Console Font:"
+            Caption         =   "Display Console Font :"
             Height          =   300
             Index           =   8
-            Left            =   600
-            TabIndex        =   197
+            Left            =   0
+            TabIndex        =   195
             Tag             =   "lblPrefsFont"
-            Top             =   1875
+            Top             =   1890
             Width           =   1665
          End
          Begin VB.Label lblFontsTab 
-            Caption         =   "Base Font Size :"
+            Caption         =   "Console  Font Size :"
             Height          =   330
             Index           =   5
-            Left            =   420
-            TabIndex        =   196
+            Left            =   165
+            TabIndex        =   194
             Tag             =   "lblPrefsFontSize"
-            Top             =   2835
-            Width           =   1230
-         End
-         Begin VB.Label lblFontsTab 
-            Caption         =   "Resized Font"
-            Height          =   315
-            Index           =   0
-            Left            =   4890
-            TabIndex        =   195
-            Top             =   2850
-            Width           =   2400
+            Top             =   2400
+            Width           =   1590
          End
          Begin VB.Label lblFontsTab 
             Caption         =   "Hidden message boxes can be reactivated by pressing this reset button."
             Height          =   480
             Index           =   4
-            Left            =   2700
+            Left            =   2670
             TabIndex        =   144
-            Top             =   3555
+            Top             =   3210
             Width           =   3360
          End
          Begin VB.Label lblFontsTab 
             Caption         =   "Reset Pop ups :"
             Height          =   300
             Index           =   1
-            Left            =   435
+            Left            =   405
             TabIndex        =   142
             Tag             =   "lblPrefsFont"
-            Top             =   3660
+            Top             =   3315
             Width           =   1470
          End
          Begin VB.Label lblFontsTab 
@@ -516,7 +499,7 @@ Begin VB.Form widgetPrefs
             Width           =   1230
          End
          Begin VB.Label lblFontsTab 
-            Caption         =   "Prefs Utility Font:"
+            Caption         =   "Prefs Utility Font :"
             Height          =   300
             Index           =   2
             Left            =   360
@@ -1045,7 +1028,7 @@ Begin VB.Form widgetPrefs
          Height          =   360
          Left            =   6765
          Style           =   1  'Graphical
-         TabIndex        =   199
+         TabIndex        =   197
          ToolTipText     =   "Here you can visit the update location where you can download new versions of the programs."
          Top             =   300
          Width           =   1470
@@ -2267,8 +2250,8 @@ Private Sub btnDefaultEditor_MouseMove(Button As Integer, Shift As Integer, X As
                   TTIconInfo, "Help on the VBP File Explorer Button", , , , True
 End Sub
 
-Private Sub btnDisplayFont_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
-    If gblEnablePrefsBalloonTooltips = "True" Then CreateToolTip btnDisplayFont.hWnd, "This is the font selector button, if you click it the font selection window will pop up for you to select your chosen font. When resizing the main clock the display screen font size will in relation to clock size. The base font determines the initial size, the resulting resized font will dynamically change. ", _
+Private Sub btnDisplayScreenFont_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
+    If gblEnablePrefsBalloonTooltips = "True" Then CreateToolTip btnDisplayScreenFont.hWnd, "This is the font selector button, if you click it the font selection window will pop up for you to select your chosen font. When resizing the main clock the display screen font size will in relation to clock size. The base font determines the initial size, the resulting resized font will dynamically change. ", _
                   TTIconInfo, "Help on the Font Selector Button", , , , True
 End Sub
 
@@ -4406,7 +4389,7 @@ Private Sub btnSave_Click()
     gblPrefsFont = txtPrefsFont.Text
     gblClockFont = gblPrefsFont
     
-    gblDisplayScreenFont = txtDisplayFont.Text
+    gblDisplayScreenFont = txtDisplayScreenFontSize.Text
     
 '    gblDisplayScreenFontSize
 '    gblDisplayScreenFontItalics
@@ -4795,7 +4778,66 @@ btnPrefsFont_Click_Error:
 End Sub
 
 
+'---------------------------------------------------------------------------------------
+' Procedure : btnDisplayScreenFont_Click
+' Author    : beededea
+' Date      : 02/05/2023
+' Purpose   :
+'---------------------------------------------------------------------------------------
+'
+Private Sub btnDisplayScreenFont_Click()
 
+    Dim fntFont As String: fntFont = vbNullString
+    Dim fntSize As Integer: fntSize = 0
+    Dim fntWeight As Integer: fntWeight = 0
+    Dim fntStyle As Boolean: fntStyle = False
+    Dim fntColour As Long: fntColour = 0
+    Dim fntItalics As Boolean: fntItalics = False
+    Dim fntUnderline As Boolean: fntUnderline = False
+    Dim fntFontResult As Boolean: fntFontResult = False
+    
+    On Error GoTo btnDisplayScreenFont_Click_Error
+
+    btnSave.Enabled = True ' enable the save button
+    
+    ' set the preliminary vars to feed and populate the changefont routine
+    fntFont = gblPrefsFont
+    
+    fntSize = Val(gblDisplayScreenFontSize)
+    If fntSize = 0 Then fntSize = 8
+    fntItalics = CBool(gblDisplayScreenFontItalics)
+    fntColour = CLng(gblDisplayScreenFontColour)
+    
+    displayFontSelector fntFont, fntSize, fntWeight, fntStyle, fntColour, fntItalics, fntUnderline, fntFontResult
+    If fntFontResult = False Then Exit Sub
+            
+    gblDisplayScreenFont = CStr(fntFont)
+    gblDisplayScreenFontSize = CStr(fntSize)
+    gblDisplayScreenFontItalics = CStr(fntItalics)
+    gblDisplayScreenFontColour = CStr(fntColour)
+
+    If fFExists(gblSettingsFile) Then ' does the tool's own settings.ini exist?
+        sPutINISetting "Software\SteampunkClockCalendar", "prefsFont", gblDisplayScreenFont, gblSettingsFile
+        sPutINISetting "Software\SteampunkClockCalendar", "prefsFontSize", gblDisplayScreenFontSize, gblSettingsFile
+        sPutINISetting "Software\SteampunkClockCalendar", "prefsFontItalics", gblDisplayScreenFontItalics, gblSettingsFile
+        sPutINISetting "Software\SteampunkClockCalendar", "PrefsFontColour", gblDisplayScreenFontColour, gblSettingsFile
+    End If
+    
+    If fntFont = vbNullString Then fntFont = "arial"
+    txtDisplayScreenFont.Text = fntFont
+    txtDisplayScreenFont.Font.Name = fntFont
+    txtDisplayScreenFont.Font.Italic = fntItalics
+    txtDisplayScreenFont.ForeColor = fntColour
+    txtDisplayScreenFontSize.Text = fntSize
+
+   On Error GoTo 0
+   Exit Sub
+
+btnDisplayScreenFont_Click_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure btnDisplayScreenFont_Click of Form widgetPrefs"
+
+End Sub
 
 '---------------------------------------------------------------------------------------
 ' Procedure : adjustPrefsControls
@@ -4883,6 +4925,7 @@ Private Sub adjustPrefsControls()
         End If
     End If
     
+    txtDisplayScreenFontSize.Text = gblDisplayScreenFontSize
     
     ' position tab
     cmbAspectHidden.ListIndex = Val(gblAspectHidden)
@@ -6040,19 +6083,15 @@ Private Sub txtDefaultEditor_MouseMove(Button As Integer, Shift As Integer, X As
                   TTIconInfo, "Help on the Default Editor Field", , , , True
 End Sub
 
-Private Sub txtDisplayFont_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
-    If gblEnablePrefsBalloonTooltips = "True" Then CreateToolTip txtDisplayFont.hWnd, "This is a read-only text box. It displays the current font - as set when you click the font selector button. This field is in operation for informational purposes only. When resizing the main clock (CTRL+ mouse scroll wheel) the font size will in relation to clock size. The base font determines the initial size, the resulting resized font will dynamically change. My preferred font for the display screen is Courier New at 6pt size.", _
+Private Sub txtDisplayScreenFont_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
+    If gblEnablePrefsBalloonTooltips = "True" Then CreateToolTip txtDisplayScreenFont.hWnd, "This is a read-only text box. It displays the current font - as set when you click the font selector button. This field is in operation for informational purposes only. When resizing the main clock (CTRL+ mouse scroll wheel) the font size will in relation to clock size. The base font determines the initial size, the resulting resized font will dynamically change. My preferred font for the display screen is Courier New at 6pt size.", _
                   TTIconInfo, "Help on the Display Screen Font", , , , True
 End Sub
 
-Private Sub txtDisplayFontCurrentSize_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
-    If gblEnablePrefsBalloonTooltips = "True" Then CreateToolTip txtDisplayFontCurrentSize.hWnd, "This is a read-only text box. It displays the current font size as set when dynamic form resizing is enabled. This text box will display the resized font currently in operation for informational purposes only.", _
-                  TTIconInfo, "Help on Setting the Font size Dynamically", , , , True
 
-End Sub
 
-Private Sub txtDisplayFontSize_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
-    If gblEnablePrefsBalloonTooltips = "True" Then CreateToolTip txtDisplayFontSize.hWnd, "This is a read-only text box. It displays the current base font size as set when dynamic form resizing is enabled. The adjacent text box will display the automatically resized font currently in operation, for informational purposes only.", _
+Private Sub txtDisplayScreenFontSize_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
+    If gblEnablePrefsBalloonTooltips = "True" Then CreateToolTip txtDisplayScreenFontSize.hWnd, "This is a read-only text box. It displays the current base font size as set when dynamic form resizing is enabled. The adjacent text box will display the automatically resized font currently in operation, for informational purposes only.", _
                   TTIconInfo, "Help on the Base Font Size for Display Screen", , , , True
 End Sub
 
@@ -6233,10 +6272,9 @@ Public Sub setPrefsTooltips()
         txtPrefsFontSize.ToolTipText = "Disabled for manual input. Choose a font size via the font selector that fits the text boxes"
         
          
-        txtDisplayFontSize.ToolTipText = "Disabled for manual input. Choose a font size using the font selector to be used within the clock display screen only"
-        btnDisplayFont.ToolTipText = "The Font Selector."
-        txtDisplayFont.ToolTipText = "Disabled for manual input. Choose a font size using the font selector to be used within the clock display screen only"
-        txtDisplayFontCurrentSize.ToolTipText = "Disabled for manual input. Choose a font size via the font selector that fits the text boxes"
+        txtDisplayScreenFontSize.ToolTipText = "Disabled for manual input. Choose a font size using the font selector to be used within the clock display screen only"
+        btnDisplayScreenFont.ToolTipText = "The Font Selector."
+        txtDisplayScreenFont.ToolTipText = "Disabled for manual input. Choose a font size using the font selector to be used within the clock display screen only"
         
         cmbWindowLevel.ToolTipText = "You can determine the window position here. Set to bottom to keep the widget below other windows."
         cmbHidingTime.ToolTipText = "The hiding time that you can set here determines how long the widget will disappear when you click the menu option to hide the widget."
@@ -6338,10 +6376,9 @@ Public Sub setPrefsTooltips()
         txtPrefsFontCurrentSize.ToolTipText = vbNullString
         
         
-        txtDisplayFontSize.ToolTipText = vbNullString
-        btnDisplayFont.ToolTipText = vbNullString
-        txtDisplayFont.ToolTipText = vbNullString
-        txtDisplayFontCurrentSize.ToolTipText = vbNullString
+        txtDisplayScreenFontSize.ToolTipText = vbNullString
+        btnDisplayScreenFont.ToolTipText = vbNullString
+        txtDisplayScreenFont.ToolTipText = vbNullString
         
         cmbWindowLevel.ToolTipText = vbNullString
         cmbHidingTime.ToolTipText = vbNullString
@@ -7079,7 +7116,7 @@ Private Sub setframeHeights()
         fraConfig.Height = 7134
         fraSounds.Height = 3376
         fraPosition.Height = 7544
-        fraFonts.Height = 4481
+        fraFonts.Height = 4533
         
         ' the lowest window controls are not displayed on a single monitor
         If monitorCount > 1 Then
