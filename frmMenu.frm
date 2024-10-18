@@ -43,6 +43,9 @@ Begin VB.Form menuForm
          Begin VB.Menu mnuWidgets 
             Caption         =   "See the other widgets"
          End
+         Begin VB.Menu mnuGithubHome 
+            Caption         =   "Github Home for this widget"
+         End
          Begin VB.Menu mnuLatest 
             Caption         =   "Download Latest Version from Github"
          End
@@ -242,6 +245,37 @@ End Sub
 
 
 
+
+'---------------------------------------------------------------------------------------
+' Procedure : mnuGithubHome_Click
+' Author    : beededea
+' Date      : 18/10/2024
+' Purpose   :
+'---------------------------------------------------------------------------------------
+'
+Public Sub mnuGithubHome_Click()
+
+    Dim answer As VbMsgBoxResult: answer = vbNo
+    Dim answerMsg As String: answerMsg = vbNullString
+
+    On Error GoTo mnuGithubHome_Click_Error
+    
+    answer = vbYes
+
+    answerMsg = "This button opens a browser window and connects to the widget's HOME page on github. Proceed?"
+    answer = msgBoxA(answerMsg, vbExclamation + vbYesNo, "Request to Upgrade", True, "mnuGithubHomeClick")
+
+    If answer = vbYes Then
+        Call ShellExecute(Me.hWnd, "Open", "https://github.com/yereverluvinunclebert/Steampunk-clock-calendar-vb6", vbNullString, App.path, 1)
+    End If
+
+   On Error GoTo 0
+   Exit Sub
+
+mnuGithubHome_Click_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure mnuGithubHome_Click of Form menuForm"
+End Sub
 
 '---------------------------------------------------------------------------------------
 ' Procedure : mnuHelpHTM_Click
@@ -463,11 +497,11 @@ Public Sub mnuLatest_Click()
     
     answer = vbYes
 
-    answerMsg = "Download latest version of the program from github - this button opens a browser window and connects to the widget download page where you can check and download the latest SETUP.EXE file). Proceed?"
+    answerMsg = "Download latest version of the program from github - this button opens a browser window and connects to the widget releases page where you can download the latest installer. Proceed?"
     answer = msgBoxA(answerMsg, vbExclamation + vbYesNo, "Request to Upgrade", True, "mnuLatestClick")
 
     If answer = vbYes Then
-        Call ShellExecute(Me.hWnd, "Open", "https://github.com/yereverluvinunclebert/Steampunk Clock Calendar VB6", vbNullString, App.path, 1)
+        Call ShellExecute(Me.hWnd, "Open", "https://github.com/yereverluvinunclebert/Steampunk-clock-calendar-vb6/releases", vbNullString, App.path, 1)
     End If
 
 
