@@ -332,7 +332,6 @@ Public gblEnableTicks  As String
 Public gblEnableChimes  As String
 Public gblVolumeBoost  As String
 
-
 ' development
 Public gblDebug As String
 Public gblDblClickCommand As String
@@ -346,6 +345,11 @@ Public gblPrefsFontSizeHighDPI As String
 Public gblPrefsFontSizeLowDPI As String
 Public gblPrefsFontItalics  As String
 Public gblPrefsFontColour  As String
+
+Public gblDisplayScreenFont As String
+Public gblDisplayScreenFontSize As String
+Public gblDisplayScreenFontItalics As String
+Public gblDisplayScreenFontColour As String
 
 ' window
 Public gblWindowLevel As String

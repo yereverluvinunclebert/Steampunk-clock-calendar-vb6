@@ -287,6 +287,12 @@ Private Sub initialiseGlobalVars()
     gblPrefsFontItalics = vbNullString
     gblPrefsFontColour = vbNullString
     
+    gblDisplayScreenFont = vbNullString
+    gblDisplayScreenFontSize = vbNullString
+    gblDisplayScreenFontItalics = vbNullString
+    gblDisplayScreenFontColour = vbNullString
+    
+    
     ' window
     gblWindowLevel = vbNullString
     gblPreventDragging = vbNullString
@@ -1179,7 +1185,12 @@ Public Sub readSettingsFile(ByVal Location As String, ByVal gblSettingsFile As S
         gblPrefsFontSizeLowDPI = fGetINISetting(Location, "prefsFontSizeLowDPI", gblSettingsFile)
         gblPrefsFontItalics = fGetINISetting(Location, "prefsFontItalics", gblSettingsFile)
         gblPrefsFontColour = fGetINISetting(Location, "prefsFontColour", gblSettingsFile)
-        
+    
+        gblDisplayScreenFont = fGetINISetting(Location, "displayScreenFont", gblSettingsFile)
+        gblDisplayScreenFontSize = fGetINISetting(Location, "displayScreenFontSize", gblSettingsFile)
+        gblDisplayScreenFontItalics = fGetINISetting(Location, "displayScreenFontItalics", gblSettingsFile)
+        gblDisplayScreenFontColour = fGetINISetting(Location, "displayScreenFontColour", gblSettingsFile)
+       
         ' sound
         gblEnableSounds = fGetINISetting(Location, "enableSounds", gblSettingsFile)
         gblEnableTicks = fGetINISetting(Location, "enableTicks", gblSettingsFile)
@@ -1304,11 +1315,17 @@ Public Sub validateInputs()
                
         ' fonts
         If gblPrefsFont = vbNullString Then gblPrefsFont = "times new roman"
-        If gblClockFont = vbNullString Then gblClockFont = gblPrefsFont
         If gblPrefsFontSizeHighDPI = vbNullString Then gblPrefsFontSizeHighDPI = "8"
         If gblPrefsFontSizeLowDPI = vbNullString Then gblPrefsFontSizeLowDPI = "8"
         If gblPrefsFontItalics = vbNullString Then gblPrefsFontItalics = "false"
         If gblPrefsFontColour = vbNullString Then gblPrefsFontColour = "0"
+
+        If gblClockFont = vbNullString Then gblClockFont = gblPrefsFont
+
+        If gblDisplayScreenFont = vbNullString Then gblDisplayScreenFont = "courier new"
+        If gblDisplayScreenFontSize = vbNullString Then gblDisplayScreenFontSize = "5"
+        If gblDisplayScreenFontItalics = vbNullString Then gblDisplayScreenFontItalics = "false"
+        If gblDisplayScreenFontColour = vbNullString Then gblDisplayScreenFontColour = "0"
 
         ' sounds
         If gblEnableSounds = vbNullString Then gblEnableSounds = "1"
