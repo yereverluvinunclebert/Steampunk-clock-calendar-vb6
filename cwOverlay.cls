@@ -1718,7 +1718,7 @@ Private Sub tmrClock_Timer()
 
             screenWrite ("chiming half hour ")
 
-        ElseIf pvtThisMins = 44 And (pvtThisSecs = 51) Then '9 seconds before
+        ElseIf pvtThisMins = 45 And (pvtThisSecs = 51) Then '9 seconds before
 
             If gblVolumeBoost = "1" Then
                 fileToPlay = "threequarterchime.wav"
@@ -1797,22 +1797,18 @@ Private Sub tollbell()
     Dim fileToPlay As String: fileToPlay = vbNullString
     Dim tollhours As Integer: tollhours = 0
     Dim hr As Integer: hr = 0
-    Static tollbellcount As Integer
+    Static tollbellCountdown As Integer
     
     On Error GoTo tollbell_Error
 
     hr = Hour(Now)
     tollhours = Hour(Now)
     
-    'stop it striking more than 12 times on a 24hr clock
-    
-    ' if 24hr mode then convert
-    If gbl24HourClockMode = "0" Then ' 12hr clock
-        If hr > 12 Then tollhours = (hr - 12)
-    End If
+    'stop it striking more than 12 times even when on a 24hr clock
+    If hr > 12 Then tollhours = hr - 12
      
     ' do not ask for whom the bell tolls, it tolls for thee...when the counter reaches 8
-    If (tollbellcount >= 8) Then
+    If (tollbellCountdown >= 8) Then
        If gblVolumeBoost = "1" Then
            fileToPlay = "belltoll.wav"
        Else
@@ -1822,18 +1818,18 @@ Private Sub tollbell()
            PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
        End If
        
-        tollbellcount = tollbellcount + 1
-        screenWrite ("toll no." & (tollbellcount - 8) & " for " & CStr(hr) & " o'clock & tmrTollTimer = " & tmrTollTimer.Enabled)
+        tollbellCountdown = tollbellCountdown + 1
+        screenWrite ("Tolling bell for " & tollhours & " o'clock")
     Else         'pause for 16 seconds (8 x belltimer.interval (2))
-        tollbellcount = tollbellcount + 1
-        screenWrite ("tollbellcount =  " & tollbellcount)
+        tollbellCountdown = tollbellCountdown + 1
+        screenWrite ("Countdown to tolling the hour =  " & 9 - tollbellCountdown)
     End If
      
      ' turn off the belltimer to stop the bell from tolling
-     If (tollbellcount >= tollhours + 8) Then
+     If (tollbellCountdown >= tollhours + 8) Then
             tmrTollTimer.Enabled = False
-            tollbellcount = 0
-            screenWrite ("Just struck " & CStr(hr) & " o'clock, tmrTollTimer set to " & tmrTollTimer.Enabled)
+            tollbellCountdown = 0
+            screenWrite ("Just struck " & tollhours & " o'clock")
      End If
 
    On Error GoTo 0

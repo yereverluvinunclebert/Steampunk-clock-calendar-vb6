@@ -542,10 +542,10 @@ Private Sub clockForm_BubblingEvent(ByRef sender As Object, ByRef EventName As S
                     .Refresh
                 End With
             Case "clapperleft"
-                If gblEnableBalloonTooltips = "True" Then CreateToolTip clockForm.hWnd, "Mute the chimes.", _
+                If gblEnableBalloonTooltips = "True" Then CreateToolTip clockForm.hWnd, "Chiming is currently enabled, click to mute the clock chimes.", _
                      TTIconInfo, widgetName & " Chime Mute Toggle Help", , , , True
             Case "clapperright"
-                If gblEnableBalloonTooltips = "True" Then CreateToolTip clockForm.hWnd, "Enable the chimes.", _
+                If gblEnableBalloonTooltips = "True" Then CreateToolTip clockForm.hWnd, "Chiming is currently disabled, click to enable the clock chimes..", _
                      TTIconInfo, widgetName & " Chime Enable Toggle Help", , , , True
             Case "dropdown"
                 If gblEnableBalloonTooltips = "True" Then CreateToolTip clockForm.hWnd, "Click me for information.", _
@@ -3401,7 +3401,7 @@ Public Property Let alarmtoggleEnabled(ByVal newValue As Boolean)
         
     Else
         Call screenWrite("Cancelling Alarm Edit Mode")
-        Call screenWrite("Slider Mechanism Returned to Rest Position")
+        Call screenWrite("Slider Mechanism Placed in Rest Position")
         
         alarmtoggle.Move alarmToggleOut, alarmtoggleTop
         SliderFreed = False
