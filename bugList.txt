@@ -147,7 +147,7 @@ quiet/loud sounds
 ' add github menu option
 ' convert all mp3 to .wav
 ' added chiming for all the 1/4 hrs
-' add chiming for the hour using shortened bell toll
+' add chiming for the hour using shortened bell toll 1.5s
 ' clapper enabled in adjustControls 
 
 ' -oOo-
@@ -161,6 +161,7 @@ Tasks to do:
 ' add code to support the setting of the font characteristics for the comsole display - wip
 
 ' after a digital reset set each to -- --  and ** *** **** one by one - wip
+'      possibly do the hrs, mins, days, month and years separately
 
 ' combine a new counter rotating sound recording the current Konfabulator widget.
 
@@ -173,8 +174,6 @@ Tasks to do:
 ' alarms 
 ' chiming
      first full hour chime must end at the hour with the first gong on the hour
-
-' convert mp3 chimes and alarms to .wav
 
 ' add time machine functionality
 

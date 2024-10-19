@@ -504,6 +504,7 @@ Public oldClockFormMonitorPrimary As Long
 Public gblPrefsFormResizedInCode As Boolean
 
 Public gblFClockAvailable As Boolean
+Public gblRaiseAlarmFlg As Boolean
 
 
 

@@ -1747,6 +1747,8 @@ Private Sub tmrClock_Timer()
             
         End If
     End If
+    
+    Call ShallWeRingAlarm
           
     ' very few routines are called from this timer but instead this subsequent refresh will trigger a PAINT event
     W.Parent.Refresh ' causes a paint event to fire - lots happens in the paint event
@@ -1758,6 +1760,85 @@ tmrClock_Timer_Error:
 
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure tmrClock_Timer of Class Module cwOverlay"
 End Sub
+
+
+'---------------------------------------------------------------------------------------
+' Procedure : ShallWeRingAlarm
+' Author    : beededea
+' Date      : 19/10/2024
+' Purpose   : check the alarms and raise a flag
+'---------------------------------------------------------------------------------------
+'
+Private Sub ShallWeRingAlarm()
+
+    Dim alarm1 As Date
+    Dim alarm2 As Date
+    Dim alarm3 As Date
+    Dim alarm4 As Date
+    Dim alarm5 As Date
+    Dim lngSecondsGap As Double
+
+    On Error GoTo ShallWeRingAlarm_Error
+    
+    ' if the clapper has been moved aside then the alarms are silenced
+    If gblEnableChimes = "0" Then Exit Sub
+
+    ' if an alarm is currently being raised then the function is immediately exited
+    ' ie. don't raise a second alarm
+    If gblRaiseAlarmFlg = True Then Exit Sub
+    
+    If gblAlarm1Date <> "" And gblAlarm1Time <> "" Then alarm1 = gblAlarm1Date & " " & gblAlarm1Time
+    If gblAlarm2Date <> "" And gblAlarm2Time <> "" Then alarm2 = gblAlarm2Date & " " & gblAlarm2Time
+    If gblAlarm3Date <> "" And gblAlarm3Time <> "" Then alarm3 = gblAlarm3Date & " " & gblAlarm3Time
+    If gblAlarm4Date <> "" And gblAlarm4Time <> "" Then alarm4 = gblAlarm4Date & " " & gblAlarm4Time
+    If gblAlarm5Date <> "" And gblAlarm5Time <> "" Then alarm5 = gblAlarm5Date & " " & gblAlarm5Time
+    
+    If IsDate(alarm1) And alarm1 <> "00:00:00" Then
+       
+       'if current time is beyond the alarm time, the ringer has not already activated and the alarm sounds are on.
+   
+       lngSecondsGap = DateDiff("s", Now(), alarm1)
+       
+       If lngSecondsGap <= 0 Then
+          
+            gblRaiseAlarmFlg = True
+            
+            screenWrite ("Alarm 1 Raised! " & CStr(alarm1))
+            
+            fClock.alarmtoggle1Enabled = True
+            
+            ' start the alarm timer ringing the bell
+            ' tmrAlarmRinging = true
+            
+            ' the following should occur after the alarm has been silenced
+            
+            widgetPrefs.txtAlarm1Date.Text = "Alarm not yet set"
+            widgetPrefs.txtAlarm1Time.Text = ""
+            
+            gblAlarm1Date = vbNullString
+            gblAlarm1Time = vbNullString
+            
+            sPutINISetting "Software\SteampunkClockCalendar", "alarm1Date", gblAlarm1Date, gblSettingsFile
+            sPutINISetting "Software\SteampunkClockCalendar", "alarm1Time", gblAlarm1Time, gblSettingsFile
+          
+            If widgetPrefs.IsVisible = True Then
+                widgetPrefs.txtAlarm1Date.Refresh
+                widgetPrefs.txtAlarm1Time.Refresh
+            End If
+               
+          gblRaiseAlarmFlg = False
+          
+          Exit Sub
+        End If
+    End If
+    
+   On Error GoTo 0
+   Exit Sub
+
+ShallWeRingAlarm_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure ShallWeRingAlarm of Class Module cwOverlay"
+ End Sub
 
 
 '---------------------------------------------------------------------------------------
@@ -1840,9 +1921,6 @@ tollbell_Error:
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure tollbell of Class Module cwOverlay"
 End Sub
 
-'=====================
-'End function
-'=====================
 
 
 '
