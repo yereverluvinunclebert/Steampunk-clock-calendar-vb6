@@ -823,7 +823,7 @@ Private Sub redalarmcover_myMouseDown()
     On Error GoTo redalarmcover_myMouseDown_Error
     
     ' first thing to do is to stop the alarm timer ringing the bell, if running
-    gblRaiseAlarmFlg = False
+    gblAlarmFlgRaised = False
     overlayWidget.tmrAlarmRinging.Enabled = False
        
     If fClock.clockForm.Widgets("redalarmcover").Widget.Alpha = 0 Then Exit Sub ' transparent widgets still respond to click events

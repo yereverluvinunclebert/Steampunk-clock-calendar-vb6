@@ -424,452 +424,6 @@ Private Sub drawTimeMachineImages(ByRef CC As cCairoContext)
 
 End Sub
  
-''---------------------------------------------------------------------------------------
-'' Procedure : drawAMPMDigitalDay
-'' Author    : beededea
-'' Date      : 17/05/2023
-'' Purpose   :
-''---------------------------------------------------------------------------------------
-''ByRef CC As cCairoContext,
-'Private Sub drawAMPMDigitalDay(ByRef CC As cCairoContext, Optional ByVal alarmHour As String)
-'    ' no error handling code - for speed
-'    Dim localHour As Integer: localHour = 0
-'
-'    If alarmHour <> vbNullString Then
-'        localHour = CInt(alarmHour)
-'    Else
-'        localHour = pvtThisHour
-'    End If
-'
-'    If localHour < 12 Then ' uses vb6 coerce a string to a numeric without calling a cast function, quicker?
-'         CC.RenderSurfaceContent "AM", 621, 387, , , , 1
-'    Else
-'         CC.RenderSurfaceContent "PM", 621, 387, , , , 1
-'    End If
-'
-'
-'End Sub
-
-'' ----------------------------------------------------------------
-'' Procedure Name: displayDigitalHours
-'' Purpose:
-'' Procedure Kind: Sub
-'' Procedure Access: Private
-'' Parameter CC (cCairoContext):
-'' Author: beededea
-'' Date: 24/06/2024
-'' ----------------------------------------------------------------
-'' ByRef CC As cCairoContext,
-'Private Sub displayDigitalHours(ByRef CC As cCairoContext, Optional ByVal alarmHour As String)
-'
-'    Dim hourString As String: hourString = vbNullString
-'    Dim localHour As Integer: localHour = 0
-'
-'    'debug
-''    alarmHour = "12"
-'
-'    If alarmHour <> vbNullString Then
-'        localHour = CInt(alarmHour)
-'        hourString = CStr(localHour)
-'    Else
-'        localHour = CInt(pvtThisHour)
-'        hourString = CStr(pvtThisHour)
-'    End If
-'
-'    If localHour < 10 Then ' uses vb6 coerce a string to a numeric without calling a cast function, quicker?
-'        hourString = "0" & localHour '
-'    End If
-'
-'    ' hour digits for digital display
-'
-'    '  Cairo.ImageList.AddSurface "jan", Cairo.ImageList("month")
-'
-'    Select Case Left$(hourString, 1)
-'        Case 0
-'            CC.RenderSurfaceContent "small0", 453, 266, , , , 1
-'        Case 1
-'            CC.RenderSurfaceContent "small1", 453, 266, , , , 1
-'        Case 2
-'            CC.RenderSurfaceContent "small2", 453, 266, , , , 1
-'        Case 3
-'            CC.RenderSurfaceContent "small3", 453, 266, , , , 1
-'        Case 4
-'            CC.RenderSurfaceContent "small4", 453, 266, , , , 1
-'        Case 5
-'            CC.RenderSurfaceContent "small5", 453, 266, , , , 1
-'        Case 6
-'            CC.RenderSurfaceContent "small6", 453, 266, , , , 1
-'        Case 7
-'            CC.RenderSurfaceContent "small7", 453, 266, , , , 1
-'        Case 8
-'            CC.RenderSurfaceContent "small8", 453, 266, , , , 1
-'        Case 9
-'            CC.RenderSurfaceContent "small9", 453, 266, , , , 1
-'    End Select
-'
-'    Select Case Mid$(hourString, 2, 1)
-'        Case 0
-'            CC.RenderSurfaceContent "small0", 474, 266, , , , 1
-'        Case 1
-'            CC.RenderSurfaceContent "small1", 474, 266, , , , 1
-'        Case 2
-'            CC.RenderSurfaceContent "small2", 474, 266, , , , 1
-'        Case 3
-'            CC.RenderSurfaceContent "small3", 474, 266, , , , 1
-'        Case 4
-'            CC.RenderSurfaceContent "small4", 474, 266, , , , 1
-'        Case 5
-'            CC.RenderSurfaceContent "small5", 474, 266, , , , 1
-'        Case 6
-'            CC.RenderSurfaceContent "small6", 474, 266, , , , 1
-'        Case 7
-'            CC.RenderSurfaceContent "small7", 474, 266, , , , 1
-'        Case 8
-'            CC.RenderSurfaceContent "small8", 474, 266, , , , 1
-'        Case 9
-'            CC.RenderSurfaceContent "small9", 474, 266, , , , 1
-'    End Select
-'
-'
-'End Sub
-'' ----------------------------------------------------------------
-'' Procedure Name: displayDigitalMins
-'' Purpose:
-'' Procedure Kind: Sub
-'' Procedure Access: Private
-'' Parameter CC (cCairoContext):
-'' Author: beededea
-'' Date: 24/06/2024
-'' ----------------------------------------------------------------
-'' ByRef CC As cCairoContext,
-'Private Sub displayDigitalMins(ByRef CC As cCairoContext, Optional ByVal alarmMins As String)
-'
-'    Dim minString As String: minString = vbNullString
-'    Dim localMins As Integer: localMins = 0
-'
-'    'debug
-''    alarmMins = "37"
-'
-'    If alarmMins <> vbNullString Then
-'        localMins = CInt(alarmMins)
-'        minString = CStr(localMins)
-'    Else
-'        localMins = CInt(pvtThisMins)
-'        minString = CStr(pvtThisMins)
-'    End If
-'
-'    If localMins < 10 Then ' uses vb6 coerce a string to a numeric without calling a cast function, quicker?
-'        minString = "0" & localMins '
-'    End If
-'
-'    ' Min digits for digital display
-'
-'    Select Case Left$(minString, 1)
-'        Case 0
-'            CC.RenderSurfaceContent "small0", 502, 266, , , , 1
-'        Case 1
-'            CC.RenderSurfaceContent "small1", 502, 266, , , , 1
-'        Case 2
-'            CC.RenderSurfaceContent "small2", 502, 266, , , , 1
-'        Case 3
-'            CC.RenderSurfaceContent "small3", 502, 266, , , , 1
-'        Case 4
-'            CC.RenderSurfaceContent "small4", 502, 266, , , , 1
-'        Case 5
-'            CC.RenderSurfaceContent "small5", 502, 266, , , , 1
-'        Case 6
-'            CC.RenderSurfaceContent "small6", 502, 266, , , , 1
-'        Case 7
-'            CC.RenderSurfaceContent "small7", 502, 266, , , , 1
-'        Case 8
-'            CC.RenderSurfaceContent "small8", 502, 266, , , , 1
-'        Case 9
-'            CC.RenderSurfaceContent "small9", 502, 266, , , , 1
-'    End Select
-'
-'    Select Case Mid$(minString, 2, 1)
-'        Case 0
-'            CC.RenderSurfaceContent "small0", 523, 266, , , , 1
-'        Case 1
-'            CC.RenderSurfaceContent "small1", 523, 266, , , , 1
-'        Case 2
-'            CC.RenderSurfaceContent "small2", 523, 266, , , , 1
-'        Case 3
-'            CC.RenderSurfaceContent "small3", 523, 266, , , , 1
-'        Case 4
-'            CC.RenderSurfaceContent "small4", 523, 266, , , , 1
-'        Case 5
-'            CC.RenderSurfaceContent "small5", 523, 266, , , , 1
-'        Case 6
-'            CC.RenderSurfaceContent "small6", 523, 266, , , , 1
-'        Case 7
-'            CC.RenderSurfaceContent "small7", 523, 266, , , , 1
-'        Case 8
-'            CC.RenderSurfaceContent "small8", 523, 266, , , , 1
-'        Case 9
-'            CC.RenderSurfaceContent "small9", 523, 266, , , , 1
-'    End Select
-'
-'
-'End Sub
-'' ----------------------------------------------------------------
-'' Procedure Name: displayDigitalMonth
-'' Purpose: month digits for digital display
-'' Procedure Kind: Sub
-'' Procedure Access: Private
-'' Parameter CC (cCairoContext):
-'' Author: beededea
-'' Date: 24/06/2024
-'' ----------------------------------------------------------------
-'' ByRef CC As cCairoContext,
-'Private Sub displayDigitalMonth(ByRef CC As cCairoContext, Optional ByVal alarmMonth As String)
-'
-'    Dim thismonth As Integer: thismonth = 0
-'
-'    thismonth = Month(Now) ' coerce date variant to integer
-'
-'    If alarmMonth <> vbNullString Then
-'        thismonth = CInt(alarmMonth)
-'    Else
-'        thismonth = Month(Now) ' coerce date variant to integer
-'    End If
-'
-'    Select Case thismonth
-'        Case 1
-'            CC.RenderSurfaceContent "jan", 442, 312, , , , 1
-'        Case 2
-'            CC.RenderSurfaceContent "feb", 442, 312, , , , 1
-'        Case 3
-'            CC.RenderSurfaceContent "mar", 442, 312, , , , 1
-'        Case 4
-'            CC.RenderSurfaceContent "apr", 442, 312, , , , 1
-'        Case 5
-'            CC.RenderSurfaceContent "may", 442, 312, , , , 1
-'        Case 6
-'            CC.RenderSurfaceContent "jun", 442, 312, , , , 1
-'        Case 7
-'            CC.RenderSurfaceContent "jul", 442, 312, , , , 1
-'        Case 8
-'            CC.RenderSurfaceContent "aug", 442, 312, , , , 1
-'        Case 9
-'            CC.RenderSurfaceContent "sep", 442, 312, , , , 1
-'        Case 10
-'            CC.RenderSurfaceContent "oct", 442, 312, , , , 1
-'        Case 11
-'            CC.RenderSurfaceContent "nov", 442, 312, , , , 1
-'        Case 12
-'            CC.RenderSurfaceContent "dec", 442, 312, , , , 1
-'    End Select
-'
-'
-'
-'
-'   On Error GoTo 0
-'   Exit Sub
-'
-'displayDigitalMonth_Error:
-'
-'    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure displayDigitalMonth of Class Module cwOverlay"
-'
-'End Sub
-'
-'
-'' ----------------------------------------------------------------
-'' Procedure Name: displayDigitalDayofMonth
-'' Purpose: ' day digits for digital display
-'' Procedure Kind: Sub
-'' Procedure Access: Private
-'' Parameter CC (cCairoContext):
-'' Author: beededea
-'' Date: 24/06/2024
-'' ----------------------------------------------------------------
-'' ByRef CC As cCairoContext,
-'Private Sub displayDigitalDayofMonth(ByRef CC As cCairoContext, Optional ByVal alarmDay As String)
-'
-'    Dim dayString As String: dayString = vbNullString
-'    Dim localDay As Integer: localDay = 0
-'    Dim thisDay As Integer: thisDay = 0
-'
-'    thisDay = Day(Now)
-'
-'    If alarmDay <> vbNullString Then
-'        localDay = CInt(alarmDay)
-'        dayString = CStr(localDay)
-'    Else
-'        localDay = CInt(thisDay)
-'        dayString = CStr(thisDay)
-'    End If
-'
-'    If localDay < 10 Then ' uses vb6 coerce a string to a numeric without calling a cast function, quicker?
-'        dayString = "0" & localDay '
-'    End If
-'
-'
-'
-'    Select Case Left$(dayString, 1)
-'        Case 0
-'            CC.RenderSurfaceContent "num0large", 404, 312, , , , 1
-'        Case 1
-'            CC.RenderSurfaceContent "num1large", 404, 312, , , , 1
-'        Case 2
-'            CC.RenderSurfaceContent "num2large", 404, 312, , , , 1
-'        Case 3
-'            CC.RenderSurfaceContent "num3large", 404, 312, , , , 1
-'        Case 4
-'            CC.RenderSurfaceContent "num4large", 404, 312, , , , 1
-'        Case 5
-'            CC.RenderSurfaceContent "num5large", 404, 312, , , , 1
-'        Case 6
-'            CC.RenderSurfaceContent "num6large", 404, 312, , , , 1
-'        Case 7
-'            CC.RenderSurfaceContent "num7large", 404, 312, , , , 1
-'        Case 8
-'            CC.RenderSurfaceContent "num8large", 404, 312, , , , 1
-'        Case 9
-'            CC.RenderSurfaceContent "num9large", 404, 312, , , , 1
-'    End Select
-'
-'    Select Case Mid$(dayString, 2, 1)
-'        Case 0
-'            CC.RenderSurfaceContent "num0large", 423, 312, , , , 1
-'        Case 1
-'            CC.RenderSurfaceContent "num1large", 423, 312, , , , 1
-'        Case 2
-'            CC.RenderSurfaceContent "num2large", 423, 312, , , , 1
-'        Case 3
-'            CC.RenderSurfaceContent "num3large", 423, 312, , , , 1
-'        Case 4
-'            CC.RenderSurfaceContent "num4large", 423, 312, , , , 1
-'        Case 5
-'            CC.RenderSurfaceContent "num5large", 423, 312, , , , 1
-'        Case 6
-'            CC.RenderSurfaceContent "num6large", 423, 312, , , , 1
-'        Case 7
-'            CC.RenderSurfaceContent "num7large", 423, 312, , , , 1
-'        Case 8
-'            CC.RenderSurfaceContent "num8large", 423, 312, , , , 1
-'        Case 9
-'            CC.RenderSurfaceContent "num9large", 423, 312, , , , 1
-'    End Select
-'End Sub
-'
-'
-'' ----------------------------------------------------------------
-'' Procedure Name: displayDigitalYear
-'' Purpose: year digits for digital display
-'' Procedure Kind: Sub
-'' Procedure Access: Private
-'' Parameter CC (cCairoContext):
-'' Author: beededea
-'' Date: 24/06/2024
-'' ----------------------------------------------------------------
-'' ByRef CC As cCairoContext,
-'Private Sub displayDigitalYear(ByRef CC As cCairoContext, Optional ByVal alarmYear As String)
-'
-'    Dim yearString As String: yearString = vbNullString
-'
-'    'alarmYear = "1942"
-'
-'    If alarmYear <> vbNullString Then
-'        yearString = alarmYear
-'    Else
-'        yearString = Year(Now) ' coerce date variant to integer
-'    End If
-'
-'    Select Case Left$(yearString, 1)
-'        Case 0
-'            CC.RenderSurfaceContent "num0large", 510, 312, , , , 1
-'        Case 1
-'            CC.RenderSurfaceContent "num1large", 510, 312, , , , 1
-'        Case 2
-'            CC.RenderSurfaceContent "num2large", 510, 312, , , , 1
-'        Case 3
-'            CC.RenderSurfaceContent "num3large", 510, 312, , , , 1
-'        Case 4
-'            CC.RenderSurfaceContent "num4large", 510, 312, , , , 1
-'        Case 5
-'            CC.RenderSurfaceContent "num5large", 510, 312, , , , 1
-'        Case 6
-'            CC.RenderSurfaceContent "num6large", 510, 312, , , , 1
-'        Case 7
-'            CC.RenderSurfaceContent "num7large", 510, 312, , , , 1
-'        Case 8
-'            CC.RenderSurfaceContent "num8large", 510, 312, , , , 1
-'        Case 9
-'            CC.RenderSurfaceContent "num9large", 510, 312, , , , 1
-'    End Select
-'
-'    Select Case Mid$(yearString, 2, 1)
-'        Case 0
-'            CC.RenderSurfaceContent "num0large", 529, 312, , , , 1
-'        Case 1
-'            CC.RenderSurfaceContent "num1large", 529, 312, , , , 1
-'        Case 2
-'            CC.RenderSurfaceContent "num2large", 529, 312, , , , 1
-'        Case 3
-'            CC.RenderSurfaceContent "num3large", 529, 312, , , , 1
-'        Case 4
-'            CC.RenderSurfaceContent "num4large", 529, 312, , , , 1
-'        Case 5
-'            CC.RenderSurfaceContent "num5large", 529, 312, , , , 1
-'        Case 6
-'            CC.RenderSurfaceContent "num6large", 529, 312, , , , 1
-'        Case 7
-'            CC.RenderSurfaceContent "num7large", 529, 312, , , , 1
-'        Case 8
-'            CC.RenderSurfaceContent "num8large", 529, 312, , , , 1
-'        Case 9
-'            CC.RenderSurfaceContent "num9large", 529, 312, , , , 1
-'    End Select
-'
-'    Select Case Mid$(yearString, 3, 1)
-'        Case 0
-'            CC.RenderSurfaceContent "num0large", 548, 312, , , , 1
-'        Case 1
-'            CC.RenderSurfaceContent "num1large", 548, 312, , , , 1
-'        Case 2
-'            CC.RenderSurfaceContent "num2large", 548, 312, , , , 1
-'        Case 3
-'            CC.RenderSurfaceContent "num3large", 548, 312, , , , 1
-'        Case 4
-'            CC.RenderSurfaceContent "num4large", 548, 312, , , , 1
-'        Case 5
-'            CC.RenderSurfaceContent "num5large", 548, 312, , , , 1
-'        Case 6
-'            CC.RenderSurfaceContent "num6large", 548, 312, , , , 1
-'        Case 7
-'            CC.RenderSurfaceContent "num7large", 548, 312, , , , 1
-'        Case 8
-'            CC.RenderSurfaceContent "num8large", 548, 312, , , , 1
-'        Case 9
-'            CC.RenderSurfaceContent "num9large", 548, 312, , , , 1
-'    End Select
-'
-'    Select Case Mid$(yearString, 4, 1)
-'        Case 0
-'            CC.RenderSurfaceContent "num0large", 567, 312, , , , 1
-'        Case 1
-'            CC.RenderSurfaceContent "num1large", 567, 312, , , , 1
-'        Case 2
-'            CC.RenderSurfaceContent "num2large", 567, 312, , , , 1
-'        Case 3
-'            CC.RenderSurfaceContent "num3large", 567, 312, , , , 1
-'        Case 4
-'            CC.RenderSurfaceContent "num4large", 567, 312, , , , 1
-'        Case 5
-'            CC.RenderSurfaceContent "num5large", 567, 312, , , , 1
-'        Case 6
-'            CC.RenderSurfaceContent "num6large", 567, 312, , , , 1
-'        Case 7
-'            CC.RenderSurfaceContent "num7large", 567, 312, , , , 1
-'        Case 8
-'            CC.RenderSurfaceContent "num8large", 567, 312, , , , 1
-'        Case 9
-'            CC.RenderSurfaceContent "num9large", 567, 312, , , , 1
-'    End Select
-'End Sub
-
-
 
 
 '---------------------------------------------------------------------------------------
@@ -921,7 +475,7 @@ End Sub
 ' Author: beededea
 ' Date: 24/06/2024
 ' ----------------------------------------------------------------
-' ByRef CC As cCairoContext,
+
 Private Sub populateDigitalHoursCache(ByRef CC As cCairoContext, Optional ByVal alarmHour As String)
 
     Dim hourString As String: hourString = vbNullString
@@ -1021,7 +575,7 @@ End Sub
 ' Author: beededea
 ' Date: 24/06/2024
 ' ----------------------------------------------------------------
-' ByRef CC As cCairoContext,
+
 Private Sub populateDigitalMinsCache(ByRef CC As cCairoContext, Optional ByVal alarmMins As String)
 
     Dim minString As String: minString = vbNullString
@@ -1116,7 +670,7 @@ End Sub
 ' Author: beededea
 ' Date: 24/06/2024
 ' ----------------------------------------------------------------
-' ByRef CC As cCairoContext,
+
 Private Sub populateDigitalYearCache(ByRef CC As cCairoContext, Optional ByVal alarmYear As String)
 
     Dim yearString As String: yearString = vbNullString
@@ -1243,7 +797,7 @@ End Sub
 ' Author: beededea
 ' Date: 24/06/2024
 ' ----------------------------------------------------------------
-' ByRef CC As cCairoContext,
+
 Private Sub populateDigitalMonthCache(ByRef CC As cCairoContext, Optional ByVal alarmMonth As String)
 
     Dim thismonth As Integer: thismonth = 0
@@ -1310,7 +864,7 @@ End Sub
 ' Author: beededea
 ' Date: 24/06/2024
 ' ----------------------------------------------------------------
-' ByRef CC As cCairoContext,
+
 Private Sub populateDigitalDayofMonthCache(ByRef CC As cCairoContext, Optional ByVal alarmDay As String)
     
     Dim dayString As String: dayString = vbNullString
@@ -1400,7 +954,7 @@ End Sub
 ' Date      : 17/05/2023
 ' Purpose   :
 '---------------------------------------------------------------------------------------
-' ByRef CC As cCairoContext,
+
 Private Sub populateAMPMDigitalDayCache(ByRef CC As cCairoContext, Optional ByVal alarmHour As String)
 
     Dim localHour As Integer: localHour = 0
@@ -1752,9 +1306,9 @@ Private Sub tmrClock_Timer()
             tmrTollTimer.Enabled = True
             
         End If
-    End If
     
-    Call ShallWeRingAlarm
+        Call ShallWeRingAlarm
+    End If
           
     ' very few routines are called from this timer but instead this subsequent refresh will trigger a PAINT event
     W.Parent.Refresh ' causes a paint event to fire - lots happens in the paint event
@@ -1777,11 +1331,13 @@ End Sub
 '
 Private Sub ShallWeRingAlarm()
 
+    ' cannot initialise as date, therefore using variants which allow a null
     Dim alarm1 As Variant: alarm1 = Null
     Dim alarm2 As Variant: alarm2 = Null
     Dim alarm3 As Variant: alarm3 = Null
     Dim alarm4 As Variant: alarm4 = Null
     Dim alarm5 As Variant: alarm5 = Null
+    
     Dim lngSecondsGap As Double: lngSecondsGap = 0
 
     On Error GoTo ShallWeRingAlarm_Error
@@ -1791,15 +1347,21 @@ Private Sub ShallWeRingAlarm()
 
     ' if an alarm is currently being raised then the function is immediately exited
     ' ie. don't raise a second alarm
-    If gblRaiseAlarmFlg = True Then Exit Sub
+    If gblAlarmFlgRaised = True Then Exit Sub
     
+    ' this can be built once elsewhere, using a new gblvar for the combined date
     If gblAlarm1Date <> "" And gblAlarm1Time <> "" Then alarm1 = gblAlarm1Date & " " & gblAlarm1Time
     If gblAlarm2Date <> "" And gblAlarm2Time <> "" Then alarm2 = gblAlarm2Date & " " & gblAlarm2Time
     If gblAlarm3Date <> "" And gblAlarm3Time <> "" Then alarm3 = gblAlarm3Date & " " & gblAlarm3Time
     If gblAlarm4Date <> "" And gblAlarm4Time <> "" Then alarm4 = gblAlarm4Date & " " & gblAlarm4Time
     If gblAlarm5Date <> "" And gblAlarm5Time <> "" Then alarm5 = gblAlarm5Date & " " & gblAlarm5Time
     
-    If IsDate(alarm1) And alarm1 <> "00:00:00" Then
+    ' no alarms entered so exit
+    'If gblAlarm1 = "" And gblAlarm2 = "" And gblAlarm3 = "" And gblAlarm4 = "" And gblAlarm5 = "" Then Exit Sub
+    If alarm1 = "" And alarm2 = "" And alarm3 = "" And alarm4 = "" And alarm5 = "" Then Exit Sub
+    
+    'If IsDate(alarm1) And alarm1 <> "00:00:00" Then
+    If alarm1 <> Null Then
        
        'if current time is beyond the alarm time
        lngSecondsGap = DateDiff("s", Now(), alarm1)
@@ -1807,7 +1369,7 @@ Private Sub ShallWeRingAlarm()
        If lngSecondsGap <= 0 Then
        
           ' prevent another alarm being raised
-            gblRaiseAlarmFlg = True
+            gblAlarmFlgRaised = True
             
             ' raise the alarm till
             fClock.alarmtoggle1Enabled = True
@@ -1837,7 +1399,7 @@ Private Sub ShallWeRingAlarm()
         End If
     End If
     
-    If IsDate(alarm2) And alarm2 <> "00:00:00" Then
+    If alarm2 <> Null Then
        
        'if current time is beyond the alarm time
        lngSecondsGap = DateDiff("s", Now(), alarm2)
@@ -1845,7 +1407,7 @@ Private Sub ShallWeRingAlarm()
        If lngSecondsGap <= 0 Then
        
           ' prevent another alarm being raised
-            gblRaiseAlarmFlg = True
+            gblAlarmFlgRaised = True
             
             ' raise the alarm till
             fClock.alarmtoggle2Enabled = True
@@ -1876,7 +1438,7 @@ Private Sub ShallWeRingAlarm()
     End If
     
         
-    If IsDate(alarm3) And alarm3 <> "00:00:00" Then
+    If alarm3 <> Null Then
        
        'if current time is beyond the alarm time
        lngSecondsGap = DateDiff("s", Now(), alarm3)
@@ -1884,7 +1446,7 @@ Private Sub ShallWeRingAlarm()
        If lngSecondsGap <= 0 Then
        
           ' prevent another alarm being raised
-            gblRaiseAlarmFlg = True
+            gblAlarmFlgRaised = True
             
             ' raise the alarm till
             fClock.alarmtoggle3Enabled = True
@@ -1916,7 +1478,7 @@ Private Sub ShallWeRingAlarm()
     
     
         
-    If IsDate(alarm4) And alarm4 <> "00:00:00" Then
+    If alarm4 <> Null Then
        
        'if current time is beyond the alarm time
        lngSecondsGap = DateDiff("s", Now(), alarm4)
@@ -1924,7 +1486,7 @@ Private Sub ShallWeRingAlarm()
        If lngSecondsGap <= 0 Then
        
           ' prevent another alarm being raised
-            gblRaiseAlarmFlg = True
+            gblAlarmFlgRaised = True
             
             ' raise the alarm till
             fClock.alarmtoggle4Enabled = True
@@ -1955,7 +1517,7 @@ Private Sub ShallWeRingAlarm()
     End If
         
         
-    If IsDate(alarm5) And alarm5 <> "00:00:00" Then
+    If alarm5 <> Null Then
        
        'if current time is beyond the alarm time
        lngSecondsGap = DateDiff("s", Now(), alarm5)
@@ -1963,7 +1525,7 @@ Private Sub ShallWeRingAlarm()
        If lngSecondsGap <= 0 Then
        
           ' prevent another alarm being raised
-            gblRaiseAlarmFlg = True
+            gblAlarmFlgRaised = True
             
             ' raise the alarm till
             fClock.alarmtoggle5Enabled = True
