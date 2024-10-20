@@ -652,6 +652,8 @@ Private Sub clockForm_BubblingEvent(ByRef sender As Object, ByRef EventName As S
                         .Refresh
                     End With
                 End If
+                
+                
             Case "weekdayred"
                 If gblEnableBalloonTooltips = "True" Then CreateToolTip clockForm.hWnd, "Click here to lower the weekday flag.", _
                      TTIconInfo, widgetName & " Weekday Indicator Help", , , , True
@@ -820,6 +822,10 @@ Private Sub redalarmcover_myMouseDown()
    
     On Error GoTo redalarmcover_myMouseDown_Error
     
+    ' first thing to do is to stop the alarm timer ringing the bell, if running
+    gblRaiseAlarmFlg = False
+    overlayWidget.tmrAlarmRinging.Enabled = False
+       
     If fClock.clockForm.Widgets("redalarmcover").Widget.Alpha = 0 Then Exit Sub ' transparent widgets still respond to click events
     
     If gblVolumeBoost = "1" Then
@@ -834,6 +840,7 @@ Private Sub redalarmcover_myMouseDown()
     
     If gblRaisedAlarm = 1 And gblAlarm1Date <> "Alarm not yet set" Then
         Call deleteAlarm1(anAlarmDeleted)
+       
     ElseIf gblRaisedAlarm = 2 And gblAlarm2Date <> "Alarm not yet set" Then
         Call deleteAlarm2(anAlarmDeleted)
     ElseIf gblRaisedAlarm = 3 And gblAlarm3Date <> "Alarm not yet set" Then
@@ -916,11 +923,16 @@ Private Sub deleteAlarm1(ByRef anAlarmDeleted As Boolean)
             sPutINISetting "Software\SteampunkClockCalendar", "alarm1Date", gblAlarm1Date, gblSettingsFile
             sPutINISetting "Software\SteampunkClockCalendar", "alarm1Time", gblAlarm1Time, gblSettingsFile
             alarmtoggle1Enabled = False
+            
+            ' change the alarm toggle to blank toggle
             fClock.clockForm.Widgets("alarmtoggle1").Widget.ImageKey = "alarmtoggle1"
-            widgetPrefs.txtAlarm1Date.Text = gblAlarm1Date
-            widgetPrefs.txtAlarm1Time.Text = gblAlarm1Time
+            If widgetPrefs.IsVisible = True Then
+                widgetPrefs.txtAlarm1Date.Text = gblAlarm1Date
+                widgetPrefs.txtAlarm1Time.Text = gblAlarm1Time
+            End If
             
             anAlarmDeleted = True
+             
         End If
     End If
 

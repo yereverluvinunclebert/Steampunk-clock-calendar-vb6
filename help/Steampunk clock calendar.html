@@ -9,6 +9,12 @@
 .auto-style1 {
 	font-weight: bold;
 }
+.auto-style2 {
+	font-family: "Times New Roman";
+	font-weight: bold;
+	font-size: medium;
+	letter-spacing: normal;
+}
 </style>
 </head>
 
@@ -32,13 +38,16 @@ and placed anywhere on your desktop. It uses minimal resources and helps give
 your desktop a Steampunk make-over.
 <span style="color: rgb(0, 0, 0); font-family: &quot;Times New Roman&quot;; font-size: medium; font-style: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; display: inline ! important; float: none;">
 On modern systems the CPU usage of this widget is negligible less being than 
-0.3% (i7 6700K @4ghz). &nbsp;</span>This help file describes just the Clock/Calendar 
+0.9% (i7 6700K @4ghz). &nbsp;</span>This help file describes just the Clock/Calendar 
 widget and not the other widgets shown above. The others are a mix of VB6 
 binaries and javascript desktop widgets that will be converted to VB6 'widgets' 
 one at a time as time allows<br />
 <br />
 This version was developed on Windows 7/10 using 32 bit VisualBasic 6 as a FOSS 
-project, creating a WoW64 widget for the desktop. <br />
+project, creating a WoW64 widget for the desktop. This version will run on 
+Windows Vista, 7, 8, 10 and 11+. There will also be a separate version for 
+Windows XP and ReactOS. These latter versions will not the option for 
+DPI-awareness, otherwise they will operate exactly the same.<br />
 <br />
 It is open source to allow easy configuration, bug-fixing, enhancement and 
 community contribution towards a set of free-and-useful VB6 utilities that can 
@@ -484,7 +493,7 @@ configuration of the widget is performed using the preference utility. The
 preference utility is an approximate analogue of the Yahoo widget preferences 
 screen and replicates much of its functionality.<br /><br /><br /><br />
 <span style="font-weight: bold;">
-<img alt="prefs-general.jpg" src="prefs-general.jpg" style="width: 833px; height: 1013px;" title="prefs-general.jpg" /><br />Fig 07. The General Prefs pane.<br />
+<img alt="prefs-general.jpg" src="prefs-general.jpg" title="prefs-general.jpg" /><br />Fig 07. The General Prefs pane.<br />
 <br /></span>
 <img alt="sauron.png" src="sauron.png" style="width: 48px; height: 48px; float: left;" title="sauron.png" /><span style="color: rgb(0, 0, 0); font-family: &quot;Times New Roman&quot;; font-size: medium; font-style: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; display: inline ! important; float: none;">The 
 General Panel contains the most important user-configurable items required for 
@@ -505,7 +514,7 @@ If any date is not valid or in the past then the save will fail. In this case
 correct the faulty alarm and re-save. By each of the date and time fields is a 
 verify button '&gt;'. Press to verify your date in advance.<br /><br /></span>
 <br />
-<img alt="The Config Prefs pane" src="prefs-config.jpg" style="width: 896px; height: 1094px;" title="The Config Prefs pane" /><br />
+<img alt="The Config Prefs pane" src="prefs-config.jpg" title="The Config Prefs pane" /><br />
 <span style="font-weight: bold;">Fig 08. The Config Prefs pane.<br /><br />
 </span>
 <img alt="sauron.png" src="sauron.png" style="width: 48px; height: 48px; float: left;" title="sauron.png" /><span style="color: rgb(0, 0, 0); font-family: &quot;Times New Roman&quot;; font-size: medium; font-style: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; display: inline ! important; float: none;">The 
@@ -538,7 +547,7 @@ and balloon tooltips. Enable/disable each type here as you wish.<br /><br />
 <span style="font-weight: bold;">Fig 08a. </span></span>
 <span class="auto-style1" style="color: rgb(0, 0, 0); font-family: &quot;Times New Roman&quot;; font-size: medium; font-style: normal; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; display: inline ! important; float: none;">Showing balloon tooltips enabled<br />
 </span><span style="font-weight: bold;"><br /><br /></span>
-<img alt="The Fonts Prefs pane" src="prefs-fonts.jpg" style="width: 882px; height: 1087px;" title="The Fonts Prefs pane" /><br />
+<img alt="The Fonts Prefs pane" src="prefs-fonts.jpg" title="The Fonts Prefs pane" /><br />
 <span style="font-weight: bold;">Fig 09. The Fonts Prefs pane.<br /><br />
 </span>
 <img alt="sauron.png" src="sauron.png" style="width: 48px; height: 48px; float: left;" title="sauron.png" /><span style="color: rgb(0, 0, 0); font-family: &quot;Times New Roman&quot;; font-size: medium; font-style: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; display: inline ! important; float: none;">The 
@@ -558,7 +567,7 @@ size is shown on the left and the 'resized' font size is shown on the right.
 <br /><br />The option to reactivate the message pop-ups is available to allow you to reset 
 and re-enable all messages. that you have previously hidden.<br /></span>
 <span style="font-weight: bold;"><br /></span>
-<img alt="The Sound Prefs pane" src="prefs-sounds.jpg" style="width: 833px; height: 1013px;" title="The Sound Prefs pane" /><br />
+<img alt="The Sound Prefs pane" src="prefs-sounds.jpg" title="The Sound Prefs pane" /><br />
 <span style="font-weight: bold;">Fig 10. The Sound Prefs pane.<br /><br />
 </span>
 <img alt="sauron.png" src="sauron.png" style="width: 48px; height: 48px; float: left;" title="sauron.png" /><span style="color: rgb(0, 0, 0); font-family: &quot;Times New Roman&quot;; font-size: medium; font-style: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; display: inline ! important; float: none;">The 
@@ -624,6 +633,9 @@ selection option is ON. Enter the path here to your project's&nbsp;<span style="
 Basic Project file</span>(.vbp). If the program's source code is unpacked and 
 placed somewhere locally - and the VB6 IDE is installed, this menu option will 
 launch the VB6 IDE and the program will appear ready for editing.<br />
+<br />
+Note the ballon tooltips are shown above, each control will have its own 
+tooltip.<br />
 <span style="font-weight: bold;"><br /></span>
 <img alt="The Window Prefs pane" src="prefs-window.jpg" title="The Window Prefs pane" /><br />
 <span style="font-weight: bold;">Fig 13. The Window Prefs pane.<br /><br />
@@ -690,7 +702,7 @@ monitor it is currently sitting on.<br />
 widget itself and press the CTRL key in combination with the mouse scrollwheel, UP/DOWN to resize.&nbsp;To 
 resize the preference utility you drag the bottom right corner to the chosen 
 size.<br /><br /><br /></span>
-<img alt="" src="prefs-about.jpg" style="width: 882px; height: 1087px;" /><span style="color: rgb(0, 0, 0); font-family: &quot;Times New Roman&quot;; font-size: medium; font-style: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; display: inline ! important; float: none;"><br />
+<img alt="" src="prefs-about.jpg" /><span style="color: rgb(0, 0, 0); font-family: &quot;Times New Roman&quot;; font-size: medium; font-style: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; display: inline ! important; float: none;"><br />
 </span><span style="font-weight: bold;"><br /></span><br />
 <span style="font-weight: bold;">Fig 14. The About Prefs pane.</span><br />
 <br />
@@ -698,8 +710,39 @@ size.<br /><br /><br /></span>
 about panel offers some information on the widget, credits to other authors that 
 supplied FOSS code and links to more information.</span> When you hover over the 
 text area the scrollbox will appear allowing you to scroll the full text up and 
-down.<br /><br /><span style="font-weight: bold;"><br />Note:</span> The bottom right corner of each preference pane has a drag corner 
-that you can use to resize the pane as you wish.<br /><br /><br /><br />
+down.<br /><br />
+<br />
+<span class="auto-style2">Github Home</span><span style="color: rgb(0, 0, 0); font-family: &quot;Times New Roman&quot;; font-size: medium; font-style: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; display: inline ! important; float: none;"><span style="font-weight: bold;"> 
+</span>Clicking on this button will open the default browser and take you to the 
+home page for the widget on github. There you can read the development notes if 
+you wish to modify the program for yourself. <br />
+<br />
+<span class="auto-style2">Update</span><span style="font-weight: bold;"> 
+</span>Clicking on this button will open the default browser and take you to the 
+update page for the widget on github. There you can download the latest release.
+<br />
+<br />
+</span>
+<span style="color: rgb(0, 0, 0); font-family: &quot;Times New Roman&quot;; font-size: medium; font-style: normal; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; display: inline ! important; float: none;" class="auto-style1">
+Facebook </span>
+<span style="color: rgb(0, 0, 0); font-family: &quot;Times New Roman&quot;; font-size: medium; font-style: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; display: inline ! important; float: none;">
+Clicking on this button will open the default browser and take you to the 
+Facebook home page for the widgets in general. We always appreciate a 'like'.
+<br />
+<br />
+</span>
+<span style="color: rgb(0, 0, 0); font-family: &quot;Times New Roman&quot;; font-size: medium; font-style: normal; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; display: inline ! important; float: none;" class="auto-style1">
+Debug Info. </span>
+<span style="color: rgb(0, 0, 0); font-family: &quot;Times New Roman&quot;; font-size: medium; font-style: normal; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; display: inline ! important; float: none;">
+Not yet implemented. <br />
+<br />
+<span class="auto-style2">Donate</span><span style="color: rgb(0, 0, 0); font-family: &quot;Times New Roman&quot;; font-size: medium; font-style: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; display: inline ! important; float: none;"><span style="font-weight: bold;"> 
+</span>We really appreciate a donation via Kofi.&nbsp; Please buy me coffee! It 
+makes my day.<br />
+</span></span><span style="font-weight: bold;"><br />Note:</span> The bottom right corner of each preference pane has a drag corner 
+that you can use to resize the pane as you wish. In DPI aware mode this appears 
+automatically. When DPI awareness is switched off the about page has an option 
+to enable drag-corner resizing. <br /><br /><br /><br />
 <span style="font-weight: bold;">-oOo-<br /><br />
 <img alt="" height="555" src="the%20lot.jpg" width="1300" /><br /></span><br />
 <h3>Technology:&nbsp;<br />

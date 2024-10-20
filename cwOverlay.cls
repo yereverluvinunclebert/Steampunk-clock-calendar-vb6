@@ -46,6 +46,7 @@ Public WithEvents tmrTimeShift As cTimer    ' need to add set/get for these publ
 Attribute tmrTimeShift.VB_VarHelpID = -1
 Public WithEvents tmrDigitRotator As cTimer ' need to add set/get for these
 Attribute tmrDigitRotator.VB_VarHelpID = -1
+Public WithEvents tmrAlarmRinging As cTimer ' need to add set/get for these public timers
 
 ' class member vars
 
@@ -136,8 +137,13 @@ Private Sub Class_Initialize()
     Set tmrTollTimer = New_c.Timer(2000, False)
     
     tmrTollTimer.Enabled = False
-   
-   On Error GoTo 0
+       
+    Set tmrAlarmRinging = Nothing
+    Set tmrAlarmRinging = New_c.Timer(1000, False)
+    
+    tmrAlarmRinging.Enabled = False
+    
+    On Error GoTo 0
    Exit Sub
 
 Class_Initialize_Error:
@@ -1795,25 +1801,28 @@ Private Sub ShallWeRingAlarm()
     
     If IsDate(alarm1) And alarm1 <> "00:00:00" Then
        
-       'if current time is beyond the alarm time, the ringer has not already activated and the alarm sounds are on.
-   
+       'if current time is beyond the alarm time
        lngSecondsGap = DateDiff("s", Now(), alarm1)
        
        If lngSecondsGap <= 0 Then
-          
+       
+          ' prevent another alarm being raised
             gblRaiseAlarmFlg = True
             
-            screenWrite ("Alarm 1 Raised! " & CStr(alarm1))
-            
+            ' raise the alarm till
             fClock.alarmtoggle1Enabled = True
             
-            ' start the alarm timer ringing the bell
-            ' tmrAlarmRinging = true
+            screenWrite ("Alarm 1 Raised! " & CStr(alarm1))
+            screenWrite ("Press alarm till to cancel raised alarm ")
             
-            ' the following should occur after the alarm has been silenced
+            ' the alarm entries are removed here and written to the config straight away, preventing another accidental alarm being raised.
             
             widgetPrefs.txtAlarm1Date.Text = "Alarm not yet set"
             widgetPrefs.txtAlarm1Time.Text = ""
+            If widgetPrefs.IsVisible = True Then
+                widgetPrefs.txtAlarm1Date.Refresh
+                widgetPrefs.txtAlarm1Time.Refresh
+            End If
             
             gblAlarm1Date = vbNullString
             gblAlarm1Time = vbNullString
@@ -1821,14 +1830,48 @@ Private Sub ShallWeRingAlarm()
             sPutINISetting "Software\SteampunkClockCalendar", "alarm1Date", gblAlarm1Date, gblSettingsFile
             sPutINISetting "Software\SteampunkClockCalendar", "alarm1Time", gblAlarm1Time, gblSettingsFile
           
-            If widgetPrefs.IsVisible = True Then
-                widgetPrefs.txtAlarm1Date.Refresh
-                widgetPrefs.txtAlarm1Time.Refresh
-            End If
-               
-          gblRaiseAlarmFlg = False
+            ' start the alarm timer ringing the bell
+            tmrAlarmRinging.Enabled = True
           
-          Exit Sub
+            Exit Sub
+        End If
+    End If
+    
+    If IsDate(alarm2) And alarm2 <> "00:00:00" Then
+       
+       'if current time is beyond the alarm time
+       lngSecondsGap = DateDiff("s", Now(), alarm2)
+       
+       If lngSecondsGap <= 0 Then
+       
+          ' prevent another alarm being raised
+            gblRaiseAlarmFlg = True
+            
+            ' raise the alarm till
+            fClock.alarmtoggle1Enabled = True
+            
+            screenWrite ("Alarm 2 Raised! " & CStr(alarm2))
+            screenWrite ("Press alarm till to cancel raised alarm ")
+            
+            ' the alarm entries are removed here and written to the config straight away, preventing another accidental alarm being raised.
+            
+            widgetPrefs.txtAlarm2Date.Text = "Alarm not yet set"
+            widgetPrefs.txtAlarm2Time.Text = ""
+            If widgetPrefs.IsVisible = True Then
+                widgetPrefs.txtAlarm2Date.Refresh
+                widgetPrefs.txtAlarm2Time.Refresh
+            End If
+            
+            gblAlarm2Date = vbNullString
+            gblAlarm2Time = vbNullString
+            
+            sPutINISetting "Software\SteampunkClockCalendar", "alarm2Date", gblAlarm2Date, gblSettingsFile
+            sPutINISetting "Software\SteampunkClockCalendar", "alarm2Time", gblAlarm2Time, gblSettingsFile
+          
+            ' start the alarm timer ringing the bell
+            tmrAlarmRinging.Enabled = True
+          
+            Exit Sub
         End If
     End If
     
@@ -1839,6 +1882,39 @@ ShallWeRingAlarm_Error:
 
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure ShallWeRingAlarm of Class Module cwOverlay"
  End Sub
+
+
+'---------------------------------------------------------------------------------------
+' Procedure : tmrAlarmRinging_Timer
+' Author    : beededea
+' Date      : 18/10/2024
+' Purpose   :
+'---------------------------------------------------------------------------------------
+'
+Public Sub tmrAlarmRinging_Timer()
+
+   On Error GoTo tmrAlarmRinging_Timer_Error
+   
+    Dim fileToPlay As String: fileToPlay = vbNullString
+
+       If gblVolumeBoost = "1" Then
+           fileToPlay = "alarmbells.wav"
+       Else
+           fileToPlay = "alarmbells-quiet.wav"
+       End If
+       If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
+           PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
+       End If
+
+   On Error GoTo 0
+   Exit Sub
+
+tmrAlarmRinging_Timer_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure tmrAlarmRinging_Timer of Class Module cwOverlay"
+
+End Sub
+
 
 
 '---------------------------------------------------------------------------------------
@@ -1857,15 +1933,11 @@ Private Sub tmrTollTimer_Timer()
    On Error GoTo 0
    Exit Sub
 
-   On Error GoTo 0
-   Exit Sub
-
 tmrTollTimer_Timer_Error:
 
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure tmrTollTimer_Timer of Class Module cwOverlay"
 
 End Sub
-
 
 '---------------------------------------------------------------------------------------
 ' Procedure : tollbell
