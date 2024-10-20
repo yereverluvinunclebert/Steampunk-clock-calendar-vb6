@@ -1777,12 +1777,12 @@ End Sub
 '
 Private Sub ShallWeRingAlarm()
 
-    Dim alarm1 As Date
-    Dim alarm2 As Date
-    Dim alarm3 As Date
-    Dim alarm4 As Date
-    Dim alarm5 As Date
-    Dim lngSecondsGap As Double
+    Dim alarm1 As Variant: alarm1 = Null
+    Dim alarm2 As Variant: alarm2 = Null
+    Dim alarm3 As Variant: alarm3 = Null
+    Dim alarm4 As Variant: alarm4 = Null
+    Dim alarm5 As Variant: alarm5 = Null
+    Dim lngSecondsGap As Double: lngSecondsGap = 0
 
     On Error GoTo ShallWeRingAlarm_Error
     
@@ -1848,7 +1848,7 @@ Private Sub ShallWeRingAlarm()
             gblRaiseAlarmFlg = True
             
             ' raise the alarm till
-            fClock.alarmtoggle1Enabled = True
+            fClock.alarmtoggle2Enabled = True
             
             screenWrite ("Alarm 2 Raised! " & CStr(alarm2))
             screenWrite ("Press alarm till to cancel raised alarm ")
@@ -1875,6 +1875,124 @@ Private Sub ShallWeRingAlarm()
         End If
     End If
     
+        
+    If IsDate(alarm3) And alarm3 <> "00:00:00" Then
+       
+       'if current time is beyond the alarm time
+       lngSecondsGap = DateDiff("s", Now(), alarm3)
+       
+       If lngSecondsGap <= 0 Then
+       
+          ' prevent another alarm being raised
+            gblRaiseAlarmFlg = True
+            
+            ' raise the alarm till
+            fClock.alarmtoggle3Enabled = True
+            
+            screenWrite ("Alarm 3 Raised! " & CStr(alarm3))
+            screenWrite ("Press alarm till to cancel raised alarm ")
+            
+            ' the alarm entries are removed here and written to the config straight away, preventing another accidental alarm being raised.
+            
+            widgetPrefs.txtAlarm3Date.Text = "Alarm not yet set"
+            widgetPrefs.txtAlarm3Time.Text = ""
+            If widgetPrefs.IsVisible = True Then
+                widgetPrefs.txtAlarm3Date.Refresh
+                widgetPrefs.txtAlarm3Time.Refresh
+            End If
+            
+            gblAlarm3Date = vbNullString
+            gblAlarm3Time = vbNullString
+            
+            sPutINISetting "Software\SteampunkClockCalendar", "alarm3Date", gblAlarm3Date, gblSettingsFile
+            sPutINISetting "Software\SteampunkClockCalendar", "alarm3Time", gblAlarm3Time, gblSettingsFile
+          
+            ' start the alarm timer ringing the bell
+            tmrAlarmRinging.Enabled = True
+          
+            Exit Sub
+        End If
+    End If
+    
+    
+        
+    If IsDate(alarm4) And alarm4 <> "00:00:00" Then
+       
+       'if current time is beyond the alarm time
+       lngSecondsGap = DateDiff("s", Now(), alarm4)
+       
+       If lngSecondsGap <= 0 Then
+       
+          ' prevent another alarm being raised
+            gblRaiseAlarmFlg = True
+            
+            ' raise the alarm till
+            fClock.alarmtoggle4Enabled = True
+            
+            screenWrite ("Alarm 4 Raised! " & CStr(alarm4))
+            screenWrite ("Press alarm till to cancel raised alarm ")
+            
+            ' the alarm entries are removed here and written to the config straight away, preventing another accidental alarm being raised.
+            
+            widgetPrefs.txtAlarm4Date.Text = "Alarm not yet set"
+            widgetPrefs.txtAlarm4Time.Text = ""
+            If widgetPrefs.IsVisible = True Then
+                widgetPrefs.txtAlarm4Date.Refresh
+                widgetPrefs.txtAlarm4Time.Refresh
+            End If
+            
+            gblAlarm4Date = vbNullString
+            gblAlarm4Time = vbNullString
+            
+            sPutINISetting "Software\SteampunkClockCalendar", "alarm4Date", gblAlarm4Date, gblSettingsFile
+            sPutINISetting "Software\SteampunkClockCalendar", "alarm4Time", gblAlarm4Time, gblSettingsFile
+          
+            ' start the alarm timer ringing the bell
+            tmrAlarmRinging.Enabled = True
+          
+            Exit Sub
+        End If
+    End If
+        
+        
+    If IsDate(alarm5) And alarm5 <> "00:00:00" Then
+       
+       'if current time is beyond the alarm time
+       lngSecondsGap = DateDiff("s", Now(), alarm5)
+       
+       If lngSecondsGap <= 0 Then
+       
+          ' prevent another alarm being raised
+            gblRaiseAlarmFlg = True
+            
+            ' raise the alarm till
+            fClock.alarmtoggle5Enabled = True
+            
+            screenWrite ("Alarm 5 Raised! " & CStr(alarm5))
+            screenWrite ("Press alarm till to cancel raised alarm ")
+            
+            ' the alarm entries are removed here and written to the config straight away, preventing another accidental alarm being raised.
+            
+            widgetPrefs.txtAlarm5Date.Text = "Alarm not yet set"
+            widgetPrefs.txtAlarm5Time.Text = ""
+            If widgetPrefs.IsVisible = True Then
+                widgetPrefs.txtAlarm5Date.Refresh
+                widgetPrefs.txtAlarm5Time.Refresh
+            End If
+            
+            gblAlarm5Date = vbNullString
+            gblAlarm5Time = vbNullString
+            
+            sPutINISetting "Software\SteampunkClockCalendar", "alarm5Date", gblAlarm5Date, gblSettingsFile
+            sPutINISetting "Software\SteampunkClockCalendar", "alarm5Time", gblAlarm5Time, gblSettingsFile
+          
+            ' start the alarm timer ringing the bell
+            tmrAlarmRinging.Enabled = True
+          
+            Exit Sub
+        End If
+    End If
+                
    On Error GoTo 0
    Exit Sub
 

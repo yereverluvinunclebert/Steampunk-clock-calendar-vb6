@@ -148,7 +148,10 @@ quiet/loud sounds
 ' convert all mp3 to .wav
 ' added chiming for all the 1/4 hrs
 ' add chiming for the hour using shortened bell toll 1.5s
-' clapper enabled in adjustControls 
+' clapper enabled in adjustControls
+
+' added alarms for all five toggles
+' update HTML code for all recent changes
 
 ' -oOo-
 
@@ -158,7 +161,13 @@ Tasks to do:
 ' fix IDE crash with creating label - forum post raised - wip
 '   test another control that can take text
 
-' add code to support the setting of the font characteristics for the comsole display - wip
+' replace cwlabel with another RC control and re-test too see if it crashes
+
+' 1.75s length chime bell
+
+' size of messageboxA, stored after resize
+
+' add code to support the setting of the font characteristics for the console display - wip
 
 ' after a digital reset set each to -- --  and ** *** **** one by one - wip
 '      possibly do the hrs, mins, days, month and years separately
@@ -170,16 +179,11 @@ Tasks to do:
 
 ' centre the clock hands more accurately
 
-' look at the .js and determine what it does and identify any missing functionality
-' alarms 
-' chiming
-     first full hour chime must end at the hour with the first gong on the hour
-
 ' add time machine functionality
 
 ' investigate the accumulating shadow when moving across the transparent surface of the screen
 
-' shadow behind cwlabel background when background screen lowered, try adding a refresh 
+' shadow behind cwlabel background when background screen lowered, try adding a refresh
 
 ' why is the RC5 prefs drag and resize so much smoother than the RC6 version? - wip
 '       it auto resizes the top icons

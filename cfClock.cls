@@ -3825,7 +3825,7 @@ Public Property Let alarmtoggle1Enabled(ByVal newValue As Boolean)
     alarmtoggle1Enabled = mAlarmToggle1Enabled
     
     If mAlarmToggle1Enabled = True Then
-        Call screenWrite("Viewing Alarm - " & pvtAlarmInitiatingControl)
+        Call screenWrite("Viewing Alarm - alarmtoggle1")
     Else
         Call screenWrite("Cancelling Alarm View Mode")
     End If
@@ -3918,7 +3918,7 @@ Public Property Let alarmtoggle2Enabled(ByVal newValue As Boolean)
     
         
     If mAlarmToggle2Enabled = True Then
-        Call screenWrite("Viewing Alarm - " & pvtAlarmInitiatingControl)
+        Call screenWrite("Viewing Alarm - alarmtoggle2")
     Else
         Call screenWrite("Cancelling Alarm View Mode")
     End If
@@ -4006,7 +4006,7 @@ Public Property Let alarmtoggle3Enabled(ByVal newValue As Boolean)
     alarmtoggle3Enabled = mAlarmToggle3Enabled
     
     If mAlarmToggle3Enabled = True Then
-        Call screenWrite("Viewing Alarm - " & pvtAlarmInitiatingControl)
+        Call screenWrite("Viewing Alarm - alarmtoggle3")
     Else
         Call screenWrite("Cancelling Alarm View Mode")
     End If
@@ -4094,7 +4094,7 @@ Public Property Let alarmtoggle4Enabled(ByVal newValue As Boolean)
     alarmtoggle4Enabled = mAlarmToggle4Enabled
         
     If mAlarmToggle4Enabled = True Then
-        Call screenWrite("Viewing Alarm - " & pvtAlarmInitiatingControl)
+        Call screenWrite("Viewing Alarm - alarmtoggle4")
     Else
         Call screenWrite("Cancelling Alarm View Mode")
     End If
@@ -4183,7 +4183,7 @@ Public Property Let alarmtoggle5Enabled(ByVal newValue As Boolean)
     alarmtoggle5Enabled = mAlarmToggle5Enabled
     
     If mAlarmToggle5Enabled = True Then
-        Call screenWrite("Viewing Alarm - " & pvtAlarmInitiatingControl)
+        Call screenWrite("Viewing Alarm - alarmtoggle5")
     Else
         Call screenWrite("Cancelling Alarm View Mode")
     End If
