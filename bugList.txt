@@ -152,6 +152,8 @@ quiet/loud sounds
 
 ' added alarms for all five toggles
 ' update HTML code for all recent changes
+' reducing cpu overhead of testing for alarms
+' removed redundant code
 
 ' -oOo-
 
@@ -163,9 +165,13 @@ Tasks to do:
 
 ' replace cwlabel with another RC control and re-test too see if it crashes
 
+' add new globals for the date + times combined and set them elsewhere to reduce the overhead on each second sweep
+
+' set a new gbl flag indicating alarms have been set?
+
 ' 1.75s length chime bell
 
-' size of messageboxA, stored after resize
+' width/height of messageboxA, stored after resize
 
 ' add code to support the setting of the font characteristics for the console display - wip
 
@@ -183,7 +189,7 @@ Tasks to do:
 
 ' investigate the accumulating shadow when moving across the transparent surface of the screen
 
-' shadow behind cwlabel background when background screen lowered, try adding a refresh
+' shadow behind cwlabel background when background screen lowered, 1. try adding a refresh, 2, try another control
 
 ' why is the RC5 prefs drag and resize so much smoother than the RC6 version? - wip
 '       it auto resizes the top icons

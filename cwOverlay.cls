@@ -1331,7 +1331,7 @@ End Sub
 '
 Private Sub ShallWeRingAlarm()
 
-    ' cannot initialise as date, therefore using variants which allow a null
+    ' cannot initialise a date, therefore using variants which allow a null
     Dim alarm1 As Variant: alarm1 = Null
     Dim alarm2 As Variant: alarm2 = Null
     Dim alarm3 As Variant: alarm3 = Null
@@ -1361,7 +1361,7 @@ Private Sub ShallWeRingAlarm()
     If alarm1 = "" And alarm2 = "" And alarm3 = "" And alarm4 = "" And alarm5 = "" Then Exit Sub
     
     'If IsDate(alarm1) And alarm1 <> "00:00:00" Then
-    If alarm1 <> Null Then
+    If IsDate(alarm1) And alarm1 <> "00:00:00" Then
        
        'if current time is beyond the alarm time
        lngSecondsGap = DateDiff("s", Now(), alarm1)
@@ -1370,6 +1370,8 @@ Private Sub ShallWeRingAlarm()
        
           ' prevent another alarm being raised
             gblAlarmFlgRaised = True
+            
+            If fClock.ShowHelp = True Then fClock.ShowHelp = False
             
             ' raise the alarm till
             fClock.alarmtoggle1Enabled = True
@@ -1399,7 +1401,7 @@ Private Sub ShallWeRingAlarm()
         End If
     End If
     
-    If alarm2 <> Null Then
+    If IsDate(alarm2) And alarm2 <> "00:00:00" Then
        
        'if current time is beyond the alarm time
        lngSecondsGap = DateDiff("s", Now(), alarm2)
@@ -1408,6 +1410,8 @@ Private Sub ShallWeRingAlarm()
        
           ' prevent another alarm being raised
             gblAlarmFlgRaised = True
+            
+            If fClock.ShowHelp = True Then fClock.ShowHelp = False
             
             ' raise the alarm till
             fClock.alarmtoggle2Enabled = True
@@ -1438,7 +1442,7 @@ Private Sub ShallWeRingAlarm()
     End If
     
         
-    If alarm3 <> Null Then
+    If IsDate(alarm3) And alarm3 <> "00:00:00" Then
        
        'if current time is beyond the alarm time
        lngSecondsGap = DateDiff("s", Now(), alarm3)
@@ -1447,6 +1451,8 @@ Private Sub ShallWeRingAlarm()
        
           ' prevent another alarm being raised
             gblAlarmFlgRaised = True
+            
+            If fClock.ShowHelp = True Then fClock.ShowHelp = False
             
             ' raise the alarm till
             fClock.alarmtoggle3Enabled = True
@@ -1478,7 +1484,7 @@ Private Sub ShallWeRingAlarm()
     
     
         
-    If alarm4 <> Null Then
+    If IsDate(alarm4) And alarm4 <> "00:00:00" Then
        
        'if current time is beyond the alarm time
        lngSecondsGap = DateDiff("s", Now(), alarm4)
@@ -1487,6 +1493,8 @@ Private Sub ShallWeRingAlarm()
        
           ' prevent another alarm being raised
             gblAlarmFlgRaised = True
+            
+            If fClock.ShowHelp = True Then fClock.ShowHelp = False
             
             ' raise the alarm till
             fClock.alarmtoggle4Enabled = True
@@ -1517,7 +1525,7 @@ Private Sub ShallWeRingAlarm()
     End If
         
         
-    If alarm5 <> Null Then
+    If IsDate(alarm5) And alarm5 <> "00:00:00" Then
        
        'if current time is beyond the alarm time
        lngSecondsGap = DateDiff("s", Now(), alarm5)
@@ -1526,6 +1534,8 @@ Private Sub ShallWeRingAlarm()
        
           ' prevent another alarm being raised
             gblAlarmFlgRaised = True
+            
+            If fClock.ShowHelp = True Then fClock.ShowHelp = False
             
             ' raise the alarm till
             fClock.alarmtoggle5Enabled = True
