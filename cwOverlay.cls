@@ -1263,7 +1263,7 @@ Private Sub tmrClock_Timer()
                 PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
             End If
 
-           screenWrite ("chiming quarter hour")
+           screenWrite ("chiming quarter past the hour at " & CStr(pvtThisHour) & ":15")
 
         ElseIf pvtThisMins = 29 And (pvtThisSecs = 54) Then ' 6 seconds before
     
@@ -1276,7 +1276,7 @@ Private Sub tmrClock_Timer()
                 PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
             End If
 
-            screenWrite ("chiming half hour ")
+            screenWrite ("chiming half past the hour at " & CStr(pvtThisHour) & ":30")
 
         ElseIf pvtThisMins = 45 And (pvtThisSecs = 51) Then '9 seconds before
 
@@ -1289,9 +1289,9 @@ Private Sub tmrClock_Timer()
                 PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
             End If
 
-            screenWrite ("chiming three-quarter hour ")
+            screenWrite ("chiming quarter to the hour at " & CStr(pvtThisHour) & ":45")
 
-        ElseIf pvtThisMins = 59 And (pvtThisSecs = 42) Then      ' 18 seconds before the o'clock
+        ElseIf pvtThisMins = 59 And (pvtThisSecs = 42) Then       ' 18 seconds before the o'clock
 
             If gblVolumeBoost = "1" Then
                 fileToPlay = "fullchime.wav"
@@ -1332,11 +1332,11 @@ End Sub
 Private Sub ShallWeRingAlarm()
 
     ' cannot initialise a date, therefore using variants which allow a null
-    Dim alarm1 As Variant: alarm1 = Null
-    Dim alarm2 As Variant: alarm2 = Null
-    Dim alarm3 As Variant: alarm3 = Null
-    Dim alarm4 As Variant: alarm4 = Null
-    Dim alarm5 As Variant: alarm5 = Null
+'    Dim alarm1 As Variant: alarm1 = Null
+'    Dim alarm2 As Variant: alarm2 = Null
+'    Dim alarm3 As Variant: alarm3 = Null
+'    Dim alarm4 As Variant: alarm4 = Null
+'    Dim alarm5 As Variant: alarm5 = Null
     
     Dim lngSecondsGap As Double: lngSecondsGap = 0
 
@@ -1348,23 +1348,14 @@ Private Sub ShallWeRingAlarm()
     ' if an alarm is currently being raised then the function is immediately exited
     ' ie. don't raise a second alarm
     If gblAlarmFlgRaised = True Then Exit Sub
+
+    ' no alarms even entered in the prefs so exit
+    If gblAlarm1 = "" And gblAlarm2 = "" And gblAlarm3 = "" And gblAlarm4 = "" And gblAlarm5 = "" Then Exit Sub
     
-    ' this can be built once elsewhere, using a new gblvar for the combined date
-    If gblAlarm1Date <> "" And gblAlarm1Time <> "" Then alarm1 = gblAlarm1Date & " " & gblAlarm1Time
-    If gblAlarm2Date <> "" And gblAlarm2Time <> "" Then alarm2 = gblAlarm2Date & " " & gblAlarm2Time
-    If gblAlarm3Date <> "" And gblAlarm3Time <> "" Then alarm3 = gblAlarm3Date & " " & gblAlarm3Time
-    If gblAlarm4Date <> "" And gblAlarm4Time <> "" Then alarm4 = gblAlarm4Date & " " & gblAlarm4Time
-    If gblAlarm5Date <> "" And gblAlarm5Time <> "" Then alarm5 = gblAlarm5Date & " " & gblAlarm5Time
-    
-    ' no alarms entered so exit
-    'If gblAlarm1 = "" And gblAlarm2 = "" And gblAlarm3 = "" And gblAlarm4 = "" And gblAlarm5 = "" Then Exit Sub
-    If alarm1 = "" And alarm2 = "" And alarm3 = "" And alarm4 = "" And alarm5 = "" Then Exit Sub
-    
-    'If IsDate(alarm1) And alarm1 <> "00:00:00" Then
-    If IsDate(alarm1) And alarm1 <> "00:00:00" Then
+    If IsDate(gblAlarm1) And gblAlarm1 <> "00:00:00" Then
        
        'if current time is beyond the alarm time
-       lngSecondsGap = DateDiff("s", Now(), alarm1)
+       lngSecondsGap = DateDiff("s", Now(), gblAlarm1)
        
        If lngSecondsGap <= 0 Then
        
@@ -1376,7 +1367,7 @@ Private Sub ShallWeRingAlarm()
             ' raise the alarm till
             fClock.alarmtoggle1Enabled = True
             
-            screenWrite ("Alarm 1 Raised! " & CStr(alarm1))
+            screenWrite ("Alarm 1 Raised! " & CStr(gblAlarm1))
             screenWrite ("Press alarm till to cancel raised alarm ")
             
             ' the alarm entries are removed here and written to the config straight away, preventing another accidental alarm being raised.
@@ -1401,10 +1392,10 @@ Private Sub ShallWeRingAlarm()
         End If
     End If
     
-    If IsDate(alarm2) And alarm2 <> "00:00:00" Then
+    If IsDate(gblAlarm2) And gblAlarm2 <> "00:00:00" Then
        
        'if current time is beyond the alarm time
-       lngSecondsGap = DateDiff("s", Now(), alarm2)
+       lngSecondsGap = DateDiff("s", Now(), gblAlarm2)
        
        If lngSecondsGap <= 0 Then
        
@@ -1416,7 +1407,7 @@ Private Sub ShallWeRingAlarm()
             ' raise the alarm till
             fClock.alarmtoggle2Enabled = True
             
-            screenWrite ("Alarm 2 Raised! " & CStr(alarm2))
+            screenWrite ("Alarm 2 Raised! " & CStr(gblAlarm2))
             screenWrite ("Press alarm till to cancel raised alarm ")
             
             ' the alarm entries are removed here and written to the config straight away, preventing another accidental alarm being raised.
@@ -1442,10 +1433,10 @@ Private Sub ShallWeRingAlarm()
     End If
     
         
-    If IsDate(alarm3) And alarm3 <> "00:00:00" Then
+    If IsDate(gblAlarm3) And gblAlarm3 <> "00:00:00" Then
        
        'if current time is beyond the alarm time
-       lngSecondsGap = DateDiff("s", Now(), alarm3)
+       lngSecondsGap = DateDiff("s", Now(), gblAlarm3)
        
        If lngSecondsGap <= 0 Then
        
@@ -1457,7 +1448,7 @@ Private Sub ShallWeRingAlarm()
             ' raise the alarm till
             fClock.alarmtoggle3Enabled = True
             
-            screenWrite ("Alarm 3 Raised! " & CStr(alarm3))
+            screenWrite ("Alarm 3 Raised! " & CStr(gblAlarm3))
             screenWrite ("Press alarm till to cancel raised alarm ")
             
             ' the alarm entries are removed here and written to the config straight away, preventing another accidental alarm being raised.
@@ -1482,12 +1473,10 @@ Private Sub ShallWeRingAlarm()
         End If
     End If
     
-    
-        
-    If IsDate(alarm4) And alarm4 <> "00:00:00" Then
+    If IsDate(gblAlarm4) And gblAlarm4 <> "00:00:00" Then
        
        'if current time is beyond the alarm time
-       lngSecondsGap = DateDiff("s", Now(), alarm4)
+       lngSecondsGap = DateDiff("s", Now(), gblAlarm4)
        
        If lngSecondsGap <= 0 Then
        
@@ -1499,7 +1488,7 @@ Private Sub ShallWeRingAlarm()
             ' raise the alarm till
             fClock.alarmtoggle4Enabled = True
             
-            screenWrite ("Alarm 4 Raised! " & CStr(alarm4))
+            screenWrite ("Alarm 4 Raised! " & CStr(gblAlarm4))
             screenWrite ("Press alarm till to cancel raised alarm ")
             
             ' the alarm entries are removed here and written to the config straight away, preventing another accidental alarm being raised.
@@ -1524,11 +1513,10 @@ Private Sub ShallWeRingAlarm()
         End If
     End If
         
-        
-    If IsDate(alarm5) And alarm5 <> "00:00:00" Then
+    If IsDate(gblAlarm5) And gblAlarm5 <> "00:00:00" Then
        
        'if current time is beyond the alarm time
-       lngSecondsGap = DateDiff("s", Now(), alarm5)
+       lngSecondsGap = DateDiff("s", Now(), gblAlarm5)
        
        If lngSecondsGap <= 0 Then
        
@@ -1540,7 +1528,7 @@ Private Sub ShallWeRingAlarm()
             ' raise the alarm till
             fClock.alarmtoggle5Enabled = True
             
-            screenWrite ("Alarm 5 Raised! " & CStr(alarm5))
+            screenWrite ("Alarm 5 Raised! " & CStr(gblAlarm5))
             screenWrite ("Press alarm till to cancel raised alarm ")
             
             ' the alarm entries are removed here and written to the config straight away, preventing another accidental alarm being raised.
@@ -1640,7 +1628,8 @@ Private Sub tollbell()
     Dim fileToPlay As String: fileToPlay = vbNullString
     Dim tollhours As Integer: tollhours = 0
     Dim hr As Integer: hr = 0
-    Static tollbellCountdown As Integer
+    Static tollCount As Integer
+    Static countdownToToll As Integer
     
     On Error GoTo tollbell_Error
 
@@ -1651,27 +1640,40 @@ Private Sub tollbell()
     If hr > 12 Then tollhours = hr - 12
      
     ' do not ask for whom the bell tolls, it tolls for thee...when the counter reaches 8
-    If (tollbellCountdown >= 8) Then
-       If gblVolumeBoost = "1" Then
-           fileToPlay = "belltoll.wav"
-       Else
-           fileToPlay = "belltoll-quiet.wav"
-       End If
-       If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
-           PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
-       End If
-       
-        tollbellCountdown = tollbellCountdown + 1
+    If (countdownToToll >= 8) Then
+        tollCount = tollCount + 1
+
+        'play the longer bell on the last toll
+        If (tollCount < tollhours) Then
+            If gblVolumeBoost = "1" Then
+                fileToPlay = "belltoll.wav"
+            Else
+                fileToPlay = "belltoll-quiet.wav"
+            End If
+        Else
+            If gblVolumeBoost = "1" Then
+                fileToPlay = "belltollLong.wav"
+            Else
+                fileToPlay = "belltollLong-quiet.wav"
+            End If
+        End If
+        
+        If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
+            PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
+        End If
+        
+        countdownToToll = countdownToToll + 1
         screenWrite ("Tolling bell for " & tollhours & " o'clock")
-    Else         'pause for 16 seconds (8 x belltimer.interval (2))
-        tollbellCountdown = tollbellCountdown + 1
-        screenWrite ("Countdown to tolling the hour =  " & 9 - tollbellCountdown)
+    Else
+        ' pause for 16 seconds (8 x tmrTollTimer_Timer.interval (2s)) prior to bell tolling to match the coming of the hour
+        countdownToToll = countdownToToll + 1
+        screenWrite ("Countdown to tolling the hour =  " & 9 - countdownToToll)
     End If
      
      ' turn off the belltimer to stop the bell from tolling
-     If (tollbellCountdown >= tollhours + 8) Then
+     If (countdownToToll >= tollhours + 8) Then
             tmrTollTimer.Enabled = False
-            tollbellCountdown = 0
+            countdownToToll = 0
             screenWrite ("Just struck " & tollhours & " o'clock")
      End If
 

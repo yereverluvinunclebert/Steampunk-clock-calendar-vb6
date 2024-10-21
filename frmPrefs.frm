@@ -4594,6 +4594,7 @@ Private Function validateAlarmVars() As Boolean
     End If
     gblAlarm1Date = txtAlarm1Date.Text
     gblAlarm1Time = txtAlarm1Time.Text
+    gblAlarm1 = gblAlarm1Date + " " & gblAlarm1Time
             
     If txtAlarm2Date.Text <> "Alarm not yet set" Then
         alarmDateStatus = fVerifyAlarmDate(txtAlarm2Date.Text)
@@ -4610,6 +4611,7 @@ Private Function validateAlarmVars() As Boolean
     End If
     gblAlarm2Date = txtAlarm2Date.Text
     gblAlarm2Time = txtAlarm2Time.Text
+    gblAlarm2 = gblAlarm2Date + " " & gblAlarm2Time
     
     If txtAlarm3Date.Text <> "Alarm not yet set" Then
         alarmDateStatus = fVerifyAlarmDate(txtAlarm3Date.Text)
@@ -4626,6 +4628,7 @@ Private Function validateAlarmVars() As Boolean
     End If
     gblAlarm3Date = txtAlarm3Date.Text
     gblAlarm3Time = txtAlarm3Time.Text
+    gblAlarm3 = gblAlarm3Date + " " & gblAlarm3Time
     
     If txtAlarm4Date.Text <> "Alarm not yet set" Then
         alarmDateStatus = fVerifyAlarmDate(txtAlarm4Date.Text)
@@ -4642,6 +4645,7 @@ Private Function validateAlarmVars() As Boolean
     End If
     gblAlarm4Date = txtAlarm4Date.Text
     gblAlarm4Time = txtAlarm4Time.Text
+    gblAlarm4 = gblAlarm4Date + " " & gblAlarm4Time
             
     If txtAlarm5Date.Text <> "Alarm not yet set" Then
         alarmDateStatus = fVerifyAlarmDate(txtAlarm5Date.Text)
@@ -4658,6 +4662,7 @@ Private Function validateAlarmVars() As Boolean
     End If
     gblAlarm5Date = txtAlarm5Date.Text
     gblAlarm5Time = txtAlarm5Time.Text
+    gblAlarm5 = gblAlarm5Date + " " & gblAlarm5Time
 
    On Error GoTo 0
    Exit Function

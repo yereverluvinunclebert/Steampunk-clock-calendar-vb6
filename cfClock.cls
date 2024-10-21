@@ -2943,6 +2943,7 @@ Public Property Let clapperEnabled(ByVal newValue As Boolean)
     clapperEnabled = mClapperEnabled
     
     Call screenWrite("Clock chime enabled is set to " & mClapperEnabled)
+    If mClapperEnabled = False Then Call screenWrite("All chimes and alarms will be disabled ")
     
     clockForm.Refresh
      

@@ -155,6 +155,9 @@ quiet/loud sounds
 ' reducing cpu overhead of testing for alarms
 ' removed redundant code
 
+' add new globals for the date + times combined and set them elsewhere to reduce the overhead on each second sweep
+
+
 ' -oOo-
 
 Tasks to do:
@@ -164,10 +167,6 @@ Tasks to do:
 '   test another control that can take text
 
 ' replace cwlabel with another RC control and re-test too see if it crashes
-
-' add new globals for the date + times combined and set them elsewhere to reduce the overhead on each second sweep
-
-' set a new gbl flag indicating alarms have been set?
 
 ' 1.75s length chime bell
 

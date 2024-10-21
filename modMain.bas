@@ -84,7 +84,7 @@ Public Sub mainRoutine(ByVal restart As Boolean)
     widgetName = "Steampunk Clock Calendar"
     thisPSDFullPath = App.path & "\Res\Steampunk Clock Calendar.psd"
     
-    Call screenWrite("Steampunk O/S ver 1.0 (mechanical 0.1 hz)")
+    Call screenWrite("Steampunk O/S ver 1.0 (clockwork 0.1 hz)")
     Call screenWrite("A VB6 (WoW64) and RC6 creation")
     Call screenWrite("Copyright 2024, BrickMoon Interplanetary Enterprises")
 
@@ -336,6 +336,12 @@ Private Sub initialiseGlobalVars()
     gblAlarmToggle3Enabled = vbNullString
     gblAlarmToggle4Enabled = vbNullString
     gblAlarmToggle5Enabled = vbNullString
+    
+    gblAlarm1 = vbNullString
+    gblAlarm2 = vbNullString
+    gblAlarm3 = vbNullString
+    gblAlarm4 = vbNullString
+    gblAlarm5 = vbNullString
     
     gblAlarm1Date = vbNullString
     gblAlarm2Date = vbNullString
