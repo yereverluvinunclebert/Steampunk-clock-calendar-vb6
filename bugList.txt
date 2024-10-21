@@ -155,20 +155,22 @@ quiet/loud sounds
 ' reducing cpu overhead of testing for alarms
 ' removed redundant code
 
-' add new globals for the date + times combined and set them elsewhere to reduce the overhead on each second sweep
-
+' add new globals for the date + times combined and set them elsewhere to reduce the overhead on each second sweep  
+' 1.75s length chime bell
+' longer final chime with revurb
+' fixed the tab order on the general page for the alarm fields
 
 ' -oOo-
 
 Tasks to do:
 ============
 
-' fix IDE crash with creating label - forum post raised - wip
-'   test another control that can take text
+' time validity check not working
 
 ' replace cwlabel with another RC control and re-test too see if it crashes
 
-' 1.75s length chime bell
+' fix IDE crash with creating label - forum post raised - wip
+'   test another control that can take text
 
 ' width/height of messageboxA, stored after resize
 
@@ -182,7 +184,7 @@ Tasks to do:
 ' slider advancing/retarding time using timeShiftPercent modified not quite exponentially to shift time - wip
 ' in the timer, take the value of timeShiftPercent and do what to it?
 
-' centre the clock hands more accurately
+' centre the clock hands more accurately, rmemve the hole and see what it is doing
 
 ' add time machine functionality
 
