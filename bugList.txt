@@ -160,12 +160,17 @@ quiet/loud sounds
 ' longer final chime with revurb
 ' fixed the tab order on the general page for the alarm fields
 
+' time validity check not working
+
+' fontDialog - corrected default font from centurion to last opened
+' add code to support the setting of the font characteristics for the console display - wip
+
 ' -oOo-
 
 Tasks to do:
 ============
 
-' time validity check not working
+' when user changes prefs font in high DPI mode, a quick resize is required to obtain the new resized font again.
 
 ' replace cwlabel with another RC control and re-test too see if it crashes
 
@@ -173,8 +178,6 @@ Tasks to do:
 '   test another control that can take text
 
 ' width/height of messageboxA, stored after resize
-
-' add code to support the setting of the font characteristics for the console display - wip
 
 ' after a digital reset set each to -- --  and ** *** **** one by one - wip
 '      possibly do the hrs, mins, days, month and years separately
@@ -237,5 +240,5 @@ https://www.vbforums.com/showthread.php?896944-VB6-QUESTION-Check-if-API-exists
 
 ' recreate the clock using 
 
-
+subclass the font dialog to center it on screen using lpfhook?
 

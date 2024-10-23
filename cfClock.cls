@@ -371,8 +371,8 @@ Public Sub InitFromPSD(ByRef PSD_FileNameOrByteArray As Variant)
     '    set some Font and ForeColor Properties and draw some Text on the Widget
         Set lblTerminalText = clockForm.Widgets.Add(New_W("cwLabel"), "lblTerminalText", 423, 74, 220, 165, True, thisZorder + 1)
     
-        lblTerminalText.Widget.FontSize = 6
-        lblTerminalText.Widget.FontName = "courier new"
+        lblTerminalText.Widget.FontSize = gblDisplayScreenFontSize
+        lblTerminalText.Widget.FontName = gblDisplayScreenFont
         lblTerminalText.Widget.ForeColor = grey
         lblTerminalText.Widget.Alpha = someOpacity
 
@@ -920,6 +920,7 @@ Private Sub deleteAlarm1(ByRef anAlarmDeleted As Boolean)
         If alarmtoggle1Enabled = True And gblAlarm1Date <> "Alarm not yet set" Then
             gblAlarm1Date = "Alarm not yet set"
             gblAlarm1Time = ""
+            gblAlarm1 = ""
             sPutINISetting "Software\SteampunkClockCalendar", "alarm1Date", gblAlarm1Date, gblSettingsFile
             sPutINISetting "Software\SteampunkClockCalendar", "alarm1Time", gblAlarm1Time, gblSettingsFile
             alarmtoggle1Enabled = False
@@ -932,6 +933,8 @@ Private Sub deleteAlarm1(ByRef anAlarmDeleted As Boolean)
             End If
             
             anAlarmDeleted = True
+            
+            gblAlarm1FlgRaised = False
              
         End If
     End If
@@ -969,6 +972,7 @@ Private Sub deleteAlarm2(ByRef anAlarmDeleted As Boolean)
         If alarmtoggle2Enabled = True And gblAlarm2Date <> "Alarm not yet set" Then
             gblAlarm2Date = "Alarm not yet set"
             gblAlarm2Time = ""
+            gblAlarm2 = ""
             sPutINISetting "Software\SteampunkClockCalendar", "alarm2Date", gblAlarm2Date, gblSettingsFile
             sPutINISetting "Software\SteampunkClockCalendar", "alarm2Time", gblAlarm2Time, gblSettingsFile
             alarmtoggle2Enabled = False
@@ -977,6 +981,7 @@ Private Sub deleteAlarm2(ByRef anAlarmDeleted As Boolean)
             widgetPrefs.txtAlarm2Time.Text = gblAlarm2Time
            
             anAlarmDeleted = True
+            gblAlarm2FlgRaised = False
         End If
     End If
 
@@ -1013,6 +1018,7 @@ Private Sub deleteAlarm3(ByRef anAlarmDeleted As Boolean)
         If alarmtoggle3Enabled = True And gblAlarm3Date <> "Alarm not yet set" Then
             gblAlarm3Date = "Alarm not yet set"
             gblAlarm3Time = ""
+            gblAlarm3 = ""
             sPutINISetting "Software\SteampunkClockCalendar", "alarm3Date", gblAlarm3Date, gblSettingsFile
             sPutINISetting "Software\SteampunkClockCalendar", "alarm3Time", gblAlarm3Time, gblSettingsFile
             alarmtoggle3Enabled = False
@@ -1021,6 +1027,7 @@ Private Sub deleteAlarm3(ByRef anAlarmDeleted As Boolean)
             widgetPrefs.txtAlarm3Time.Text = gblAlarm3Time
             
             anAlarmDeleted = True
+            gblAlarm3FlgRaised = False
         End If
     End If
 
@@ -1057,6 +1064,7 @@ deleteAlarm3_Error:
         If alarmtoggle4Enabled = True And gblAlarm4Date <> "Alarm not yet set" Then
             gblAlarm4Date = "Alarm not yet set"
             gblAlarm4Time = ""
+            gblAlarm4 = ""
             sPutINISetting "Software\SteampunkClockCalendar", "alarm4Date", gblAlarm4Date, gblSettingsFile
             sPutINISetting "Software\SteampunkClockCalendar", "alarm4Time", gblAlarm4Time, gblSettingsFile
             alarmtoggle4Enabled = False
@@ -1065,6 +1073,7 @@ deleteAlarm3_Error:
             widgetPrefs.txtAlarm4Time.Text = gblAlarm4Time
             
             anAlarmDeleted = True
+            gblAlarm4FlgRaised = False
         End If
     End If
 
@@ -1101,6 +1110,7 @@ Private Sub deleteAlarm5(ByRef anAlarmDeleted As Boolean)
         If alarmtoggle5Enabled = True And gblAlarm5Date <> "Alarm not yet set" Then
             gblAlarm5Date = "Alarm not yet set"
             gblAlarm5Time = ""
+            gblAlarm5 = ""
             sPutINISetting "Software\SteampunkClockCalendar", "alarm5Date", gblAlarm5Date, gblSettingsFile
             sPutINISetting "Software\SteampunkClockCalendar", "alarm5Time", gblAlarm5Time, gblSettingsFile
             alarmtoggle5Enabled = False
@@ -1109,6 +1119,7 @@ Private Sub deleteAlarm5(ByRef anAlarmDeleted As Boolean)
             widgetPrefs.txtAlarm5Time.Text = gblAlarm5Time
 
             anAlarmDeleted = True
+            gblAlarm5FlgRaised = False
         End If
     End If
 
@@ -2425,7 +2436,7 @@ End Sub
 '                alter the size of the form to correspond to the monitor
 '---------------------------------------------------------------------------------------
 '
-Private Sub clockForm_MouseUp(ByRef Button As Integer, ByRef Shift As Integer, ByRef x As Single, ByRef y As Single)
+Private Sub clockForm_MouseUp(ByRef Button As Integer, ByRef Shift As Integer, ByRef X As Single, ByRef Y As Single)
 
     On Error GoTo clockForm_MouseUp_Error
     
@@ -2460,8 +2471,8 @@ End Sub
 ' Purpose   :
 '---------------------------------------------------------------------------------------
 '
-Private Sub clockForm_MouseMove(ByRef Button As Integer, ByRef Shift As Integer, ByRef x As Single, ByRef y As Single)
-  Static x0 As Single, y0 As Single: If Button = 0 Then x0 = x: y0 = y 'just store the offsets when no button is down
+Private Sub clockForm_MouseMove(ByRef Button As Integer, ByRef Shift As Integer, ByRef X As Single, ByRef Y As Single)
+  Static x0 As Single, y0 As Single: If Button = 0 Then x0 = X: y0 = Y 'just store the offsets when no button is down
   
    On Error GoTo clockForm_MouseMove_Error
     
@@ -2470,8 +2481,8 @@ Private Sub clockForm_MouseMove(ByRef Button As Integer, ByRef Shift As Integer,
 
     If Button = vbLeftButton And Not clockForm.ActiveWidget Is Nothing Then 'Form-Dragging (under certain conditions)
 
-      FX = (x - x0) * clockForm.WidgetRoot.Zoom + clockForm.Left
-      FY = (y - y0) * clockForm.WidgetRoot.Zoom + clockForm.Top
+      FX = (X - x0) * clockForm.WidgetRoot.Zoom + clockForm.Left
+      FY = (Y - y0) * clockForm.WidgetRoot.Zoom + clockForm.Top
       clockForm.Move FX, FY
       
       Debug.Print "FX " & FX
@@ -2561,7 +2572,7 @@ End Sub
 ' Purpose   :
 '---------------------------------------------------------------------------------------
 '
-Private Sub clockForm_MouseDown(ByRef Button As Integer, ByRef Shift As Integer, ByRef x As Single, ByRef y As Single)
+Private Sub clockForm_MouseDown(ByRef Button As Integer, ByRef Shift As Integer, ByRef X As Single, ByRef Y As Single)
    On Error GoTo W_MouseDown_Error
 
     frmTimer.tmrScreenResolution.Enabled = False

@@ -430,6 +430,13 @@ Public gblAlarm3 As String
 Public gblAlarm4 As String
 Public gblAlarm5 As String
 
+
+Public gblAlarm1FlgRaised As Boolean
+Public gblAlarm2FlgRaised As Boolean
+Public gblAlarm3FlgRaised As Boolean
+Public gblAlarm4FlgRaised As Boolean
+Public gblAlarm5FlgRaised As Boolean
+
 '------------------------------------------------------ ENDS
 
 
@@ -1322,7 +1329,7 @@ Public Sub changeFormFont(ByVal formName As Object, ByVal suppliedFont As String
     ' loop through all the controls and identify the labels and text boxes
     For Each Ctrl In formName.Controls
         If (TypeOf Ctrl Is CommandButton) Or (TypeOf Ctrl Is textBox) Or (TypeOf Ctrl Is FileListBox) Or (TypeOf Ctrl Is Label) Or (TypeOf Ctrl Is ComboBox) Or (TypeOf Ctrl Is CheckBox) Or (TypeOf Ctrl Is OptionButton) Or (TypeOf Ctrl Is Frame) Or (TypeOf Ctrl Is ListBox) Then
-            If Ctrl.Name <> "lblDragCorner" Then
+            If Ctrl.Name <> "lblDragCorner" And Ctrl.Name <> "txtDisplayScreenFont" Then
                 If suppliedFont <> vbNullString Then Ctrl.Font.Name = suppliedFont
                 If suppliedSize > 0 Then Ctrl.Font.Size = suppliedSize
                 Ctrl.Font.Italic = suppliedItalics
@@ -1372,7 +1379,7 @@ Public Function fDialogFont(ByRef f As FormFontInfo) As Boolean
     logFnt.lfItalic = f.Italic * -1
     logFnt.lfUnderline = f.UnderLine * -1
     logFnt.lfHeight = -fMulDiv(CLng(f.Height), GetDeviceCaps(GetDC(hWndAccessApp), LOGPIXELSY), 72)
-    f.Name = "Centurion Light SF"
+    'f.Name = "Centurion Light SF"
     Call StringToByte(f.Name, logFnt.lfFaceName()) ' HERE
     ftStruc.rgbColors = f.Color
     ftStruc.lStructSize = Len(ftStruc)
@@ -2101,11 +2108,6 @@ Public Sub mainScreen()
         gblhLocationPercPrefValue = Str$(fClock.clockForm.Left / virtualScreenWidthPixels * 100)
         gblvLocationPercPrefValue = Str$(fClock.clockForm.Top / virtualScreenHeightPixels * 100)
     End If
-    
-'    If InIDE Then
-'        fClock.clockForm.Left = 100
-'        fClock.clockForm.Top = 100
-'    End If
 
    On Error GoTo 0
    Exit Sub

@@ -6,7 +6,7 @@ Option Explicit
 
 '------------------------------------------------------ STARTS
 ' for SetWindowPos z-ordering
-Public Declare Function SetWindowPos Lib "user32" (ByVal hWnd As Long, ByVal hWndInsertAfter As Long, ByVal x As Long, ByVal y As Long, ByVal cx As Long, ByVal cy As Long, ByVal wFlags As Long) As Long
+Public Declare Function SetWindowPos Lib "user32" (ByVal hWnd As Long, ByVal hWndInsertAfter As Long, ByVal X As Long, ByVal Y As Long, ByVal cx As Long, ByVal cy As Long, ByVal wFlags As Long) As Long
 
 Public Const HWND_TOP As Long = 0 ' for SetWindowPos z-ordering
 Public Const HWND_TOPMOST As Long = -1
@@ -1274,6 +1274,12 @@ Public Sub readSettingsFile(ByVal Location As String, ByVal gblSettingsFile As S
         gblClockPrimaryHeightRatio = fGetINISetting(Location, "clockPrimaryHeightRatio", gblSettingsFile)
         
     End If
+        
+    gblAlarm1 = gblAlarm1Date & " " & gblAlarm1Time
+    gblAlarm2 = gblAlarm2Date & " " & gblAlarm2Time
+    gblAlarm3 = gblAlarm3Date & " " & gblAlarm3Time
+    gblAlarm4 = gblAlarm4Date & " " & gblAlarm4Time
+    gblAlarm5 = gblAlarm5Date & " " & gblAlarm5Time
 
    On Error GoTo 0
    Exit Sub

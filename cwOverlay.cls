@@ -1348,11 +1348,11 @@ Private Sub ShallWeRingAlarm()
     ' if an alarm is currently being raised then the function is immediately exited
     ' ie. don't raise a second alarm
     If gblAlarmFlgRaised = True Then Exit Sub
-
+    
     ' no alarms even entered in the prefs so exit
     If gblAlarm1 = "" And gblAlarm2 = "" And gblAlarm3 = "" And gblAlarm4 = "" And gblAlarm5 = "" Then Exit Sub
     
-    If IsDate(gblAlarm1) And gblAlarm1 <> "00:00:00" Then
+    If IsDate(gblAlarm1) And gblAlarm1 <> "00:00:00" And gblAlarm1FlgRaised = False Then
        
        'if current time is beyond the alarm time
        lngSecondsGap = DateDiff("s", Now(), gblAlarm1)
@@ -1361,6 +1361,7 @@ Private Sub ShallWeRingAlarm()
        
           ' prevent another alarm being raised
             gblAlarmFlgRaised = True
+            gblAlarm1FlgRaised = True
             
             If fClock.ShowHelp = True Then fClock.ShowHelp = False
             
@@ -1392,7 +1393,7 @@ Private Sub ShallWeRingAlarm()
         End If
     End If
     
-    If IsDate(gblAlarm2) And gblAlarm2 <> "00:00:00" Then
+    If IsDate(gblAlarm2) And gblAlarm2 <> "00:00:00" And gblAlarm2FlgRaised = False Then
        
        'if current time is beyond the alarm time
        lngSecondsGap = DateDiff("s", Now(), gblAlarm2)
@@ -1401,6 +1402,7 @@ Private Sub ShallWeRingAlarm()
        
           ' prevent another alarm being raised
             gblAlarmFlgRaised = True
+            gblAlarm2FlgRaised = True
             
             If fClock.ShowHelp = True Then fClock.ShowHelp = False
             
@@ -1433,7 +1435,7 @@ Private Sub ShallWeRingAlarm()
     End If
     
         
-    If IsDate(gblAlarm3) And gblAlarm3 <> "00:00:00" Then
+    If IsDate(gblAlarm3) And gblAlarm3 <> "00:00:00" And gblAlarm3FlgRaised = False Then
        
        'if current time is beyond the alarm time
        lngSecondsGap = DateDiff("s", Now(), gblAlarm3)
@@ -1442,6 +1444,7 @@ Private Sub ShallWeRingAlarm()
        
           ' prevent another alarm being raised
             gblAlarmFlgRaised = True
+            gblAlarm3FlgRaised = True
             
             If fClock.ShowHelp = True Then fClock.ShowHelp = False
             
@@ -1473,7 +1476,7 @@ Private Sub ShallWeRingAlarm()
         End If
     End If
     
-    If IsDate(gblAlarm4) And gblAlarm4 <> "00:00:00" Then
+    If IsDate(gblAlarm4) And gblAlarm4 <> "00:00:00" And gblAlarm4FlgRaised = False Then
        
        'if current time is beyond the alarm time
        lngSecondsGap = DateDiff("s", Now(), gblAlarm4)
@@ -1482,6 +1485,7 @@ Private Sub ShallWeRingAlarm()
        
           ' prevent another alarm being raised
             gblAlarmFlgRaised = True
+            gblAlarm4FlgRaised = True
             
             If fClock.ShowHelp = True Then fClock.ShowHelp = False
             
@@ -1513,7 +1517,7 @@ Private Sub ShallWeRingAlarm()
         End If
     End If
         
-    If IsDate(gblAlarm5) And gblAlarm5 <> "00:00:00" Then
+    If IsDate(gblAlarm5) And gblAlarm5 <> "00:00:00" And gblAlarm5FlgRaised = False Then
        
        'if current time is beyond the alarm time
        lngSecondsGap = DateDiff("s", Now(), gblAlarm5)
@@ -1522,6 +1526,7 @@ Private Sub ShallWeRingAlarm()
        
           ' prevent another alarm being raised
             gblAlarmFlgRaised = True
+            gblAlarm5FlgRaised = True
             
             If fClock.ShowHelp = True Then fClock.ShowHelp = False
             
@@ -1696,7 +1701,7 @@ End Sub
 '             For this Overlay-Widget alone, we make everything "fully click-through"
 '---------------------------------------------------------------------------------------------
 '
-Private Sub W_HitTest(ByVal x As Single, ByVal y As Single, HitResultHit As Boolean) 'ensure ClickThrough-behaviour in ImagePixels which are "fully Alpha"
+Private Sub W_HitTest(ByVal X As Single, ByVal Y As Single, HitResultHit As Boolean) 'ensure ClickThrough-behaviour in ImagePixels which are "fully Alpha"
    On Error GoTo W_HitTest_Error
 
    HitResultHit = False
