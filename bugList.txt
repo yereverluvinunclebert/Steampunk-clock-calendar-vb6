@@ -164,20 +164,18 @@ quiet/loud sounds
 
 ' fontDialog - corrected default font from centurion to last opened
 ' add code to support the setting of the font characteristics for the console display - wip
+' when user changes prefs font in high DPI mode, a quick resize is required to obtain the new resized font again.
+' width/height of messageboxA, stored after resize
 
 ' -oOo-
 
 Tasks to do:
 ============
 
-' when user changes prefs font in high DPI mode, a quick resize is required to obtain the new resized font again.
-
 ' replace cwlabel with another RC control and re-test too see if it crashes
 
 ' fix IDE crash with creating label - forum post raised - wip
 '   test another control that can take text
-
-' width/height of messageboxA, stored after resize
 
 ' after a digital reset set each to -- --  and ** *** **** one by one - wip
 '      possibly do the hrs, mins, days, month and years separately
@@ -187,7 +185,7 @@ Tasks to do:
 ' slider advancing/retarding time using timeShiftPercent modified not quite exponentially to shift time - wip
 ' in the timer, take the value of timeShiftPercent and do what to it?
 
-' centre the clock hands more accurately, rmemve the hole and see what it is doing
+' centre the clock hands more accurately, remomve the hole and see what it is doing
 
 ' add time machine functionality
 
@@ -196,7 +194,7 @@ Tasks to do:
 ' shadow behind cwlabel background when background screen lowered, 1. try adding a refresh, 2, try another control
 
 ' why is the RC5 prefs drag and resize so much smoother than the RC6 version? - wip
-'       it auto resizes the top icons
+'       because it auto-resizes the top icons
 
 ' find and replace globals within classes with property GET/SETs
 

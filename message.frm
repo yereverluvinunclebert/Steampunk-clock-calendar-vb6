@@ -130,6 +130,16 @@ Private mPropReturnedValue As Integer
 
 
 
+Private Sub Form_Activate()
+
+    'MsgBox "Form_Activate"
+    gblMessageAHeightTwips = fGetINISetting("Software\SteampunkClockCalendar", "messageAHeightTwips", gblSettingsFile)
+    gblMessageAWidthTwips = fGetINISetting("Software\SteampunkClockCalendar", "messageAWidthTwips ", gblSettingsFile)
+    
+    frmMessage.Height = Val(gblMessageAHeightTwips)
+    frmMessage.Width = Val(gblMessageAWidthTwips)
+End Sub
+
 '---------------------------------------------------------------------------------------
 ' Procedure : Form_Load
 ' Author    : beededea
@@ -142,9 +152,14 @@ Private Sub Form_Load()
 
     On Error GoTo Form_Load_Error
     
-    msgBoxACurrentWidth = cMsgBoxAFormWidth
-    msgBoxACurrentHeight = cMsgBoxAFormHeight
+    'MsgBox "Form_Load"
     
+    If gblMessageAHeightTwips = "" Then gblMessageAHeightTwips = (physicalScreenHeightTwips / 5.5)
+    
+    msgBoxACurrentWidth = gblMessageAWidthTwips
+    msgBoxACurrentHeight = gblMessageAHeightTwips
+    
+        
     'If gblDpiAwareness = "1" Then
         ' save the initial positions of ALL the controls on the msgbox form
         Call SaveSizes(Me, msgBoxAControlPositions(), msgBoxACurrentWidth, msgBoxACurrentHeight)
@@ -167,6 +182,7 @@ Private Sub Form_Load()
     Next
 
     chkShowAgain.Visible = False
+
 
    On Error GoTo 0
    Exit Sub
@@ -212,6 +228,13 @@ Private Sub Form_Resize()
 ''    Else
 '        Call setMessageIconImagesLight(1920)
 ''    End If
+
+    'MsgBox "Form_Resize"
+    
+    gblMessageAHeightTwips = Trim$(Str$(frmMessage.Height))
+    gblMessageAWidthTwips = Trim$(Str$(frmMessage.Width))
+    sPutINISetting "Software\SteampunkClockCalendar", "messageAHeightTwips", gblMessageAHeightTwips, gblSettingsFile
+    sPutINISetting "Software\SteampunkClockCalendar", "messageAWidthTwips", gblMessageAWidthTwips, gblSettingsFile
     
    On Error GoTo 0
    Exit Sub
@@ -324,7 +347,7 @@ Public Property Let propMessage(ByVal newValue As String)
           
     If msgBoxADynamicSizingFlg = True Then
         ' this causes a resize event
-        Me.Height = (physicalScreenHeightTwips / 5.5) '+ intDiff
+        ' Me.Height = (physicalScreenHeightTwips / 5.5) '+ intDiff
     Else
         fraPicVB.Top = 285
     End If

@@ -2251,7 +2251,7 @@ Private Sub btnDefaultEditor_MouseMove(Button As Integer, Shift As Integer, X As
 End Sub
 
 Private Sub btnDisplayScreenFont_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
-    If gblEnablePrefsBalloonTooltips = "True" Then CreateToolTip btnDisplayScreenFont.hWnd, "This is the font selector button, if you click it the font selection window will pop up for you to select your chosen font. When resizing the main clock the display screen font size will in relation to clock size. The base font determines the initial size, the resulting resized font will dynamically change. ", _
+    If gblEnablePrefsBalloonTooltips = "True" Then CreateToolTip btnDisplayScreenFont.hWnd, "This is the font selector button, if you click it the font selection window will pop up for you to select your chosen font. When resizing the main clock the display screen font size will change in relation to clock size. The base font determines the initial size, the resulting resized font will dynamically change. ", _
                   TTIconInfo, "Help on the Font Selector Button", , , , True
 End Sub
 
@@ -2285,7 +2285,7 @@ Private Sub btnOpenFile_MouseMove(Button As Integer, Shift As Integer, X As Sing
 End Sub
 
 Private Sub btnPrefsFont_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
-    If gblEnablePrefsBalloonTooltips = "True" Then CreateToolTip btnPrefsFont.hWnd, "This is the font selector button, if you click it the font selection window will pop up for you to select your chosen font. Centurion Light SF is a good one and my personal favourite. When resizing the form (drag bottom right) the font size will in relation to form height. The base font determines the initial size, the resulting resized font will dynamically change. ", _
+    If gblEnablePrefsBalloonTooltips = "True" Then CreateToolTip btnPrefsFont.hWnd, "This is the font selector button, if you click it the font selection window will pop up for you to select your chosen font. Centurion Light SF is a good one and my personal favourite. When resizing the form (drag bottom right) the font size will change in relation to form height. The base font determines the initial size, the resulting resized font will dynamically change. ", _
                   TTIconInfo, "Help on Setting the Font Selector Button", , , , True
 End Sub
 
@@ -5100,14 +5100,14 @@ End Sub
 ' Procedure : Form_Resize
 ' Author    : beededea
 ' Date      : 30/05/2023
-' Purpose   : If the form is NOT to be resized then restrain the height/width. Otherwise,
-'             maintain the aspect ratio. When minimised and a resize is called then simply exit.
+' Purpose   : Called at every twip of resising, god knows what interval, we barely use this, instead we subclass and look for WM MOVEDRESIZED
 '---------------------------------------------------------------------------------------
 '
 Private Sub Form_Resize()
     
     gPrefsFormResizedByDrag = True
     
+    ' do not call the resizing function when the form is resized by dragging the border
     If gblPrefsFormResizedInCode = True Then Call PrefsForm_resize
             
     On Error GoTo 0
@@ -5127,7 +5127,7 @@ End Sub
 ' Procedure : PrefsForm_resize
 ' Author    : beededea
 ' Date      : 10/10/2024
-' Purpose   :
+' Purpose   : routine to resize the prefs called by subclassing om a mouseUp form event during a bottom-right corner-drag or in code as required.
 '---------------------------------------------------------------------------------------
 '
 Public Sub PrefsForm_resize()
@@ -5137,6 +5137,7 @@ Public Sub PrefsForm_resize()
     
     On Error GoTo PrefsForm_resize_Error
 
+    ' When minimised and a resize is called then simply exit.
     If Me.WindowState = vbMinimized Then Exit Sub
     
     btnSave.Enabled = True ' enable the save button
@@ -5145,6 +5146,7 @@ Public Sub PrefsForm_resize()
     lblDragCorner.Move Me.ScaleLeft + Me.ScaleWidth - (lblDragCorner.Width + 40), _
                Me.ScaleTop + Me.ScaleHeight - (lblDragCorner.Height + 40)
 
+    ' constrain the height/width ratio
     ratio = cPrefsFormHeight / cPrefsFormWidth
     
     If prefsDynamicSizingFlg = True Then
@@ -6020,7 +6022,7 @@ Private Sub txtDefaultEditor_MouseMove(Button As Integer, Shift As Integer, X As
 End Sub
 
 Private Sub txtDisplayScreenFont_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
-    If gblEnablePrefsBalloonTooltips = "True" Then CreateToolTip txtDisplayScreenFont.hWnd, "This is a read-only text box. It displays the current font - as set when you click the font selector button. This field is in operation for informational purposes only. When resizing the main clock (CTRL+ mouse scroll wheel) the font size will in relation to clock size. The base font determines the initial size, the resulting resized font will dynamically change. My preferred font for the display screen is Courier New at 6pt size.", _
+    If gblEnablePrefsBalloonTooltips = "True" Then CreateToolTip txtDisplayScreenFont.hWnd, "This is a read-only text box. It displays the current font - as set when you click the font selector button. This field is in operation for informational purposes only. When resizing the main clock (CTRL+ mouse scroll wheel) the font size will change in relation to clock size. The base font determines the initial size, the resulting resized font will dynamically change. My preferred font for the display screen is Courier New at 6pt size.", _
                   TTIconInfo, "Help on the Display Screen Font", , , , True
 End Sub
 
@@ -7158,7 +7160,7 @@ End Sub
 
 
 Private Sub txtPrefsFont_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
-    If gblEnablePrefsBalloonTooltips = "True" Then CreateToolTip txtPrefsFont.hWnd, "This is a read-only text box. It displays the current font as set when you click the font selector button. This is in operation for informational purposes only. When resizing the form (drag bottom right) the font size will in relation to form height. The base font determines the initial size, the resulting resized font will dynamically change.  My preferred font for this utility is Centurion Light SF at 8pt size.", _
+    If gblEnablePrefsBalloonTooltips = "True" Then CreateToolTip txtPrefsFont.hWnd, "This is a read-only text box. It displays the current font as set when you click the font selector button. This is in operation for informational purposes only. When resizing the form (drag bottom right) the font size will change in relation to form height. The base font determines the initial size, the resulting resized font will dynamically change.  My preferred font for this utility is Centurion Light SF at 8pt size.", _
                   TTIconInfo, "Help on the Currently Selected Font", , , , True
 End Sub
 

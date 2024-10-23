@@ -410,6 +410,8 @@ Public gblPrefsSecondaryHeightTwips As String
 Public gblClockPrimaryHeightRatio As String
 Public gblClockSecondaryHeightRatio As String
 
+Public gblMessageAHeightTwips  As String
+Public gblMessageAWidthTwips   As String
 
 Public gblAlarm1Date As String
 Public gblAlarm2Date As String

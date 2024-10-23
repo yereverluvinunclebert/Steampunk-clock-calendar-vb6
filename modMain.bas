@@ -380,6 +380,9 @@ Private Sub initialiseGlobalVars()
     gblClockPrimaryHeightRatio = vbNullString
     gblClockSecondaryHeightRatio = vbNullString
     
+    gblMessageAHeightTwips = vbNullString
+    gblMessageAWidthTwips = vbNullString
+    
     ' key presses
     CTRL_1 = False
     SHIFT_1 = False
@@ -1270,8 +1273,11 @@ Public Sub readSettingsFile(ByVal Location As String, ByVal gblSettingsFile As S
         gblAlarm4Time = fGetINISetting(Location, "alarm4Time", gblSettingsFile)
         gblAlarm5Time = fGetINISetting(Location, "alarm5Time", gblSettingsFile)
                            
-        gblClockSecondaryHeightRatio = fGetINISetting(Location, "clockSecondaryHeightRatio ", gblSettingsFile)
+        gblClockSecondaryHeightRatio = fGetINISetting(Location, "clockSecondaryHeightRatio", gblSettingsFile)
         gblClockPrimaryHeightRatio = fGetINISetting(Location, "clockPrimaryHeightRatio", gblSettingsFile)
+        
+        gblMessageAHeightTwips = fGetINISetting(Location, "messageAHeightTwips", gblSettingsFile)
+        gblMessageAWidthTwips = fGetINISetting(Location, "messageAWidthTwips ", gblSettingsFile)
         
     End If
         
