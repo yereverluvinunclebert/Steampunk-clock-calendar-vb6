@@ -47,6 +47,7 @@ Attribute tmrTimeShift.VB_VarHelpID = -1
 Public WithEvents tmrDigitRotator As cTimer ' need to add set/get for these
 Attribute tmrDigitRotator.VB_VarHelpID = -1
 Public WithEvents tmrAlarmRinging As cTimer ' need to add set/get for these public timers
+Attribute tmrAlarmRinging.VB_VarHelpID = -1
 
 ' class member vars
 
@@ -1633,6 +1634,7 @@ Private Sub tollbell()
     Dim fileToPlay As String: fileToPlay = vbNullString
     Dim tollhours As Integer: tollhours = 0
     Dim hr As Integer: hr = 0
+    
     Static tollCount As Integer
     Static countdownToToll As Integer
     
@@ -1662,6 +1664,8 @@ Private Sub tollbell()
                 fileToPlay = "belltollLong-quiet.wav"
             End If
         End If
+        
+        screenWrite ("Chiming using " & fileToPlay)
         
         If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
             PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
@@ -1701,7 +1705,7 @@ End Sub
 '             For this Overlay-Widget alone, we make everything "fully click-through"
 '---------------------------------------------------------------------------------------------
 '
-Private Sub W_HitTest(ByVal X As Single, ByVal Y As Single, HitResultHit As Boolean) 'ensure ClickThrough-behaviour in ImagePixels which are "fully Alpha"
+Private Sub W_HitTest(ByVal x As Single, ByVal y As Single, HitResultHit As Boolean) 'ensure ClickThrough-behaviour in ImagePixels which are "fully Alpha"
    On Error GoTo W_HitTest_Error
 
    HitResultHit = False
@@ -1746,31 +1750,30 @@ Private Sub W_Paint(ByRef CC As cCairoContext, ByVal xAbs As Single, ByVal yAbs 
              Select Case Key
                  Case "hourhand"
                     Set Pat = Cairo.ImageList(Key).CreateSurfacePattern
-                    Set Pat.Matrix = Pat.Matrix.TranslateCoords(4, 4) 'shift to the "rotation-point" within the Pattern
-                    CC.TranslateDrawings W.Width * cxPerc, W.Height * cyPerc 'shift to the center-point of the Overlay-Widget-area
+                    Set Pat.Matrix = Pat.Matrix.TranslateCoords(4, 30) 'shift to the "rotation-point" within the Pattern
+                    CC.TranslateDrawings 645, 333.5 'shift to the center-point of the Overlay-Widget-area
 
-                    'CC.TranslateDrawings 645, 333 'shift to the center-point of the Overlay-Widget-area
-                    CC.RotateDrawingsDeg -90 + pvtHourDegrees  'now we can rotate (the leading negative degrees are the rotation-offsets for 12 o'clock)
+                    CC.RotateDrawingsDeg pvtHourDegrees   'now we can rotate (the leading negative degrees are the rotation-offsets for 12 o'clock)
 
                  Case "minutehand"  'minutes-shadow- and minutes-hand
                     Set Pat = Cairo.ImageList(Key).CreateSurfacePattern
-                    Set Pat.Matrix = Pat.Matrix.TranslateCoords(3, 3) 'shift to the "rotation-point" within the Pattern
-                    CC.TranslateDrawings 646.5, 332 'shift to the center-point of the Overlay-Widget-area
+                    Set Pat.Matrix = Pat.Matrix.TranslateCoords(3, 41) 'shift to the "rotation-point" within the Pattern
+                    CC.TranslateDrawings 645, 333.5 'shift to the center-point of the Overlay-Widget-area
 
-                    CC.RotateDrawingsDeg -90 + pvtMinsDegrees 'now we can rotate (the leading negative degrees are the rotation-offsets for 12 o'clock)
+                    CC.RotateDrawingsDeg pvtMinsDegrees 'now we can rotate (the leading negative degrees are the rotation-offsets for 12 o'clock)
 
                  Case "secondhand" 'seconds-shadow- and seconds-hand
                     Set Pat = Cairo.ImageList(Key).CreateSurfacePattern
-                    Set Pat.Matrix = Pat.Matrix.TranslateCoords(3, 3) 'shift to the "rotation-point" within the Pattern
-                    CC.TranslateDrawings 646.5, 332 'shift to the center-point of the Overlay-Widget-area
+                    Set Pat.Matrix = Pat.Matrix.TranslateCoords(3, 42) 'shift to the "rotation-point" within the Pattern
+                    CC.TranslateDrawings 645, 333.5 'shift to the center-point of the Overlay-Widget-area
 
-                    CC.RotateDrawingsDeg -90 + pvtSecsDegrees 'now we can rotate (the leading negative degrees are the rotation-offsets for 12 o'clock)
+                    CC.RotateDrawingsDeg pvtSecsDegrees 'now we can rotate (the leading negative degrees are the rotation-offsets for 12 o'clock)
 
                  Case "hole"
                     Set Pat = Cairo.ImageList(Key).CreateSurfacePattern
                     Set Pat.Matrix = Pat.Matrix.TranslateCoords(4, 4) 'shift to the "rotation-point" within the Pattern
 
-                    CC.TranslateDrawings 646, 332 'shift to the center-point of the Overlay-Widget-area
+                    CC.TranslateDrawings 645, 333.5 'shift to the center-point of the Overlay-Widget-area
 
                 Case "cable"
                     Set Pat = Cairo.ImageList(Key).CropSurface(0, 0, 200, 27).CreateSurfacePattern 'cut-out a nice (repeatable) part of the original "cable"-image (via CropSurface)

@@ -299,7 +299,7 @@ End Property
 
 '---------------------------------------------------------------------------------------
 ' Procedure : InitFromPSD
-' Author    : olaf schmidt
+' Author    : olaf schmidt and me
 ' Date      : 31/07/2023
 ' Purpose   :    loads up the Cairo imageList with keyed entries and a surface from each and every PSD layer
 '                adds path X,Y and alpha to the excluded collection
@@ -327,25 +327,6 @@ Public Sub InitFromPSD(ByRef PSD_FileNameOrByteArray As Variant)
     'create the Top-Level-Form
     Set clockForm = Cairo.WidgetForms.Create(IIf(App.LogMode, AlphaNoTaskbarEntry, AlphaWithTaskbarEntry), widgetName, True, 1, 1)
         clockForm.WidgetRoot.BackColor = -1 ' transparent
-        
-                ' set some Font and ForeColor Properties and draw some Text on the Widget
-        Set lblTerminalText = clockForm.Widgets.Add(New_W("cwLabel"), "lblTerminalText", 423, 74, 220, 165, True)
-
-        With lblTerminalText
-            .Widget.FontSize = gblDisplayScreenFontSize
-            .Widget.FontName = gblDisplayScreenFont
-            .Widget.ForeColor = grey
-            .Widget.Alpha = someOpacity
-            .Widget.FontBold = False
-            .borderWidth = 0
-            .WordWrap = True
-            .VAlign = 0
-            .Alignment = 0
-            .Widget.BackColor = -1
-        End With
-
-        ' tell the screenwrite util that the clockform is available to write console events to
-        gblFClockAvailable = True
  
     With New_c.SimplePSD(PSD_FileNameOrByteArray)  'create a new PSD-Parser.instance (and load the passed content)
         pvtPSDWidth = .Width
@@ -388,31 +369,32 @@ Public Sub InitFromPSD(ByRef PSD_FileNameOrByteArray As Variant)
         overlayWidget.cyPerc = 0.334
         
     ' I have had to add a test for running in the IDE, if run here it will cause the IDE to crash at fClock.clockForm.show, works fine as a binary
-'    If InIDE = True Then
-'        ' tell the screenwrite util that the clockform is NOT available to write console events to
-'        gblFClockAvailable = False
-'    Else
-'        thisZorder = clockForm.Widgets.GetOneBasedChildIndexByKey("displayScreen")
-'
-'        ' set some Font and ForeColor Properties and draw some Text on the Widget
-'        Set lblTerminalText = clockForm.Widgets.Add(New_W("cwLabel"), "lblTerminalText", 423, 74, 220, 165, True, thisZorder + 1)
-'
-'        With lblTerminalText
-'            .Widget.FontSize = gblDisplayScreenFontSize
-'            .Widget.FontName = gblDisplayScreenFont
-'            .Widget.ForeColor = grey
-'            .Widget.Alpha = someOpacity
-'            .Widget.FontBold = False
-'            .borderWidth = 0
-'            .WordWrap = True
-'            .VAlign = 0
-'            .Alignment = 0
-'            .Widget.BackColor = -1
-'        End With
-'
-'        ' tell the screenwrite util that the clockform is available to write console events to
-'        gblFClockAvailable = True
-'    End If
+    If InIDE = True Then
+        ' tell the screenwrite util that the clockform is NOT available to write console events to
+        gblFClockAvailable = False
+    Else
+        thisZorder = clockForm.Widgets.GetOneBasedChildIndexByKey("displayScreen")
+
+        ' set some Font and ForeColor Properties and draw some Text on the Widget
+        Set lblTerminalText = clockForm.Widgets.Add(New_W("cwLabel"), "lblTerminalText", 423, 74, 220, 165, True, thisZorder + 1)
+
+        'MsgBox "*" & gblDisplayScreenFont & "*"
+        With lblTerminalText
+            .Widget.FontSize = gblDisplayScreenFontSize
+            .Widget.FontName = gblDisplayScreenFont
+            .Widget.ForeColor = grey
+            .Widget.Alpha = someOpacity
+            .Widget.FontBold = False
+            .borderWidth = 0
+            .WordWrap = True
+            .VAlign = 0
+            .Alignment = 0
+            .Widget.BackColor = -1
+        End With
+
+        ' tell the screenwrite util that the clockform is available to write console events to
+        gblFClockAvailable = True
+    End If
     
     'the next 5 lines will init a "moving Slider" (which was defined as "sliderset"-layer in the PSD)
     Set sliderset = clockForm.Widgets("sliderset").Widget 'store the already (in PSD-Loop created) Widget-reference in an explicit "WithEvents-Variable"

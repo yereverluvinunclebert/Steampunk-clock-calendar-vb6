@@ -167,17 +167,18 @@ quiet/loud sounds
 ' when user changes prefs font in high DPI mode, a quick resize is required to obtain the new resized font again.
 ' width/height of messageboxA, stored after resize
 
+' replace cwlabel with another RC control and re-test too see if it crashes - it does
+' not always showing the currently used font for the screen display - wip
+' centre the clock hands more accurately, remove the hole and see what it is doing
+
 ' -oOo-
 
 Tasks to do:
 ============
 
-mute button not toggling out after a reload
+' mute button not toggling out after a press in and reload
 
-' replace cwlabel with another RC control and re-test too see if it crashes
-
-' fix IDE crash with creating label - forum post raised - wip
-'   test another control that can take text
+' fix IDE crash with creating label widget- forum post raised - wip
 
 ' after a digital reset set each to -- --  and ** *** **** one by one - wip
 '      possibly do the hrs, mins, days, month and years separately
@@ -187,7 +188,6 @@ mute button not toggling out after a reload
 ' slider advancing/retarding time using timeShiftPercent modified not quite exponentially to shift time - wip
 ' in the timer, take the value of timeShiftPercent and do what to it?
 
-' centre the clock hands more accurately, remomve the hole and see what it is doing
 
 ' add time machine functionality
 

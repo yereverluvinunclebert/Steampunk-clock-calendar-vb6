@@ -4759,7 +4759,7 @@ Private Sub btnDisplayScreenFont_Click()
         sPutINISetting "Software\SteampunkClockCalendar", "PrefsFontColour", gblDisplayScreenFontColour, gblSettingsFile
     End If
     
-    If fntFont = vbNullString Then fntFont = "arial"
+    If fntFont = vbNullString Then fntFont = "courier new"
     txtDisplayScreenFont.Text = fntFont
     txtDisplayScreenFont.Font.Name = fntFont
     txtDisplayScreenFont.Font.Italic = fntItalics
