@@ -148,6 +148,12 @@ Attribute glow.VB_VarHelpID = -1
 
 Private lblTerminalText As cwLabel
 
+' test labels, textboxes causing IDE crash
+Private newLabel As cwLabel
+Attribute newLabel.VB_VarHelpID = -1
+Private WithEvents textBox As cwTextBox
+Attribute textBox.VB_VarHelpID = -1
+
 'general vars
 
 Private pvtSldFixedTop As Double
@@ -321,6 +327,25 @@ Public Sub InitFromPSD(ByRef PSD_FileNameOrByteArray As Variant)
     'create the Top-Level-Form
     Set clockForm = Cairo.WidgetForms.Create(IIf(App.LogMode, AlphaNoTaskbarEntry, AlphaWithTaskbarEntry), widgetName, True, 1, 1)
         clockForm.WidgetRoot.BackColor = -1 ' transparent
+        
+                ' set some Font and ForeColor Properties and draw some Text on the Widget
+        Set lblTerminalText = clockForm.Widgets.Add(New_W("cwLabel"), "lblTerminalText", 423, 74, 220, 165, True)
+
+        With lblTerminalText
+            .Widget.FontSize = gblDisplayScreenFontSize
+            .Widget.FontName = gblDisplayScreenFont
+            .Widget.ForeColor = grey
+            .Widget.Alpha = someOpacity
+            .Widget.FontBold = False
+            .borderWidth = 0
+            .WordWrap = True
+            .VAlign = 0
+            .Alignment = 0
+            .Widget.BackColor = -1
+        End With
+
+        ' tell the screenwrite util that the clockform is available to write console events to
+        gblFClockAvailable = True
  
     With New_c.SimplePSD(PSD_FileNameOrByteArray)  'create a new PSD-Parser.instance (and load the passed content)
         pvtPSDWidth = .Width
@@ -362,33 +387,33 @@ Public Sub InitFromPSD(ByRef PSD_FileNameOrByteArray As Variant)
         overlayWidget.cxPerc = 0.645 'define the relative center (within cwOverlay, which has the same size as the Form and the PSD...) this is used for clock-hand-positioning
         overlayWidget.cyPerc = 0.334
         
-        
     ' I have had to add a test for running in the IDE, if run here it will cause the IDE to crash at fClock.clockForm.show, works fine as a binary
-    If InIDE = False Then
+'    If InIDE = True Then
+'        ' tell the screenwrite util that the clockform is NOT available to write console events to
+'        gblFClockAvailable = False
+'    Else
+'        thisZorder = clockForm.Widgets.GetOneBasedChildIndexByKey("displayScreen")
+'
+'        ' set some Font and ForeColor Properties and draw some Text on the Widget
+'        Set lblTerminalText = clockForm.Widgets.Add(New_W("cwLabel"), "lblTerminalText", 423, 74, 220, 165, True, thisZorder + 1)
+'
+'        With lblTerminalText
+'            .Widget.FontSize = gblDisplayScreenFontSize
+'            .Widget.FontName = gblDisplayScreenFont
+'            .Widget.ForeColor = grey
+'            .Widget.Alpha = someOpacity
+'            .Widget.FontBold = False
+'            .borderWidth = 0
+'            .WordWrap = True
+'            .VAlign = 0
+'            .Alignment = 0
+'            .Widget.BackColor = -1
+'        End With
+'
+'        ' tell the screenwrite util that the clockform is available to write console events to
+'        gblFClockAvailable = True
+'    End If
     
-        thisZorder = clockForm.Widgets.GetOneBasedChildIndexByKey("displayScreen")
-        
-    '    set some Font and ForeColor Properties and draw some Text on the Widget
-        Set lblTerminalText = clockForm.Widgets.Add(New_W("cwLabel"), "lblTerminalText", 423, 74, 220, 165, True, thisZorder + 1)
-    
-        lblTerminalText.Widget.FontSize = gblDisplayScreenFontSize
-        lblTerminalText.Widget.FontName = gblDisplayScreenFont
-        lblTerminalText.Widget.ForeColor = grey
-        lblTerminalText.Widget.Alpha = someOpacity
-
-        lblTerminalText.Widget.FontBold = False
-        lblTerminalText.borderWidth = 0
-        lblTerminalText.WordWrap = True
-        lblTerminalText.VAlign = 0
-        lblTerminalText.Alignment = 0
-        lblTerminalText.Widget.BackColor = -1
-
-        ' tell the screenwrite util that the clockform is now available to write console events to
-        gblFClockAvailable = True
-    Else
-        gblFClockAvailable = False
-    End If
-
     'the next 5 lines will init a "moving Slider" (which was defined as "sliderset"-layer in the PSD)
     Set sliderset = clockForm.Widgets("sliderset").Widget 'store the already (in PSD-Loop created) Widget-reference in an explicit "WithEvents-Variable"
         
@@ -398,6 +423,7 @@ Public Sub InitFromPSD(ByRef PSD_FileNameOrByteArray As Variant)
         .MousePointer = IDC_HAND
         .Tag = 0.01
     End With
+    
     
     pvtSldFixedTop = sliderset.Top   'and store the initial position-data for y-direction (which will not be changed)
     pvtSldXMax = sliderset.Left      'as well as the x-direction related pos (which is initially at the "100%-Volume, right-endswitch" )
@@ -442,13 +468,10 @@ Public Sub InitFromPSD(ByRef PSD_FileNameOrByteArray As Variant)
     Set pendulumtransparent = clockForm.Widgets("pendulumtransparent").Widget
 
     Set glow = clockForm.Widgets("glow").Widget
-    
-'    If gblDisplayScreenToggleEnabled = "True" Then
-'    For a = 0 To 14
-'        CC.DrawText 423, position, 220, 20, gblTerminalRows(a), , , 2, True, , someOpacity
-'        position = position - interval
-'    Next a
-
+        
+    ' test labels and textboxes causing IDE crash
+    'Set newLabel = clockForm.Widgets.Add(New_W("cwLabel"), "lblNewLabel", 423, 74, 220, 165, True)
+    'Set textBox = clockForm.Widgets.Add(New_W("cwTextBox"), "textBox", 50, 60, 440, 280)
 
     
     On Error GoTo 0
@@ -2436,7 +2459,7 @@ End Sub
 '                alter the size of the form to correspond to the monitor
 '---------------------------------------------------------------------------------------
 '
-Private Sub clockForm_MouseUp(ByRef Button As Integer, ByRef Shift As Integer, ByRef X As Single, ByRef Y As Single)
+Private Sub clockForm_MouseUp(ByRef Button As Integer, ByRef Shift As Integer, ByRef x As Single, ByRef y As Single)
 
     On Error GoTo clockForm_MouseUp_Error
     
@@ -2471,8 +2494,8 @@ End Sub
 ' Purpose   :
 '---------------------------------------------------------------------------------------
 '
-Private Sub clockForm_MouseMove(ByRef Button As Integer, ByRef Shift As Integer, ByRef X As Single, ByRef Y As Single)
-  Static x0 As Single, y0 As Single: If Button = 0 Then x0 = X: y0 = Y 'just store the offsets when no button is down
+Private Sub clockForm_MouseMove(ByRef Button As Integer, ByRef Shift As Integer, ByRef x As Single, ByRef y As Single)
+  Static x0 As Single, y0 As Single: If Button = 0 Then x0 = x: y0 = y 'just store the offsets when no button is down
   
    On Error GoTo clockForm_MouseMove_Error
     
@@ -2481,8 +2504,8 @@ Private Sub clockForm_MouseMove(ByRef Button As Integer, ByRef Shift As Integer,
 
     If Button = vbLeftButton And Not clockForm.ActiveWidget Is Nothing Then 'Form-Dragging (under certain conditions)
 
-      FX = (X - x0) * clockForm.WidgetRoot.Zoom + clockForm.Left
-      FY = (Y - y0) * clockForm.WidgetRoot.Zoom + clockForm.Top
+      FX = (x - x0) * clockForm.WidgetRoot.Zoom + clockForm.Left
+      FY = (y - y0) * clockForm.WidgetRoot.Zoom + clockForm.Top
       clockForm.Move FX, FY
       
       Debug.Print "FX " & FX
@@ -2572,7 +2595,7 @@ End Sub
 ' Purpose   :
 '---------------------------------------------------------------------------------------
 '
-Private Sub clockForm_MouseDown(ByRef Button As Integer, ByRef Shift As Integer, ByRef X As Single, ByRef Y As Single)
+Private Sub clockForm_MouseDown(ByRef Button As Integer, ByRef Shift As Integer, ByRef x As Single, ByRef y As Single)
    On Error GoTo W_MouseDown_Error
 
     frmTimer.tmrScreenResolution.Enabled = False

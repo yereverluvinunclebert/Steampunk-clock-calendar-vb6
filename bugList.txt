@@ -172,6 +172,8 @@ quiet/loud sounds
 Tasks to do:
 ============
 
+mute button not toggling out after a reload
+
 ' replace cwlabel with another RC control and re-test too see if it crashes
 
 ' fix IDE crash with creating label - forum post raised - wip

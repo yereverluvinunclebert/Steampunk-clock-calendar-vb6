@@ -577,7 +577,7 @@ Private Sub writeCaption(ByVal interimText As String)
 
    On Error GoTo writeCaption_Error
 
-    fClock.clockForm.Widgets("lblTerminalText").Caption = interimText
+    If gblFClockAvailable = True Then fClock.clockForm.Widgets("lblTerminalText").Caption = interimText
 
    On Error GoTo 0
    Exit Sub
