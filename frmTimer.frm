@@ -17,11 +17,10 @@ Begin VB.Form frmTimer
       Tag             =   "stores and compares the last time to see if the PC has slept"
       Top             =   1575
    End
-   Begin VB.Timer settingsTimer 
+   Begin VB.Timer unhideTimer 
       Enabled         =   0   'False
       Interval        =   6000
       Left            =   90
-      Tag             =   "settingsTimer for reading external changes to prefs"
       Top             =   1095
    End
    Begin VB.Timer tmrScreenResolution 
@@ -82,6 +81,13 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+'---------------------------------------------------------------------------------------
+' Module    : frmTimer
+' Author    : beededea
+' Date      : 25/10/2024
+' Purpose   :
+'---------------------------------------------------------------------------------------
+
 '@IgnoreModule ModuleWithoutFolder
 Option Explicit
 
@@ -128,6 +134,8 @@ revealWidgetTimer_Timer_Error:
           End If
     End With
 End Sub
+
+
 
 
 '---------------------------------------------------------------------------------------
@@ -179,20 +187,19 @@ End Sub
 
 
 '---------------------------------------------------------------------------------------
-' Procedure : settingsTimer_Timer
+' Procedure : unhideTimer_Timer
 ' Author    : beededea
 ' Date      : 13/05/2023
 ' Purpose   : if the unhide setting is set by another process it will unhide the widget
 '---------------------------------------------------------------------------------------
 '
-Private Sub settingsTimer_Timer()
+Private Sub unhideTimer_Timer()
     
-    On Error GoTo settingsTimer_Timer_Error
+    On Error GoTo unhideTimer_Timer_Error
 
     gblUnhide = fGetINISetting("Software\SteampunkClockCalendar", "unhide", gblSettingsFile)
 
     If gblUnhide = "true" Then
-        'overlayWidget.Hidden = False
         fClock.clockForm.Visible = True
         sPutINISetting "Software\SteampunkClockCalendar", "unhide", vbNullString, gblSettingsFile
     End If
@@ -200,11 +207,11 @@ Private Sub settingsTimer_Timer()
     On Error GoTo 0
     Exit Sub
 
-settingsTimer_Timer_Error:
+unhideTimer_Timer_Error:
 
     With Err
          If .Number <> 0 Then
-            MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure settingsTimer_Timer of Form frmTimer"
+            MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure unhideTimer_Timer of Form frmTimer"
             Resume Next
           End If
     End With
@@ -223,7 +230,8 @@ End Sub
 '
 Private Sub sleepTimer_Timer()
     Dim strTimeNow As Date: strTimeNow = #1/1/2000 12:00:00 PM#  'set a variable to compare for the NOW time
-    Dim lngSecondsGap As Long: lngSecondsGap = 0  ' set a variable for the difference in time
+    Dim lngSecondsGap As Double: lngSecondsGap = 0  ' set a variable for the difference in time
+    
     Static strTimeThen As Date
     
     On Error GoTo sleepTimer_Timer_Error

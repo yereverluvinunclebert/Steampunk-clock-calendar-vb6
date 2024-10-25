@@ -1525,7 +1525,7 @@ Private Sub configureTimers()
     oldgblSettingsModificationTime = FileDateTime(gblSettingsFile)
 
     frmTimer.tmrScreenResolution.Enabled = True
-    frmTimer.settingsTimer.Enabled = True
+    frmTimer.unhideTimer.Enabled = True
 
     On Error GoTo 0
     Exit Sub

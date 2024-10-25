@@ -2425,50 +2425,6 @@ End Sub
 
 
 
-'---------------------------------------------------------------------------------------
-' Procedure : settingsTimer_Timer
-' Author    : beededea
-' Date      : 03/03/2023
-' Purpose   : Checking the date/time of the settings.ini file meaning that another tool has edited the settings
-'---------------------------------------------------------------------------------------
-' this has to be in a shared module and not in the prefs form as it will be running in the normal context woithout prefs showing.
-
-Private Sub settingsTimer_Timer()
-
-    Dim timeDifferenceInSecs As Long: timeDifferenceInSecs = 0 ' max 86 years as a LONG in secs
-    Dim settingsModificationTime As Date: settingsModificationTime = #1/1/2000 12:00:00 PM#
-    
-    On Error GoTo settingsTimer_Timer_Error
-
-    If Not fFExists(gblSettingsFile) Then
-        MsgBox ("%Err-I-ErrorNumber 13 - FCW was unable to access the dock settings ini file. " & vbCrLf & gblSettingsFile)
-        Exit Sub
-    End If
-    
-    ' check the settings.ini file date/time
-    settingsModificationTime = FileDateTime(gblSettingsFile)
-    timeDifferenceInSecs = Int(DateDiff("s", oldgblSettingsModificationTime, settingsModificationTime))
-
-    ' if the settings.ini has been modified then reload the map
-    If timeDifferenceInSecs > 1 Then
-
-        oldgblSettingsModificationTime = settingsModificationTime
-        
-    End If
-    
-    On Error GoTo 0
-    Exit Sub
-
-settingsTimer_Timer_Error:
-
-    With Err
-         If .Number <> 0 Then
-            MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure settingsTimer_Timer of Form module1.bas"
-            Resume Next
-          End If
-    End With
-End Sub
-
 
 
 

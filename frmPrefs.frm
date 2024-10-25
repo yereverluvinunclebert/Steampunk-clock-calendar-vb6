@@ -4993,7 +4993,6 @@ Private Sub populatePrefsComboBoxes()
     cmbHidingTime.AddItem "I hour", 5
     cmbHidingTime.ItemData(5) = 60
     
-
     ' populate the multi monitor combobox
     cmbMultiMonitorResize.AddItem "Disabled", 0
     cmbMultiMonitorResize.ItemData(0) = 0
@@ -5001,8 +5000,6 @@ Private Sub populatePrefsComboBoxes()
     cmbMultiMonitorResize.ItemData(1) = 1
     cmbMultiMonitorResize.AddItem "Manual Sizing Stored Per Monitor", 2
     cmbMultiMonitorResize.ItemData(2) = 2
-
-    
     
     On Error GoTo 0
     Exit Sub
@@ -5285,12 +5282,6 @@ Private Sub fraAbout_MouseMove(Button As Integer, Shift As Integer, x As Single,
     If gblEnablePrefsBalloonTooltips = "True" Then CreateToolTip fraAbout.hWnd, "The About tab tells you all about this program and its creation using VB6.", _
                   TTIconInfo, "Help on the About Tab", , , , True
 End Sub
-
-
-
-
-
-
 Private Sub fraConfigInner_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
     If Button = 2 Then
         Me.PopupMenu prefsMnuPopmenu, vbPopupMenuRightButton
@@ -5299,7 +5290,6 @@ End Sub
 Private Sub fraConfigInner_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
     If gblEnablePrefsBalloonTooltips = "True" Then CreateToolTip fraConfigInner.hWnd, "The configuration panel is the location for optional configuration items. These items change how the widget operates, configure them to suit your needs and your mode of operation.", _
                   TTIconInfo, "Help on Configuration", , , , True
-
 End Sub
 Private Sub fraConfig_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
     If Button = 2 Then
@@ -5309,13 +5299,11 @@ End Sub
 Private Sub fraConfig_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
     If gblEnablePrefsBalloonTooltips = "True" Then CreateToolTip fraConfig.hWnd, "The configuration panel is the location for important configuration items. These items change how the widget operates, configure them to suit your needs and your mode of operation.", _
                   TTIconInfo, "Help on Configuration", , , , True
-
 End Sub
 
 Private Sub fraDefaultEditor_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
     lblGitHub.ForeColor = &H80000012
 End Sub
-
 Private Sub fraDevelopment_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
     If Button = 2 Then
         Me.PopupMenu prefsMnuPopmenu, vbPopupMenuRightButton
@@ -5325,8 +5313,6 @@ Private Sub fraDevelopment_MouseMove(Button As Integer, Shift As Integer, x As S
     If gblEnablePrefsBalloonTooltips = "True" Then CreateToolTip fraDevelopment.hWnd, "This tab contains elements that will assist in debugging and developing this program further. ", _
                   TTIconInfo, "Help on the Development Tab", , , , True
 End Sub
-
-
 Private Sub fraDevelopmentInner_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
     If Button = 2 Then
         Me.PopupMenu prefsMnuPopmenu, vbPopupMenuRightButton
@@ -5512,21 +5498,14 @@ Private Sub lblGitHub_MouseMove(Button As Integer, Shift As Integer, x As Single
     lblGitHub.ForeColor = &H8000000D
 End Sub
 
-
-
 Private Sub sliGaugeSize_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
     If gblEnablePrefsBalloonTooltips = "True" Then CreateToolTip sliGaugeSize.hWnd, "Adjust to a percentage of the original size. Any adjustment in size made here takes place instantly (you can also use Ctrl+Mousewheel when hovering over the clock itself).", _
                   TTIconInfo, "Help on the Size Slider", , , , True
-
 End Sub
 
 Private Sub sliOpacity_Change()
     btnSave.Enabled = True ' enable the save button
 End Sub
-
-
-
-
 Private Sub sliOpacity_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
     If gblEnablePrefsBalloonTooltips = "True" Then CreateToolTip sliOpacity.hWnd, "Sliding this causes the program's opacity to change from solidly opaque to fully transparent or some way in-between. Seemingly, a strange option for a windows program, a useful left-over from the Yahoo Widgets days that offered this additional option. Replicated here as a homage to the old widget platform.", _
                   TTIconInfo, "Help on the Opacity Slider", , , , True
