@@ -154,10 +154,10 @@ Private Sub Form_Load()
     
     'MsgBox "Form_Load"
     
-    If gblMessageAHeightTwips = "" Then gblMessageAHeightTwips = (physicalScreenHeightTwips / 5.5)
+    If gblMessageAHeightTwips = "" Then gblMessageAHeightTwips = physicalScreenHeightTwips / 5.5
     
-    msgBoxACurrentWidth = gblMessageAWidthTwips
-    msgBoxACurrentHeight = gblMessageAHeightTwips
+    msgBoxACurrentWidth = Val(gblMessageAWidthTwips)
+    msgBoxACurrentHeight = Val(gblMessageAHeightTwips)
     
         
     'If gblDpiAwareness = "1" Then
