@@ -172,6 +172,8 @@ quiet/loud sounds
 ' centre the clock hands more accurately, remove the hole and see what it is doing
 ' not writing the wake after sleep to the screen display
 
+' fix IDE crash with creating label widget- forum post raised
+
 ' -oOo-
 
 Tasks to do:
@@ -179,9 +181,7 @@ Tasks to do:
 
 ' mute button not toggling out after a press in and reload
 
-' fix IDE crash with creating label widget- forum post raised - wip
-
-' height of the label widget according to the font size to ensure the text appears on screen
+'number of writeable lines in the label widget according to the font size to ensure the text appears on screen
 
 ' after a digital reset set each to -- --  and ** *** **** one by one - wip
 '      possibly do the hrs, mins, days, month and years separately

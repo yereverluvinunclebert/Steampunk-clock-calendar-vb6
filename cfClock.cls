@@ -773,7 +773,7 @@ Private Sub clockForm_BubblingEvent(ByRef sender As Object, ByRef EventName As S
     If EventName = "W_DblClick" Then
         Select Case LCase$(sender.Widget.Key)
             Case "clockset"
-                Call screenWrite(".")
+                Call clockset_myDblClick
         End Select
     End If
     
@@ -811,6 +811,38 @@ clockForm_BubblingEvent_Error:
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure clockForm_BubblingEvent of Class Module cfClock"
 End Sub
 
+'---------------------------------------------------------------------------------------
+' Procedure : clockset_myDblClick
+' Author    : beededea
+' Date      : 27/10/2024
+' Purpose   :
+'---------------------------------------------------------------------------------------
+'
+Private Sub clockset_myDblClick()
+    Dim fileToPlay As String: fileToPlay = vbNullString
+   
+    On Error GoTo clockset_myDblClick_Error
+
+    Call screenWrite(".")
+    
+    If gblVolumeBoost = "1" Then
+        fileToPlay = "creturn.wav"
+    Else
+        fileToPlay = "creturn-quiet.wav"
+    End If
+
+    If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
+        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
+    End If
+
+   On Error GoTo 0
+   Exit Sub
+
+clockset_myDblClick_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure clockset_myDblClick of Class Module cfClock"
+                
+End Sub
 '---------------------------------------------------------------------------------------
 ' Procedure : redalarmcover_myMouseDown
 ' Author    : beededea
@@ -1851,28 +1883,7 @@ mutetoggle_myMouseDown_Error:
 End Sub
 
 
-
 '---------------------------------------------------------------------------------------
-' Procedure : clockset_myDblClick
-' Author    : beededea
-' Date      : 03/08/2023
-' Purpose   :
-'---------------------------------------------------------------------------------------
-'
-Private Sub clockset_myDblClick()
-
-    On Error GoTo clockset_myDblClick_Error
-
-    clockForm.Refresh
-
-   On Error GoTo 0
-   Exit Sub
-
-clockset_myDblClick_Error:
-
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure clockset_myDblClick of Class Module cfClock"
-
-End Sub '---------------------------------------------------------------------------------------
 ' Procedure : pendulumtoggle_myMouseDown
 ' Author    : beededea
 ' Date      : 03/08/2023
