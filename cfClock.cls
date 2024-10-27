@@ -369,35 +369,26 @@ Public Sub InitFromPSD(ByRef PSD_FileNameOrByteArray As Variant)
     Set overlayWidget.cCollOverlayImages = collPSDNonUIElements 'make the excluded PSD-Surface-Paths known to the Overlay-Widget
         overlayWidget.cxPerc = 0.645 'define the relative center (within cwOverlay, which has the same size as the Form and the PSD...) this is used for clock-hand-positioning
         overlayWidget.cyPerc = 0.334
-        
-    ' I have had to add a test for running in the IDE, if run here it will cause the IDE to crash at fClock.clockForm.show, works fine as a binary
-    If InIDE = True Then
-        ' tell the screenwrite util that the clockform is NOT available to write console events to
-        gblFClockAvailable = False
-        
-    Else
-        thisZorder = clockForm.Widgets.GetOneBasedChildIndexByKey("displayScreen")
 
-        ' set some Font and ForeColor Properties and draw some Text on the Widget
-        Set lblTerminalText = clockForm.Widgets.Add(New_W("cwLabel"), "lblTerminalText", 423, 74, 220, 165, True, thisZorder + 1)
+    thisZorder = clockForm.Widgets.GetOneBasedChildIndexByKey("displayScreen")
 
-        'MsgBox "*" & gblDisplayScreenFont & "*"
-        With lblTerminalText
-            .Widget.FontSize = gblDisplayScreenFontSize
-            .Widget.FontName = gblDisplayScreenFont
-            .Widget.ForeColor = grey
-            .Widget.Alpha = someOpacity
-            .Widget.FontBold = False
-            .borderWidth = 0
-            .WordWrap = True
-            .VAlign = 0
-            .Alignment = 0
-            .Widget.BackColor = -1
-        End With
+    ' set some Font and ForeColor Properties and draw some Text on the Widget
+    Set lblTerminalText = clockForm.Widgets.Add(New_W("cwLabel"), "lblTerminalText", 423, 74, 220, 165, True, thisZorder + 1)
 
-        ' tell the screenwrite util that the clockform is available to write console events to
-        gblFClockAvailable = True
-    End If
+    With lblTerminalText
+        .Widget.FontSize = gblDisplayScreenFontSize
+        .Widget.FontName = gblDisplayScreenFont
+        .Widget.ForeColor = grey
+        .Widget.Alpha = someOpacity
+        .Widget.FontBold = False
+        .borderWidth = 0
+        .WordWrap = True
+        .VAlign = 0
+        .Alignment = 0
+        .Widget.BackColor = -1
+    End With
+    
+    gblFClockAvailable = True
     
     'the next 5 lines will init a "moving Slider" (which was defined as "sliderset"-layer in the PSD)
     Set sliderset = clockForm.Widgets("sliderset").Widget 'store the already (in PSD-Loop created) Widget-reference in an explicit "WithEvents-Variable"
@@ -452,14 +443,7 @@ Public Sub InitFromPSD(ByRef PSD_FileNameOrByteArray As Variant)
     Set helpdropdown = clockForm.Widgets("helpdropdown").Widget
     Set pendulumtransparent = clockForm.Widgets("pendulumtransparent").Widget
     Set clockset = clockForm.Widgets("clockset").Widget
-    
-
     Set glow = clockForm.Widgets("glow").Widget
-        
-    ' test labels and textboxes causing IDE crash
-    'Set newLabel = clockForm.Widgets.Add(New_W("cwLabel"), "lblNewLabel", 423, 74, 220, 165, True)
-    'Set textBox = clockForm.Widgets.Add(New_W("cwTextBox"), "textBox", 50, 60, 440, 280)
-
     
     On Error GoTo 0
    Exit Sub
