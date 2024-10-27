@@ -374,6 +374,7 @@ Public Sub InitFromPSD(ByRef PSD_FileNameOrByteArray As Variant)
     If InIDE = True Then
         ' tell the screenwrite util that the clockform is NOT available to write console events to
         gblFClockAvailable = False
+        
     Else
         thisZorder = clockForm.Widgets.GetOneBasedChildIndexByKey("displayScreen")
 
