@@ -94,14 +94,6 @@ Option Explicit
 
 
 
-
-
-
-
-
-
-
-
 '---------------------------------------------------------------------------------------
 ' Procedure : revealWidgetTimer_Timer
 ' Author    : beededea
@@ -245,10 +237,14 @@ Private Sub sleepTimer_Timer()
     strTimeThen = Now()
 
     If lngSecondsGap > 60 Then
-        Call screenWrite("system has just woken up from a sleep, updating... ")
-        
+        'MsgBox "system has just woken up from a sleep, updating... " & gblFClockAvailable
         triggerDigitalClockPopulation = True
         overlayWidget.Widget.Parent.Refresh
+      
+        gblFClockAvailable = True
+        Call screenWrite("system has just woken up from a sleep, updating... ")
+        fClock.clockForm.Refresh
+        
     End If
     
     sleepTimer.Enabled = True

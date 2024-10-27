@@ -1672,7 +1672,7 @@ Private Sub tollbell()
         End If
         
         countdownToToll = countdownToToll + 1
-        screenWrite ("Tolling bell for " & tollhours & " o'clock")
+        screenWrite ("Tolling bell for " & tollhours & " o'clock, chime no." & tollCount)
     Else
         ' pause for 16 seconds (8 x tmrTollTimer_Timer.interval (2s)) prior to bell tolling to match the coming of the hour
         countdownToToll = countdownToToll + 1
@@ -1683,6 +1683,7 @@ Private Sub tollbell()
      If (countdownToToll >= tollhours + 8) Then
             tmrTollTimer.Enabled = False
             countdownToToll = 0
+            tollCount = 0
             screenWrite ("Just struck " & tollhours & " o'clock")
      End If
 

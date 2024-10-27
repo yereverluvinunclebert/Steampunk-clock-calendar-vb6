@@ -168,8 +168,9 @@ quiet/loud sounds
 ' width/height of messageboxA, stored after resize
 
 ' replace cwlabel with another RC control and re-test too see if it crashes - it does
-' not always showing the currently used font for the screen display - wip
+' not always showing the currently used font for the screen display
 ' centre the clock hands more accurately, remove the hole and see what it is doing
+' not writing the wake after sleep to the screen display
 
 ' -oOo-
 
@@ -180,6 +181,8 @@ Tasks to do:
 
 ' fix IDE crash with creating label widget- forum post raised - wip
 
+' height of the label widget according to the font size to ensure the text appears on screen
+
 ' after a digital reset set each to -- --  and ** *** **** one by one - wip
 '      possibly do the hrs, mins, days, month and years separately
 
@@ -187,7 +190,6 @@ Tasks to do:
 
 ' slider advancing/retarding time using timeShiftPercent modified not quite exponentially to shift time - wip
 ' in the timer, take the value of timeShiftPercent and do what to it?
-
 
 ' add time machine functionality
 

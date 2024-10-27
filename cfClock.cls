@@ -145,6 +145,8 @@ Private WithEvents pendulumtransparent As cWidgetBase
 Attribute pendulumtransparent.VB_VarHelpID = -1
 Private WithEvents glow As cWidgetBase
 Attribute glow.VB_VarHelpID = -1
+Private WithEvents clockset As cWidgetBase
+Attribute clockset.VB_VarHelpID = -1
 
 Private lblTerminalText As cwLabel
 
@@ -448,6 +450,8 @@ Public Sub InitFromPSD(ByRef PSD_FileNameOrByteArray As Variant)
     Set bellset = clockForm.Widgets("bellset").Widget
     Set helpdropdown = clockForm.Widgets("helpdropdown").Widget
     Set pendulumtransparent = clockForm.Widgets("pendulumtransparent").Widget
+    Set clockset = clockForm.Widgets("clockset").Widget
+    
 
     Set glow = clockForm.Widgets("glow").Widget
         
@@ -528,6 +532,9 @@ Private Sub clockForm_BubblingEvent(ByRef sender As Object, ByRef EventName As S
             Case "pendulumtoggle"
                 If gblEnableBalloonTooltips = "True" Then CreateToolTip clockForm.hWnd, "Stop/start the pendulum by clicking on it.", _
                      TTIconInfo, widgetName & " Pendulum Toggle Help", , , , True
+            Case "clockset"
+                If gblEnableBalloonTooltips = "True" Then CreateToolTip clockForm.hWnd, "Refresh the whole clock by double-clicking on it.", _
+                     TTIconInfo, widgetName & " Clock face Help", , , , True
             Case "pendulumtransparent"
                 If gblEnableBalloonTooltips = "True" Then CreateToolTip clockForm.hWnd, "Stop/start the pendulum.", _
                      TTIconInfo, widgetName & " Pendulum Help", , , , True
@@ -775,6 +782,13 @@ Private Sub clockForm_BubblingEvent(ByRef sender As Object, ByRef EventName As S
                 Call redalarmcover_myMouseDown
             Case Else
                 Debug.Print sender.Widget.Key
+        End Select
+    End If
+    
+    If EventName = "W_DblClick" Then
+        Select Case LCase$(sender.Widget.Key)
+            Case "clockset"
+                Call screenWrite(".")
         End Select
     End If
     
@@ -1851,7 +1865,29 @@ mutetoggle_myMouseDown_Error:
 
 End Sub
 
+
+
 '---------------------------------------------------------------------------------------
+' Procedure : clockset_myDblClick
+' Author    : beededea
+' Date      : 03/08/2023
+' Purpose   :
+'---------------------------------------------------------------------------------------
+'
+Private Sub clockset_myDblClick()
+
+    On Error GoTo clockset_myDblClick_Error
+
+    clockForm.Refresh
+
+   On Error GoTo 0
+   Exit Sub
+
+clockset_myDblClick_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure clockset_myDblClick of Class Module cfClock"
+
+End Sub '---------------------------------------------------------------------------------------
 ' Procedure : pendulumtoggle_myMouseDown
 ' Author    : beededea
 ' Date      : 03/08/2023
@@ -2780,6 +2816,8 @@ Public Property Let displayScreenToggleEnabled(ByVal newValue As Boolean)
         
         If backToggleEnabled = True Then screenbackground.Alpha = alphaVal
         gblDisplayScreenToggleEnabled = "True"
+        'fClock.clockForm.Widgets("lblTerminalText").Widget.Alpha = alphaVal
+        'clockForm.Widgets("lblTerminalText").Widget.Alpha = alphaVal
     Else
         
         displayscreentoggle.Move displayScreenToggleOut, displayScreenToggleTop
@@ -2789,6 +2827,8 @@ Public Property Let displayScreenToggleEnabled(ByVal newValue As Boolean)
         backtoggle.Alpha = 0
         screenbackground.Alpha = 0
         gblDisplayScreenToggleEnabled = "False"
+        'clockForm.Widgets("lblTerminalText").Widget.Alpha = alphaVal
+        'fClock.clockForm.Widgets("lblTerminalText").Widget.Alpha = 0
     End If
     
     sPutINISetting "Software\SteampunkClockCalendar", "displayScreenToggleEnabled", gblDisplayScreenToggleEnabled, gblSettingsFile

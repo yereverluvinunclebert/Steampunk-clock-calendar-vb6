@@ -541,6 +541,7 @@ Sub screenWrite(screentext As String)
     
     On Error GoTo ScreenWrite_Error
 
+    ' move the existing screen text
     For a = 0 To 14
         gblTerminalRows(15 - a) = gblTerminalRows(15 - a - 1)
     Next
@@ -553,6 +554,10 @@ Sub screenWrite(screentext As String)
             interimText = interimText & gblTerminalRows(a) & vbCrLf
         Next a
     End If
+    
+'    If screentext = "system has just woken up from a sleep, updating... " Then
+'        MsgBox "gblDisplayScreenToggleEnabled " & gblDisplayScreenToggleEnabled & vbCrLf & vbCrLf & " interimtext = " & interimText & vbCrLf & vbCrLf & "gblFClockAvailable = " & gblFClockAvailable
+'    End If
     
      ' Test to see whether the clockform is available to write console events to...
      If gblFClockAvailable = True Then Call writeCaption(interimText)
@@ -577,8 +582,9 @@ Private Sub writeCaption(ByVal interimText As String)
 
    On Error GoTo writeCaption_Error
 
-    If gblFClockAvailable = True Then fClock.clockForm.Widgets("lblTerminalText").Caption = interimText
-
+    fClock.clockForm.Widgets("lblTerminalText").Caption = interimText
+    'fClock.clockForm.Widgets("lblTerminalText").Widget.Refresh
+    
    On Error GoTo 0
    Exit Sub
 
