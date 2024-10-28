@@ -383,7 +383,6 @@ Public Sub InitFromPSD(ByRef PSD_FileNameOrByteArray As Variant)
         .Widget.FontBold = False
         .borderWidth = 0
         .WordWrap = True
-        .VAlign = 0
         .Alignment = 0
         .Widget.BackColor = -1
     End With
@@ -518,13 +517,13 @@ Private Sub clockForm_BubblingEvent(ByRef sender As Object, ByRef EventName As S
                 If gblEnableBalloonTooltips = "True" Then CreateToolTip clockForm.hWnd, "Stop/start the pendulum by clicking on it.", _
                      TTIconInfo, widgetName & " Pendulum Toggle Help", , , , True
             Case "clockset"
-                If gblEnableBalloonTooltips = "True" Then CreateToolTip clockForm.hWnd, "Refresh the whole clock by double-clicking on it.", _
+                If gblEnableBalloonTooltips = "True" Then CreateToolTip clockForm.hWnd, "Scroll up the display screen text by double-clicking on it - each time sending a carriage return to the screen.", _
                      TTIconInfo, widgetName & " Clock face Help", , , , True
             Case "pendulumtransparent"
                 If gblEnableBalloonTooltips = "True" Then CreateToolTip clockForm.hWnd, "Stop/start the pendulum.", _
                      TTIconInfo, widgetName & " Pendulum Help", , , , True
             Case "displayscreen"
-                If gblEnableBalloonTooltips = "True" Then CreateToolTip clockForm.hWnd, "To lower kinematoscope press S toggle.", _
+                If gblEnableBalloonTooltips = "True" Then CreateToolTip clockForm.hWnd, "To lower kinematoscope press S toggle. " & vbCrLf & vbCrLf & " To scroll the text display simply dblClick on the clock face.", _
                     TTIconInfo, widgetName & " Kinematoscope Toggle Help", , , , True
                 Call clearWeekdayTill
                 With clockForm.Widgets("redalarmcover").Widget

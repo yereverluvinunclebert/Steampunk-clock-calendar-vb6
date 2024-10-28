@@ -1331,13 +1331,6 @@ End Sub
 '---------------------------------------------------------------------------------------
 '
 Private Sub ShallWeRingAlarm()
-
-    ' cannot initialise a date, therefore using variants which allow a null
-'    Dim alarm1 As Variant: alarm1 = Null
-'    Dim alarm2 As Variant: alarm2 = Null
-'    Dim alarm3 As Variant: alarm3 = Null
-'    Dim alarm4 As Variant: alarm4 = Null
-'    Dim alarm5 As Variant: alarm5 = Null
     
     Dim lngSecondsGap As Double: lngSecondsGap = 0
 
@@ -1665,7 +1658,7 @@ Private Sub tollbell()
             End If
         End If
         
-        screenWrite ("Chiming using " & fileToPlay)
+        If tollCount = 1 Then screenWrite ("Chiming using " & fileToPlay)
         
         If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
             PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
