@@ -53,6 +53,30 @@ Begin VB.Form widgetPrefs
             TabIndex        =   148
             Top             =   2895
             Width           =   7320
+            Begin VB.ComboBox cmbAlarm5Day 
+               Height          =   315
+               Left            =   2115
+               Style           =   2  'Dropdown List
+               TabIndex        =   208
+               Top             =   2175
+               Width           =   525
+            End
+            Begin VB.ComboBox cmbAlarm4Day 
+               Height          =   315
+               Left            =   2115
+               Style           =   2  'Dropdown List
+               TabIndex        =   207
+               Top             =   1680
+               Width           =   525
+            End
+            Begin VB.ComboBox cmbAlarm3Day 
+               Height          =   315
+               Left            =   2115
+               Style           =   2  'Dropdown List
+               TabIndex        =   206
+               Top             =   1215
+               Width           =   525
+            End
             Begin VB.ComboBox cmbAlarm1Year 
                Height          =   315
                Left            =   3540
@@ -96,8 +120,8 @@ Begin VB.Form widgetPrefs
             Begin VB.ComboBox cmbAlarm2Day 
                Height          =   315
                Left            =   2115
+               Style           =   2  'Dropdown List
                TabIndex        =   200
-               Text            =   "1"
                Top             =   720
                Width           =   525
             End
@@ -2293,10 +2317,10 @@ Private gCmbWidgetPositionBalloonTooltip As String
 Private gCmbWidgetLandscapeBalloonTooltip As String
 Private gCmbWidgetPortraitBalloonTooltip As String
 Private gCmbDebugBalloonTooltip As String
-Private gCmbAlarm1DayBalloonTooltip As String
-Private gCmbAlarm1MonthBalloonTooltip As String
-Private gCmbAlarm1YearBalloonTooltip As String
-Private gCmbAlarm1HoursBalloonTooltip As String
+Private cmbAlarmDayDayBalloonTooltip As String
+Private cmbAlarmDayMonthBalloonTooltip As String
+Private cmbAlarmDayYearBalloonTooltip As String
+Private cmbAlarmDayHoursBalloonTooltip As String
 
 Private gPrefsFormResizedByDrag As Boolean
 
@@ -3127,6 +3151,11 @@ Private Sub subClassControls()
         Call SubclassComboBox(cmbDebug.hWnd, ObjPtr(cmbDebug))
         
         Call SubclassComboBox(cmbAlarm1Day.hWnd, ObjPtr(cmbAlarm1Day))
+        Call SubclassComboBox(cmbAlarm2Day.hWnd, ObjPtr(cmbAlarm2Day))
+        Call SubclassComboBox(cmbAlarm3Day.hWnd, ObjPtr(cmbAlarm3Day))
+        Call SubclassComboBox(cmbAlarm4Day.hWnd, ObjPtr(cmbAlarm4Day))
+        Call SubclassComboBox(cmbAlarm5Day.hWnd, ObjPtr(cmbAlarm5Day))
+        
         Call SubclassComboBox(cmbAlarm1Month.hWnd, ObjPtr(cmbAlarm1Month))
         Call SubclassComboBox(cmbAlarm1Year.hWnd, ObjPtr(cmbAlarm1Year))
         Call SubclassComboBox(cmbAlarm1Hours.hWnd, ObjPtr(cmbAlarm1Hours))
@@ -3196,19 +3225,36 @@ Public Sub MouseMoveOnComboText(sComboName As String)
         
         Case "cmbAlarm1Day"
             sTitle = "Help on Alarm Number One Day"
-            sText = gCmbAlarm1DayBalloonTooltip
+            sText = cmbAlarmDayDayBalloonTooltip
             If gblEnablePrefsBalloonTooltips = "True" Then CreateToolTip cmbAlarm1Day.hWnd, sText, , sTitle, , , , True
+        Case "cmbAlarm2Day"
+            sTitle = "Help on Alarm Number Two Day"
+            sText = cmbAlarmDayDayBalloonTooltip
+            If gblEnablePrefsBalloonTooltips = "True" Then CreateToolTip cmbAlarm2Day.hWnd, sText, , sTitle, , , , True
+        Case "cmbAlarm3Day"
+            sTitle = "Help on Alarm Number Three Day"
+            sText = cmbAlarmDayDayBalloonTooltip
+            If gblEnablePrefsBalloonTooltips = "True" Then CreateToolTip cmbAlarm3Day.hWnd, sText, , sTitle, , , , True
+        Case "cmbAlarm4Day"
+            sTitle = "Help on Alarm Number Four Day"
+            sText = cmbAlarmDayDayBalloonTooltip
+            If gblEnablePrefsBalloonTooltips = "True" Then CreateToolTip cmbAlarm4Day.hWnd, sText, , sTitle, , , , True
+        Case "cmbAlarm5Day"
+            sTitle = "Help on Alarm Number Five Day"
+            sText = cmbAlarmDayDayBalloonTooltip
+            If gblEnablePrefsBalloonTooltips = "True" Then CreateToolTip cmbAlarm5Day.hWnd, sText, , sTitle, , , , True
+        
         Case "cmbAlarm1Month"
             sTitle = "Help on Alarm Number One Month"
-            sText = gCmbAlarm1MonthBalloonTooltip
+            sText = cmbAlarmDayMonthBalloonTooltip
             If gblEnablePrefsBalloonTooltips = "True" Then CreateToolTip cmbAlarm1Month.hWnd, sText, , sTitle, , , , True
         Case "cmbAlarm1Year"
             sTitle = "Help on Alarm Number One Year"
-            sText = gCmbAlarm1YearBalloonTooltip
+            sText = cmbAlarmDayYearBalloonTooltip
             If gblEnablePrefsBalloonTooltips = "True" Then CreateToolTip cmbAlarm1Year.hWnd, sText, , sTitle, , , , True
         Case "cmbAlarm1Hours"
             sTitle = "Help on Alarm Number One Hour"
-            sText = gCmbAlarm1HoursBalloonTooltip
+            sText = cmbAlarmDayHoursBalloonTooltip
             If gblEnablePrefsBalloonTooltips = "True" Then CreateToolTip cmbAlarm1Hours.hWnd, sText, , sTitle, , , , True
     
 
@@ -5110,9 +5156,9 @@ Private Sub populatePrefsComboBoxes()
     ' add the day options to the day combobox
     Call fillComboAlarmDay(cmbAlarm1Day)
     Call fillComboAlarmDay(cmbAlarm2Day)
-    'Call fillComboAlarmDay(cmbAlarm3Day)
-    'Call fillComboAlarmDay(cmbAlarm4Day)
-    'Call fillComboAlarmDay(cmbAlarm5Day)
+    Call fillComboAlarmDay(cmbAlarm3Day)
+    Call fillComboAlarmDay(cmbAlarm4Day)
+    Call fillComboAlarmDay(cmbAlarm5Day)
     
     ' add the month options to the month combobox
     For useloop = 0 To 11
@@ -6292,10 +6338,10 @@ Public Sub setPrefsTooltips()
         
         gCmbDebugBalloonTooltip = "Here you can set debug mode. This will enable the editor field and allow you to assign a VBP file for the VB6 IDE editor"
         
-        gCmbAlarm1DayBalloonTooltip = "Enter a valid day of the month here. When you have entered both a date here and a time in the adjacent field, then click the > key to validate."
-        gCmbAlarm1MonthBalloonTooltip = "Enter a valid month here. When you have entered both a date here and a time in the adjacent field, then click the > key to validate."
-        gCmbAlarm1YearBalloonTooltip = "Enter a valid year here. When you have entered both a valid year here and a time in the adjacent fields, then click the > key to validate."
-        gCmbAlarm1HoursBalloonTooltip = "Enter a valid hour here by typing a future time in 24hr military format, eg: 23:45. When you have entered both a date in the previous fields and a time here in these two fields, then click the > key to validate."
+        cmbAlarmDayDayBalloonTooltip = "Enter a valid day of the month here. When you have entered both a date here and a time in the adjacent field, then click the > key to validate."
+        cmbAlarmDayMonthBalloonTooltip = "Enter a valid month here. When you have entered both a date here and a time in the adjacent field, then click the > key to validate."
+        cmbAlarmDayYearBalloonTooltip = "Enter a valid year here. When you have entered both a valid year here and a time in the adjacent fields, then click the > key to validate."
+        cmbAlarmDayHoursBalloonTooltip = "Enter a valid hour here by typing a future time in 24hr military format, eg: 23:45. When you have entered both a date in the previous fields and a time here in these two fields, then click the > key to validate."
     
     Else
         ' module level balloon tooltip variables for subclassed comboBoxes ONLY.
@@ -6310,11 +6356,11 @@ Public Sub setPrefsTooltips()
         gCmbWidgetPositionBalloonTooltip = vbNullString
         gCmbAspectHiddenBalloonTooltip = vbNullString
         gCmbDebugBalloonTooltip = vbNullString
-        gCmbAlarm1DayBalloonTooltip = vbNullString
-        gCmbAlarm1MonthBalloonTooltip = vbNullString
-        gCmbAlarm1YearBalloonTooltip = vbNullString
+        cmbAlarmDayDayBalloonTooltip = vbNullString
+        cmbAlarmDayMonthBalloonTooltip = vbNullString
+        cmbAlarmDayYearBalloonTooltip = vbNullString
         
-        gCmbAlarm1HoursBalloonTooltip = vbNullString
+        cmbAlarmDayHoursBalloonTooltip = vbNullString
         
         ' for some reason, the balloon tooltip on the checkbox used to dismiss the balloon tooltips does not disappear, this forces it go away.
         CreateToolTip optEnablePrefsBalloonTooltips.hWnd, "", _
