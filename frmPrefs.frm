@@ -53,11 +53,99 @@ Begin VB.Form widgetPrefs
             TabIndex        =   148
             Top             =   2895
             Width           =   7320
+            Begin VB.ComboBox cmbAlarm5Hours 
+               Height          =   315
+               Left            =   4395
+               Style           =   2  'Dropdown List
+               TabIndex        =   218
+               Top             =   2175
+               Width           =   525
+            End
+            Begin VB.ComboBox cmbAlarm4Hours 
+               Height          =   315
+               Left            =   4395
+               Style           =   2  'Dropdown List
+               TabIndex        =   217
+               Top             =   1680
+               Width           =   525
+            End
+            Begin VB.ComboBox cmbAlarm3Hours 
+               Height          =   315
+               Left            =   4395
+               Style           =   2  'Dropdown List
+               TabIndex        =   216
+               Top             =   1215
+               Width           =   525
+            End
+            Begin VB.ComboBox cmbAlarm2Hours 
+               Height          =   315
+               Left            =   4395
+               Style           =   2  'Dropdown List
+               TabIndex        =   215
+               Top             =   720
+               Width           =   525
+            End
+            Begin VB.ComboBox cmbAlarm5Year 
+               Height          =   315
+               Left            =   3555
+               Style           =   2  'Dropdown List
+               TabIndex        =   214
+               Top             =   2175
+               Width           =   750
+            End
+            Begin VB.ComboBox cmbAlarm4Year 
+               Height          =   315
+               Left            =   3555
+               Style           =   2  'Dropdown List
+               TabIndex        =   213
+               Top             =   1680
+               Width           =   750
+            End
+            Begin VB.ComboBox cmbAlarm3Year 
+               Height          =   315
+               Left            =   3555
+               Style           =   2  'Dropdown List
+               TabIndex        =   212
+               Top             =   1215
+               Width           =   750
+            End
+            Begin VB.ComboBox cmbAlarm2Year 
+               Height          =   315
+               Left            =   3555
+               Style           =   2  'Dropdown List
+               TabIndex        =   211
+               Top             =   720
+               Width           =   750
+            End
+            Begin VB.ComboBox cmbAlarm5Month 
+               Height          =   315
+               Left            =   2670
+               Style           =   2  'Dropdown List
+               TabIndex        =   210
+               Top             =   2175
+               Width           =   870
+            End
+            Begin VB.ComboBox cmbAlarm4Month 
+               Height          =   315
+               Left            =   2670
+               Style           =   2  'Dropdown List
+               TabIndex        =   209
+               Top             =   1680
+               Width           =   870
+            End
+            Begin VB.ComboBox cmbAlarm3Month 
+               Height          =   315
+               Left            =   2670
+               Style           =   2  'Dropdown List
+               TabIndex        =   208
+               Top             =   1215
+               Width           =   870
+            End
             Begin VB.ComboBox cmbAlarm5Day 
                Height          =   315
                Left            =   2115
                Style           =   2  'Dropdown List
-               TabIndex        =   208
+               TabIndex        =   207
                Top             =   2175
                Width           =   525
             End
@@ -65,7 +153,7 @@ Begin VB.Form widgetPrefs
                Height          =   315
                Left            =   2115
                Style           =   2  'Dropdown List
-               TabIndex        =   207
+               TabIndex        =   206
                Top             =   1680
                Width           =   525
             End
@@ -73,15 +161,15 @@ Begin VB.Form widgetPrefs
                Height          =   315
                Left            =   2115
                Style           =   2  'Dropdown List
-               TabIndex        =   206
+               TabIndex        =   205
                Top             =   1215
                Width           =   525
             End
             Begin VB.ComboBox cmbAlarm1Year 
                Height          =   315
-               Left            =   3540
+               Left            =   3555
                Style           =   2  'Dropdown List
-               TabIndex        =   205
+               TabIndex        =   204
                Top             =   210
                Width           =   750
             End
@@ -89,7 +177,7 @@ Begin VB.Form widgetPrefs
                Height          =   315
                Left            =   4950
                Style           =   2  'Dropdown List
-               TabIndex        =   204
+               TabIndex        =   203
                Top             =   210
                Width           =   525
             End
@@ -97,25 +185,17 @@ Begin VB.Form widgetPrefs
                Height          =   315
                Left            =   4395
                Style           =   2  'Dropdown List
-               TabIndex        =   203
+               TabIndex        =   202
                Top             =   210
                Width           =   525
             End
             Begin VB.ComboBox cmbAlarm1Month 
                Height          =   315
-               Left            =   2655
+               Left            =   2670
                Style           =   2  'Dropdown List
-               TabIndex        =   202
+               TabIndex        =   201
                Top             =   210
                Width           =   870
-            End
-            Begin VB.TextBox txtAlarm2Year 
-               Height          =   285
-               Left            =   3555
-               TabIndex        =   201
-               Text            =   "2024"
-               Top             =   720
-               Width           =   660
             End
             Begin VB.ComboBox cmbAlarm2Day 
                Height          =   315
@@ -128,14 +208,14 @@ Begin VB.Form widgetPrefs
             Begin VB.ComboBox cmbAlarm2Month 
                Height          =   315
                Left            =   2670
+               Style           =   2  'Dropdown List
                TabIndex        =   199
-               Text            =   "Jan"
                Top             =   720
                Width           =   870
             End
             Begin VB.ComboBox cmbAlarm1Day 
                Height          =   315
-               Left            =   2100
+               Left            =   2115
                Style           =   2  'Dropdown List
                TabIndex        =   198
                Top             =   210
@@ -3157,8 +3237,22 @@ Private Sub subClassControls()
         Call SubclassComboBox(cmbAlarm5Day.hWnd, ObjPtr(cmbAlarm5Day))
         
         Call SubclassComboBox(cmbAlarm1Month.hWnd, ObjPtr(cmbAlarm1Month))
+        Call SubclassComboBox(cmbAlarm2Month.hWnd, ObjPtr(cmbAlarm2Month))
+        Call SubclassComboBox(cmbAlarm3Month.hWnd, ObjPtr(cmbAlarm3Month))
+        Call SubclassComboBox(cmbAlarm4Month.hWnd, ObjPtr(cmbAlarm4Month))
+        Call SubclassComboBox(cmbAlarm5Month.hWnd, ObjPtr(cmbAlarm5Month))
+        
         Call SubclassComboBox(cmbAlarm1Year.hWnd, ObjPtr(cmbAlarm1Year))
+        Call SubclassComboBox(cmbAlarm2Year.hWnd, ObjPtr(cmbAlarm2Year))
+        Call SubclassComboBox(cmbAlarm3Year.hWnd, ObjPtr(cmbAlarm3Year))
+        Call SubclassComboBox(cmbAlarm4Year.hWnd, ObjPtr(cmbAlarm4Year))
+        Call SubclassComboBox(cmbAlarm5Year.hWnd, ObjPtr(cmbAlarm5Year))
+        
         Call SubclassComboBox(cmbAlarm1Hours.hWnd, ObjPtr(cmbAlarm1Hours))
+        Call SubclassComboBox(cmbAlarm2Hours.hWnd, ObjPtr(cmbAlarm2Hours))
+        Call SubclassComboBox(cmbAlarm3Hours.hWnd, ObjPtr(cmbAlarm3Hours))
+        Call SubclassComboBox(cmbAlarm4Hours.hWnd, ObjPtr(cmbAlarm4Hours))
+        Call SubclassComboBox(cmbAlarm5Hours.hWnd, ObjPtr(cmbAlarm5Hours))
         
     End If
 
@@ -3248,16 +3342,64 @@ Public Sub MouseMoveOnComboText(sComboName As String)
             sTitle = "Help on Alarm Number One Month"
             sText = cmbAlarmDayMonthBalloonTooltip
             If gblEnablePrefsBalloonTooltips = "True" Then CreateToolTip cmbAlarm1Month.hWnd, sText, , sTitle, , , , True
+        Case "cmbAlarm2Month"
+            sTitle = "Help on Alarm Number Two Month"
+            sText = cmbAlarmDayMonthBalloonTooltip
+            If gblEnablePrefsBalloonTooltips = "True" Then CreateToolTip cmbAlarm2Month.hWnd, sText, , sTitle, , , , True
+        Case "cmbAlarm3Month"
+            sTitle = "Help on Alarm Number Three Month"
+            sText = cmbAlarmDayMonthBalloonTooltip
+            If gblEnablePrefsBalloonTooltips = "True" Then CreateToolTip cmbAlarm3Month.hWnd, sText, , sTitle, , , , True
+        Case "cmbAlarm4Month"
+            sTitle = "Help on Alarm Number Four Month"
+            sText = cmbAlarmDayMonthBalloonTooltip
+            If gblEnablePrefsBalloonTooltips = "True" Then CreateToolTip cmbAlarm4Month.hWnd, sText, , sTitle, , , , True
+        Case "cmbAlarm5Month"
+            sTitle = "Help on Alarm Number Five Month"
+            sText = cmbAlarmDayMonthBalloonTooltip
+            If gblEnablePrefsBalloonTooltips = "True" Then CreateToolTip cmbAlarm5Month.hWnd, sText, , sTitle, , , , True
+        
         Case "cmbAlarm1Year"
             sTitle = "Help on Alarm Number One Year"
             sText = cmbAlarmDayYearBalloonTooltip
             If gblEnablePrefsBalloonTooltips = "True" Then CreateToolTip cmbAlarm1Year.hWnd, sText, , sTitle, , , , True
+        Case "cmbAlarm2Year"
+            sTitle = "Help on Alarm Number Two Year"
+            sText = cmbAlarmDayYearBalloonTooltip
+            If gblEnablePrefsBalloonTooltips = "True" Then CreateToolTip cmbAlarm2Year.hWnd, sText, , sTitle, , , , True
+        Case "cmbAlarm3Year"
+            sTitle = "Help on Alarm Number Three Year"
+            sText = cmbAlarmDayYearBalloonTooltip
+            If gblEnablePrefsBalloonTooltips = "True" Then CreateToolTip cmbAlarm3Year.hWnd, sText, , sTitle, , , , True
+        Case "cmbAlarm4Year"
+            sTitle = "Help on Alarm Number Four Year"
+            sText = cmbAlarmDayYearBalloonTooltip
+            If gblEnablePrefsBalloonTooltips = "True" Then CreateToolTip cmbAlarm4Year.hWnd, sText, , sTitle, , , , True
+        Case "cmbAlarm5Year"
+            sTitle = "Help on Alarm Number Five Year"
+            sText = cmbAlarmDayYearBalloonTooltip
+            If gblEnablePrefsBalloonTooltips = "True" Then CreateToolTip cmbAlarm5Year.hWnd, sText, , sTitle, , , , True
+        
         Case "cmbAlarm1Hours"
             sTitle = "Help on Alarm Number One Hour"
             sText = cmbAlarmDayHoursBalloonTooltip
             If gblEnablePrefsBalloonTooltips = "True" Then CreateToolTip cmbAlarm1Hours.hWnd, sText, , sTitle, , , , True
-    
-
+        Case "cmbAlarm2Hours"
+            sTitle = "Help on Alarm Number Two Hour"
+            sText = cmbAlarmDayHoursBalloonTooltip
+            If gblEnablePrefsBalloonTooltips = "True" Then CreateToolTip cmbAlarm2Hours.hWnd, sText, , sTitle, , , , True
+        Case "cmbAlarm3Hours"
+            sTitle = "Help on Alarm Number Three Hour"
+            sText = cmbAlarmDayHoursBalloonTooltip
+            If gblEnablePrefsBalloonTooltips = "True" Then CreateToolTip cmbAlarm3Hours.hWnd, sText, , sTitle, , , , True
+        Case "cmbAlarm4Hours"
+            sTitle = "Help on Alarm Number Four Hour"
+            sText = cmbAlarmDayHoursBalloonTooltip
+            If gblEnablePrefsBalloonTooltips = "True" Then CreateToolTip cmbAlarm4Hours.hWnd, sText, , sTitle, , , , True
+        Case "cmbAlarm5Hours"
+            sTitle = "Help on Alarm Number Five Hour"
+            sText = cmbAlarmDayHoursBalloonTooltip
+            If gblEnablePrefsBalloonTooltips = "True" Then CreateToolTip cmbAlarm5Hours.hWnd, sText, , sTitle, , , , True
     
     End Select
     
@@ -5086,8 +5228,8 @@ Private Sub populatePrefsComboBoxes()
 
     Dim useloop As Integer: useloop = 0
     Dim minString As String: minString = vbNullString
-    Dim hrsString As String: hrsString = vbNullString
-    Dim dayString As String: dayString = vbNullString
+'    Dim hrsString As String: hrsString = vbNullString
+'    Dim dayString As String: dayString = vbNullString
     
     On Error GoTo populatePrefsComboBoxes_Error
     
@@ -5161,26 +5303,26 @@ Private Sub populatePrefsComboBoxes()
     Call fillComboAlarmDay(cmbAlarm5Day)
     
     ' add the month options to the month combobox
-    For useloop = 0 To 11
-        cmbAlarm1Month.AddItem Left$(MonthName(useloop + 1), 3), useloop
-        cmbAlarm1Month.ItemData(useloop) = useloop + 1
-    Next useloop
+    Call fillComboAlarmMonth(cmbAlarm1Month)
+    Call fillComboAlarmMonth(cmbAlarm2Month)
+    Call fillComboAlarmMonth(cmbAlarm3Month)
+    Call fillComboAlarmMonth(cmbAlarm4Month)
+    Call fillComboAlarmMonth(cmbAlarm5Month)
         
     ' add the next hundred year options to the year combobox
-    For useloop = 0 To 100
-        cmbAlarm1Year.AddItem CStr(Year(Now) + useloop), useloop
-        cmbAlarm1Year.ItemData(useloop) = Year(Now) + useloop
-    Next useloop
+    Call fillComboAlarmYear(cmbAlarm1Year)
+    Call fillComboAlarmYear(cmbAlarm2Year)
+    Call fillComboAlarmYear(cmbAlarm3Year)
+    Call fillComboAlarmYear(cmbAlarm4Year)
+    Call fillComboAlarmYear(cmbAlarm5Year)
     
     ' add the hour options to the hour combobox
-    For useloop = 0 To 23
-        hrsString = CStr(useloop)
-        If useloop <= 8 Then
-            hrsString = "0" & CStr(useloop)
-        End If
-        cmbAlarm1Hours.AddItem hrsString, useloop
-        cmbAlarm1Hours.ItemData(useloop) = useloop
-    Next useloop
+    Call fillComboAlarmHour(cmbAlarm1Hours)
+    Call fillComboAlarmHour(cmbAlarm2Hours)
+    Call fillComboAlarmHour(cmbAlarm3Hours)
+    Call fillComboAlarmHour(cmbAlarm4Hours)
+    Call fillComboAlarmHour(cmbAlarm5Hours)
+    
     
     ' add the minute options to the minute combobox
     For useloop = 0 To 59
@@ -5205,7 +5347,64 @@ populatePrefsComboBoxes_Error:
     End With
                 
 End Sub
+'---------------------------------------------------------------------------------------
+' Procedure : fillComboAlarmHour
+' Author    : beededea
+' Date      : 31/10/2024
+' Purpose   : add the hour options to the hour combobox
+'---------------------------------------------------------------------------------------
+'
+Private Sub fillComboAlarmHour(ByRef thisComboBox As ComboBox)
+    Dim useloop As Integer: useloop = 0
+    Dim hrsString As String: hrsString = vbNullString
+    
+    On Error GoTo fillComboAlarmHour_Error
 
+    For useloop = 0 To 23
+        hrsString = CStr(useloop)
+        If useloop <= 8 Then
+            hrsString = "0" & CStr(useloop)
+        End If
+        thisComboBox.AddItem hrsString, useloop
+        thisComboBox.ItemData(useloop) = useloop
+    Next useloop
+
+   On Error GoTo 0
+   Exit Sub
+
+fillComboAlarmHour_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure fillComboAlarmHour of Form widgetPrefs"
+
+End Sub
+   
+
+    
+'---------------------------------------------------------------------------------------
+' Procedure : fillComboAlarmYear
+' Author    : beededea
+' Date      : 31/10/2024
+' Purpose   :  add the next hundred year options to the year combobox
+'---------------------------------------------------------------------------------------
+'
+Private Sub fillComboAlarmYear(ByRef thisComboBox As ComboBox)
+    Dim useloop As Integer: useloop = 0
+
+    On Error GoTo fillComboAlarmYear_Error
+
+    For useloop = 0 To 100
+        thisComboBox.AddItem CStr(Year(Now) + useloop), useloop
+        thisComboBox.ItemData(useloop) = Year(Now) + useloop
+    Next useloop
+
+   On Error GoTo 0
+   Exit Sub
+
+fillComboAlarmYear_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure fillComboAlarmYear of Form widgetPrefs"
+    
+End Sub
 '---------------------------------------------------------------------------------------
 ' Procedure : fillComboAlarmDay
 ' Author    : beededea
@@ -5213,11 +5412,11 @@ End Sub
 ' Purpose   : add the day options to the day combobox
 '---------------------------------------------------------------------------------------
 '
-Private Sub fillComboAlarmDay(thisComboBox As ComboBox)
+Private Sub fillComboAlarmDay(ByRef thisComboBox As ComboBox)
     Dim useloop As Integer: useloop = 0
     Dim dayString As String: dayString = vbNullString
     
-   On Error GoTo fillComboAlarmDay_Error
+    On Error GoTo fillComboAlarmDay_Error
 
     For useloop = 0 To 30
         dayString = CStr(useloop + 1)
@@ -5236,6 +5435,34 @@ fillComboAlarmDay_Error:
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure fillComboAlarmDay of Form widgetPrefs"
 End Sub
 
+    
+'---------------------------------------------------------------------------------------
+' Procedure : fillComboAlarmMonth
+' Author    : beededea
+' Date      : 31/10/2024
+' Purpose   : add the month options to the month combobox
+'---------------------------------------------------------------------------------------
+'
+Private Sub fillComboAlarmMonth(ByRef thisComboBox As ComboBox)
+    Dim useloop As Integer: useloop = 0
+
+    On Error GoTo fillComboAlarmMonth_Error
+
+    For useloop = 0 To 11
+        thisComboBox.AddItem Left$(MonthName(useloop + 1), 3), useloop
+        thisComboBox.ItemData(useloop) = useloop + 1
+    Next useloop
+
+   On Error GoTo 0
+   Exit Sub
+
+fillComboAlarmMonth_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure fillComboAlarmMonth of Form widgetPrefs"
+    
+End Sub
+    
+    
 '---------------------------------------------------------------------------------------
 ' Procedure : readFileWriteComboBox
 ' Author    : beededea
