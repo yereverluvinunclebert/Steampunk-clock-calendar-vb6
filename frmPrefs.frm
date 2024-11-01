@@ -266,6 +266,7 @@ Begin VB.Form widgetPrefs
             Begin VB.TextBox txtAlarm5Time 
                Height          =   315
                Left            =   6750
+               Locked          =   -1  'True
                TabIndex        =   162
                Top             =   2160
                Width           =   500
@@ -283,6 +284,7 @@ Begin VB.Form widgetPrefs
             Begin VB.TextBox txtAlarm4Time 
                Height          =   315
                Left            =   6750
+               Locked          =   -1  'True
                TabIndex        =   159
                Top             =   1665
                Width           =   500
@@ -300,6 +302,7 @@ Begin VB.Form widgetPrefs
             Begin VB.TextBox txtAlarm3Time 
                Height          =   315
                Left            =   6750
+               Locked          =   -1  'True
                TabIndex        =   156
                Top             =   1185
                Width           =   500
@@ -317,6 +320,7 @@ Begin VB.Form widgetPrefs
             Begin VB.TextBox txtAlarm2Time 
                Height          =   315
                Left            =   6750
+               Locked          =   -1  'True
                TabIndex        =   153
                Top             =   705
                Width           =   500
@@ -324,10 +328,10 @@ Begin VB.Form widgetPrefs
             Begin VB.TextBox txtAlarm1Time 
                Height          =   315
                Left            =   6750
+               Locked          =   -1  'True
                TabIndex        =   150
                Top             =   210
-               Visible         =   0   'False
-               Width           =   500
+               Width           =   495
             End
             Begin VB.CommandButton btnVerifyDateTime1 
                Caption         =   ">"
@@ -341,39 +345,43 @@ Begin VB.Form widgetPrefs
             End
             Begin VB.TextBox txtAlarm5Date 
                Height          =   315
-               Left            =   5985
+               Left            =   5865
+               Locked          =   -1  'True
                TabIndex        =   161
                Top             =   2160
-               Width           =   700
+               Width           =   825
             End
             Begin VB.TextBox txtAlarm4Date 
                Height          =   315
-               Left            =   5985
+               Left            =   5865
+               Locked          =   -1  'True
                TabIndex        =   158
                Top             =   1665
-               Width           =   700
+               Width           =   825
             End
             Begin VB.TextBox txtAlarm3Date 
                Height          =   315
-               Left            =   5985
+               Left            =   5865
+               Locked          =   -1  'True
                TabIndex        =   155
                Top             =   1185
-               Width           =   700
+               Width           =   825
             End
             Begin VB.TextBox txtAlarm2Date 
                Height          =   315
-               Left            =   5985
+               Left            =   5865
+               Locked          =   -1  'True
                TabIndex        =   152
                Top             =   705
-               Width           =   700
+               Width           =   825
             End
             Begin VB.TextBox txtAlarm1Date 
                Height          =   315
-               Left            =   5985
+               Left            =   5865
+               Locked          =   -1  'True
                TabIndex        =   149
                Top             =   210
-               Visible         =   0   'False
-               Width           =   700
+               Width           =   825
             End
             Begin VB.Label lblGeneral 
                Caption         =   $"frmPrefs.frx":0ECA
@@ -2593,6 +2601,9 @@ Private Sub btnVerifyDateTime2_Click()
     Dim answerMsg As String: answerMsg = vbNullString
     
     On Error GoTo btnVerifyDateTime2_Click_Error
+
+    txtAlarm2Date.Text = cmbAlarm2Day.List(cmbAlarm2Day.ListIndex) & "/" & CStr(cmbAlarm2Month.ListIndex + 2) & "/" & cmbAlarm2Year.List(cmbAlarm2Year.ListIndex)
+    txtAlarm2Time.Text = cmbAlarm2Hours.List(cmbAlarm2Hours.ListIndex) & ":" & cmbAlarm2Minutes.List(cmbAlarm2Minutes.ListIndex)
    
     If txtAlarm2Date.Text = "Alarm not yet set" Or txtAlarm2Time.Text = vbNullString Then
         answerMsg = "Alarm not yet set!"
@@ -2698,6 +2709,9 @@ Private Sub btnVerifyDateTime3_Click()
     Dim answerMsg As String: answerMsg = vbNullString
     
     On Error GoTo btnVerifyDateTime3_Click_Error
+
+    txtAlarm3Date.Text = cmbAlarm3Day.List(cmbAlarm3Day.ListIndex) & "/" & CStr(cmbAlarm3Month.ListIndex + 3) & "/" & cmbAlarm3Year.List(cmbAlarm3Year.ListIndex)
+    txtAlarm3Time.Text = cmbAlarm3Hours.List(cmbAlarm3Hours.ListIndex) & ":" & cmbAlarm3Minutes.List(cmbAlarm3Minutes.ListIndex)
    
     If txtAlarm3Date.Text = "Alarm not yet set" Or txtAlarm3Time.Text = vbNullString Then
         answerMsg = "Alarm not yet set!"
@@ -5161,28 +5175,37 @@ Private Sub adjustPrefsControls()
         Call setAlarmDayValues(cmbAlarm1Day, gblAlarm1Date)
         Call setAlarmMonthValues(cmbAlarm1Month, gblAlarm1Date)
         Call setAlarmYearValues(cmbAlarm1Year, gblAlarm1Date)
-    End If
+        Call setAlarmHourValues(cmbAlarm1Hours, gblAlarm1Time)
+        Call setAlarmMinuteValues(cmbAlarm1Minutes, gblAlarm1Time)
+   End If
     If gblAlarm2Date <> "Alarm not yet set" Then
         Call setAlarmDayValues(cmbAlarm2Day, gblAlarm2Date)
         Call setAlarmMonthValues(cmbAlarm2Month, gblAlarm2Date)
         Call setAlarmYearValues(cmbAlarm2Year, gblAlarm2Date)
+        Call setAlarmHourValues(cmbAlarm2Hours, gblAlarm2Time)
+        Call setAlarmMinuteValues(cmbAlarm2Minutes, gblAlarm2Time)
     End If
     If gblAlarm3Date <> "Alarm not yet set" Then
         Call setAlarmDayValues(cmbAlarm3Day, gblAlarm3Date)
         Call setAlarmMonthValues(cmbAlarm3Month, gblAlarm3Date)
         Call setAlarmYearValues(cmbAlarm3Year, gblAlarm3Date)
+        Call setAlarmHourValues(cmbAlarm3Hours, gblAlarm3Time)
+        Call setAlarmMinuteValues(cmbAlarm3Minutes, gblAlarm3Time)
     End If
     If gblAlarm4Date <> "Alarm not yet set" Then
         Call setAlarmDayValues(cmbAlarm4Day, gblAlarm4Date)
         Call setAlarmMonthValues(cmbAlarm4Month, gblAlarm4Date)
         Call setAlarmYearValues(cmbAlarm4Year, gblAlarm4Date)
+        Call setAlarmHourValues(cmbAlarm4Hours, gblAlarm4Time)
+        Call setAlarmMinuteValues(cmbAlarm4Minutes, gblAlarm4Time)
     End If
     If gblAlarm5Date <> "Alarm not yet set" Then
         Call setAlarmDayValues(cmbAlarm5Day, gblAlarm5Date)
         Call setAlarmMonthValues(cmbAlarm5Month, gblAlarm5Date)
         Call setAlarmYearValues(cmbAlarm5Year, gblAlarm5Date)
+        Call setAlarmHourValues(cmbAlarm5Hours, gblAlarm5Time)
+        Call setAlarmMinuteValues(cmbAlarm5Minutes, gblAlarm5Time)
     End If
-    
     
     ' configuration tab
    
@@ -5301,8 +5324,72 @@ adjustPrefsControls_Error:
 
 End Sub
 
+'---------------------------------------------------------------------------------------
+' Procedure : setAlarmHourValues
+' Author    : beededea
+' Date      : 01/11/2024
+' Purpose   :
+'---------------------------------------------------------------------------------------
+'
+Private Sub setAlarmHourValues(ByRef thisComboBox As ComboBox, ByVal thisDateString As String)
+    Dim useloop As Integer: useloop = 0
+    Dim thisHour As String: thisHour = vbNullString
+    
+    On Error GoTo setAlarmHourValues_Error
+
+    thisHour = Left$(thisDateString, 2)
+
+    'Iterate through items.
+    For useloop = 0 To thisComboBox.ListCount - 1
+        'Compare value.
+        If thisComboBox.List(useloop) = thisHour Then
+            'Select it and leave loop.
+            thisComboBox.ListIndex = useloop
+            Exit For
+        End If
+    Next useloop
+
+   On Error GoTo 0
+   Exit Sub
+
+setAlarmHourValues_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure setAlarmHourValues of Form widgetPrefs"
+End Sub
 
 
+'---------------------------------------------------------------------------------------
+' Procedure : setAlarmMinuteValues
+' Author    : beededea
+' Date      : 01/11/2024
+' Purpose   :
+'---------------------------------------------------------------------------------------
+'
+Private Sub setAlarmMinuteValues(ByRef thisComboBox As ComboBox, ByVal thisDateString As String)
+    Dim useloop As Integer: useloop = 0
+    Dim thisMinutes As String: thisMinutes = vbNullString
+    
+    On Error GoTo setAlarmMinuteValues_Error
+
+    thisMinutes = Right$(thisDateString, 2)
+
+    'Iterate through items.
+    For useloop = 0 To thisComboBox.ListCount - 1
+        'Compare value.
+        If thisComboBox.List(useloop) = thisMinutes Then
+            'Select it and leave loop.
+            thisComboBox.ListIndex = useloop
+            Exit For
+        End If
+    Next useloop
+
+   On Error GoTo 0
+   Exit Sub
+
+setAlarmMinuteValues_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure setAlarmMinuteValues of Form widgetPrefs"
+End Sub
 
 '---------------------------------------------------------------------------------------
 ' Procedure : setAlarmYearValues
