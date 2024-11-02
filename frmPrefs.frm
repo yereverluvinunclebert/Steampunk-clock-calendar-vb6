@@ -1664,6 +1664,295 @@ Begin VB.Form widgetPrefs
          End
       End
    End
+   Begin VB.Frame fraFonts 
+      Caption         =   "Fonts"
+      Height          =   4470
+      Left            =   240
+      TabIndex        =   9
+      Top             =   1230
+      Width           =   8280
+      Begin VB.Frame fraFontsInner 
+         BorderStyle     =   0  'None
+         Height          =   3810
+         Left            =   705
+         TabIndex        =   26
+         Top             =   360
+         Width           =   6105
+         Begin VB.TextBox txtDisplayScreenFont 
+            Height          =   315
+            Left            =   1695
+            Locked          =   -1  'True
+            TabIndex        =   193
+            Text            =   "Courier  New"
+            Top             =   1830
+            Width           =   3285
+         End
+         Begin VB.CommandButton btnDisplayScreenFont 
+            Caption         =   "Font"
+            Height          =   300
+            Left            =   5010
+            Style           =   1  'Graphical
+            TabIndex        =   192
+            Top             =   1830
+            Width           =   585
+         End
+         Begin VB.TextBox txtDisplayScreenFontSize 
+            Height          =   315
+            Left            =   1695
+            Locked          =   -1  'True
+            TabIndex        =   191
+            Text            =   "8"
+            Top             =   2370
+            Width           =   510
+         End
+         Begin VB.CommandButton btnResetMessages 
+            Caption         =   "Reset"
+            Height          =   300
+            Left            =   1680
+            Style           =   1  'Graphical
+            TabIndex        =   143
+            Top             =   3270
+            Width           =   885
+         End
+         Begin VB.TextBox txtPrefsFontCurrentSize 
+            Height          =   315
+            Left            =   4200
+            Locked          =   -1  'True
+            TabIndex        =   128
+            ToolTipText     =   "Disabled for manual input. Shows the current font size when form resizing is enabled."
+            Top             =   1065
+            Visible         =   0   'False
+            Width           =   600
+         End
+         Begin VB.TextBox txtPrefsFontSize 
+            Height          =   315
+            Left            =   1710
+            Locked          =   -1  'True
+            TabIndex        =   29
+            Text            =   "8"
+            ToolTipText     =   "Disabled for manual input. Choose a font size using the font selector to be used within this preferences window only"
+            Top             =   1065
+            Width           =   510
+         End
+         Begin VB.CommandButton btnPrefsFont 
+            Caption         =   "Font"
+            Height          =   300
+            Left            =   5025
+            Style           =   1  'Graphical
+            TabIndex        =   28
+            Top             =   90
+            Width           =   585
+         End
+         Begin VB.TextBox txtPrefsFont 
+            Height          =   315
+            Left            =   1710
+            Locked          =   -1  'True
+            TabIndex        =   27
+            Text            =   "Times New Roman"
+            Top             =   90
+            Width           =   3285
+         End
+         Begin VB.Label lblFontsTab 
+            Caption         =   "Choose a font to be used for the text in the console display screen on the main clock *"
+            Height          =   480
+            Index           =   9
+            Left            =   2415
+            TabIndex        =   196
+            Top             =   2355
+            Width           =   4035
+         End
+         Begin VB.Label lblFontsTab 
+            Caption         =   "Display Console Font :"
+            Height          =   300
+            Index           =   8
+            Left            =   0
+            TabIndex        =   195
+            Tag             =   "lblPrefsFont"
+            Top             =   1890
+            Width           =   1665
+         End
+         Begin VB.Label lblFontsTab 
+            Caption         =   "Console  Font Size :"
+            Height          =   330
+            Index           =   5
+            Left            =   165
+            TabIndex        =   194
+            Tag             =   "lblPrefsFontSize"
+            Top             =   2400
+            Width           =   1590
+         End
+         Begin VB.Label lblFontsTab 
+            Caption         =   "Hidden message boxes can be reactivated by pressing this reset button."
+            Height          =   480
+            Index           =   4
+            Left            =   2670
+            TabIndex        =   144
+            Top             =   3210
+            Width           =   3360
+         End
+         Begin VB.Label lblFontsTab 
+            Caption         =   "Reset Pop ups :"
+            Height          =   300
+            Index           =   1
+            Left            =   405
+            TabIndex        =   142
+            Tag             =   "lblPrefsFont"
+            Top             =   3315
+            Width           =   1470
+         End
+         Begin VB.Label lblFontsTab 
+            Caption         =   "Resized Font"
+            Height          =   315
+            Index           =   10
+            Left            =   4920
+            TabIndex        =   129
+            Top             =   1110
+            Visible         =   0   'False
+            Width           =   2400
+         End
+         Begin VB.Label lblFontsTab 
+            Caption         =   "The chosen font size *"
+            Height          =   480
+            Index           =   7
+            Left            =   2310
+            TabIndex        =   33
+            Top             =   1095
+            Width           =   2400
+         End
+         Begin VB.Label lblFontsTab 
+            Caption         =   "Base Font Size :"
+            Height          =   330
+            Index           =   3
+            Left            =   435
+            TabIndex        =   32
+            Tag             =   "lblPrefsFontSize"
+            Top             =   1095
+            Width           =   1230
+         End
+         Begin VB.Label lblFontsTab 
+            Caption         =   "Prefs Utility Font :"
+            Height          =   300
+            Index           =   2
+            Left            =   360
+            TabIndex        =   31
+            Tag             =   "lblPrefsFont"
+            Top             =   120
+            Width           =   1665
+         End
+         Begin VB.Label lblFontsTab 
+            Caption         =   "Choose a font to be used for the text in this preferences window, gauge tooltips and message boxes *"
+            Height          =   480
+            Index           =   6
+            Left            =   1695
+            TabIndex        =   30
+            Top             =   480
+            Width           =   4035
+         End
+      End
+   End
+   Begin VB.Frame fraSounds 
+      Caption         =   "Sounds"
+      Height          =   3330
+      Left            =   855
+      TabIndex        =   13
+      Top             =   1230
+      Visible         =   0   'False
+      Width           =   7965
+      Begin VB.Frame fraSoundsInner 
+         BorderStyle     =   0  'None
+         Height          =   2760
+         Left            =   765
+         TabIndex        =   25
+         Top             =   285
+         Width           =   6420
+         Begin VB.CheckBox chkVolumeBoost 
+            Caption         =   "Decide whether the various sounds will be boosted."
+            Height          =   225
+            Left            =   1485
+            TabIndex        =   177
+            ToolTipText     =   "Check this box to enable or disable all of the sounds used during any animation on the main screen."
+            Top             =   1680
+            Width           =   4365
+         End
+         Begin VB.CheckBox chkEnableChimes 
+            Caption         =   "Decide whether the clock chimes will sound."
+            Height          =   225
+            Left            =   1485
+            TabIndex        =   175
+            ToolTipText     =   "Check this box to enable or disable all of the sounds used during any animation on the main screen."
+            Top             =   1215
+            Width           =   4365
+         End
+         Begin VB.CheckBox chkEnableTicks 
+            Caption         =   "Decide whether the clock has the tick sounds enabled."
+            Height          =   225
+            Left            =   1485
+            TabIndex        =   173
+            ToolTipText     =   "Check this box to enable or disable all of the sounds used during any animation on the main screen."
+            Top             =   765
+            Width           =   4365
+         End
+         Begin VB.CheckBox chkEnableSounds 
+            Caption         =   "Enable ALL sounds for the whole widget."
+            Height          =   225
+            Left            =   1485
+            TabIndex        =   35
+            ToolTipText     =   "Check this box to enable or disable all of the sounds used during any animation on the main screen."
+            Top             =   285
+            Width           =   4485
+         End
+         Begin VB.Label lblSoundsTab 
+            Caption         =   "Determine the sound of UI elements, clock tick and chiming volumes. Set the overall volume to loud or quiet."
+            Height          =   540
+            Index           =   4
+            Left            =   1470
+            TabIndex        =   179
+            Tag             =   "lblSharedInputFile"
+            Top             =   2100
+            Width           =   4680
+         End
+         Begin VB.Label lblSoundsTab 
+            Caption         =   "Volume Boost :"
+            Height          =   255
+            Index           =   2
+            Left            =   300
+            TabIndex        =   178
+            Tag             =   "lblSharedInputFile"
+            Top             =   1680
+            Width           =   1185
+         End
+         Begin VB.Label lblSoundsTab 
+            Caption         =   "Chimes :"
+            Height          =   255
+            Index           =   1
+            Left            =   765
+            TabIndex        =   176
+            Tag             =   "lblSharedInputFile"
+            Top             =   1215
+            Width           =   765
+         End
+         Begin VB.Label lblSoundsTab 
+            Caption         =   "Ticks :"
+            Height          =   255
+            Index           =   0
+            Left            =   885
+            TabIndex        =   174
+            Tag             =   "lblSharedInputFile"
+            Top             =   765
+            Width           =   765
+         End
+         Begin VB.Label lblSoundsTab 
+            Caption         =   "Audio :"
+            Height          =   255
+            Index           =   3
+            Left            =   885
+            TabIndex        =   93
+            Tag             =   "lblSharedInputFile"
+            Top             =   285
+            Width           =   765
+         End
+      End
+   End
    Begin VB.Frame fraAbout 
       Caption         =   "About"
       Height          =   8580
@@ -2005,295 +2294,6 @@ Begin VB.Form widgetPrefs
          Width           =   1245
       End
    End
-   Begin VB.Frame fraFonts 
-      Caption         =   "Fonts"
-      Height          =   4470
-      Left            =   240
-      TabIndex        =   9
-      Top             =   1230
-      Width           =   8280
-      Begin VB.Frame fraFontsInner 
-         BorderStyle     =   0  'None
-         Height          =   3810
-         Left            =   705
-         TabIndex        =   26
-         Top             =   360
-         Width           =   6105
-         Begin VB.TextBox txtDisplayScreenFont 
-            Height          =   315
-            Left            =   1695
-            Locked          =   -1  'True
-            TabIndex        =   193
-            Text            =   "Courier  New"
-            Top             =   1830
-            Width           =   3285
-         End
-         Begin VB.CommandButton btnDisplayScreenFont 
-            Caption         =   "Font"
-            Height          =   300
-            Left            =   5010
-            Style           =   1  'Graphical
-            TabIndex        =   192
-            Top             =   1830
-            Width           =   585
-         End
-         Begin VB.TextBox txtDisplayScreenFontSize 
-            Height          =   315
-            Left            =   1695
-            Locked          =   -1  'True
-            TabIndex        =   191
-            Text            =   "8"
-            Top             =   2370
-            Width           =   510
-         End
-         Begin VB.CommandButton btnResetMessages 
-            Caption         =   "Reset"
-            Height          =   300
-            Left            =   1680
-            Style           =   1  'Graphical
-            TabIndex        =   143
-            Top             =   3270
-            Width           =   885
-         End
-         Begin VB.TextBox txtPrefsFontCurrentSize 
-            Height          =   315
-            Left            =   4200
-            Locked          =   -1  'True
-            TabIndex        =   128
-            ToolTipText     =   "Disabled for manual input. Shows the current font size when form resizing is enabled."
-            Top             =   1065
-            Visible         =   0   'False
-            Width           =   600
-         End
-         Begin VB.TextBox txtPrefsFontSize 
-            Height          =   315
-            Left            =   1710
-            Locked          =   -1  'True
-            TabIndex        =   29
-            Text            =   "8"
-            ToolTipText     =   "Disabled for manual input. Choose a font size using the font selector to be used within this preferences window only"
-            Top             =   1065
-            Width           =   510
-         End
-         Begin VB.CommandButton btnPrefsFont 
-            Caption         =   "Font"
-            Height          =   300
-            Left            =   5025
-            Style           =   1  'Graphical
-            TabIndex        =   28
-            Top             =   90
-            Width           =   585
-         End
-         Begin VB.TextBox txtPrefsFont 
-            Height          =   315
-            Left            =   1710
-            Locked          =   -1  'True
-            TabIndex        =   27
-            Text            =   "Times New Roman"
-            Top             =   90
-            Width           =   3285
-         End
-         Begin VB.Label lblFontsTab 
-            Caption         =   "Choose a font to be used for the text in the console display screen on the main clock *"
-            Height          =   480
-            Index           =   9
-            Left            =   2415
-            TabIndex        =   196
-            Top             =   2355
-            Width           =   4035
-         End
-         Begin VB.Label lblFontsTab 
-            Caption         =   "Display Console Font :"
-            Height          =   300
-            Index           =   8
-            Left            =   0
-            TabIndex        =   195
-            Tag             =   "lblPrefsFont"
-            Top             =   1890
-            Width           =   1665
-         End
-         Begin VB.Label lblFontsTab 
-            Caption         =   "Console  Font Size :"
-            Height          =   330
-            Index           =   5
-            Left            =   165
-            TabIndex        =   194
-            Tag             =   "lblPrefsFontSize"
-            Top             =   2400
-            Width           =   1590
-         End
-         Begin VB.Label lblFontsTab 
-            Caption         =   "Hidden message boxes can be reactivated by pressing this reset button."
-            Height          =   480
-            Index           =   4
-            Left            =   2670
-            TabIndex        =   144
-            Top             =   3210
-            Width           =   3360
-         End
-         Begin VB.Label lblFontsTab 
-            Caption         =   "Reset Pop ups :"
-            Height          =   300
-            Index           =   1
-            Left            =   405
-            TabIndex        =   142
-            Tag             =   "lblPrefsFont"
-            Top             =   3315
-            Width           =   1470
-         End
-         Begin VB.Label lblFontsTab 
-            Caption         =   "Resized Font"
-            Height          =   315
-            Index           =   10
-            Left            =   4920
-            TabIndex        =   129
-            Top             =   1110
-            Visible         =   0   'False
-            Width           =   2400
-         End
-         Begin VB.Label lblFontsTab 
-            Caption         =   "The chosen font size *"
-            Height          =   480
-            Index           =   7
-            Left            =   2310
-            TabIndex        =   33
-            Top             =   1095
-            Width           =   2400
-         End
-         Begin VB.Label lblFontsTab 
-            Caption         =   "Base Font Size :"
-            Height          =   330
-            Index           =   3
-            Left            =   435
-            TabIndex        =   32
-            Tag             =   "lblPrefsFontSize"
-            Top             =   1095
-            Width           =   1230
-         End
-         Begin VB.Label lblFontsTab 
-            Caption         =   "Prefs Utility Font :"
-            Height          =   300
-            Index           =   2
-            Left            =   360
-            TabIndex        =   31
-            Tag             =   "lblPrefsFont"
-            Top             =   120
-            Width           =   1665
-         End
-         Begin VB.Label lblFontsTab 
-            Caption         =   "Choose a font to be used for the text in this preferences window, gauge tooltips and message boxes *"
-            Height          =   480
-            Index           =   6
-            Left            =   1695
-            TabIndex        =   30
-            Top             =   480
-            Width           =   4035
-         End
-      End
-   End
-   Begin VB.Frame fraSounds 
-      Caption         =   "Sounds"
-      Height          =   3330
-      Left            =   855
-      TabIndex        =   13
-      Top             =   1230
-      Visible         =   0   'False
-      Width           =   7965
-      Begin VB.Frame fraSoundsInner 
-         BorderStyle     =   0  'None
-         Height          =   2760
-         Left            =   765
-         TabIndex        =   25
-         Top             =   285
-         Width           =   6420
-         Begin VB.CheckBox chkVolumeBoost 
-            Caption         =   "Decide whether the various sounds will be boosted."
-            Height          =   225
-            Left            =   1485
-            TabIndex        =   177
-            ToolTipText     =   "Check this box to enable or disable all of the sounds used during any animation on the main screen."
-            Top             =   1680
-            Width           =   4365
-         End
-         Begin VB.CheckBox chkEnableChimes 
-            Caption         =   "Decide whether the clock chimes will sound."
-            Height          =   225
-            Left            =   1485
-            TabIndex        =   175
-            ToolTipText     =   "Check this box to enable or disable all of the sounds used during any animation on the main screen."
-            Top             =   1215
-            Width           =   4365
-         End
-         Begin VB.CheckBox chkEnableTicks 
-            Caption         =   "Decide whether the clock has the tick sounds enabled."
-            Height          =   225
-            Left            =   1485
-            TabIndex        =   173
-            ToolTipText     =   "Check this box to enable or disable all of the sounds used during any animation on the main screen."
-            Top             =   765
-            Width           =   4365
-         End
-         Begin VB.CheckBox chkEnableSounds 
-            Caption         =   "Enable ALL sounds for the whole widget."
-            Height          =   225
-            Left            =   1485
-            TabIndex        =   35
-            ToolTipText     =   "Check this box to enable or disable all of the sounds used during any animation on the main screen."
-            Top             =   285
-            Width           =   4485
-         End
-         Begin VB.Label lblSoundsTab 
-            Caption         =   "Determine the sound of UI elements, clock tick and chiming volumes. Set the overall volume to loud or quiet."
-            Height          =   540
-            Index           =   4
-            Left            =   1470
-            TabIndex        =   179
-            Tag             =   "lblSharedInputFile"
-            Top             =   2100
-            Width           =   4680
-         End
-         Begin VB.Label lblSoundsTab 
-            Caption         =   "Volume Boost :"
-            Height          =   255
-            Index           =   2
-            Left            =   300
-            TabIndex        =   178
-            Tag             =   "lblSharedInputFile"
-            Top             =   1680
-            Width           =   1185
-         End
-         Begin VB.Label lblSoundsTab 
-            Caption         =   "Chimes :"
-            Height          =   255
-            Index           =   1
-            Left            =   765
-            TabIndex        =   176
-            Tag             =   "lblSharedInputFile"
-            Top             =   1215
-            Width           =   765
-         End
-         Begin VB.Label lblSoundsTab 
-            Caption         =   "Ticks :"
-            Height          =   255
-            Index           =   0
-            Left            =   885
-            TabIndex        =   174
-            Tag             =   "lblSharedInputFile"
-            Top             =   765
-            Width           =   765
-         End
-         Begin VB.Label lblSoundsTab 
-            Caption         =   "Audio :"
-            Height          =   255
-            Index           =   3
-            Left            =   885
-            TabIndex        =   93
-            Tag             =   "lblSharedInputFile"
-            Top             =   285
-            Width           =   765
-         End
-      End
-   End
    Begin VB.Label lblDragCorner 
       Caption         =   "o"
       BeginProperty Font 
@@ -2530,9 +2530,12 @@ Private Sub btnVerifyDateTime1_Click()
     Dim answerMsg As String: answerMsg = vbNullString
     
     On Error GoTo btnVerifyDateTime1_Click_Error
+    
+    If cmbAlarm1Day.ListIndex = -1 Or cmbAlarm1Month.ListIndex = -1 Or cmbAlarm1Year.ListIndex = -1 Or cmbAlarm1Hours.ListIndex = -1 Or cmbAlarm1Minutes.ListIndex = -1 Then Exit Sub
 
     txtAlarm1Date.Text = cmbAlarm1Day.List(cmbAlarm1Day.ListIndex) & "/" & CStr(cmbAlarm1Month.ListIndex + 1) & "/" & cmbAlarm1Year.List(cmbAlarm1Year.ListIndex)
     txtAlarm1Time.Text = cmbAlarm1Hours.List(cmbAlarm1Hours.ListIndex) & ":" & cmbAlarm1Minutes.List(cmbAlarm1Minutes.ListIndex)
+   
    
     If txtAlarm1Date.Text = "Alarm not yet set" Or txtAlarm1Time.Text = vbNullString Then
         answerMsg = "Alarm not yet set!"
@@ -2602,6 +2605,8 @@ Private Sub btnVerifyDateTime2_Click()
     
     On Error GoTo btnVerifyDateTime2_Click_Error
 
+    If cmbAlarm2Day.ListIndex = -1 Or cmbAlarm2Month.ListIndex = -1 Or cmbAlarm2Year.ListIndex = -1 Or cmbAlarm2Hours.ListIndex = -1 Or cmbAlarm2Minutes.ListIndex = -1 Then Exit Sub
+    
     txtAlarm2Date.Text = cmbAlarm2Day.List(cmbAlarm2Day.ListIndex) & "/" & CStr(cmbAlarm2Month.ListIndex + 2) & "/" & cmbAlarm2Year.List(cmbAlarm2Year.ListIndex)
     txtAlarm2Time.Text = cmbAlarm2Hours.List(cmbAlarm2Hours.ListIndex) & ":" & cmbAlarm2Minutes.List(cmbAlarm2Minutes.ListIndex)
    
@@ -2710,6 +2715,8 @@ Private Sub btnVerifyDateTime3_Click()
     
     On Error GoTo btnVerifyDateTime3_Click_Error
 
+    If cmbAlarm3Day.ListIndex = -1 Or cmbAlarm3Month.ListIndex = -1 Or cmbAlarm3Year.ListIndex = -1 Or cmbAlarm3Hours.ListIndex = -1 Or cmbAlarm3Minutes.ListIndex = -1 Then Exit Sub
+    
     txtAlarm3Date.Text = cmbAlarm3Day.List(cmbAlarm3Day.ListIndex) & "/" & CStr(cmbAlarm3Month.ListIndex + 3) & "/" & cmbAlarm3Year.List(cmbAlarm3Year.ListIndex)
     txtAlarm3Time.Text = cmbAlarm3Hours.List(cmbAlarm3Hours.ListIndex) & ":" & cmbAlarm3Minutes.List(cmbAlarm3Minutes.ListIndex)
    
@@ -2760,6 +2767,11 @@ Private Sub btnVerifyDateTime4_Click()
     
     On Error GoTo btnVerifyDateTime4_Click_Error
    
+    If cmbAlarm4Day.ListIndex = -1 Or cmbAlarm4Month.ListIndex = -1 Or cmbAlarm4Year.ListIndex = -1 Or cmbAlarm4Hours.ListIndex = -1 Or cmbAlarm4Minutes.ListIndex = -1 Then Exit Sub
+    
+    txtAlarm4Date.Text = cmbAlarm4Day.List(cmbAlarm4Day.ListIndex) & "/" & CStr(cmbAlarm4Month.ListIndex + 4) & "/" & cmbAlarm4Year.List(cmbAlarm4Year.ListIndex)
+    txtAlarm4Time.Text = cmbAlarm4Hours.List(cmbAlarm4Hours.ListIndex) & ":" & cmbAlarm4Minutes.List(cmbAlarm4Minutes.ListIndex)
+   
     If txtAlarm4Date.Text = "Alarm not yet set" Or txtAlarm4Time.Text = vbNullString Then
         answerMsg = "Alarm not yet set!"
         answer = msgBoxA(answerMsg, vbExclamation + vbOK, "Alarm Message", False, "btnVerifyDateTime4_Click1")
@@ -2807,6 +2819,11 @@ Private Sub btnVerifyDateTime5_Click()
     
     On Error GoTo btnVerifyDateTime5_Click_Error
    
+    If cmbAlarm5Day.ListIndex = -1 Or cmbAlarm5Month.ListIndex = -1 Or cmbAlarm5Year.ListIndex = -1 Or cmbAlarm5Hours.ListIndex = -1 Or cmbAlarm5Minutes.ListIndex = -1 Then Exit Sub
+    
+    txtAlarm5Date.Text = cmbAlarm5Day.List(cmbAlarm5Day.ListIndex) & "/" & CStr(cmbAlarm5Month.ListIndex + 5) & "/" & cmbAlarm5Year.List(cmbAlarm5Year.ListIndex)
+    txtAlarm5Time.Text = cmbAlarm5Hours.List(cmbAlarm5Hours.ListIndex) & ":" & cmbAlarm5Minutes.List(cmbAlarm5Minutes.ListIndex)
+    
     If txtAlarm5Date.Text = "Alarm not yet set" Or txtAlarm5Time.Text = vbNullString Then
         answerMsg = "Alarm not yet set!"
         answer = msgBoxA(answerMsg, vbExclamation + vbOK, "Alarm Message", False, "btnVerifyDateTime5_Click1")
@@ -6628,11 +6645,6 @@ Private Sub txtAlarm1Date_Change()
     btnSave.Enabled = True ' enable the save button
 End Sub
 
-Private Sub txtAlarm1Date_Click()
-    If txtAlarm1Date.Text = "Alarm not yet set" Then txtAlarm1Date.Text = vbNullString
-
-End Sub
-
 Private Sub txtAlarm1Time_MouseMove(Button As Integer, Shift As Integer, X As Single, y As Single)
     If gblEnablePrefsBalloonTooltips = "True" Then CreateToolTip txtAlarm1Time.hWnd, "Enter a valid Time here by typing a future time in 24hr military format, eg: 23:45. When you have entered both a date in the previous field and a time here, then click the > key to validate.", _
                   TTIconInfo, "Help on Alarm Time Number One", , , , True
@@ -6694,10 +6706,7 @@ Private Sub txtAlarm2Date_Change()
     btnSave.Enabled = True ' enable the save button
 End Sub
 
-Private Sub txtAlarm2Date_Click()
-    If txtAlarm2Date.Text = "Alarm not yet set" Then txtAlarm2Date.Text = vbNullString
 
-End Sub
 
 Private Sub txtAlarm2Time_Change()
     btnSave.Enabled = True ' enable the save button
@@ -6708,10 +6717,7 @@ Private Sub txtAlarm3Date_Change()
     btnSave.Enabled = True ' enable the save button
 End Sub
 
-Private Sub txtAlarm3Date_Click()
-    If txtAlarm3Date.Text = "Alarm not yet set" Then txtAlarm3Date.Text = vbNullString
 
-End Sub
 
 Private Sub txtAlarm3Time_Change()
     btnSave.Enabled = True ' enable the save button
@@ -6724,10 +6730,7 @@ End Sub
 
 
 
-Private Sub txtAlarm4Date_Click()
-    If txtAlarm4Date.Text = "Alarm not yet set" Then txtAlarm4Date.Text = vbNullString
 
-End Sub
 
 Private Sub txtAlarm4Time_Change()
     btnSave.Enabled = True ' enable the save button
@@ -6739,9 +6742,7 @@ Private Sub txtAlarm5Date_Change()
 
 End Sub
 
-Private Sub txtAlarm5Date_Click()
-    If txtAlarm5Date.Text = "Alarm not yet set" Then txtAlarm5Date.Text = vbNullString
-End Sub
+
 
 Private Sub txtAlarm5Time_Change()
     btnSave.Enabled = True ' enable the save button
