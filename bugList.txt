@@ -178,11 +178,6 @@ quiet/loud sounds
 ' add the date/time picker FOSS code to the prefs - abandoned ucJLDatePicker, strange errors and no instructions
 ' number of writeable lines in the label widget according to the font size to ensure the text appears on screen - not required
 
-' -oOo-
-
-Tasks to do:
-============
-
 ' separate the date into three separate boxes, perhaps a dropdown for each and validation - wip
 ' add three separate boxes for alarm 1- wip
 ' add code to fill the date and month with values for alarm 1- wip
@@ -190,6 +185,20 @@ Tasks to do:
 ' add balloon tooltips for day and month for alarm 1- wip
 
 ' separate the time into two fields and add validation
+
+' courier new problem
+' set the display console font to the chosen font in the font field
+
+' -oOo-
+
+Tasks to do:
+============
+
+' standard tooltips for the alarm combo boxes
+
+' bottom of the form has been truncated slightly
+
+' DPI switch off and back on loses high DPI size
 
 ' slider advancing/retarding time using timeShiftPercent modified not quite exponentially to shift time - wip
 ' in the timer, take the value of timeShiftPercent and do what to it, use cosine to calculate the value on a curve

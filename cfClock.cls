@@ -381,7 +381,7 @@ Public Sub InitFromPSD(ByRef PSD_FileNameOrByteArray As Variant)
         .Widget.ForeColor = grey
         .Widget.Alpha = someOpacity
         .Widget.FontBold = False
-        .borderWidth = 0
+        .BorderWidth = 0
         .WordWrap = True
         .Alignment = 0
         .Widget.BackColor = -1
@@ -2472,7 +2472,7 @@ End Sub
 '                alter the size of the form to correspond to the monitor
 '---------------------------------------------------------------------------------------
 '
-Private Sub clockForm_MouseUp(ByRef Button As Integer, ByRef Shift As Integer, ByRef x As Single, ByRef y As Single)
+Private Sub clockForm_MouseUp(ByRef Button As Integer, ByRef Shift As Integer, ByRef X As Single, ByRef y As Single)
 
     On Error GoTo clockForm_MouseUp_Error
     
@@ -2507,8 +2507,8 @@ End Sub
 ' Purpose   :
 '---------------------------------------------------------------------------------------
 '
-Private Sub clockForm_MouseMove(ByRef Button As Integer, ByRef Shift As Integer, ByRef x As Single, ByRef y As Single)
-  Static x0 As Single, y0 As Single: If Button = 0 Then x0 = x: y0 = y 'just store the offsets when no button is down
+Private Sub clockForm_MouseMove(ByRef Button As Integer, ByRef Shift As Integer, ByRef X As Single, ByRef y As Single)
+  Static x0 As Single, y0 As Single: If Button = 0 Then x0 = X: y0 = y 'just store the offsets when no button is down
   
    On Error GoTo clockForm_MouseMove_Error
     
@@ -2517,7 +2517,7 @@ Private Sub clockForm_MouseMove(ByRef Button As Integer, ByRef Shift As Integer,
 
     If Button = vbLeftButton And Not clockForm.ActiveWidget Is Nothing Then 'Form-Dragging (under certain conditions)
 
-      FX = (x - x0) * clockForm.WidgetRoot.Zoom + clockForm.Left
+      FX = (X - x0) * clockForm.WidgetRoot.Zoom + clockForm.Left
       FY = (y - y0) * clockForm.WidgetRoot.Zoom + clockForm.Top
       clockForm.Move FX, FY
       
@@ -2584,13 +2584,13 @@ Public Sub AdjustZoom(ByVal NewZoom As Single)
     clockForm.Move clockForm.Left, clockForm.Top, pvtPSDWidth * clockForm.WidgetRoot.Zoom, pvtPSDHeight * clockForm.WidgetRoot.Zoom
     
     ' when resized from the gauge scroll up/down it needs to write it back so the size is correct when prefs opened.
-    gblGaugeSize = LTrim$(Str$(NewZoom * 100))
+    gblGaugeSize = CStr(NewZoom * 100)
     If widgetPrefs.IsVisible = True Then widgetPrefs.sliGaugeSize = Val(gblGaugeSize)
     
     If clockMonitorStruct.IsPrimary = True Then
-        gblClockPrimaryHeightRatio = Str$(NewZoom)
+        gblClockPrimaryHeightRatio = CStr(NewZoom)
     Else
-        gblClockSecondaryHeightRatio = Str$(NewZoom)
+        gblClockSecondaryHeightRatio = CStr(NewZoom)
     End If
 
    On Error GoTo 0
@@ -2608,7 +2608,7 @@ End Sub
 ' Purpose   :
 '---------------------------------------------------------------------------------------
 '
-Private Sub clockForm_MouseDown(ByRef Button As Integer, ByRef Shift As Integer, ByRef x As Single, ByRef y As Single)
+Private Sub clockForm_MouseDown(ByRef Button As Integer, ByRef Shift As Integer, ByRef X As Single, ByRef y As Single)
    On Error GoTo W_MouseDown_Error
 
     frmTimer.tmrScreenResolution.Enabled = False

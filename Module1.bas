@@ -2113,8 +2113,8 @@ Public Sub mainScreen()
     ' calculate the current hlocation in % of the screen
     ' store the current hlocation in % of the screen
     If gblWidgetPosition = "1" Then
-        gblhLocationPercPrefValue = Str$(fClock.clockForm.Left / virtualScreenWidthPixels * 100)
-        gblvLocationPercPrefValue = Str$(fClock.clockForm.Top / virtualScreenHeightPixels * 100)
+        gblhLocationPercPrefValue = CStr(fClock.clockForm.Left / virtualScreenWidthPixels * 100)
+        gblvLocationPercPrefValue = CStr(fClock.clockForm.Top / virtualScreenHeightPixels * 100)
     End If
 
    On Error GoTo 0
@@ -2247,14 +2247,14 @@ Public Sub savePosition()
    On Error GoTo savePosition_Error
 
     If gblDpiAwareness = "1" Then
-        gblClockHighDpiXPos = Str$(fClock.clockForm.Left) ' saving in pixels
-        gblClockHighDpiYPos = Str$(fClock.clockForm.Top)
+        gblClockHighDpiXPos = CStr(fClock.clockForm.Left) ' saving in pixels
+        gblClockHighDpiYPos = CStr(fClock.clockForm.Top)
         sPutINISetting "Software\SteampunkClockCalendar", "clockHighDpiXPos", gblClockHighDpiXPos, gblSettingsFile
         sPutINISetting "Software\SteampunkClockCalendar", "clockHighDpiYPos", gblClockHighDpiYPos, gblSettingsFile
 
     Else
-        gblClockLowDpiXPos = Str$(fClock.clockForm.Left) ' saving in pixels
-        gblClockLowDpiYPos = Str$(fClock.clockForm.Top)
+        gblClockLowDpiXPos = CStr(fClock.clockForm.Left) ' saving in pixels
+        gblClockLowDpiYPos = CStr(fClock.clockForm.Top)
         sPutINISetting "Software\SteampunkClockCalendar", "clockLowDpiXPos", gblClockLowDpiXPos, gblSettingsFile
         sPutINISetting "Software\SteampunkClockCalendar", "clockLowDpiYPos", gblClockLowDpiYPos, gblSettingsFile
     End If
@@ -2262,7 +2262,7 @@ Public Sub savePosition()
             
     sPutINISetting "Software\SteampunkClockCalendar", "clockPrimaryHeightRatio", gblClockPrimaryHeightRatio, gblSettingsFile
     sPutINISetting "Software\SteampunkClockCalendar", "clockSecondaryHeightRatio", gblClockSecondaryHeightRatio, gblSettingsFile
-    gblGaugeSize = Str$(fClock.clockForm.WidgetRoot.Zoom * 100)
+    gblGaugeSize = CStr(fClock.clockForm.WidgetRoot.Zoom * 100)
     sPutINISetting "Software\SteampunkClockCalendar", "gaugeSize", gblGaugeSize, gblSettingsFile
 
    On Error GoTo 0
@@ -2394,15 +2394,15 @@ Public Sub writePrefsPosition()
 
     If widgetPrefs.WindowState = vbNormal Then ' when vbMinimised the value = -48000  !
         If gblDpiAwareness = "1" Then
-            gblPrefsHighDpiXPosTwips = Trim$(Str$(widgetPrefs.Left))
-            gblPrefsHighDpiYPosTwips = Trim$(Str$(widgetPrefs.Top))
+            gblPrefsHighDpiXPosTwips = Trim$(CStr(widgetPrefs.Left))
+            gblPrefsHighDpiYPosTwips = Trim$(CStr(widgetPrefs.Top))
             
             ' now write those params to the toolSettings.ini
             sPutINISetting "Software\SteampunkClockCalendar", "formHighDpiXPosTwips", gblPrefsHighDpiXPosTwips, gblSettingsFile
             sPutINISetting "Software\SteampunkClockCalendar", "formHighDpiYPosTwips", gblPrefsHighDpiYPosTwips, gblSettingsFile
         Else
-            gblPrefsLowDpiXPosTwips = Str$(widgetPrefs.Left)
-            gblPrefsLowDpiYPosTwips = Str$(widgetPrefs.Top)
+            gblPrefsLowDpiXPosTwips = CStr(widgetPrefs.Left)
+            gblPrefsLowDpiYPosTwips = CStr(widgetPrefs.Top)
             
             ' now write those params to the toolSettings.ini
             sPutINISetting "Software\SteampunkClockCalendar", "formLowDpiXPosTwips", gblPrefsLowDpiXPosTwips, gblSettingsFile
@@ -2412,10 +2412,10 @@ Public Sub writePrefsPosition()
 
         'prefsMonitorStruct = formScreenProperties(widgetPrefs, prefsFormMonitorID)
         If prefsMonitorStruct.IsPrimary = True Then
-            gblPrefsPrimaryHeightTwips = Trim$(Str$(widgetPrefs.Height))
+            gblPrefsPrimaryHeightTwips = Trim$(CStr(widgetPrefs.Height))
             sPutINISetting "Software\SteampunkClockCalendar", "prefsPrimaryHeightTwips", gblPrefsPrimaryHeightTwips, gblSettingsFile
         Else
-            gblPrefsSecondaryHeightTwips = Trim$(Str$(widgetPrefs.Height))
+            gblPrefsSecondaryHeightTwips = Trim$(CStr(widgetPrefs.Height))
             sPutINISetting "Software\SteampunkClockCalendar", "prefsSecondaryHeightTwips", gblPrefsSecondaryHeightTwips, gblSettingsFile
         End If
     End If

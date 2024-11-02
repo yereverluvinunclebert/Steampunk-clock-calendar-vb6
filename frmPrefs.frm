@@ -12,6 +12,327 @@ Begin VB.Form widgetPrefs
    ScaleMode       =   0  'User
    ScaleWidth      =   8880
    Visible         =   0   'False
+   Begin VB.Timer tmrPrefsMonitorSaveHeight 
+      Interval        =   5000
+      Left            =   -90
+      Top             =   5220
+   End
+   Begin VB.Timer tmrPrefsScreenResolution 
+      Enabled         =   0   'False
+      Interval        =   1500
+      Left            =   -90
+      Top             =   6420
+   End
+   Begin VB.Frame fraDevelopmentButton 
+      BorderStyle     =   0  'None
+      Height          =   1140
+      Left            =   5490
+      TabIndex        =   39
+      Top             =   0
+      Width           =   1065
+      Begin VB.Label lblDevelopment 
+         Caption         =   "Development"
+         Height          =   240
+         Left            =   45
+         TabIndex        =   40
+         Top             =   855
+         Width           =   960
+      End
+      Begin VB.Image imgDevelopment 
+         Height          =   600
+         Left            =   150
+         Picture         =   "frmPrefs.frx":0ECA
+         Stretch         =   -1  'True
+         Top             =   225
+         Width           =   600
+      End
+      Begin VB.Image imgDevelopmentClicked 
+         Height          =   600
+         Left            =   160
+         Picture         =   "frmPrefs.frx":1482
+         Stretch         =   -1  'True
+         Top             =   225
+         Width           =   600
+      End
+   End
+   Begin VB.Timer tmrWritePosition 
+      Enabled         =   0   'False
+      Interval        =   5000
+      Left            =   -75
+      Top             =   6990
+   End
+   Begin VB.CheckBox chkEnableResizing 
+      Caption         =   "Enable Corner Resize"
+      Height          =   210
+      Left            =   3240
+      TabIndex        =   127
+      Top             =   10125
+      Visible         =   0   'False
+      Width           =   2250
+   End
+   Begin VB.Frame fraAboutButton 
+      BorderStyle     =   0  'None
+      Height          =   1140
+      Left            =   7695
+      TabIndex        =   94
+      Top             =   0
+      Width           =   975
+      Begin VB.Label lblAbout 
+         Caption         =   "About"
+         Height          =   240
+         Index           =   0
+         Left            =   255
+         TabIndex        =   95
+         Top             =   855
+         Width           =   615
+      End
+      Begin VB.Image imgAbout 
+         Height          =   600
+         Left            =   160
+         Picture         =   "frmPrefs.frx":1808
+         Stretch         =   -1  'True
+         Top             =   225
+         Width           =   600
+      End
+      Begin VB.Image imgAboutClicked 
+         Height          =   600
+         Left            =   160
+         Picture         =   "frmPrefs.frx":1D90
+         Stretch         =   -1  'True
+         Top             =   225
+         Width           =   600
+      End
+   End
+   Begin VB.Frame fraConfigButton 
+      BorderStyle     =   0  'None
+      Height          =   1140
+      Left            =   1215
+      TabIndex        =   41
+      Top             =   -15
+      Width           =   930
+      Begin VB.Label lblConfig 
+         Caption         =   "Config."
+         Height          =   240
+         Index           =   0
+         Left            =   270
+         TabIndex        =   42
+         Top             =   855
+         Width           =   510
+      End
+      Begin VB.Image imgConfig 
+         Height          =   600
+         Left            =   165
+         Picture         =   "frmPrefs.frx":227B
+         Stretch         =   -1  'True
+         Top             =   225
+         Width           =   600
+      End
+      Begin VB.Image imgConfigClicked 
+         Height          =   600
+         Left            =   165
+         Picture         =   "frmPrefs.frx":285A
+         Stretch         =   -1  'True
+         Top             =   225
+         Width           =   600
+      End
+   End
+   Begin VB.Frame fraPositionButton 
+      BorderStyle     =   0  'None
+      Height          =   1140
+      Left            =   4410
+      TabIndex        =   37
+      Top             =   0
+      Width           =   930
+      Begin VB.Label lblPosition 
+         Caption         =   "Position"
+         Height          =   240
+         Index           =   0
+         Left            =   180
+         TabIndex        =   38
+         Top             =   855
+         Width           =   615
+      End
+      Begin VB.Image imgPosition 
+         Height          =   600
+         Left            =   160
+         Picture         =   "frmPrefs.frx":2D5F
+         Stretch         =   -1  'True
+         Top             =   225
+         Width           =   600
+      End
+      Begin VB.Image imgPositionClicked 
+         Height          =   600
+         Left            =   160
+         Picture         =   "frmPrefs.frx":3330
+         Stretch         =   -1  'True
+         Top             =   225
+         Width           =   600
+      End
+   End
+   Begin VB.CommandButton btnSave 
+      Caption         =   "&Save"
+      Enabled         =   0   'False
+      Height          =   360
+      Left            =   6090
+      Style           =   1  'Graphical
+      TabIndex        =   6
+      ToolTipText     =   "Save the changes you have made to the preferences"
+      Top             =   10035
+      Width           =   1320
+   End
+   Begin VB.CommandButton btnHelp 
+      Caption         =   "Help"
+      Height          =   360
+      Left            =   120
+      Style           =   1  'Graphical
+      TabIndex        =   36
+      ToolTipText     =   "Open the help utility"
+      Top             =   10035
+      Width           =   1320
+   End
+   Begin VB.Frame fraSoundsButton 
+      BorderStyle     =   0  'None
+      Height          =   1140
+      Left            =   3315
+      TabIndex        =   11
+      Top             =   -15
+      Width           =   930
+      Begin VB.Label lblSounds 
+         Caption         =   "Sounds"
+         Height          =   240
+         Left            =   210
+         TabIndex        =   12
+         Top             =   870
+         Width           =   615
+      End
+      Begin VB.Image imgSounds 
+         Height          =   600
+         Left            =   160
+         Picture         =   "frmPrefs.frx":36CE
+         Stretch         =   -1  'True
+         Top             =   225
+         Width           =   600
+      End
+      Begin VB.Image imgSoundsClicked 
+         Height          =   600
+         Left            =   160
+         Picture         =   "frmPrefs.frx":3C8D
+         Stretch         =   -1  'True
+         Top             =   225
+         Width           =   600
+      End
+   End
+   Begin VB.Timer themeTimer 
+      Enabled         =   0   'False
+      Interval        =   10000
+      Left            =   -90
+      Top             =   5835
+   End
+   Begin VB.CommandButton btnClose 
+      Caption         =   "&Close"
+      Height          =   360
+      Left            =   7440
+      Style           =   1  'Graphical
+      TabIndex        =   7
+      ToolTipText     =   "Close the utility"
+      Top             =   10020
+      Width           =   1320
+   End
+   Begin VB.Frame fraWindowButton 
+      BorderStyle     =   0  'None
+      Height          =   1140
+      Left            =   6615
+      TabIndex        =   4
+      Top             =   0
+      Width           =   975
+      Begin VB.Label lblWindow 
+         Caption         =   "Window"
+         Height          =   240
+         Left            =   180
+         TabIndex        =   5
+         Top             =   855
+         Width           =   615
+      End
+      Begin VB.Image imgWindow 
+         Height          =   600
+         Left            =   160
+         Picture         =   "frmPrefs.frx":415D
+         Stretch         =   -1  'True
+         Top             =   225
+         Width           =   600
+      End
+      Begin VB.Image imgWindowClicked 
+         Height          =   600
+         Left            =   160
+         Picture         =   "frmPrefs.frx":4627
+         Stretch         =   -1  'True
+         Top             =   225
+         Width           =   600
+      End
+   End
+   Begin VB.Frame fraFontsButton 
+      BorderStyle     =   0  'None
+      Height          =   1140
+      Left            =   2280
+      TabIndex        =   2
+      Top             =   0
+      Width           =   930
+      Begin VB.Label lblFonts 
+         Caption         =   "Fonts"
+         Height          =   240
+         Left            =   270
+         TabIndex        =   3
+         Top             =   855
+         Width           =   510
+      End
+      Begin VB.Image imgFonts 
+         Height          =   600
+         Left            =   180
+         Picture         =   "frmPrefs.frx":49D3
+         Stretch         =   -1  'True
+         Top             =   195
+         Width           =   600
+      End
+      Begin VB.Image imgFontsClicked 
+         Height          =   600
+         Left            =   180
+         Picture         =   "frmPrefs.frx":4F29
+         Stretch         =   -1  'True
+         Top             =   195
+         Width           =   600
+      End
+   End
+   Begin VB.Frame fraGeneralButton 
+      Height          =   1140
+      Left            =   240
+      TabIndex        =   0
+      Top             =   -15
+      Width           =   930
+      Begin VB.Image imgGeneral 
+         Appearance      =   0  'Flat
+         Height          =   600
+         Left            =   165
+         Stretch         =   -1  'True
+         Top             =   225
+         Width           =   600
+      End
+      Begin VB.Label lblGeneral 
+         Caption         =   "General"
+         Height          =   240
+         Index           =   0
+         Left            =   195
+         TabIndex        =   1
+         Top             =   855
+         Width           =   705
+      End
+      Begin VB.Image imgGeneralClicked 
+         Height          =   600
+         Left            =   165
+         Stretch         =   -1  'True
+         Top             =   240
+         Width           =   600
+      End
+   End
    Begin VB.Frame fraGeneral 
       Caption         =   "General"
       ForeColor       =   &H80000008&
@@ -384,7 +705,7 @@ Begin VB.Form widgetPrefs
                Width           =   825
             End
             Begin VB.Label lblGeneral 
-               Caption         =   $"frmPrefs.frx":0ECA
+               Caption         =   $"frmPrefs.frx":53C2
                Height          =   960
                Index           =   10
                Left            =   2070
@@ -518,327 +839,6 @@ Begin VB.Form widgetPrefs
             Top             =   1350
             Width           =   1740
          End
-      End
-   End
-   Begin VB.Timer tmrPrefsMonitorSaveHeight 
-      Interval        =   5000
-      Left            =   -90
-      Top             =   5220
-   End
-   Begin VB.Timer tmrPrefsScreenResolution 
-      Enabled         =   0   'False
-      Interval        =   1500
-      Left            =   -90
-      Top             =   6420
-   End
-   Begin VB.Frame fraDevelopmentButton 
-      BorderStyle     =   0  'None
-      Height          =   1140
-      Left            =   5490
-      TabIndex        =   39
-      Top             =   0
-      Width           =   1065
-      Begin VB.Label lblDevelopment 
-         Caption         =   "Development"
-         Height          =   240
-         Left            =   45
-         TabIndex        =   40
-         Top             =   855
-         Width           =   960
-      End
-      Begin VB.Image imgDevelopment 
-         Height          =   600
-         Left            =   150
-         Picture         =   "frmPrefs.frx":0F87
-         Stretch         =   -1  'True
-         Top             =   225
-         Width           =   600
-      End
-      Begin VB.Image imgDevelopmentClicked 
-         Height          =   600
-         Left            =   160
-         Picture         =   "frmPrefs.frx":153F
-         Stretch         =   -1  'True
-         Top             =   225
-         Width           =   600
-      End
-   End
-   Begin VB.Timer tmrWritePosition 
-      Enabled         =   0   'False
-      Interval        =   5000
-      Left            =   -75
-      Top             =   6990
-   End
-   Begin VB.CheckBox chkEnableResizing 
-      Caption         =   "Enable Corner Resize"
-      Height          =   210
-      Left            =   3240
-      TabIndex        =   127
-      Top             =   10125
-      Visible         =   0   'False
-      Width           =   2250
-   End
-   Begin VB.Frame fraAboutButton 
-      BorderStyle     =   0  'None
-      Height          =   1140
-      Left            =   7695
-      TabIndex        =   94
-      Top             =   0
-      Width           =   975
-      Begin VB.Label lblAbout 
-         Caption         =   "About"
-         Height          =   240
-         Index           =   0
-         Left            =   255
-         TabIndex        =   95
-         Top             =   855
-         Width           =   615
-      End
-      Begin VB.Image imgAbout 
-         Height          =   600
-         Left            =   160
-         Picture         =   "frmPrefs.frx":18C5
-         Stretch         =   -1  'True
-         Top             =   225
-         Width           =   600
-      End
-      Begin VB.Image imgAboutClicked 
-         Height          =   600
-         Left            =   160
-         Picture         =   "frmPrefs.frx":1E4D
-         Stretch         =   -1  'True
-         Top             =   225
-         Width           =   600
-      End
-   End
-   Begin VB.Frame fraConfigButton 
-      BorderStyle     =   0  'None
-      Height          =   1140
-      Left            =   1215
-      TabIndex        =   41
-      Top             =   -15
-      Width           =   930
-      Begin VB.Label lblConfig 
-         Caption         =   "Config."
-         Height          =   240
-         Index           =   0
-         Left            =   270
-         TabIndex        =   42
-         Top             =   855
-         Width           =   510
-      End
-      Begin VB.Image imgConfig 
-         Height          =   600
-         Left            =   165
-         Picture         =   "frmPrefs.frx":2338
-         Stretch         =   -1  'True
-         Top             =   225
-         Width           =   600
-      End
-      Begin VB.Image imgConfigClicked 
-         Height          =   600
-         Left            =   165
-         Picture         =   "frmPrefs.frx":2917
-         Stretch         =   -1  'True
-         Top             =   225
-         Width           =   600
-      End
-   End
-   Begin VB.Frame fraPositionButton 
-      BorderStyle     =   0  'None
-      Height          =   1140
-      Left            =   4410
-      TabIndex        =   37
-      Top             =   0
-      Width           =   930
-      Begin VB.Label lblPosition 
-         Caption         =   "Position"
-         Height          =   240
-         Index           =   0
-         Left            =   180
-         TabIndex        =   38
-         Top             =   855
-         Width           =   615
-      End
-      Begin VB.Image imgPosition 
-         Height          =   600
-         Left            =   160
-         Picture         =   "frmPrefs.frx":2E1C
-         Stretch         =   -1  'True
-         Top             =   225
-         Width           =   600
-      End
-      Begin VB.Image imgPositionClicked 
-         Height          =   600
-         Left            =   160
-         Picture         =   "frmPrefs.frx":33ED
-         Stretch         =   -1  'True
-         Top             =   225
-         Width           =   600
-      End
-   End
-   Begin VB.CommandButton btnSave 
-      Caption         =   "&Save"
-      Enabled         =   0   'False
-      Height          =   360
-      Left            =   6090
-      Style           =   1  'Graphical
-      TabIndex        =   6
-      ToolTipText     =   "Save the changes you have made to the preferences"
-      Top             =   10035
-      Width           =   1320
-   End
-   Begin VB.CommandButton btnHelp 
-      Caption         =   "Help"
-      Height          =   360
-      Left            =   120
-      Style           =   1  'Graphical
-      TabIndex        =   36
-      ToolTipText     =   "Open the help utility"
-      Top             =   10035
-      Width           =   1320
-   End
-   Begin VB.Frame fraSoundsButton 
-      BorderStyle     =   0  'None
-      Height          =   1140
-      Left            =   3315
-      TabIndex        =   11
-      Top             =   -15
-      Width           =   930
-      Begin VB.Label lblSounds 
-         Caption         =   "Sounds"
-         Height          =   240
-         Left            =   210
-         TabIndex        =   12
-         Top             =   870
-         Width           =   615
-      End
-      Begin VB.Image imgSounds 
-         Height          =   600
-         Left            =   160
-         Picture         =   "frmPrefs.frx":378B
-         Stretch         =   -1  'True
-         Top             =   225
-         Width           =   600
-      End
-      Begin VB.Image imgSoundsClicked 
-         Height          =   600
-         Left            =   160
-         Picture         =   "frmPrefs.frx":3D4A
-         Stretch         =   -1  'True
-         Top             =   225
-         Width           =   600
-      End
-   End
-   Begin VB.Timer themeTimer 
-      Enabled         =   0   'False
-      Interval        =   10000
-      Left            =   -90
-      Top             =   5835
-   End
-   Begin VB.CommandButton btnClose 
-      Caption         =   "&Close"
-      Height          =   360
-      Left            =   7440
-      Style           =   1  'Graphical
-      TabIndex        =   7
-      ToolTipText     =   "Close the utility"
-      Top             =   10020
-      Width           =   1320
-   End
-   Begin VB.Frame fraWindowButton 
-      BorderStyle     =   0  'None
-      Height          =   1140
-      Left            =   6615
-      TabIndex        =   4
-      Top             =   0
-      Width           =   975
-      Begin VB.Label lblWindow 
-         Caption         =   "Window"
-         Height          =   240
-         Left            =   180
-         TabIndex        =   5
-         Top             =   855
-         Width           =   615
-      End
-      Begin VB.Image imgWindow 
-         Height          =   600
-         Left            =   160
-         Picture         =   "frmPrefs.frx":421A
-         Stretch         =   -1  'True
-         Top             =   225
-         Width           =   600
-      End
-      Begin VB.Image imgWindowClicked 
-         Height          =   600
-         Left            =   160
-         Picture         =   "frmPrefs.frx":46E4
-         Stretch         =   -1  'True
-         Top             =   225
-         Width           =   600
-      End
-   End
-   Begin VB.Frame fraFontsButton 
-      BorderStyle     =   0  'None
-      Height          =   1140
-      Left            =   2280
-      TabIndex        =   2
-      Top             =   0
-      Width           =   930
-      Begin VB.Label lblFonts 
-         Caption         =   "Fonts"
-         Height          =   240
-         Left            =   270
-         TabIndex        =   3
-         Top             =   855
-         Width           =   510
-      End
-      Begin VB.Image imgFonts 
-         Height          =   600
-         Left            =   180
-         Picture         =   "frmPrefs.frx":4A90
-         Stretch         =   -1  'True
-         Top             =   195
-         Width           =   600
-      End
-      Begin VB.Image imgFontsClicked 
-         Height          =   600
-         Left            =   180
-         Picture         =   "frmPrefs.frx":4FE6
-         Stretch         =   -1  'True
-         Top             =   195
-         Width           =   600
-      End
-   End
-   Begin VB.Frame fraGeneralButton 
-      Height          =   1140
-      Left            =   240
-      TabIndex        =   0
-      Top             =   -15
-      Width           =   930
-      Begin VB.Image imgGeneral 
-         Appearance      =   0  'Flat
-         Height          =   600
-         Left            =   165
-         Stretch         =   -1  'True
-         Top             =   225
-         Width           =   600
-      End
-      Begin VB.Label lblGeneral 
-         Caption         =   "General"
-         Height          =   240
-         Index           =   0
-         Left            =   195
-         TabIndex        =   1
-         Top             =   855
-         Width           =   705
-      End
-      Begin VB.Image imgGeneralClicked 
-         Height          =   600
-         Left            =   165
-         Stretch         =   -1  'True
-         Top             =   240
-         Width           =   600
       End
    End
    Begin VB.Frame fraDevelopment 
@@ -1674,7 +1674,7 @@ Begin VB.Form widgetPrefs
       Begin VB.Frame fraFontsInner 
          BorderStyle     =   0  'None
          Height          =   3810
-         Left            =   705
+         Left            =   690
          TabIndex        =   26
          Top             =   360
          Width           =   6105
@@ -2437,11 +2437,11 @@ Private gCmbWidgetPositionBalloonTooltip As String
 Private gCmbWidgetLandscapeBalloonTooltip As String
 Private gCmbWidgetPortraitBalloonTooltip As String
 Private gCmbDebugBalloonTooltip As String
-Private gCmbAlarmDayDayBalloonTooltip As String
-Private gCmbAlarmDayMonthBalloonTooltip As String
-Private gCmbAlarmDayYearBalloonTooltip As String
-Private gCmbAlarmDayHoursBalloonTooltip As String
-Private gCmbAlarmDayMinutesBalloonTooltip As String
+Private gCmbAlarmDayBalloonTooltip As String
+Private gCmbAlarmMonthBalloonTooltip As String
+Private gCmbAlarmYearBalloonTooltip As String
+Private gCmbAlarmHoursBalloonTooltip As String
+Private gCmbAlarmMinutesBalloonTooltip As String
 
 
 Private gPrefsFormResizedByDrag As Boolean
@@ -3029,20 +3029,20 @@ Private Sub cmbMultiMonitorResize_Click()
     
     If prefsStartupFlg = True Then Exit Sub
     
-    gblMultiMonitorResize = Str$(cmbMultiMonitorResize.ListIndex)
+    gblMultiMonitorResize = CStr(cmbMultiMonitorResize.ListIndex)
     
     If cmbMultiMonitorResize.ListIndex = 2 Then
         If prefsMonitorStruct.IsPrimary = True Then
             gblClockPrimaryHeightRatio = fClock.clockForm.WidgetRoot.Zoom
             sPutINISetting "Software\SteampunkClockCalendar", "clockPrimaryHeightRatio", gblClockPrimaryHeightRatio, gblSettingsFile
             
-            'gblPrefsPrimaryHeightTwips = Trim$(Str$(widgetPrefs.Height))
+            'gblPrefsPrimaryHeightTwips = Trim$(cstr(widgetPrefs.Height))
             sPutINISetting "Software\SteampunkClockCalendar", "prefsPrimaryHeightTwips", gblPrefsPrimaryHeightTwips, gblSettingsFile
         Else
             gblClockSecondaryHeightRatio = fClock.clockForm.WidgetRoot.Zoom
             sPutINISetting "Software\SteampunkClockCalendar", "clockSecondaryHeightRatio", gblClockSecondaryHeightRatio, gblSettingsFile
             
-            'gblPrefsSecondaryHeightTwips = Trim$(Str$(widgetPrefs.Height))
+            'gblPrefsSecondaryHeightTwips = Trim$(cstr(widgetPrefs.Height))
             sPutINISetting "Software\SteampunkClockCalendar", "prefsSecondaryHeightTwips", gblPrefsSecondaryHeightTwips, gblSettingsFile
         End If
     End If
@@ -3388,107 +3388,107 @@ Public Sub MouseMoveOnComboText(sComboName As String)
         
         Case "cmbAlarm1Day"
             sTitle = "Help on Alarm Number One Day"
-            sText = gCmbAlarmDayDayBalloonTooltip
+            sText = gCmbAlarmDayBalloonTooltip
             If gblEnablePrefsBalloonTooltips = "True" Then CreateToolTip cmbAlarm1Day.hWnd, sText, , sTitle, , , , True
         Case "cmbAlarm2Day"
             sTitle = "Help on Alarm Number Two Day"
-            sText = gCmbAlarmDayDayBalloonTooltip
+            sText = gCmbAlarmDayBalloonTooltip
             If gblEnablePrefsBalloonTooltips = "True" Then CreateToolTip cmbAlarm2Day.hWnd, sText, , sTitle, , , , True
         Case "cmbAlarm3Day"
             sTitle = "Help on Alarm Number Three Day"
-            sText = gCmbAlarmDayDayBalloonTooltip
+            sText = gCmbAlarmDayBalloonTooltip
             If gblEnablePrefsBalloonTooltips = "True" Then CreateToolTip cmbAlarm3Day.hWnd, sText, , sTitle, , , , True
         Case "cmbAlarm4Day"
             sTitle = "Help on Alarm Number Four Day"
-            sText = gCmbAlarmDayDayBalloonTooltip
+            sText = gCmbAlarmDayBalloonTooltip
             If gblEnablePrefsBalloonTooltips = "True" Then CreateToolTip cmbAlarm4Day.hWnd, sText, , sTitle, , , , True
         Case "cmbAlarm5Day"
             sTitle = "Help on Alarm Number Five Day"
-            sText = gCmbAlarmDayDayBalloonTooltip
+            sText = gCmbAlarmDayBalloonTooltip
             If gblEnablePrefsBalloonTooltips = "True" Then CreateToolTip cmbAlarm5Day.hWnd, sText, , sTitle, , , , True
         
         Case "cmbAlarm1Month"
             sTitle = "Help on Alarm Number One Month"
-            sText = gCmbAlarmDayMonthBalloonTooltip
+            sText = gCmbAlarmMonthBalloonTooltip
             If gblEnablePrefsBalloonTooltips = "True" Then CreateToolTip cmbAlarm1Month.hWnd, sText, , sTitle, , , , True
         Case "cmbAlarm2Month"
             sTitle = "Help on Alarm Number Two Month"
-            sText = gCmbAlarmDayMonthBalloonTooltip
+            sText = gCmbAlarmMonthBalloonTooltip
             If gblEnablePrefsBalloonTooltips = "True" Then CreateToolTip cmbAlarm2Month.hWnd, sText, , sTitle, , , , True
         Case "cmbAlarm3Month"
             sTitle = "Help on Alarm Number Three Month"
-            sText = gCmbAlarmDayMonthBalloonTooltip
+            sText = gCmbAlarmMonthBalloonTooltip
             If gblEnablePrefsBalloonTooltips = "True" Then CreateToolTip cmbAlarm3Month.hWnd, sText, , sTitle, , , , True
         Case "cmbAlarm4Month"
             sTitle = "Help on Alarm Number Four Month"
-            sText = gCmbAlarmDayMonthBalloonTooltip
+            sText = gCmbAlarmMonthBalloonTooltip
             If gblEnablePrefsBalloonTooltips = "True" Then CreateToolTip cmbAlarm4Month.hWnd, sText, , sTitle, , , , True
         Case "cmbAlarm5Month"
             sTitle = "Help on Alarm Number Five Month"
-            sText = gCmbAlarmDayMonthBalloonTooltip
+            sText = gCmbAlarmMonthBalloonTooltip
             If gblEnablePrefsBalloonTooltips = "True" Then CreateToolTip cmbAlarm5Month.hWnd, sText, , sTitle, , , , True
         
         Case "cmbAlarm1Year"
             sTitle = "Help on Alarm Number One Year"
-            sText = gCmbAlarmDayYearBalloonTooltip
+            sText = gCmbAlarmYearBalloonTooltip
             If gblEnablePrefsBalloonTooltips = "True" Then CreateToolTip cmbAlarm1Year.hWnd, sText, , sTitle, , , , True
         Case "cmbAlarm2Year"
             sTitle = "Help on Alarm Number Two Year"
-            sText = gCmbAlarmDayYearBalloonTooltip
+            sText = gCmbAlarmYearBalloonTooltip
             If gblEnablePrefsBalloonTooltips = "True" Then CreateToolTip cmbAlarm2Year.hWnd, sText, , sTitle, , , , True
         Case "cmbAlarm3Year"
             sTitle = "Help on Alarm Number Three Year"
-            sText = gCmbAlarmDayYearBalloonTooltip
+            sText = gCmbAlarmYearBalloonTooltip
             If gblEnablePrefsBalloonTooltips = "True" Then CreateToolTip cmbAlarm3Year.hWnd, sText, , sTitle, , , , True
         Case "cmbAlarm4Year"
             sTitle = "Help on Alarm Number Four Year"
-            sText = gCmbAlarmDayYearBalloonTooltip
+            sText = gCmbAlarmYearBalloonTooltip
             If gblEnablePrefsBalloonTooltips = "True" Then CreateToolTip cmbAlarm4Year.hWnd, sText, , sTitle, , , , True
         Case "cmbAlarm5Year"
             sTitle = "Help on Alarm Number Five Year"
-            sText = gCmbAlarmDayYearBalloonTooltip
+            sText = gCmbAlarmYearBalloonTooltip
             If gblEnablePrefsBalloonTooltips = "True" Then CreateToolTip cmbAlarm5Year.hWnd, sText, , sTitle, , , , True
         
         Case "cmbAlarm1Hours"
             sTitle = "Help on Alarm Number One Hour"
-            sText = gCmbAlarmDayHoursBalloonTooltip
+            sText = gCmbAlarmHoursBalloonTooltip
             If gblEnablePrefsBalloonTooltips = "True" Then CreateToolTip cmbAlarm1Hours.hWnd, sText, , sTitle, , , , True
         Case "cmbAlarm2Hours"
             sTitle = "Help on Alarm Number Two Hour"
-            sText = gCmbAlarmDayHoursBalloonTooltip
+            sText = gCmbAlarmHoursBalloonTooltip
             If gblEnablePrefsBalloonTooltips = "True" Then CreateToolTip cmbAlarm2Hours.hWnd, sText, , sTitle, , , , True
         Case "cmbAlarm3Hours"
             sTitle = "Help on Alarm Number Three Hour"
-            sText = gCmbAlarmDayHoursBalloonTooltip
+            sText = gCmbAlarmHoursBalloonTooltip
             If gblEnablePrefsBalloonTooltips = "True" Then CreateToolTip cmbAlarm3Hours.hWnd, sText, , sTitle, , , , True
         Case "cmbAlarm4Hours"
             sTitle = "Help on Alarm Number Four Hour"
-            sText = gCmbAlarmDayHoursBalloonTooltip
+            sText = gCmbAlarmHoursBalloonTooltip
             If gblEnablePrefsBalloonTooltips = "True" Then CreateToolTip cmbAlarm4Hours.hWnd, sText, , sTitle, , , , True
         Case "cmbAlarm5Hours"
             sTitle = "Help on Alarm Number Five Hour"
-            sText = gCmbAlarmDayHoursBalloonTooltip
+            sText = gCmbAlarmHoursBalloonTooltip
             If gblEnablePrefsBalloonTooltips = "True" Then CreateToolTip cmbAlarm5Hours.hWnd, sText, , sTitle, , , , True
         
         Case "cmbAlarm1Minutes"
             sTitle = "Help on Alarm Number One Minute"
-            sText = gCmbAlarmDayMinutesBalloonTooltip
+            sText = gCmbAlarmMinutesBalloonTooltip
             If gblEnablePrefsBalloonTooltips = "True" Then CreateToolTip cmbAlarm1Minutes.hWnd, sText, , sTitle, , , , True
         Case "cmbAlarm2Minutes"
             sTitle = "Help on Alarm Number Two Minute"
-            sText = gCmbAlarmDayMinutesBalloonTooltip
+            sText = gCmbAlarmMinutesBalloonTooltip
             If gblEnablePrefsBalloonTooltips = "True" Then CreateToolTip cmbAlarm2Minutes.hWnd, sText, , sTitle, , , , True
         Case "cmbAlarm3Minutes"
             sTitle = "Help on Alarm Number Three Minute"
-            sText = gCmbAlarmDayMinutesBalloonTooltip
+            sText = gCmbAlarmMinutesBalloonTooltip
             If gblEnablePrefsBalloonTooltips = "True" Then CreateToolTip cmbAlarm3Minutes.hWnd, sText, , sTitle, , , , True
         Case "cmbAlarm4Minutes"
             sTitle = "Help on Alarm Number Four Minute"
-            sText = gCmbAlarmDayMinutesBalloonTooltip
+            sText = gCmbAlarmMinutesBalloonTooltip
             If gblEnablePrefsBalloonTooltips = "True" Then CreateToolTip cmbAlarm4Minutes.hWnd, sText, , sTitle, , , , True
         Case "cmbAlarm5Minutes"
             sTitle = "Help on Alarm Number Five Minute"
-            sText = gCmbAlarmDayMinutesBalloonTooltip
+            sText = gCmbAlarmMinutesBalloonTooltip
             If gblEnablePrefsBalloonTooltips = "True" Then CreateToolTip cmbAlarm5Minutes.hWnd, sText, , sTitle, , , , True
     End Select
     
@@ -5129,10 +5129,10 @@ Private Sub btnDisplayScreenFont_Click()
     End If
 
     If fFExists(gblSettingsFile) Then ' does the tool's own settings.ini exist?
-        sPutINISetting "Software\SteampunkClockCalendar", "prefsFont", gblDisplayScreenFont, gblSettingsFile
-        sPutINISetting "Software\SteampunkClockCalendar", "prefsFontSize", gblDisplayScreenFontSize, gblSettingsFile
-        sPutINISetting "Software\SteampunkClockCalendar", "prefsFontItalics", gblDisplayScreenFontItalics, gblSettingsFile
-        sPutINISetting "Software\SteampunkClockCalendar", "PrefsFontColour", gblDisplayScreenFontColour, gblSettingsFile
+        sPutINISetting "Software\SteampunkClockCalendar", "displayScreenFont", gblDisplayScreenFont, gblSettingsFile
+        sPutINISetting "Software\SteampunkClockCalendar", "displayScreenFontSize", gblDisplayScreenFontSize, gblSettingsFile
+        sPutINISetting "Software\SteampunkClockCalendar", "displayScreenFontItalics", gblDisplayScreenFontItalics, gblSettingsFile
+        sPutINISetting "Software\SteampunkClockCalendar", "displayScreenFontColour", gblDisplayScreenFontColour, gblSettingsFile
     End If
     
     If fntFont = vbNullString Then fntFont = "courier new"
@@ -5276,6 +5276,10 @@ Private Sub adjustPrefsControls()
     End If
     
     txtDisplayScreenFontSize.Text = gblDisplayScreenFontSize
+    
+    txtDisplayScreenFont.Font.Name = gblDisplayScreenFont
+    'txtDisplayScreenFont.Font.Size = Val(gblDisplayScreenFont)
+
     
     ' position tab
     cmbAspectHidden.ListIndex = Val(gblAspectHidden)
@@ -5495,7 +5499,7 @@ Private Sub setAlarmMonthValues(ByRef thisComboBox As ComboBox, ByVal thisDateSt
     
     On Error GoTo setAlarmMonthValues_Error
     
-    monthNo = Str$(DatePart("m", thisDateString)) ' extract the month number integer from the date string
+    monthNo = CStr(DatePart("m", thisDateString)) ' extract the month number integer from the date string
     newMonth = MonthName(monthNo)  ' convert to full month name
     thisMonth = Left$(newMonth, 3) ' extract the first three characters
 
@@ -6582,7 +6586,7 @@ Private Sub sliOpacity_Click()
     btnSave.Enabled = True ' enable the save button
 
     If prefsStartupFlg = False Then
-        gblOpacity = LTrim$(Str$(sliOpacity.Value))
+        gblOpacity = CStr(sliOpacity.Value)
     
         sPutINISetting "Software\SteampunkClockCalendar", "opacity", gblOpacity, gblSettingsFile
         
@@ -6885,11 +6889,11 @@ Public Sub setPrefsTooltips()
         
         gCmbDebugBalloonTooltip = "Here you can set debug mode. This will enable the editor field and allow you to assign a VBP file for the VB6 IDE editor"
         
-        gCmbAlarmDayDayBalloonTooltip = "Enter a valid day of the month here. When you have entered both a date here and a time in the adjacent field, then click the > key to validate."
-        gCmbAlarmDayMonthBalloonTooltip = "Enter a valid month here. When you have entered both a date here and a time in the adjacent field, then click the > key to validate."
-        gCmbAlarmDayYearBalloonTooltip = "Enter a valid year here. When you have entered both a valid year here and a time in the adjacent fields, then click the > key to validate."
-        gCmbAlarmDayHoursBalloonTooltip = "Enter a valid hour here by typing a future time in 24hr military format, eg: 23:45. When you have entered both a date in the previous fields and a time here in these two fields, then click the > key to validate."
-        gCmbAlarmDayMinutesBalloonTooltip = "Enter valid minutes here by typing a future time in 24hr military format, eg: 23:45. When you have entered both a date in the previous fields and a time here, then click the > key to validate."
+        gCmbAlarmDayBalloonTooltip = "Enter a valid day of the month here. When you have entered both a date here and a time in the adjacent field, then click the > key to validate."
+        gCmbAlarmMonthBalloonTooltip = "Enter a valid month here. When you have entered both a date here and a time in the adjacent field, then click the > key to validate."
+        gCmbAlarmYearBalloonTooltip = "Enter a valid year here. When you have entered both a valid year here and a time in the adjacent fields, then click the > key to validate."
+        gCmbAlarmHoursBalloonTooltip = "Enter a valid hour here by typing a future time in 24hr military format, eg: 23:45. When you have entered both a date in the previous fields and a time here in these two fields, then click the > key to validate."
+        gCmbAlarmMinutesBalloonTooltip = "Enter valid minutes here by typing a future time in 24hr military format, eg: 23:45. When you have entered both a date in the previous fields and a time here, then click the > key to validate."
     Else
         ' module level balloon tooltip variables for subclassed comboBoxes ONLY.
         
@@ -6903,12 +6907,12 @@ Public Sub setPrefsTooltips()
         gCmbWidgetPositionBalloonTooltip = vbNullString
         gCmbAspectHiddenBalloonTooltip = vbNullString
         gCmbDebugBalloonTooltip = vbNullString
-        gCmbAlarmDayDayBalloonTooltip = vbNullString
-        gCmbAlarmDayMonthBalloonTooltip = vbNullString
-        gCmbAlarmDayYearBalloonTooltip = vbNullString
+        gCmbAlarmDayBalloonTooltip = vbNullString
+        gCmbAlarmMonthBalloonTooltip = vbNullString
+        gCmbAlarmYearBalloonTooltip = vbNullString
         
-        gCmbAlarmDayHoursBalloonTooltip = vbNullString
-        gCmbAlarmDayMinutesBalloonTooltip = vbNullString
+        gCmbAlarmHoursBalloonTooltip = vbNullString
+        gCmbAlarmMinutesBalloonTooltip = vbNullString
         
         ' for some reason, the balloon tooltip on the checkbox used to dismiss the balloon tooltips does not disappear, this forces it go away.
         CreateToolTip optEnablePrefsBalloonTooltips.hWnd, "", _
@@ -7002,6 +7006,36 @@ Public Sub setPrefsTooltips()
         optEnablePrefsBalloonTooltips.ToolTipText = "This setting enables/disables the enhanced balloon tooltips for elements within this Preference Utility. These tooltips are multi-line and in general more attractive, note that their font size will match the Windows system font size."
 
         btnResetMessages.ToolTipText = "This button restores the pop-up messages to their original visible state."
+        
+        cmbAlarm1Day.ToolTipText = "Enter a valid day of the month here. When you have entered both a date here and a time in the adjacent field, then click the > key to validate."
+        cmbAlarm2Day.ToolTipText = "Enter a valid day of the month here. When you have entered both a date here and a time in the adjacent field, then click the > key to validate."
+        cmbAlarm3Day.ToolTipText = "Enter a valid day of the month here. When you have entered both a date here and a time in the adjacent field, then click the > key to validate."
+        cmbAlarm4Day.ToolTipText = "Enter a valid day of the month here. When you have entered both a date here and a time in the adjacent field, then click the > key to validate."
+        cmbAlarm5Day.ToolTipText = "Enter a valid day of the month here. When you have entered both a date here and a time in the adjacent field, then click the > key to validate."
+        
+        cmbAlarm1Month.ToolTipText = "Enter a valid month here. When you have entered both a date here and a time in the adjacent field, then click the > key to validate."
+        cmbAlarm2Month.ToolTipText = "Enter a valid month here. When you have entered both a date here and a time in the adjacent field, then click the > key to validate."
+        cmbAlarm3Month.ToolTipText = "Enter a valid month here. When you have entered both a date here and a time in the adjacent field, then click the > key to validate."
+        cmbAlarm4Month.ToolTipText = "Enter a valid month here. When you have entered both a date here and a time in the adjacent field, then click the > key to validate."
+        cmbAlarm5Month.ToolTipText = "Enter a valid month here. When you have entered both a date here and a time in the adjacent field, then click the > key to validate."
+        
+        cmbAlarm1Year.ToolTipText = "Enter a valid year here. When you have entered both a valid year here and a time in the adjacent fields, then click the > key to validate."
+        cmbAlarm2Year.ToolTipText = "Enter a valid year here. When you have entered both a valid year here and a time in the adjacent fields, then click the > key to validate."
+        cmbAlarm3Year.ToolTipText = "Enter a valid year here. When you have entered both a valid year here and a time in the adjacent fields, then click the > key to validate."
+        cmbAlarm4Year.ToolTipText = "Enter a valid year here. When you have entered both a valid year here and a time in the adjacent fields, then click the > key to validate."
+        cmbAlarm5Year.ToolTipText = "Enter a valid year here. When you have entered both a valid year here and a time in the adjacent fields, then click the > key to validate."
+        
+        cmbAlarm1Hours.ToolTipText = "Enter a valid hour here by typing a future time in 24hr military format, eg: 23:45. When you have entered both a date in the previous fields and a time here in these two fields, then click the > key to validate."
+        cmbAlarm2Hours.ToolTipText = "Enter a valid hour here by typing a future time in 24hr military format, eg: 23:45. When you have entered both a date in the previous fields and a time here in these two fields, then click the > key to validate."
+        cmbAlarm3Hours.ToolTipText = "Enter a valid hour here by typing a future time in 24hr military format, eg: 23:45. When you have entered both a date in the previous fields and a time here in these two fields, then click the > key to validate."
+        cmbAlarm4Hours.ToolTipText = "Enter a valid hour here by typing a future time in 24hr military format, eg: 23:45. When you have entered both a date in the previous fields and a time here in these two fields, then click the > key to validate."
+        cmbAlarm5Hours.ToolTipText = "Enter a valid hour here by typing a future time in 24hr military format, eg: 23:45. When you have entered both a date in the previous fields and a time here in these two fields, then click the > key to validate."
+        
+        cmbAlarm1Minutes.ToolTipText = "Enter valid minutes here by typing a future time in 24hr military format, eg: 23:45. When you have entered both a date in the previous fields and a time here, then click the > key to validate."
+        cmbAlarm2Minutes.ToolTipText = "Enter valid minutes here by typing a future time in 24hr military format, eg: 23:45. When you have entered both a date in the previous fields and a time here, then click the > key to validate."
+        cmbAlarm3Minutes.ToolTipText = "Enter valid minutes here by typing a future time in 24hr military format, eg: 23:45. When you have entered both a date in the previous fields and a time here, then click the > key to validate."
+        cmbAlarm4Minutes.ToolTipText = "Enter valid minutes here by typing a future time in 24hr military format, eg: 23:45. When you have entered both a date in the previous fields and a time here, then click the > key to validate."
+        cmbAlarm5Minutes.ToolTipText = "Enter valid minutes here by typing a future time in 24hr military format, eg: 23:45. When you have entered both a date in the previous fields and a time here, then click the > key to validate."
         
         txtAlarm1Date.ToolTipText = "This is alarm number one, set the date here using the alarm toggle and slider or by editing any values shown here."
         txtAlarm2Date.ToolTipText = "This is alarm number two, set the date here using the alarm toggle and slider or by editing any values shown here."
@@ -8059,10 +8093,10 @@ Private Sub tmrPrefsMonitorSaveHeight_Timer()
     If LTrim$(gblMultiMonitorResize) <> "2" Then Exit Sub
  
     If prefsMonitorStruct.IsPrimary = True Then
-        gblPrefsPrimaryHeightTwips = Trim$(Str$(widgetPrefs.Height))
+        gblPrefsPrimaryHeightTwips = Trim$(CStr(widgetPrefs.Height))
         sPutINISetting "Software\SteampunkClockCalendar", "prefsPrimaryHeightTwips", gblPrefsPrimaryHeightTwips, gblSettingsFile
     Else
-        gblPrefsSecondaryHeightTwips = Trim$(Str$(widgetPrefs.Height))
+        gblPrefsSecondaryHeightTwips = Trim$(CStr(widgetPrefs.Height))
         sPutINISetting "Software\SteampunkClockCalendar", "prefsSecondaryHeightTwips", gblPrefsSecondaryHeightTwips, gblSettingsFile
     End If
 

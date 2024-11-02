@@ -231,8 +231,8 @@ Private Sub Form_Resize()
 
     'MsgBox "Form_Resize"
     
-    gblMessageAHeightTwips = Trim$(Str$(frmMessage.Height))
-    gblMessageAWidthTwips = Trim$(Str$(frmMessage.Width))
+    gblMessageAHeightTwips = Trim$(CStr(frmMessage.Height))
+    gblMessageAWidthTwips = Trim$(CStr(frmMessage.Width))
     sPutINISetting "Software\SteampunkClockCalendar", "messageAHeightTwips", gblMessageAHeightTwips, gblSettingsFile
     sPutINISetting "Software\SteampunkClockCalendar", "messageAWidthTwips", gblMessageAWidthTwips, gblSettingsFile
     
