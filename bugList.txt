@@ -188,15 +188,15 @@ quiet/loud sounds
 
 ' courier new problem
 ' set the display console font to the chosen font in the font field
+' standard tooltips for the alarm combo boxes
+' bottom of the form has been truncated slightly
 
 ' -oOo-
 
 Tasks to do:
 ============
 
-' standard tooltips for the alarm combo boxes
-
-' bottom of the form has been truncated slightly
+' won't ring one o'cocck AM
 
 ' DPI switch off and back on loses high DPI size
 

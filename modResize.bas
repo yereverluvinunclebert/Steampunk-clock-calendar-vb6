@@ -45,14 +45,14 @@ Public Sub resizeControls(ByRef thisForm As Form, ByRef m_ControlPositions() As 
             If (TypeOf Ctrl Is CommandButton) Or (TypeOf Ctrl Is ListBox) Or (TypeOf Ctrl Is textBox) Or (TypeOf Ctrl Is FileListBox) Or (TypeOf Ctrl Is Label) Or (TypeOf Ctrl Is ComboBox) Or (TypeOf Ctrl Is CheckBox) Or (TypeOf Ctrl Is OptionButton) Or (TypeOf Ctrl Is Frame) Or (TypeOf Ctrl Is Image) Or (TypeOf Ctrl Is PictureBox) Or (TypeOf Ctrl Is Slider) Then
 
                 If (TypeOf Ctrl Is Image) Then
-
+                    'Ctrl.Visible = False
                     Ctrl.Stretch = True
                     Ctrl.Left = x_scale * .Left
                     Ctrl.Top = y_scale * .Top
                     Ctrl.Width = x_scale * .Width
                     Ctrl.Height = Ctrl.Width ' always square in our case
-
-                    Ctrl.Refresh
+                    Ctrl.Visible = True
+                    'Ctrl.Refresh
                 Else
                     Ctrl.Left = x_scale * .Left
                     Ctrl.Top = y_scale * .Top

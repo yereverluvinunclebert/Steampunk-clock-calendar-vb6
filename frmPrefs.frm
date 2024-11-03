@@ -2306,10 +2306,10 @@ Begin VB.Form widgetPrefs
          Strikethrough   =   0   'False
       EndProperty
       Height          =   165
-      Left            =   8670
+      Left            =   8700
       TabIndex        =   145
       ToolTipText     =   "drag me"
-      Top             =   10335
+      Top             =   10350
       Visible         =   0   'False
       Width           =   345
    End
@@ -3155,6 +3155,8 @@ Private Sub Form_Load()
     Dim prefsFormMonitorID As Long: prefsFormMonitorID = 0
 
     On Error GoTo Form_Load_Error
+    
+    'Me.Show
         
     prefsStartupFlg = True ' this is used to prevent some control initialisations from running code at startup
     prefsDynamicSizingFlg = False
@@ -5893,6 +5895,7 @@ Private Sub Form_Resize()
     gPrefsFormResizedByDrag = True
     
     ' do not call the resizing function when the form is resized by dragging the border
+    ' only call this if the resize is done in code
     If gblPrefsFormResizedInCode = True Then Call PrefsForm_resize
             
     On Error GoTo 0
@@ -6012,7 +6015,7 @@ Private Sub tweakPrefsControlPositions(ByVal thisForm As Form, ByVal m_FormWid A
     
     ' final tweak the bottom button positions
     
-    btnHelp.Top = fraGeneral.Top + fraGeneral.Height + (200 * y_scale)
+    btnHelp.Top = fraGeneral.Top + fraGeneral.Height + (100 * y_scale)
     btnSave.Top = btnHelp.Top
     btnClose.Top = btnHelp.Top
     
@@ -7136,6 +7139,36 @@ Public Sub setPrefsTooltips()
         optEnablePrefsBalloonTooltips.ToolTipText = vbNullString
         btnResetMessages.ToolTipText = vbNullString
     
+        cmbAlarm1Day.ToolTipText = vbNullString
+        cmbAlarm2Day.ToolTipText = vbNullString
+        cmbAlarm3Day.ToolTipText = vbNullString
+        cmbAlarm4Day.ToolTipText = vbNullString
+        cmbAlarm5Day.ToolTipText = vbNullString
+        
+        cmbAlarm1Month.ToolTipText = vbNullString
+        cmbAlarm2Month.ToolTipText = vbNullString
+        cmbAlarm3Month.ToolTipText = vbNullString
+        cmbAlarm4Month.ToolTipText = vbNullString
+        cmbAlarm5Month.ToolTipText = vbNullString
+        
+        cmbAlarm1Year.ToolTipText = vbNullString
+        cmbAlarm2Year.ToolTipText = vbNullString
+        cmbAlarm3Year.ToolTipText = vbNullString
+        cmbAlarm4Year.ToolTipText = vbNullString
+        cmbAlarm5Year.ToolTipText = vbNullString
+        
+        cmbAlarm1Hours.ToolTipText = vbNullString
+        cmbAlarm2Hours.ToolTipText = vbNullString
+        cmbAlarm3Hours.ToolTipText = vbNullString
+        cmbAlarm4Hours.ToolTipText = vbNullString
+        cmbAlarm5Hours.ToolTipText = vbNullString
+        
+        cmbAlarm1Minutes.ToolTipText = vbNullString
+        cmbAlarm2Minutes.ToolTipText = vbNullString
+        cmbAlarm3Minutes.ToolTipText = vbNullString
+        cmbAlarm4Minutes.ToolTipText = vbNullString
+        cmbAlarm5Minutes.ToolTipText = vbNullString
+        
         txtAlarm1Date.ToolTipText = vbNullString
         txtAlarm2Date.ToolTipText = vbNullString
         txtAlarm3Date.ToolTipText = vbNullString
@@ -7265,7 +7298,7 @@ Private Sub picButtonMouseUpEvent(ByVal thisTabName As String, ByRef thisPicName
     y_scale = Me.ScaleHeight / gblPrefsCurrentHeight
     
     If gblDpiAwareness = "1" Then
-        btnHelp.Top = fraGeneral.Top + fraGeneral.Height + (200 * y_scale)
+        btnHelp.Top = fraGeneral.Top + fraGeneral.Height + (100 * y_scale)
     Else
         btnHelp.Top = thisFraName.Top + thisFraName.Height + (200 * y_scale)
     End If

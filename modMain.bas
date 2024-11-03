@@ -6,7 +6,7 @@ Option Explicit
 
 '------------------------------------------------------ STARTS
 ' for SetWindowPos z-ordering
-Public Declare Function SetWindowPos Lib "user32" (ByVal hWnd As Long, ByVal hWndInsertAfter As Long, ByVal x As Long, ByVal y As Long, ByVal cx As Long, ByVal cy As Long, ByVal wFlags As Long) As Long
+Public Declare Function SetWindowPos Lib "user32" (ByVal hWnd As Long, ByVal hWndInsertAfter As Long, ByVal X As Long, ByVal y As Long, ByVal cx As Long, ByVal cy As Long, ByVal wFlags As Long) As Long
 
 Public Const HWND_TOP As Long = 0 ' for SetWindowPos z-ordering
 Public Const HWND_TOPMOST As Long = -1
@@ -1347,11 +1347,13 @@ Public Sub validateInputs()
         If gblClockFont = vbNullString Then gblClockFont = gblPrefsFont
 
         If gblDisplayScreenFont = vbNullString Then gblDisplayScreenFont = "courier new"
+        If gblDisplayScreenFont = "courier  new" Then gblDisplayScreenFont = "courier new"
         If gblDisplayScreenFontSize = vbNullString Then gblDisplayScreenFontSize = "5"
         If gblDisplayScreenFontItalics = vbNullString Then gblDisplayScreenFontItalics = "false"
         If gblDisplayScreenFontColour = vbNullString Then gblDisplayScreenFontColour = "0"
 
         ' sounds
+        
         If gblEnableSounds = vbNullString Then gblEnableSounds = "1"
         If gblEnableTicks = vbNullString Then gblEnableTicks = "0"
         If gblEnableChimes = vbNullString Then gblEnableChimes = "0"

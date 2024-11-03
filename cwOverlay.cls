@@ -801,24 +801,24 @@ End Sub
 
 Private Sub populateDigitalMonthCache(ByRef CC As cCairoContext, Optional ByVal alarmMonth As String)
 
-    Dim thismonth As Integer: thismonth = 0
+    Dim thisMonth As Integer: thisMonth = 0
 
     On Error GoTo populateDigitalMonthCache_Error
     
     ' if the rotator is functioning then display the contents from that...
     If tmrDigitRotator.Enabled = True Then
-        thismonth = CInt(pvtMonthRotatorString)
+        thisMonth = CInt(pvtMonthRotatorString)
     Else
-        thismonth = Month(Now) ' coerce date variant to integer
+        thisMonth = Month(Now) ' coerce date variant to integer
            
         If alarmMonth <> vbNullString Then
-            thismonth = CInt(alarmMonth)
+            thisMonth = CInt(alarmMonth)
         Else
-            thismonth = Month(Now) ' coerce date variant to integer
+            thisMonth = Month(Now) ' coerce date variant to integer
         End If
     End If
 
-    Select Case thismonth
+    Select Case thisMonth
         Case 1
             Cairo.ImageList.AddSurface "monthCache", Cairo.ImageList("jan")
         Case 2
@@ -1069,7 +1069,7 @@ Private Sub populateDigitalClockCache(ByRef CC As cCairoContext)
         End If
         
         If gblAlarmToggle5Enabled = "True" Then
-             If gblAlarm4Date = "Alarm not yet set" Then
+             If gblAlarm5Date = "Alarm not yet set" Then
                 theDay = "01"
                 theMonth = "01"
                 theYear = "1970"
@@ -1634,7 +1634,7 @@ Private Sub tollbell()
     On Error GoTo tollbell_Error
 
     hr = Hour(Now)
-    tollhours = Hour(Now)
+    tollhours = hr
     
     'stop it striking more than 12 times even when on a 24hr clock
     If hr > 12 Then tollhours = hr - 12
@@ -1644,7 +1644,7 @@ Private Sub tollbell()
         tollCount = tollCount + 1
 
         'play the longer bell on the last toll
-        If (tollCount < tollhours) Then
+        If (tollCount <= tollhours) Then
             If gblVolumeBoost = "1" Then
                 fileToPlay = "belltoll.wav"
             Else
@@ -1699,7 +1699,7 @@ End Sub
 '             For this Overlay-Widget alone, we make everything "fully click-through"
 '---------------------------------------------------------------------------------------------
 '
-Private Sub W_HitTest(ByVal x As Single, ByVal y As Single, HitResultHit As Boolean) 'ensure ClickThrough-behaviour in ImagePixels which are "fully Alpha"
+Private Sub W_HitTest(ByVal X As Single, ByVal y As Single, HitResultHit As Boolean) 'ensure ClickThrough-behaviour in ImagePixels which are "fully Alpha"
    On Error GoTo W_HitTest_Error
 
    HitResultHit = False
