@@ -238,12 +238,14 @@ Private Sub sleepTimer_Timer()
 
     If lngSecondsGap > 60 Then
         'MsgBox "system has just woken up from a sleep, updating... " & gblFClockAvailable
-        triggerDigitalClockPopulation = True
-        overlayWidget.Widget.Parent.Refresh
       
         gblFClockAvailable = True
         Call screenWrite("system has just woken up from a sleep, updating... ")
         fClock.clockForm.Refresh
+        
+        triggerDigitalClockPopulation = True
+        overlayWidget.tmrDigitRotator.Enabled = True
+        overlayWidget.Widget.Parent.Refresh
         
     End If
     

@@ -5126,8 +5126,8 @@ Private Sub btnDisplayScreenFont_Click()
     gblDisplayScreenFontColour = CStr(fntColour)
     
     If gblFClockAvailable = True Then
-        fClock.clockForm.Widgets("lblTerminalText").Widget.FontSize = gblDisplayScreenFontSize
-        fClock.clockForm.Widgets("lblTerminalText").Widget.FontName = gblDisplayScreenFont
+        fClock.clockForm.Widgets("lblTerminalText").Widget.Font.Size = gblDisplayScreenFontSize
+        fClock.clockForm.Widgets("lblTerminalText").Widget.Font.Name = gblDisplayScreenFont
     End If
 
     If fFExists(gblSettingsFile) Then ' does the tool's own settings.ini exist?

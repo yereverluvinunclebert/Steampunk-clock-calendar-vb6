@@ -4204,8 +4204,8 @@ Public Property Let alarmtoggle5Enabled(ByVal newValue As Boolean)
     
     alarmtoggle5Top = alarmtoggle5.Left
     alarmtoggle5Top = alarmtoggle5.Top
-    alarmtoggle5Out = 678
-    alarmtoggle5In = 670
+    alarmtoggle5Out = 680
+    alarmtoggle5In = 672
     
     pvtAlarmInitiatingControl = "alarmtoggle5"
         

@@ -1347,7 +1347,7 @@ Public Sub validateInputs()
         If gblClockFont = vbNullString Then gblClockFont = gblPrefsFont
 
         If gblDisplayScreenFont = vbNullString Then gblDisplayScreenFont = "courier new"
-        If gblDisplayScreenFont = "courier  new" Then gblDisplayScreenFont = "courier new"
+        If gblDisplayScreenFont = "Courier  New" Then gblDisplayScreenFont = "courier new"
         If gblDisplayScreenFontSize = vbNullString Then gblDisplayScreenFontSize = "5"
         If gblDisplayScreenFontItalics = vbNullString Then gblDisplayScreenFontItalics = "false"
         If gblDisplayScreenFontColour = vbNullString Then gblDisplayScreenFontColour = "0"
