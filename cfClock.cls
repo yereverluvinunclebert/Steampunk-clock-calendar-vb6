@@ -511,7 +511,7 @@ Private Sub clockForm_BubblingEvent(ByRef sender As Object, ByRef EventName As S
                 If gblEnableBalloonTooltips = "True" Then CreateToolTip clockForm.hWnd, "In alarm mode, when you are editing an alarm, press this toggle (or the bell) to save the alarm.", _
                      TTIconInfo, widgetName & " Loud Toggle Help", , , , True
             Case "mutetoggle"
-                If gblEnableBalloonTooltips = "True" Then CreateToolTip clockForm.hWnd, "Mute chimes and sounds on/off.", _
+                If gblEnableBalloonTooltips = "True" Then CreateToolTip clockForm.hWnd, "Mute chimes and ALL sounds on/off.", _
                      TTIconInfo, widgetName & " Mute Toggle Help", , , , True
             Case "pendulumtoggle"
                 If gblEnableBalloonTooltips = "True" Then CreateToolTip clockForm.hWnd, "Stop/start the pendulum by clicking on it.", _

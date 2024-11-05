@@ -1732,9 +1732,10 @@ Public Sub setMainTooltips()
         
         fClock.clockForm.Widgets("helpbottom").Widget.ToolTip = "This is the Widget Help. Click on me to make me go away."
         fClock.clockForm.Widgets("sliderset").Widget.ToolTip = "This is the Time Slider. Click and drag me left/right to alter time."
-        fClock.clockForm.Widgets("screentop").Widget.ToolTip = "Press to "
-        fClock.clockForm.Widgets("displayscreen").Widget.ToolTip = "To lower kinematoscope press S toggle."
-        fClock.clockForm.Widgets("screenbackground").Widget.ToolTip = "Press to "
+        fClock.clockForm.Widgets("screentop").Widget.ToolTip = "Press to do something, not figured out what yet"
+        fClock.clockForm.Widgets("displayscreen").Widget.ToolTip = "To lower kinematoscope press S toggle. Scroll up the display screen text by double-clicking on it - each time sending a carriage return to the screen."
+        fClock.clockForm.Widgets("screenbackground").Widget.ToolTip = "To lower kinematoscope press S toggle. Scroll up the display screen text by double-clicking on it - each time sending a carriage return to the screen."
+        fClock.clockForm.Widgets("lblTerminalText").Widget.ToolTip = "To lower kinematoscope press S toggle. Scroll up the display screen text by double-clicking on it - each time sending a carriage return to the screen."
         fClock.clockForm.Widgets("displayscreentoggle").Widget.ToolTip = "Toggle back screen."
         fClock.clockForm.Widgets("weekdaytoggle").Widget.ToolTip = "Toggle weekday indicator. "
         fClock.clockForm.Widgets("helpToggle").Widget.ToolTip = "Click me to show the help dropdown canvas."
@@ -1743,7 +1744,7 @@ Public Sub setMainTooltips()
         fClock.clockForm.Widgets("help3toggle").Widget.ToolTip = "Click me to show the next help dropdown canvas."
         
         fClock.clockForm.Widgets("pendulumtoggle").Widget.ToolTip = "Stop/start the pendulum by clicking on it."
-        fClock.clockForm.Widgets("mutetoggle").Widget.ToolTip = "Mute chimes and sounds on/off."
+        fClock.clockForm.Widgets("mutetoggle").Widget.ToolTip = "Mute chimes and ALL sounds on/off."
         fClock.clockForm.Widgets("alarmtoggle").Widget.ToolTip = "Press to Click here to enter alarm mode"
         fClock.clockForm.Widgets("settoggle").Widget.ToolTip = "In alarm mode, when you are editing an alarm, press this toggle (or the bell) to save the alarm."
         fClock.clockForm.Widgets("timemachinetoggle").Widget.ToolTip = "Toggle the time machine images."

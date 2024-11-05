@@ -984,11 +984,11 @@ Public Sub adjustMainControls()
         fClock.settoggleEnabled = True
     End If
     
-    If gblEnableSounds = "0" Then
-        gblMuteToggleEnabled = "True"
+    If gblMuteToggleEnabled = "True" Then
+        gblEnableSounds = "0"
         fClock.muteToggleEnabled = True
     Else
-        gblMuteToggleEnabled = "False"
+        gblEnableSounds = "False"
         fClock.muteToggleEnabled = False
     End If
     
