@@ -190,13 +190,18 @@ quiet/loud sounds
 ' set the display console font to the chosen font in the font field
 ' standard tooltips for the alarm combo boxes
 ' bottom of the form has been truncated slightly
+' won't ring one o'clcck AM
+
+' dbl clicking on the screen causes a CR
 
 ' -oOo-
 
 Tasks to do:
 ============
 
-' won't ring one o'clcck AM
+' mute button not toggling out after a press in and reload
+
+' does time reset after a sleep? - test
 
 ' DPI switch off and back on loses high DPI size
 
@@ -204,8 +209,6 @@ Tasks to do:
 ' in the timer, take the value of timeShiftPercent and do what to it, use cosine to calculate the value on a curve
 
 ' Form.CenterOn New_c.Displays(1) - test whether this required
-
-' mute button not toggling out after a press in and reload
 
 ' after a digital reset set each to -- --  and ** *** **** one by one - wip
 '      possibly do the hrs, mins, days, month and years separately
@@ -225,7 +228,7 @@ Tasks to do:
 
 ' look at Olaf's pendulum code
 
-' .VAlign on the label? not working, raised as a bug with Olaf?
+' .VAlign on the label? not working, raised as a bug with Olaf? 0=Top, -1 and 1=Middle
 
 ' Create a XP /ReactOS version using old APIs and RC5 - no DPI awareness, as XP does not have the API nor the capability.
 

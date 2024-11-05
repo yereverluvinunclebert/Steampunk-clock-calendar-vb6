@@ -517,13 +517,13 @@ Private Sub clockForm_BubblingEvent(ByRef sender As Object, ByRef EventName As S
                 If gblEnableBalloonTooltips = "True" Then CreateToolTip clockForm.hWnd, "Stop/start the pendulum by clicking on it.", _
                      TTIconInfo, widgetName & " Pendulum Toggle Help", , , , True
             Case "clockset"
-                If gblEnableBalloonTooltips = "True" Then CreateToolTip clockForm.hWnd, "Scroll up the display screen text by double-clicking on it - each time sending a carriage return to the screen.", _
+                If gblEnableBalloonTooltips = "True" Then CreateToolTip clockForm.hWnd, "This is just the analogue clock face, clicking here does nothing at the moment.", _
                      TTIconInfo, widgetName & " Clock face Help", , , , True
             Case "pendulumtransparent"
                 If gblEnableBalloonTooltips = "True" Then CreateToolTip clockForm.hWnd, "Stop/start the pendulum.", _
                      TTIconInfo, widgetName & " Pendulum Help", , , , True
             Case "displayscreen"
-                If gblEnableBalloonTooltips = "True" Then CreateToolTip clockForm.hWnd, "To lower kinematoscope press S toggle. " & vbCrLf & vbCrLf & " To scroll the text display simply dblClick on the clock face.", _
+                If gblEnableBalloonTooltips = "True" Then CreateToolTip clockForm.hWnd, "To lower kinematoscope press S toggle. " & vbCrLf & vbCrLf & " Scroll up the display screen text by double-clicking on it - each time sending a carriage return to the screen.", _
                     TTIconInfo, widgetName & " Kinematoscope Toggle Help", , , , True
                 Call clearWeekdayTill
                 With clockForm.Widgets("redalarmcover").Widget
@@ -771,8 +771,12 @@ Private Sub clockForm_BubblingEvent(ByRef sender As Object, ByRef EventName As S
     
     If EventName = "W_DblClick" Then
         Select Case LCase$(sender.Widget.Key)
-            Case "clockset"
-                Call clockset_myDblClick
+            Case "lblterminaltext"
+                Call displayscreen_myDblClick
+            Case "displayscreen"
+                Call displayscreen_myDblClick
+            Case "backscreen"
+                Call displayscreen_myDblClick
         End Select
     End If
     
@@ -811,16 +815,16 @@ clockForm_BubblingEvent_Error:
 End Sub
 
 '---------------------------------------------------------------------------------------
-' Procedure : clockset_myDblClick
+' Procedure : displayscreen_myDblClick
 ' Author    : beededea
 ' Date      : 27/10/2024
 ' Purpose   :
 '---------------------------------------------------------------------------------------
 '
-Private Sub clockset_myDblClick()
+Private Sub displayscreen_myDblClick()
     Dim fileToPlay As String: fileToPlay = vbNullString
    
-    On Error GoTo clockset_myDblClick_Error
+    On Error GoTo displayscreen_myDblClick_Error
 
     Call screenWrite(".")
     
@@ -837,9 +841,9 @@ Private Sub clockset_myDblClick()
    On Error GoTo 0
    Exit Sub
 
-clockset_myDblClick_Error:
+displayscreen_myDblClick_Error:
 
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure clockset_myDblClick of Class Module cfClock"
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure displayscreen_myDblClick of Class Module cfClock"
                 
 End Sub
 '---------------------------------------------------------------------------------------
