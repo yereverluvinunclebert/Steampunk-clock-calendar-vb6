@@ -196,7 +196,7 @@ quiet/loud sounds
 Tasks to do:
 ============
 
-' won't ring one o'cocck AM
+' won't ring one o'clcck AM
 
 ' DPI switch off and back on loses high DPI size
 

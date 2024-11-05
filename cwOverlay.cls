@@ -39,8 +39,10 @@ Private WithEvents tmrClock As cTimer
 Attribute tmrClock.VB_VarHelpID = -1
 Private WithEvents tmrPendulum As cTimer
 Attribute tmrPendulum.VB_VarHelpID = -1
-Private WithEvents tmrTollTimer As cTimer
-Attribute tmrTollTimer.VB_VarHelpID = -1
+Private WithEvents tmrTolling As cTimer
+Attribute tmrTolling.VB_VarHelpID = -1
+Private WithEvents tmrCountdownToToll As cTimer
+Attribute tmrCountdownToToll.VB_VarHelpID = -1
 
 Public WithEvents tmrTimeShift As cTimer    ' need to add set/get for these public timers
 Attribute tmrTimeShift.VB_VarHelpID = -1
@@ -133,11 +135,16 @@ Private Sub Class_Initialize()
     Set tmrDigitRotator = New_c.Timer(50, False)
     
     tmrDigitRotator.Enabled = False
-   
-    Set tmrTollTimer = Nothing
-    Set tmrTollTimer = New_c.Timer(2000, False)
     
-    tmrTollTimer.Enabled = False
+    Set tmrCountdownToToll = Nothing
+    Set tmrCountdownToToll = New_c.Timer(2000, False)
+    
+    tmrCountdownToToll.Enabled = False
+         
+    Set tmrTolling = Nothing
+    Set tmrTolling = New_c.Timer(2000, False)
+    
+    tmrTolling.Enabled = False
        
     Set tmrAlarmRinging = Nothing
     Set tmrAlarmRinging = New_c.Timer(1000, False)
@@ -1304,7 +1311,8 @@ Private Sub tmrClock_Timer()
             End If
             
             screenWrite ("chiming full hour ")
-            tmrTollTimer.Enabled = True
+            
+            tmrCountdownToToll.Enabled = True
             
         End If
     
@@ -1593,91 +1601,111 @@ tmrAlarmRinging_Timer_Error:
 End Sub
 
 
-
+   
 '---------------------------------------------------------------------------------------
-' Procedure : tmrTollTimer_Timer
+' Procedure : tmrCountdownToToll_Timer
 ' Author    : beededea
 ' Date      : 18/10/2024
 ' Purpose   :
 '---------------------------------------------------------------------------------------
 '
-Private Sub tmrTollTimer_Timer()
+Private Sub tmrCountdownToToll_Timer()
+    Static countdownToToll As Integer
 
-   On Error GoTo tmrTollTimer_Timer_Error
+    On Error GoTo tmrCountdownToToll_Timer_Error
 
-    Call tollbell
+    If (countdownToToll <= 8) Then
+        countdownToToll = countdownToToll + 1
+        screenWrite ("Countdown to tolling the hour =  " & 9 - countdownToToll)
+    Else
+        countdownToToll = 0
+        tmrCountdownToToll.Enabled = False
+        tmrTolling.Enabled = True
+    End If
 
    On Error GoTo 0
    Exit Sub
 
-tmrTollTimer_Timer_Error:
+tmrCountdownToToll_Timer_Error:
 
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure tmrTollTimer_Timer of Class Module cwOverlay"
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure tmrCountdownToToll_Timer of Class Module cwOverlay"
 
 End Sub
+
+'---------------------------------------------------------------------------------------
+' Procedure : tmrTolling_Timer
+' Author    : beededea
+' Date      : 18/10/2024
+' Purpose   :
+'---------------------------------------------------------------------------------------
+'
+Private Sub tmrTolling_Timer()
+
+    On Error GoTo tmrTolling_Timer_Error
+
+     Call tollbell
+
+   On Error GoTo 0
+   Exit Sub
+
+tmrTolling_Timer_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure tmrTolling_Timer of Class Module cwOverlay"
+
+End Sub
+
 
 '---------------------------------------------------------------------------------------
 ' Procedure : tollbell
 ' Author    : beededea
 ' Date      : 18/10/2024
-' Purpose   : function to toll the bell x no. of times, called by the tmrTollTimer
+' Purpose   : function to toll the bell x no. of times, called by the tmrTolling
 '---------------------------------------------------------------------------------------
 '
 Private Sub tollbell()
     Dim fileToPlay As String: fileToPlay = vbNullString
     Dim tollhours As Integer: tollhours = 0
-    Dim hr As Integer: hr = 0
     
     Static tollCount As Integer
-    Static countdownToToll As Integer
     
     On Error GoTo tollbell_Error
 
-    hr = Hour(Now)
-    tollhours = hr
+    tollhours = Hour(Now)
     
     'stop it striking more than 12 times even when on a 24hr clock
-    If hr > 12 Then tollhours = hr - 12
+    If tollhours > 12 Then tollhours = tollhours - 12
      
     ' do not ask for whom the bell tolls, it tolls for thee...when the counter reaches 8
-    If (countdownToToll >= 8) Then
-        tollCount = tollCount + 1
+    tollCount = tollCount + 1
 
-        'play the longer bell on the last toll
-        If (tollCount <= tollhours) Then
-            If gblVolumeBoost = "1" Then
-                fileToPlay = "belltoll.wav"
-            Else
-                fileToPlay = "belltoll-quiet.wav"
-            End If
+    'play the longer bell on the last toll
+    If (tollCount < tollhours) Then
+        If gblVolumeBoost = "1" Then
+            fileToPlay = "belltoll.wav"
         Else
-            If gblVolumeBoost = "1" Then
-                fileToPlay = "belltollLong.wav"
-            Else
-                fileToPlay = "belltollLong-quiet.wav"
-            End If
+            fileToPlay = "belltoll-quiet.wav"
         End If
-        
-        If tollCount = 1 Then screenWrite ("Chiming using " & fileToPlay)
-        
-        If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
-            PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
-        End If
-        
-        countdownToToll = countdownToToll + 1
-        screenWrite ("Tolling bell for " & tollhours & " o'clock, chime no." & tollCount)
     Else
-        ' pause for 16 seconds (8 x tmrTollTimer_Timer.interval (2s)) prior to bell tolling to match the coming of the hour
-        countdownToToll = countdownToToll + 1
-        screenWrite ("Countdown to tolling the hour =  " & 9 - countdownToToll)
+        If gblVolumeBoost = "1" Then
+            fileToPlay = "belltollLong.wav"
+        Else
+            fileToPlay = "belltollLong-quiet.wav"
+        End If
     End If
-     
-     ' turn off the belltimer to stop the bell from tolling
-     If (countdownToToll >= tollhours + 8) Then
-            tmrTollTimer.Enabled = False
-            countdownToToll = 0
-            tollCount = 0
-            screenWrite ("Just struck " & tollhours & " o'clock")
+    
+    If tollCount = 1 Then screenWrite ("Chiming using " & fileToPlay)
+    
+    If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
+        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
+    End If
+    
+    screenWrite ("Tolling bell for " & tollhours & " o'clock, chime no." & tollCount)
+             
+    ' turn off the belltimer to stop the bell from tolling
+    If (tollCount >= tollhours) Then
+        tmrTolling.Enabled = False
+        tollCount = 0
+        screenWrite ("Just struck " & tollhours & " o'clock")
      End If
 
    On Error GoTo 0
