@@ -66,7 +66,7 @@ Private mAlarmToggle2Enabled As Boolean
 Private mAlarmToggle3Enabled As Boolean
 Private mAlarmToggle4Enabled As Boolean
 Private mAlarmToggle5Enabled As Boolean
-Private mTimeShiftPercent As Currency
+Private mtimeShiftValue As Currency
 
 Public mShowHelp As Boolean 'change to property get/set
 
@@ -793,7 +793,7 @@ Private Sub clockForm_BubblingEvent(ByRef sender As Object, ByRef EventName As S
                 
                overlayWidget.Locked = False
                 If SliderFreed = True Then
-                    fClock.timeShiftPercent = 0.5
+                    fClock.timeShiftValue = 0.5
                     overlayWidget.tmrTimeShift.Enabled = False
                 End If
 
@@ -2643,7 +2643,8 @@ End Sub
 ' Date: 26/05/2024
 ' ----------------------------------------------------------------
 Private Sub sliderset_Moving() ' this is an explicit Event-Handler derived from the RC Widget-instance with the property .moveable = true
-   
+    Static a As Double
+    
     On Error GoTo sliderset_Moving_Error
          
     pvtSldX = sliderset.Left
@@ -2651,15 +2652,19 @@ Private Sub sliderset_Moving() ' this is an explicit Event-Handler derived from 
     
     If tmrZZZZSound.Enabled = False And pvtSlidersetMousedown = True Then tmrZZZZSound.Enabled = True
     
-    timeShiftPercent = (pvtSldX - pvtSldXMin) / (pvtSldXMax - pvtSldXMin) 'assign the new Value to the Public Prop, to trigger all the necessary refreshs
+    timeShiftValue = (pvtSldX - pvtSldXMin) / (pvtSldXMax - pvtSldXMin) 'assign the new Value to the Public Prop, to trigger all the necessary refreshs
     
-    ' if the slider is enabled and the timeShiftPercent <> 0.5 then start the timer that shifts the digital clocks forwards or backwards
-    If SliderFreed = True And timeShiftPercent <> 0.5 Then
+    ' if the slider is enabled and the timeShiftValue <> 0.5 then start the timer that shifts the digital clocks forwards or backwards
+    If SliderFreed = True And timeShiftValue <> 0.5 Then
         overlayWidget.tmrTimeShift.Enabled = True
     Else
         overlayWidget.tmrTimeShift.Enabled = False
     End If
      
+    a = a + (timeShiftValue - 0.5)
+    Debug.Print timeShiftValue - 0.5
+    Debug.Print a
+    
     On Error GoTo 0
     Exit Sub
 
@@ -2721,7 +2726,7 @@ End Property
 
 
 ' ----------------------------------------------------------------
-' Procedure Name: timeShiftPercent
+' Procedure Name: timeShiftValue
 ' Purpose:
 ' Procedure Kind: Property (Get)
 ' Procedure Access: Public
@@ -2729,23 +2734,23 @@ End Property
 ' Author: beededea
 ' Date: 26/05/2024
 ' ----------------------------------------------------------------
-Public Property Get timeShiftPercent() As Currency
+Public Property Get timeShiftValue() As Currency
     
-    On Error GoTo timeShiftPercent_Error
+    On Error GoTo timeShiftValue_Error
     
-    timeShiftPercent = mTimeShiftPercent
+    timeShiftValue = mtimeShiftValue
     
     On Error GoTo 0
     Exit Property
 
-timeShiftPercent_Error:
+timeShiftValue_Error:
 
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure timeShiftPercent, line " & Erl & "."
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure timeShiftValue, line " & Erl & "."
 
 End Property
 
 ' ----------------------------------------------------------------
-' Procedure Name: timeShiftPercent
+' Procedure Name: timeShiftValue
 ' Purpose:
 ' Procedure Kind: Property (Let)
 ' Procedure Access: Public
@@ -2753,8 +2758,8 @@ End Property
 ' Author: beededea
 ' Date: 26/05/2024
 ' ----------------------------------------------------------------
-Public Property Let timeShiftPercent(ByVal RHS As Currency)
-    On Error GoTo timeShiftPercent_Error
+Public Property Let timeShiftValue(ByVal RHS As Currency)
+    On Error GoTo timeShiftValue_Error
     
     If RHS < 0 Then RHS = 0 Else If RHS > 1 Then RHS = 1 'keep RHS "in range"
     pvtSldX = RHS * (pvtSldXMax - pvtSldXMin) + pvtSldXMin
@@ -2763,7 +2768,7 @@ Public Property Let timeShiftPercent(ByVal RHS As Currency)
     sliderset.Move pvtSldX, pvtSldFixedTop 'move the sliderset-widget accordingly
     glow.Move pvtSldX + 29, pvtSldFixedTop - 13 'move the glow along with the sliderset-widget accordingly
     
-    If mTimeShiftPercent <> RHS Then mTimeShiftPercent = RHS Else Exit Property  'only refresh, when there was a change to the previous value
+    If mtimeShiftValue <> RHS Then mtimeShiftValue = RHS Else Exit Property  'only refresh, when there was a change to the previous value
     
     If Not Cairo.ToolTipForm Is Nothing Then Cairo.ToolTipForm.Visible = False
     clockForm.Refresh
@@ -2771,9 +2776,9 @@ Public Property Let timeShiftPercent(ByVal RHS As Currency)
     On Error GoTo 0
     Exit Property
 
-timeShiftPercent_Error:
+timeShiftValue_Error:
 
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure timeShiftPercent, line " & Erl & "."
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure timeShiftValue, line " & Erl & "."
 
 End Property
 
@@ -3434,7 +3439,7 @@ Public Property Let alarmtoggleEnabled(ByVal newValue As Boolean)
         tmrZZZZSound.Enabled = True ' does a little buzz after 1/10th of a second, not cutting off the preceding 'clunk' prematurely
         
         ' set the slider position to the start point
-        fClock.timeShiftPercent = 0.5
+        fClock.timeShiftValue = 0.5
         
         ' if an alarm is not selected then choose the first available alarm
         '     raise the alarm till and alarm toggle
@@ -3473,7 +3478,7 @@ Public Property Let alarmtoggleEnabled(ByVal newValue As Boolean)
         
         alarmtoggle.Move alarmToggleOut, alarmtoggleTop
         SliderFreed = False
-        fClock.timeShiftPercent = 0
+        fClock.timeShiftValue = 0
         
         alarmtoggle1Enabled = False
         alarmtoggle2Enabled = False

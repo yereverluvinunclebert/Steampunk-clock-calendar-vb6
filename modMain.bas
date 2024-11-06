@@ -977,7 +977,7 @@ Public Sub adjustMainControls()
 '    End If
 
     ' set the slider position to the start point
-    fClock.timeShiftPercent = 0
+    fClock.timeShiftValue = 0
     
     ' set the position of the various UI toggles at startup
     If gblsetToggleEnabled = "True" Then

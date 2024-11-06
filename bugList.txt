@@ -193,13 +193,12 @@ quiet/loud sounds
 ' won't ring one o'clcck AM
 
 ' dbl clicking on the screen causes a CR
+' mute button not toggling out after a press in and reload
 
 ' -oOo-
 
 Tasks to do:
 ============
-
-' mute button not toggling out after a press in and reload
 
 ' does time reset after a sleep? - test
 

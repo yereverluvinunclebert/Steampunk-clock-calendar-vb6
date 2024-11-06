@@ -1764,7 +1764,7 @@ Public Sub setMainTooltips()
         fClock.clockForm.Widgets("weekdaytill").Widget.ToolTip = "Click here to lower the weekday flag."
         fClock.clockForm.Widgets("weekdayshadow").Widget.ToolTip = "Click here to lower the weekday flag."
         fClock.clockForm.Widgets("dropdown").Widget.ToolTip = "Click me for information."
-        fClock.clockForm.Widgets("bellset").Widget.ToolTip = "Press to "
+        fClock.clockForm.Widgets("bellset").Widget.ToolTip = "Press to do something, not figured out what yet"
         fClock.clockForm.Widgets("helpdropdown").Widget.ToolTip = "Click here to lock the clock in place on the desktop."
         fClock.clockForm.Widgets("pendulumtransparent").Widget.ToolTip = "Stop/start the pendulum."
         fClock.clockForm.Widgets("glow").Widget.ToolTip = "This is the Time Slider. Click and drag me left/right to alter time."
@@ -1988,10 +1988,10 @@ Public Sub getKeyPress(ByVal KeyCode As Integer, ByVal Shift As Integer)
             SHIFT_1 = True
         Case 37, 40 ' Left and down cursor key
             ' move the slider left
-            fClock.timeShiftPercent = fClock.timeShiftPercent - 0.05
+            fClock.timeShiftValue = fClock.timeShiftValue - 0.05
         Case 39, 38 ' Right and Up cursor key
             ' move the slider right
-            fClock.timeShiftPercent = fClock.timeShiftPercent + 0.05
+            fClock.timeShiftValue = fClock.timeShiftValue + 0.05
         Case 82 ' Shift+R for a hard Restart
             If Shift = 1 Then Call hardRestart
         Case 116

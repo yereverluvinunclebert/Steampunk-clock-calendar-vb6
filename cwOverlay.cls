@@ -1614,7 +1614,7 @@ Private Sub tmrCountdownToToll_Timer()
 
     On Error GoTo tmrCountdownToToll_Timer_Error
 
-    If (countdownToToll <= 8) Then
+    If (countdownToToll <= 6) Then
         countdownToToll = countdownToToll + 1
         screenWrite ("Countdown to tolling the hour =  " & 9 - countdownToToll)
     Else
@@ -1693,7 +1693,7 @@ Private Sub tollbell()
         End If
     End If
     
-    If tollCount = 1 Then screenWrite ("Chiming using " & fileToPlay)
+    If tollCount = 1 Then screenWrite ("Chiming using " & fileToPlay & " at " & Now())
     
     If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
         PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
