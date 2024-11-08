@@ -2310,6 +2310,8 @@ Public Sub makeProgramPreferencesAvailable()
         
         Call widgetPrefs.positionPrefsMonitor
         
+    Else
+        widgetPrefs.SetFocus
     End If
 
    On Error GoTo 0
@@ -2454,14 +2456,14 @@ Public Sub toggleWidgetLock()
     If gblPreventDragging = "1" Then
         Call screenWrite("Widget lock released")
         menuForm.mnuLockWidget.Checked = False
-        widgetPrefs.chkPreventDragging.Value = 0
+        widgetPrefs.chkPreventDragging.value = 0
         gblPreventDragging = "0"
         overlayWidget.Locked = False
         fClock.clockForm.Widgets("lockingpin").Widget.Alpha = Val(gblOpacity) / 100
     Else
         Call screenWrite("Widget locked in place")
         menuForm.mnuLockWidget.Checked = True
-        widgetPrefs.chkPreventDragging.Value = 1
+        widgetPrefs.chkPreventDragging.value = 1
         overlayWidget.Locked = True
         gblPreventDragging = "1"
         fClock.clockForm.Widgets("lockingpin").Widget.Alpha = 0
@@ -2766,9 +2768,9 @@ Public Function ArrayString(ParamArray tokens()) As String()
     On Error GoTo ArrayString_Error
 
     ReDim Arr(UBound(tokens)) As String
-    Dim I As Long
-    For I = 0 To UBound(tokens)
-        Arr(I) = tokens(I)
+    Dim i As Long
+    For i = 0 To UBound(tokens)
+        Arr(i) = tokens(i)
     Next
     ArrayString = Arr
 

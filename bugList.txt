@@ -195,24 +195,30 @@ quiet/loud sounds
 ' dbl clicking on the screen causes a CR
 ' mute button not toggling out after a press in and reload
 
+' DPI switch off and back on loses high DPI size, document, no change.
+' preferences get focus when behind and visible
+' why is the RC5 prefs drag and resize so much smoother than the RC6 version? because it auto-resizes the top icons on each and every resize
+
 ' -oOo-
 
 Tasks to do:
 ============
 
+' get the sound working on the old Konfab. widget
+
+' combine a new counter rotating sound recording the current Konfabulator widget.
+
 ' does time reset after a sleep? - test
 
-' DPI switch off and back on loses high DPI size
+' .VAlign on the label? not working, raised as a bug with Olaf? 0=Top, -1 and 1=Middle
 
 ' slider advancing/retarding time using timeShiftPercent modified not quite exponentially to shift time - wip
-' in the timer, take the value of timeShiftPercent and do what to it, use cosine to calculate the value on a curve
+' in the timer, take the value of timeShiftPercent and do what to it, use logarithm to calculate the value on a curve.
 
-' Form.CenterOn New_c.Displays(1) - test whether this required
+' Form.CenterOn New_c.Displays(1) - test whether this required on a first time install.
 
 ' after a digital reset set each to -- --  and ** *** **** one by one - wip
 '      possibly do the hrs, mins, days, month and years separately
-
-' combine a new counter rotating sound recording the current Konfabulator widget.
 
 ' add time machine functionality
 
@@ -220,14 +226,9 @@ Tasks to do:
 
 ' shadow behind cwlabel background when background screen lowered, 1. try adding a refresh, 2, try another control
 
-' why is the RC5 prefs drag and resize so much smoother than the RC6 version? - wip
-'       because it auto-resizes the top icons
-
 ' find and replace globals within classes with property GET/SETs
 
 ' look at Olaf's pendulum code
-
-' .VAlign on the label? not working, raised as a bug with Olaf? 0=Top, -1 and 1=Middle
 
 ' Create a XP /ReactOS version using old APIs and RC5 - no DPI awareness, as XP does not have the API nor the capability.
 
