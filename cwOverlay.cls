@@ -1665,12 +1665,20 @@ End Sub
 Private Sub tollbell()
     Dim fileToPlay As String: fileToPlay = vbNullString
     Dim tollhours As Integer: tollhours = 0
+    Dim timeString As String: timeString = vbNullString
     
     Static tollCount As Integer
     
     On Error GoTo tollbell_Error
 
     tollhours = Hour(Now)
+    
+    If tollhours = 0 Then
+        tollhours = 12
+        timeString = " midnight"
+    Else
+        timeString = " o'clock"
+    End If
     
     'stop it striking more than 12 times even when on a 24hr clock
     If tollhours > 12 Then tollhours = tollhours - 12
@@ -1705,7 +1713,7 @@ Private Sub tollbell()
     If (tollCount >= tollhours) Then
         tmrTolling.Enabled = False
         tollCount = 0
-        screenWrite ("Just struck " & tollhours & " o'clock")
+        screenWrite ("Just struck " & tollhours & timeString)
      End If
 
    On Error GoTo 0
@@ -1727,7 +1735,7 @@ End Sub
 '             For this Overlay-Widget alone, we make everything "fully click-through"
 '---------------------------------------------------------------------------------------------
 '
-Private Sub W_HitTest(ByVal X As Single, ByVal y As Single, HitResultHit As Boolean) 'ensure ClickThrough-behaviour in ImagePixels which are "fully Alpha"
+Private Sub W_HitTest(ByVal x As Single, ByVal y As Single, HitResultHit As Boolean) 'ensure ClickThrough-behaviour in ImagePixels which are "fully Alpha"
    On Error GoTo W_HitTest_Error
 
    HitResultHit = False
@@ -1750,7 +1758,7 @@ End Sub
 '
 
 Private Sub W_Paint(ByRef CC As cCairoContext, ByVal xAbs As Single, ByVal yAbs As Single, ByVal dx_Aligned As Single, ByVal dy_Aligned As Single, UserObj As Object)
-    Dim I As Long: I = 0
+    Dim i As Long: i = 0
     Dim Arr As Variant
     Dim Key As String: Key = vbNullString
     Dim Pat As cCairoPattern
@@ -1759,9 +1767,9 @@ Private Sub W_Paint(ByRef CC As cCairoContext, ByVal xAbs As Single, ByVal yAbs 
     
     On Error GoTo W_Paint_Error
   
-    For I = 0 To cCollOverlayImages.Count - 1 ' this is the ExcludedPaths collection populated in cfClock by duplicating collPSDNonUIElements.
-      Arr = cCollOverlayImages.ItemByIndex(I)
-      Key = cCollOverlayImages.KeyByIndex(I)
+    For i = 0 To cCollOverlayImages.Count - 1 ' this is the ExcludedPaths collection populated in cfClock by duplicating collPSDNonUIElements.
+      Arr = cCollOverlayImages.ItemByIndex(i)
+      Key = cCollOverlayImages.KeyByIndex(i)
       
       If IsArray(Arr) Then
              CC.Save

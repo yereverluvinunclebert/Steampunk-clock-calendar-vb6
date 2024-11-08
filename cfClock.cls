@@ -314,7 +314,7 @@ Public Sub InitFromPSD(ByRef PSD_FileNameOrByteArray As Variant)
     Const AlphaWithTaskbarEntry As Integer = 6
     Const AlphaNoTaskbarEntry As Integer = 7
   
-    Dim I As Long: I = 0
+    Dim i As Long: i = 0
     Dim W As cWidgetBase
     Dim grey As String: grey = vbNullString
     Dim someOpacity As Double: someOpacity = 0
@@ -334,19 +334,19 @@ Public Sub InitFromPSD(ByRef PSD_FileNameOrByteArray As Variant)
         pvtPSDWidth = .Width
         pvtPSDHeight = .Height       'store the original Psd-Pixel-Width/Height in Private vars (as the base from which we calculate the zoomed Form-Width/Height)
     
-        For I = 0 To .LayersCount - 1 ' loop through each of the Layers in the PSD
-            If .LayerByteSize(I) Then  ' this is a true Alpha-Surface-Layer and not just a PSD layer 'group'
-                If .LayerAlphaPercent(I) > 0 Then ' only handles layers that have an opacity greater than 0 - need to note this for the future, this will cause a problem!
+        For i = 0 To .LayersCount - 1 ' loop through each of the Layers in the PSD
+            If .LayerByteSize(i) Then  ' this is a true Alpha-Surface-Layer and not just a PSD layer 'group'
+                If .LayerAlphaPercent(i) > 0 Then ' only handles layers that have an opacity greater than 0 - need to note this for the future, this will cause a problem!
                     'add each current Layer path and surface object into the global ImageList collection (using LayerPath as the ImageKey)
-                    Cairo.ImageList.AddSurface .LayerPath(I), .LayerSurface(I)
+                    Cairo.ImageList.AddSurface .LayerPath(i), .LayerSurface(i)
                     
-                    If collPSDNonUIElements.Exists(.LayerPath(I)) Then ' we do not create Widgets for those in this exclude list.
+                    If collPSDNonUIElements.Exists(.LayerPath(i)) Then ' we do not create Widgets for those in this exclude list.
                         
                         'we add layer info. (used in cwOverlay) to the "excluded paths" previously defined in Sub Main,
-                        collPSDNonUIElements(.LayerPath(I)) = Array(.LayerX(I), .LayerY(I), someOpacity)  'here we update the so far empty slots with the PSD-offsets
+                        collPSDNonUIElements(.LayerPath(i)) = Array(.LayerX(i), .LayerY(i), someOpacity)  'here we update the so far empty slots with the PSD-offsets
                 
                     Else 'everything not in the exclude-list will get its own Widget-instance
-                        Set W = clockForm.Widgets.Add(New cwAlphaImg, LCase$(.LayerPath(I)), .LayerX(I), .LayerY(I), .LayerWidth(I), .LayerHeight(I)).Widget
+                        Set W = clockForm.Widgets.Add(New cwAlphaImg, LCase$(.LayerPath(i)), .LayerX(i), .LayerY(i), .LayerWidth(i), .LayerHeight(i)).Widget
                         
                         W.ImageKey = W.Key 'W.Key equals ImageList-Key, set above - and LayerPath(i) at this point ... set it also as the ImageKey of our new created Widget
 
@@ -362,7 +362,7 @@ Public Sub InitFromPSD(ByRef PSD_FileNameOrByteArray As Variant)
                     End If
                 End If
             End If
-        Next I
+        Next i
     End With '<-- the Parser-instance will be destroyed here (freeing the Memory, the internal PSD-Layers have occupied)
         
     Set overlayWidget = clockForm.Widgets.Add(New cwOverlay, "Overlay", 0, 0, pvtPSDWidth, pvtPSDHeight)
@@ -1169,47 +1169,6 @@ deleteAlarm5_Error:
 
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure deleteAlarm5 of Class Module cfClock"
     End Sub
-'---------------------------------------------------------------------------------------
-' Procedure : sliderset_myMouseDown
-' Author    : beededea
-' Date      : 03/08/2023
-' Purpose   :  - note: - can't use a std MouseDown as
-'             declaring a widget as cWidgetBase 'WithEvents' does not provide a std MouseDown with a sender object
-'---------------------------------------------------------------------------------------
-'
-Private Sub sliderset_myMouseDown()
-    Dim fileToPlay As String: fileToPlay = vbNullString
-   
-    On Error GoTo sliderset_myMouseDown_Error
-    
-    overlayWidget.Locked = True
-
-    pvtSlidersetMousedown = True
-                
-    If SliderFreed = False Then
-        If gblVolumeBoost = "1" Then
-            fileToPlay = "buzzer.wav"
-        Else
-            fileToPlay = "buzzer-quiet.wav"
-        End If
-        
-        Call screenWrite("slider mechanism held, use A toggle to release")
-        
-        If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
-            PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
-        End If
-    End If
-     
-   On Error GoTo 0
-   Exit Sub
-
-sliderset_myMouseDown_Error:
-
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure sliderset_myMouseDown of Class Module cfClock"
-
-End Sub
-
-
 
 '---------------------------------------------------------------------------------------
 ' Procedure : bellset_myMouseDown
@@ -2476,7 +2435,7 @@ End Sub
 '                alter the size of the form to correspond to the monitor
 '---------------------------------------------------------------------------------------
 '
-Private Sub clockForm_MouseUp(ByRef Button As Integer, ByRef Shift As Integer, ByRef X As Single, ByRef y As Single)
+Private Sub clockForm_MouseUp(ByRef Button As Integer, ByRef Shift As Integer, ByRef x As Single, ByRef y As Single)
 
     On Error GoTo clockForm_MouseUp_Error
     
@@ -2511,8 +2470,8 @@ End Sub
 ' Purpose   :
 '---------------------------------------------------------------------------------------
 '
-Private Sub clockForm_MouseMove(ByRef Button As Integer, ByRef Shift As Integer, ByRef X As Single, ByRef y As Single)
-  Static x0 As Single, y0 As Single: If Button = 0 Then x0 = X: y0 = y 'just store the offsets when no button is down
+Private Sub clockForm_MouseMove(ByRef Button As Integer, ByRef Shift As Integer, ByRef x As Single, ByRef y As Single)
+  Static x0 As Single, y0 As Single: If Button = 0 Then x0 = x: y0 = y 'just store the offsets when no button is down
   
    On Error GoTo clockForm_MouseMove_Error
     
@@ -2521,7 +2480,7 @@ Private Sub clockForm_MouseMove(ByRef Button As Integer, ByRef Shift As Integer,
 
     If Button = vbLeftButton And Not clockForm.ActiveWidget Is Nothing Then 'Form-Dragging (under certain conditions)
 
-      FX = (X - x0) * clockForm.WidgetRoot.Zoom + clockForm.Left
+      FX = (x - x0) * clockForm.WidgetRoot.Zoom + clockForm.Left
       FY = (y - y0) * clockForm.WidgetRoot.Zoom + clockForm.Top
       clockForm.Move FX, FY
       
@@ -2612,7 +2571,7 @@ End Sub
 ' Purpose   :
 '---------------------------------------------------------------------------------------
 '
-Private Sub clockForm_MouseDown(ByRef Button As Integer, ByRef Shift As Integer, ByRef X As Single, ByRef y As Single)
+Private Sub clockForm_MouseDown(ByRef Button As Integer, ByRef Shift As Integer, ByRef x As Single, ByRef y As Single)
    On Error GoTo W_MouseDown_Error
 
     frmTimer.tmrScreenResolution.Enabled = False
@@ -2633,6 +2592,45 @@ W_MouseDown_Error:
 
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure W_MouseDown of Class Module cfClock"
 End Sub
+'---------------------------------------------------------------------------------------
+' Procedure : sliderset_myMouseDown
+' Author    : beededea
+' Date      : 03/08/2023
+' Purpose   :  - note: - can't use a std MouseDown as
+'             declaring a widget as cWidgetBase 'WithEvents' does not provide a std MouseDown with a sender object
+'---------------------------------------------------------------------------------------
+'
+Private Sub sliderset_myMouseDown()
+    Dim fileToPlay As String: fileToPlay = vbNullString
+   
+    On Error GoTo sliderset_myMouseDown_Error
+    
+    overlayWidget.Locked = True
+
+    pvtSlidersetMousedown = True
+                
+    If SliderFreed = False Then
+        If gblVolumeBoost = "1" Then
+            fileToPlay = "buzzer.wav"
+        Else
+            fileToPlay = "buzzer-quiet.wav"
+        End If
+        
+        Call screenWrite("slider mechanism held, use A toggle to release")
+        
+        If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
+            PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
+        End If
+    End If
+     
+   On Error GoTo 0
+   Exit Sub
+
+sliderset_myMouseDown_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure sliderset_myMouseDown of Class Module cfClock"
+
+End Sub
 
 ' ----------------------------------------------------------------
 ' Procedure Name: sliderset_Moving
@@ -2643,8 +2641,14 @@ End Sub
 ' Date: 26/05/2024
 ' ----------------------------------------------------------------
 Private Sub sliderset_Moving() ' this is an explicit Event-Handler derived from the RC Widget-instance with the property .moveable = true
-    Static a As Double
+    Dim a As Double
     
+    Dim steps As Integer: steps = 10
+    Dim min As Double: min = pvtSldXMin
+    Dim max As Double: max = pvtSldXMax
+    Dim value As Double: value = 0
+    Dim i As Integer
+
     On Error GoTo sliderset_Moving_Error
          
     pvtSldX = sliderset.Left
@@ -2661,9 +2665,17 @@ Private Sub sliderset_Moving() ' this is an explicit Event-Handler derived from 
         overlayWidget.tmrTimeShift.Enabled = False
     End If
      
-    a = a + (timeShiftValue - 0.5)
-    Debug.Print timeShiftValue - 0.5
-    Debug.Print a
+    a = (timeShiftValue - 0.5)
+    
+        'For i = 0 To steps - 1
+            value = Math.Exp(Math.Log(min) + (CDbl(a) / (steps - 1)) * (Math.Log(max) - Math.Log(min)))
+            Debug.Print ("step: " & (a + 1) & ", value: " & Math.Round(value))
+        'Next
+    
+    Debug.Print value
+    
+    'Debug.Print timeShiftValue - 0.5
+    'Debug.Print a
     
     On Error GoTo 0
     Exit Sub
@@ -2977,7 +2989,7 @@ Public Property Let clapperEnabled(ByVal newValue As Boolean)
         gblClapperEnabled = "True"
         clapperright.Alpha = 0
         clapperLeft.Alpha = alphaVal
-        widgetPrefs.chkEnableChimes.Value = 1
+        widgetPrefs.chkEnableChimes.value = 1
         If pvtMuteInitiatingControl = "clapper" Then
                 If gblVolumeBoost = "1" Then
                     fileToPlay = "singleBell.wav"
@@ -2994,7 +3006,7 @@ Public Property Let clapperEnabled(ByVal newValue As Boolean)
         'If pvtMuteInitiatingControl = "clapper" Then muteToggleEnabled = True
         clapperright.Alpha = alphaVal
         clapperLeft.Alpha = 0
-        widgetPrefs.chkEnableChimes.Value = 0
+        widgetPrefs.chkEnableChimes.value = 0
     End If
     
     sPutINISetting "Software\SteampunkClockCalendar", "clapperEnabled", gblClapperEnabled, gblSettingsFile
@@ -3199,13 +3211,13 @@ Public Property Let crankedRaised(ByVal newValue As Boolean)
         crankup.Alpha = alphaVal
         crankdown.Alpha = 0
         gblCrankEnabled = "True"
-        widgetPrefs.chkVolumeBoost.Value = 1
+        widgetPrefs.chkVolumeBoost.value = 1
         gblVolumeBoost = "1"
     Else
         gblCrankEnabled = "False"
         crankup.Alpha = 0
         crankdown.Alpha = alphaVal
-        widgetPrefs.chkVolumeBoost.Value = 0
+        widgetPrefs.chkVolumeBoost.value = 0
         gblVolumeBoost = "0"
     End If
        
@@ -3270,12 +3282,12 @@ Public Property Let chainEnabled(ByVal newValue As Boolean)
         chain.Move chainLeft, chainTop + 10
         gblChainEnabled = "True"
         ticking = True
-        widgetPrefs.chkEnableTicks.Value = 1
+        widgetPrefs.chkEnableTicks.value = 1
     Else
         chain.Move chainLeft, chainTop - 10
         gblChainEnabled = "False"
         ticking = False
-        widgetPrefs.chkEnableTicks.Value = 0
+        widgetPrefs.chkEnableTicks.value = 0
     End If
        
     sPutINISetting "Software\SteampunkClockCalendar", "chainEnabled", gblChainEnabled, gblSettingsFile
@@ -3694,7 +3706,7 @@ Public Property Let muteToggleEnabled(ByVal newValue As Boolean)
         gblMuteToggleEnabled = "True"
         ticking = False
         gblEnableSounds = "0"
-        widgetPrefs.chkEnableSounds.Value = 0
+        widgetPrefs.chkEnableSounds.value = 0
         
         ' stop MCI from playing
         If gblVolumeBoost = "1" Then
@@ -3712,7 +3724,7 @@ Public Property Let muteToggleEnabled(ByVal newValue As Boolean)
         gblMuteToggleEnabled = "False"
         gblEnableSounds = "1"
         If ticking = True Then ticking = True
-        widgetPrefs.chkEnableSounds.Value = 1
+        widgetPrefs.chkEnableSounds.value = 1
     End If
     
     sPutINISetting "Software\SteampunkClockCalendar", "muteToggleEnabled", gblMuteToggleEnabled, gblSettingsFile
@@ -3780,12 +3792,12 @@ Public Property Let pendulumToggleEnabled(ByVal newValue As Boolean)
         pendulumtoggle.Move pendulumToggleIn, pendulumToggleTop
         overlayWidget.SwingPendulum = True
         gblPendulumToggleEnabled = "True"
-        widgetPrefs.chkTogglePendulum.Value = 1
+        widgetPrefs.chkTogglePendulum.value = 1
     Else
         pendulumtoggle.Move pendulumToggleOut, pendulumToggleTop
         overlayWidget.SwingPendulum = False
         gblPendulumToggleEnabled = "False"
-        widgetPrefs.chkTogglePendulum.Value = 0
+        widgetPrefs.chkTogglePendulum.value = 0
     End If
         
     If gblVolumeBoost = "1" Then
