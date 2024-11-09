@@ -30,13 +30,12 @@ Private Declare Function mciSendString Lib "winmm.dll" Alias "mciSendStringA" _
 Public WithEvents clockForm As cWidgetForm
 Attribute clockForm.VB_VarHelpID = -1
 
-Private WithEvents tmrDisplay As cTimer
-Attribute tmrDisplay.VB_VarHelpID = -1
+'Private WithEvents tmrDisplay As cTimer
 Private WithEvents tmrZZZZSound As cTimer
 Attribute tmrZZZZSound.VB_VarHelpID = -1
 Private WithEvents tmrTILLSound As cTimer
 Attribute tmrTILLSound.VB_VarHelpID = -1
-Private WithEvents tmrTickingSound As cTimer
+Public WithEvents tmrTickingSound As cTimer
 Attribute tmrTickingSound.VB_VarHelpID = -1
 
 Public collPSDNonUIElements As cCollection
@@ -826,6 +825,8 @@ Private Sub displayscreen_myDblClick()
    
     On Error GoTo displayscreen_myDblClick_Error
 
+    If gblWidgetFunctions = "0" Or gblIgnoreMouse = "1" Then Exit Sub
+    
     Call screenWrite(".")
     
     If gblVolumeBoost = "1" Then
@@ -860,6 +861,8 @@ Private Sub redalarmcover_myMouseDown()
     Dim anAlarmDeleted As Boolean: anAlarmDeleted = False
    
     On Error GoTo redalarmcover_myMouseDown_Error
+    
+    If gblWidgetFunctions = "0" Or gblIgnoreMouse = "1" Then Exit Sub
     
     ' first thing to do is to stop the alarm timer ringing the bell, if running
     gblAlarmFlgRaised = False
@@ -1183,6 +1186,8 @@ Private Sub bellset_myMouseDown()
     
     On Error GoTo bellset_myMouseDown_Error
     
+    If gblWidgetFunctions = "0" Or gblIgnoreMouse = "1" Then Exit Sub
+    
     If gblVolumeBoost = "1" Then
         fileToPlay = "singleBell.wav"
     Else
@@ -1223,7 +1228,9 @@ Private Sub dropdown_myMouseDown()
     
     On Error GoTo dropdown_MouseDown_Error
     
-    dropdownTop = dropdown.Top
+     If gblWidgetFunctions = "0" Or gblIgnoreMouse = "1" Then Exit Sub
+    
+   dropdownTop = dropdown.Top
     dropdownLeft = dropdown.Left
             
     alphaVal = Val(gblOpacity) / 100
@@ -1281,6 +1288,8 @@ Private Sub alarmtoggle1_myMouseDown()
 
     On Error GoTo alarmtoggle1_myMouseDown_Error
     
+    If gblWidgetFunctions = "0" Or gblIgnoreMouse = "1" Then Exit Sub
+    
     gblShowAlarmDateTime = True ' var that allows the stored alarm date/time to be displayed
 
     If gblVolumeBoost = "1" Then
@@ -1327,6 +1336,8 @@ Private Sub alarmtoggle2_myMouseDown()
 
     On Error GoTo alarmtoggle2_myMouseDown_Error
     
+    If gblWidgetFunctions = "0" Or gblIgnoreMouse = "1" Then Exit Sub
+    
     gblShowAlarmDateTime = True ' var that allows the stored alarm date/time to be displayed 'alarmtoggle2"
     
     If gblVolumeBoost = "1" Then
@@ -1370,6 +1381,8 @@ Private Sub alarmtoggle3_myMouseDown()
     Dim fileToPlay As String: fileToPlay = vbNullString
 
     On Error GoTo alarmtoggle3_myMouseDown_Error
+    
+    If gblWidgetFunctions = "0" Or gblIgnoreMouse = "1" Then Exit Sub
     
     gblShowAlarmDateTime = True ' var that allows the stored alarm date/time to be displayed 'alarmtoggle3"
     
@@ -1416,6 +1429,8 @@ Private Sub alarmtoggle4_myMouseDown()
 
     On Error GoTo alarmtoggle4_myMouseDown_Error
     
+    If gblWidgetFunctions = "0" Or gblIgnoreMouse = "1" Then Exit Sub
+    
     gblShowAlarmDateTime = True ' var that allows the stored alarm date/time to be displayed 'alarmtoggle4"
     
     If gblVolumeBoost = "1" Then
@@ -1459,6 +1474,8 @@ Private Sub alarmtoggle5_myMouseDown()
     Dim fileToPlay As String: fileToPlay = vbNullString
 
     On Error GoTo alarmtoggle5_myMouseDown_Error
+    
+    If gblWidgetFunctions = "0" Or gblIgnoreMouse = "1" Then Exit Sub
     
     gblShowAlarmDateTime = True ' var that allows the stored alarm date/time to be displayed 'alarmtoggle5"
     
@@ -1512,6 +1529,8 @@ Private Sub weekdayred_myMouseDown()
     
     On Error GoTo weekdayred_myMouseDown_Error
     
+    If gblWidgetFunctions = "0" Or gblIgnoreMouse = "1" Then Exit Sub
+    
     If fClock.clockForm.Widgets("weekdayred").Widget.Alpha = 0 Then Exit Sub
     
     weekdayToggleTop = weekdaytoggle.Top
@@ -1560,6 +1579,8 @@ Private Sub chain_myMouseDown()
 
     On Error GoTo chain_myMouseDown_Error
     
+    If gblWidgetFunctions = "0" Or gblIgnoreMouse = "1" Then Exit Sub
+    
     If gblVolumeBoost = "1" Then
         fileToPlay = "chainpull.wav"
     Else
@@ -1602,6 +1623,8 @@ Private Sub backtoggle_myMouseDown()
    On Error GoTo backtoggle_myMouseDown_Error
 
     Dim fileToPlay As String: fileToPlay = vbNullString
+    
+    If gblWidgetFunctions = "0" Or gblIgnoreMouse = "1" Then Exit Sub
     
     If gblVolumeBoost = "1" Then
         fileToPlay = "clunk.wav"
@@ -1646,6 +1669,8 @@ Private Sub alarmtoggle_myMouseDown()
     Dim fileToPlay As String: fileToPlay = vbNullString
     
     On Error GoTo alarmtoggle_myMouseDown_Error
+    
+    If gblWidgetFunctions = "0" Or gblIgnoreMouse = "1" Then Exit Sub
     
     pvtSlidersetMousedown = False
 
@@ -1694,6 +1719,8 @@ Private Sub timeMachineToggle_myMouseDown()
 
     On Error GoTo timeMachineToggle_myMouseDown_Error
     
+    If gblWidgetFunctions = "0" Or gblIgnoreMouse = "1" Then Exit Sub
+    
     If gblVolumeBoost = "1" Then
         fileToPlay = "clunk.wav"
     Else
@@ -1734,6 +1761,8 @@ Private Sub weekdayToggle_myMouseDown()
 
     Dim fileToPlay As String: fileToPlay = vbNullString
 
+    If gblWidgetFunctions = "0" Or gblIgnoreMouse = "1" Then Exit Sub
+    
     If gblVolumeBoost = "1" Then
         fileToPlay = "clunk.wav"
     Else
@@ -1779,6 +1808,8 @@ Private Sub settoggle_myMouseDown()
     Dim fileToPlay As String: fileToPlay = vbNullString
     
     On Error GoTo settoggle_myMouseDown_Error
+    
+    If gblWidgetFunctions = "0" Or gblIgnoreMouse = "1" Then Exit Sub
     
     settoggleTop = settoggle.Top
     setToggleOut = 359
@@ -1828,6 +1859,8 @@ Private Sub mutetoggle_myMouseDown()
     
     pvtMuteInitiatingControl = "muteToggle"
      
+    If gblWidgetFunctions = "0" Or gblIgnoreMouse = "1" Then Exit Sub
+    
     If gblMuteToggleEnabled = "False" Then
         muteToggleEnabled = True
     Else
@@ -1856,6 +1889,8 @@ Private Sub pendulumtoggle_myMouseDown()
 
     On Error GoTo pendulumtoggle_myMouseDown_Error
 
+    If gblWidgetFunctions = "0" Or gblIgnoreMouse = "1" Then Exit Sub
+    
     If gblPendulumToggleEnabled = "False" Then
         pendulumToggleEnabled = True
     Else
@@ -1887,6 +1922,8 @@ Private Sub displayScreenToggle_myMouseDown()
     Dim displayScreenToggleTop As Long: displayScreenToggleTop = 0
     Dim displayScreenToggleLeft As Long: displayScreenToggleLeft = 0
     Dim alphaVal As Single: alphaVal = 0
+    
+    If gblWidgetFunctions = "0" Or gblIgnoreMouse = "1" Then Exit Sub
     
     displayScreenToggleTop = displayscreentoggle.Top
     displayScreenToggleLeft = displayscreentoggle.Left
@@ -1936,6 +1973,8 @@ Private Sub helptoggle_myMouseDown()
     Dim alphaVal As Single: alphaVal = 0
     Dim helpToggleFlg As Boolean: helpToggleFlg = False
 
+    If gblWidgetFunctions = "0" Or gblIgnoreMouse = "1" Then Exit Sub
+    
     helptoggleTop = helpToggle.Top
     helptoggleLeft = helpToggle.Left
     alphaVal = Val(gblOpacity) / 100
@@ -2101,6 +2140,8 @@ Private Sub help3toggle_myMouseDown()
     Dim alphaVal As Single: alphaVal = 0
     Dim helpToggleFlg As Boolean: helpToggleFlg = False
 
+    If gblWidgetFunctions = "0" Or gblIgnoreMouse = "1" Then Exit Sub
+    
     alphaVal = Val(gblOpacity) / 100
     
     If gblVolumeBoost = "1" Then
@@ -2157,6 +2198,8 @@ Private Sub pendulumtransparent_myMouseDown()
 
     On Error GoTo pendulumtransparent_myMouseDown_Error
     
+    If gblWidgetFunctions = "0" Or gblIgnoreMouse = "1" Then Exit Sub
+    
     If gblVolumeBoost = "1" Then
         fileToPlay = "tick.wav"
     Else
@@ -2201,6 +2244,8 @@ Private Sub helpdropdown_myMouseDown()
     Dim helpdropdownLeft As Long: helpdropdownLeft = 0
     Dim alphaVal As Single: alphaVal = 0
 
+    If gblWidgetFunctions = "0" Or gblIgnoreMouse = "1" Then Exit Sub
+    
     If helpdropdown.Alpha <> 0 Then
         Call screenWrite("Dropdown canvas rolling up")
         helpdropdownTop = helpdropdown.Top
@@ -2247,8 +2292,9 @@ End Sub
 '
 Private Sub lockit()
    On Error GoTo lockingpin_mouseDown_Error
-
-    clockForm.Widgets("lockingpinlocked").Widget.Alpha = Val(gblOpacity) / 100
+     If gblWidgetFunctions = "0" Or gblIgnoreMouse = "1" Then Exit Sub
+    
+   clockForm.Widgets("lockingpinlocked").Widget.Alpha = Val(gblOpacity) / 100
     clockForm.Widgets("lockingpin").Widget.Alpha = Val(gblOpacity) / 100
 
     clockForm.Widgets("lockingpinlocked").Widget.Visible = True
@@ -2319,7 +2365,9 @@ Private Sub helpbottom_myMouseDown()
 '    labellayerTop = labellayer.Top
 '    labellayerLeft = labellayer.Left
 
-    If helpbottom.Alpha <> 0 Then ' cope with the click on the invisible helpbottom layer
+     If gblWidgetFunctions = "0" Or gblIgnoreMouse = "1" Then Exit Sub
+    
+     If helpbottom.Alpha <> 0 Then ' cope with the click on the invisible helpbottom layer
         
         ShowHelp = False
                 
@@ -2366,6 +2414,8 @@ Private Sub clockForm_DblClick()
 
     '    If gblIgnoreMouse = "1" Then Exit Sub
 
+    If gblWidgetFunctions = "0" Or gblIgnoreMouse = "1" Then Exit Sub
+    
     If LTrim$(gblDblClickCommand) = vbNullString Then Exit Sub
     
     thisCommand = gblDblClickCommand
@@ -2604,6 +2654,8 @@ Private Sub sliderset_myMouseDown()
     Dim fileToPlay As String: fileToPlay = vbNullString
    
     On Error GoTo sliderset_myMouseDown_Error
+    
+    If gblWidgetFunctions = "0" Or gblIgnoreMouse = "1" Then Exit Sub
     
     overlayWidget.Locked = True
 
@@ -2909,6 +2961,8 @@ Private Sub clapperleft_myMouseDown()
     
     On Error GoTo clapperleft_myMouseDown_Error
 
+    If gblWidgetFunctions = "0" Or gblIgnoreMouse = "1" Then Exit Sub
+    
     pvtMuteInitiatingControl = "clapper"
 
     If gblVolumeBoost = "1" Then
@@ -2949,6 +3003,8 @@ End Sub
 Private Sub clapperright_myMouseDown()
 
     On Error GoTo clapperright_myMouseDown_Error
+    
+    If gblWidgetFunctions = "0" Or gblIgnoreMouse = "1" Then Exit Sub
     
     pvtMuteInitiatingControl = "clapper"
 
@@ -3133,6 +3189,8 @@ Private Sub crankdown_myMouseDown()
             
     On Error GoTo crankdown_myMouseDown_Error
 
+    If gblWidgetFunctions = "0" Or gblIgnoreMouse = "1" Then Exit Sub
+    
     If gblVolumeBoost = "1" Then
         fileToPlay = "crank.wav"
     Else
@@ -3167,6 +3225,8 @@ Private Sub crankup_myMouseDown()
     Dim fileToPlay As String: fileToPlay = vbNullString
     
     On Error GoTo crankup_myMouseDown_Error
+    
+    If gblWidgetFunctions = "0" Or gblIgnoreMouse = "1" Then Exit Sub
     
     If gblVolumeBoost = "1" Then
         fileToPlay = "crank.wav"

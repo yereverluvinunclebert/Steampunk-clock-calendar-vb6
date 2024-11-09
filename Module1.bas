@@ -2503,6 +2503,14 @@ Public Sub SwitchOff()
     menuForm.mnuSwitchOff.Checked = True
     menuForm.mnuTurnFunctionsOn.Checked = False
     
+    overlayWidget.tmrClock.Enabled = False
+    overlayWidget.tmrPendulum.Enabled = False
+    overlayWidget.tmrTolling.Enabled = False
+    overlayWidget.tmrCountdownToToll.Enabled = False ' need to add set/get for these public timers
+    overlayWidget.tmrTimeShift.Enabled = False
+    overlayWidget.tmrDigitRotator.Enabled = False
+    overlayWidget.tmrAlarmRinging.Enabled = False
+
     gblWidgetFunctions = "0"
     sPutINISetting "Software\SteampunkClockCalendar", "widgetFunctions", gblWidgetFunctions, gblSettingsFile
 
@@ -2528,6 +2536,10 @@ Public Sub TurnFunctionsOn()
     Dim fileToPlay As String: fileToPlay = vbNullString
 
    On Error GoTo TurnFunctionsOn_Error
+   
+    overlayWidget.tmrClock.Enabled = True
+
+   ' need to add set/get for these public timers
 
     If gblVolumeBoost = "1" Then
         fileToPlay = "ting.wav"

@@ -199,6 +199,10 @@ quiet/loud sounds
 ' preferences get focus when behind and visible
 ' why is the RC5 prefs drag and resize so much smoother than the RC6 version? because it auto-resizes the top icons on each and every resize
 
+' switch off all function menu option to stop all timers
+' switch on all function menu option to restart all timers
+' enable all controls to avoid mouse events when set in the prefs Window tab - clock still operates
+
 ' -oOo-
 
 Tasks to do:
@@ -209,6 +213,8 @@ Tasks to do:
 ' combine a new counter rotating sound recording the current Konfabulator widget.
 
 ' does time reset after a sleep? - test
+
+' when in alarm mode, the analogue clock fails to display the time as stated on the alarm shown
 
 ' .VAlign on the label? not working, raised as a bug with Olaf? 0=Top, -1 and 1=Middle
 
@@ -247,6 +253,8 @@ https://www.vbforums.com/showthread.php?896944-VB6-QUESTION-Check-if-API-exists
 ' adjustFormPositionToCorrectMonitor - help form
 
 ' identify the resizing code changes/additions for multi monitor systems so the code can be back-ported to older VB6 widgets
+
+' reduce CPU usage to less than one percent
 
 '  create setup.exe with a different name.
 

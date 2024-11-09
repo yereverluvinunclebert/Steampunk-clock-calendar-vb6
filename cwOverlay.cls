@@ -35,13 +35,13 @@ Public cyPerc As Single      ' need to add set/get for these public vars
 
 ' timer vars
 
-Private WithEvents tmrClock As cTimer
+Public WithEvents tmrClock As cTimer
 Attribute tmrClock.VB_VarHelpID = -1
-Private WithEvents tmrPendulum As cTimer
+Public WithEvents tmrPendulum As cTimer
 Attribute tmrPendulum.VB_VarHelpID = -1
-Private WithEvents tmrTolling As cTimer
+Public WithEvents tmrTolling As cTimer
 Attribute tmrTolling.VB_VarHelpID = -1
-Private WithEvents tmrCountdownToToll As cTimer
+Public WithEvents tmrCountdownToToll As cTimer
 Attribute tmrCountdownToToll.VB_VarHelpID = -1
 
 Public WithEvents tmrTimeShift As cTimer    ' need to add set/get for these public timers
