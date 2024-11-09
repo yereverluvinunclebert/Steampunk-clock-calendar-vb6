@@ -215,8 +215,6 @@ Tasks to do:
 ' slider advancing/retarding time using timeShiftPercent modified not quite exponentially to shift time - wip
 ' in the timer, take the value of timeShiftPercent and do what to it, use logarithm to calculate the value on a curve.
 
-' Form.CenterOn New_c.Displays(1) - test whether this required on a first time install.
-
 ' after a digital reset set each to -- --  and ** *** **** one by one - wip
 '      possibly do the hrs, mins, days, month and years separately
 
@@ -239,7 +237,9 @@ https://www.vbforums.com/showthread.php?896944-VB6-QUESTION-Check-if-API-exists
 ' sync. E6410 win 7 and test - wip
 ' sync. Fast Dell laptop
 
-' test on Dell win 11 high DPI with slicence = 
+' test on Dell win 11 high DPI with slicence =
+
+' Form.CenterOn New_c.Displays(1) - test whether this required on a first time install.
 
 ' adjustFormPositionToCorrectMonitor, make it work and observe the result as per FCW - wip
 ' adjustFormPositionToCorrectMonitor - licence form
