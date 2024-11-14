@@ -240,7 +240,7 @@ Private Sub sleepTimer_Timer()
         'MsgBox "system has just woken up from a sleep, updating... " & gblFClockAvailable
       
         gblFClockAvailable = True
-        Call screenWrite("system has just woken up from a sleep, updating... ")
+        Call screenWrite("system has just woken up from a sleep at " & Now() & vbCrLf & ", updating clocks... ")
         fClock.clockForm.Refresh
         
         triggerDigitalClockPopulation = True

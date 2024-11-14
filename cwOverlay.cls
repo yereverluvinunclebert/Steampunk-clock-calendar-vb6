@@ -1616,7 +1616,7 @@ Private Sub tmrCountdownToToll_Timer()
 
     If (countdownToToll <= 6) Then
         countdownToToll = countdownToToll + 1
-        screenWrite ("Countdown to tolling the hour =  " & 9 - countdownToToll)
+        screenWrite ("Countdown to tolling the hour =  " & 8 - countdownToToll)
     Else
         countdownToToll = 0
         tmrCountdownToToll.Enabled = False

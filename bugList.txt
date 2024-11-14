@@ -203,12 +203,14 @@ quiet/loud sounds
 ' switch on all function menu option to restart all timers
 ' enable all controls to avoid mouse events when set in the prefs Window tab - clock still operates
 
+' get the sound working on the old Konfab. widget
+
 ' -oOo-
 
 Tasks to do:
 ============
 
-' get the sound working on the old Konfab. widget
+
 
 ' combine a new counter rotating sound recording the current Konfabulator widget.
 

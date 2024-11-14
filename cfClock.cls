@@ -549,19 +549,19 @@ Private Sub clockForm_BubblingEvent(ByRef sender As Object, ByRef EventName As S
                 If gblEnableBalloonTooltips = "True" Then CreateToolTip clockForm.hWnd, "Toggle the Back Screen to make the text easier to read.", _
                      TTIconInfo, widgetName & " Back Screen Toggle Help", , , , True
             Case "alarmtoggle1"
-                If gblEnableBalloonTooltips = "True" Then CreateToolTip clockForm.hWnd, "Click to set alarm number one.", _
+                If gblEnableBalloonTooltips = "True" Then CreateToolTip clockForm.hWnd, "Click to set or view alarm number one.", _
                      TTIconInfo, widgetName & " Alarm 1 Toggle Help", , , , True
             Case "alarmtoggle2"
-                If gblEnableBalloonTooltips = "True" Then CreateToolTip clockForm.hWnd, "Click to set alarm number two.", _
+                If gblEnableBalloonTooltips = "True" Then CreateToolTip clockForm.hWnd, "Click to set or view alarm number two.", _
                      TTIconInfo, widgetName & " Alarm 2 Toggle Help", , , , True
             Case "alarmtoggle3"
-                If gblEnableBalloonTooltips = "True" Then CreateToolTip clockForm.hWnd, "Click to set alarm number three.", _
+                If gblEnableBalloonTooltips = "True" Then CreateToolTip clockForm.hWnd, "Click to set or view alarm number three.", _
                      TTIconInfo, widgetName & " Alarm 3 Toggle Help", , , , True
             Case "alarmtoggle4"
-                If gblEnableBalloonTooltips = "True" Then CreateToolTip clockForm.hWnd, "Click to set alarm number four.", _
+                If gblEnableBalloonTooltips = "True" Then CreateToolTip clockForm.hWnd, "Click to set or view alarm number four.", _
                      TTIconInfo, widgetName & " Alarm 4 Toggle Help", , , , True
             Case "alarmtoggle5"
-                If gblEnableBalloonTooltips = "True" Then CreateToolTip clockForm.hWnd, "Click to set alarm number five.", _
+                If gblEnableBalloonTooltips = "True" Then CreateToolTip clockForm.hWnd, "Click to set or view alarm number five.", _
                      TTIconInfo, widgetName & " Alarm 5 Toggle Help", , , , True
             Case "chain"
                 If gblEnableBalloonTooltips = "True" Then CreateToolTip clockForm.hWnd, "Pulling the chain will silence the ticks.", _
@@ -2716,18 +2716,43 @@ Private Sub sliderset_Moving() ' this is an explicit Event-Handler derived from 
     Else
         overlayWidget.tmrTimeShift.Enabled = False
     End If
-     
-    a = (timeShiftValue - 0.5)
     
-        'For i = 0 To steps - 1
-            value = Math.Exp(Math.Log(min) + (CDbl(a) / (steps - 1)) * (Math.Log(max) - Math.Log(min)))
-            Debug.Print ("step: " & (a + 1) & ", value: " & Math.Round(value))
-        'Next
-    
-    Debug.Print value
-    
-    'Debug.Print timeShiftValue - 0.5
-    'Debug.Print a
+'    ' Calculate the percentage
+'    Dim sliderwidth As Integer: sliderwidth = 0
+'    Dim currpos As Integer: perc = 0
+'    Dim perc As Integer: currpos = 0
+'    Dim timeDeviation As Double: timeDeviation = 0
+'
+'    sliderwidth = rightmost - leftmost
+'    currpos = sliderset.hOffset - leftmost
+'    perc = CInt((currpos / sliderwidth) * 100)
+'
+'    If perc < 0 Then
+'        perc = 0
+'    End If
+'
+'    ' Determine the percentage from the middle of the slider
+'    If perc <= 50 Then ' Negative value
+'        If timeDeviationFlg = 1 Then
+'            timecount = 0 ' This zeroes the timecount when the slider was previously positive
+'        End If
+'        timeDeviationFlg = 0
+'        perc = perc - 50
+'        perc = perc * 2
+'        perc = Math.Abs(perc)
+'    ElseIf perc > 50 Then ' Positive
+'        If timeDeviationFlg = 0 Then
+'            timecount = 0 ' This zeroes the timecount when the slider was previously negative
+'        End If
+'        timeDeviationFlg = 1
+'        perc = perc - 50
+'        perc = perc * 2
+'    End If
+'
+'    ' Given a percentage calculates the logarithmic value
+'    timeDeviation = LogSlider(perc)
+'        ' If (debugFlg = 1) Then Print("%KON-I-INFO, perc before " & perc)
+'    ' If (debugFlg = 1) Then Print("%KON-I-INFO, timeDeviation " & timeDeviation)
     
     On Error GoTo 0
     Exit Sub
@@ -2737,6 +2762,47 @@ sliderset_Moving_Error:
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure sliderset_Moving, line " & Erl & "."
 
 End Sub
+
+'---------------------------------------------------------------------------------------
+' Procedure : LogSlider
+' Author    : beededea
+' Date      : 14/11/2024
+' Purpose   : this function determines the logarithmic value of the time slider
+'---------------------------------------------------------------------------------------
+'
+Function LogSlider(position As Double) As Double
+
+    Dim minp As Double: minp = 0
+    Dim maxp As Double: maxp = 0
+    Dim minv As Double: minv = 0
+    Dim maxv As Double: maxv = 0
+    Dim logScale As Double: logScale = 0
+    
+    On Error GoTo LogSlider_Error
+
+    ' position will be between 0 and 100
+    maxp = 100
+
+    ' The result should be between 100 and 10000000
+    minv = Log(15000)
+    maxv = Log(5052000000#)
+
+    ' calculate adjustment factor
+    logScale = (maxv - minv) / (maxp - minp)
+    position = Exp(minv + logScale * (position - minp))
+    'If (debugFlg = 1) Then Console.WriteLine("%KON-I-INFO, position " & position)
+
+    LogSlider = position  ' return
+
+   On Error GoTo 0
+   Exit Function
+
+LogSlider_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure LogSlider of Class Module cfClock"
+End Function
+
+
 
 '---------------------------------------------------------------------------------------
 ' Property  : SliderFreed
