@@ -31,9 +31,9 @@ Public WithEvents clockForm As cWidgetForm
 Attribute clockForm.VB_VarHelpID = -1
 
 'Private WithEvents tmrDisplay As cTimer
-Private WithEvents tmrZZZZSound As cTimer
+Public WithEvents tmrZZZZSound As cTimer
 Attribute tmrZZZZSound.VB_VarHelpID = -1
-Private WithEvents tmrTILLSound As cTimer
+Public WithEvents tmrTILLSound As cTimer
 Attribute tmrTILLSound.VB_VarHelpID = -1
 Public WithEvents tmrTickingSound As cTimer
 Attribute tmrTickingSound.VB_VarHelpID = -1
@@ -313,7 +313,7 @@ Public Sub InitFromPSD(ByRef PSD_FileNameOrByteArray As Variant)
     Const AlphaWithTaskbarEntry As Integer = 6
     Const AlphaNoTaskbarEntry As Integer = 7
   
-    Dim i As Long: i = 0
+    Dim I As Long: I = 0
     Dim W As cWidgetBase
     Dim grey As String: grey = vbNullString
     Dim someOpacity As Double: someOpacity = 0
@@ -333,19 +333,19 @@ Public Sub InitFromPSD(ByRef PSD_FileNameOrByteArray As Variant)
         pvtPSDWidth = .Width
         pvtPSDHeight = .Height       'store the original Psd-Pixel-Width/Height in Private vars (as the base from which we calculate the zoomed Form-Width/Height)
     
-        For i = 0 To .LayersCount - 1 ' loop through each of the Layers in the PSD
-            If .LayerByteSize(i) Then  ' this is a true Alpha-Surface-Layer and not just a PSD layer 'group'
-                If .LayerAlphaPercent(i) > 0 Then ' only handles layers that have an opacity greater than 0 - need to note this for the future, this will cause a problem!
+        For I = 0 To .LayersCount - 1 ' loop through each of the Layers in the PSD
+            If .LayerByteSize(I) Then  ' this is a true Alpha-Surface-Layer and not just a PSD layer 'group'
+                If .LayerAlphaPercent(I) > 0 Then ' only handles layers that have an opacity greater than 0 - need to note this for the future, this will cause a problem!
                     'add each current Layer path and surface object into the global ImageList collection (using LayerPath as the ImageKey)
-                    Cairo.ImageList.AddSurface .LayerPath(i), .LayerSurface(i)
+                    Cairo.ImageList.AddSurface .LayerPath(I), .LayerSurface(I)
                     
-                    If collPSDNonUIElements.Exists(.LayerPath(i)) Then ' we do not create Widgets for those in this exclude list.
+                    If collPSDNonUIElements.Exists(.LayerPath(I)) Then ' we do not create Widgets for those in this exclude list.
                         
                         'we add layer info. (used in cwOverlay) to the "excluded paths" previously defined in Sub Main,
-                        collPSDNonUIElements(.LayerPath(i)) = Array(.LayerX(i), .LayerY(i), someOpacity)  'here we update the so far empty slots with the PSD-offsets
+                        collPSDNonUIElements(.LayerPath(I)) = Array(.LayerX(I), .LayerY(I), someOpacity)  'here we update the so far empty slots with the PSD-offsets
                 
                     Else 'everything not in the exclude-list will get its own Widget-instance
-                        Set W = clockForm.Widgets.Add(New cwAlphaImg, LCase$(.LayerPath(i)), .LayerX(i), .LayerY(i), .LayerWidth(i), .LayerHeight(i)).Widget
+                        Set W = clockForm.Widgets.Add(New cwAlphaImg, LCase$(.LayerPath(I)), .LayerX(I), .LayerY(I), .LayerWidth(I), .LayerHeight(I)).Widget
                         
                         W.ImageKey = W.Key 'W.Key equals ImageList-Key, set above - and LayerPath(i) at this point ... set it also as the ImageKey of our new created Widget
 
@@ -361,7 +361,7 @@ Public Sub InitFromPSD(ByRef PSD_FileNameOrByteArray As Variant)
                     End If
                 End If
             End If
-        Next i
+        Next I
     End With '<-- the Parser-instance will be destroyed here (freeing the Memory, the internal PSD-Layers have occupied)
         
     Set overlayWidget = clockForm.Widgets.Add(New cwOverlay, "Overlay", 0, 0, pvtPSDWidth, pvtPSDHeight)
@@ -2699,8 +2699,13 @@ Private Sub sliderset_Moving() ' this is an explicit Event-Handler derived from 
     Dim min As Double: min = pvtSldXMin
     Dim max As Double: max = pvtSldXMax
     Dim value As Double: value = 0
-    Dim i As Integer
-
+    Dim I As Integer
+    
+'    Dim sliderwidth As Integer: sliderwidth = 0
+'    Dim currpos As Integer: perc = 0
+    Dim perc As Integer: perc = 0
+    Dim timeDeviation As Currency: timeDeviation = 0
+    
     On Error GoTo sliderset_Moving_Error
          
     pvtSldX = sliderset.Left
@@ -2717,42 +2722,26 @@ Private Sub sliderset_Moving() ' this is an explicit Event-Handler derived from 
         overlayWidget.tmrTimeShift.Enabled = False
     End If
     
-'    ' Calculate the percentage
-'    Dim sliderwidth As Integer: sliderwidth = 0
-'    Dim currpos As Integer: perc = 0
-'    Dim perc As Integer: currpos = 0
-'    Dim timeDeviation As Double: timeDeviation = 0
-'
-'    sliderwidth = rightmost - leftmost
-'    currpos = sliderset.hOffset - leftmost
-'    perc = CInt((currpos / sliderwidth) * 100)
-'
-'    If perc < 0 Then
-'        perc = 0
-'    End If
-'
+    ' Calculate the percentage
+     perc = timeShiftValue * 100
+
 '    ' Determine the percentage from the middle of the slider
-'    If perc <= 50 Then ' Negative value
-'        If timeDeviationFlg = 1 Then
-'            timecount = 0 ' This zeroes the timecount when the slider was previously positive
-'        End If
-'        timeDeviationFlg = 0
-'        perc = perc - 50
-'        perc = perc * 2
-'        perc = Math.Abs(perc)
-'    ElseIf perc > 50 Then ' Positive
-'        If timeDeviationFlg = 0 Then
-'            timecount = 0 ' This zeroes the timecount when the slider was previously negative
-'        End If
-'        timeDeviationFlg = 1
-'        perc = perc - 50
-'        perc = perc * 2
-'    End If
-'
+    If perc <= 50 Then ' Negative value
+        perc = perc - 50
+        perc = perc * 2
+        'perc = Math.Abs(perc)
+    ElseIf perc > 50 Then ' Positive
+        perc = perc - 50
+        perc = perc * 2
+    End If
+
 '    ' Given a percentage calculates the logarithmic value
-'    timeDeviation = LogSlider(perc)
-'        ' If (debugFlg = 1) Then Print("%KON-I-INFO, perc before " & perc)
-'    ' If (debugFlg = 1) Then Print("%KON-I-INFO, timeDeviation " & timeDeviation)
+    timeDeviation = fLogSlider(perc)
+    
+    'create a property in cwOverlay and pass the time deviation to it.
+    
+    Debug.Print ("%KON-I-INFO, perc before " & perc)
+    Debug.Print ("%KON-I-INFO, timeDeviation " & timeDeviation)
     
     On Error GoTo 0
     Exit Sub
@@ -2770,29 +2759,30 @@ End Sub
 ' Purpose   : this function determines the logarithmic value of the time slider
 '---------------------------------------------------------------------------------------
 '
-Function LogSlider(position As Double) As Double
+Function fLogSlider(thisPerc As Integer) As Currency
 
     Dim minp As Double: minp = 0
     Dim maxp As Double: maxp = 0
     Dim minv As Double: minv = 0
     Dim maxv As Double: maxv = 0
     Dim logScale As Double: logScale = 0
+    Dim thisValue As Double: thisValue = 0
     
     On Error GoTo LogSlider_Error
-
-    ' position will be between 0 and 100
+    
+    ' thisPerc will be between 0 and 100
     maxp = 100
 
-    ' The result should be between 100 and 10000000
-    minv = Log(15000)
-    maxv = Log(5052000000#)
+    ' The result should be between 100 and 100000
+    minv = Log(100)
+    maxv = Log(50000#)
 
     ' calculate adjustment factor
     logScale = (maxv - minv) / (maxp - minp)
-    position = Exp(minv + logScale * (position - minp))
-    'If (debugFlg = 1) Then Console.WriteLine("%KON-I-INFO, position " & position)
+    thisValue = Exp(minv + logScale * (thisPerc - minp))
+    'If (debugFlg = 1) Then Console.WriteLine("%KON-I-INFO, thisPerc " & thisPerc)
 
-    LogSlider = position  ' return
+    fLogSlider = thisValue  ' return
 
    On Error GoTo 0
    Exit Function

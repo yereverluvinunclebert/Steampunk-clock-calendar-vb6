@@ -13,7 +13,7 @@ Begin VB.Form frmTimer
    Visible         =   0   'False
    Begin VB.Timer sleepTimer 
       Interval        =   3000
-      Left            =   105
+      Left            =   120
       Tag             =   "stores and compares the last time to see if the PC has slept"
       Top             =   1575
    End
@@ -240,7 +240,7 @@ Private Sub sleepTimer_Timer()
         'MsgBox "system has just woken up from a sleep, updating... " & gblFClockAvailable
       
         gblFClockAvailable = True
-        Call screenWrite("system has just woken up from a sleep at " & Now() & vbCrLf & ", updating clocks... ")
+        Call screenWrite("system has just woken up from a sleep at " & Now() & vbCrLf & "updating digital clocks... ")
         fClock.clockForm.Refresh
         
         triggerDigitalClockPopulation = True

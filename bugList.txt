@@ -205,14 +205,24 @@ quiet/loud sounds
 
 ' get the sound working on the old Konfab. widget
 
+' tooltip changes
+' countdown fix
+
+
 ' -oOo-
 
 Tasks to do:
 ============
 
+' slider advancing/retarding time using timeShiftPercent modified not quite exponentially to shift time - wip
+' in the timer, take the value of timeShiftPercent and do what to it, use logarithm to calculate the value on a curve.
+' convert the .js code to do the same.
 
+' create a property in cwOverlay and pass the time deviation to it.
 
 ' combine a new counter rotating sound recording the current Konfabulator widget.
+
+' keypresses when clock has focus
 
 ' does time reset after a sleep? - test
 
@@ -220,8 +230,7 @@ Tasks to do:
 
 ' .VAlign on the label? not working, raised as a bug with Olaf? 0=Top, -1 and 1=Middle
 
-' slider advancing/retarding time using timeShiftPercent modified not quite exponentially to shift time - wip
-' in the timer, take the value of timeShiftPercent and do what to it, use logarithm to calculate the value on a curve.
+   right and left keys when the alarm is raised, control the slider
 
 ' after a digital reset set each to -- --  and ** *** **** one by one - wip
 '      possibly do the hrs, mins, days, month and years separately

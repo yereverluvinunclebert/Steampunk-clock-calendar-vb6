@@ -2165,6 +2165,29 @@ End Sub
 Public Sub unloadAllForms(ByVal endItAll As Boolean)
     
    On Error GoTo unloadAllForms_Error
+   
+    frmTimer.revealWidgetTimer.Enabled = False
+    frmTimer.tmrScreenResolution.Enabled = False
+    frmTimer.unhideTimer.Enabled = False
+    frmTimer.sleepTimer.Enabled = False
+    
+    widgetPrefs.tmrPrefsMonitorSaveHeight.Enabled = False
+    widgetPrefs.themeTimer.Enabled = False
+    widgetPrefs.tmrPrefsScreenResolution.Enabled = False
+    widgetPrefs.tmrWritePosition.Enabled = False
+    
+    fClock.tmrZZZZSound.Enabled = False
+    fClock.tmrTILLSound.Enabled = False
+    fClock.tmrTickingSound.Enabled = False
+    
+    overlayWidget.tmrClock.Enabled = False
+    overlayWidget.tmrPendulum.Enabled = False
+    overlayWidget.tmrTolling.Enabled = False
+    overlayWidget.tmrCountdownToToll.Enabled = False
+    
+    overlayWidget.tmrTimeShift.Enabled = False    ' need to add set/get for these public timers
+    overlayWidget.tmrDigitRotator.Enabled = False ' need to add set/get for these
+    overlayWidget.tmrAlarmRinging.Enabled = False ' need to add set/get for these public timers
 
     'unload the RC6 widgets on the RC6 forms first
     
@@ -2192,6 +2215,8 @@ Public Sub unloadAllForms(ByVal endItAll As Boolean)
     Set frmTimer = Nothing
     Set menuForm = Nothing
     Set frmMessage = Nothing
+    
+    On Error Resume Next
     
     If endItAll = True Then End
 
@@ -2780,9 +2805,9 @@ Public Function ArrayString(ParamArray tokens()) As String()
     On Error GoTo ArrayString_Error
 
     ReDim Arr(UBound(tokens)) As String
-    Dim i As Long
-    For i = 0 To UBound(tokens)
-        Arr(i) = tokens(i)
+    Dim I As Long
+    For I = 0 To UBound(tokens)
+        Arr(I) = tokens(I)
     Next
     ArrayString = Arr
 

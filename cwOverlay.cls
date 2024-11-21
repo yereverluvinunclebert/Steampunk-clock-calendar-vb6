@@ -695,6 +695,10 @@ Private Sub populateDigitalYearCache(ByRef CC As cCairoContext, Optional ByVal a
             yearString = Year(Now) ' coerce date variant to integer
         End If
     End If
+    
+'    If Len(yearString) = 3 Then
+'        MsgBox "hmmmm"
+'    End If
 
     Select Case Left$(yearString, 1)
         Case 0
@@ -1132,7 +1136,11 @@ Private Sub tmrDigitRotator_Timer()
         pvtMinsRotatorString = CStr(rotatorTimerCount)
         pvtHoursRotatorString = CStr(rotatorTimerCount)
         pvtDaysRotatorString = CStr(rotatorTimerCount)
-        pvtYearRotatorString = "19" & CStr(rotatorTimerCount)
+        If rotatorTimerCount <= 9 Then
+            pvtYearRotatorString = "190" & CStr(rotatorTimerCount)
+        Else
+            pvtYearRotatorString = "19" & CStr(rotatorTimerCount)
+        End If
         pvtMonthRotatorString = CStr(rotatorTimerCount)
 
     Else
@@ -1758,7 +1766,7 @@ End Sub
 '
 
 Private Sub W_Paint(ByRef CC As cCairoContext, ByVal xAbs As Single, ByVal yAbs As Single, ByVal dx_Aligned As Single, ByVal dy_Aligned As Single, UserObj As Object)
-    Dim i As Long: i = 0
+    Dim I As Long: I = 0
     Dim Arr As Variant
     Dim Key As String: Key = vbNullString
     Dim Pat As cCairoPattern
@@ -1767,9 +1775,9 @@ Private Sub W_Paint(ByRef CC As cCairoContext, ByVal xAbs As Single, ByVal yAbs 
     
     On Error GoTo W_Paint_Error
   
-    For i = 0 To cCollOverlayImages.Count - 1 ' this is the ExcludedPaths collection populated in cfClock by duplicating collPSDNonUIElements.
-      Arr = cCollOverlayImages.ItemByIndex(i)
-      Key = cCollOverlayImages.KeyByIndex(i)
+    For I = 0 To cCollOverlayImages.Count - 1 ' this is the ExcludedPaths collection populated in cfClock by duplicating collPSDNonUIElements.
+      Arr = cCollOverlayImages.ItemByIndex(I)
+      Key = cCollOverlayImages.KeyByIndex(I)
       
       If IsArray(Arr) Then
              CC.Save
