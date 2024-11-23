@@ -124,7 +124,7 @@ Begin VB.Form widgetPrefs
          Left            =   165
          Picture         =   "frmPrefs.frx":227B
          Stretch         =   -1  'True
-         Top             =   225
+         Top             =   240
          Width           =   600
       End
       Begin VB.Image imgConfigClicked 
@@ -3018,6 +3018,7 @@ Private Sub chkDpiAwareness_MouseMove(Button As Integer, Shift As Integer, x As 
     If gblEnablePrefsBalloonTooltips = "True" Then CreateToolTip chkDpiAwareness.hWnd, "Check here to make the program DPI aware. NOT required on small to medium screens that are less than 1920 bytes wide. Try it and see which suits your system. RESTART required.", _
                   TTIconInfo, "Help on DPI Awareness Mode", , , , True
 End Sub
+
 
 
 
@@ -6328,10 +6329,71 @@ Private Sub fraWindowInner_MouseMove(Button As Integer, Shift As Integer, x As S
                   TTIconInfo, "Help on YWE Quirk Mode Options", , , , True
 End Sub
 
-Private Sub imgGeneral_Click()
-    imgGeneral.Visible = False
-    imgGeneralClicked.Visible = True
-End Sub
+   Private Sub imgGeneral_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
+        #If TWINBASIC Then
+            Exit Sub
+        #Else
+            imgGeneral.Visible = False
+            imgGeneralClicked.Visible = True
+        #End If
+    End Sub
+    Private Sub imgAbout_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
+        #If TWINBASIC Then
+            Exit Sub
+        #Else
+            imgAbout.Visible = False
+            imgAboutClicked.Visible = True
+        #End If
+    End Sub
+    Private Sub imgDevelopment_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
+        #If TWINBASIC Then
+            Exit Sub
+        #Else
+            imgDevelopment.Visible = False
+            imgDevelopmentClicked.Visible = True
+        #End If
+    End Sub
+    Private Sub imgFonts_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
+        #If TWINBASIC Then
+            Exit Sub
+        #Else
+            imgFonts.Visible = False
+            imgFontsClicked.Visible = True
+        #End If
+    End Sub
+    Private Sub imgConfig_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
+        #If TWINBASIC Then
+            Exit Sub
+        #Else
+            imgConfig.Visible = False
+            imgConfigClicked.Visible = True
+        #End If
+    End Sub
+    Private Sub imgPosition_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
+
+        #If TWINBASIC Then
+            Exit Sub
+        #Else
+            imgPosition.Visible = False
+            imgPositionClicked.Visible = True
+        #End If
+    End Sub
+    Private Sub imgSounds_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
+        #If TWINBASIC Then
+            Exit Sub
+        #Else
+            imgSounds.Visible = False
+            imgSoundsClicked.Visible = True
+        #End If
+    End Sub
+    Private Sub imgWindow_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
+        #If TWINBASIC Then
+            Exit Sub
+        #Else
+            imgWindow.Visible = False
+            imgWindowClicked.Visible = True
+        #End If
+    End Sub
 
 Private Sub fraGeneralButton_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
     If gblEnablePrefsBalloonTooltips = "True" Then CreateToolTip fraGeneralButton.hWnd, "Clicking on the General icon reveals the General Tab where the essential items can be configured, alarms, startup &c.", _
@@ -6582,71 +6644,38 @@ Private Sub txtAboutText_MouseMove(Button As Integer, Shift As Integer, x As Sin
     fraScrollbarCover.Visible = False
 End Sub
 
-Private Sub imgAbout_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
-    imgAbout.Visible = False
-    imgAboutClicked.Visible = True
-End Sub
+
 Private Sub imgAbout_MouseUp(Button As Integer, Shift As Integer, x As Single, y As Single)
     Call picButtonMouseUpEvent("about", imgAbout, imgAboutClicked, fraAbout, fraAboutButton)
-End Sub
-
-Private Sub imgDevelopment_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
-    imgDevelopment.Visible = False
-    imgDevelopmentClicked.Visible = True
 End Sub
 
 Private Sub imgDevelopment_MouseUp(Button As Integer, Shift As Integer, x As Single, y As Single)
     Call picButtonMouseUpEvent("development", imgDevelopment, imgDevelopmentClicked, fraDevelopment, fraDevelopmentButton)
 End Sub
 
-Private Sub imgFonts_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
-    imgFonts.Visible = False
-    imgFontsClicked.Visible = True
-End Sub
 
 Private Sub imgFonts_MouseUp(Button As Integer, Shift As Integer, x As Single, y As Single)
     Call picButtonMouseUpEvent("fonts", imgFonts, imgFontsClicked, fraFonts, fraFontsButton)
 End Sub
 
-Private Sub imgConfig_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
-    imgConfig.Visible = False
-    imgConfigClicked.Visible = True
-End Sub
 
 Private Sub imgConfig_MouseUp(Button As Integer, Shift As Integer, x As Single, y As Single)
     Call picButtonMouseUpEvent("config", imgConfig, imgConfigClicked, fraConfig, fraConfigButton) ' was imgConfigMouseUpEvent
 End Sub
 
-Private Sub imgGeneral_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
-    imgGeneral.Visible = False
-    imgGeneralClicked.Visible = True
-End Sub
 
 
-Private Sub imgPosition_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
-    imgPosition.Visible = False
-    imgPositionClicked.Visible = True
-End Sub
 
 Private Sub imgPosition_MouseUp(Button As Integer, Shift As Integer, x As Single, y As Single)
     Call picButtonMouseUpEvent("position", imgPosition, imgPositionClicked, fraPosition, fraPositionButton)
 End Sub
 
-Private Sub imgSounds_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
-    '
-    imgSounds.Visible = False
-    imgSoundsClicked.Visible = True
-End Sub
 
 Private Sub imgSounds_MouseUp(Button As Integer, Shift As Integer, x As Single, y As Single)
     'Call imgSoundsMouseUpEvent
     Call picButtonMouseUpEvent("sounds", imgSounds, imgSoundsClicked, fraSounds, fraSoundsButton)
 End Sub
 
-Private Sub imgWindow_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
-    imgWindow.Visible = False
-    imgWindowClicked.Visible = True
-End Sub
 
 Private Sub imgWindow_MouseUp(Button As Integer, Shift As Integer, x As Single, y As Single)
     Call picButtonMouseUpEvent("window", imgWindow, imgWindowClicked, fraWindow, fraWindowButton)

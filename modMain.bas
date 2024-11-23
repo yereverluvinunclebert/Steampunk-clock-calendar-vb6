@@ -6,7 +6,7 @@ Option Explicit
 
 '------------------------------------------------------ STARTS
 ' for SetWindowPos z-ordering
-Public Declare Function SetWindowPos Lib "user32" (ByVal hWnd As Long, ByVal hWndInsertAfter As Long, ByVal X As Long, ByVal y As Long, ByVal cx As Long, ByVal cy As Long, ByVal wFlags As Long) As Long
+Public Declare Function SetWindowPos Lib "user32" (ByVal hWnd As Long, ByVal hWndInsertAfter As Long, ByVal x As Long, ByVal y As Long, ByVal cx As Long, ByVal cy As Long, ByVal wFlags As Long) As Long
 
 Public Const HWND_TOP As Long = 0 ' for SetWindowPos z-ordering
 Public Const HWND_TOPMOST As Long = -1
@@ -80,6 +80,14 @@ Public Sub mainRoutine(ByVal restart As Boolean)
     
     ' initialise global vars
     Call initialiseGlobalVars
+    
+    #If TWINBASIC Then
+        gblCodingEnvironment = "TwinBasic"
+    #Else
+        gblCodingEnvironment = "VB6"
+    #End If
+    
+    'MsgBox gblCodingEnvironment
     
     widgetName = "Steampunk Clock Calendar"
     thisPSDFullPath = App.path & "\Res\Steampunk Clock Calendar.psd"
@@ -394,11 +402,7 @@ Private Sub initialiseGlobalVars()
     revealWidgetTimerCount = 0
     oldgblSettingsModificationTime = #1/1/2000 12:00:00 PM#
     
-    '    oldClockFormMonitorID = 0
-'    oldMonitorStructWidthTwips = 0
-'    oldMonitorStructHeightTwips = 0
-
-    'gblSystemAwokenFromSleep = False
+    gblCodingEnvironment = vbNullString
 
    On Error GoTo 0
    Exit Sub

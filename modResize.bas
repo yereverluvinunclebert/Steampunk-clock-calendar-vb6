@@ -74,8 +74,8 @@ Public Sub resizeControls(ByRef thisForm As Form, ByRef m_ControlPositions() As 
     'If you want to adapt to a PictureBox (instead of the Form), then just replace all the Me.refs with your PicBox-Identifier.
 
 
-    Dim W: W = thisForm.ScaleX(thisForm.ScaleWidth, thisForm.ScaleMode, vbPixels)
-    Dim H: H = thisForm.ScaleY(thisForm.ScaleHeight, thisForm.ScaleMode, vbPixels)
+'    Dim W: W = thisForm.ScaleX(thisForm.ScaleWidth, thisForm.ScaleMode, vbPixels)
+'    Dim H: H = thisForm.ScaleY(thisForm.ScaleHeight, thisForm.ScaleMode, vbPixels)
     '  Set Me.Picture = Cairo.ImageList.AddImage("", B, W, H, True).Picture
       
     '    B = New_c.FSO.ReadByteContent(FileName)

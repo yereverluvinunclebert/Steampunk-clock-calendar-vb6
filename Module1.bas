@@ -521,7 +521,7 @@ Public gblPrefsFormResizedInCode As Boolean
 
 Public gblFClockAvailable As Boolean
 Public gblAlarmFlgRaised As Boolean
-
+Public gblCodingEnvironment As String
 
 
 'Public gblSystemAwokenFromSleep As Boolean
@@ -2790,33 +2790,6 @@ determineIconWidth_Error:
 
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure determineIconWidth of Form widgetPrefs"
 
-End Function
-
-'---------------------------------------------------------------------------------------
-' Procedure : ArrayString
-' Author    : beededea
-' Date      : 09/10/2023
-' Purpose   : allows population of a string array from a comma separated string
-'             VB6 normally creates a variant when assigning a comma separated string to a var with an undeclared type
-'             this avoids that scenario.
-'---------------------------------------------------------------------------------------
-'
-Public Function ArrayString(ParamArray tokens()) As String()
-    On Error GoTo ArrayString_Error
-
-    ReDim Arr(UBound(tokens)) As String
-    Dim I As Long
-    For I = 0 To UBound(tokens)
-        Arr(I) = tokens(I)
-    Next
-    ArrayString = Arr
-
-    On Error GoTo 0
-    Exit Function
-
-ArrayString_Error:
-
-     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure ArrayString of Module Module1"
 End Function
 
 
