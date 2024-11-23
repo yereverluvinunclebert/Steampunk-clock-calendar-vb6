@@ -254,7 +254,7 @@ End Sub
 Private Sub btnButtonTwo_Click()
    On Error GoTo btnButtonTwo_Click_Error
 
-    If formShowAgainChkBox = True Then SaveSetting App.EXEName, "Options", "Show message" & formMsgContext, chkShowAgain.Value
+    If formShowAgainChkBox = True Then SaveSetting App.EXEName, "Options", "Show message" & formMsgContext, chkShowAgain.value
     yesNoReturnValue = 7
     Me.Hide
 
@@ -277,7 +277,7 @@ Private Sub btnButtonOne_Click()
    On Error GoTo btnButtonOne_Click_Error
 
     Me.Visible = False
-    If formShowAgainChkBox = True Then SaveSetting App.EXEName, "Options", "Show message" & formMsgContext, chkShowAgain.Value
+    If formShowAgainChkBox = True Then SaveSetting App.EXEName, "Options", "Show message" & formMsgContext, chkShowAgain.value
     yesNoReturnValue = 6
     Me.Hide
 
@@ -394,7 +394,7 @@ Public Property Let propTitle(ByVal newValue As String)
     If mPropTitle <> newValue Then mPropTitle = newValue Else Exit Property
 
     If mPropTitle = "" Then
-        Me.Caption = "Steampunk-Clock-Calendar-VB6 Message."
+        Me.Caption = "Steampunk-Clock-Calendar-" & gblCodingEnvironment & " Message."
     Else
         Me.Caption = mPropTitle
     End If

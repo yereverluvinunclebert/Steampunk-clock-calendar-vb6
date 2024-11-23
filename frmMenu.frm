@@ -266,7 +266,7 @@ Public Sub mnuGithubHome_Click()
     answer = msgBoxA(answerMsg, vbExclamation + vbYesNo, "Request to Upgrade", True, "mnuGithubHomeClick")
 
     If answer = vbYes Then
-        Call ShellExecute(Me.hWnd, "Open", "https://github.com/yereverluvinunclebert/Steampunk-clock-calendar-vb6", vbNullString, App.path, 1)
+        Call ShellExecute(Me.hWnd, "Open", "https://github.com/yereverluvinunclebert/Steampunk-clock-calendar-" & gblCodingEnvironment, vbNullString, App.path, 1)
     End If
 
    On Error GoTo 0
@@ -501,7 +501,7 @@ Public Sub mnuLatest_Click()
     answer = msgBoxA(answerMsg, vbExclamation + vbYesNo, "Request to Upgrade", True, "mnuLatestClick")
 
     If answer = vbYes Then
-        Call ShellExecute(Me.hWnd, "Open", "https://github.com/yereverluvinunclebert/Steampunk-clock-calendar-vb6/releases", vbNullString, App.path, 1)
+        Call ShellExecute(Me.hWnd, "Open", "https://github.com/yereverluvinunclebert/Steampunk-clock-calendar-" & gblCodingEnvironment & "/releases", vbNullString, App.path, 1)
     End If
 
 

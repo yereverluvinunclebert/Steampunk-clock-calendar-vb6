@@ -3078,8 +3078,8 @@ Private Sub optEnablePrefsBalloonTooltips_MouseMove(Button As Integer, Shift As 
 End Sub
 
 Private Sub optEnablePrefsTooltips_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
-    If gblEnablePrefsBalloonTooltips = "True" Then CreateToolTip optEnablePrefsTooltips.hWnd, "This setting enables/disables the native VB6-style tooltips for elements within this Preference Utility.", _
-                  TTIconInfo, "Help on VB6 Native Style Tooltips on the Preference Utility", , , , True
+    If gblEnablePrefsBalloonTooltips = "True" Then CreateToolTip optEnablePrefsTooltips.hWnd, "This setting enables/disables the native " & gblCodingEnvironment & " -style tooltips for elements within this Preference Utility.", _
+                  TTIconInfo, "Help on  " & gblCodingEnvironment & " Native Style Tooltips on the Preference Utility", , , , True
 End Sub
 
 
@@ -6190,7 +6190,7 @@ Private Sub fraAbout_MouseDown(Button As Integer, Shift As Integer, x As Single,
 End Sub
 Private Sub fraAbout_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
     fraScrollbarCover.Visible = True
-    If gblEnablePrefsBalloonTooltips = "True" Then CreateToolTip fraAbout.hWnd, "The About tab tells you all about this program and its creation using VB6.", _
+    If gblEnablePrefsBalloonTooltips = "True" Then CreateToolTip fraAbout.hWnd, "The About tab tells you all about this program and its creation using " & gblCodingEnvironment & ".", _
                   TTIconInfo, "Help on the About Tab", , , , True
 End Sub
 Private Sub fraConfigInner_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
@@ -6457,7 +6457,7 @@ Private Sub lblGitHub_dblClick()
     answerMsg = "This option opens a browser window and take you straight to Github. Proceed?"
     answer = msgBoxA(answerMsg, vbExclamation + vbYesNo, "Proceed to Github? ", True, "lblGitHubDblClick")
     If answer = vbYes Then
-       Call ShellExecute(Me.hWnd, "Open", "https://github.com/yereverluvinunclebert/Steampunk-Clock-Calendar-VB6", vbNullString, App.path, 1)
+        Call ShellExecute(Me.hWnd, "Open", "https://github.com/yereverluvinunclebert/Steampunk-Clock-Calendar-" & gblCodingEnvironment, vbNullString, App.path, 1)
     End If
 
    On Error GoTo 0
@@ -7040,7 +7040,7 @@ Public Sub setPrefsTooltips()
         gCmbWidgetPositionBalloonTooltip = "Tablets only. The widget can be positioned proportionally when switching between portrait/landscape. If you want to enable this, disable the options below."
         gCmbAspectHiddenBalloonTooltip = "Here you can choose whether the widget is hidden by default in either landscape or portrait mode or not at all. This allows you to have certain widgets that do not obscure the screen in one mode or another. If you accidentally set it so you can't find it on screen then change the setting here to none."
         
-        gCmbDebugBalloonTooltip = "Here you can set debug mode. This will enable the editor field and allow you to assign a VBP file for the VB6 IDE editor"
+        gCmbDebugBalloonTooltip = "Here you can set debug mode. This will enable the editor field and allow you to assign a VBP file for the " & gblCodingEnvironment & " IDE editor"
         
         gCmbAlarmDayBalloonTooltip = "Enter a valid day of the month here. When you have entered both a date here and a time in the adjacent field, then click the > key to validate."
         gCmbAlarmMonthBalloonTooltip = "Enter a valid month here. When you have entered both a date here and a time in the adjacent field, then click the > key to validate."
