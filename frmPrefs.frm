@@ -3398,11 +3398,11 @@ Private Sub subClassControls()
         MsgBox "NOTE: Running in IDE so Sub classing is disabled" & vbCrLf & "Mousewheel will not scroll icon maps and balloon tooltips will not display on comboboxes" & vbCrLf & vbCrLf & _
             "In addition, the display screen will not show messages as it currently crashes when run within the IDE."
     Else
-        ' sub classing code to intercept messages to the form itself in order to capture WM_RESIZEDMOVED messages
+        ' sub classing code to intercept messages to the form itself in order to capture WM_EXITSIZEMOVE messages
         
         Call SubclassForm(widgetPrefs.hWnd, ObjPtr(widgetPrefs))
         
-        'now the comboboxes
+        'now the comboboxes in order to capture the mouseOver and display the balloon tooltips
         
         Call SubclassComboBox(cmbMultiMonitorResize.hWnd, ObjPtr(cmbMultiMonitorResize))
         Call SubclassComboBox(cmbScrollWheelDirection.hWnd, ObjPtr(cmbScrollWheelDirection))
@@ -6007,7 +6007,7 @@ End Sub
 ' Procedure : Form_Resize
 ' Author    : beededea
 ' Date      : 30/05/2023
-' Purpose   : Called at every twip of resising, god knows what interval, we barely use this, instead we subclass and look for WM MOVEDRESIZED
+' Purpose   : Called at every twip of resising, goodness knows what interval, we barely use this, instead we subclass and look for WM_EXITSIZEMOVE
 '---------------------------------------------------------------------------------------
 '
 Private Sub Form_Resize()
@@ -8066,23 +8066,49 @@ Private Sub setPrefsIconImagesDark()
     
     On Error GoTo setPrefsIconImagesDark_Error
     
-    Set imgGeneral.Picture = Cairo.ImageList("general-icon-dark").Picture
-    Set imgConfig.Picture = Cairo.ImageList("config-icon-dark").Picture
-    Set imgFonts.Picture = Cairo.ImageList("font-icon-dark").Picture
-    Set imgSounds.Picture = Cairo.ImageList("sounds-icon-dark").Picture
-    Set imgPosition.Picture = Cairo.ImageList("position-icon-dark").Picture
-    Set imgDevelopment.Picture = Cairo.ImageList("development-icon-dark").Picture
-    Set imgWindow.Picture = Cairo.ImageList("windows-icon-dark").Picture
-    Set imgAbout.Picture = Cairo.ImageList("about-icon-dark").Picture
-'
-    Set imgGeneralClicked.Picture = Cairo.ImageList("general-icon-dark-clicked").Picture
-    Set imgConfigClicked.Picture = Cairo.ImageList("config-icon-dark-clicked").Picture
-    Set imgFontsClicked.Picture = Cairo.ImageList("font-icon-dark-clicked").Picture
-    Set imgSoundsClicked.Picture = Cairo.ImageList("sounds-icon-dark-clicked").Picture
-    Set imgPositionClicked.Picture = Cairo.ImageList("position-icon-dark-clicked").Picture
-    Set imgDevelopmentClicked.Picture = Cairo.ImageList("development-icon-dark-clicked").Picture
-    Set imgWindowClicked.Picture = Cairo.ImageList("windows-icon-dark-clicked").Picture
-    Set imgAboutClicked.Picture = Cairo.ImageList("about-icon-dark-clicked").Picture
+    #If TWINBASIC Then
+    
+        Set imgGeneral.Picture = LoadPicture(App.path & "\Resources\images\general-icon-dark-1010.jpg")
+        Set imgConfig.Picture = LoadPicture(App.path & "\Resources\images\config-icon-dark-1010.jpg")
+        Set imgFonts.Picture = LoadPicture(App.path & "\Resources\images\font-icon-dark-1010.jpg")
+        Set imgSounds.Picture = LoadPicture(App.path & "\Resources\images\sounds-icon-dark-1010.jpg")
+        Set imgPosition.Picture = LoadPicture(App.path & "\Resources\images\position-icon-dark-1010.jpg")
+        Set imgDevelopment.Picture = LoadPicture(App.path & "\Resources\images\development-icon-dark-1010.jpg")
+        Set imgWindow.Picture = LoadPicture(App.path & "\Resources\images\windows-icon-dark-1010.jpg")
+        Set imgAbout.Picture = LoadPicture(App.path & "\Resources\images\about-icon-dark-1010.jpg")
+    '
+        Set imgGeneralClicked.Picture = LoadPicture(App.path & "\Resources\images\general-icon-dark-600-clicked.jpg")
+        Set imgConfigClicked.Picture = LoadPicture(App.path & "\Resources\images\config-icon-dark-600-clicked.jpg")
+        Set imgFontsClicked.Picture = LoadPicture(App.path & "\Resources\images\font-icon-dark-600-clicked.jpg")
+        Set imgSoundsClicked.Picture = LoadPicture(App.path & "\Resources\images\sounds-icon-dark-600-clicked.jpg")
+        Set imgPositionClicked.Picture = LoadPicture(App.path & "\Resources\images\position-icon-dark-600-clicked.jpg")
+        Set imgDevelopmentClicked.Picture = LoadPicture(App.path & "\Resources\images\development-icon-dark-600-clicked.jpg")
+        Set imgWindowClicked.Picture = LoadPicture(App.path & "\Resources\images\windows-icon-dark-600-clicked.jpg")
+        Set imgAboutClicked.Picture = LoadPicture(App.path & "\Resources\images\about-icon-dark-600-clicked.jpg")
+    
+    #Else
+        
+        Set imgGeneral.Picture = Cairo.ImageList("general-icon-dark").Picture
+        Set imgConfig.Picture = Cairo.ImageList("config-icon-dark").Picture
+        
+        Set imgConfig.Picture = LoadPicture(App.path & "\Resources\images\config-icon-dark-1010.jpg")
+        Set imgFonts.Picture = Cairo.ImageList("font-icon-dark").Picture
+        Set imgSounds.Picture = Cairo.ImageList("sounds-icon-dark").Picture
+        Set imgPosition.Picture = Cairo.ImageList("position-icon-dark").Picture
+        Set imgDevelopment.Picture = Cairo.ImageList("development-icon-dark").Picture
+        Set imgWindow.Picture = Cairo.ImageList("windows-icon-dark").Picture
+        Set imgAbout.Picture = Cairo.ImageList("about-icon-dark").Picture
+    '
+        Set imgGeneralClicked.Picture = Cairo.ImageList("general-icon-dark-clicked").Picture
+        Set imgConfigClicked.Picture = Cairo.ImageList("config-icon-dark-clicked").Picture
+        Set imgFontsClicked.Picture = Cairo.ImageList("font-icon-dark-clicked").Picture
+        Set imgSoundsClicked.Picture = Cairo.ImageList("sounds-icon-dark-clicked").Picture
+        Set imgPositionClicked.Picture = Cairo.ImageList("position-icon-dark-clicked").Picture
+        Set imgDevelopmentClicked.Picture = Cairo.ImageList("development-icon-dark-clicked").Picture
+        Set imgWindowClicked.Picture = Cairo.ImageList("windows-icon-dark-clicked").Picture
+        Set imgAboutClicked.Picture = Cairo.ImageList("about-icon-dark-clicked").Picture
+    
+    #End If
 
    On Error GoTo 0
    Exit Sub
