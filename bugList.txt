@@ -208,6 +208,14 @@ quiet/loud sounds
 ' tooltip changes
 ' countdown fix
 
+' added closure of all timers to the unload event - TwinBasic caused errors when the program quit
+' made some timers public in fClock to allow them to be closed externally
+' fixed type mismatch when building the rotator string and the alarm strings
+
+' added coding environment variable
+' Changes to display TwinBasic in menu, text &c when compiled with TB
+' TwinBasic workaround for dark icon images showing upside down when loaded from an RC collection
+
 
 ' -oOo-
 
