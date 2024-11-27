@@ -212,10 +212,16 @@ quiet/loud sounds
 ' made some timers public in fClock to allow them to be closed externally
 ' fixed type mismatch when building the rotator string and the alarm strings
 
-' added coding environment variable
+' added coding environment variable VB6/TwinBasic
 ' Changes to display TwinBasic in menu, text &c when compiled with TB
 ' TwinBasic workaround for dark icon images showing upside down when loaded from an RC collection
 ' TwinBasic workaround for light icon images showing upside down when loaded from an RC collection
+
+' create a property in cwOverlay and pass the time deviation to it.
+o added a blank value to all combobox alarm dates and times
+o add clear buttons for all five alarms
+o add now() button logic for all alarms
+' does time reset after a sleep? - test
 
 ' -oOo-
 
@@ -224,21 +230,20 @@ Tasks to do:
 
 ' slider advancing/retarding time using timeShiftPercent modified not quite exponentially to shift time - wip
 ' in the timer, take the value of timeShiftPercent and do what to it, use logarithm to calculate the value on a curve.
-' convert the .js code to do the same.
-
-' create a property in cwOverlay and pass the time deviation to it.
 
 ' combine a new counter rotating sound recording the current Konfabulator widget.
 
-' keypresses when clock has focus
+' re-read alarms each time the prefs is opened from the menu
 
-' does time reset after a sleep? - test
+' when alarms are saved/cleared &c the alarm toggles are not refreshed, call the existing code to refresh their state
+
+' add keypresses to control the slider and other controls, when clock has focus
 
 ' when in alarm mode, the analogue clock fails to display the time as stated on the alarm shown
 
 ' .VAlign on the label? not working, raised as a bug with Olaf? 0=Top, -1 and 1=Middle
 
-   right and left keys when the alarm is raised, control the slider
+'   right and left keys when the alarm is raised, control the slider
 
 ' after a digital reset set each to -- --  and ** *** **** one by one - wip
 '      possibly do the hrs, mins, days, month and years separately

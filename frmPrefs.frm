@@ -370,10 +370,46 @@ Begin VB.Form widgetPrefs
          Begin VB.Frame Frame 
             BorderStyle     =   0  'None
             Height          =   3795
-            Left            =   -975
+            Left            =   -1005
             TabIndex        =   146
-            Top             =   3000
+            Top             =   2940
             Width           =   8325
+            Begin VB.CommandButton btnNow 
+               Caption         =   "o"
+               Height          =   345
+               Index           =   5
+               Left            =   7305
+               TabIndex        =   232
+               Top             =   2160
+               Width           =   330
+            End
+            Begin VB.CommandButton btnNow 
+               Caption         =   "o"
+               Height          =   345
+               Index           =   4
+               Left            =   7305
+               TabIndex        =   231
+               Top             =   1665
+               Width           =   330
+            End
+            Begin VB.CommandButton btnNow 
+               Caption         =   "o"
+               Height          =   345
+               Index           =   3
+               Left            =   7305
+               TabIndex        =   230
+               Top             =   1185
+               Width           =   330
+            End
+            Begin VB.CommandButton btnNow 
+               Caption         =   "o"
+               Height          =   345
+               Index           =   2
+               Left            =   7305
+               TabIndex        =   229
+               Top             =   705
+               Width           =   330
+            End
             Begin VB.CommandButton btnclearAlarm 
                Caption         =   "Clear"
                Height          =   345
@@ -715,7 +751,7 @@ Begin VB.Form widgetPrefs
                Style           =   1  'Graphical
                TabIndex        =   149
                ToolTipText     =   "Verify Date Time for alarm number 1"
-               Top             =   210
+               Top             =   225
                Width           =   300
             End
             Begin VB.TextBox txtAlarm5Date 
@@ -2510,71 +2546,6 @@ End Sub
 
 
 
-'---------------------------------------------------------------------------------------
-' Procedure : btnclearAlarm_Click
-' Author    : beededea
-' Date      : 26/11/2024
-' Purpose   :
-'---------------------------------------------------------------------------------------
-'
-Private Sub btnclearAlarm_Click(Index As Integer)
-    On Error GoTo btnclearAlarm_Click_Error
-
-    Select Case Index
-        Case 1
-            cmbAlarm1Day.ListIndex = 0
-            cmbAlarm1Month.ListIndex = 0
-            cmbAlarm1Year.ListIndex = 0
-            cmbAlarm1Hours.ListIndex = 0
-            cmbAlarm1Minutes.ListIndex = 0
-            txtAlarm1Date.Text = "Alarm not yet set"
-            txtAlarm1Time.Text = ""
-        Case 2
-            cmbAlarm2Day.ListIndex = 0
-            cmbAlarm2Month.ListIndex = 0
-            cmbAlarm2Year.ListIndex = 0
-            cmbAlarm2Hours.ListIndex = 0
-            cmbAlarm2Minutes.ListIndex = 0
-            txtAlarm2Date.Text = "Alarm not yet set"
-            txtAlarm2Time.Text = ""
-        Case 3
-            cmbAlarm3Day.ListIndex = 0
-            cmbAlarm3Month.ListIndex = 0
-            cmbAlarm3Year.ListIndex = 0
-            cmbAlarm3Hours.ListIndex = 0
-            cmbAlarm3Minutes.ListIndex = 0
-            txtAlarm3Date.Text = "Alarm not yet set"
-            txtAlarm3Time.Text = ""
-            
-        Case 4
-            cmbAlarm4Day.ListIndex = 0
-            cmbAlarm4Month.ListIndex = 0
-            cmbAlarm4Year.ListIndex = 0
-            cmbAlarm4Hours.ListIndex = 0
-            cmbAlarm4Minutes.ListIndex = 0
-            txtAlarm4Date.Text = "Alarm not yet set"
-            txtAlarm4Time.Text = ""
-            
-        Case 5
-            cmbAlarm5Day.ListIndex = 0
-            cmbAlarm5Month.ListIndex = 0
-            cmbAlarm5Year.ListIndex = 0
-            cmbAlarm5Hours.ListIndex = 0
-            cmbAlarm5Minutes.ListIndex = 0
-            txtAlarm5Date.Text = "Alarm not yet set"
-            txtAlarm5Time.Text = ""
-            
-        
-    End Select
-        
-
-   On Error GoTo 0
-   Exit Sub
-
-btnclearAlarm_Click_Error:
-
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure btnclearAlarm_Click of Form widgetPrefs"
-End Sub
 
 Private Sub btnClose_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
     If gblEnablePrefsBalloonTooltips = "True" Then CreateToolTip btnClose.hWnd, "Close the Preference Utility", _
@@ -2616,77 +2587,7 @@ Private Sub btnHelp_MouseMove(Button As Integer, Shift As Integer, x As Single, 
 End Sub
 
 '---------------------------------------------------------------------------------------
-' Procedure : btnNow_Click
-' Author    : beededea
-' Date      : 26/11/2024
-' Purpose   :
-'---------------------------------------------------------------------------------------
-'
-Private Sub btnNow_Click(Index As Integer)
-    Dim dateAndTime As String: dateAndTime = vbNullString
-    Dim alarmDateString As String: alarmDateString = vbNullString
-    Dim alarmTimeString As String: alarmTimeString = vbNullString
-    
-    On Error GoTo btnNow_Click_Error
 
-    dateAndTime = Now()
-    
-    alarmDateString = Left$(dateAndTime, 10)
-    alarmTimeString = Mid$(dateAndTime, 12, 5)
-    
-    ' fill the comboboxes for the current time
-    Select Case Index
-        Case 1
-            Call setAlarmDayValues(cmbAlarm1Day, alarmDateString)
-            Call setAlarmMonthValues(cmbAlarm1Month, alarmDateString)
-            Call setAlarmYearValues(cmbAlarm1Year, alarmDateString)
-            Call setAlarmHourValues(cmbAlarm1Hours, alarmTimeString)
-            Call setAlarmMinuteValues(cmbAlarm1Minutes, alarmTimeString)
-            txtAlarm1Date.Text = "Alarm not yet set"
-            txtAlarm1Time.Text = ""
-        Case 2
-            Call setAlarmDayValues(cmbAlarm2Day, alarmDateString)
-            Call setAlarmMonthValues(cmbAlarm2Month, alarmDateString)
-            Call setAlarmYearValues(cmbAlarm2Year, alarmDateString)
-            Call setAlarmHourValues(cmbAlarm2Hours, alarmTimeString)
-            Call setAlarmMinuteValues(cmbAlarm2Minutes, alarmTimeString)
-            txtAlarm2Date.Text = "Alarm not yet set"
-            txtAlarm2Time.Text = ""
-        Case 3
-            Call setAlarmDayValues(cmbAlarm3Day, alarmDateString)
-            Call setAlarmMonthValues(cmbAlarm3Month, alarmDateString)
-            Call setAlarmYearValues(cmbAlarm3Year, alarmDateString)
-            Call setAlarmHourValues(cmbAlarm3Hours, alarmTimeString)
-            Call setAlarmMinuteValues(cmbAlarm3Minutes, alarmTimeString)
-            txtAlarm3Date.Text = "Alarm not yet set"
-            txtAlarm1Time.Text = ""
-        Case 4
-            Call setAlarmDayValues(cmbAlarm4Day, alarmDateString)
-            Call setAlarmMonthValues(cmbAlarm4Month, alarmDateString)
-            Call setAlarmYearValues(cmbAlarm4Year, alarmDateString)
-            Call setAlarmHourValues(cmbAlarm4Hours, alarmTimeString)
-            Call setAlarmMinuteValues(cmbAlarm4Minutes, alarmTimeString)
-            txtAlarm4Date.Text = "Alarm not yet set"
-            txtAlarm4Time.Text = ""
-        Case 5
-            Call setAlarmDayValues(cmbAlarm5Day, alarmDateString)
-            Call setAlarmMonthValues(cmbAlarm5Month, alarmDateString)
-            Call setAlarmYearValues(cmbAlarm5Year, alarmDateString)
-            Call setAlarmHourValues(cmbAlarm5Hours, alarmTimeString)
-            Call setAlarmMinuteValues(cmbAlarm5Minutes, alarmTimeString)
-            txtAlarm5Date.Text = "Alarm not yet set"
-            txtAlarm5Time.Text = ""
-    
-    End Select
-    
-   On Error GoTo 0
-   Exit Sub
-
-btnNow_Click_Error:
-
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure btnNow_Click of Form widgetPrefs"
-    
-End Sub
 
 Private Sub btnOpenFile_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
     If gblEnablePrefsBalloonTooltips = "True" Then CreateToolTip btnOpenFile.hWnd, "Clicking on this button will cause a file explorer window to appear allowing you to select any file you would like to execute on a shift+DBlClick. Once selected the adjacent text field will be automatically filled with the chosen path and file.", _
@@ -2837,7 +2738,7 @@ Private Sub btnVerifyDateTime2_Click()
         dayString = CStr(dayNo)
     End If
 
-    monthNo = cmbAlarm2Month.ListIndex + 1
+    monthNo = cmbAlarm2Month.ListIndex
     If monthNo <= 9 Then
         monthString = "0" & CStr(monthNo)
     Else
@@ -2971,7 +2872,7 @@ Private Sub btnVerifyDateTime3_Click()
         dayString = CStr(dayNo)
     End If
 
-    monthNo = cmbAlarm3Month.ListIndex + 1
+    monthNo = cmbAlarm3Month.ListIndex
     If monthNo <= 9 Then
         monthString = "0" & CStr(monthNo)
     Else
@@ -3047,7 +2948,7 @@ Private Sub btnVerifyDateTime4_Click()
         dayString = CStr(dayNo)
     End If
 
-    monthNo = cmbAlarm4Month.ListIndex + 1
+    monthNo = cmbAlarm4Month.ListIndex
     If monthNo <= 9 Then
         monthString = "0" & CStr(monthNo)
     Else
@@ -3123,7 +3024,7 @@ Private Sub btnVerifyDateTime5_Click()
         dayString = CStr(dayNo)
     End If
 
-    monthNo = cmbAlarm5Month.ListIndex + 1
+    monthNo = cmbAlarm5Month.ListIndex
     If monthNo <= 9 Then
         monthString = "0" & CStr(monthNo)
     Else
@@ -8564,6 +8465,146 @@ End Sub
 Private Sub txtPrefsFontSize_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
     If gblEnablePrefsBalloonTooltips = "True" Then CreateToolTip txtPrefsFontSize.hWnd, "This is a read-only text box. It displays the current base font size as set when dynamic form resizing is enabled. The adjacent text box will display the automatically resized font currently in operation, for informational purposes only.", _
                   TTIconInfo, "Help on the Base Font Size", , , , True
+End Sub
+
+' Procedure : btnNow_Click
+' Author    : beededea
+' Date      : 26/11/2024
+' Purpose   :
+'---------------------------------------------------------------------------------------
+'
+Private Sub btnNow_Click(Index As Integer)
+    Dim dateAndTime As String: dateAndTime = vbNullString
+    Dim alarmDateString As String: alarmDateString = vbNullString
+    Dim alarmTimeString As String: alarmTimeString = vbNullString
+    
+    On Error GoTo btnNow_Click_Error
+
+    dateAndTime = Now()
+    
+    alarmDateString = Left$(dateAndTime, 10)
+    alarmTimeString = Mid$(dateAndTime, 12, 5)
+    
+    ' fill the comboboxes for the current time
+    Select Case Index
+        Case 1
+            Call setAlarmDayValues(cmbAlarm1Day, alarmDateString)
+            Call setAlarmMonthValues(cmbAlarm1Month, alarmDateString)
+            Call setAlarmYearValues(cmbAlarm1Year, alarmDateString)
+            Call setAlarmHourValues(cmbAlarm1Hours, alarmTimeString)
+            Call setAlarmMinuteValues(cmbAlarm1Minutes, alarmTimeString)
+            txtAlarm1Date.Text = "Alarm not yet set"
+            txtAlarm1Time.Text = ""
+        Case 2
+            Call setAlarmDayValues(cmbAlarm2Day, alarmDateString)
+            Call setAlarmMonthValues(cmbAlarm2Month, alarmDateString)
+            Call setAlarmYearValues(cmbAlarm2Year, alarmDateString)
+            Call setAlarmHourValues(cmbAlarm2Hours, alarmTimeString)
+            Call setAlarmMinuteValues(cmbAlarm2Minutes, alarmTimeString)
+            txtAlarm2Date.Text = "Alarm not yet set"
+            txtAlarm2Time.Text = ""
+        Case 3
+            Call setAlarmDayValues(cmbAlarm3Day, alarmDateString)
+            Call setAlarmMonthValues(cmbAlarm3Month, alarmDateString)
+            Call setAlarmYearValues(cmbAlarm3Year, alarmDateString)
+            Call setAlarmHourValues(cmbAlarm3Hours, alarmTimeString)
+            Call setAlarmMinuteValues(cmbAlarm3Minutes, alarmTimeString)
+            txtAlarm3Date.Text = "Alarm not yet set"
+            txtAlarm1Time.Text = ""
+        Case 4
+            Call setAlarmDayValues(cmbAlarm4Day, alarmDateString)
+            Call setAlarmMonthValues(cmbAlarm4Month, alarmDateString)
+            Call setAlarmYearValues(cmbAlarm4Year, alarmDateString)
+            Call setAlarmHourValues(cmbAlarm4Hours, alarmTimeString)
+            Call setAlarmMinuteValues(cmbAlarm4Minutes, alarmTimeString)
+            txtAlarm4Date.Text = "Alarm not yet set"
+            txtAlarm4Time.Text = ""
+        Case 5
+            Call setAlarmDayValues(cmbAlarm5Day, alarmDateString)
+            Call setAlarmMonthValues(cmbAlarm5Month, alarmDateString)
+            Call setAlarmYearValues(cmbAlarm5Year, alarmDateString)
+            Call setAlarmHourValues(cmbAlarm5Hours, alarmTimeString)
+            Call setAlarmMinuteValues(cmbAlarm5Minutes, alarmTimeString)
+            txtAlarm5Date.Text = "Alarm not yet set"
+            txtAlarm5Time.Text = ""
+    
+    End Select
+    
+   On Error GoTo 0
+   Exit Sub
+
+btnNow_Click_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure btnNow_Click of Form widgetPrefs"
+    
+End Sub
+
+
+
+'---------------------------------------------------------------------------------------
+' Procedure : btnclearAlarm_Click
+' Author    : beededea
+' Date      : 26/11/2024
+' Purpose   :
+'---------------------------------------------------------------------------------------
+'
+Private Sub btnclearAlarm_Click(Index As Integer)
+    On Error GoTo btnclearAlarm_Click_Error
+
+    Select Case Index
+        Case 1
+            cmbAlarm1Day.ListIndex = 0
+            cmbAlarm1Month.ListIndex = 0
+            cmbAlarm1Year.ListIndex = 0
+            cmbAlarm1Hours.ListIndex = 0
+            cmbAlarm1Minutes.ListIndex = 0
+            txtAlarm1Date.Text = "Alarm not yet set"
+            txtAlarm1Time.Text = ""
+        Case 2
+            cmbAlarm2Day.ListIndex = 0
+            cmbAlarm2Month.ListIndex = 0
+            cmbAlarm2Year.ListIndex = 0
+            cmbAlarm2Hours.ListIndex = 0
+            cmbAlarm2Minutes.ListIndex = 0
+            txtAlarm2Date.Text = "Alarm not yet set"
+            txtAlarm2Time.Text = ""
+        Case 3
+            cmbAlarm3Day.ListIndex = 0
+            cmbAlarm3Month.ListIndex = 0
+            cmbAlarm3Year.ListIndex = 0
+            cmbAlarm3Hours.ListIndex = 0
+            cmbAlarm3Minutes.ListIndex = 0
+            txtAlarm3Date.Text = "Alarm not yet set"
+            txtAlarm3Time.Text = ""
+            
+        Case 4
+            cmbAlarm4Day.ListIndex = 0
+            cmbAlarm4Month.ListIndex = 0
+            cmbAlarm4Year.ListIndex = 0
+            cmbAlarm4Hours.ListIndex = 0
+            cmbAlarm4Minutes.ListIndex = 0
+            txtAlarm4Date.Text = "Alarm not yet set"
+            txtAlarm4Time.Text = ""
+            
+        Case 5
+            cmbAlarm5Day.ListIndex = 0
+            cmbAlarm5Month.ListIndex = 0
+            cmbAlarm5Year.ListIndex = 0
+            cmbAlarm5Hours.ListIndex = 0
+            cmbAlarm5Minutes.ListIndex = 0
+            txtAlarm5Date.Text = "Alarm not yet set"
+            txtAlarm5Time.Text = ""
+            
+        
+    End Select
+        
+
+   On Error GoTo 0
+   Exit Sub
+
+btnclearAlarm_Click_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure btnclearAlarm_Click of Form widgetPrefs"
 End Sub
 
 
