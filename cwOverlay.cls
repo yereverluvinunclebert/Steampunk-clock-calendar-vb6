@@ -58,6 +58,7 @@ Private mMyOpacity As Single ' property opacity
 Private mTimeMachine As Boolean
 Private mHidden As Boolean ' property Hidden
 Private mSwingPendulum As Boolean
+Private mTimeDeviation As Currency
 
 ' private vars general usage
 
@@ -236,7 +237,45 @@ LockedLet_Error:
 
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property Locked of Class Module cwoverlay"
 End Property
+'---------------------------------------------------------------------------------------
+' Property : TimeDeviation
+' Author    : beededea
+' Date      : 17/05/2023
+' Purpose   :
+'---------------------------------------------------------------------------------------
+'
+Public Property Get TimeDeviation() As Currency
+   On Error GoTo TimeDeviationGet_Error
 
+   TimeDeviation = mTimeDeviation
+
+   On Error GoTo 0
+   Exit Property
+
+TimeDeviationGet_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property TimeDeviation of Class Module cwoverlay"
+End Property
+'---------------------------------------------------------------------------------------
+' Property  : TimeDeviation
+' Author    : beededea
+' Date      : 17/05/2023
+' Purpose   :
+'---------------------------------------------------------------------------------------
+'
+Public Property Let TimeDeviation(ByVal newValue As Currency)
+   On Error GoTo TimeDeviationLet_Error
+
+   If mTimeDeviation <> newValue Then mTimeDeviation = newValue Else Exit Property
+   Debug.Print mTimeDeviation
+
+   On Error GoTo 0
+   Exit Property
+
+TimeDeviationLet_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property TimeDeviation of Class Module cwoverlay"
+End Property
 '---------------------------------------------------------------------------------------
 ' Procedure : MyOpacity
 ' Author    : beededea

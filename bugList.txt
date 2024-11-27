@@ -215,7 +215,7 @@ quiet/loud sounds
 ' added coding environment variable
 ' Changes to display TwinBasic in menu, text &c when compiled with TB
 ' TwinBasic workaround for dark icon images showing upside down when loaded from an RC collection
-
+' TwinBasic workaround for light icon images showing upside down when loaded from an RC collection
 
 ' -oOo-
 

@@ -2704,7 +2704,7 @@ Private Sub sliderset_Moving() ' this is an explicit Event-Handler derived from 
 '    Dim sliderwidth As Integer: sliderwidth = 0
 '    Dim currpos As Integer: perc = 0
     Dim perc As Integer: perc = 0
-    Dim timeDeviation As Currency: timeDeviation = 0
+    'Dim TimeDeviation As Currency: TimeDeviation = 0
     
     On Error GoTo sliderset_Moving_Error
          
@@ -2736,12 +2736,12 @@ Private Sub sliderset_Moving() ' this is an explicit Event-Handler derived from 
     End If
 
 '    ' Given a percentage calculates the logarithmic value
-    timeDeviation = fLogSlider(perc)
+    overlayWidget.TimeDeviation = fLogSlider(perc)
     
     'create a property in cwOverlay and pass the time deviation to it.
     
     Debug.Print ("%KON-I-INFO, perc before " & perc)
-    Debug.Print ("%KON-I-INFO, timeDeviation " & timeDeviation)
+    'Debug.Print ("%KON-I-INFO, timeDeviation " & TimeDeviation)
     
     On Error GoTo 0
     Exit Sub
