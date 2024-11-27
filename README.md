@@ -2,7 +2,7 @@
  
 A FOSS Desktop Utility VB6 WoW64 Widget for Windows XP, ReactOS, Vista, Win7, 8 and 10/11+.
 
-My current VB6/RC6 PSD program being worked upon now, in progress, don't download it yet expecting it to work in all respects, as it is far from complete. Estimated at 99% graphically complete but only 75% code-complete. I am always adding in new functionality as this is an educational project for me. When finished, this Steampunk Clock Calendar widget will be an attractive steampunk widget for your desktop. It is a deliberately-complex clock with a skeumorphic interface. Functional but gorgeous at the same time. This VB6 Widget is a moveable widget that you can move anywhere around the 
+My current VB6/RC6 PSD program being worked upon now, in progress, don't download it yet expecting it to work in all respects, as it is far from complete. Estimated at 99% graphically complete but only 78% code-complete. I am always adding in new functionality as this is an educational project for me. When finished, this Steampunk Clock Calendar widget will be an attractive steampunk widget for your desktop. It is a deliberately-complex clock with a skeumorphic interface. Functional but gorgeous at the same time. This VB6 Widget is a moveable widget that you can move anywhere around the 
 desktop as you require. The design is based upon the Yahoo widget of the same design which I also designed. This is its replacement.
  
 If you just want to install it on your desktop, there will be a setup.exe that you download and run. If you want to compile this yourself, clone/download the lot. You will of course, need the VB6 IDE to make changes.
