@@ -378,7 +378,7 @@ Begin VB.Form widgetPrefs
                Caption         =   "o"
                Height          =   345
                Index           =   5
-               Left            =   7305
+               Left            =   2115
                Style           =   1  'Graphical
                TabIndex        =   232
                Top             =   2160
@@ -388,7 +388,7 @@ Begin VB.Form widgetPrefs
                Caption         =   "o"
                Height          =   345
                Index           =   4
-               Left            =   7305
+               Left            =   2115
                Style           =   1  'Graphical
                TabIndex        =   231
                Top             =   1665
@@ -398,7 +398,7 @@ Begin VB.Form widgetPrefs
                Caption         =   "o"
                Height          =   345
                Index           =   3
-               Left            =   7305
+               Left            =   2115
                Style           =   1  'Graphical
                TabIndex        =   230
                Top             =   1185
@@ -408,7 +408,7 @@ Begin VB.Form widgetPrefs
                Caption         =   "o"
                Height          =   345
                Index           =   2
-               Left            =   7305
+               Left            =   2115
                Style           =   1  'Graphical
                TabIndex        =   229
                Top             =   705
@@ -421,7 +421,7 @@ Begin VB.Form widgetPrefs
                Left            =   7680
                Style           =   1  'Graphical
                TabIndex        =   228
-               Top             =   2160
+               Top             =   2145
                Width           =   540
             End
             Begin VB.CommandButton btnclearAlarm 
@@ -431,7 +431,7 @@ Begin VB.Form widgetPrefs
                Left            =   7680
                Style           =   1  'Graphical
                TabIndex        =   227
-               Top             =   1665
+               Top             =   1650
                Width           =   540
             End
             Begin VB.CommandButton btnclearAlarm 
@@ -441,7 +441,7 @@ Begin VB.Form widgetPrefs
                Left            =   7680
                Style           =   1  'Graphical
                TabIndex        =   226
-               Top             =   1185
+               Top             =   1170
                Width           =   540
             End
             Begin VB.CommandButton btnclearAlarm 
@@ -451,7 +451,7 @@ Begin VB.Form widgetPrefs
                Left            =   7680
                Style           =   1  'Graphical
                TabIndex        =   225
-               Top             =   705
+               Top             =   690
                Width           =   540
             End
             Begin VB.CommandButton btnclearAlarm 
@@ -461,14 +461,14 @@ Begin VB.Form widgetPrefs
                Left            =   7695
                Style           =   1  'Graphical
                TabIndex        =   224
-               Top             =   210
+               Top             =   180
                Width           =   540
             End
             Begin VB.CommandButton btnNow 
                Caption         =   "o"
                Height          =   345
                Index           =   1
-               Left            =   7305
+               Left            =   2115
                Style           =   1  'Graphical
                TabIndex        =   223
                Top             =   210
@@ -476,7 +476,7 @@ Begin VB.Form widgetPrefs
             End
             Begin VB.ComboBox cmbAlarm5Minutes 
                Height          =   315
-               Left            =   4950
+               Left            =   5340
                Style           =   2  'Dropdown List
                TabIndex        =   220
                Top             =   2175
@@ -484,7 +484,7 @@ Begin VB.Form widgetPrefs
             End
             Begin VB.ComboBox cmbAlarm4Minutes 
                Height          =   315
-               Left            =   4950
+               Left            =   5340
                Style           =   2  'Dropdown List
                TabIndex        =   219
                Top             =   1680
@@ -492,7 +492,7 @@ Begin VB.Form widgetPrefs
             End
             Begin VB.ComboBox cmbAlarm3Minutes 
                Height          =   315
-               Left            =   4950
+               Left            =   5340
                Style           =   2  'Dropdown List
                TabIndex        =   218
                Top             =   1215
@@ -500,7 +500,7 @@ Begin VB.Form widgetPrefs
             End
             Begin VB.ComboBox cmbAlarm2Minutes 
                Height          =   315
-               Left            =   4950
+               Left            =   5340
                Style           =   2  'Dropdown List
                TabIndex        =   217
                Top             =   720
@@ -508,7 +508,7 @@ Begin VB.Form widgetPrefs
             End
             Begin VB.ComboBox cmbAlarm5Hours 
                Height          =   315
-               Left            =   4395
+               Left            =   4785
                Style           =   2  'Dropdown List
                TabIndex        =   216
                Top             =   2175
@@ -516,7 +516,7 @@ Begin VB.Form widgetPrefs
             End
             Begin VB.ComboBox cmbAlarm4Hours 
                Height          =   315
-               Left            =   4395
+               Left            =   4785
                Style           =   2  'Dropdown List
                TabIndex        =   215
                Top             =   1680
@@ -524,7 +524,7 @@ Begin VB.Form widgetPrefs
             End
             Begin VB.ComboBox cmbAlarm3Hours 
                Height          =   315
-               Left            =   4395
+               Left            =   4785
                Style           =   2  'Dropdown List
                TabIndex        =   214
                Top             =   1215
@@ -532,7 +532,7 @@ Begin VB.Form widgetPrefs
             End
             Begin VB.ComboBox cmbAlarm2Hours 
                Height          =   315
-               Left            =   4395
+               Left            =   4785
                Style           =   2  'Dropdown List
                TabIndex        =   213
                Top             =   720
@@ -540,7 +540,7 @@ Begin VB.Form widgetPrefs
             End
             Begin VB.ComboBox cmbAlarm5Year 
                Height          =   315
-               Left            =   3555
+               Left            =   3945
                Style           =   2  'Dropdown List
                TabIndex        =   212
                Top             =   2175
@@ -548,7 +548,7 @@ Begin VB.Form widgetPrefs
             End
             Begin VB.ComboBox cmbAlarm4Year 
                Height          =   315
-               Left            =   3555
+               Left            =   3945
                Style           =   2  'Dropdown List
                TabIndex        =   211
                Top             =   1680
@@ -556,7 +556,7 @@ Begin VB.Form widgetPrefs
             End
             Begin VB.ComboBox cmbAlarm3Year 
                Height          =   315
-               Left            =   3555
+               Left            =   3945
                Style           =   2  'Dropdown List
                TabIndex        =   210
                Top             =   1215
@@ -564,7 +564,7 @@ Begin VB.Form widgetPrefs
             End
             Begin VB.ComboBox cmbAlarm2Year 
                Height          =   315
-               Left            =   3555
+               Left            =   3945
                Style           =   2  'Dropdown List
                TabIndex        =   209
                Top             =   720
@@ -572,7 +572,7 @@ Begin VB.Form widgetPrefs
             End
             Begin VB.ComboBox cmbAlarm5Month 
                Height          =   315
-               Left            =   2670
+               Left            =   3060
                Style           =   2  'Dropdown List
                TabIndex        =   208
                Top             =   2175
@@ -580,7 +580,7 @@ Begin VB.Form widgetPrefs
             End
             Begin VB.ComboBox cmbAlarm4Month 
                Height          =   315
-               Left            =   2670
+               Left            =   3060
                Style           =   2  'Dropdown List
                TabIndex        =   207
                Top             =   1680
@@ -588,7 +588,7 @@ Begin VB.Form widgetPrefs
             End
             Begin VB.ComboBox cmbAlarm3Month 
                Height          =   315
-               Left            =   2670
+               Left            =   3060
                Style           =   2  'Dropdown List
                TabIndex        =   206
                Top             =   1215
@@ -596,7 +596,7 @@ Begin VB.Form widgetPrefs
             End
             Begin VB.ComboBox cmbAlarm5Day 
                Height          =   315
-               Left            =   2115
+               Left            =   2505
                Style           =   2  'Dropdown List
                TabIndex        =   205
                Top             =   2175
@@ -604,7 +604,7 @@ Begin VB.Form widgetPrefs
             End
             Begin VB.ComboBox cmbAlarm4Day 
                Height          =   315
-               Left            =   2115
+               Left            =   2505
                Style           =   2  'Dropdown List
                TabIndex        =   204
                Top             =   1680
@@ -612,7 +612,7 @@ Begin VB.Form widgetPrefs
             End
             Begin VB.ComboBox cmbAlarm3Day 
                Height          =   315
-               Left            =   2115
+               Left            =   2505
                Style           =   2  'Dropdown List
                TabIndex        =   203
                Top             =   1215
@@ -620,7 +620,7 @@ Begin VB.Form widgetPrefs
             End
             Begin VB.ComboBox cmbAlarm1Year 
                Height          =   315
-               Left            =   3555
+               Left            =   3945
                Style           =   2  'Dropdown List
                TabIndex        =   202
                Top             =   210
@@ -628,7 +628,7 @@ Begin VB.Form widgetPrefs
             End
             Begin VB.ComboBox cmbAlarm1Minutes 
                Height          =   315
-               Left            =   4950
+               Left            =   5340
                Style           =   2  'Dropdown List
                TabIndex        =   201
                Top             =   210
@@ -636,7 +636,7 @@ Begin VB.Form widgetPrefs
             End
             Begin VB.ComboBox cmbAlarm1Hours 
                Height          =   315
-               Left            =   4395
+               Left            =   4785
                Style           =   2  'Dropdown List
                TabIndex        =   200
                Top             =   210
@@ -644,7 +644,7 @@ Begin VB.Form widgetPrefs
             End
             Begin VB.ComboBox cmbAlarm1Month 
                Height          =   315
-               Left            =   2670
+               Left            =   3060
                Style           =   2  'Dropdown List
                TabIndex        =   199
                Top             =   210
@@ -652,7 +652,7 @@ Begin VB.Form widgetPrefs
             End
             Begin VB.ComboBox cmbAlarm2Day 
                Height          =   315
-               Left            =   2115
+               Left            =   2505
                Style           =   2  'Dropdown List
                TabIndex        =   198
                Top             =   720
@@ -660,7 +660,7 @@ Begin VB.Form widgetPrefs
             End
             Begin VB.ComboBox cmbAlarm2Month 
                Height          =   315
-               Left            =   2670
+               Left            =   3060
                Style           =   2  'Dropdown List
                TabIndex        =   197
                Top             =   720
@@ -668,7 +668,7 @@ Begin VB.Form widgetPrefs
             End
             Begin VB.ComboBox cmbAlarm1Day 
                Height          =   315
-               Left            =   2115
+               Left            =   2505
                Style           =   2  'Dropdown List
                TabIndex        =   196
                Top             =   210
@@ -677,7 +677,7 @@ Begin VB.Form widgetPrefs
             Begin VB.CommandButton btnVerifyDateTime5 
                Caption         =   ">"
                Height          =   315
-               Left            =   5505
+               Left            =   5895
                Style           =   1  'Graphical
                TabIndex        =   161
                ToolTipText     =   "Verify Date Time for alarm number 1"
@@ -686,7 +686,7 @@ Begin VB.Form widgetPrefs
             End
             Begin VB.TextBox txtAlarm5Time 
                Height          =   315
-               Left            =   6750
+               Left            =   7140
                Locked          =   -1  'True
                TabIndex        =   160
                Top             =   2160
@@ -695,7 +695,7 @@ Begin VB.Form widgetPrefs
             Begin VB.CommandButton btnVerifyDateTime4 
                Caption         =   ">"
                Height          =   315
-               Left            =   5505
+               Left            =   5895
                Style           =   1  'Graphical
                TabIndex        =   158
                ToolTipText     =   "Verify Date Time for alarm number 1"
@@ -704,7 +704,7 @@ Begin VB.Form widgetPrefs
             End
             Begin VB.TextBox txtAlarm4Time 
                Height          =   315
-               Left            =   6750
+               Left            =   7140
                Locked          =   -1  'True
                TabIndex        =   157
                Top             =   1665
@@ -713,7 +713,7 @@ Begin VB.Form widgetPrefs
             Begin VB.CommandButton btnVerifyDateTime3 
                Caption         =   ">"
                Height          =   315
-               Left            =   5505
+               Left            =   5895
                Style           =   1  'Graphical
                TabIndex        =   155
                ToolTipText     =   "Verify Date Time for alarm number 1"
@@ -722,7 +722,7 @@ Begin VB.Form widgetPrefs
             End
             Begin VB.TextBox txtAlarm3Time 
                Height          =   315
-               Left            =   6750
+               Left            =   7140
                Locked          =   -1  'True
                TabIndex        =   154
                Top             =   1185
@@ -731,7 +731,7 @@ Begin VB.Form widgetPrefs
             Begin VB.CommandButton btnVerifyDateTime2 
                Caption         =   ">"
                Height          =   315
-               Left            =   5505
+               Left            =   5895
                Style           =   1  'Graphical
                TabIndex        =   152
                ToolTipText     =   "Verify Date Time for alarm number 1"
@@ -740,7 +740,7 @@ Begin VB.Form widgetPrefs
             End
             Begin VB.TextBox txtAlarm2Time 
                Height          =   315
-               Left            =   6750
+               Left            =   7140
                Locked          =   -1  'True
                TabIndex        =   151
                Top             =   705
@@ -748,7 +748,7 @@ Begin VB.Form widgetPrefs
             End
             Begin VB.TextBox txtAlarm1Time 
                Height          =   315
-               Left            =   6750
+               Left            =   7140
                Locked          =   -1  'True
                TabIndex        =   148
                Top             =   210
@@ -757,7 +757,7 @@ Begin VB.Form widgetPrefs
             Begin VB.CommandButton btnVerifyDateTime1 
                Caption         =   ">"
                Height          =   300
-               Left            =   5505
+               Left            =   5895
                Style           =   1  'Graphical
                TabIndex        =   149
                ToolTipText     =   "Verify Date Time for alarm number 1"
@@ -766,7 +766,7 @@ Begin VB.Form widgetPrefs
             End
             Begin VB.TextBox txtAlarm5Date 
                Height          =   315
-               Left            =   5865
+               Left            =   6255
                Locked          =   -1  'True
                TabIndex        =   159
                Top             =   2160
@@ -774,7 +774,7 @@ Begin VB.Form widgetPrefs
             End
             Begin VB.TextBox txtAlarm4Date 
                Height          =   315
-               Left            =   5865
+               Left            =   6255
                Locked          =   -1  'True
                TabIndex        =   156
                Top             =   1665
@@ -782,7 +782,7 @@ Begin VB.Form widgetPrefs
             End
             Begin VB.TextBox txtAlarm3Date 
                Height          =   315
-               Left            =   5865
+               Left            =   6255
                Locked          =   -1  'True
                TabIndex        =   153
                Top             =   1185
@@ -790,7 +790,7 @@ Begin VB.Form widgetPrefs
             End
             Begin VB.TextBox txtAlarm2Date 
                Height          =   315
-               Left            =   5865
+               Left            =   6255
                Locked          =   -1  'True
                TabIndex        =   150
                Top             =   705
@@ -798,7 +798,7 @@ Begin VB.Form widgetPrefs
             End
             Begin VB.TextBox txtAlarm1Date 
                Height          =   315
-               Left            =   5865
+               Left            =   6255
                Locked          =   -1  'True
                TabIndex        =   147
                Top             =   210
@@ -2642,7 +2642,7 @@ Private Sub btnVerifyDateTime1_Click()
     
     On Error GoTo btnVerifyDateTime1_Click_Error
     
-    If cmbAlarm1Day.ListIndex = -1 Or cmbAlarm1Month.ListIndex = -1 Or cmbAlarm1Year.ListIndex = -1 Or cmbAlarm1Hours.ListIndex = -1 Or cmbAlarm1Minutes.ListIndex = -1 Then Exit Sub
+    If cmbAlarm1Day.ListIndex <= 0 Or cmbAlarm1Month.ListIndex <= 0 Or cmbAlarm1Year.ListIndex <= 0 Or cmbAlarm1Hours.ListIndex <= 0 Or cmbAlarm1Minutes.ListIndex <= 0 Then Exit Sub
 
     dayNo = cmbAlarm1Day.List(cmbAlarm1Day.ListIndex)
     If dayNo <= 9 Then
@@ -2739,7 +2739,7 @@ Private Sub btnVerifyDateTime2_Click()
     
     On Error GoTo btnVerifyDateTime2_Click_Error
 
-    If cmbAlarm2Day.ListIndex = -1 Or cmbAlarm2Month.ListIndex = -1 Or cmbAlarm2Year.ListIndex = -1 Or cmbAlarm2Hours.ListIndex = -1 Or cmbAlarm2Minutes.ListIndex = -1 Then Exit Sub
+    If cmbAlarm2Day.ListIndex <= 0 Or cmbAlarm2Month.ListIndex <= 0 Or cmbAlarm2Year.ListIndex <= 0 Or cmbAlarm2Hours.ListIndex <= 0 Or cmbAlarm2Minutes.ListIndex <= 0 Then Exit Sub
     
     dayNo = cmbAlarm2Day.List(cmbAlarm2Day.ListIndex)
     If dayNo <= 9 Then
@@ -2873,7 +2873,7 @@ Private Sub btnVerifyDateTime3_Click()
     
     On Error GoTo btnVerifyDateTime3_Click_Error
 
-    If cmbAlarm3Day.ListIndex = -1 Or cmbAlarm3Month.ListIndex = -1 Or cmbAlarm3Year.ListIndex = -1 Or cmbAlarm3Hours.ListIndex = -1 Or cmbAlarm3Minutes.ListIndex = -1 Then Exit Sub
+    If cmbAlarm3Day.ListIndex <= 0 Or cmbAlarm3Month.ListIndex <= 0 Or cmbAlarm3Year.ListIndex <= 0 Or cmbAlarm3Hours.ListIndex <= 0 Or cmbAlarm3Minutes.ListIndex <= 0 Then Exit Sub
     
     dayNo = cmbAlarm3Day.List(cmbAlarm3Day.ListIndex)
     If dayNo <= 9 Then
@@ -2949,7 +2949,7 @@ Private Sub btnVerifyDateTime4_Click()
     
     On Error GoTo btnVerifyDateTime4_Click_Error
    
-    If cmbAlarm4Day.ListIndex = -1 Or cmbAlarm4Month.ListIndex = -1 Or cmbAlarm4Year.ListIndex = -1 Or cmbAlarm4Hours.ListIndex = -1 Or cmbAlarm4Minutes.ListIndex = -1 Then Exit Sub
+    If cmbAlarm4Day.ListIndex <= 0 Or cmbAlarm4Month.ListIndex <= 0 Or cmbAlarm4Year.ListIndex <= 0 Or cmbAlarm4Hours.ListIndex <= 0 Or cmbAlarm4Minutes.ListIndex <= 0 Then Exit Sub
     
     dayNo = cmbAlarm4Day.List(cmbAlarm4Day.ListIndex)
     If dayNo <= 9 Then
@@ -3025,7 +3025,7 @@ Private Sub btnVerifyDateTime5_Click()
     
     On Error GoTo btnVerifyDateTime5_Click_Error
    
-    If cmbAlarm5Day.ListIndex = -1 Or cmbAlarm5Month.ListIndex = -1 Or cmbAlarm5Year.ListIndex = -1 Or cmbAlarm5Hours.ListIndex = -1 Or cmbAlarm5Minutes.ListIndex = -1 Then Exit Sub
+    If cmbAlarm5Day.ListIndex <= 0 Or cmbAlarm5Month.ListIndex <= 0 Or cmbAlarm5Year.ListIndex <= 0 Or cmbAlarm5Hours.ListIndex <= 0 Or cmbAlarm5Minutes.ListIndex <= 0 Then Exit Sub
     
     dayNo = cmbAlarm5Day.List(cmbAlarm5Day.ListIndex)
     If dayNo <= 9 Then
@@ -3368,7 +3368,7 @@ Form_Initialize_Error:
 
 
 '---------------------------------------------------------------------------------------
-' Procedure : Form_Load
+' Procedure : Form_Load     WidgetPrefs
 ' Author    : beededea
 ' Date      : 25/04/2023
 ' Purpose   :
@@ -4808,6 +4808,8 @@ Private Sub btnClose_Click()
     Me.themeTimer.Enabled = False
     
     Call writePrefsPosition
+    
+    Call adjustPrefsControls(True)
 
    On Error GoTo 0
    Exit Sub
@@ -5386,7 +5388,7 @@ End Sub
 ' Purpose   : adjust the controls so their startup position matches the last write of the config file
 '---------------------------------------------------------------------------------------
 '
-Private Sub adjustPrefsControls()
+Private Sub adjustPrefsControls(Optional ByVal restart As Boolean)
     
     Dim fntWeight As Integer: fntWeight = 0
     Dim fntStyle As Boolean: fntStyle = False
@@ -5491,23 +5493,25 @@ Private Sub adjustPrefsControls()
     txtDefaultEditor.Text = gblDefaultEditor
     lblGitHub.Caption = "You can find the code for the Steampunk Clock Calendar on github, visit by double-clicking this link https://github.com/yereverluvinunclebert/ Steampunk-Clock-Calendar"
      
-     ' fonts tab
-    If gblPrefsFont <> vbNullString Then
-        txtPrefsFont.Text = gblPrefsFont
-        If gblDpiAwareness = "1" Then
-            Call changeFormFont(widgetPrefs, gblPrefsFont, Val(gblPrefsFontSizeHighDPI), fntWeight, fntStyle, gblPrefsFontItalics, gblPrefsFontColour)
-            txtPrefsFontSize.Text = gblPrefsFontSizeHighDPI
-        Else
-            Call changeFormFont(widgetPrefs, gblPrefsFont, Val(gblPrefsFontSizeLowDPI), fntWeight, fntStyle, gblPrefsFontItalics, gblPrefsFontColour)
-            txtPrefsFontSize.Text = gblPrefsFontSizeLowDPI
+     
+     If Not restart = True Then
+        ' fonts tab
+        If gblPrefsFont <> vbNullString Then
+            txtPrefsFont.Text = gblPrefsFont
+            If gblDpiAwareness = "1" Then
+                Call changeFormFont(widgetPrefs, gblPrefsFont, Val(gblPrefsFontSizeHighDPI), fntWeight, fntStyle, gblPrefsFontItalics, gblPrefsFontColour)
+                txtPrefsFontSize.Text = gblPrefsFontSizeHighDPI
+            Else
+                Call changeFormFont(widgetPrefs, gblPrefsFont, Val(gblPrefsFontSizeLowDPI), fntWeight, fntStyle, gblPrefsFontItalics, gblPrefsFontColour)
+                txtPrefsFontSize.Text = gblPrefsFontSizeLowDPI
+            End If
         End If
-    End If
+        
+        txtDisplayScreenFontSize.Text = gblDisplayScreenFontSize
     
-    txtDisplayScreenFontSize.Text = gblDisplayScreenFontSize
-
-    txtDisplayScreenFont.Font.Name = gblDisplayScreenFont
-    'txtDisplayScreenFont.Font.Size = Val(gblDisplayScreenFont)
-
+        txtDisplayScreenFont.Font.Name = gblDisplayScreenFont
+        'txtDisplayScreenFont.Font.Size = Val(gblDisplayScreenFont)
+    End If
     
     ' position tab
     cmbAspectHidden.ListIndex = Val(gblAspectHidden)
