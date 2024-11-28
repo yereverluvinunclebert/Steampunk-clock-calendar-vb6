@@ -65,6 +65,8 @@ Private mAlarmToggle2Enabled As Boolean
 Private mAlarmToggle3Enabled As Boolean
 Private mAlarmToggle4Enabled As Boolean
 Private mAlarmToggle5Enabled As Boolean
+Private mhelpToggleEnabled As Boolean
+
 Private mtimeShiftValue As Currency
 
 Public mShowHelp As Boolean 'change to property get/set
@@ -1957,6 +1959,9 @@ displayScreenToggle_myMouseDown_Error:
 End Sub
 
 
+
+
+
 '---------------------------------------------------------------------------------------
 ' Procedure : helptoggle_myMouseDown
 ' Author    : beededea
@@ -1965,58 +1970,16 @@ End Sub
 '---------------------------------------------------------------------------------------
 '
 Private Sub helptoggle_myMouseDown()
-   On Error GoTo helptoggle_myMouseDown_Error
 
-    Dim fileToPlay As String: fileToPlay = vbNullString
-    Dim helptoggleTop As Long: helptoggleTop = 0
-    Dim helptoggleLeft As Long: helptoggleLeft = 0
-    Dim alphaVal As Single: alphaVal = 0
-    Dim helpToggleFlg As Boolean: helpToggleFlg = False
+    On Error GoTo helptoggle_myMouseDown_Error
 
     If gblWidgetFunctions = "0" Or gblIgnoreMouse = "1" Then Exit Sub
     
-    helptoggleTop = helpToggle.Top
-    helptoggleLeft = helpToggle.Left
-    alphaVal = Val(gblOpacity) / 100
-    
-    If helpdropdown.Alpha = 0 Then
-        If gblVolumeBoost = "1" Then
-            fileToPlay = "rollerblinddown.wav"
-        Else
-            fileToPlay = "rollerblinddown-quiet.wav"
-        End If
-        helpToggle.Alpha = 0
-        clockForm.Widgets("woodenbar").Widget.Alpha = alphaVal
-        clockForm.Widgets("help1toggle").Widget.Alpha = alphaVal
-        clockForm.Widgets("helpdropdown").Widget.Alpha = alphaVal
-        clockForm.Widgets("txthelp").Widget.Alpha = alphaVal
-        
-        helpToggleFlg = True
+    If helpToggleEnabled = False Then
+        helpToggleEnabled = True
     Else
-        If gblVolumeBoost = "1" Then
-            fileToPlay = "rollerblindup.wav"
-        Else
-            fileToPlay = "rollerblindup-quiet.wav"
-        End If
-    
-        helpToggle.Alpha = alphaVal
-        clockForm.Widgets("woodenbar").Widget.Alpha = 0
-        clockForm.Widgets("help1toggle").Widget.Alpha = 0
-        clockForm.Widgets("help2toggle").Widget.Alpha = 0
-        clockForm.Widgets("help3toggle").Widget.Alpha = 0
-        
-        clockForm.Widgets("helpdropdown").Widget.Alpha = 0
-        clockForm.Widgets("txthelp").Widget.Alpha = 0
-        clockForm.Widgets("txtalarm").Widget.Alpha = 0
-        clockForm.Widgets("txtlinks").Widget.Alpha = 0
-        helpToggleFlg = False
-
+        helpToggleEnabled = False
     End If
-    If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
-        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
-    End If
-    
-    Call screenWrite("Help Dropdown canvas No. 1 visible " & helpToggleFlg)
     clockForm.Refresh
 
    On Error GoTo 0
@@ -2485,7 +2448,7 @@ End Sub
 '                alter the size of the form to correspond to the monitor
 '---------------------------------------------------------------------------------------
 '
-Private Sub clockForm_MouseUp(ByRef Button As Integer, ByRef Shift As Integer, ByRef x As Single, ByRef y As Single)
+Private Sub clockForm_MouseUp(ByRef Button As Integer, ByRef Shift As Integer, ByRef X As Single, ByRef Y As Single)
 
     On Error GoTo clockForm_MouseUp_Error
     
@@ -2520,8 +2483,8 @@ End Sub
 ' Purpose   :
 '---------------------------------------------------------------------------------------
 '
-Private Sub clockForm_MouseMove(ByRef Button As Integer, ByRef Shift As Integer, ByRef x As Single, ByRef y As Single)
-  Static x0 As Single, y0 As Single: If Button = 0 Then x0 = x: y0 = y 'just store the offsets when no button is down
+Private Sub clockForm_MouseMove(ByRef Button As Integer, ByRef Shift As Integer, ByRef X As Single, ByRef Y As Single)
+  Static x0 As Single, y0 As Single: If Button = 0 Then x0 = X: y0 = Y 'just store the offsets when no button is down
   
    On Error GoTo clockForm_MouseMove_Error
     
@@ -2530,8 +2493,8 @@ Private Sub clockForm_MouseMove(ByRef Button As Integer, ByRef Shift As Integer,
 
     If Button = vbLeftButton And Not clockForm.ActiveWidget Is Nothing Then 'Form-Dragging (under certain conditions)
 
-      FX = (x - x0) * clockForm.WidgetRoot.Zoom + clockForm.Left
-      FY = (y - y0) * clockForm.WidgetRoot.Zoom + clockForm.Top
+      FX = (X - x0) * clockForm.WidgetRoot.Zoom + clockForm.Left
+      FY = (Y - y0) * clockForm.WidgetRoot.Zoom + clockForm.Top
       clockForm.Move FX, FY
       
       Debug.Print "FX " & FX
@@ -2621,7 +2584,7 @@ End Sub
 ' Purpose   :
 '---------------------------------------------------------------------------------------
 '
-Private Sub clockForm_MouseDown(ByRef Button As Integer, ByRef Shift As Integer, ByRef x As Single, ByRef y As Single)
+Private Sub clockForm_MouseDown(ByRef Button As Integer, ByRef Shift As Integer, ByRef X As Single, ByRef Y As Single)
    On Error GoTo W_MouseDown_Error
 
     frmTimer.tmrScreenResolution.Enabled = False
@@ -3963,6 +3926,103 @@ pendulumToggleGet_Error:
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property pendulumToggleEnabled of Class Module cfClock"
 End Property
 
+ 
+ 
+
+'---------------------------------------------------------------------------------------
+' Property  : helpToggleEnabled
+' Author    : beededea
+' Date      : 10/05/2023
+' Purpose   :
+'---------------------------------------------------------------------------------------
+'
+Public Property Let helpToggleEnabled(ByVal newValue As Boolean)
+       
+    Dim helpToggleIn As Long: helpToggleIn = 0
+    Dim helpToggleOut As Long: helpToggleOut = 0
+    Dim fileToPlay As String: fileToPlay = vbNullString
+    Dim helpToggleFlg As Boolean: helpToggleFlg = False
+    Dim alphaVal As Single: alphaVal = 0
+    
+    On Error GoTo helpToggleEnabledLet_Error
+    
+    alphaVal = Val(gblOpacity) / 100
+    
+    If newValue = True Then
+        If gblVolumeBoost = "1" Then
+            fileToPlay = "rollerblinddown.wav"
+        Else
+            fileToPlay = "rollerblinddown-quiet.wav"
+        End If
+        helpToggle.Alpha = 0
+        clockForm.Widgets("woodenbar").Widget.Alpha = alphaVal
+        clockForm.Widgets("help1toggle").Widget.Alpha = alphaVal
+        clockForm.Widgets("helpdropdown").Widget.Alpha = alphaVal
+        clockForm.Widgets("txthelp").Widget.Alpha = alphaVal
+        
+        helpToggleFlg = True
+    Else
+        If gblVolumeBoost = "1" Then
+            fileToPlay = "rollerblindup.wav"
+        Else
+            fileToPlay = "rollerblindup-quiet.wav"
+        End If
+    
+        helpToggle.Alpha = alphaVal
+        clockForm.Widgets("woodenbar").Widget.Alpha = 0
+        clockForm.Widgets("help1toggle").Widget.Alpha = 0
+        clockForm.Widgets("help2toggle").Widget.Alpha = 0
+        clockForm.Widgets("help3toggle").Widget.Alpha = 0
+        
+        clockForm.Widgets("helpdropdown").Widget.Alpha = 0
+        clockForm.Widgets("txthelp").Widget.Alpha = 0
+        clockForm.Widgets("txtalarm").Widget.Alpha = 0
+        clockForm.Widgets("txtlinks").Widget.Alpha = 0
+        helpToggleFlg = False
+    End If
+     
+    If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
+        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
+    End If
+    
+    If mhelpToggleEnabled <> newValue Then mhelpToggleEnabled = newValue Else Exit Property
+    helpToggleEnabled = mhelpToggleEnabled
+    
+    Call screenWrite("Help Dropdown canvas No. 1 visible " & helpToggleFlg)
+    clockForm.Refresh
+      
+   On Error GoTo 0
+   Exit Property
+
+helpToggleEnabledLet_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property helpToggleEnabled of Class Module cfClock"
+End Property
+
+'---------------------------------------------------------------------------------------
+' Property  : helpToggleEnabled
+' Author    : beededea
+' Date      : 17/05/2023
+' Purpose   :
+'---------------------------------------------------------------------------------------
+'
+Public Property Get helpToggleEnabled() As Boolean
+   On Error GoTo helpToggleGet_Error
+
+    helpToggleEnabled = mhelpToggleEnabled
+
+   On Error GoTo 0
+   Exit Property
+
+helpToggleGet_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property helpToggleEnabled of Class Module cfClock"
+End Property
+
+ 
+ 
+ 
+ 
  
 
 

@@ -2544,11 +2544,6 @@ Private gCmbAlarmMinutesBalloonTooltip As String
 
 Private gPrefsFormResizedByDrag As Boolean
 
-
-
-
-
-
 Private Sub btnAboutDebugInfo_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
     If gblEnablePrefsBalloonTooltips = "True" Then CreateToolTip btnAboutDebugInfo.hWnd, "Here you can switch on Debug mode, not yet functional for this widget.", _
                   TTIconInfo, "Help on the Debug Info. Buttton", , , , True
@@ -2598,12 +2593,6 @@ Private Sub btnHelp_MouseMove(Button As Integer, Shift As Integer, X As Single, 
                   TTIconInfo, "Help on the Help Buttton", , , , True
 End Sub
 
-Private Sub btnNow_MouseMove(Index As Integer, Button As Integer, Shift As Integer, X As Single, Y As Single)
-    If gblEnablePrefsBalloonTooltips = "True" Then CreateToolTip btnNow(Index).hWnd, "Fill all alarm fields in number " & Index & " alarm with the date and time now.", _
-                  TTIconInfo, "Help on the Alarm Fill Buttton", , , , True
-End Sub
-
-'---------------------------------------------------------------------------------------
 
 
 Private Sub btnOpenFile_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)

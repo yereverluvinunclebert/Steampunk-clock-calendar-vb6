@@ -1986,6 +1986,87 @@ Public Sub getKeyPress(ByVal KeyCode As Integer, ByVal Shift As Integer)
             CTRL_1 = True
         Case vbKeyShift
             SHIFT_1 = True
+            
+        Case vbKeyA ' a key alarmtoggle
+            If fClock.alarmtoggleEnabled = True Then
+                fClock.alarmtoggleEnabled = False
+            Else
+                fClock.alarmtoggleEnabled = True
+            End If
+        Case vbKeyB ' b key helptoggle
+            If fClock.backToggleEnabled = True Then
+                fClock.backToggleEnabled = False
+            Else
+                fClock.backToggleEnabled = True
+            End If
+        Case vbKeyH ' H key helptoggle
+            If fClock.helpToggleEnabled = False Then
+                fClock.helpToggleEnabled = True
+            Else
+                fClock.helpToggleEnabled = False
+            End If
+        Case vbKeyM ' m key helptoggle
+            If fClock.muteToggleEnabled = True Then
+                fClock.muteToggleEnabled = False
+            Else
+                fClock.muteToggleEnabled = True
+            End If
+        Case vbKeyP ' p key helptoggle
+            If fClock.pendulumToggleEnabled = True Then
+                fClock.pendulumToggleEnabled = False
+            Else
+                fClock.pendulumToggleEnabled = True
+            End If
+        Case vbKeyS ' s key helptoggle
+            If fClock.displayScreenToggleEnabled = True Then
+                fClock.displayScreenToggleEnabled = False
+            Else
+                fClock.displayScreenToggleEnabled = True
+            End If
+        Case vbKeyT ' t key helptoggle
+            If fClock.timeMachineToggleEnabled = True Then
+                fClock.timeMachineToggleEnabled = False
+            Else
+                fClock.timeMachineToggleEnabled = True
+            End If
+        Case vbKeyW ' w key weekdayToggleEnabled
+            If fClock.weekdayToggleEnabled = True Then
+                fClock.weekdayToggleEnabled = False
+            Else
+                fClock.weekdayToggleEnabled = True
+            End If
+            
+        Case vbKey1 ' 0 key helptoggle
+            If fClock.alarmtoggle1Enabled = True Then
+                fClock.alarmtoggle1Enabled = False
+            Else
+                fClock.alarmtoggle1Enabled = True
+            End If
+       
+        Case vbKey2 ' 2 key helptoggle
+            If fClock.alarmtoggle2Enabled = True Then
+                fClock.alarmtoggle2Enabled = False
+            Else
+                fClock.alarmtoggle2Enabled = True
+            End If
+        Case vbKey3 ' 3 key helptoggle
+            If fClock.alarmtoggle3Enabled = True Then
+                fClock.alarmtoggle3Enabled = False
+            Else
+                fClock.alarmtoggle3Enabled = True
+            End If
+        Case vbKey4 ' 4 key helptoggle
+            If fClock.alarmtoggle4Enabled = True Then
+                fClock.alarmtoggle4Enabled = False
+            Else
+                fClock.alarmtoggle4Enabled = True
+            End If
+        Case vbKey5 ' 5 key helptoggle
+            If fClock.alarmtoggle5Enabled = True Then
+                fClock.alarmtoggle5Enabled = False
+            Else
+                fClock.alarmtoggle5Enabled = True
+            End If
         Case 37, 40 ' Left and down cursor key
             ' move the slider left
             fClock.timeShiftValue = fClock.timeShiftValue - 0.05
