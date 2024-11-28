@@ -1076,22 +1076,32 @@ Public Sub adjustMainControls()
     
     If gblAlarm1Date <> "Alarm not yet set" Then
         fClock.clockForm.Widgets("alarmtoggle1").Widget.ImageKey = "alarmtoggle1armed"
+    Else
+        fClock.clockForm.Widgets("alarmtoggle1").Widget.ImageKey = "alarmtoggle1"
     End If
 
     If gblAlarm2Date <> "Alarm not yet set" Then
         fClock.clockForm.Widgets("alarmtoggle2").Widget.ImageKey = "alarmtoggle2armed"
+    Else
+        fClock.clockForm.Widgets("alarmtoggle2").Widget.ImageKey = "alarmtoggle2"
     End If
     
     If gblAlarm3Date <> "Alarm not yet set" Then
         fClock.clockForm.Widgets("alarmtoggle3").Widget.ImageKey = "alarmtoggle3armed"
+    Else
+        fClock.clockForm.Widgets("alarmtoggle3").Widget.ImageKey = "alarmtoggle3"
     End If
     
     If gblAlarm4Date <> "Alarm not yet set" Then
         fClock.clockForm.Widgets("alarmtoggle4").Widget.ImageKey = "alarmtoggle4armed"
+    Else
+        fClock.clockForm.Widgets("alarmtoggle4").Widget.ImageKey = "alarmtoggle4"
     End If
 
     If gblAlarm5Date <> "Alarm not yet set" Then
         fClock.clockForm.Widgets("alarmtoggle5").Widget.ImageKey = "alarmtoggle5armed"
+    Else
+        fClock.clockForm.Widgets("alarmtoggle5").Widget.ImageKey = "alarmtoggle5"
     End If
 
     overlayWidget.MyOpacity = Val(gblOpacity) / 100

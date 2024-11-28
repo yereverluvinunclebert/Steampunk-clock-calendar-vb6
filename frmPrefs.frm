@@ -379,6 +379,7 @@ Begin VB.Form widgetPrefs
                Height          =   345
                Index           =   5
                Left            =   7305
+               Style           =   1  'Graphical
                TabIndex        =   232
                Top             =   2160
                Width           =   330
@@ -388,6 +389,7 @@ Begin VB.Form widgetPrefs
                Height          =   345
                Index           =   4
                Left            =   7305
+               Style           =   1  'Graphical
                TabIndex        =   231
                Top             =   1665
                Width           =   330
@@ -397,6 +399,7 @@ Begin VB.Form widgetPrefs
                Height          =   345
                Index           =   3
                Left            =   7305
+               Style           =   1  'Graphical
                TabIndex        =   230
                Top             =   1185
                Width           =   330
@@ -406,6 +409,7 @@ Begin VB.Form widgetPrefs
                Height          =   345
                Index           =   2
                Left            =   7305
+               Style           =   1  'Graphical
                TabIndex        =   229
                Top             =   705
                Width           =   330
@@ -415,6 +419,7 @@ Begin VB.Form widgetPrefs
                Height          =   345
                Index           =   5
                Left            =   7680
+               Style           =   1  'Graphical
                TabIndex        =   228
                Top             =   2160
                Width           =   540
@@ -424,6 +429,7 @@ Begin VB.Form widgetPrefs
                Height          =   345
                Index           =   4
                Left            =   7680
+               Style           =   1  'Graphical
                TabIndex        =   227
                Top             =   1665
                Width           =   540
@@ -433,6 +439,7 @@ Begin VB.Form widgetPrefs
                Height          =   345
                Index           =   3
                Left            =   7680
+               Style           =   1  'Graphical
                TabIndex        =   226
                Top             =   1185
                Width           =   540
@@ -442,6 +449,7 @@ Begin VB.Form widgetPrefs
                Height          =   345
                Index           =   2
                Left            =   7680
+               Style           =   1  'Graphical
                TabIndex        =   225
                Top             =   705
                Width           =   540
@@ -451,6 +459,7 @@ Begin VB.Form widgetPrefs
                Height          =   345
                Index           =   1
                Left            =   7695
+               Style           =   1  'Graphical
                TabIndex        =   224
                Top             =   210
                Width           =   540
@@ -460,6 +469,7 @@ Begin VB.Form widgetPrefs
                Height          =   345
                Index           =   1
                Left            =   7305
+               Style           =   1  'Graphical
                TabIndex        =   223
                Top             =   210
                Width           =   330
