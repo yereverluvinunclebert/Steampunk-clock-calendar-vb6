@@ -235,15 +235,15 @@ o add now() button logic for all alarms
 Tasks to do:
 ============
 
+' about text VB6 / Twinbasic
 
-about
+' when in alarm mode, the analogue clock fails to display the time as stated on the alarm shown
 
 ' slider advancing/retarding time using timeShiftPercent modified not quite exponentially to shift time - wip
 ' in the timer, take the value of timeShiftPercent and do what to it, use logarithm to calculate the value on a curve.
 
 ' combine a new counter rotating sound recording the current Konfabulator widget.
 
-' when in alarm mode, the analogue clock fails to display the time as stated on the alarm shown
 
 ' .VAlign on the label? not working, raised as a bug with Olaf? 0=Top, -1 and 1=Middle
 

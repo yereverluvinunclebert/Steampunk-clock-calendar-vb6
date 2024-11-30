@@ -154,7 +154,7 @@ End Property
 ' Purpose   :
 '---------------------------------------------------------------------------------------
 '
-Private Sub W_MouseDown(Button As Integer, Shift As Integer, ByVal X As Single, ByVal y As Single)
+Private Sub W_MouseDown(Button As Integer, Shift As Integer, ByVal X As Single, ByVal Y As Single)
    Dim fileToPlay As String: fileToPlay = vbNullString
    On Error GoTo W_MouseDown_Error
     
@@ -359,15 +359,28 @@ Private Sub Draw(ByRef CC As cCairoContext, ByVal dx As Single, ByVal dy As Sing
     CC.RenderSurfaceContent "about", aboutxo, aboutyo, , , , mMyOpacity
         
     'set some Font- and ForeColor-Properties and draw some Text on the Widget
-    W.FontItalic = True
+    W.FontItalic = False
     W.FontName = gblClockFont
     W.ForeColor = vbBlack
+    W.FontSize = 11
+
     W.SelectFontSettingsInto CC
     
     If gblDpiAwareness = "0" Then
         CC.DrawText 250, 0, dx, dy, "version " & App.Major & "." & App.Minor & "." & App.Revision & " Alpha", , , 2, True, , mMyOpacity
     Else
-        CC.DrawText 260, -175, dx, dy, "version " & App.Major & "." & App.Minor & "." & App.Revision & " Alpha", , , 2, True, , mMyOpacity
+        
+        #If TWINBASIC Then
+            CC.DrawText 132, -203, dx, dy, "TwinBasic", , , 2, True, , mMyOpacity
+        #Else
+            CC.DrawText 169, -203, dx, dy, "VB6", , , 2, True, , mMyOpacity
+        #End If
+        
+        
+
+        CC.DrawText 230, -175, dx, dy, "version " & App.Major & "." & App.Minor & "." & App.Revision & " Alpha", , , 2, True, , mMyOpacity
+        
+        
     End If
     W.Refresh
 
