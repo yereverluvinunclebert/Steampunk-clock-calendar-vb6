@@ -2656,18 +2656,8 @@ End Sub
 ' Date: 26/05/2024
 ' ----------------------------------------------------------------
 Private Sub sliderset_Moving() ' this is an explicit Event-Handler derived from the RC Widget-instance with the property .moveable = true
-    Dim a As Double
-    
-    Dim steps As Integer: steps = 10
-    Dim min As Double: min = pvtSldXMin
-    Dim max As Double: max = pvtSldXMax
-    Dim value As Double: value = 0
-    Dim I As Integer
-    
-'    Dim sliderwidth As Integer: sliderwidth = 0
-'    Dim currpos As Integer: perc = 0
     Dim perc As Integer: perc = 0
-    'Dim TimeDeviation As Currency: TimeDeviation = 0
+    Static timeAdvanceDeviation As Double
     
     On Error GoTo sliderset_Moving_Error
          
@@ -2686,22 +2676,26 @@ Private Sub sliderset_Moving() ' this is an explicit Event-Handler derived from 
     End If
     
     ' Calculate the percentage
-     perc = timeShiftValue * 100
+    perc = timeShiftValue * 100
 
 '    ' Determine the percentage from the middle of the slider
     If perc <= 50 Then ' Negative value
-        perc = perc - 50
-        perc = perc * 2
-        'perc = Math.Abs(perc)
+        perc = perc - 50 ' results in a negative number
+        perc = perc * 2  ' double it for a percentage from the mid point
+
     ElseIf perc > 50 Then ' Positive
         perc = perc - 50
         perc = perc * 2
     End If
-
-'    ' Given a percentage calculates the logarithmic value
-    overlayWidget.TimeDeviation = fLogSlider(perc)
     
-    'create a property in cwOverlay and pass the time deviation to it.
+    If perc = 0 Or perc = -100 Then
+        timeAdvanceDeviation = 0
+    Else
+        timeAdvanceDeviation = timeAdvanceDeviation + fLogSlider(perc)
+    End If
+    
+    'pass the time deviation to a property in cwOverlay, Given a percentage calculates the logarithmic value
+    overlayWidget.TimeDeviation = timeAdvanceDeviation
     
     Debug.Print ("%KON-I-INFO, perc before " & perc)
     'Debug.Print ("%KON-I-INFO, timeDeviation " & TimeDeviation)
@@ -2716,7 +2710,7 @@ sliderset_Moving_Error:
 End Sub
 
 '---------------------------------------------------------------------------------------
-' Procedure : LogSlider
+' Procedure : fLogSlider
 ' Author    : beededea
 ' Date      : 14/11/2024
 ' Purpose   : this function determines the logarithmic value of the time slider
@@ -2730,21 +2724,32 @@ Function fLogSlider(thisPerc As Integer) As Currency
     Dim maxv As Double: maxv = 0
     Dim logScale As Double: logScale = 0
     Dim thisValue As Double: thisValue = 0
+    Dim negFlag As Boolean: negFlag = False
     
     On Error GoTo LogSlider_Error
+    
+    'thisPerc = -5 ' debug
+    
+    If thisPerc <= 0 Then ' convert to positive to calculate adjustment factor
+        negFlag = True
+        thisPerc = Abs(thisPerc)
+    End If
     
     ' thisPerc will be between 0 and 100
     maxp = 100
 
-    ' The result should be between 100 and 100000
-    minv = Log(100)
+    ' The result should be between 1 and 100000
+    minv = Log(1)
     maxv = Log(50000#)
 
     ' calculate adjustment factor
     logScale = (maxv - minv) / (maxp - minp)
     thisValue = Exp(minv + logScale * (thisPerc - minp))
-    'If (debugFlg = 1) Then Console.WriteLine("%KON-I-INFO, thisPerc " & thisPerc)
+    'If (debugFlg = 1) Then
+    
+    Debug.Print ("%KON-I-INFO, thisValue " & thisValue)
 
+    If negFlag = True Then thisValue = thisValue * -1 ' convert to negative again
     fLogSlider = thisValue  ' return
 
    On Error GoTo 0
@@ -2752,7 +2757,7 @@ Function fLogSlider(thisPerc As Integer) As Currency
 
 LogSlider_Error:
 
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure LogSlider of Class Module cfClock"
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure fLogSlider of Class Module cfClock"
 End Function
 
 
@@ -3502,7 +3507,7 @@ End Property
 ' Property  : alarmtoggleEnabled
 ' Author    : beededea
 ' Date      : 10/05/2023
-' Purpose   :
+' Purpose   : the A alarm toggle for switching on the alarm mode
 '---------------------------------------------------------------------------------------
 '
 Public Property Let alarmtoggleEnabled(ByVal newValue As Boolean)
@@ -3531,6 +3536,9 @@ Public Property Let alarmtoggleEnabled(ByVal newValue As Boolean)
         
         ' set the slider position to the start point
         fClock.timeShiftValue = 0.5
+        
+        overlayWidget.BaseDate = Now()
+        overlayWidget.AlarmMode = True
         
         ' if an alarm is not selected then choose the first available alarm
         '     raise the alarm till and alarm toggle
@@ -3564,6 +3572,7 @@ Public Property Let alarmtoggleEnabled(ByVal newValue As Boolean)
         End If
         
     Else
+        overlayWidget.AlarmMode = False
         Call screenWrite("Cancelling Alarm Edit Mode")
         Call screenWrite("Slider Mechanism Placed in Rest Position")
         

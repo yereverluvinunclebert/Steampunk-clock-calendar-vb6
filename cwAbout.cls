@@ -362,6 +362,7 @@ Private Sub Draw(ByRef CC As cCairoContext, ByVal dx As Single, ByVal dy As Sing
     W.FontItalic = False
     W.FontName = gblClockFont
     W.ForeColor = vbBlack
+    W.FontBold = True
     W.FontSize = 11
 
     W.SelectFontSettingsInto CC
@@ -371,15 +372,11 @@ Private Sub Draw(ByRef CC As cCairoContext, ByVal dx As Single, ByVal dy As Sing
     Else
         
         #If TWINBASIC Then
-            CC.DrawText 132, -203, dx, dy, "TwinBasic", , , 2, True, , mMyOpacity
+            CC.DrawText 125, -202, dx, dy, "TwinBasic", , , 2, True, , mMyOpacity
         #Else
-            CC.DrawText 169, -203, dx, dy, "VB6", , , 2, True, , mMyOpacity
+            CC.DrawText 168, -202, dx, dy, "VB6", , , 2, True, , mMyOpacity
         #End If
-        
-        
-
-        CC.DrawText 230, -175, dx, dy, "version " & App.Major & "." & App.Minor & "." & App.Revision & " Alpha", , , 2, True, , mMyOpacity
-        
+        CC.DrawText 200, -175, dx, dy, "version " & App.Major & "." & App.Minor & "." & App.Revision & " Alpha", , , 2, True, , mMyOpacity
         
     End If
     W.Refresh

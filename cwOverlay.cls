@@ -59,6 +59,8 @@ Private mTimeMachine As Boolean
 Private mHidden As Boolean ' property Hidden
 Private mSwingPendulum As Boolean
 Private mTimeDeviation As Currency
+Private mBaseDate As String
+Private mAlarmMode As Boolean
 
 ' private vars general usage
 
@@ -276,6 +278,87 @@ TimeDeviationLet_Error:
 
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property TimeDeviation of Class Module cwoverlay"
 End Property
+
+'---------------------------------------------------------------------------------------
+' Property : AlarmMode
+' Author    : beededea
+' Date      : 17/05/2023
+' Purpose   :
+'---------------------------------------------------------------------------------------
+'
+Public Property Get AlarmMode() As Boolean
+   On Error GoTo AlarmModeGet_Error
+
+   AlarmMode = mAlarmMode
+
+   On Error GoTo 0
+   Exit Property
+
+AlarmModeGet_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property AlarmMode of Class Module cwoverlay"
+End Property
+'---------------------------------------------------------------------------------------
+' Property  : AlarmMode
+' Author    : beededea
+' Date      : 17/05/2023
+' Purpose   :
+'---------------------------------------------------------------------------------------
+'
+Public Property Let AlarmMode(ByVal newValue As Boolean)
+   On Error GoTo AlarmModeLet_Error
+
+   If mAlarmMode <> newValue Then mAlarmMode = newValue Else Exit Property
+   Debug.Print mAlarmMode
+
+   On Error GoTo 0
+   Exit Property
+
+AlarmModeLet_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property AlarmMode of Class Module cwoverlay"
+End Property
+
+'---------------------------------------------------------------------------------------
+' Property : BaseDate
+' Author    : beededea
+' Date      : 17/05/2023
+' Purpose   :
+'---------------------------------------------------------------------------------------
+'
+Public Property Get BaseDate() As String
+   On Error GoTo BaseDateGet_Error
+
+   BaseDate = mBaseDate
+
+   On Error GoTo 0
+   Exit Property
+
+BaseDateGet_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property BaseDate of Class Module cwoverlay"
+End Property
+'---------------------------------------------------------------------------------------
+' Property  : BaseDate
+' Author    : beededea
+' Date      : 17/05/2023
+' Purpose   :
+'---------------------------------------------------------------------------------------
+'
+Public Property Let BaseDate(ByVal newValue As String)
+   On Error GoTo BaseDateLet_Error
+
+   If mBaseDate <> newValue Then mBaseDate = newValue Else Exit Property
+   Debug.Print mBaseDate
+
+   On Error GoTo 0
+   Exit Property
+
+BaseDateLet_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property BaseDate of Class Module cwoverlay"
+End Property
+
 '---------------------------------------------------------------------------------------
 ' Procedure : MyOpacity
 ' Author    : beededea
@@ -1269,103 +1352,120 @@ Private Sub tmrClock_Timer()
     Dim fileToPlay As String: fileToPlay = vbNullString
     
     On Error GoTo tmrClock_Timer_Error
-
-    ' just for the analogue clock
-    pvtThisHour = Hour(Now)
-    pvtThisMins = Minute(Now)
-    pvtThisSecs = Second(Now)
     
-    ' calculate angles of hour and second hand
-    pvtHourDegrees = 30 * (pvtThisHour Mod 12 + (pvtThisMins) / 60) ' global vars used in the paint event
-    pvtMinsDegrees = 6 * ((pvtThisMins) + (pvtThisSecs / 60))
-    pvtSeconds = pvtThisSecs
-
-    If pvtSecsDegrees <> 6 * pvtSeconds Then
-        pvtSecsDegrees = 6 * pvtSeconds
+    ' disable alarm functionality and bypass that code
+    If mAlarmMode = True Then
+    
+        'the deviation should start at 0 not 100 and should go negative on a slide to the left
+    
+        ' take the current date at the point the the alarm slider was activated
+        ' add the time deviation to the base date
+        
+        mBaseDate = DateAdd("s", mTimeDeviation, mBaseDate)
+        pvtThisHour = Hour(mBaseDate)
+        pvtThisMins = Minute(mBaseDate)
+        pvtThisSecs = Second(mBaseDate)
+        
+        ' calculate angles of hour and second hand for the analogue clock
+        pvtHourDegrees = 30 * (pvtThisHour Mod 12 + (pvtThisMins) / 60) ' global vars used in the paint event
+        pvtMinsDegrees = 6 * ((pvtThisMins) + (pvtThisSecs / 60))
+        pvtSeconds = pvtThisSecs
+        
+        'triggerDigitalClockPopulation = True
+        
+        ' look in the shall we ring alarm and use the same code to display the future/past
     Else
-        Exit Sub  'only refresh when pvtSecsDegrees has changed to a new value
-    End If
     
-    ' only clear any existing weekday indicator in the first three seconds of the day
-    If fClock.weekdayToggleEnabled = True Then
-        If pvtThisHour <= 1 And pvtThisMins = 1 And pvtThisSecs < 3 Then
-            fClock.clockForm.Widgets("monday").Widget.Alpha = 0
-            fClock.clockForm.Widgets("tuesday").Widget.Alpha = 0
-            fClock.clockForm.Widgets("wednesday").Widget.Alpha = 0
-            fClock.clockForm.Widgets("thursday").Widget.Alpha = 0
-            fClock.clockForm.Widgets("friday").Widget.Alpha = 0
-            fClock.clockForm.Widgets("saturday").Widget.Alpha = 0
-            fClock.clockForm.Widgets("sunday").Widget.Alpha = 0
+        ' extract the time components
+        pvtThisHour = Hour(Now)
+        pvtThisMins = Minute(Now)
+        pvtThisSecs = Second(Now)
+        
+        ' calculate angles of hour and second hand for the analogue clock
+        pvtHourDegrees = 30 * (pvtThisHour Mod 12 + (pvtThisMins) / 60) ' global vars used in the paint event
+        pvtMinsDegrees = 6 * ((pvtThisMins) + (pvtThisSecs / 60))
+        pvtSeconds = pvtThisSecs
+    
+        If pvtSecsDegrees <> 6 * pvtSeconds Then
+            pvtSecsDegrees = 6 * pvtSeconds
+        Else
+            Exit Sub  'only refresh when pvtSecsDegrees has changed to a new value
         End If
-        fClock.clockForm.Widgets(fDayOfWeek).Widget.Alpha = 1
-    End If
     
+        ' only clear any existing weekday indicator in the first three seconds of the day
+        If fClock.weekdayToggleEnabled = True Then
+            If pvtThisHour <= 1 And pvtThisMins = 1 And pvtThisSecs < 3 Then
+                Call hideDayOfWeek
+                fClock.clockForm.Widgets(fDayOfWeek).Widget.Alpha = 1
+            End If
+        End If
+        
         ' this should be called once then every hour on the hour, populate the cache
-    If pvtFirstRun = True Then
-        triggerDigitalClockPopulation = True
-        pvtFirstRun = False
-    End If
-    
-    If fClock.clapperEnabled = True Then
-
-        If pvtThisMins = 14 And pvtThisSecs = 58 Then ' 2 seconds before
-            If gblVolumeBoost = "1" Then
-                fileToPlay = "quarterchime.wav"
-            Else
-                fileToPlay = "quarterchime-quiet.wav"
-            End If
-            If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
-                PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
-            End If
-
-           screenWrite ("chiming quarter past the hour at " & CStr(pvtThisHour) & ":15")
-
-        ElseIf pvtThisMins = 29 And (pvtThisSecs = 54) Then ' 6 seconds before
-    
-            If gblVolumeBoost = "1" Then
-                fileToPlay = "halfchime.wav"
-            Else
-                fileToPlay = "halfchime-quiet.wav"
-            End If
-            If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
-                PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
-            End If
-
-            screenWrite ("chiming half past the hour at " & CStr(pvtThisHour) & ":30")
-
-        ElseIf pvtThisMins = 45 And (pvtThisSecs = 51) Then '9 seconds before
-
-            If gblVolumeBoost = "1" Then
-                fileToPlay = "threequarterchime.wav"
-            Else
-                fileToPlay = "threequarterchime-quiet.wav"
-            End If
-            If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
-                PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
-            End If
-
-            screenWrite ("chiming quarter to the hour at " & CStr(pvtThisHour) & ":45")
-
-        ElseIf pvtThisMins = 59 And (pvtThisSecs = 42) Then       ' 18 seconds before the o'clock
-
-            If gblVolumeBoost = "1" Then
-                fileToPlay = "fullchime.wav"
-            Else
-                fileToPlay = "fullchime-quiet.wav"
-            End If
-            If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
-                PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
-            End If
-            
-            screenWrite ("chiming full hour ")
-            
-            tmrCountdownToToll.Enabled = True
-            
+        If pvtFirstRun = True Then
+            triggerDigitalClockPopulation = True
+            pvtFirstRun = False
         End If
+        
+        If fClock.clapperEnabled = True Then
     
-        Call ShallWeRingAlarm
+            If pvtThisMins = 14 And pvtThisSecs = 58 Then ' 2 seconds before
+                If gblVolumeBoost = "1" Then
+                    fileToPlay = "quarterchime.wav"
+                Else
+                    fileToPlay = "quarterchime-quiet.wav"
+                End If
+                If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
+                    PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
+                End If
+    
+               screenWrite ("chiming quarter past the hour at " & CStr(pvtThisHour) & ":15")
+    
+            ElseIf pvtThisMins = 29 And (pvtThisSecs = 54) Then ' 6 seconds before
+        
+                If gblVolumeBoost = "1" Then
+                    fileToPlay = "halfchime.wav"
+                Else
+                    fileToPlay = "halfchime-quiet.wav"
+                End If
+                If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
+                    PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
+                End If
+    
+                screenWrite ("chiming half past the hour at " & CStr(pvtThisHour) & ":30")
+    
+            ElseIf pvtThisMins = 45 And (pvtThisSecs = 51) Then '9 seconds before
+    
+                If gblVolumeBoost = "1" Then
+                    fileToPlay = "threequarterchime.wav"
+                Else
+                    fileToPlay = "threequarterchime-quiet.wav"
+                End If
+                If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
+                    PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
+                End If
+    
+                screenWrite ("chiming quarter to the hour at " & CStr(pvtThisHour) & ":45")
+    
+            ElseIf pvtThisMins = 59 And (pvtThisSecs = 42) Then       ' 18 seconds before the o'clock
+    
+                If gblVolumeBoost = "1" Then
+                    fileToPlay = "fullchime.wav"
+                Else
+                    fileToPlay = "fullchime-quiet.wav"
+                End If
+                If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
+                    PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
+                End If
+                
+                screenWrite ("chiming full hour ")
+                
+                tmrCountdownToToll.Enabled = True
+                
+            End If
+        
+            Call ShallWeRingAlarm
+        End If
     End If
-          
     ' very few routines are called from this timer but instead this subsequent refresh will trigger a PAINT event
     W.Parent.Refresh ' causes a paint event to fire - lots happens in the paint event
     
@@ -1377,7 +1477,31 @@ tmrClock_Timer_Error:
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure tmrClock_Timer of Class Module cwOverlay"
 End Sub
 
+'---------------------------------------------------------------------------------------
+' Procedure : hideDayOfWeek
+' Author    : beededea
+' Date      : 07/12/2024
+' Purpose   : note: another routine exists called hideAlarmTills that closes each individually
+'---------------------------------------------------------------------------------------
+'
+Private Sub hideDayOfWeek()
+   On Error GoTo hideDayOfWeek_Error
 
+            fClock.clockForm.Widgets("monday").Widget.Alpha = 0
+            fClock.clockForm.Widgets("tuesday").Widget.Alpha = 0
+            fClock.clockForm.Widgets("wednesday").Widget.Alpha = 0
+            fClock.clockForm.Widgets("thursday").Widget.Alpha = 0
+            fClock.clockForm.Widgets("friday").Widget.Alpha = 0
+            fClock.clockForm.Widgets("saturday").Widget.Alpha = 0
+            fClock.clockForm.Widgets("sunday").Widget.Alpha = 0
+
+   On Error GoTo 0
+   Exit Sub
+
+hideDayOfWeek_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure hideDayOfWeek of Class Module cwOverlay"
+End Sub
 '---------------------------------------------------------------------------------------
 ' Procedure : ShallWeRingAlarm
 ' Author    : beededea
@@ -1782,7 +1906,7 @@ End Sub
 '             For this Overlay-Widget alone, we make everything "fully click-through"
 '---------------------------------------------------------------------------------------------
 '
-Private Sub W_HitTest(ByVal x As Single, ByVal y As Single, HitResultHit As Boolean) 'ensure ClickThrough-behaviour in ImagePixels which are "fully Alpha"
+Private Sub W_HitTest(ByVal X As Single, ByVal Y As Single, HitResultHit As Boolean) 'ensure ClickThrough-behaviour in ImagePixels which are "fully Alpha"
    On Error GoTo W_HitTest_Error
 
    HitResultHit = False

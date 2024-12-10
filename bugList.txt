@@ -235,15 +235,25 @@ o add now() button logic for all alarms
 Tasks to do:
 ============
 
-' about text VB6 / Twinbasic
+' weekday till flag, the text 'only' sometimes doubles up, possibly after a refresh after midnight when the till has been showing
+
+' descriptions on all routines
+
+' about text VB6 / Twinbasic wip, check if the PSD is on the e6410.
 
 ' when in alarm mode, the analogue clock fails to display the time as stated on the alarm shown
+       do we want it to?
+       Pros - matches the behaviour of the existing clock
+       Cons - requires work
+              the underlying alarm mechanism uses the time values that we want to change.
+              will have to copy the variable values and use those instead allowing the main vars to control other events.
 
 ' slider advancing/retarding time using timeShiftPercent modified not quite exponentially to shift time - wip
-' in the timer, take the value of timeShiftPercent and do what to it, use logarithm to calculate the value on a curve.
+'     in the timer, take the value of timeShiftPercent and do what to it, use logarithm to calculate the value on a curve.
+'     take the current date
+'     and add the seconds deviation
 
 ' combine a new counter rotating sound recording the current Konfabulator widget.
-
 
 ' .VAlign on the label? not working, raised as a bug with Olaf? 0=Top, -1 and 1=Middle
 
@@ -297,6 +307,10 @@ https://www.vbforums.com/showthread.php?896944-VB6-QUESTION-Check-if-API-exists
 
 ' patch a 256 bit icon into the VB6 binary
 ' https://www.vbforums.com/showthread.php?858347-RESOLVED-How-to-create-and-connect-quality-icon-group-to-your-VB6-app
+
+ or this:
+
+ file:///E:/vb6/vbAccelerator%20-%20Providing%20a%20proper%20VB%20Application%20Icon,%20Including%20Large%20Icons%20and%2032-Bit%20Alpha%20Images.html
 
 ' recreate the clock using 
 
