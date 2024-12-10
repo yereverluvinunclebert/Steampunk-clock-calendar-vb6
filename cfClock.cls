@@ -791,8 +791,11 @@ Private Sub clockForm_BubblingEvent(ByRef sender As Object, ByRef EventName As S
 '                If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
 '                    PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
 '                End If
+
+                ' set the clock timer back to once per second
+                overlayWidget.tmrClock.Interval = 1000
                 
-               overlayWidget.Locked = False
+                overlayWidget.Locked = False
                 If SliderFreed = True Then
                     fClock.timeShiftValue = 0.5
                     overlayWidget.tmrTimeShift.Enabled = False
@@ -2448,7 +2451,7 @@ End Sub
 '                alter the size of the form to correspond to the monitor
 '---------------------------------------------------------------------------------------
 '
-Private Sub clockForm_MouseUp(ByRef Button As Integer, ByRef Shift As Integer, ByRef X As Single, ByRef Y As Single)
+Private Sub clockForm_MouseUp(ByRef Button As Integer, ByRef Shift As Integer, ByRef x As Single, ByRef y As Single)
 
     On Error GoTo clockForm_MouseUp_Error
     
@@ -2483,8 +2486,8 @@ End Sub
 ' Purpose   :
 '---------------------------------------------------------------------------------------
 '
-Private Sub clockForm_MouseMove(ByRef Button As Integer, ByRef Shift As Integer, ByRef X As Single, ByRef Y As Single)
-  Static x0 As Single, y0 As Single: If Button = 0 Then x0 = X: y0 = Y 'just store the offsets when no button is down
+Private Sub clockForm_MouseMove(ByRef Button As Integer, ByRef Shift As Integer, ByRef x As Single, ByRef y As Single)
+  Static x0 As Single, y0 As Single: If Button = 0 Then x0 = x: y0 = y 'just store the offsets when no button is down
   
    On Error GoTo clockForm_MouseMove_Error
     
@@ -2493,8 +2496,8 @@ Private Sub clockForm_MouseMove(ByRef Button As Integer, ByRef Shift As Integer,
 
     If Button = vbLeftButton And Not clockForm.ActiveWidget Is Nothing Then 'Form-Dragging (under certain conditions)
 
-      FX = (X - x0) * clockForm.WidgetRoot.Zoom + clockForm.Left
-      FY = (Y - y0) * clockForm.WidgetRoot.Zoom + clockForm.Top
+      FX = (x - x0) * clockForm.WidgetRoot.Zoom + clockForm.Left
+      FY = (y - y0) * clockForm.WidgetRoot.Zoom + clockForm.Top
       clockForm.Move FX, FY
       
       Debug.Print "FX " & FX
@@ -2584,7 +2587,7 @@ End Sub
 ' Purpose   :
 '---------------------------------------------------------------------------------------
 '
-Private Sub clockForm_MouseDown(ByRef Button As Integer, ByRef Shift As Integer, ByRef X As Single, ByRef Y As Single)
+Private Sub clockForm_MouseDown(ByRef Button As Integer, ByRef Shift As Integer, ByRef x As Single, ByRef y As Single)
    On Error GoTo W_MouseDown_Error
 
     frmTimer.tmrScreenResolution.Enabled = False
@@ -2660,6 +2663,9 @@ Private Sub sliderset_Moving() ' this is an explicit Event-Handler derived from 
     Static timeAdvanceDeviation As Double
     
     On Error GoTo sliderset_Moving_Error
+    
+    ' set the clock timer to a small interval to allow the clock hands to rotate rapidly as the slider moves to the extreme right/left
+    overlayWidget.tmrClock.Interval = 50
          
     pvtSldX = sliderset.Left
     If pvtSldX < pvtSldXMin Then pvtSldX = pvtSldXMin Else If pvtSldX > pvtSldXMax Then pvtSldX = pvtSldXMax 'keep pvtSldX "in range"
@@ -3069,7 +3075,7 @@ Public Property Let clapperEnabled(ByVal newValue As Boolean)
         gblClapperEnabled = "True"
         clapperright.Alpha = 0
         clapperLeft.Alpha = alphaVal
-        widgetPrefs.chkEnableChimes.value = 1
+        widgetPrefs.chkEnableChimes.Value = 1
         If pvtMuteInitiatingControl = "clapper" Then
                 If gblVolumeBoost = "1" Then
                     fileToPlay = "singleBell.wav"
@@ -3086,7 +3092,7 @@ Public Property Let clapperEnabled(ByVal newValue As Boolean)
         'If pvtMuteInitiatingControl = "clapper" Then muteToggleEnabled = True
         clapperright.Alpha = alphaVal
         clapperLeft.Alpha = 0
-        widgetPrefs.chkEnableChimes.value = 0
+        widgetPrefs.chkEnableChimes.Value = 0
     End If
     
     sPutINISetting "Software\SteampunkClockCalendar", "clapperEnabled", gblClapperEnabled, gblSettingsFile
@@ -3295,13 +3301,13 @@ Public Property Let crankedRaised(ByVal newValue As Boolean)
         crankup.Alpha = alphaVal
         crankdown.Alpha = 0
         gblCrankEnabled = "True"
-        widgetPrefs.chkVolumeBoost.value = 1
+        widgetPrefs.chkVolumeBoost.Value = 1
         gblVolumeBoost = "1"
     Else
         gblCrankEnabled = "False"
         crankup.Alpha = 0
         crankdown.Alpha = alphaVal
-        widgetPrefs.chkVolumeBoost.value = 0
+        widgetPrefs.chkVolumeBoost.Value = 0
         gblVolumeBoost = "0"
     End If
        
@@ -3366,12 +3372,12 @@ Public Property Let chainEnabled(ByVal newValue As Boolean)
         chain.Move chainLeft, chainTop + 10
         gblChainEnabled = "True"
         ticking = True
-        widgetPrefs.chkEnableTicks.value = 1
+        widgetPrefs.chkEnableTicks.Value = 1
     Else
         chain.Move chainLeft, chainTop - 10
         gblChainEnabled = "False"
         ticking = False
-        widgetPrefs.chkEnableTicks.value = 0
+        widgetPrefs.chkEnableTicks.Value = 0
     End If
        
     sPutINISetting "Software\SteampunkClockCalendar", "chainEnabled", gblChainEnabled, gblSettingsFile
@@ -3794,7 +3800,7 @@ Public Property Let muteToggleEnabled(ByVal newValue As Boolean)
         gblMuteToggleEnabled = "True"
         ticking = False
         gblEnableSounds = "0"
-        widgetPrefs.chkEnableSounds.value = 0
+        widgetPrefs.chkEnableSounds.Value = 0
         
         ' stop MCI from playing
         If gblVolumeBoost = "1" Then
@@ -3812,7 +3818,7 @@ Public Property Let muteToggleEnabled(ByVal newValue As Boolean)
         gblMuteToggleEnabled = "False"
         gblEnableSounds = "1"
         If ticking = True Then ticking = True
-        widgetPrefs.chkEnableSounds.value = 1
+        widgetPrefs.chkEnableSounds.Value = 1
     End If
     
     sPutINISetting "Software\SteampunkClockCalendar", "muteToggleEnabled", gblMuteToggleEnabled, gblSettingsFile
@@ -3880,12 +3886,12 @@ Public Property Let pendulumToggleEnabled(ByVal newValue As Boolean)
         pendulumtoggle.Move pendulumToggleIn, pendulumToggleTop
         overlayWidget.SwingPendulum = True
         gblPendulumToggleEnabled = "True"
-        widgetPrefs.chkTogglePendulum.value = 1
+        widgetPrefs.chkTogglePendulum.Value = 1
     Else
         pendulumtoggle.Move pendulumToggleOut, pendulumToggleTop
         overlayWidget.SwingPendulum = False
         gblPendulumToggleEnabled = "False"
-        widgetPrefs.chkTogglePendulum.value = 0
+        widgetPrefs.chkTogglePendulum.Value = 0
     End If
         
     If gblVolumeBoost = "1" Then

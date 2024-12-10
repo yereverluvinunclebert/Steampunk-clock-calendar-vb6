@@ -1292,7 +1292,7 @@ End Sub
 
 ' ----------------------------------------------------------------
 ' Procedure Name: tmrTimeShift_Timer
-' Purpose:  timer controlling the pendulum only,
+' Purpose:  timer controlling
 ' Procedure Kind: Sub
 ' Procedure Access: Private
 ' Author: beededea
@@ -1356,8 +1356,6 @@ Private Sub tmrClock_Timer()
     ' disable alarm functionality and bypass that code
     If mAlarmMode = True Then
     
-        'the deviation should start at 0 not 100 and should go negative on a slide to the left
-    
         ' take the current date at the point the the alarm slider was activated
         ' add the time deviation to the base date
         
@@ -1375,7 +1373,7 @@ Private Sub tmrClock_Timer()
         
         ' look in the shall we ring alarm and use the same code to display the future/past
     Else
-    
+
         ' extract the time components
         pvtThisHour = Hour(Now)
         pvtThisMins = Minute(Now)
@@ -1466,6 +1464,7 @@ Private Sub tmrClock_Timer()
             Call ShallWeRingAlarm
         End If
     End If
+    
     ' very few routines are called from this timer but instead this subsequent refresh will trigger a PAINT event
     W.Parent.Refresh ' causes a paint event to fire - lots happens in the paint event
     
@@ -1906,7 +1905,7 @@ End Sub
 '             For this Overlay-Widget alone, we make everything "fully click-through"
 '---------------------------------------------------------------------------------------------
 '
-Private Sub W_HitTest(ByVal X As Single, ByVal Y As Single, HitResultHit As Boolean) 'ensure ClickThrough-behaviour in ImagePixels which are "fully Alpha"
+Private Sub W_HitTest(ByVal x As Single, ByVal y As Single, HitResultHit As Boolean) 'ensure ClickThrough-behaviour in ImagePixels which are "fully Alpha"
    On Error GoTo W_HitTest_Error
 
    HitResultHit = False
