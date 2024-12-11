@@ -1350,6 +1350,8 @@ End Sub
 Private Sub tmrClock_Timer()
 
     Dim fileToPlay As String: fileToPlay = vbNullString
+    Dim newDate As String: newDate = vbNullString
+    Dim a As Long
     
     On Error GoTo tmrClock_Timer_Error
     
@@ -1359,10 +1361,14 @@ Private Sub tmrClock_Timer()
         ' take the current date at the point the the alarm slider was activated
         ' add the time deviation to the base date
         
-        mBaseDate = DateAdd("s", mTimeDeviation, mBaseDate)
-        pvtThisHour = Hour(mBaseDate)
-        pvtThisMins = Minute(mBaseDate)
-        pvtThisSecs = Second(mBaseDate)
+        newDate = DateAdd("s", mTimeDeviation, mBaseDate)
+        pvtThisHour = Hour(newDate)
+        pvtThisMins = Minute(newDate)
+        pvtThisSecs = Second(newDate)
+        
+        If mTimeDeviation >= 10000 Then
+            a = 1
+        End If
         
         ' calculate angles of hour and second hand for the analogue clock
         pvtHourDegrees = 30 * (pvtThisHour Mod 12 + (pvtThisMins) / 60) ' global vars used in the paint event

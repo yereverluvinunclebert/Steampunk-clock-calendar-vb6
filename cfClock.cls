@@ -2665,7 +2665,7 @@ Private Sub sliderset_Moving() ' this is an explicit Event-Handler derived from 
     On Error GoTo sliderset_Moving_Error
     
     ' set the clock timer to a small interval to allow the clock hands to rotate rapidly as the slider moves to the extreme right/left
-    overlayWidget.tmrClock.Interval = 50
+    overlayWidget.tmrClock.Interval = 25
          
     pvtSldX = sliderset.Left
     If pvtSldX < pvtSldXMin Then pvtSldX = pvtSldXMin Else If pvtSldX > pvtSldXMax Then pvtSldX = pvtSldXMax 'keep pvtSldX "in range"
