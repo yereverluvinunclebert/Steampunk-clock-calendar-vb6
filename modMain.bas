@@ -898,7 +898,7 @@ Public Sub adjustMainControls()
     With fClock.clockForm.Widgets("lockingpin").Widget
         .HoverColor = 0
         .MousePointer = IDC_ARROW
-        .Alpha = Val(gblOpacity) / 100
+        .Alpha = Val(gblOpacity) / 100 '
         .Tag = 0.01
     End With
 
@@ -915,13 +915,13 @@ Public Sub adjustMainControls()
         .Alpha = 0
         .Tag = 0.01
     End With
-
-    With fClock.clockForm.Widgets("weekdayshadow").Widget
-        .HoverColor = 0
-        .MousePointer = IDC_ARROW
-        .Alpha = 0
-        .Tag = 0.01
-    End With
+''
+'    With fClock.clockForm.Widgets("weekdayshadow").Widget
+'        .HoverColor = 0
+'        .MousePointer = IDC_ARROW
+'        .Alpha = 0
+'        .Tag = 0.01
+'    End With
 '
 '    With fClock.clockForm.Widgets("deletealarm").Widget
 '        .HoverColor = 0

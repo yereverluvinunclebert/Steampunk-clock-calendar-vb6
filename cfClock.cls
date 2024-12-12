@@ -134,8 +134,7 @@ Private WithEvents weekdayred As cWidgetBase
 Attribute weekdayred.VB_VarHelpID = -1
 Private WithEvents weekdaytill As cWidgetBase
 Attribute weekdaytill.VB_VarHelpID = -1
-Private WithEvents weekdayshadow As cWidgetBase
-Attribute weekdayshadow.VB_VarHelpID = -1
+'Private WithEvents weekdayshadow As cWidgetBase
 Private WithEvents dropdown As cWidgetBase
 Attribute dropdown.VB_VarHelpID = -1
 Private WithEvents bellset As cWidgetBase
@@ -437,7 +436,7 @@ Public Sub InitFromPSD(ByRef PSD_FileNameOrByteArray As Variant)
     Set crankdown = clockForm.Widgets("crankdown").Widget
     Set weekdayred = clockForm.Widgets("weekdayred").Widget
     Set weekdaytill = clockForm.Widgets("weekdaytill").Widget
-    Set weekdayshadow = clockForm.Widgets("weekdayshadow").Widget
+    'Set weekdayshadow = clockForm.Widgets("weekdayshadow").Widget
     Set dropdown = clockForm.Widgets("dropdown").Widget
     Set bellset = clockForm.Widgets("bellset").Widget
     Set helpdropdown = clockForm.Widgets("helpdropdown").Widget
@@ -474,7 +473,10 @@ Private Sub clockForm_BubblingEvent(ByRef sender As Object, ByRef EventName As S
     stdSubject = "You can turn off the balloon tooltips in the preferences."
     
     If EventName = "W_MouseMove" Then
+        Debug.Print sender.Widget.Key
         Select Case LCase$(sender.Widget.Key)
+            
+            
             Case "topdigitalclock"
                 Call clearWeekdayTill
             Case "sliderset"
@@ -592,13 +594,15 @@ Private Sub clockForm_BubblingEvent(ByRef sender As Object, ByRef EventName As S
                     weekdayred.Alpha = Val(gblOpacity) / 100
                     weekdayred.Refresh
                 End If
-                With clockForm.Widgets("redalarmcover").Widget
-                    .Alpha = 0
-                    .Refresh
-                End With
-                
+'                With clockForm.Widgets("redalarmcover").Widget
+'                    .Alpha = 0
+'                    .Refresh
+'                End With
+                     
+
             ' monday - sunday ensuring the weekday till goes red even when hovering over the day text in=mages.
             Case "monday"
+                
                 If weekdayToggleEnabled = "true" Then
                     weekdayred.Alpha = Val(gblOpacity) / 100
                     weekdayred.Refresh
@@ -654,8 +658,13 @@ Private Sub clockForm_BubblingEvent(ByRef sender As Object, ByRef EventName As S
             Case "weekdayred"
                 If gblEnableBalloonTooltips = "True" Then CreateToolTip clockForm.hWnd, "Click here to lower the weekday flag.", _
                      TTIconInfo, widgetName & " Weekday Indicator Help", , , , True
-            Case Else
-        
+            
+            Case "lblterminaltext"
+                With clockForm.Widgets("weekdayred").Widget
+                    .Alpha = 0
+                    .Refresh
+                End With
+
         End Select
     End If
     
@@ -664,14 +673,12 @@ Private Sub clockForm_BubblingEvent(ByRef sender As Object, ByRef EventName As S
         Case "weekdayred"
             weekdayred.Alpha = 0
             weekdayred.Refresh
-
+            
         Case "redalarmcover"
              With clockForm.Widgets("redalarmcover").Widget
                 .Alpha = 0
                 .Refresh
             End With
-        Case Else
-        
         End Select
     End If
     
@@ -2746,7 +2753,7 @@ Function fLogSlider(thisPerc As Integer) As Currency
 
     ' The result should be between 1 and 100000
     minv = Log(1)
-    maxv = Log(50000#)
+    maxv = Log(200000#)
 
     ' calculate adjustment factor
     logScale = (maxv - minv) / (maxp - minp)
@@ -3445,14 +3452,14 @@ Public Property Let weekdayToggleEnabled(ByVal newValue As Boolean)
     If newValue = True Then
         weekdaytoggle.Move weekdayToggleIn, weekdayToggleTop
         clockForm.Widgets("weekdaytill").Widget.Alpha = alphaVal
-        clockForm.Widgets("weekdayshadow").Widget.Alpha = alphaVal
+        'clockForm.Widgets("weekdayshadow").Widget.Alpha = alphaVal
         clockForm.Widgets(thisDayOfWeek).Widget.Alpha = alphaVal
         gblWeekdayToggleEnabled = "True"
     Else
         weekdaytoggle.Move weekdayToggleOut, weekdayToggleTop
         clockForm.Widgets("weekdayred").Widget.Alpha = 0
         clockForm.Widgets("weekdaytill").Widget.Alpha = 0
-        clockForm.Widgets("weekdayshadow").Widget.Alpha = 0
+        'clockForm.Widgets("weekdayshadow").Widget.Alpha = 0
         clockForm.Widgets(thisDayOfWeek).Widget.Alpha = 0
         gblWeekdayToggleEnabled = "False"
     End If

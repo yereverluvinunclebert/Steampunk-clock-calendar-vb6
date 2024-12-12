@@ -1762,7 +1762,7 @@ Public Sub setMainTooltips()
         fClock.clockForm.Widgets("crankdown").Widget.ToolTip = "Crank up the sound! Crank me up to make more sound throughout the whole clock."
         fClock.clockForm.Widgets("weekdayred").Widget.ToolTip = "Click here to lower the weekday flag."
         fClock.clockForm.Widgets("weekdaytill").Widget.ToolTip = "Click here to lower the weekday flag."
-        fClock.clockForm.Widgets("weekdayshadow").Widget.ToolTip = "Click here to lower the weekday flag."
+        'fClock.clockForm.Widgets("weekdayshadow").Widget.ToolTip = "Click here to lower the weekday flag."
         fClock.clockForm.Widgets("dropdown").Widget.ToolTip = "Click me for information."
         fClock.clockForm.Widgets("bellset").Widget.ToolTip = "Press to do something, not figured out what yet"
         fClock.clockForm.Widgets("helpdropdown").Widget.ToolTip = "Click here to lock the clock in place on the desktop."
@@ -1855,7 +1855,7 @@ Public Sub setMainTooltips()
         fClock.clockForm.Widgets("crankdown").Widget.ToolTip = vbNullString
         fClock.clockForm.Widgets("weekdayred").Widget.ToolTip = vbNullString
         fClock.clockForm.Widgets("weekdaytill").Widget.ToolTip = vbNullString
-        fClock.clockForm.Widgets("weekdayshadow").Widget.ToolTip = vbNullString
+        'fClock.clockForm.Widgets("weekdayshadow").Widget.ToolTip = vbNullString
         fClock.clockForm.Widgets("dropdown").Widget.ToolTip = vbNullString
         fClock.clockForm.Widgets("bellset").Widget.ToolTip = vbNullString
         fClock.clockForm.Widgets("helpdropdown").Widget.ToolTip = vbNullString
@@ -2562,14 +2562,14 @@ Public Sub toggleWidgetLock()
     If gblPreventDragging = "1" Then
         Call screenWrite("Widget lock released")
         menuForm.mnuLockWidget.Checked = False
-        widgetPrefs.chkPreventDragging.value = 0
+        widgetPrefs.chkPreventDragging.Value = 0
         gblPreventDragging = "0"
         overlayWidget.Locked = False
         fClock.clockForm.Widgets("lockingpin").Widget.Alpha = Val(gblOpacity) / 100
     Else
         Call screenWrite("Widget locked in place")
         menuForm.mnuLockWidget.Checked = True
-        widgetPrefs.chkPreventDragging.value = 1
+        widgetPrefs.chkPreventDragging.Value = 1
         overlayWidget.Locked = True
         gblPreventDragging = "1"
         fClock.clockForm.Widgets("lockingpin").Widget.Alpha = 0

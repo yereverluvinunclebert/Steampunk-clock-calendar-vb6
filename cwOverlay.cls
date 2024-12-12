@@ -86,6 +86,8 @@ Private pvtDaysRotatorString As String
 Private pvtMonthRotatorString As String
 Private pvtYearRotatorString As String
 
+Private pvtCurrentDateToDisplay As String ': pvtCurrentDateToDisplay = vbNullString
+
 '---------------------------------------------------------------------------------------
 ' Procedure : Class_Initialize
 ' Author    : olaf schmidt
@@ -1217,6 +1219,14 @@ Private Sub populateDigitalClockCache(ByRef CC As cCairoContext)
             End If
         End If
     End If
+    
+    If mAlarmMode = True Then
+        theDay = Left$(pvtCurrentDateToDisplay, 2)
+        theMonth = Mid$(pvtCurrentDateToDisplay, 4, 2)
+        theYear = Mid$(pvtCurrentDateToDisplay, 7, 4)
+        theHours = Left$(pvtCurrentDateToDisplay, 2)
+        theMins = Mid$(pvtCurrentDateToDisplay, 4, 2)
+    End If
 
     Call populateDigitalDayofMonthCache(CC, theDay)
     Call populateDigitalMonthCache(CC, theMonth)
@@ -1350,7 +1360,7 @@ End Sub
 Private Sub tmrClock_Timer()
 
     Dim fileToPlay As String: fileToPlay = vbNullString
-    Dim newDate As String: newDate = vbNullString
+    'Dim pvtCurrentDateToDisplay As String: pvtCurrentDateToDisplay = vbNullString
     Dim a As Long
     
     On Error GoTo tmrClock_Timer_Error
@@ -1361,10 +1371,10 @@ Private Sub tmrClock_Timer()
         ' take the current date at the point the the alarm slider was activated
         ' add the time deviation to the base date
         
-        newDate = DateAdd("s", mTimeDeviation, mBaseDate)
-        pvtThisHour = Hour(newDate)
-        pvtThisMins = Minute(newDate)
-        pvtThisSecs = Second(newDate)
+        pvtCurrentDateToDisplay = DateAdd("s", mTimeDeviation, mBaseDate)
+        pvtThisHour = Hour(pvtCurrentDateToDisplay)
+        pvtThisMins = Minute(pvtCurrentDateToDisplay)
+        pvtThisSecs = Second(pvtCurrentDateToDisplay)
         
         If mTimeDeviation >= 10000 Then
             a = 1
@@ -2009,7 +2019,7 @@ Private Sub W_Paint(ByRef CC As cCairoContext, ByVal xAbs As Single, ByVal yAbs 
     Next
     
     ' if first time running then populate the digital clocks.
-    If triggerDigitalClockPopulation = True Then
+    If triggerDigitalClockPopulation = True Or mAlarmMode = True Then
         Call populateDigitalClockCache(CC)
         triggerDigitalClockPopulation = False
     Else ' update the correct digital display when a time change occurs
