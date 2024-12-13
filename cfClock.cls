@@ -654,13 +654,16 @@ Private Sub clockForm_BubblingEvent(ByRef sender As Object, ByRef EventName As S
                     End With
                 End If
                 
-                
             Case "weekdayred"
                 If gblEnableBalloonTooltips = "True" Then CreateToolTip clockForm.hWnd, "Click here to lower the weekday flag.", _
                      TTIconInfo, widgetName & " Weekday Indicator Help", , , , True
             
             Case "lblterminaltext"
                 With clockForm.Widgets("weekdayred").Widget
+                    .Alpha = 0
+                    .Refresh
+                End With
+                With clockForm.Widgets("redalarmcover").Widget
                     .Alpha = 0
                     .Refresh
                 End With

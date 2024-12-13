@@ -230,10 +230,23 @@ o add now() button logic for all alarms
 ' right and left keys when the alarm is raised, control the slider - already done
 ' add keypresses to control the other controls, when clock has focus
 
+' weekday till red flag, properly made to disappear when mouse leaves, using lblterminaltxt mouseOver
+' alarm till red flag, properly made to disappear when mouse leaves, using lblterminaltxt mouseOver
+' slider mouse Move advancing/retarding time using timeShiftPercent modified to shift time logarithmically
+
 ' -oOo-
 
 Tasks to do:
 ============
+
+' instead of sliderMoving, use the relative position of the slider to determine the amount of advance/retard and have a timer forward that to the overlay
+'     this allows the digit animation and clock advancement to continue even when the slider is not moving via cursor (reached its length of travel)
+'     when in alarm mode and the  slider is placed in the middle location the timer is started as soon as the sliderMoving is detected
+      the timer remains running whilst the slider is not in the middle
+      as soon as the slider returns to the middle the timer stops
+      see how the .js version does it and replicate that
+
+' alarmMode variable rename
 
 ' weekday till flag, the text 'only' sometimes doubles up, possibly after a refresh after midnight when the till has been showing
 
@@ -247,11 +260,6 @@ Tasks to do:
        Cons - requires work
               the underlying alarm mechanism uses the time values that we want to change.
               will have to copy the variable values and use those instead allowing the main vars to control other events.
-
-' slider advancing/retarding time using timeShiftPercent modified not quite exponentially to shift time - wip
-'     in the timer, take the value of timeShiftPercent and do what to it, use logarithm to calculate the value on a curve.
-'     take the current date
-'     and add the seconds deviation
 
 ' combine a new counter rotating sound recording the current Konfabulator widget.
 
