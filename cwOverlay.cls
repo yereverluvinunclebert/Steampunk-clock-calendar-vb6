@@ -60,7 +60,8 @@ Private mHidden As Boolean ' property Hidden
 Private mSwingPendulum As Boolean
 Private mTimeDeviation As Currency
 Private mBaseDate As String
-Private mAlarmMode As Boolean
+Private mSliderInTransit As Boolean
+Private mTimeShiftValue As Currency
 
 ' private vars general usage
 
@@ -89,10 +90,10 @@ Private pvtYearRotatorString As String
 Private pvtCurrentDateToDisplay As String ': pvtCurrentDateToDisplay = vbNullString
 
 '---------------------------------------------------------------------------------------
-' Procedure : Class_Initialize
+' Procedure : Class_Initialize for cwOverlay
 ' Author    : olaf schmidt
 ' Date      : 31/07/2023
-' Purpose   :
+' Purpose   : set the inital values of private vars, set up the timers
 '---------------------------------------------------------------------------------------
 '
 Private Sub Class_Initialize()
@@ -204,10 +205,10 @@ Widgets_Error:
 End Property
 
 '---------------------------------------------------------------------------------------
-' Property : Locked
+' Property  : Locked
 ' Author    : beededea
 ' Date      : 17/05/2023
-' Purpose   :
+' Purpose   : property used to store/set the lock state to lock the widget in place, the actual locking is done elsewhere
 '---------------------------------------------------------------------------------------
 '
 Public Property Get Locked() As Boolean
@@ -226,7 +227,7 @@ End Property
 ' Property  : Locked
 ' Author    : beededea
 ' Date      : 17/05/2023
-' Purpose   :
+' Purpose   : property used to store/set the lock state to lock the widget in place, the actual locking is done elsewhere
 '---------------------------------------------------------------------------------------
 '
 Public Property Let Locked(ByVal newValue As Boolean)
@@ -242,7 +243,7 @@ LockedLet_Error:
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property Locked of Class Module cwoverlay"
 End Property
 '---------------------------------------------------------------------------------------
-' Property : TimeDeviation
+' Property  : TimeDeviation
 ' Author    : beededea
 ' Date      : 17/05/2023
 ' Purpose   :
@@ -282,43 +283,43 @@ TimeDeviationLet_Error:
 End Property
 
 '---------------------------------------------------------------------------------------
-' Property : AlarmMode
+' Property : SliderInTransit
 ' Author    : beededea
 ' Date      : 17/05/2023
 ' Purpose   :
 '---------------------------------------------------------------------------------------
 '
-Public Property Get AlarmMode() As Boolean
-   On Error GoTo AlarmModeGet_Error
+Public Property Get SliderInTransit() As Boolean
+   On Error GoTo SliderInTransitGet_Error
 
-   AlarmMode = mAlarmMode
+   SliderInTransit = mSliderInTransit
 
    On Error GoTo 0
    Exit Property
 
-AlarmModeGet_Error:
+SliderInTransitGet_Error:
 
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property AlarmMode of Class Module cwoverlay"
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property SliderInTransit of Class Module cwoverlay"
 End Property
 '---------------------------------------------------------------------------------------
-' Property  : AlarmMode
+' Property  : SliderInTransit
 ' Author    : beededea
 ' Date      : 17/05/2023
 ' Purpose   :
 '---------------------------------------------------------------------------------------
 '
-Public Property Let AlarmMode(ByVal newValue As Boolean)
-   On Error GoTo AlarmModeLet_Error
+Public Property Let SliderInTransit(ByVal newValue As Boolean)
+   On Error GoTo SliderInTransitLet_Error
 
-   If mAlarmMode <> newValue Then mAlarmMode = newValue Else Exit Property
-   Debug.Print mAlarmMode
+   If mSliderInTransit <> newValue Then mSliderInTransit = newValue Else Exit Property
+   Debug.Print mSliderInTransit
 
    On Error GoTo 0
    Exit Property
 
-AlarmModeLet_Error:
+SliderInTransitLet_Error:
 
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property AlarmMode of Class Module cwoverlay"
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property SliderInTransit of Class Module cwoverlay"
 End Property
 
 '---------------------------------------------------------------------------------------
@@ -449,6 +450,53 @@ SwingPendulumLet_Error:
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property SwingPendulum of Class Module cfClock"
 End Property
 
+
+' ----------------------------------------------------------------
+' Procedure Name: timeShiftValue
+' Purpose:
+' Procedure Kind: Property (Get)
+' Procedure Access: Public
+' Return Type: Currency
+' Author: beededea
+' Date: 26/05/2024
+' ----------------------------------------------------------------
+Public Property Get timeShiftValue() As Currency
+    
+    On Error GoTo timeShiftValue_Error
+    
+    timeShiftValue = mTimeShiftValue
+    
+    On Error GoTo 0
+    Exit Property
+
+timeShiftValue_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure timeShiftValue, line " & Erl & "."
+
+End Property
+
+' ----------------------------------------------------------------
+' Procedure Name: timeShiftValue
+' Purpose:
+' Procedure Kind: Property (Let)
+' Procedure Access: Public
+' Parameter RHS (Currency):
+' Author: beededea
+' Date: 26/05/2024
+' ----------------------------------------------------------------
+Public Property Let timeShiftValue(ByVal newValue As Currency)
+    On Error GoTo timeShiftValue_Error
+    
+    If mTimeShiftValue <> newValue Then mTimeShiftValue = newValue Else Exit Property
+    
+    On Error GoTo 0
+    Exit Property
+
+timeShiftValue_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure timeShiftValue, line " & Erl & "."
+
+End Property
 '---------------------------------------------------------------------------------------
 ' Property : TimeMachine
 ' Author    : beededea
@@ -1220,7 +1268,7 @@ Private Sub populateDigitalClockCache(ByRef CC As cCairoContext)
         End If
     End If
     
-    If mAlarmMode = True Then
+    If mSliderInTransit = True Then
         theDay = Left$(pvtCurrentDateToDisplay, 2)
         theMonth = Mid$(pvtCurrentDateToDisplay, 4, 2)
         theYear = Mid$(pvtCurrentDateToDisplay, 7, 4)
@@ -1246,7 +1294,7 @@ End Sub
 ' Procedure : tmrDigitRotator_Timer
 ' Author    : beededea
 ' Date      : 13/09/2024
-' Purpose   :
+' Purpose   : 'rotates' the digital numeric displays
 '---------------------------------------------------------------------------------------
 '
 Private Sub tmrDigitRotator_Timer()
@@ -1302,15 +1350,41 @@ End Sub
 
 ' ----------------------------------------------------------------
 ' Procedure Name: tmrTimeShift_Timer
-' Purpose:  timer controlling
+' Purpose:  timer controlling the date & time advance/retard according to slider position
 ' Procedure Kind: Sub
 ' Procedure Access: Private
 ' Author: beededea
 ' Date: 21/06/2024
 ' ----------------------------------------------------------------
 Private Sub tmrTimeShift_Timer()
-    
+    Dim perc As Integer: perc = 0
+    Static timeAdvanceDeviation As Double
+   
     On Error GoTo tmrTimeShift_Timer_Error
+    
+    ' Calculate the percentage
+    perc = timeShiftValue * 100
+
+'    ' Determine the percentage from the middle of the slider
+    If perc <= 50 Then ' Negative value
+        perc = perc - 50 ' results in a negative number
+        perc = perc * 2  ' double it for a percentage from the mid point
+
+    ElseIf perc > 50 Then ' Positive
+        perc = perc - 50
+        perc = perc * 2
+    End If
+    
+    If perc = 0 Or perc = -100 Then
+        timeAdvanceDeviation = 0
+    Else
+        timeAdvanceDeviation = timeAdvanceDeviation + fLogSlider(perc)
+    End If
+    
+    'pass the time deviation to a property in cwOverlay, Given a percentage calculates the logarithmic value
+    overlayWidget.TimeDeviation = timeAdvanceDeviation
+    
+    Debug.Print ("%KON-I-INFO, perc before " & perc)
 
     W.Parent.Refresh ' causes a paint event to fire
     
@@ -1321,6 +1395,57 @@ tmrTimeShift_Timer_Error:
 
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure tmrTimeShift_Timer of Class Module cwOverlay"
 End Sub
+
+'---------------------------------------------------------------------------------------
+' Procedure : fLogSlider
+' Author    : beededea
+' Date      : 14/11/2024
+' Purpose   : this function determines the logarithmic value of the time slider
+'---------------------------------------------------------------------------------------
+'
+Function fLogSlider(thisPerc As Integer) As Currency
+
+    Dim minp As Double: minp = 0
+    Dim maxp As Double: maxp = 0
+    Dim minv As Double: minv = 0
+    Dim maxv As Double: maxv = 0
+    Dim logScale As Double: logScale = 0
+    Dim thisValue As Double: thisValue = 0
+    Dim negFlag As Boolean: negFlag = False
+    
+    On Error GoTo LogSlider_Error
+    
+    'thisPerc = -5 ' debug
+    
+    If thisPerc <= 0 Then ' convert to positive to calculate adjustment factor
+        negFlag = True
+        thisPerc = Abs(thisPerc)
+    End If
+    
+    ' thisPerc will be between 0 and 100
+    maxp = 100
+
+    ' The result should be between 1 and 100000
+    minv = Log(1)
+    maxv = Log(200000#)
+
+    ' calculate adjustment factor
+    logScale = (maxv - minv) / (maxp - minp)
+    thisValue = Exp(minv + logScale * (thisPerc - minp))
+    'If (debugFlg = 1) Then
+    
+    Debug.Print ("%KON-I-INFO, thisValue " & thisValue)
+
+    If negFlag = True Then thisValue = thisValue * -1 ' convert to negative again
+    fLogSlider = thisValue  ' return
+
+   On Error GoTo 0
+   Exit Function
+
+LogSlider_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure fLogSlider of Class Module cfClock"
+End Function
 ' ----------------------------------------------------------------
 ' Procedure Name: tmrPendulum_Timer
 ' Purpose:  timer controlling the pendulum only,
@@ -1366,7 +1491,7 @@ Private Sub tmrClock_Timer()
     On Error GoTo tmrClock_Timer_Error
     
     ' disable alarm functionality and bypass that code
-    If mAlarmMode = True Then
+    If mSliderInTransit = True Then
     
         ' take the current date at the point the the alarm slider was activated
         ' add the time deviation to the base date
@@ -2019,7 +2144,7 @@ Private Sub W_Paint(ByRef CC As cCairoContext, ByVal xAbs As Single, ByVal yAbs 
     Next
     
     ' if first time running then populate the digital clocks.
-    If triggerDigitalClockPopulation = True Or mAlarmMode = True Then
+    If triggerDigitalClockPopulation = True Or mSliderInTransit = True Then
         Call populateDigitalClockCache(CC)
         triggerDigitalClockPopulation = False
     Else ' update the correct digital display when a time change occurs
