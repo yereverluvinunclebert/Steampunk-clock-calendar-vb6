@@ -2,7 +2,7 @@
  
 A FOSS Desktop Utility VB6 WoW64 Widget for Windows XP, ReactOS, Vista, Win7, 8 and 10/11+.
 
-My current VB6/RC6 PSD program being worked upon now, in progress, don't download it yet expecting it to work in all respects, as it is far from complete. Estimated at 99% graphically complete but only 82% code-complete. I am always adding in new functionality as this is an educational project for me. What does the program do already in its unfinished state?
+My current VB6/TwinBasic/RC6 PSD program being worked upon now, in progress, don't download it yet expecting it to work in all respects, as it is far from complete. Estimated at 99% graphically complete but only 82% code-complete. I am always adding in new functionality as this is an educational project for me. What does the program do already in its unfinished state?
 
 	Chimes the hours and quarters.
 	Has up to five working alarms. 
@@ -17,12 +17,12 @@ When finished, this Steampunk Clock Calendar widget will be an attractive steamp
  
 If you just want to install it on your desktop, there will be a setup.exe that you download and run. If you want to compile this yourself, clone/download the lot. You will of course, need the VB6 IDE to make changes.
 
- Why VB6? Well, with a 64 bit, modern-language improvement upgrade on the way with 100% compatible TwinBasic coupled with support for transparent PNGs via RC/Cairo, VB6 code has an amazing future. 
+ Why VB6? Well, with a 64 bit, modern-language upgrade improvement being delivered now, in the form of "100% compatible" TwinBasic, coupled with support for transparent PNGs via RC/Cairo, VB6 native code has an amazing future. 
 
  ![vb6-logo-200](https://github.com/yereverluvinunclebert/Panzer-JustClock-VB6/assets/2788342/7986e544-0b94-4a10-90bb-2d9fb60c294a)
  
  I created this as a development from the original Yahoo widget/ Konfabulator version I had previously created for the steampunk 
- communities. This widget is an attractive steampunk VB6 widget for your desktop. It is almost all my code with some help from the chaps at VBForums (credits given).
+ communities. This widget is an attractive steampunk VB6/TwinBasic widget for your desktop. It is almost all my code with some help from the chaps at VBForums (credits given).
  
  ![about-image001](https://github.com/yereverluvinunclebert/Steampunk-clock-calendar-vb6/assets/2788342/c6a5962d-ccc3-43ad-8316-607c122026ee)
 
@@ -43,7 +43,7 @@ If you just want to install it on your desktop, there will be a setup.exe that y
  This widget is currently Beta-grade software, under development, not yet 
  ready to use on a production system - use at your own risk.
 
- This version was developed on Windows 10 64bit using 32 bit VisualBasic 6 as a FOSS 
+ This version was developed on Windows 10 64bit using 32 bit VisualBasic 6, it also compiles using TwinBasic. Created as a FOSS 
  project creating a WoW64 widget for the desktop. 
 
  The tool has two modes, Clock mode and Alarm mode. In clock mode the clock ticks, the calendar shows the date.
@@ -54,10 +54,10 @@ Instructions for use:
 ![lookatme](https://github.com/yereverluvinunclebert/Steampunk-clock-calendar-version-2.9/assets/2788342/d8878f9f-a95a-46f0-8fad-d3cf2573aa1a)
 
  It is open source to allow easy configuration, bug-fixing, enhancement and 
- community contribution towards free-and-useful VB6 utilities that can be created
+ community contribution towards free-and-useful VB6/TwinBasic utilities that can be created
  by anyone. The first step was the creation of a template program to form the 
  basis for the conversion of other desktop utilities or widgets. A future step 
- are new VB6 widgets with more functionality and then hopefully, conversion of 
+ are new VB6/TwinBasic widgets with more functionality and then hopefully, conversion of 
  each to RADBasic/TwinBasic for future-proofing and 64bit-ness. 
 
 ![wotw-clock-help-image](https://github.com/yereverluvinunclebert/Steampunk-clock-calendar-version-2.9/assets/2788342/00887907-e663-448a-b322-7d6584d95512)
@@ -129,12 +129,13 @@ At the back-end there are more preferences that may be changed, all are document
 
  BUILD: The program runs without any Microsoft plugins.
  
- Built using: VB6, MZ-TOOLS 3.0, VBAdvance, CodeHelp Core IDE Extender
+ Built using: VB6, TwinBasic, MZ-TOOLS 3.0, VBAdvance, CodeHelp Core IDE Extender
  Framework 2.2 & Rubberduck 2.4.1, RichClient 6
  
  Links:
  
-	https://www.vbrichclient.com/#/en/About/
+	https://twinbasic.com/
+ 	https://www.vbrichclient.com/#/en/About/
 	MZ-TOOLS https://www.mztools.com/  
 	CodeHelp http://www.planetsourcecode.com/vb/scripts/ShowCode.asp?txtCodeId=62468&lngWId=1  
 	Rubberduck http://rubberduckvba.com/  
@@ -162,7 +163,8 @@ At the back-end there are more preferences that may be changed, all are document
  if anyone points out my mistake in leaving someone out.
  
  MicroSoft in the 90s - MS built good, lean and useful tools in the late 90s and 
- early 2000s. Thanks for VB6.
+ early 2000s. Thanks for VB6 Microsoft, what a pity we can't download it anymore, 
+ use TwinBasic instead...
  
  Olaf Schmidt - This tool was built using the RichClient RC6 Cairo wrapper for 
  VB6. Specifically the components using transparency and reading images directly 
@@ -191,6 +193,8 @@ At the back-end there are more preferences that may be changed, all are document
  o Microsoft VB6 IDE installed with its runtime components. The program runs 
  without any additional Microsoft OCX components, just the basic controls that 
  ship with VB6.  
+
+  o Alternatively, the TwinBasic IDE installed from https://twinbasic.com/
  
  ![vb6-logo](https://github.com/yereverluvinunclebert/Panzer-JustClock-VB6/assets/2788342/861f1ce1-7058-4d09-af94-daab9206ca86)
  
@@ -251,10 +255,11 @@ One of the preference screens for this utility.
 
 
  * SETUP.EXE - The program is currently distributed using setup2go, a very useful 
- and comprehensive installer program that builds a .exe installer. Youll have to 
+ and comprehensive installer program that builds a .exe installer. You'll have to 
  find a copy of setup2go on the web as it is now abandonware. Contact me
- directly for a copy. The file "install PzJustclock 0.1.0.s2g" is the configuration 
- file for setup2go. When you build it will report any errors in the build.
+ directly for a copy. The file "install steampunk-clock-calendar 0.1.0.s2g" is the configuration 
+ file for setup2go. When you build it will report any errors in the build. Look in the releases
+ folder for a release.
  
  * HELP.CHM - the program documentation is built using the NVU HTML editor and 
  compiled using the Microsoft supplied CHM builder tools (HTMLHelp Workshop) and 
@@ -262,12 +267,11 @@ One of the preference screens for this utility.
  the job admirably. The HTML files exist alongside the compiled CHM file in the 
  HELP folder.
  
-  Project References:
+ VB6 Project References in the IDE:
 
 	VisualBasic for Applications  
 	VisualBasic Runtime Objects and Procedures  
 	VisualBasic Objects and Procedures  
-	OLE Automation  
 	RC6Widgets
  	RC6
  
