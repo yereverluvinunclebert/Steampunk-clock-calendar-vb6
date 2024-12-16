@@ -242,9 +242,19 @@ o add now() button logic for all alarms
 Tasks to do:
 ============
 
-' weekday till flag, the text 'only' sometimes doubles up, possibly after a refresh after midnight when the till has been showing
+' weekday till flag, the text 'only' sometimes doubles up, possibly after a refresh after midnight when the till has been showing - identify the scenario
 
-' descriptions on all routines
+' descriptions on all routines - wip
+
+' rotating sand timer at startup
+'          load the sand timer images to the image list
+           create a single sandtimer widget
+           create a property  in fclock to .RotateSandTimer
+           add a call to RotateSandTimer in each widgetPrefs loop adding to the population of comboboxe
+           for each call of RotateSandTimer, increment a private var in fclock holding the rotate angle
+
+           add isVisible to all calls to widgetPrefs controls from other locations during main
+               if
 
 ' about text VB6 / Twinbasic wip, check if the PSD is on the e6410.
 

@@ -1485,12 +1485,11 @@ End Sub
 Private Sub tmrClock_Timer()
 
     Dim fileToPlay As String: fileToPlay = vbNullString
-    'Dim pvtCurrentDateToDisplay As String: pvtCurrentDateToDisplay = vbNullString
     Dim a As Long
     
     On Error GoTo tmrClock_Timer_Error
     
-    ' disable alarm functionality and bypass that code
+    ' slider is activated and the clock is in alarm SET mode
     If mSliderInTransit = True Then
     
         ' take the current date at the point the the alarm slider was activated
@@ -1501,19 +1500,16 @@ Private Sub tmrClock_Timer()
         pvtThisMins = Minute(pvtCurrentDateToDisplay)
         pvtThisSecs = Second(pvtCurrentDateToDisplay)
         
-        If mTimeDeviation >= 10000 Then
-            a = 1
-        End If
+'        If mTimeDeviation >= 10000 Then
+'            a = 1
+'        End If
         
         ' calculate angles of hour and second hand for the analogue clock
         pvtHourDegrees = 30 * (pvtThisHour Mod 12 + (pvtThisMins) / 60) ' global vars used in the paint event
         pvtMinsDegrees = 6 * ((pvtThisMins) + (pvtThisSecs / 60))
         pvtSeconds = pvtThisSecs
         
-        'triggerDigitalClockPopulation = True
-        
-        ' look in the shall we ring alarm and use the same code to display the future/past
-    Else
+    Else ' normal time displayed, chimes played along with any alarms
 
         ' extract the time components
         pvtThisHour = Hour(Now)
@@ -1539,12 +1535,13 @@ Private Sub tmrClock_Timer()
             End If
         End If
         
-        ' this should be called once then every hour on the hour, populate the cache
+        ' this should be called once at first run after startup to populate the digital clock cache
         If pvtFirstRun = True Then
             triggerDigitalClockPopulation = True
             pvtFirstRun = False
         End If
         
+        ' now we check the quarters and play any chimes
         If fClock.clapperEnabled = True Then
     
             If pvtThisMins = 14 And pvtThisSecs = 58 Then ' 2 seconds before

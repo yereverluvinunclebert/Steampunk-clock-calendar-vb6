@@ -4767,15 +4767,11 @@ End Sub
 Public Property Get IsVisible() As Boolean
     On Error GoTo IsVisible_Error
 
-    'If gblPrefsLoadedFlg Then
-        If fClock.clockForm.WindowState = vbNormal Then
-            IsVisible = fClock.clockForm.Visible
-        Else
-            IsVisible = False
-        End If
-'    Else
-'        IsVisible = False
-'    End If
+    If fClock.clockForm.WindowState = vbNormal Then
+        IsVisible = fClock.clockForm.Visible
+    Else
+        IsVisible = False
+    End If
 
     On Error GoTo 0
     Exit Property

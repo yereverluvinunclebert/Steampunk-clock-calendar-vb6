@@ -167,7 +167,7 @@ Public Sub mainRoutine(ByVal restart As Boolean)
     End If
     
     'load the preferences form but don't yet show it, speeds up access to the prefs via the menu
-    Load widgetPrefs
+    Load widgetPrefs ' not needed as widgetPrefs is called in several place during setting toggle properties
     
     'load the message form but don't yet show it, speeds up access to the message form when needed.
     Load frmMessage
