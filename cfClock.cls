@@ -1033,8 +1033,8 @@ Private Sub deleteAlarm2(ByRef anAlarmDeleted As Boolean)
             sPutINISetting "Software\SteampunkClockCalendar", "alarm2Time", gblAlarm2Time, gblSettingsFile
             alarmtoggle2Enabled = False
             fClock.clockForm.Widgets("alarmtoggle2").Widget.ImageKey = "alarmtoggle2"
-            widgetPrefs.txtAlarm2Date.Text = gblAlarm2Date
-            widgetPrefs.txtAlarm2Time.Text = gblAlarm2Time
+            If widgetPrefs.IsLoaded = True Then widgetPrefs.txtAlarm2Date.Text = gblAlarm2Date
+            If widgetPrefs.IsLoaded = True Then widgetPrefs.txtAlarm2Time.Text = gblAlarm2Time
            
             anAlarmDeleted = True
             gblAlarm2FlgRaised = False
@@ -1079,8 +1079,8 @@ Private Sub deleteAlarm3(ByRef anAlarmDeleted As Boolean)
             sPutINISetting "Software\SteampunkClockCalendar", "alarm3Time", gblAlarm3Time, gblSettingsFile
             alarmtoggle3Enabled = False
             fClock.clockForm.Widgets("alarmtoggle3").Widget.ImageKey = "alarmtoggle3"
-            widgetPrefs.txtAlarm3Date.Text = gblAlarm3Date
-            widgetPrefs.txtAlarm3Time.Text = gblAlarm3Time
+            If widgetPrefs.IsLoaded = True Then widgetPrefs.txtAlarm3Date.Text = gblAlarm3Date
+            If widgetPrefs.IsLoaded = True Then widgetPrefs.txtAlarm3Time.Text = gblAlarm3Time
             
             anAlarmDeleted = True
             gblAlarm3FlgRaised = False
@@ -1125,8 +1125,8 @@ deleteAlarm3_Error:
             sPutINISetting "Software\SteampunkClockCalendar", "alarm4Time", gblAlarm4Time, gblSettingsFile
             alarmtoggle4Enabled = False
             fClock.clockForm.Widgets("alarmtoggle4").Widget.ImageKey = "alarmtoggle4"
-            widgetPrefs.txtAlarm4Date.Text = gblAlarm4Date
-            widgetPrefs.txtAlarm4Time.Text = gblAlarm4Time
+            If widgetPrefs.IsLoaded = True Then widgetPrefs.txtAlarm4Date.Text = gblAlarm4Date
+            If widgetPrefs.IsLoaded = True Then widgetPrefs.txtAlarm4Time.Text = gblAlarm4Time
             
             anAlarmDeleted = True
             gblAlarm4FlgRaised = False
@@ -1171,8 +1171,8 @@ Private Sub deleteAlarm5(ByRef anAlarmDeleted As Boolean)
             sPutINISetting "Software\SteampunkClockCalendar", "alarm5Time", gblAlarm5Time, gblSettingsFile
             alarmtoggle5Enabled = False
             fClock.clockForm.Widgets("alarmtoggle5").Widget.ImageKey = "alarmtoggle5"
-            widgetPrefs.txtAlarm5Date.Text = gblAlarm5Date
-            widgetPrefs.txtAlarm5Time.Text = gblAlarm5Time
+            If widgetPrefs.IsLoaded = True Then widgetPrefs.txtAlarm5Date.Text = gblAlarm5Date
+            If widgetPrefs.IsLoaded = True Then widgetPrefs.txtAlarm5Time.Text = gblAlarm5Time
 
             anAlarmDeleted = True
             gblAlarm5FlgRaised = False
@@ -3085,7 +3085,7 @@ Public Property Let clapperEnabled(ByVal newValue As Boolean)
         gblClapperEnabled = "True"
         clapperright.Alpha = 0
         clapperLeft.Alpha = alphaVal
-        widgetPrefs.chkEnableChimes.Value = 1
+        If widgetPrefs.IsLoaded = True Then widgetPrefs.chkEnableChimes.Value = 1
         If pvtMuteInitiatingControl = "clapper" Then
                 If gblVolumeBoost = "1" Then
                     fileToPlay = "singleBell.wav"
@@ -3102,7 +3102,7 @@ Public Property Let clapperEnabled(ByVal newValue As Boolean)
         'If pvtMuteInitiatingControl = "clapper" Then muteToggleEnabled = True
         clapperright.Alpha = alphaVal
         clapperLeft.Alpha = 0
-        widgetPrefs.chkEnableChimes.Value = 0
+        If widgetPrefs.IsLoaded = True Then widgetPrefs.chkEnableChimes.Value = 0
     End If
     
     sPutINISetting "Software\SteampunkClockCalendar", "clapperEnabled", gblClapperEnabled, gblSettingsFile
@@ -3311,13 +3311,13 @@ Public Property Let crankedRaised(ByVal newValue As Boolean)
         crankup.Alpha = alphaVal
         crankdown.Alpha = 0
         gblCrankEnabled = "True"
-        widgetPrefs.chkVolumeBoost.Value = 1
+        If widgetPrefs.IsLoaded = True Then widgetPrefs.chkVolumeBoost.Value = 1
         gblVolumeBoost = "1"
     Else
         gblCrankEnabled = "False"
         crankup.Alpha = 0
         crankdown.Alpha = alphaVal
-        widgetPrefs.chkVolumeBoost.Value = 0
+        If widgetPrefs.IsLoaded = True Then widgetPrefs.chkVolumeBoost.Value = 0
         gblVolumeBoost = "0"
     End If
        
@@ -3382,12 +3382,12 @@ Public Property Let chainEnabled(ByVal newValue As Boolean)
         chain.Move chainLeft, chainTop + 10
         gblChainEnabled = "True"
         ticking = True
-        widgetPrefs.chkEnableTicks.Value = 1
+        If widgetPrefs.IsLoaded = True Then widgetPrefs.chkEnableTicks.Value = 1
     Else
         chain.Move chainLeft, chainTop - 10
         gblChainEnabled = "False"
         ticking = False
-        widgetPrefs.chkEnableTicks.Value = 0
+        If widgetPrefs.IsLoaded = True Then widgetPrefs.chkEnableTicks.Value = 0
     End If
        
     sPutINISetting "Software\SteampunkClockCalendar", "chainEnabled", gblChainEnabled, gblSettingsFile
@@ -3810,7 +3810,7 @@ Public Property Let muteToggleEnabled(ByVal newValue As Boolean)
         gblMuteToggleEnabled = "True"
         ticking = False
         gblEnableSounds = "0"
-        widgetPrefs.chkEnableSounds.Value = 0
+        If widgetPrefs.IsLoaded = True Then widgetPrefs.chkEnableSounds.Value = 0
         
         ' stop MCI from playing
         If gblVolumeBoost = "1" Then
@@ -3828,7 +3828,7 @@ Public Property Let muteToggleEnabled(ByVal newValue As Boolean)
         gblMuteToggleEnabled = "False"
         gblEnableSounds = "1"
         If ticking = True Then ticking = True
-        widgetPrefs.chkEnableSounds.Value = 1
+        If widgetPrefs.IsLoaded = True Then widgetPrefs.chkEnableSounds.Value = 1
     End If
     
     sPutINISetting "Software\SteampunkClockCalendar", "muteToggleEnabled", gblMuteToggleEnabled, gblSettingsFile
@@ -3896,12 +3896,12 @@ Public Property Let pendulumToggleEnabled(ByVal newValue As Boolean)
         pendulumtoggle.Move pendulumToggleIn, pendulumToggleTop
         overlayWidget.SwingPendulum = True
         gblPendulumToggleEnabled = "True"
-        widgetPrefs.chkTogglePendulum.Value = 1
+        If widgetPrefs.IsLoaded = True Then widgetPrefs.chkTogglePendulum.Value = 1
     Else
         pendulumtoggle.Move pendulumToggleOut, pendulumToggleTop
         overlayWidget.SwingPendulum = False
         gblPendulumToggleEnabled = "False"
-        widgetPrefs.chkTogglePendulum.Value = 0
+        If widgetPrefs.IsLoaded = True Then widgetPrefs.chkTogglePendulum.Value = 0
     End If
         
     If gblVolumeBoost = "1" Then

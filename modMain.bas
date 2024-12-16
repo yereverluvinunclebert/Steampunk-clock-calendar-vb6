@@ -40,6 +40,7 @@ Public overlayWidget As cwOverlay
 Public widgetName As String
 Private B() As Byte
 
+
 '---------------------------------------------------------------------------------------
 ' Procedure : Main
 ' Author    : beededea
@@ -97,7 +98,7 @@ Public Sub mainRoutine(ByVal restart As Boolean)
     Call screenWrite("Copyright 2024, BrickMoon Interplanetary Enterprises")
     
     menuForm.mnuAbout.Caption = "About Steampunk Clock Calendar Cairo " & gblCodingEnvironment & " widget"
-
+    
     ' resolve VB6 sizing width bug
     Call determineScreenDimensions
 
@@ -165,9 +166,9 @@ Public Sub mainRoutine(ByVal restart As Boolean)
         Call makeProgramPreferencesAvailable
         extractCommand = vbNullString
     End If
-    
+        
     'load the preferences form but don't yet show it, speeds up access to the prefs via the menu
-    Load widgetPrefs ' not needed as widgetPrefs is called in several place during setting toggle properties
+    frmTimer.tmrStartupDelay.Enabled = True
     
     'load the message form but don't yet show it, speeds up access to the message form when needed.
     Load frmMessage
@@ -184,7 +185,7 @@ Public Sub mainRoutine(ByVal restart As Boolean)
     ' note the monitor primary at clockForm form_load and store oldClockFormMonitorPrimary
     clockMonitorStruct = cWidgetFormScreenProperties(fClock.clockForm, clockFormMonitorID)
     oldClockFormMonitorPrimary = clockMonitorStruct.IsPrimary
-
+    
     startupFlg = False
         
     ' RC message pump will auto-exit when Cairo Forms > 0 so we run it only when 0, this prevents message interruption
@@ -198,6 +199,33 @@ main_routine_Error:
 
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure main_routine of Module modMain at "
     
+End Sub
+ 
+ 
+
+' ----------------------------------------------------------------
+' Procedure Name: startupDelay
+' Purpose: load the preferences form but don't yet show it. Done via a timer to make startup a little quicker especially on TB
+'          which is slower than VB6 reading through a loop of values and assigning the results to combo box controls .
+' Procedure Kind: Sub
+' Procedure Access: Private
+' Author: beededea
+' Date: 21/06/2024
+' ----------------------------------------------------------------
+Public Sub startupDelay()
+    
+    On Error GoTo startupDelay_Error
+    
+    frmTimer.tmrStartupDelay.Enabled = False
+    
+    If widgetPrefs.IsLoaded = False Then Load widgetPrefs ' not needed as widgetPrefs is called in several place during setting toggle properties
+    
+   On Error GoTo 0
+   Exit Sub
+
+startupDelay_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure startupDelay of Class Module cfClock"
 End Sub
  
 '---------------------------------------------------------------------------------------

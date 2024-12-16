@@ -1683,8 +1683,8 @@ Private Sub ShallWeRingAlarm()
             
             ' the alarm entries are removed here and written to the config straight away, preventing another accidental alarm being raised.
             
-            widgetPrefs.txtAlarm1Date.Text = "Alarm not yet set"
-            widgetPrefs.txtAlarm1Time.Text = ""
+            If widgetPrefs.IsLoaded = True Then widgetPrefs.txtAlarm1Date.Text = "Alarm not yet set"
+            If widgetPrefs.IsLoaded = True Then widgetPrefs.txtAlarm1Time.Text = ""
             If widgetPrefs.IsVisible = True Then
                 widgetPrefs.txtAlarm1Date.Refresh
                 widgetPrefs.txtAlarm1Time.Refresh
@@ -1724,8 +1724,8 @@ Private Sub ShallWeRingAlarm()
             
             ' the alarm entries are removed here and written to the config straight away, preventing another accidental alarm being raised.
             
-            widgetPrefs.txtAlarm2Date.Text = "Alarm not yet set"
-            widgetPrefs.txtAlarm2Time.Text = ""
+            If widgetPrefs.IsLoaded = True Then widgetPrefs.txtAlarm2Date.Text = "Alarm not yet set"
+            If widgetPrefs.IsLoaded = True Then widgetPrefs.txtAlarm2Time.Text = ""
             If widgetPrefs.IsVisible = True Then
                 widgetPrefs.txtAlarm2Date.Refresh
                 widgetPrefs.txtAlarm2Time.Refresh
@@ -1766,8 +1766,8 @@ Private Sub ShallWeRingAlarm()
             
             ' the alarm entries are removed here and written to the config straight away, preventing another accidental alarm being raised.
             
-            widgetPrefs.txtAlarm3Date.Text = "Alarm not yet set"
-            widgetPrefs.txtAlarm3Time.Text = ""
+            If widgetPrefs.IsLoaded = True Then widgetPrefs.txtAlarm3Date.Text = "Alarm not yet set"
+            If widgetPrefs.IsLoaded = True Then widgetPrefs.txtAlarm3Time.Text = ""
             If widgetPrefs.IsVisible = True Then
                 widgetPrefs.txtAlarm3Date.Refresh
                 widgetPrefs.txtAlarm3Time.Refresh
@@ -1807,8 +1807,8 @@ Private Sub ShallWeRingAlarm()
             
             ' the alarm entries are removed here and written to the config straight away, preventing another accidental alarm being raised.
             
-            widgetPrefs.txtAlarm4Date.Text = "Alarm not yet set"
-            widgetPrefs.txtAlarm4Time.Text = ""
+            If widgetPrefs.IsLoaded = True Then widgetPrefs.txtAlarm4Date.Text = "Alarm not yet set"
+            If widgetPrefs.IsLoaded = True Then widgetPrefs.txtAlarm4Time.Text = ""
             If widgetPrefs.IsVisible = True Then
                 widgetPrefs.txtAlarm4Date.Refresh
                 widgetPrefs.txtAlarm4Time.Refresh
@@ -1848,8 +1848,8 @@ Private Sub ShallWeRingAlarm()
             
             ' the alarm entries are removed here and written to the config straight away, preventing another accidental alarm being raised.
             
-            widgetPrefs.txtAlarm5Date.Text = "Alarm not yet set"
-            widgetPrefs.txtAlarm5Time.Text = ""
+            If widgetPrefs.IsLoaded = True Then widgetPrefs.txtAlarm5Date.Text = "Alarm not yet set"
+            If widgetPrefs.IsLoaded = True Then widgetPrefs.txtAlarm5Time.Text = ""
             If widgetPrefs.IsVisible = True Then
                 widgetPrefs.txtAlarm5Date.Refresh
                 widgetPrefs.txtAlarm5Time.Refresh

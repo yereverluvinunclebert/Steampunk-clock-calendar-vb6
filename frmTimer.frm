@@ -1,16 +1,21 @@
 VERSION 5.00
 Begin VB.Form frmTimer 
    Caption         =   "Form1"
-   ClientHeight    =   3195
+   ClientHeight    =   3825
    ClientLeft      =   60
    ClientTop       =   345
    ClientWidth     =   4680
    Icon            =   "frmTimer.frx":0000
    LinkTopic       =   "Form1"
-   ScaleHeight     =   3195
+   ScaleHeight     =   3825
    ScaleWidth      =   4680
    StartUpPosition =   3  'Windows Default
    Visible         =   0   'False
+   Begin VB.Timer tmrStartupDelay 
+      Interval        =   5000
+      Left            =   105
+      Top             =   2070
+   End
    Begin VB.Timer sleepTimer 
       Interval        =   3000
       Left            =   120
@@ -46,9 +51,9 @@ Begin VB.Form frmTimer
    Begin VB.Label Label3 
       Caption         =   "Note: this invisible form is also the container for the large 128x128px project icon"
       Height          =   435
-      Left            =   240
+      Left            =   285
       TabIndex        =   3
-      Top             =   2400
+      Top             =   3120
       Width           =   4125
    End
    Begin VB.Label Label2 
@@ -177,6 +182,27 @@ tmrScreenResolution_Timer_Error:
     End With
 End Sub
 
+
+'---------------------------------------------------------------------------------------
+' Procedure : tmrStartupDelay_Timer
+' Author    : beededea
+' Date      : 16/12/2024
+' Purpose   :
+'---------------------------------------------------------------------------------------
+'
+Private Sub tmrStartupDelay_Timer()
+
+   On Error GoTo tmrStartupDelay_Timer_Error
+
+   Call startupDelay
+
+   On Error GoTo 0
+   Exit Sub
+
+tmrStartupDelay_Timer_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure tmrStartupDelay_Timer of Form frmTimer"
+End Sub
 
 '---------------------------------------------------------------------------------------
 ' Procedure : unhideTimer_Timer
