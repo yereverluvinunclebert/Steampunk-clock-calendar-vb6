@@ -13,9 +13,9 @@ My current VB6/TwinBasic/RC6 PSD program being worked upon now, in progress, don
 	Demonstrates the use of VB6/TwinBasic and Cairo Graphics working together.
 	Demonstrates how to put a transparent form on your desktop using VB6 or TwinBasic.
 
-When finished, this Steampunk Clock Calendar widget will be an attractive steampunk widget for your desktop. It is a deliberately-complex clock with a skeumorphic interface. Functional but gorgeous at the same time. This VB6 Widget is a moveable widget that you can move anywhere around the desktop as you require. The design is based upon the Yahoo widget of the same design which I also designed. This is its replacement.
+When finished, this Steampunk Clock Calendar widget will be an attractive steampunk widget for your desktop. It is a deliberately-complex clock with a skeumorphic interface. Functional but gorgeous at the same time. This VB6/TwinBasic Widget is a moveable widget that you can move anywhere around the desktop as you require. The design is based upon the Yahoo widget of the same design which I also designed. This is its replacement.
  
-If you just want to install it on your desktop, there will be a setup.exe that you download and run. If you want to compile this yourself, clone/download the lot. You will of course, need the VB6 IDE to make changes.
+If you just want to install it on your desktop, there will be a setup.exe that you download and run. If you want to compile this yourself, clone/download the lot. You will of course, need the TwinBasic IDE to make changes which is downloadable and available for free. If you have VB6 already installed then you can use that, of course.
 
  Why VB6? Well, with a 64 bit, modern-language upgrade improvement being delivered now, in the form of "100% compatible" TwinBasic, coupled with support for transparent PNGs via RC/Cairo, VB6 native code has an amazing future. 
 
