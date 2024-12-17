@@ -479,7 +479,7 @@ Begin VB.Form widgetPrefs
                Left            =   5340
                Style           =   2  'Dropdown List
                TabIndex        =   220
-               Top             =   2175
+               Top             =   2160
                Width           =   525
             End
             Begin VB.ComboBox cmbAlarm4Minutes 
@@ -5815,12 +5815,17 @@ Private Sub populatePrefsComboBoxes()
     
     On Error GoTo populatePrefsComboBoxes_Error
     
-
+    With fClock.clockForm.Widgets("busy1").Widget
+        .Alpha = 1
+        .Refresh
+    End With
     
     cmbScrollWheelDirection.AddItem "up", 0
     cmbScrollWheelDirection.ItemData(0) = 0
     cmbScrollWheelDirection.AddItem "down", 1
     cmbScrollWheelDirection.ItemData(1) = 1
+    
+    fClock.RotateBusyTimer = True
     
     cmbAspectHidden.AddItem "none", 0
     cmbAspectHidden.ItemData(0) = 0
@@ -5829,10 +5834,14 @@ Private Sub populatePrefsComboBoxes()
     cmbAspectHidden.AddItem "landscape", 2
     cmbAspectHidden.ItemData(2) = 2
 
+    fClock.RotateBusyTimer = True
+    
     cmbWidgetPosition.AddItem "disabled", 0
     cmbWidgetPosition.ItemData(0) = 0
     cmbWidgetPosition.AddItem "enabled", 1
     cmbWidgetPosition.ItemData(1) = 1
+    
+    fClock.RotateBusyTimer = True
     
     cmbWidgetLandscape.AddItem "disabled", 0
     cmbWidgetLandscape.ItemData(0) = 0
@@ -5849,6 +5858,8 @@ Private Sub populatePrefsComboBoxes()
     cmbDebug.AddItem "Debug ON", 1
     cmbDebug.ItemData(1) = 1
     
+    fClock.RotateBusyTimer = True
+    
     ' populate comboboxes in the windows tab
     cmbWindowLevel.AddItem "Keep on top of other windows", 0
     cmbWindowLevel.ItemData(0) = 0
@@ -5857,6 +5868,8 @@ Private Sub populatePrefsComboBoxes()
     cmbWindowLevel.AddItem "Keep below all other windows", 0
     cmbWindowLevel.ItemData(2) = 2
 
+    fClock.RotateBusyTimer = True
+    
     ' populate the hiding timer combobox
     cmbHidingTime.AddItem "1 minute", 0
     cmbHidingTime.ItemData(0) = 1
@@ -5871,6 +5884,8 @@ Private Sub populatePrefsComboBoxes()
     cmbHidingTime.AddItem "I hour", 5
     cmbHidingTime.ItemData(5) = 60
     
+    fClock.RotateBusyTimer = True
+    
     ' populate the multi monitor combobox
     cmbMultiMonitorResize.AddItem "Disabled", 0
     cmbMultiMonitorResize.ItemData(0) = 0
@@ -5879,6 +5894,9 @@ Private Sub populatePrefsComboBoxes()
     cmbMultiMonitorResize.AddItem "Manual Sizing Stored Per Monitor", 2
     cmbMultiMonitorResize.ItemData(2) = 2
 
+    fClock.RotateBusyTimer = True
+
+    
     ' add the day options to the day combobox
     Call fillComboAlarmDay(cmbAlarm1Day)
     Call fillComboAlarmDay(cmbAlarm2Day)
@@ -5914,6 +5932,19 @@ Private Sub populatePrefsComboBoxes()
     Call fillComboAlarmMinute(cmbAlarm4Minutes)
     Call fillComboAlarmMinute(cmbAlarm5Minutes)
     
+    fClock.clockForm.Widgets("busy1").Widget.Alpha = 0
+    fClock.clockForm.Widgets("busy2").Widget.Alpha = 0
+    fClock.clockForm.Widgets("busy3").Widget.Alpha = 0
+    fClock.clockForm.Widgets("busy4").Widget.Alpha = 0
+    fClock.clockForm.Widgets("busy5").Widget.Alpha = 0
+    fClock.clockForm.Widgets("busy6").Widget.Alpha = 0
+    
+    fClock.clockForm.Widgets("busy1").Widget.Refresh
+    fClock.clockForm.Widgets("busy2").Widget.Refresh
+    fClock.clockForm.Widgets("busy3").Widget.Refresh
+    fClock.clockForm.Widgets("busy4").Widget.Refresh
+    fClock.clockForm.Widgets("busy5").Widget.Refresh
+    fClock.clockForm.Widgets("busy6").Widget.Refresh
     
     On Error GoTo 0
     Exit Sub
@@ -5952,8 +5983,11 @@ Private Sub fillComboAlarmMinute(ByRef thisComboBox As ComboBox)
         End If
         thisComboBox.AddItem minString, useloop + 1
         thisComboBox.ItemData(useloop + 1) = useloop
+        If useloop Mod (5) = 0 Then fClock.RotateBusyTimer = True
     Next useloop
 
+    'fClock.RotateBusyTimer = True
+   
    On Error GoTo 0
    Exit Sub
 
@@ -5989,6 +6023,8 @@ Private Sub fillComboAlarmHour(ByRef thisComboBox As ComboBox)
         thisComboBox.ItemData(useloop + 1) = useloop
     Next useloop
 
+    fClock.RotateBusyTimer = True
+   
    On Error GoTo 0
    Exit Sub
 
@@ -6018,9 +6054,11 @@ Private Sub fillComboAlarmYear(ByRef thisComboBox As ComboBox)
     For useloop = 1 To 100
         thisComboBox.AddItem CStr(Year(Now) + useloop - 1), useloop
         thisComboBox.ItemData(useloop) = Year(Now) + useloop - 1
+        If useloop Mod (10) = 0 Then fClock.RotateBusyTimer = True
     Next useloop
 
-   On Error GoTo 0
+    
+  On Error GoTo 0
    Exit Sub
 
 fillComboAlarmYear_Error:
@@ -6051,8 +6089,12 @@ Private Sub fillComboAlarmDay(ByRef thisComboBox As ComboBox)
         End If
         thisComboBox.AddItem dayString, useloop
         thisComboBox.ItemData(useloop) = useloop
+        
+        If useloop Mod (5) = 0 Then fClock.RotateBusyTimer = True
     Next useloop
 
+    'fClock.RotateBusyTimer = True
+   
    On Error GoTo 0
    Exit Sub
 
@@ -6082,6 +6124,8 @@ Private Sub fillComboAlarmMonth(ByRef thisComboBox As ComboBox)
         thisComboBox.ItemData(useloop) = useloop
     Next useloop
 
+    fClock.RotateBusyTimer = True
+   
    On Error GoTo 0
    Exit Sub
 

@@ -12,7 +12,7 @@ Begin VB.Form frmTimer
    StartUpPosition =   3  'Windows Default
    Visible         =   0   'False
    Begin VB.Timer tmrStartupDelay 
-      Interval        =   5000
+      Interval        =   1000
       Left            =   105
       Top             =   2070
    End

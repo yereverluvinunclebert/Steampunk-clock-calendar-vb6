@@ -67,6 +67,7 @@ Private mAlarmToggle4Enabled As Boolean
 Private mAlarmToggle5Enabled As Boolean
 Private mhelpToggleEnabled As Boolean
 Private mTimeShiftValue As Currency
+Private mRotateBusyTimer As Boolean
 
 Public mShowHelp As Boolean 'change to property get/set
 
@@ -167,6 +168,7 @@ Private pvtAlarmInitiatingControl As String
 Private pvtSlidersetMousedown As Boolean
 Private pvtPSDWidth As Long
 Private pvtPSDHeight As Long
+Private busyTimerRotateValue As Integer
 
 
 '---------------------------------------------------------------------------------------
@@ -180,6 +182,8 @@ Private Sub Class_Initialize()
 
    
     On Error GoTo Class_Initialize_Error
+    
+    busyTimerRotateValue = 1
 
     Set collPSDNonUIElements = New_c.Collection(False)
     
@@ -4496,6 +4500,33 @@ alarmtoggle5EnabledGet_Error:
 End Property
 
 
+'---------------------------------------------------------------------------------------
+' Property  : RotateBusyTimer
+' Author    : beededea
+' Date      : 17/05/2023
+' Purpose   :
+'---------------------------------------------------------------------------------------
+'
+Public Property Let RotateBusyTimer(ByVal newValue As Boolean)
+   On Error GoTo RotateBusyTimerLet_Error
+    
+    fClock.clockForm.Widgets("busy" & busyTimerRotateValue).Widget.Alpha = 0
+
+    busyTimerRotateValue = busyTimerRotateValue + 1
+    If busyTimerRotateValue >= 6 Then busyTimerRotateValue = 1
+
+    With fClock.clockForm.Widgets("busy" & busyTimerRotateValue).Widget
+        .Alpha = 1
+        .Refresh
+    End With
+    
+   On Error GoTo 0
+   Exit Property
+
+RotateBusyTimerLet_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property RotateBusyTimer of Class Module cwoverlay"
+End Property
 
 ' ----------------------------------------------------------------
 ' Procedure Name: hideAlarmTills
