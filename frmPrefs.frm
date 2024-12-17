@@ -5985,8 +5985,6 @@ Private Sub fillComboAlarmMinute(ByRef thisComboBox As ComboBox)
         thisComboBox.ItemData(useloop + 1) = useloop
         If useloop Mod (5) = 0 Then fClock.RotateBusyTimer = True
     Next useloop
-
-    'fClock.RotateBusyTimer = True
    
    On Error GoTo 0
    Exit Sub
@@ -6092,8 +6090,6 @@ Private Sub fillComboAlarmDay(ByRef thisComboBox As ComboBox)
         
         If useloop Mod (5) = 0 Then fClock.RotateBusyTimer = True
     Next useloop
-
-    'fClock.RotateBusyTimer = True
    
    On Error GoTo 0
    Exit Sub

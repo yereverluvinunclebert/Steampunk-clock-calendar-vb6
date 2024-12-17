@@ -208,7 +208,7 @@ quiet/loud sounds
 ' tooltip changes
 ' countdown fix
 
-' added closure of all timers to the unload event - TwinBasic caused errors when the program quit
+' added closing of all timers to the unload event - TwinBasic caused errors when the program quit
 ' made some timers public in fClock to allow them to be closed externally
 ' fixed type mismatch when building the rotator string and the alarm strings
 
@@ -245,25 +245,21 @@ o add now() button logic for all alarms
 ' create six busy widgets at different angles
 ' create a property in fclock to .RotateBusyTimer
 ' add a call to RotateBusyTimer in each widgetPrefs loop which is adding to the population of comboboxe
-' for each call of RotateSandTimer, increment a private var in fclock holding the rotate angle
+' for each call of RotateBusyTimer, increment a private var in fclock holding the rotate angle
+' when in alarm mode, the analogue clock now displays the time as stated on the alarm shown
 
 ' -oOo-
 
 Tasks to do:
 ============
 
+' test and modify the slider with negative values
+
 ' weekday till flag, the text 'only' sometimes doubles up, possibly after a refresh after midnight when the till has been showing - identify the scenario
 
 ' descriptions on all routines - wip
 
 ' about text VB6 / Twinbasic wip, check if the PSD is on the e6410.
-
-' when in alarm mode, the analogue clock fails to display the time as stated on the alarm shown
-       do we want it to?
-       Pros - matches the behaviour of the existing clock
-       Cons - requires work
-              the underlying alarm mechanism uses the time values that we want to change.
-              will have to copy the variable values and use those instead allowing the main vars to control other events.
 
 ' combine a new counter rotating sound recording the current Konfabulator widget.
 

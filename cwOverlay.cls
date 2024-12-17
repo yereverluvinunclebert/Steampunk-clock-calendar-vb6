@@ -1425,9 +1425,9 @@ Function fLogSlider(thisPerc As Integer) As Currency
     ' thisPerc will be between 0 and 100
     maxp = 100
 
-    ' The result should be between 1 and 100000
-    minv = Log(1)
-    maxv = Log(200000#)
+    ' The result should be between 6000 and 1000000#
+    minv = Log(6000)
+    maxv = Log(1000000#)
 
     ' calculate adjustment factor
     logScale = (maxv - minv) / (maxp - minp)
@@ -1448,7 +1448,7 @@ LogSlider_Error:
 End Function
 ' ----------------------------------------------------------------
 ' Procedure Name: tmrPendulum_Timer
-' Purpose:  timer controlling the pendulum only,
+' Purpose:  timer controlling the pendulum only
 ' Procedure Kind: Sub
 ' Procedure Access: Private
 ' Author: beededea
@@ -1489,7 +1489,7 @@ Private Sub tmrClock_Timer()
     
     On Error GoTo tmrClock_Timer_Error
     
-    ' slider is activated and the clock is in alarm SET mode
+    ' slider is activated and the clock is in alarm SET mode, we display the time chosen by the user dragging the slider
     If mSliderInTransit = True Then
     
         ' take the current date at the point the the alarm slider was activated
@@ -1509,13 +1509,48 @@ Private Sub tmrClock_Timer()
         pvtMinsDegrees = 6 * ((pvtThisMins) + (pvtThisSecs / 60))
         pvtSeconds = pvtThisSecs
         
-    Else ' normal time displayed, chimes played along with any alarms
-
-        ' extract the time components
-        pvtThisHour = Hour(Now)
-        pvtThisMins = Minute(Now)
-        pvtThisSecs = Second(Now)
+    Else ' normal time displayed, quarterly chimes played along with any alarms
         
+        If gblAlarmToggle1Enabled = "True" Then
+            If gblAlarm1Time = vbNullString Then gblAlarm1Time = "00:00"
+            ' extract the time components
+            pvtThisHour = Hour(gblAlarm1Time)
+            pvtThisMins = Minute(gblAlarm1Time)
+            pvtThisSecs = Second(gblAlarm1Time)
+            
+        ElseIf gblAlarmToggle2Enabled = "True" Then
+            If gblAlarm2Time = vbNullString Then gblAlarm2Time = "00:00"
+            ' extract the time components
+            pvtThisHour = Hour(gblAlarm2Time)
+            pvtThisMins = Minute(gblAlarm2Time)
+            pvtThisSecs = Second(gblAlarm2Time)
+            
+        ElseIf gblAlarmToggle3Enabled = "True" Then
+             If gblAlarm3Time = vbNullString Then gblAlarm3Time = "00:00"
+            ' extract the time components
+            pvtThisHour = Hour(gblAlarm3Time)
+            pvtThisMins = Minute(gblAlarm3Time)
+            pvtThisSecs = Second(gblAlarm3Time)
+
+        ElseIf gblAlarmToggle4Enabled = "True" Then
+            If gblAlarm4Time = vbNullString Then gblAlarm4Time = "00:00"
+            ' extract the time components
+            pvtThisHour = Hour(gblAlarm4Time)
+            pvtThisMins = Minute(gblAlarm4Time)
+            pvtThisSecs = Second(gblAlarm4Time)
+        ElseIf gblAlarmToggle5Enabled = "True" Then
+            If gblAlarm5Time = vbNullString Then gblAlarm5Time = "00:00"
+            ' extract the time components
+            pvtThisHour = Hour(gblAlarm5Time)
+            pvtThisMins = Minute(gblAlarm5Time)
+            pvtThisSecs = Second(gblAlarm5Time)
+        Else
+            ' extract the time components
+            pvtThisHour = Hour(Now)
+            pvtThisMins = Minute(Now)
+            pvtThisSecs = Second(Now)
+        End If
+    
         ' calculate angles of hour and second hand for the analogue clock
         pvtHourDegrees = 30 * (pvtThisHour Mod 12 + (pvtThisMins) / 60) ' global vars used in the paint event
         pvtMinsDegrees = 6 * ((pvtThisMins) + (pvtThisSecs / 60))
@@ -1526,7 +1561,7 @@ Private Sub tmrClock_Timer()
         Else
             Exit Sub  'only refresh when pvtSecsDegrees has changed to a new value
         End If
-    
+
         ' only clear any existing weekday indicator in the first three seconds of the day
         If fClock.weekdayToggleEnabled = True Then
             If pvtThisHour <= 1 And pvtThisMins = 1 And pvtThisSecs < 3 Then
@@ -1540,8 +1575,8 @@ Private Sub tmrClock_Timer()
             triggerDigitalClockPopulation = True
             pvtFirstRun = False
         End If
-        
-        ' now we check the quarters and play any chimes
+            
+        ' now we check the quarters and play any chimes but only if the clapper is enabled
         If fClock.clapperEnabled = True Then
     
             If pvtThisMins = 14 And pvtThisSecs = 58 Then ' 2 seconds before
@@ -1618,7 +1653,7 @@ End Sub
 ' Procedure : hideDayOfWeek
 ' Author    : beededea
 ' Date      : 07/12/2024
-' Purpose   : note: another routine exists called hideAlarmTills that closes each individually
+' Purpose   : note: another routine exists called hideAlarmTills that closes each individually, setting values too
 '---------------------------------------------------------------------------------------
 '
 Private Sub hideDayOfWeek()
@@ -1781,7 +1816,7 @@ Private Sub ShallWeRingAlarm()
           
             ' start the alarm timer ringing the bell
             tmrAlarmRinging.Enabled = True
-          
+            
             Exit Sub
         End If
     End If
@@ -1867,6 +1902,9 @@ Private Sub ShallWeRingAlarm()
             Exit Sub
         End If
     End If
+    
+
+
                 
    On Error GoTo 0
    Exit Sub
@@ -1881,7 +1919,7 @@ ShallWeRingAlarm_Error:
 ' Procedure : tmrAlarmRinging_Timer
 ' Author    : beededea
 ' Date      : 18/10/2024
-' Purpose   :
+' Purpose   : timer that rings the alarm sound
 '---------------------------------------------------------------------------------------
 '
 Public Sub tmrAlarmRinging_Timer()
@@ -1914,7 +1952,7 @@ End Sub
 ' Procedure : tmrCountdownToToll_Timer
 ' Author    : beededea
 ' Date      : 18/10/2024
-' Purpose   :
+' Purpose   : counts and displays the final few seconds between the final full hourly chime and the tolling of the bells that count the hour
 '---------------------------------------------------------------------------------------
 '
 Private Sub tmrCountdownToToll_Timer()
@@ -1944,7 +1982,7 @@ End Sub
 ' Procedure : tmrTolling_Timer
 ' Author    : beededea
 ' Date      : 18/10/2024
-' Purpose   :
+' Purpose   : the timer for the tolling of the bells that counts the hour
 '---------------------------------------------------------------------------------------
 '
 Private Sub tmrTolling_Timer()
