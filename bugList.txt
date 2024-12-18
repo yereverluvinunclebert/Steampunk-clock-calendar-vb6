@@ -255,6 +255,8 @@ Tasks to do:
 
 ' test and modify the slider with negative values
 
+' frame in prefs icons not showing
+
 ' weekday till flag, the text 'only' sometimes doubles up, possibly after a refresh after midnight when the till has been showing - identify the scenario
 
 ' descriptions on all routines - wip
