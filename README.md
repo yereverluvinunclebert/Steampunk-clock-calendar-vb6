@@ -129,8 +129,10 @@ At the back-end there are more preferences that may be changed, all are document
 
  BUILD: The program runs without any Microsoft plugins.
  
- Built using: VB6, TwinBasic, MZ-TOOLS 3.0, VBAdvance, CodeHelp Core IDE Extender
- Framework 2.2 & Rubberduck 2.4.1, RichClient 6
+ Built using: VB6 with MZ-TOOLS 3.0, VBAdvance, CodeHelp Core IDE Extender
+ Framework 2.2, Shaggratt's Code Map, Rubberduck 2.4.1, RichClient 6 or, 
+ 
+ TwinBasic and RichClient 6
  
  Links:
  
@@ -156,12 +158,13 @@ At the back-end there are more preferences that may be changed, all are document
 	Windows 10 Home 64bit on AMD    
 	Windows 11 64bit on Intel  
    
+
  
  ![vb6-IDE-1400](https://github.com/user-attachments/assets/6635dd66-21e4-41d9-9053-f0e81814077a)
- The VB6 IDE displaying the Steampunk Clock/Calendar in code view.
+ The VB6 IDE displaying the Steampunk Clock/Calendar in code view on Windows 10.
  
  ![tb6IDE-001](https://github.com/user-attachments/assets/97e1cc71-50c8-4625-b0b8-e5a0d9326413)
- The TwinBasic IDE displaying the Steampunk Clock/Calendar in code view.
+ The TwinBasic IDE displaying the Steampunk Clock/Calendar in code view on Windows 10.
  
  CREDITS:
  
