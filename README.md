@@ -4,14 +4,14 @@ A FOSS Desktop Utility VB6 WoW64 Widget for Windows XP, ReactOS, Vista, Win7, 8 
 
 My current VB6/TwinBasic/RC6 PSD program being worked upon now, in progress, don't download it yet expecting it to work in all respects, as it is far from complete. Estimated at 99% graphically complete but only 82% code-complete. I am always adding in new functionality as this is an educational project for me. What does the program do already in its unfinished state?
 
-	Chimes the hours and quarters.
-	Has up to five working alarms. 
-	All the steampunk controls working and functioning as designed, responds to keyboard and mouse events.
- 	The time slider now advances time using a logarthmic scale.
-	Has a fully functioning preference utility.
-	Has full documentation and help.
-	Demonstrates the use of VB6/TwinBasic and Cairo Graphics working together.
-	Demonstrates how to put a transparent form on your desktop using VB6 or TwinBasic.
+	* Chimes the hours and quarters.
+	* Has up to five working alarms. 
+	* All the steampunk controls working and functioning as designed, responds to keyboard and mouse events.
+ 	* The time slider now advances time using a logarthmic scale.
+	* Has a fully functioning preference utility.
+	* Has full documentation and help.
+	* Demonstrates the use of VB6/TwinBasic and Cairo Graphics working together.
+	* Demonstrates how to put a transparent form on your desktop using VB6 or TwinBasic.
 
 When finished, this Steampunk Clock Calendar widget will be an attractive steampunk widget for your desktop. It is a deliberately-complex clock with a skeumorphic interface. Functional but gorgeous at the same time. This VB6/TwinBasic Widget is a moveable widget that you can move anywhere around the desktop as you require. The design is based upon the Yahoo widget of the same design which I also designed. This is its replacement.
  
@@ -156,6 +156,11 @@ At the back-end there are more preferences that may be changed, all are document
 	Windows 10 Home 64bit on AMD    
 	Windows 11 64bit on Intel  
    
+ 
+ ![vb6-IDE-1400](https://github.com/user-attachments/assets/6635dd66-21e4-41d9-9053-f0e81814077a)
+ The VB6 IDE displaying the Steampunk Clock/Calendar in code view.
+ 
+ 
  CREDITS:
  
  I have really tried to maintain the credits as the project has progressed. If I 
