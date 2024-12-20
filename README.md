@@ -160,6 +160,8 @@ At the back-end there are more preferences that may be changed, all are document
  ![vb6-IDE-1400](https://github.com/user-attachments/assets/6635dd66-21e4-41d9-9053-f0e81814077a)
  The VB6 IDE displaying the Steampunk Clock/Calendar in code view.
  
+ ![tb6IDE-001](https://github.com/user-attachments/assets/97e1cc71-50c8-4625-b0b8-e5a0d9326413)
+ The TwinBasic IDE displaying the Steampunk Clock/Calendar in code view.
  
  CREDITS:
  
