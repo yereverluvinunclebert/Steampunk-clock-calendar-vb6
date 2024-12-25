@@ -132,7 +132,7 @@ At the back-end there are more preferences that may be changed, all are document
  Built using: VB6 with MZ-TOOLS 3.0, VBAdvance, CodeHelp Core IDE Extender
  Framework 2.2, Shaggratt's Code Map, Rubberduck 2.4.1, RichClient 6 or, 
  
- TwinBasic and RichClient 6
+ TwinBasic/RichClient 6 version can be found here: https://github.com/yereverluvinunclebert/tbSteampunk-clock-calendar
  
  Links:
  
@@ -157,8 +157,6 @@ At the back-end there are more preferences that may be changed, all are document
 	Windows 10 Home 64bit on Intel    
 	Windows 10 Home 64bit on AMD    
 	Windows 11 64bit on Intel  
-   
-
  
  ![vb6-IDE-1400](https://github.com/user-attachments/assets/6635dd66-21e4-41d9-9053-f0e81814077a)
  The VB6 IDE displaying the Steampunk Clock/Calendar in code view on Windows 10.
