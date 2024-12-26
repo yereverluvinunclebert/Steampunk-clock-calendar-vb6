@@ -20,6 +20,8 @@ If you just want to install it on your desktop, there will be a setup.exe that y
  Why VB6? Well, with a 64 bit, modern-language upgrade improvement being delivered now, in the form of "100% compatible" TwinBasic, coupled with support for transparent PNGs via RC/Cairo, VB6 native code has an amazing future. 
 
  ![vb6-logo-200](https://github.com/yereverluvinunclebert/Panzer-JustClock-VB6/assets/2788342/7986e544-0b94-4a10-90bb-2d9fb60c294a)
+
+ The TwinBasic/RichClient 6 version can be found here: https://github.com/yereverluvinunclebert/tbSteampunk-clock-calendar
  
  I created this as a development from the original Yahoo widget/ Konfabulator version I had previously created for the steampunk 
  communities. This widget is an attractive steampunk VB6/TwinBasic widget for your desktop. It is almost all my code with some help from the chaps at VBForums (credits given).
