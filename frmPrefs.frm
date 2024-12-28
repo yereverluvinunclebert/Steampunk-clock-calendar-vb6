@@ -372,7 +372,7 @@ Begin VB.Form widgetPrefs
             Height          =   3795
             Left            =   -1005
             TabIndex        =   146
-            Top             =   2940
+            Top             =   3285
             Width           =   8325
             Begin VB.CommandButton btnNow 
                Caption         =   "o"
@@ -881,6 +881,16 @@ Begin VB.Form widgetPrefs
             ToolTipText     =   "Check this box to enable the automatic start of the program when Windows is started."
             Top             =   1230
             Width           =   4020
+         End
+         Begin VB.Label lblGeneral 
+            Caption         =   "day        month          year            hr        min"
+            Height          =   375
+            Index           =   13
+            Left            =   1575
+            TabIndex        =   233
+            Tag             =   "lblRefreshInterval"
+            Top             =   3075
+            Width           =   4485
          End
          Begin VB.Label lblGeneral 
             Caption         =   "Digital Clock :"

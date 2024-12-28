@@ -40,6 +40,14 @@ Begin VB.Form frmTimer
       Left            =   90
       Top             =   135
    End
+   Begin VB.Label Label5 
+      Caption         =   "timer for running the startup of the prefs in a timer to slightly parallelise."
+      Height          =   195
+      Left            =   720
+      TabIndex        =   5
+      Top             =   2175
+      Width           =   3645
+   End
    Begin VB.Label Label4 
       Caption         =   "sleeptimer for testing awake from sleep"
       Height          =   195

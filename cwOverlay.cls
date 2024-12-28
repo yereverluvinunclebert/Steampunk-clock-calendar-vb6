@@ -61,7 +61,7 @@ Private mSwingPendulum As Boolean
 Private mTimeDeviation As Currency
 Private mBaseDate As String
 Private mSliderInTransit As Boolean
-Private mTimeShiftValue As Currency
+Private mTimeShiftValueSecs As Currency
 
 ' private vars general usage
 
@@ -452,7 +452,7 @@ End Property
 
 
 ' ----------------------------------------------------------------
-' Procedure Name: timeShiftValue
+' Procedure Name: timeShiftValueSecs
 ' Purpose:
 ' Procedure Kind: Property (Get)
 ' Procedure Access: Public
@@ -460,23 +460,23 @@ End Property
 ' Author: beededea
 ' Date: 26/05/2024
 ' ----------------------------------------------------------------
-Public Property Get timeShiftValue() As Currency
+Public Property Get timeShiftValueSecs() As Currency
     
-    On Error GoTo timeShiftValue_Error
+    On Error GoTo timeShiftValueSecs_Error
     
-    timeShiftValue = mTimeShiftValue
+    timeShiftValueSecs = mTimeShiftValueSecs
     
     On Error GoTo 0
     Exit Property
 
-timeShiftValue_Error:
+timeShiftValueSecs_Error:
 
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure timeShiftValue, line " & Erl & "."
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure timeShiftValueSecs, line " & Erl & "."
 
 End Property
 
 ' ----------------------------------------------------------------
-' Procedure Name: timeShiftValue
+' Procedure Name: timeShiftValueSecs
 ' Purpose:
 ' Procedure Kind: Property (Let)
 ' Procedure Access: Public
@@ -484,17 +484,17 @@ End Property
 ' Author: beededea
 ' Date: 26/05/2024
 ' ----------------------------------------------------------------
-Public Property Let timeShiftValue(ByVal newValue As Currency)
-    On Error GoTo timeShiftValue_Error
+Public Property Let timeShiftValueSecs(ByVal newValue As Currency)
+    On Error GoTo timeShiftValueSecs_Error
     
-    If mTimeShiftValue <> newValue Then mTimeShiftValue = newValue Else Exit Property
+    If mTimeShiftValueSecs <> newValue Then mTimeShiftValueSecs = newValue Else Exit Property
     
     On Error GoTo 0
     Exit Property
 
-timeShiftValue_Error:
+timeShiftValueSecs_Error:
 
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure timeShiftValue, line " & Erl & "."
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure timeShiftValueSecs, line " & Erl & "."
 
 End Property
 '---------------------------------------------------------------------------------------
@@ -1272,8 +1272,8 @@ Private Sub populateDigitalClockCache(ByRef CC As cCairoContext)
         theDay = Left$(pvtCurrentDateToDisplay, 2)
         theMonth = Mid$(pvtCurrentDateToDisplay, 4, 2)
         theYear = Mid$(pvtCurrentDateToDisplay, 7, 4)
-        theHours = Left$(pvtCurrentDateToDisplay, 2)
-        theMins = Mid$(pvtCurrentDateToDisplay, 4, 2)
+        theHours = Mid$(pvtCurrentDateToDisplay, 12, 2)
+        theMins = Mid$(pvtCurrentDateToDisplay, 15, 2)
     End If
 
     Call populateDigitalDayofMonthCache(CC, theDay)
@@ -1363,9 +1363,9 @@ Private Sub tmrTimeShift_Timer()
     On Error GoTo tmrTimeShift_Timer_Error
     
     ' Calculate the percentage
-    perc = timeShiftValue * 100
+    perc = mTimeShiftValueSecs * 100
 
-'    ' Determine the percentage from the middle of the slider
+    ' Determine the percentage from the middle of the slider
     If perc <= 50 Then ' Negative value
         perc = perc - 50 ' results in a negative number
         perc = perc * 2  ' double it for a percentage from the mid point
@@ -1375,14 +1375,14 @@ Private Sub tmrTimeShift_Timer()
         perc = perc * 2
     End If
     
-    If perc = 0 Or perc = -100 Then
+    If perc = 0 Then
         timeAdvanceDeviation = 0
     Else
         timeAdvanceDeviation = timeAdvanceDeviation + fLogSlider(perc)
     End If
     
     'pass the time deviation to a property in cwOverlay, Given a percentage calculates the logarithmic value
-    overlayWidget.TimeDeviation = timeAdvanceDeviation
+    mTimeDeviation = timeAdvanceDeviation
     
     Debug.Print ("%KON-I-INFO, perc before " & perc)
 
@@ -1426,8 +1426,8 @@ Function fLogSlider(thisPerc As Integer) As Currency
     maxp = 100
 
     ' The result should be between 6000 and 1000000#
-    minv = Log(6000)
-    maxv = Log(1000000#)
+    minv = Log(2000)
+    maxv = Log(3000000#)
 
     ' calculate adjustment factor
     logScale = (maxv - minv) / (maxp - minp)
@@ -1476,7 +1476,7 @@ End Sub
 ' ----------------------------------------------------------------
 ' Procedure Name: tmrClock_Timer
 ' Purpose: main timer controlling the analogue clock only,
-' very few routines are called from this timer but instead the subsequent refresh will trigger a PAINT event
+' only a few routines are called from this timer but instead the subsequent refresh will trigger a PAINT event, stuff also happens there
 ' Procedure Kind: Sub
 ' Procedure Access: Private
 ' Author: beededea
@@ -1500,52 +1500,41 @@ Private Sub tmrClock_Timer()
         pvtThisMins = Minute(pvtCurrentDateToDisplay)
         pvtThisSecs = Second(pvtCurrentDateToDisplay)
         
-'        If mTimeDeviation >= 10000 Then
-'            a = 1
-'        End If
-        
         ' calculate angles of hour and second hand for the analogue clock
         pvtHourDegrees = 30 * (pvtThisHour Mod 12 + (pvtThisMins) / 60) ' global vars used in the paint event
         pvtMinsDegrees = 6 * ((pvtThisMins) + (pvtThisSecs / 60))
         pvtSeconds = pvtThisSecs
         
-    Else ' normal time displayed, quarterly chimes played along with any alarms
+    Else ' normal time displayed, quarterly chimes played along with any alarms, test for alarm being displayed manually
         
+        '  test for alarms 1-5 being displayed manually by the user, pressing alarm 1-5 toggles
         If gblAlarmToggle1Enabled = "True" Then
             If gblAlarm1Time = vbNullString Then gblAlarm1Time = "00:00"
-            ' extract the time components
             pvtThisHour = Hour(gblAlarm1Time)
             pvtThisMins = Minute(gblAlarm1Time)
             pvtThisSecs = Second(gblAlarm1Time)
-            
         ElseIf gblAlarmToggle2Enabled = "True" Then
             If gblAlarm2Time = vbNullString Then gblAlarm2Time = "00:00"
-            ' extract the time components
             pvtThisHour = Hour(gblAlarm2Time)
             pvtThisMins = Minute(gblAlarm2Time)
             pvtThisSecs = Second(gblAlarm2Time)
-            
         ElseIf gblAlarmToggle3Enabled = "True" Then
              If gblAlarm3Time = vbNullString Then gblAlarm3Time = "00:00"
-            ' extract the time components
             pvtThisHour = Hour(gblAlarm3Time)
             pvtThisMins = Minute(gblAlarm3Time)
             pvtThisSecs = Second(gblAlarm3Time)
-
         ElseIf gblAlarmToggle4Enabled = "True" Then
             If gblAlarm4Time = vbNullString Then gblAlarm4Time = "00:00"
-            ' extract the time components
             pvtThisHour = Hour(gblAlarm4Time)
             pvtThisMins = Minute(gblAlarm4Time)
             pvtThisSecs = Second(gblAlarm4Time)
         ElseIf gblAlarmToggle5Enabled = "True" Then
             If gblAlarm5Time = vbNullString Then gblAlarm5Time = "00:00"
-            ' extract the time components
             pvtThisHour = Hour(gblAlarm5Time)
             pvtThisMins = Minute(gblAlarm5Time)
             pvtThisSecs = Second(gblAlarm5Time)
         Else
-            ' extract the time components
+            ' normal time displayed,
             pvtThisHour = Hour(Now)
             pvtThisMins = Minute(Now)
             pvtThisSecs = Second(Now)
@@ -1562,7 +1551,7 @@ Private Sub tmrClock_Timer()
             Exit Sub  'only refresh when pvtSecsDegrees has changed to a new value
         End If
 
-        ' only clear any existing weekday indicator in the first three seconds of the day
+        '  clear any existing weekday indicator only in the first three seconds of the day
         If fClock.weekdayToggleEnabled = True Then
             If pvtThisHour <= 1 And pvtThisMins = 1 And pvtThisSecs < 3 Then
                 Call hideDayOfWeek
@@ -1570,13 +1559,13 @@ Private Sub tmrClock_Timer()
             End If
         End If
         
-        ' this should be called once at first run after startup to populate the digital clock cache
+        ' this should be called once only at first run after startup to populate the digital clock cache
         If pvtFirstRun = True Then
             triggerDigitalClockPopulation = True
             pvtFirstRun = False
         End If
             
-        ' now we check the quarters and play any chimes but only if the clapper is enabled
+        ' now we check the quarters and play any chimes but only if the clapper is enabled (on the bell)
         If fClock.clapperEnabled = True Then
     
             If pvtThisMins = 14 And pvtThisSecs = 58 Then ' 2 seconds before
@@ -1638,7 +1627,7 @@ Private Sub tmrClock_Timer()
         End If
     End If
     
-    ' very few routines are called from this timer but instead this subsequent refresh will trigger a PAINT event
+    ' only a few routines are called from this timer but instead this subsequent refresh will trigger a PAINT event
     W.Parent.Refresh ' causes a paint event to fire - lots happens in the paint event
     
    On Error GoTo 0

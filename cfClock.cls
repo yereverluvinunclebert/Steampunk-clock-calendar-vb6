@@ -2665,15 +2665,13 @@ End Sub
 
 ' ----------------------------------------------------------------
 ' Procedure Name: sliderset_Moving
-' Purpose:
+' Purpose:  RC Widget Event-Handler for sliderset with the property .moveable = true
 ' Procedure Kind: Sub
 ' Procedure Access: Private
 ' Author: beededea
 ' Date: 26/05/2024
 ' ----------------------------------------------------------------
-Private Sub sliderset_Moving() ' this is an explicit Event-Handler derived from the RC Widget-instance with the property .moveable = true
-'    Dim perc As Integer: perc = 0
-'    Static timeAdvanceDeviation As Double
+Private Sub sliderset_Moving()
     
     On Error GoTo sliderset_Moving_Error
     
@@ -2686,7 +2684,7 @@ Private Sub sliderset_Moving() ' this is an explicit Event-Handler derived from 
     If tmrZZZZSound.Enabled = False And pvtSlidersetMousedown = True Then tmrZZZZSound.Enabled = True
     
     timeShiftValue = (pvtSldX - pvtSldXMin) / (pvtSldXMax - pvtSldXMin) 'assign the new Value to the Public Prop, to trigger all the necessary refreshs
-    overlayWidget.timeShiftValue = timeShiftValue
+    overlayWidget.timeShiftValueSecs = timeShiftValue
     
     ' if the slider is enabled and the timeShiftValue <> 0.5 then start the timer that shifts the digital clocks forwards or backwards
     If SliderFreed = True And timeShiftValue <> 0.5 Then
@@ -2694,31 +2692,6 @@ Private Sub sliderset_Moving() ' this is an explicit Event-Handler derived from 
     Else
         overlayWidget.tmrTimeShift.Enabled = False
     End If
-    
-'    ' Calculate the percentage
-'    perc = timeShiftValue * 100
-'
-''    ' Determine the percentage from the middle of the slider
-'    If perc <= 50 Then ' Negative value
-'        perc = perc - 50 ' results in a negative number
-'        perc = perc * 2  ' double it for a percentage from the mid point
-'
-'    ElseIf perc > 50 Then ' Positive
-'        perc = perc - 50
-'        perc = perc * 2
-'    End If
-'
-'    If perc = 0 Or perc = -100 Then
-'        timeAdvanceDeviation = 0
-'    Else
-'        timeAdvanceDeviation = timeAdvanceDeviation + fLogSlider(perc)
-'    End If
-'
-'    'pass the time deviation to a property in cwOverlay, Given a percentage calculates the logarithmic value
-'    overlayWidget.TimeDeviation = timeAdvanceDeviation
-    
-    'Debug.Print ("%KON-I-INFO, perc before " & perc)
-    'Debug.Print ("%KON-I-INFO, timeDeviation " & TimeDeviation)
     
     On Error GoTo 0
     Exit Sub
@@ -2728,58 +2701,6 @@ sliderset_Moving_Error:
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure sliderset_Moving, line " & Erl & "."
 
 End Sub
-
-''---------------------------------------------------------------------------------------
-'' Procedure : fLogSlider
-'' Author    : beededea
-'' Date      : 14/11/2024
-'' Purpose   : this function determines the logarithmic value of the time slider
-''---------------------------------------------------------------------------------------
-''
-'Function fLogSlider(thisPerc As Integer) As Currency
-'
-'    Dim minp As Double: minp = 0
-'    Dim maxp As Double: maxp = 0
-'    Dim minv As Double: minv = 0
-'    Dim maxv As Double: maxv = 0
-'    Dim logScale As Double: logScale = 0
-'    Dim thisValue As Double: thisValue = 0
-'    Dim negFlag As Boolean: negFlag = False
-'
-'    On Error GoTo LogSlider_Error
-'
-'    'thisPerc = -5 ' debug
-'
-'    If thisPerc <= 0 Then ' convert to positive to calculate adjustment factor
-'        negFlag = True
-'        thisPerc = Abs(thisPerc)
-'    End If
-'
-'    ' thisPerc will be between 0 and 100
-'    maxp = 100
-'
-'    ' The result should be between 1 and 100000
-'    minv = Log(1)
-'    maxv = Log(200000#)
-'
-'    ' calculate adjustment factor
-'    logScale = (maxv - minv) / (maxp - minp)
-'    thisValue = Exp(minv + logScale * (thisPerc - minp))
-'    'If (debugFlg = 1) Then
-'
-'    Debug.Print ("%KON-I-INFO, thisValue " & thisValue)
-'
-'    If negFlag = True Then thisValue = thisValue * -1 ' convert to negative again
-'    fLogSlider = thisValue  ' return
-'
-'   On Error GoTo 0
-'   Exit Function
-'
-'LogSlider_Error:
-'
-'    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure fLogSlider of Class Module cfClock"
-'End Function
-
 
 
 '---------------------------------------------------------------------------------------

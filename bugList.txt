@@ -233,7 +233,7 @@ o add now() button logic for all alarms
 ' weekday till red flag, properly made to disappear when mouse leaves, using lblterminaltxt mouseOver
 ' alarm till red flag, properly made to disappear when mouse leaves, using lblterminaltxt mouseOver
 ' slider mouse Move advancing/retarding time using timeShiftPercent modified to shift time logarithmically
-' instead of sliderSet_Moving event, use the relative position of the slider to determine the amount of advance/retard and have a timer forward that to the overlay
+' instead  of sliderSet_Moving event, use the relative position of the slider to determine the amount of advance/retard and have a timer forward that to the overlay
 
 ' alarmMode variable renamed to sliderInTransit
 
@@ -248,18 +248,28 @@ o add now() button logic for all alarms
 ' for each call of RotateBusyTimer, increment a private var in fclock holding the rotate angle
 ' when in alarm mode, the analogue clock now displays the time as stated on the alarm shown
 
+' change the upper S toggle to a D toggle, D for Display
+' change the help background
+
 ' -oOo-
 
 Tasks to do:
 ============
 
 ' test and modify the slider with negative values
+identify the process
+identify the routines
+use the immediate window and check the values
 
 ' frame in prefs icons not showing
 
+' change the HTML help
+
+' alarm set - accept an indicated time as the current alarm date/time
+
 ' weekday till flag, the text 'only' sometimes doubles up, possibly after a refresh after midnight when the till has been showing - identify the scenario
 
-' descriptions on all routines - wip
+' descriptions on all routines - WIP
 
 ' about text VB6 / Twinbasic wip, check if the PSD is on the e6410.
 
