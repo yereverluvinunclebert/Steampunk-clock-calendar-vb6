@@ -2672,11 +2672,15 @@ End Sub
 ' Date: 26/05/2024
 ' ----------------------------------------------------------------
 Private Sub sliderset_Moving()
+
+    Static sliderSetCount As Long
     
     On Error GoTo sliderset_Moving_Error
     
     ' set the clock timer to a small interval to allow the clock hands to rotate rapidly as the slider moves to the extreme right/left
     overlayWidget.tmrClock.Interval = 25
+    
+    sliderSetCount = sliderSetCount + 1
          
     pvtSldX = sliderset.Left
     If pvtSldX < pvtSldXMin Then pvtSldX = pvtSldXMin Else If pvtSldX > pvtSldXMax Then pvtSldX = pvtSldXMax 'keep pvtSldX "in range"
@@ -2685,10 +2689,15 @@ Private Sub sliderset_Moving()
     
     timeShiftValue = (pvtSldX - pvtSldXMin) / (pvtSldXMax - pvtSldXMin) 'assign the new Value to the Public Prop, to trigger all the necessary refreshs
     overlayWidget.timeShiftValueSecs = timeShiftValue
-    
+            
     ' if the slider is enabled and the timeShiftValue <> 0.5 then start the timer that shifts the digital clocks forwards or backwards
     If SliderFreed = True And timeShiftValue <> 0.5 Then
+        
         overlayWidget.tmrTimeShift.Enabled = True
+        
+        If sliderSetCount Mod (2) = 0 Then overlayWidget.TriggerTimeShift = True
+        If sliderSetCount > 1000 Then sliderSetCount = 0
+
     Else
         overlayWidget.tmrTimeShift.Enabled = False
     End If

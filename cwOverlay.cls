@@ -62,6 +62,7 @@ Private mTimeDeviation As Currency
 Private mBaseDate As String
 Private mSliderInTransit As Boolean
 Private mTimeShiftValueSecs As Currency
+Private mTriggerTimeShift As Boolean
 
 ' private vars general usage
 
@@ -588,6 +589,52 @@ HiddenLet_Error:
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property Hidden of Class Module cwoverlay"
 End Property
 
+ 
+ '---------------------------------------------------------------------------------------
+' Property  : TriggerTimeShift
+' Author    : beededea
+' Date      : 17/05/2023
+' Purpose   :
+'---------------------------------------------------------------------------------------
+'
+Public Property Get TriggerTimeShift() As Boolean
+   On Error GoTo TriggerTimeShiftGet_Error
+
+   TriggerTimeShift = mTriggerTimeShift
+
+   On Error GoTo 0
+   Exit Property
+
+TriggerTimeShiftGet_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property TriggerTimeShift of Class Module cwoverlay"
+End Property
+
+'---------------------------------------------------------------------------------------
+' Property  : TriggerTimeShift
+' Author    : beededea
+' Date      : 10/05/2023
+' Purpose   :
+'---------------------------------------------------------------------------------------
+'
+Public Property Let TriggerTimeShift(ByVal newValue As Boolean)
+   On Error GoTo TriggerTimeShiftLet_Error
+   
+   mTriggerTimeShift = newValue
+
+    If mTriggerTimeShift = True Then
+        Call tmrTimeShiftRoutine
+        Call tmrClock_TimerRoutine
+     End If
+
+   On Error GoTo 0
+   Exit Property
+
+TriggerTimeShiftLet_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property TriggerTimeShift of Class Module cwoverlay"
+End Property
+ 
  
 '---------------------------------------------------------------------------------------
 ' Procedure : drawTimeMachineImages
@@ -1357,12 +1404,35 @@ End Sub
 ' Date: 21/06/2024
 ' ----------------------------------------------------------------
 Private Sub tmrTimeShift_Timer()
-    Dim perc As Integer: perc = 0
-    Static timeAdvanceDeviation As Double
-   
+
     On Error GoTo tmrTimeShift_Timer_Error
     
+    Call tmrTimeShiftRoutine
+    
+   On Error GoTo 0
+   Exit Sub
+
+tmrTimeShift_Timer_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure tmrTimeShift_Timer of Class Module cwOverlay"
+End Sub
+
+
+'---------------------------------------------------------------------------------------
+' Procedure : tmrTimeShiftRoutine
+' Author    : beededea
+' Date      : 28/12/2024
+' Purpose   : called by tmrTimeShift and by a TimeShift property call
+'---------------------------------------------------------------------------------------
+'
+Private Sub tmrTimeShiftRoutine()
+
+    Dim perc As Integer: perc = 0
+    Static timeAdvanceDeviation As Double
+    
     ' Calculate the percentage
+    On Error GoTo tmrTimeShiftRoutine_Error
+
     perc = mTimeShiftValueSecs * 100
 
     ' Determine the percentage from the middle of the slider
@@ -1387,14 +1457,18 @@ Private Sub tmrTimeShift_Timer()
     Debug.Print ("%KON-I-INFO, perc before " & perc)
 
     W.Parent.Refresh ' causes a paint event to fire
-    
+
    On Error GoTo 0
    Exit Sub
 
-tmrTimeShift_Timer_Error:
+tmrTimeShiftRoutine_Error:
 
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure tmrTimeShift_Timer of Class Module cwOverlay"
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure tmrTimeShiftRoutine of Class Module cwOverlay"
+
 End Sub
+
+
+
 
 '---------------------------------------------------------------------------------------
 ' Procedure : fLogSlider
@@ -1484,12 +1558,34 @@ End Sub
 ' ----------------------------------------------------------------
 Private Sub tmrClock_Timer()
 
+    On Error GoTo tmrClock_Timer_Error
+     
+    Call tmrClock_TimerRoutine
+    
+   On Error GoTo 0
+   Exit Sub
+
+tmrClock_Timer_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure tmrClock_Timer of Class Module cwOverlay"
+End Sub
+
+
+'---------------------------------------------------------------------------------------
+' Procedure : tmrClock_TimerRoutine
+' Author    : beededea
+' Date      : 31/12/2024
+' Purpose   :
+'---------------------------------------------------------------------------------------
+'
+Private Sub tmrClock_TimerRoutine()
+
     Dim fileToPlay As String: fileToPlay = vbNullString
     Dim a As Long
     
-    On Error GoTo tmrClock_Timer_Error
-    
     ' slider is activated and the clock is in alarm SET mode, we display the time chosen by the user dragging the slider
+    On Error GoTo tmrClock_TimerRoutine_Error
+
     If mSliderInTransit = True Then
     
         ' take the current date at the point the the alarm slider was activated
@@ -1629,14 +1725,16 @@ Private Sub tmrClock_Timer()
     
     ' only a few routines are called from this timer but instead this subsequent refresh will trigger a PAINT event
     W.Parent.Refresh ' causes a paint event to fire - lots happens in the paint event
-    
+
    On Error GoTo 0
    Exit Sub
 
-tmrClock_Timer_Error:
+tmrClock_TimerRoutine_Error:
 
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure tmrClock_Timer of Class Module cwOverlay"
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure tmrClock_TimerRoutine of Class Module cwOverlay"
+    
 End Sub
+
 
 '---------------------------------------------------------------------------------------
 ' Procedure : hideDayOfWeek

@@ -251,15 +251,23 @@ o add now() button logic for all alarms
 ' change the upper S toggle to a D toggle, D for Display
 ' change the help background
 
+' test and modify the slider with negative values
+' move the code run in the tmrTimeShift timer to a subroutine
+' in the timer and call that subroutine
+' create a property let/get that also triggers the subroutine
+' in sliderSet_moving set that property causing the routine to run
+
+' identify remaining numeric indicator related code that is currently in timers to routines that can be called manually from the UI
+' call them from the _MOVING event and test
+
 ' -oOo-
 
 Tasks to do:
 ============
 
-' test and modify the slider with negative values
-identify the process
-identify the routines
-use the immediate window and check the values
+' when idle in Alarm set mode with the slider in 0 position, no CPU should be used.
+
+' numeric display animation in the subroutine, set a flag as to whether the subroutine is already being called by the timer or the slider
 
 ' frame in prefs icons not showing
 
@@ -291,8 +299,7 @@ use the immediate window and check the values
 ' look at Olaf's pendulum code
 
 ' Create a XP /ReactOS version using old APIs and RC5 - no DPI awareness, as XP does not have the API nor the capability.
-
-https://www.vbforums.com/showthread.php?896944-VB6-QUESTION-Check-if-API-exists
+        https://www.vbforums.com/showthread.php?896944-VB6-QUESTION-Check-if-API-exists
 
 ' obtain a XP test system - wip
 
@@ -312,7 +319,7 @@ https://www.vbforums.com/showthread.php?896944-VB6-QUESTION-Check-if-API-exists
 
 ' reduce CPU usage to less than one percent
 
-'  create setup.exe with a different name.
+' create setup.exe with a different name.
 
 ' -oOo-
 
@@ -332,7 +339,9 @@ https://www.vbforums.com/showthread.php?896944-VB6-QUESTION-Check-if-API-exists
 
  file:///E:/vb6/vbAccelerator%20-%20Providing%20a%20proper%20VB%20Application%20Icon,%20Including%20Large%20Icons%20and%2032-Bit%20Alpha%20Images.html
 
-' recreate the clock using 
+' recreate the clock imagery using a large scale version of the PSD
 
-subclass the font dialog to center it on screen using lpfhook?
+subclass the font dialog non-modal pop up to centre it on screen using lpfhook?
 
+Static Linking in TB only.
+         In TwinBasic static library linking is possible allowing incorporation of DLLs into the misc section and compiling into the finished binary
