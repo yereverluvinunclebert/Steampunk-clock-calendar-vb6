@@ -2,7 +2,9 @@
  
 A FOSS Desktop Utility VB6 WoW64 Widget for Windows XP, ReactOS, Vista, Win7, 8 and 10/11+.
 
-My current VB6/TwinBasic/RC6 PSD program being worked upon now, in progress, don't download it yet expecting it to work in all respects, as it is far from complete. Estimated at 99% graphically complete but only 82% code-complete. I am always adding in new functionality as this is an educational project for me. What does the program do already in its unfinished state?
+My current VB6/TwinBasic/RC6 PSD program being worked upon now, in progress, you can download it but do expect some functionality to be incomplete and unpolished. Estimated at 99% graphically complete but only 82% code-complete. I am always adding in new functionality as this is an educational project for me. 
+
+What does the program do already in its unfinished state?
 
 	* Chimes the hours and quarters.
 	* Has up to five working alarms. 
