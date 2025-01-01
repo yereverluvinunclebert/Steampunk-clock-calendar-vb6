@@ -199,6 +199,8 @@ At the back-end there are more preferences that may be changed, all are document
  unwitting source of inspiration. 
  
  Dependencies:
+
+ These Dependencies are for developing in VB6 only.
  
  o A windows-alike o/s such as Windows Vista 7-11 or Apple Mac OSX 11. 
  
@@ -207,6 +209,7 @@ At the back-end there are more preferences that may be changed, all are document
  ship with VB6.  
 
   o Alternatively, the TwinBasic IDE installed from https://twinbasic.com/
+  If you want to use TwinBasic then the dependencies are very different, see them here: https://github.com/yereverluvinunclebert/tbSteampunk-clock-calendar
  
  ![vb6-logo](https://github.com/yereverluvinunclebert/Panzer-JustClock-VB6/assets/2788342/861f1ce1-7058-4d09-af94-daab9206ca86)
  
