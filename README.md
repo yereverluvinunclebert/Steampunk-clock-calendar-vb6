@@ -2,7 +2,7 @@
  
 A FOSS Desktop Utility VB6 WoW64 Widget for Windows XP, ReactOS, Vista, Win7, 8 and 10/11+.
 
-My current VB6/TwinBasic/RC6 PSD program being worked upon now, in progress, you can download it but do expect some functionality to be incomplete and unpolished. Estimated at 99% graphically complete but only 82% code-complete. I am always adding in new functionality as this is an educational project for me. 
+My current VB6/TwinBasic/RC6 PSD program being worked upon now, in progress, you can download it but do expect some functionality to be incomplete and unpolished. Estimated at 99% graphically complete, 90% functionally complete but only 80% code-complete. I am always adding in new functionality as this is an educational project for me, there are code improvements to be made, alternative, more efficient methods found &c.
 
 What does the program do already in its unfinished state?
 
