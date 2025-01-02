@@ -2692,8 +2692,8 @@ Private Sub sliderset_Moving()
             
     ' if the slider is enabled and the timeShiftValue <> 0.5 then start the timer that shifts the digital clocks forwards or backwards
     If SliderFreed = True And timeShiftValue <> 0.5 Then
-        overlayWidget.SliderInTransit = True
-        overlayWidget.tmrTimeShift.Enabled = True
+        overlayWidget.SliderInTransit = True ' the flag that when set allows a call to the routine that causes the 'rotation' of the numeric display when the slider is dragged by the user
+        overlayWidget.tmrTimeShift.Enabled = True ' the background timer that 'rotates' the numeric display when the slider is held still by the user
         
         If sliderSetCount Mod (2) = 0 Then overlayWidget.TriggerTimeShift = True
         If sliderSetCount > 1000 Then sliderSetCount = 0
@@ -3489,7 +3489,7 @@ Public Property Let alarmtoggleEnabled(ByVal newValue As Boolean)
         fClock.timeShiftValue = 0.5
         
         overlayWidget.BaseDate = Now()
-        overlayWidget.SliderInTransit = True
+        'overlayWidget.SliderInTransit = True
         
         ' if an alarm is not selected then choose the first available alarm
         '     raise the alarm till and alarm toggle

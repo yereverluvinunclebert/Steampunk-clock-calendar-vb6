@@ -287,7 +287,7 @@ End Property
 ' Property : SliderInTransit
 ' Author    : beededea
 ' Date      : 17/05/2023
-' Purpose   :
+' Purpose   : the flag that allows a call to the routine that causes the 'rotation' of the numeric display when the slider is dragged by the user
 '---------------------------------------------------------------------------------------
 '
 Public Property Get SliderInTransit() As Boolean
@@ -306,7 +306,7 @@ End Property
 ' Property  : SliderInTransit
 ' Author    : beededea
 ' Date      : 17/05/2023
-' Purpose   :
+' Purpose   : the flag that allows a call to the routine that causes the 'rotation' of the numeric display when the slider is dragged by the user
 '---------------------------------------------------------------------------------------
 '
 Public Property Let SliderInTransit(ByVal newValue As Boolean)
@@ -1489,24 +1489,18 @@ Function fLogSlider(thisPerc As Integer) As Currency
     
     On Error GoTo LogSlider_Error
     
-    'thisPerc = -5 ' debug
-    
     If thisPerc <= 0 Then ' convert to positive to calculate adjustment factor
         negFlag = True
         thisPerc = Abs(thisPerc)
     End If
     
-    ' thisPerc will be between 0 and 100
     maxp = 100
+    minv = Log(50)       ' minimum
+    maxv = Log(3000000#) ' maximum
 
-    ' The result should be between 6000 and 1000000#
-    minv = Log(2000)
-    maxv = Log(3000000#)
-
-    ' calculate adjustment factor
+    ' calculate adjustment factor, thisPerc will be between 0 and 100
     logScale = (maxv - minv) / (maxp - minp)
     thisValue = Exp(minv + logScale * (thisPerc - minp))
-    'If (debugFlg = 1) Then
     
     Debug.Print ("%KON-I-INFO, thisValue " & thisValue)
 
