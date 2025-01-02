@@ -260,12 +260,12 @@ o add now() button logic for all alarms
 ' identify remaining numeric indicator related code that is currently in timers to routines that can be called manually from the UI
 ' call them from the _MOVING event and test
 
+' when idle in Alarm set mode with the slider in 0 position, no CPU should be used.
+
 ' -oOo-
 
 Tasks to do:
 ============
-
-' when idle in Alarm set mode with the slider in 0 position, no CPU should be used.
 
 ' numeric display animation in the subroutine, set a flag as to whether the subroutine is already being called by the timer or the slider
 

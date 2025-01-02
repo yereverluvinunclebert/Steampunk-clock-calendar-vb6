@@ -2692,13 +2692,14 @@ Private Sub sliderset_Moving()
             
     ' if the slider is enabled and the timeShiftValue <> 0.5 then start the timer that shifts the digital clocks forwards or backwards
     If SliderFreed = True And timeShiftValue <> 0.5 Then
-        
+        overlayWidget.SliderInTransit = True
         overlayWidget.tmrTimeShift.Enabled = True
         
         If sliderSetCount Mod (2) = 0 Then overlayWidget.TriggerTimeShift = True
         If sliderSetCount > 1000 Then sliderSetCount = 0
 
     Else
+        overlayWidget.SliderInTransit = False
         overlayWidget.tmrTimeShift.Enabled = False
     End If
     
