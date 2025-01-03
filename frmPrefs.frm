@@ -2554,7 +2554,6 @@ Private gCmbAlarmMinutesBalloonTooltip As String
 Private gPrefsFormResizedByDrag As Boolean
 
 Private mIsLoaded As Boolean
-Private mlastSelectedAlarmDate As String
 
 Private Sub btnAboutDebugInfo_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
     If gblEnablePrefsBalloonTooltips = "True" Then CreateToolTip btnAboutDebugInfo.hWnd, "Here you can switch on Debug mode, not yet functional for this widget.", _
@@ -3479,6 +3478,9 @@ Private Sub Form_Load()
     ' set the Z order of the prefs form
     Call setPrefsFormZordering
     
+    ' make the busy sand timer invisible
+    Call hideBusyTimer
+    
     ' start the timer that records the prefs position every 10 seconds
     tmrWritePosition.Enabled = True
     
@@ -3498,6 +3500,26 @@ Form_Load_Error:
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure Form_Load of Form widgetPrefs"
 
 End Sub
+
+
+Private Sub hideBusyTimer()
+
+    fClock.clockForm.Widgets("busy1").Widget.Alpha = 0
+    fClock.clockForm.Widgets("busy2").Widget.Alpha = 0
+    fClock.clockForm.Widgets("busy3").Widget.Alpha = 0
+    fClock.clockForm.Widgets("busy4").Widget.Alpha = 0
+    fClock.clockForm.Widgets("busy5").Widget.Alpha = 0
+    fClock.clockForm.Widgets("busy6").Widget.Alpha = 0
+    
+    fClock.clockForm.Widgets("busy1").Widget.Refresh
+    fClock.clockForm.Widgets("busy2").Widget.Refresh
+    fClock.clockForm.Widgets("busy3").Widget.Refresh
+    fClock.clockForm.Widgets("busy4").Widget.Refresh
+    fClock.clockForm.Widgets("busy5").Widget.Refresh
+    fClock.clockForm.Widgets("busy6").Widget.Refresh
+    
+End Sub
+
 
 '---------------------------------------------------------------------------------------
 ' Procedure : subClassControls
@@ -3861,6 +3883,8 @@ Public Sub positionPrefsMonitor()
         End If
     End If
 
+    fClock.RotateBusyTimer = True
+    
     On Error GoTo 0
     Exit Sub
 
@@ -4725,7 +4749,9 @@ Private Sub showLastTab()
     If gblLastSelectedTab = "window" Then Call picButtonMouseUpEvent("window", imgWindow, imgWindowClicked, fraWindow, fraWindowButton)
     If gblLastSelectedTab = "about" Then Call picButtonMouseUpEvent("about", imgAbout, imgAboutClicked, fraAbout, fraAboutButton)
 
-   On Error GoTo 0
+    fClock.RotateBusyTimer = True
+    
+  On Error GoTo 0
    Exit Sub
 
 showLastTab_Error:
@@ -4834,6 +4860,7 @@ Private Sub positionPrefsFramesButtons()
     btnSave.Left = btnClose.Left - btnSave.Width - 50
     btnHelp.Left = frameLeft
     
+    fClock.RotateBusyTimer = True
 
    On Error GoTo 0
    Exit Sub
@@ -5509,13 +5536,15 @@ Private Sub adjustPrefsControls(Optional ByVal restart As Boolean)
     
     ' configuration tab
    
+    fClock.RotateBusyTimer = True
+    
     ' check whether the size has been previously altered via ctrl+mousewheel on the widget
     sliGaugeSizeOldValue = sliGaugeSize.Value
     sliGaugeSize.Value = Val(gblGaugeSize)
     If sliGaugeSize.Value <> sliGaugeSizeOldValue Then
         btnSave.Visible = True
     End If
-    
+        
     cmbScrollWheelDirection.ListIndex = Val(gblScrollWheelDirection)
     
     optEnableTooltips.Value = CBool(gblEnableTooltips)
@@ -5533,6 +5562,8 @@ Private Sub adjustPrefsControls(Optional ByVal restart As Boolean)
     
     
     ' sounds tab
+    fClock.RotateBusyTimer = True
+
     chkEnableSounds.Value = Val(gblEnableSounds)
     chkEnableTicks.Value = Val(gblEnableTicks)
     chkEnableChimes.Value = Val(gblEnableChimes)
@@ -5540,6 +5571,8 @@ Private Sub adjustPrefsControls(Optional ByVal restart As Boolean)
     
     
     ' development
+    fClock.RotateBusyTimer = True
+    
     cmbDebug.ListIndex = Val(gblDebug)
     txtDblClickCommand.Text = gblDblClickCommand
     txtOpenFile.Text = gblOpenFile
@@ -5567,6 +5600,8 @@ Private Sub adjustPrefsControls(Optional ByVal restart As Boolean)
     End If
     
     ' position tab
+    fClock.RotateBusyTimer = True
+    
     cmbAspectHidden.ListIndex = Val(gblAspectHidden)
     cmbWidgetPosition.ListIndex = Val(gblWidgetPosition)
         
@@ -5595,6 +5630,8 @@ Private Sub adjustPrefsControls(Optional ByVal restart As Boolean)
     End If
     
     'cmbWidgetLandscape
+    fClock.RotateBusyTimer = True
+    
     cmbWidgetLandscape.ListIndex = Val(gblWidgetLandscape)
     cmbWidgetPortrait.ListIndex = Val(gblWidgetPortrait)
     txtLandscapeHoffset.Text = gblLandscapeFormHoffset
@@ -5603,6 +5640,8 @@ Private Sub adjustPrefsControls(Optional ByVal restart As Boolean)
     txtPortraitYoffset.Text = gblPortraitYoffset
 
     ' Windows tab
+    fClock.RotateBusyTimer = True
+    
     cmbWindowLevel.ListIndex = Val(gblWindowLevel)
     chkIgnoreMouse.Value = Val(gblIgnoreMouse)
     chkPreventDragging.Value = Val(gblPreventDragging)
@@ -5620,6 +5659,8 @@ Private Sub adjustPrefsControls(Optional ByVal restart As Boolean)
         lblWindowLevel(10).Visible = False
         lblWindowLevel(11).Visible = False
     End If
+    
+    fClock.RotateBusyTimer = True
     
    On Error GoTo 0
    Exit Sub
@@ -5943,20 +5984,6 @@ Private Sub populatePrefsComboBoxes()
     Call fillComboAlarmMinute(cmbAlarm4Minutes)
     Call fillComboAlarmMinute(cmbAlarm5Minutes)
     
-    fClock.clockForm.Widgets("busy1").Widget.Alpha = 0
-    fClock.clockForm.Widgets("busy2").Widget.Alpha = 0
-    fClock.clockForm.Widgets("busy3").Widget.Alpha = 0
-    fClock.clockForm.Widgets("busy4").Widget.Alpha = 0
-    fClock.clockForm.Widgets("busy5").Widget.Alpha = 0
-    fClock.clockForm.Widgets("busy6").Widget.Alpha = 0
-    
-    fClock.clockForm.Widgets("busy1").Widget.Refresh
-    fClock.clockForm.Widgets("busy2").Widget.Refresh
-    fClock.clockForm.Widgets("busy3").Widget.Refresh
-    fClock.clockForm.Widgets("busy4").Widget.Refresh
-    fClock.clockForm.Widgets("busy5").Widget.Refresh
-    fClock.clockForm.Widgets("busy6").Widget.Refresh
-    
     On Error GoTo 0
     Exit Sub
 
@@ -5997,6 +6024,8 @@ Private Sub fillComboAlarmMinute(ByRef thisComboBox As ComboBox)
         If useloop Mod (5) = 0 Then fClock.RotateBusyTimer = True
     Next useloop
    
+    fClock.RotateBusyTimer = True
+       
    On Error GoTo 0
    Exit Sub
 
@@ -6066,7 +6095,8 @@ Private Sub fillComboAlarmYear(ByRef thisComboBox As ComboBox)
         If useloop Mod (10) = 0 Then fClock.RotateBusyTimer = True
     Next useloop
 
-    
+    fClock.RotateBusyTimer = True
+       
   On Error GoTo 0
    Exit Sub
 
@@ -6102,6 +6132,8 @@ Private Sub fillComboAlarmDay(ByRef thisComboBox As ComboBox)
         If useloop Mod (5) = 0 Then fClock.RotateBusyTimer = True
     Next useloop
    
+    fClock.RotateBusyTimer = True
+       
    On Error GoTo 0
    Exit Sub
 
@@ -7652,7 +7684,9 @@ Private Sub loadPrefsAboutText()
     lblAbout(1).Caption = "(32bit WoW64 using " & gblCodingEnvironment & ")"
     
     Call LoadFileToTB(txtAboutText, App.path & "\resources\txt\about.txt", False)
-
+    
+    fClock.RotateBusyTimer = True
+    
    On Error GoTo 0
    Exit Sub
 
@@ -8101,6 +8135,8 @@ Private Sub adjustPrefsTheme()
             Call setModernThemeColours
         End If
     End If
+    
+    fClock.RotateBusyTimer = True
 
    On Error GoTo 0
    Exit Sub
@@ -8163,6 +8199,8 @@ Private Sub loadHigherResPrefsImages()
     Else
         Call setPrefsIconImagesLight
     End If
+    
+    fClock.RotateBusyTimer = True
     
    On Error GoTo 0
    Exit Sub
@@ -8339,24 +8377,57 @@ Private Sub setPrefsIconImagesDark()
     #Else
         
         Set imgGeneral.Picture = Cairo.ImageList("general-icon-dark").Picture
+        fClock.RotateBusyTimer = True
+    
         Set imgConfig.Picture = Cairo.ImageList("config-icon-dark").Picture
+        fClock.RotateBusyTimer = True
         
         Set imgConfig.Picture = LoadPicture(App.path & "\Resources\images\config-icon-dark-1010.jpg")
+        fClock.RotateBusyTimer = True
+        
         Set imgFonts.Picture = Cairo.ImageList("font-icon-dark").Picture
+        fClock.RotateBusyTimer = True
+        
         Set imgSounds.Picture = Cairo.ImageList("sounds-icon-dark").Picture
+        fClock.RotateBusyTimer = True
+        
         Set imgPosition.Picture = Cairo.ImageList("position-icon-dark").Picture
+        fClock.RotateBusyTimer = True
+        
         Set imgDevelopment.Picture = Cairo.ImageList("development-icon-dark").Picture
+        fClock.RotateBusyTimer = True
+        
         Set imgWindow.Picture = Cairo.ImageList("windows-icon-dark").Picture
+        fClock.RotateBusyTimer = True
+        
         Set imgAbout.Picture = Cairo.ImageList("about-icon-dark").Picture
+        fClock.RotateBusyTimer = True
+        
     '
         Set imgGeneralClicked.Picture = Cairo.ImageList("general-icon-dark-clicked").Picture
+        fClock.RotateBusyTimer = True
+        
         Set imgConfigClicked.Picture = Cairo.ImageList("config-icon-dark-clicked").Picture
+        fClock.RotateBusyTimer = True
+        
         Set imgFontsClicked.Picture = Cairo.ImageList("font-icon-dark-clicked").Picture
+        fClock.RotateBusyTimer = True
+        
         Set imgSoundsClicked.Picture = Cairo.ImageList("sounds-icon-dark-clicked").Picture
+        fClock.RotateBusyTimer = True
+        
         Set imgPositionClicked.Picture = Cairo.ImageList("position-icon-dark-clicked").Picture
+        fClock.RotateBusyTimer = True
+        
         Set imgDevelopmentClicked.Picture = Cairo.ImageList("development-icon-dark-clicked").Picture
+        fClock.RotateBusyTimer = True
+        
         Set imgWindowClicked.Picture = Cairo.ImageList("windows-icon-dark-clicked").Picture
+        fClock.RotateBusyTimer = True
+        
         Set imgAboutClicked.Picture = Cairo.ImageList("about-icon-dark-clicked").Picture
+        fClock.RotateBusyTimer = True
+        
     
     #End If
 

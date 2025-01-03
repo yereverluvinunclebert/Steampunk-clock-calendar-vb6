@@ -265,13 +265,16 @@ o add now() button logic for all alarms
 ' fix the slider and numeric rotation speed to a useful amount
 
 ' add new property to tell the overlay that the slider is freed but in idle position to retain the current date/time as selected
+' alarm set - accept an indicated time as the current alarm date/time
 
 ' -oOo-
 
 Tasks to do:
 ============
 
-' alarm set - accept an indicated time as the current alarm date/time - WIP
+' alter the speed of the numeric display rotation
+
+' add more sand timer rotations
 
 ' numeric display animation in the subroutine, set a flag as to whether the subroutine is already being called by the timer or the slider - is this needed?
 
@@ -281,7 +284,9 @@ Tasks to do:
 
 ' match the numeric digit rotation to match the YWE version
 
-' find and replace globals within classes with property GET/SETs - WIP
+' find and replace globals within overlay class with property GET/SETs - WIP
+
+' find and replace globals within fclock class with property GET/SETs - WIP
 
 ' descriptions on all routines - WIP
 
