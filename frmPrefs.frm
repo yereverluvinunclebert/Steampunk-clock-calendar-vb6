@@ -3502,7 +3502,16 @@ Form_Load_Error:
 End Sub
 
 
+'---------------------------------------------------------------------------------------
+' Procedure : hideBusyTimer
+' Author    : beededea
+' Date      : 03/01/2025
+' Purpose   :
+'---------------------------------------------------------------------------------------
+'
 Private Sub hideBusyTimer()
+
+   On Error GoTo hideBusyTimer_Error
 
     fClock.clockForm.Widgets("busy1").Widget.Alpha = 0
     fClock.clockForm.Widgets("busy2").Widget.Alpha = 0
@@ -3517,6 +3526,13 @@ Private Sub hideBusyTimer()
     fClock.clockForm.Widgets("busy4").Widget.Refresh
     fClock.clockForm.Widgets("busy5").Widget.Refresh
     fClock.clockForm.Widgets("busy6").Widget.Refresh
+
+   On Error GoTo 0
+   Exit Sub
+
+hideBusyTimer_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure hideBusyTimer of Form widgetPrefs"
     
 End Sub
 
@@ -4768,20 +4784,6 @@ End Sub
 ' Purpose   : size and position the frames and buttons. Note we are NOT using control
 '             arrays so the form can be converted to Cairo forms later.
 '---------------------------------------------------------------------------------------
-'
-' for the future, when reading multiple buttons from XML config.
-' read the XML prefs group and identify prefgroups - <prefGroup name="general" and count them.
-'
-' for each group read all the controls and identify those in the group - ie. preference group =
-' for each specific group, identify the group image, title and order
-' read those into an array
-' use a for-loop (can't use foreach unless you read the results into a collection, foreach requires use of variant
-'   elements as foreach needs an object or variant type to operate.
-' create a group, fraHiding, image and text element and order in a class of yWidgetGroup
-' create a button of yWidgetGroup for each group
-' loop through each line and identify the controls belonging to the group
-
-' for the moment though, we will do it manually
 '
 Private Sub positionPrefsFramesButtons()
     On Error GoTo positionPrefsFramesButtons_Error
@@ -8357,22 +8359,56 @@ Private Sub setPrefsIconImagesDark()
     #If TWINBASIC Then
     
         Set imgGeneral.Picture = LoadPicture(App.path & "\Resources\images\general-icon-dark-1010.jpg")
+        fClock.RotateBusyTimer = True
+    
         Set imgConfig.Picture = LoadPicture(App.path & "\Resources\images\config-icon-dark-1010.jpg")
+        fClock.RotateBusyTimer = True
+    
         Set imgFonts.Picture = LoadPicture(App.path & "\Resources\images\font-icon-dark-1010.jpg")
+        fClock.RotateBusyTimer = True
+    
         Set imgSounds.Picture = LoadPicture(App.path & "\Resources\images\sounds-icon-dark-1010.jpg")
+        fClock.RotateBusyTimer = True
+    
         Set imgPosition.Picture = LoadPicture(App.path & "\Resources\images\position-icon-dark-1010.jpg")
+        fClock.RotateBusyTimer = True
+    
         Set imgDevelopment.Picture = LoadPicture(App.path & "\Resources\images\development-icon-dark-1010.jpg")
+        fClock.RotateBusyTimer = True
+    
         Set imgWindow.Picture = LoadPicture(App.path & "\Resources\images\windows-icon-dark-1010.jpg")
+        fClock.RotateBusyTimer = True
+    
         Set imgAbout.Picture = LoadPicture(App.path & "\Resources\images\about-icon-dark-1010.jpg")
+        fClock.RotateBusyTimer = True
+    
     '
+        fClock.RotateBusyTimer = True
+    
         Set imgGeneralClicked.Picture = LoadPicture(App.path & "\Resources\images\general-icon-dark-600-clicked.jpg")
+        fClock.RotateBusyTimer = True
+    
         Set imgConfigClicked.Picture = LoadPicture(App.path & "\Resources\images\config-icon-dark-600-clicked.jpg")
+        fClock.RotateBusyTimer = True
+    
         Set imgFontsClicked.Picture = LoadPicture(App.path & "\Resources\images\font-icon-dark-600-clicked.jpg")
+        fClock.RotateBusyTimer = True
+    
         Set imgSoundsClicked.Picture = LoadPicture(App.path & "\Resources\images\sounds-icon-dark-600-clicked.jpg")
+        fClock.RotateBusyTimer = True
+    
         Set imgPositionClicked.Picture = LoadPicture(App.path & "\Resources\images\position-icon-dark-600-clicked.jpg")
+        fClock.RotateBusyTimer = True
+    
         Set imgDevelopmentClicked.Picture = LoadPicture(App.path & "\Resources\images\development-icon-dark-600-clicked.jpg")
+        fClock.RotateBusyTimer = True
+    
         Set imgWindowClicked.Picture = LoadPicture(App.path & "\Resources\images\windows-icon-dark-600-clicked.jpg")
+        fClock.RotateBusyTimer = True
+    
         Set imgAboutClicked.Picture = LoadPicture(App.path & "\Resources\images\about-icon-dark-600-clicked.jpg")
+        fClock.RotateBusyTimer = True
+    
     
     #Else
         
@@ -8455,45 +8491,108 @@ Private Sub setPrefsIconImagesLight()
     #If TWINBASIC Then
     
         Set imgGeneral.Picture = LoadPicture(App.path & "\Resources\images\general-icon-light-1010.jpg")
+        fClock.RotateBusyTimer = True
+        
         Set imgConfig.Picture = LoadPicture(App.path & "\Resources\images\config-icon-light-1010.jpg")
+        fClock.RotateBusyTimer = True
+        
         Set imgFonts.Picture = LoadPicture(App.path & "\Resources\images\font-icon-light-1010.jpg")
+        fClock.RotateBusyTimer = True
+        
         Set imgSounds.Picture = LoadPicture(App.path & "\Resources\images\sounds-icon-light-1010.jpg")
+        fClock.RotateBusyTimer = True
+        
         Set imgPosition.Picture = LoadPicture(App.path & "\Resources\images\position-icon-light-1010.jpg")
+        fClock.RotateBusyTimer = True
+        
         Set imgDevelopment.Picture = LoadPicture(App.path & "\Resources\images\development-icon-light-1010.jpg")
+        fClock.RotateBusyTimer = True
+        
         Set imgWindow.Picture = LoadPicture(App.path & "\Resources\images\windows-icon-light-1010.jpg")
+        fClock.RotateBusyTimer = True
+        
         Set imgAbout.Picture = LoadPicture(App.path & "\Resources\images\about-icon-light-1010.jpg")
-    '
+        fClock.RotateBusyTimer = True
+                
         Set imgGeneralClicked.Picture = LoadPicture(App.path & "\Resources\images\general-icon-light-600-clicked.jpg")
+        fClock.RotateBusyTimer = True
+        
         Set imgConfigClicked.Picture = LoadPicture(App.path & "\Resources\images\config-icon-light-600-clicked.jpg")
+        fClock.RotateBusyTimer = True
+        
         Set imgFontsClicked.Picture = LoadPicture(App.path & "\Resources\images\font-icon-light-600-clicked.jpg")
+        fClock.RotateBusyTimer = True
+        
         Set imgSoundsClicked.Picture = LoadPicture(App.path & "\Resources\images\sounds-icon-light-600-clicked.jpg")
+        fClock.RotateBusyTimer = True
+        
         Set imgPositionClicked.Picture = LoadPicture(App.path & "\Resources\images\position-icon-light-600-clicked.jpg")
+        fClock.RotateBusyTimer = True
+        
         Set imgDevelopmentClicked.Picture = LoadPicture(App.path & "\Resources\images\development-icon-light-600-clicked.jpg")
+        fClock.RotateBusyTimer = True
+        
         Set imgWindowClicked.Picture = LoadPicture(App.path & "\Resources\images\windows-icon-light-600-clicked.jpg")
+        fClock.RotateBusyTimer = True
+        
         Set imgAboutClicked.Picture = LoadPicture(App.path & "\Resources\images\about-icon-light-600-clicked.jpg")
+        fClock.RotateBusyTimer = True
+        
     
     #Else
         
         Set imgGeneral.Picture = Cairo.ImageList("general-icon-light").Picture
+        fClock.RotateBusyTimer = True
+        
         Set imgConfig.Picture = Cairo.ImageList("config-icon-light").Picture
+        fClock.RotateBusyTimer = True
+        
         
         Set imgConfig.Picture = LoadPicture(App.path & "\Resources\images\config-icon-light-1010.jpg")
+        fClock.RotateBusyTimer = True
+        
         Set imgFonts.Picture = Cairo.ImageList("font-icon-light").Picture
+        fClock.RotateBusyTimer = True
+        
         Set imgSounds.Picture = Cairo.ImageList("sounds-icon-light").Picture
+        fClock.RotateBusyTimer = True
+        
         Set imgPosition.Picture = Cairo.ImageList("position-icon-light").Picture
+        fClock.RotateBusyTimer = True
+        
         Set imgDevelopment.Picture = Cairo.ImageList("development-icon-light").Picture
+        fClock.RotateBusyTimer = True
+        
         Set imgWindow.Picture = Cairo.ImageList("windows-icon-light").Picture
+        fClock.RotateBusyTimer = True
+        
         Set imgAbout.Picture = Cairo.ImageList("about-icon-light").Picture
-    '
+        fClock.RotateBusyTimer = True
+        
         Set imgGeneralClicked.Picture = Cairo.ImageList("general-icon-light-clicked").Picture
+        fClock.RotateBusyTimer = True
+        
         Set imgConfigClicked.Picture = Cairo.ImageList("config-icon-light-clicked").Picture
+        fClock.RotateBusyTimer = True
+        
         Set imgFontsClicked.Picture = Cairo.ImageList("font-icon-light-clicked").Picture
+        fClock.RotateBusyTimer = True
+        
         Set imgSoundsClicked.Picture = Cairo.ImageList("sounds-icon-light-clicked").Picture
+        fClock.RotateBusyTimer = True
+        
         Set imgPositionClicked.Picture = Cairo.ImageList("position-icon-light-clicked").Picture
+        fClock.RotateBusyTimer = True
+        
         Set imgDevelopmentClicked.Picture = Cairo.ImageList("development-icon-light-clicked").Picture
+        fClock.RotateBusyTimer = True
+        
         Set imgWindowClicked.Picture = Cairo.ImageList("windows-icon-light-clicked").Picture
+        fClock.RotateBusyTimer = True
+        
         Set imgAboutClicked.Picture = Cairo.ImageList("about-icon-light-clicked").Picture
-    
+        fClock.RotateBusyTimer = True
+            
     #End If
         
    On Error GoTo 0
