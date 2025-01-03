@@ -1381,7 +1381,7 @@ Private Sub populateDigitalClockCache(ByRef CC As cCairoContext)
         End If
     End If
     
-    If mSliderInTransit = True Or SliderEnabled = True Then
+    If mSliderInTransit = True Or mSliderEnabled = True Then
         theDay = Left$(pvtCurrentDateToDisplay, 2)
         theMonth = Mid$(pvtCurrentDateToDisplay, 4, 2)
         theYear = Mid$(pvtCurrentDateToDisplay, 7, 4)
