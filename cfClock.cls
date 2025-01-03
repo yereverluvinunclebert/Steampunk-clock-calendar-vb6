@@ -47,7 +47,7 @@ Public FZ As Single  'available on the outside, even after the Form is closed
 
 Private mMute As Integer
 Private mSliderFreed As Boolean
-Private msetToggleEnabled As Boolean
+'Private mSetToggleEnabled As Boolean
 Private mMuteToggleEnabled As Boolean
 Private mPendulumToggleEnabled As Boolean
 Private mWeekdayToggleEnabled As Boolean
@@ -1819,9 +1819,11 @@ End Sub
 '
 Private Sub settoggle_myMouseDown()
 
-    Dim settoggleTop As Long: settoggleTop = 0
+    Dim setToggleTop As Long: setToggleTop = 0
     Dim setToggleIn As Long: setToggleIn = 0
     Dim setToggleOut As Long: setToggleOut = 0
+    
+    Dim alarmDate As String: alarmDate = vbNullString
 
     Dim fileToPlay As String: fileToPlay = vbNullString
     
@@ -1829,14 +1831,14 @@ Private Sub settoggle_myMouseDown()
     
     If gblWidgetFunctions = "0" Or gblIgnoreMouse = "1" Then Exit Sub
     
-    settoggleTop = settoggle.Top
+    setToggleTop = settoggle.Top
     setToggleOut = 359
     setToggleIn = 363
     
-    settoggle.Move setToggleIn, settoggleTop
+    settoggle.Move setToggleIn, setToggleTop
     clockForm.Refresh
     
-    Call screenWrite("setting any alarm")
+    Call screenWrite("setting alarm")
 
     If gblVolumeBoost = "1" Then
         fileToPlay = "clunk.wav"
@@ -1850,7 +1852,12 @@ Private Sub settoggle_myMouseDown()
 
     Sleep 250
     
-    settoggle.Move setToggleOut, settoggleTop
+    settoggle.Move setToggleOut, setToggleTop
+    
+    alarmDate = overlayWidget.GetFutureTime
+    alarmtoggleEnabled = False
+    
+    MsgBox alarmDate
     
     clockForm.Refresh
 
@@ -2692,6 +2699,7 @@ Private Sub sliderset_Moving()
             
     ' if the slider is enabled and the timeShiftValue <> 0.5 then start the timer that shifts the digital clocks forwards or backwards
     If SliderFreed = True And timeShiftValue <> 0.5 Then
+        overlayWidget.SliderEnabled = True
         overlayWidget.SliderInTransit = True ' the flag that when set allows a call to the routine that causes the 'rotation' of the numeric display when the slider is dragged by the user
         overlayWidget.tmrTimeShift.Enabled = True ' the background timer that 'rotates' the numeric display when the slider is held still by the user
         
@@ -2700,6 +2708,7 @@ Private Sub sliderset_Moving()
 
     Else
         overlayWidget.SliderInTransit = False
+        overlayWidget.SliderEnabled = True
         overlayWidget.tmrTimeShift.Enabled = False
     End If
     
@@ -3489,7 +3498,6 @@ Public Property Let alarmtoggleEnabled(ByVal newValue As Boolean)
         fClock.timeShiftValue = 0.5
         
         overlayWidget.BaseDate = Now()
-        'overlayWidget.SliderInTransit = True
         
         ' if an alarm is not selected then choose the first available alarm
         '     raise the alarm till and alarm toggle
@@ -3529,6 +3537,7 @@ Public Property Let alarmtoggleEnabled(ByVal newValue As Boolean)
         
         alarmtoggle.Move alarmToggleOut, alarmtoggleTop
         SliderFreed = False
+        overlayWidget.SliderEnabled = False
         fClock.timeShiftValue = 0
         
         alarmtoggle1Enabled = False
@@ -3644,67 +3653,69 @@ timeMachineToggleEnabledGet_Error:
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property timeMachineToggleEnabled of Class Module cfClock"
 End Property
 
-'---------------------------------------------------------------------------------------
-' Property  : setToggleEnabled
-' Author    : beededea
-' Date      : 10/05/2023
-' Purpose   :
-'---------------------------------------------------------------------------------------
+''---------------------------------------------------------------------------------------
+'' Property  : setToggleEnabled
+'' Author    : beededea
+'' Date      : 10/05/2023
+'' Purpose   :
+''---------------------------------------------------------------------------------------
+''
+'Public Property Let SetToggleEnabled(ByVal newValue As Boolean)
 '
-Public Property Let settoggleEnabled(ByVal newValue As Boolean)
-   
-    Dim settoggleTop As Long: settoggleTop = 0
-    Dim setToggleIn As Long: setToggleIn = 0
-    Dim setToggleOut As Long: setToggleOut = 0
-    
-    On Error GoTo setToggleEnabledLet_Error
-    
-    setToggleOut = 359
-    setToggleIn = 363
-    settoggleTop = settoggle.Top
-    
-    If newValue = True Then
-        settoggle.Move setToggleIn, settoggleTop
-        gblsetToggleEnabled = "True"
-    Else
-        settoggle.Move setToggleOut, settoggleTop
-        gblsetToggleEnabled = "False"
-    End If
-    
-    sPutINISetting "Software\SteampunkClockCalendar", "setToggleEnabled", gblsetToggleEnabled, gblSettingsFile
-
-    If msetToggleEnabled <> newValue Then msetToggleEnabled = newValue Else Exit Property
-    settoggleEnabled = msetToggleEnabled
-
-    clockForm.Refresh
-      
-   On Error GoTo 0
-   Exit Property
-
-setToggleEnabledLet_Error:
-
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property setToggleEnabled of Class Module cfClock"
-End Property
-
-'---------------------------------------------------------------------------------------
-' Property  : setToggleEnabled
-' Author    : beededea
-' Date      : 17/05/2023
-' Purpose   :
-'---------------------------------------------------------------------------------------
+'    Dim setToggleTop As Long: setToggleTop = 0
+'    Dim setToggleIn As Long: setToggleIn = 0
+'    Dim setToggleOut As Long: setToggleOut = 0
+'    Dim alarmDate As String
 '
-Public Property Get settoggleEnabled() As Boolean
-   On Error GoTo setToggleEnabledGet_Error
-
-    settoggleEnabled = msetToggleEnabled
-
-   On Error GoTo 0
-   Exit Property
-
-setToggleEnabledGet_Error:
-
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property setToggleEnabled of Class Module cfClock"
-End Property
+'
+'    On Error GoTo setToggleEnabledLet_Error
+'
+'    setToggleOut = 359
+'    setToggleIn = 363
+'    setToggleTop = settoggle.Top
+'
+'    If newValue = True Then
+'        settoggle.Move setToggleIn, setToggleTop
+'        gblSetToggleEnabled = "True"
+'    Else
+'        settoggle.Move setToggleOut, setToggleTop
+'        gblSetToggleEnabled = "False"
+'    End If
+'
+'    sPutINISetting "Software\SteampunkClockCalendar", "setToggleEnabled", gblSetToggleEnabled, gblSettingsFile
+'
+'    If mSetToggleEnabled <> newValue Then mSetToggleEnabled = newValue Else Exit Property
+'    SetToggleEnabled = mSetToggleEnabled
+'
+'    clockForm.Refresh
+'
+'   On Error GoTo 0
+'   Exit Property
+'
+'setToggleEnabledLet_Error:
+'
+'    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property setToggleEnabled of Class Module cfClock"
+'End Property
+'
+''---------------------------------------------------------------------------------------
+'' Property  : setToggleEnabled
+'' Author    : beededea
+'' Date      : 17/05/2023
+'' Purpose   :
+''---------------------------------------------------------------------------------------
+''
+'Public Property Get SetToggleEnabled() As Boolean
+'   On Error GoTo setToggleEnabledGet_Error
+'
+'    SetToggleEnabled = mSetToggleEnabled
+'
+'   On Error GoTo 0
+'   Exit Property
+'
+'setToggleEnabledGet_Error:
+'
+'    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property setToggleEnabled of Class Module cfClock"
+'End Property
 
 
 '---------------------------------------------------------------------------------------

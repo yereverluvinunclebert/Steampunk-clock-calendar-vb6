@@ -63,6 +63,8 @@ Private mBaseDate As String
 Private mSliderInTransit As Boolean
 Private mTimeShiftValueSecs As Currency
 Private mTriggerTimeShift As Boolean
+Private mGetFutureTime As String
+Private mSliderEnabled As Boolean
 
 ' private vars general usage
 
@@ -588,6 +590,70 @@ HiddenLet_Error:
 
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property Hidden of Class Module cwoverlay"
 End Property
+
+'---------------------------------------------------------------------------------------
+' Property  : SliderEnabled
+' Author    : beededea
+' Date      : 17/05/2023
+' Purpose   :
+'---------------------------------------------------------------------------------------
+'
+Public Property Get SliderEnabled() As Boolean
+   On Error GoTo SliderEnabledGet_Error
+
+   SliderEnabled = mSliderEnabled
+
+   On Error GoTo 0
+   Exit Property
+
+SliderEnabledGet_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property SliderEnabled of Class Module cwoverlay"
+End Property
+
+
+'---------------------------------------------------------------------------------------
+' Property  : SliderEnabled
+' Author    : beededea
+' Date      : 10/05/2023
+' Purpose   :
+'---------------------------------------------------------------------------------------
+'
+Public Property Let SliderEnabled(ByVal newValue As Boolean)
+   On Error GoTo SliderEnabledLet_Error
+
+    If mSliderEnabled <> newValue Then mSliderEnabled = newValue Else Exit Property
+
+   On Error GoTo 0
+   Exit Property
+
+SliderEnabledLet_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property SliderEnabled of Class Module cwoverlay"
+End Property
+ 
+ '---------------------------------------------------------------------------------------
+' Property  : GetFutureTime
+' Author    : beededea
+' Date      : 17/05/2023
+' Purpose   :
+'---------------------------------------------------------------------------------------
+'
+Public Property Get GetFutureTime() As String
+   On Error GoTo GetFutureTimeGet_Error
+   
+    mGetFutureTime = pvtCurrentDateToDisplay
+    GetFutureTime = mGetFutureTime
+
+   On Error GoTo 0
+   Exit Property
+
+GetFutureTimeGet_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property GetFutureTime of Class Module cwoverlay"
+End Property
+
+
 
  
  '---------------------------------------------------------------------------------------
@@ -1315,7 +1381,7 @@ Private Sub populateDigitalClockCache(ByRef CC As cCairoContext)
         End If
     End If
     
-    If mSliderInTransit = True Then
+    If mSliderInTransit = True Or SliderEnabled = True Then
         theDay = Left$(pvtCurrentDateToDisplay, 2)
         theMonth = Mid$(pvtCurrentDateToDisplay, 4, 2)
         theYear = Mid$(pvtCurrentDateToDisplay, 7, 4)

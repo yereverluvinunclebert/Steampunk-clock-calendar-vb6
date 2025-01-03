@@ -262,10 +262,14 @@ o add now() button logic for all alarms
 
 ' when idle in Alarm set mode with the slider in 0 position, no CPU should be used.
 
+' fix the slider and numeric rotation speed to a useful amount
+
 ' -oOo-
 
 Tasks to do:
 ============
+
+' alarm set - accept an indicated time as the current alarm date/time
 
 ' numeric display animation in the subroutine, set a flag as to whether the subroutine is already being called by the timer or the slider
 
@@ -273,7 +277,7 @@ Tasks to do:
 
 ' change the HTML help
 
-' alarm set - accept an indicated time as the current alarm date/time
+' match the numeric digit rotation to match the YWE version
 
 ' weekday till flag, the text 'only' sometimes doubles up, possibly after a refresh after midnight when the till has been showing - identify the scenario
 

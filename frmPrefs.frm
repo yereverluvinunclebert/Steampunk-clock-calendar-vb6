@@ -5079,7 +5079,7 @@ Private Sub btnSave_Click()
         sPutINISetting "Software\SteampunkClockCalendar", "clockLowDpiXPos", gblClockLowDpiXPos, gblSettingsFile
         sPutINISetting "Software\SteampunkClockCalendar", "clockLowDpiYPos", gblClockLowDpiYPos, gblSettingsFile
         
-        sPutINISetting "Software\SteampunkClockCalendar", "setToggleEnabled", gblsetToggleEnabled, gblSettingsFile
+        'sPutINISetting "Software\SteampunkClockCalendar", "setToggleEnabled", gblSetToggleEnabled, gblSettingsFile
         sPutINISetting "Software\SteampunkClockCalendar", "muteToggleEnabled", gblMuteToggleEnabled, gblSettingsFile
         sPutINISetting "Software\SteampunkClockCalendar", "pendulumToggleEnabled", gblPendulumToggleEnabled, gblSettingsFile
         sPutINISetting "Software\SteampunkClockCalendar", "pendulumEnabled", gblPendulumEnabled, gblSettingsFile

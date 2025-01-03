@@ -358,7 +358,7 @@ Private Sub initialiseGlobalVars()
     gblLastSelectedTab = vbNullString
     gblSkinTheme = vbNullString
     
-    gblsetToggleEnabled = vbNullString
+    'gblSetToggleEnabled = vbNullString
     gblMuteToggleEnabled = vbNullString
     gblPendulumToggleEnabled = vbNullString
     gblPendulumEnabled = vbNullString
@@ -1021,9 +1021,9 @@ Public Sub adjustMainControls()
     fClock.timeShiftValue = 0
     
     ' set the position of the various UI toggles at startup
-    If gblsetToggleEnabled = "True" Then
-        fClock.settoggleEnabled = True
-    End If
+'    If gblSetToggleEnabled = "True" Then
+'        fClock.SetToggleEnabled = True
+'    End If
     
     If gblMuteToggleEnabled = "True" Then
         gblEnableSounds = "0"
@@ -1296,7 +1296,7 @@ Public Sub readSettingsFile(ByVal Location As String, ByVal gblSettingsFile As S
          
         gblFirstTimeRun = fGetINISetting(Location, "firstTimeRun", gblSettingsFile)
         
-        gblsetToggleEnabled = fGetINISetting(Location, "setToggleEnabled", gblSettingsFile)
+        'gblSetToggleEnabled = fGetINISetting(Location, "setToggleEnabled", gblSettingsFile)
         gblMuteToggleEnabled = fGetINISetting(Location, "muteToggleEnabled", gblSettingsFile)
         gblPendulumToggleEnabled = fGetINISetting(Location, "pendulumToggleEnabled", gblSettingsFile)
         gblPendulumEnabled = fGetINISetting(Location, "pendulumEnabled", gblSettingsFile)
@@ -1446,7 +1446,7 @@ Public Sub validateInputs()
         
         
         ' clock UI element state
-        If gblsetToggleEnabled = vbNullString Then gblsetToggleEnabled = "False"
+        'If gblSetToggleEnabled = vbNullString Then gblSetToggleEnabled = "False"
         If gblMuteToggleEnabled = vbNullString Then gblMuteToggleEnabled = "False"
         If gblPendulumToggleEnabled = vbNullString Then gblPendulumToggleEnabled = "False"
         If gblPendulumEnabled = vbNullString Then gblPendulumEnabled = "False"
