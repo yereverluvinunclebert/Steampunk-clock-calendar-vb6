@@ -642,7 +642,6 @@ End Property
 Public Property Get GetFutureTime() As String
    On Error GoTo GetFutureTimeGet_Error
    
-    mGetFutureTime = pvtCurrentDateToDisplay
     GetFutureTime = mGetFutureTime
 
    On Error GoTo 0
@@ -1671,6 +1670,8 @@ Private Sub tmrClock_TimerRoutine()
         ' add the time deviation to the base date
         
         pvtCurrentDateToDisplay = DateAdd("s", mTimeDeviation, mBaseDate)
+        mGetFutureTime = pvtCurrentDateToDisplay
+         
         pvtThisHour = Hour(pvtCurrentDateToDisplay)
         pvtThisMins = Minute(pvtCurrentDateToDisplay)
         pvtThisSecs = Second(pvtCurrentDateToDisplay)

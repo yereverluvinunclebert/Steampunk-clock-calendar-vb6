@@ -1823,7 +1823,10 @@ Private Sub settoggle_myMouseDown()
     Dim setToggleIn As Long: setToggleIn = 0
     Dim setToggleOut As Long: setToggleOut = 0
     
+    Dim alarmDateTime As String: alarmDateTime = vbNullString
     Dim alarmDate As String: alarmDate = vbNullString
+    Dim alarmTime As String: alarmTime = vbNullString
+    
     Dim answer As VbMsgBoxResult: answer = vbNo
     Dim answerMsg As String: answerMsg = vbNullString
 
@@ -1858,13 +1861,79 @@ Private Sub settoggle_myMouseDown()
     If overlayWidget.GetFutureTime = vbNullString Then
         answer = msgBoxA(answerMsg, vbExclamation + vbOKOnly, "No future date/time set", True, "settoggle_myMouseDownEvent")
     Else
-        alarmDate = overlayWidget.GetFutureTime
+        alarmDateTime = overlayWidget.GetFutureTime
+        
+        alarmDate = Left$(alarmDateTime, 10)
+        alarmTime = Mid$(alarmDateTime, 12, 5)
+        
+        If mAlarmToggle1Enabled = True Then
+            
+            ' it is perfectly correct to refer to the widgetPrefs controls directly, as the form is a class and the controls are publicly exposed.
+            widgetPrefs.txtAlarm1Date.Text = alarmDate
+            widgetPrefs.txtAlarm1Time.Text = alarmTime
+            
+            gblAlarm1Date = alarmDate
+            gblAlarm1Time = alarmTime
+            
+            sPutINISetting "Software\SteampunkClockCalendar", "alarm1Date", gblAlarm1Date, gblSettingsFile
+            sPutINISetting "Software\SteampunkClockCalendar", "alarm1Time", gblAlarm1Time, gblSettingsFile
+                      
+            
+        ElseIf mAlarmToggle2Enabled = True Then
+            
+            ' it is perfectly correct to refer to the widgetPrefs controls directly, as the form is a class and the controls are publicly exposed.
+            widgetPrefs.txtAlarm2Date.Text = alarmDate
+            widgetPrefs.txtAlarm2Time.Text = alarmTime
+            
+            gblAlarm2Date = alarmDate
+            gblAlarm2Time = alarmTime
+            
+            sPutINISetting "Software\SteampunkClockCalendar", "alarm2Date", gblAlarm2Date, gblSettingsFile
+            sPutINISetting "Software\SteampunkClockCalendar", "alarm2Time", gblAlarm2Time, gblSettingsFile
+          
+       ElseIf mAlarmToggle3Enabled = True Then
+            
+            ' it is perfectly correct to refer to the widgetPrefs controls directly, as the form is a class and the controls are publicly exposed.
+            widgetPrefs.txtAlarm3Date.Text = alarmDate
+            widgetPrefs.txtAlarm3Time.Text = alarmTime
+            
+            gblAlarm3Date = alarmDate
+            gblAlarm3Time = alarmTime
+            
+            sPutINISetting "Software\SteampunkClockCalendar", "alarm3Date", gblAlarm3Date, gblSettingsFile
+            sPutINISetting "Software\SteampunkClockCalendar", "alarm3Time", gblAlarm3Time, gblSettingsFile
+          
+       ElseIf mAlarmToggle4Enabled = True Then
+            
+            ' it is perfectly correct to refer to the widgetPrefs controls directly, as the form is a class and the controls are publicly exposed.
+            widgetPrefs.txtAlarm4Date.Text = alarmDate
+            widgetPrefs.txtAlarm4Time.Text = alarmTime
+            
+            gblAlarm4Date = alarmDate
+            gblAlarm4Time = alarmTime
+            
+            sPutINISetting "Software\SteampunkClockCalendar", "alarm4Date", gblAlarm4Date, gblSettingsFile
+            sPutINISetting "Software\SteampunkClockCalendar", "alarm4Time", gblAlarm4Time, gblSettingsFile
+          
+        ElseIf mAlarmToggle5Enabled = True Then
+            
+            ' it is perfectly correct to refer to the widgetPrefs controls directly, as the form is a class and the controls are publicly exposed.
+            widgetPrefs.txtAlarm5Date.Text = alarmDate
+            widgetPrefs.txtAlarm5Time.Text = alarmTime
+            
+            gblAlarm5Date = alarmDate
+            gblAlarm5Time = alarmTime
+            
+            sPutINISetting "Software\SteampunkClockCalendar", "alarm5Date", gblAlarm5Date, gblSettingsFile
+            sPutINISetting "Software\SteampunkClockCalendar", "alarm5Time", gblAlarm5Time, gblSettingsFile
+          
+        End If
     End If
     
     settoggle.Move setToggleOut, setToggleTop
     
     If mAlarmtoggleEnabled = True Then alarmtoggleEnabled = False
-    
+    overlayWidget.GetFutureTime = vbNullString
     clockForm.Refresh
 
    On Error GoTo 0
