@@ -654,6 +654,25 @@ GetFutureTimeGet_Error:
 End Property
 
 
+'---------------------------------------------------------------------------------------
+' Property  : GetFutureTime
+' Author    : beededea
+' Date      : 10/05/2023
+' Purpose   :
+'---------------------------------------------------------------------------------------
+'
+Public Property Let GetFutureTime(ByVal newValue As String)
+   On Error GoTo GetFutureTimeLet_Error
+
+    If mGetFutureTime <> newValue Then mGetFutureTime = newValue Else Exit Property
+
+   On Error GoTo 0
+   Exit Property
+
+GetFutureTimeLet_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property GetFutureTime of Class Module cwoverlay"
+End Property
 
  
  '---------------------------------------------------------------------------------------

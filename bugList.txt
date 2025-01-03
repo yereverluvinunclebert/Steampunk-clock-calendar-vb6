@@ -264,14 +264,16 @@ o add now() button logic for all alarms
 
 ' fix the slider and numeric rotation speed to a useful amount
 
+' add new property to tell the overlay that the slider is freed but in idle position to retain the current date/time as selected
+
 ' -oOo-
 
 Tasks to do:
 ============
 
-' alarm set - accept an indicated time as the current alarm date/time
+' alarm set - accept an indicated time as the current alarm date/time - WIP
 
-' numeric display animation in the subroutine, set a flag as to whether the subroutine is already being called by the timer or the slider
+' numeric display animation in the subroutine, set a flag as to whether the subroutine is already being called by the timer or the slider - is this needed?
 
 ' frame in prefs icons not showing
 
@@ -279,7 +281,7 @@ Tasks to do:
 
 ' match the numeric digit rotation to match the YWE version
 
-' weekday till flag, the text 'only' sometimes doubles up, possibly after a refresh after midnight when the till has been showing - identify the scenario
+' find and replace globals within classes with property GET/SETs - WIP
 
 ' descriptions on all routines - WIP
 
@@ -298,7 +300,7 @@ Tasks to do:
 
 ' shadow behind cwlabel background when background screen lowered, 1. try adding a refresh, 2, try another control
 
-' find and replace globals within classes with property GET/SETs - WIP
+' weekday till flag, the text 'only' sometimes doubles up, possibly after a refresh after midnight when the till has been showing - identify the scenario
 
 ' look at Olaf's pendulum code
 

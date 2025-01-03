@@ -1814,7 +1814,7 @@ End Sub
 ' Procedure : settoggle_myMouseDown
 ' Author    : beededea
 ' Date      : 03/08/2023
-' Purpose   :
+' Purpose   : The set toggle 'sets' any future alarm date and time as selected via the log slider, into a global var and into the prefs.
 '---------------------------------------------------------------------------------------
 '
 Private Sub settoggle_myMouseDown()
@@ -1824,6 +1824,8 @@ Private Sub settoggle_myMouseDown()
     Dim setToggleOut As Long: setToggleOut = 0
     
     Dim alarmDate As String: alarmDate = vbNullString
+    Dim answer As VbMsgBoxResult: answer = vbNo
+    Dim answerMsg As String: answerMsg = vbNullString
 
     Dim fileToPlay As String: fileToPlay = vbNullString
     
@@ -1831,6 +1833,8 @@ Private Sub settoggle_myMouseDown()
     
     If gblWidgetFunctions = "0" Or gblIgnoreMouse = "1" Then Exit Sub
     
+    answer = vbYes
+
     setToggleTop = settoggle.Top
     setToggleOut = 359
     setToggleIn = 363
@@ -1850,17 +1854,18 @@ Private Sub settoggle_myMouseDown()
         PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
     End If
 
-    Sleep 250
+    answerMsg = "No future date/time has been selected so an alarm cannot be set."
+    If overlayWidget.GetFutureTime = vbNullString Then
+        answer = msgBoxA(answerMsg, vbExclamation + vbOKOnly, "No future date/time set", True, "settoggle_myMouseDownEvent")
+    Else
+        alarmDate = overlayWidget.GetFutureTime
+    End If
     
     settoggle.Move setToggleOut, setToggleTop
     
-    alarmDate = overlayWidget.GetFutureTime
-    alarmtoggleEnabled = False
-    
-    MsgBox alarmDate
+    If mAlarmtoggleEnabled = True Then alarmtoggleEnabled = False
     
     clockForm.Refresh
-
 
    On Error GoTo 0
    Exit Sub
@@ -2708,7 +2713,6 @@ Private Sub sliderset_Moving()
 
     Else
         overlayWidget.SliderInTransit = False
-        'overlayWidget.SliderEnabled = True
         overlayWidget.tmrTimeShift.Enabled = False
     End If
     
@@ -3493,6 +3497,8 @@ Public Property Let alarmtoggleEnabled(ByVal newValue As Boolean)
         SliderFreed = True
         
         tmrZZZZSound.Enabled = True ' does a little buzz after 1/10th of a second, not cutting off the preceding 'clunk' prematurely
+        
+        overlayWidget.GetFutureTime = vbNullString
         
         ' set the slider position to the start point
         fClock.timeShiftValue = 0.5
