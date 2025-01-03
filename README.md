@@ -10,6 +10,7 @@ What does the program do already in its unfinished state?
 	* Has up to five working alarms. 
 	* All the steampunk controls working and functioning as designed, responds to keyboard and mouse events.
  	* The time slider now advances time using a logarthmic scale.
+ 	* Alarms can be set via the time slider.    
 	* Has a fully functioning preference utility.
 	* Has full documentation and help.
 	* Demonstrates the use of VB6/TwinBasic and Cairo Graphics working together.
