@@ -2708,7 +2708,7 @@ Private Sub sliderset_Moving()
 
     Else
         overlayWidget.SliderInTransit = False
-        overlayWidget.SliderEnabled = True
+        'overlayWidget.SliderEnabled = True
         overlayWidget.tmrTimeShift.Enabled = False
     End If
     
@@ -3484,7 +3484,7 @@ Public Property Let alarmtoggleEnabled(ByVal newValue As Boolean)
     alarmToggleOut = 359
     alarmToggleIn = 363
     
-    If alarmtoggleEnabled = True Then
+    If newValue = True Then
         
         Call screenWrite("Entering Alarm Mode")
         Call screenWrite("Slider Mechanism Released, click bell to set")
