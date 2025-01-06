@@ -377,7 +377,7 @@ Public gblLastSelectedTab As String
 Public gblSkinTheme As String
 Public gblUnhide As String
 
-'Public gblSetToggleEnabled As String
+Public gblSetTogglePressed As String
 Public gblMuteToggleEnabled As String
 Public gblPendulumToggleEnabled As String
 Public gblPendulumEnabled As String
@@ -2023,6 +2023,8 @@ Public Sub getKeyPress(ByVal KeyCode As Integer, ByVal Shift As Integer)
             Else
                 fClock.displayScreenToggleEnabled = True
             End If
+        Case vbKeyS 'set alarm toggle
+            fClock.SetTogglePressed = True
         Case vbKeyT ' t key helptoggle
             If fClock.timeMachineToggleEnabled = True Then
                 fClock.timeMachineToggleEnabled = False

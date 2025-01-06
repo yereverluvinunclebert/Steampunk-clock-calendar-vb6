@@ -266,15 +266,21 @@ o add now() button logic for all alarms
 
 ' add new property to tell the overlay that the slider is freed but in idle position to retain the current date/time as selected
 ' alarm set - accept an indicated time as the current alarm date/time
+' add more sand timer rotations
+' move the busyTimer clear to a separate routine run at the end of the widgetPrefs form_load
 
 ' -oOo-
 
 Tasks to do:
 ============
 
-' alter the speed of the numeric display rotation
+' F5 error, menu reload works but F5 fails...
 
-' add more sand timer rotations
+' alter the speed of the numeric display rotation and test
+
+' The S key down does not operate the S toggle
+
+' the right left keys are allowed to drag the slider even when the A toggle has not been pressed.
 
 ' numeric display animation in the subroutine, set a flag as to whether the subroutine is already being called by the timer or the slider - is this needed?
 
@@ -282,7 +288,7 @@ Tasks to do:
 
 ' change the HTML help
 
-' match the numeric digit rotation to match the YWE version
+' match the numeric digit rotation to match the YWE version?
 
 ' find and replace globals within overlay class with property GET/SETs - WIP
 

@@ -68,6 +68,8 @@ Private mAlarmToggle5Enabled As Boolean
 Private mhelpToggleEnabled As Boolean
 Private mTimeShiftValue As Currency
 Private mRotateBusyTimer As Boolean
+Private mSetTogglePressed As Boolean
+
 
 Public mShowHelp As Boolean 'change to property get/set
 
@@ -3728,69 +3730,56 @@ timeMachineToggleEnabledGet_Error:
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property timeMachineToggleEnabled of Class Module cfClock"
 End Property
 
-''---------------------------------------------------------------------------------------
-'' Property  : setToggleEnabled
-'' Author    : beededea
-'' Date      : 10/05/2023
-'' Purpose   :
-''---------------------------------------------------------------------------------------
-''
-'Public Property Let SetToggleEnabled(ByVal newValue As Boolean)
+'---------------------------------------------------------------------------------------
+' Property  : SetTogglePressed
+' Author    : beededea
+' Date      : 10/05/2023
+' Purpose   :
+'---------------------------------------------------------------------------------------
 '
-'    Dim setToggleTop As Long: setToggleTop = 0
-'    Dim setToggleIn As Long: setToggleIn = 0
-'    Dim setToggleOut As Long: setToggleOut = 0
-'    Dim alarmDate As String
+Public Property Let SetTogglePressed(ByVal newValue As Boolean)
+
+    Dim setToggleTop As Long: setToggleTop = 0
+    Dim setToggleIn As Long: setToggleIn = 0
+    Dim setToggleOut As Long: setToggleOut = 0
+    Dim alarmDate As String
+
+    On Error GoTo SetTogglePressedLet_Error
+
+    Call settoggle_myMouseDown
+
+    If mSetTogglePressed <> newValue Then mSetTogglePressed = newValue Else Exit Property
+    SetTogglePressed = mSetTogglePressed
+
+    clockForm.Refresh
+
+   On Error GoTo 0
+   Exit Property
+
+SetTogglePressedLet_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property SetTogglePressed of Class Module cfClock"
+End Property
+
+'---------------------------------------------------------------------------------------
+' Property  : SetTogglePressed
+' Author    : beededea
+' Date      : 17/05/2023
+' Purpose   :
+'---------------------------------------------------------------------------------------
 '
-'
-'    On Error GoTo setToggleEnabledLet_Error
-'
-'    setToggleOut = 359
-'    setToggleIn = 363
-'    setToggleTop = settoggle.Top
-'
-'    If newValue = True Then
-'        settoggle.Move setToggleIn, setToggleTop
-'        gblSetToggleEnabled = "True"
-'    Else
-'        settoggle.Move setToggleOut, setToggleTop
-'        gblSetToggleEnabled = "False"
-'    End If
-'
-'    sPutINISetting "Software\SteampunkClockCalendar", "setToggleEnabled", gblSetToggleEnabled, gblSettingsFile
-'
-'    If mSetToggleEnabled <> newValue Then mSetToggleEnabled = newValue Else Exit Property
-'    SetToggleEnabled = mSetToggleEnabled
-'
-'    clockForm.Refresh
-'
-'   On Error GoTo 0
-'   Exit Property
-'
-'setToggleEnabledLet_Error:
-'
-'    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property setToggleEnabled of Class Module cfClock"
-'End Property
-'
-''---------------------------------------------------------------------------------------
-'' Property  : setToggleEnabled
-'' Author    : beededea
-'' Date      : 17/05/2023
-'' Purpose   :
-''---------------------------------------------------------------------------------------
-''
-'Public Property Get SetToggleEnabled() As Boolean
-'   On Error GoTo setToggleEnabledGet_Error
-'
-'    SetToggleEnabled = mSetToggleEnabled
-'
-'   On Error GoTo 0
-'   Exit Property
-'
-'setToggleEnabledGet_Error:
-'
-'    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property setToggleEnabled of Class Module cfClock"
-'End Property
+Public Property Get SetTogglePressed() As Boolean
+   On Error GoTo SetTogglePressedGet_Error
+
+    SetTogglePressed = mSetTogglePressed
+
+   On Error GoTo 0
+   Exit Property
+
+SetTogglePressedGet_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property SetTogglePressed of Class Module cfClock"
+End Property
 
 
 '---------------------------------------------------------------------------------------
