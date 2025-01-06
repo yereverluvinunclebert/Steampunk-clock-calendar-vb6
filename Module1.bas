@@ -543,7 +543,7 @@ Sub screenWrite(screentext As String)
 
     ' move the existing screen text
     For a = 0 To 14
-        gblTerminalRows(15 - a) = gblTerminalRows(15 - a - 1)
+         gblTerminalRows(15 - a) = gblTerminalRows(15 - a - 1)
     Next
 
     gblTerminalRows(0) = screentext
@@ -2078,6 +2078,7 @@ Public Sub getKeyPress(ByVal KeyCode As Integer, ByVal Shift As Integer)
         Case 82 ' Shift+R for a hard Restart
             If Shift = 1 Then Call hardRestart
         Case 116
+            gblFClockAvailable = False ' tell the screenwrite util that the clockform structure is no longer available to write console events into
             Call reloadWidget 'f5 refresh button as per all browsers
     End Select
  

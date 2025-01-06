@@ -82,28 +82,22 @@ Public Sub mainRoutine(ByVal restart As Boolean)
     ' initialise global vars
     Call initialiseGlobalVars
     
+    startupFlg = True
+    
     #If TWINBASIC Then
         gblCodingEnvironment = "TwinBasic"
     #Else
         gblCodingEnvironment = "VB6"
     #End If
     
-    'MsgBox gblCodingEnvironment
-    
     widgetName = "Steampunk Clock Calendar"
     thisPSDFullPath = App.path & "\Res\Steampunk Clock Calendar.psd"
-    
-    Call screenWrite("Steampunk O/S ver 1.0 (clockwork 0.1 hz)")
-    Call screenWrite("A " & gblCodingEnvironment & " (WoW64) and RC6 creation")
-    Call screenWrite("Copyright 2024, BrickMoon Interplanetary Enterprises")
-    
+        
     menuForm.mnuAbout.Caption = "About Steampunk Clock Calendar Cairo " & gblCodingEnvironment & " widget"
     
     ' resolve VB6 sizing width bug
     Call determineScreenDimensions
-
     gblPrefsPrimaryHeightTwips = 1000 * screenTwipsPerPixelY
-    startupFlg = True
     
     extractCommand = Command$ ' capture any parameter passed, remove if a soft reload
     If restart = True Then extractCommand = vbNullString
@@ -126,11 +120,8 @@ Public Sub mainRoutine(ByVal restart As Boolean)
     ' validate the inputs of any data from the input settings file
     Call validateInputs
     
-    If gbl24HourClockMode = "1" Then
-        Call screenWrite("Running startup " & "24hr mode")
-    Else
-        Call screenWrite("Running startup " & "12hr mode")
-    End If
+    ' write to the virtual screen
+    Call writeVirtualScreen
     
     ' check first usage via licence acceptance value and then set initial DPI awareness
     licenceState = fLicenceState()
@@ -201,6 +192,35 @@ main_routine_Error:
     
 End Sub
  
+ 
+'---------------------------------------------------------------------------------------
+' Procedure : writeVirtualScreen
+' Author    : beededea
+' Date      : 06/01/2025
+' Purpose   :
+'---------------------------------------------------------------------------------------
+'
+ Private Sub writeVirtualScreen()
+    
+   On Error GoTo writeVirtualScreen_Error
+
+    Call screenWrite("Steampunk O/S ver 1.0 (clockwork 0.1 hz)")
+    Call screenWrite("A " & gblCodingEnvironment & " (WoW64) and RC6 creation")
+    Call screenWrite("Copyright 2024, BrickMoon Interplanetary Enterprises")
+   
+    If gbl24HourClockMode = "1" Then
+        Call screenWrite("Running startup " & "24hr mode")
+    Else
+        Call screenWrite("Running startup " & "12hr mode")
+    End If
+
+   On Error GoTo 0
+   Exit Sub
+
+writeVirtualScreen_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure writeVirtualScreen of Module modMain"
+End Sub
  
 
 ' ----------------------------------------------------------------
