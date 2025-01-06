@@ -1930,6 +1930,9 @@ Private Sub settoggle_myMouseDown()
             sPutINISetting "Software\SteampunkClockCalendar", "alarm5Time", gblAlarm5Time, gblSettingsFile
           
         End If
+        answerMsg = "Alarm has been successfully set."
+        answer = msgBoxA(answerMsg, vbExclamation + vbOKOnly, "Alarm has been successfully set.", True, "settoggle_myMouseDownEventB")
+    
     End If
     
     settoggle.Move setToggleOut, setToggleTop
@@ -1937,6 +1940,7 @@ Private Sub settoggle_myMouseDown()
     If mAlarmtoggleEnabled = True Then alarmtoggleEnabled = False
     overlayWidget.GetFutureTime = vbNullString
     clockForm.Refresh
+
 
    On Error GoTo 0
    Exit Sub

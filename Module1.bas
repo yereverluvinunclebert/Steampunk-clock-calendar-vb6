@@ -377,7 +377,7 @@ Public gblLastSelectedTab As String
 Public gblSkinTheme As String
 Public gblUnhide As String
 
-Public gblSetTogglePressed As String
+'Public gblSetTogglePressed As String
 Public gblMuteToggleEnabled As String
 Public gblPendulumToggleEnabled As String
 Public gblPendulumEnabled As String
@@ -2079,6 +2079,7 @@ Public Sub getKeyPress(ByVal KeyCode As Integer, ByVal Shift As Integer)
             If Shift = 1 Then Call hardRestart
         Case 116
             gblFClockAvailable = False ' tell the screenwrite util that the clockform structure is no longer available to write console events into
+            Erase gblTerminalRows ' remove the old text stored in the display screen array
             Call reloadWidget 'f5 refresh button as per all browsers
     End Select
  
