@@ -2071,10 +2071,15 @@ Public Sub getKeyPress(ByVal KeyCode As Integer, ByVal Shift As Integer)
             End If
         Case 37, 40 ' Left and down cursor key
             ' move the slider left
-            fClock.timeShiftValue = fClock.timeShiftValue - 0.05
+                ' if the slider is enabled and the timeShiftValue <> 0.5 then start the timer that shifts the digital clocks forwards or backwards
+            If fClock.SliderFreed = True Then
+                fClock.timeShiftValue = fClock.timeShiftValue - 0.05
+            End If
         Case 39, 38 ' Right and Up cursor key
             ' move the slider right
-            fClock.timeShiftValue = fClock.timeShiftValue + 0.05
+            If fClock.SliderFreed = True Then
+                fClock.timeShiftValue = fClock.timeShiftValue + 0.05
+            End If
         Case 82 ' Shift+R for a hard Restart
             If Shift = 1 Then Call hardRestart
         Case 116

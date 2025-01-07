@@ -47,7 +47,6 @@ Public FZ As Single  'available on the outside, even after the Form is closed
 
 Private mMute As Integer
 Private mSliderFreed As Boolean
-'Private mSetToggleEnabled As Boolean
 Private mMuteToggleEnabled As Boolean
 Private mPendulumToggleEnabled As Boolean
 Private mWeekdayToggleEnabled As Boolean
@@ -811,7 +810,7 @@ Private Sub clockForm_BubblingEvent(ByRef sender As Object, ByRef EventName As S
                 overlayWidget.tmrClock.Interval = 1000
                 
                 overlayWidget.Locked = False
-                If SliderFreed = True Then
+                If mSliderFreed = True Then
                     fClock.timeShiftValue = 0.5
                     overlayWidget.tmrTimeShift.Enabled = False
                 End If
@@ -1874,6 +1873,12 @@ Private Sub settoggle_myMouseDown()
             widgetPrefs.txtAlarm1Date.Text = alarmDate
             widgetPrefs.txtAlarm1Time.Text = alarmTime
             
+            widgetPrefs.cmbAlarm1Day.ListIndex = 0
+            widgetPrefs.cmbAlarm1Month.ListIndex = 0
+            widgetPrefs.cmbAlarm1Year.ListIndex = 0
+            widgetPrefs.cmbAlarm1Hours.ListIndex = 0
+            widgetPrefs.cmbAlarm1Minutes.ListIndex = 0
+            
             gblAlarm1Date = alarmDate
             gblAlarm1Time = alarmTime
             
@@ -1887,6 +1892,12 @@ Private Sub settoggle_myMouseDown()
             widgetPrefs.txtAlarm2Date.Text = alarmDate
             widgetPrefs.txtAlarm2Time.Text = alarmTime
             
+            widgetPrefs.cmbAlarm2Day.ListIndex = 0
+            widgetPrefs.cmbAlarm2Month.ListIndex = 0
+            widgetPrefs.cmbAlarm2Year.ListIndex = 0
+            widgetPrefs.cmbAlarm2Hours.ListIndex = 0
+            widgetPrefs.cmbAlarm2Minutes.ListIndex = 0
+                        
             gblAlarm2Date = alarmDate
             gblAlarm2Time = alarmTime
             
@@ -1898,6 +1909,12 @@ Private Sub settoggle_myMouseDown()
             ' it is perfectly correct to refer to the widgetPrefs controls directly, as the form is a class and the controls are publicly exposed.
             widgetPrefs.txtAlarm3Date.Text = alarmDate
             widgetPrefs.txtAlarm3Time.Text = alarmTime
+            
+            widgetPrefs.cmbAlarm3Day.ListIndex = 0
+            widgetPrefs.cmbAlarm3Month.ListIndex = 0
+            widgetPrefs.cmbAlarm3Year.ListIndex = 0
+            widgetPrefs.cmbAlarm3Hours.ListIndex = 0
+            widgetPrefs.cmbAlarm3Minutes.ListIndex = 0
             
             gblAlarm3Date = alarmDate
             gblAlarm3Time = alarmTime
@@ -1911,6 +1928,12 @@ Private Sub settoggle_myMouseDown()
             widgetPrefs.txtAlarm4Date.Text = alarmDate
             widgetPrefs.txtAlarm4Time.Text = alarmTime
             
+            widgetPrefs.cmbAlarm4Day.ListIndex = 0
+            widgetPrefs.cmbAlarm4Month.ListIndex = 0
+            widgetPrefs.cmbAlarm4Year.ListIndex = 0
+            widgetPrefs.cmbAlarm4Hours.ListIndex = 0
+            widgetPrefs.cmbAlarm4Minutes.ListIndex = 0
+            
             gblAlarm4Date = alarmDate
             gblAlarm4Time = alarmTime
             
@@ -1922,6 +1945,12 @@ Private Sub settoggle_myMouseDown()
             ' it is perfectly correct to refer to the widgetPrefs controls directly, as the form is a class and the controls are publicly exposed.
             widgetPrefs.txtAlarm5Date.Text = alarmDate
             widgetPrefs.txtAlarm5Time.Text = alarmTime
+            
+            widgetPrefs.cmbAlarm5Day.ListIndex = 0
+            widgetPrefs.cmbAlarm5Month.ListIndex = 0
+            widgetPrefs.cmbAlarm5Year.ListIndex = 0
+            widgetPrefs.cmbAlarm5Hours.ListIndex = 0
+            widgetPrefs.cmbAlarm5Minutes.ListIndex = 0
             
             gblAlarm5Date = alarmDate
             gblAlarm5Time = alarmTime
@@ -2727,7 +2756,7 @@ Private Sub sliderset_myMouseDown()
 
     pvtSlidersetMousedown = True
                 
-    If SliderFreed = False Then
+    If mSliderFreed = False Then
         If gblVolumeBoost = "1" Then
             fileToPlay = "buzzer.wav"
         Else
@@ -2778,7 +2807,7 @@ Private Sub sliderset_Moving()
     overlayWidget.timeShiftValueSecs = timeShiftValue
             
     ' if the slider is enabled and the timeShiftValue <> 0.5 then start the timer that shifts the digital clocks forwards or backwards
-    If SliderFreed = True And timeShiftValue <> 0.5 Then
+    If mSliderFreed = True And timeShiftValue <> 0.5 Then
         overlayWidget.SliderEnabled = True
         overlayWidget.SliderInTransit = True ' the flag that when set allows a call to the routine that causes the 'rotation' of the numeric display when the slider is dragged by the user
         overlayWidget.tmrTimeShift.Enabled = True ' the background timer that 'rotates' the numeric display when the slider is held still by the user
@@ -2814,14 +2843,6 @@ Public Property Let SliderFreed(ByVal newValue As Boolean)
     If mSliderFreed <> newValue Then mSliderFreed = newValue Else Exit Property
 
     SliderFreed = mSliderFreed
-   
-    If mSliderFreed = True Then
-        sliderset.Moveable = True
-        glow.Moveable = True
-    Else
-        sliderset.Moveable = False
-        glow.Moveable = False
-    End If
    
    On Error GoTo 0
    Exit Property
@@ -3569,7 +3590,9 @@ Public Property Let alarmtoggleEnabled(ByVal newValue As Boolean)
         Call screenWrite("Slider Mechanism Released, click bell to set")
        
         alarmtoggle.Move alarmToggleIn, alarmtoggleTop
-        SliderFreed = True
+        mSliderFreed = True
+        sliderset.Moveable = True
+        glow.Moveable = True
         
         tmrZZZZSound.Enabled = True ' does a little buzz after 1/10th of a second, not cutting off the preceding 'clunk' prematurely
         
@@ -3579,7 +3602,7 @@ Public Property Let alarmtoggleEnabled(ByVal newValue As Boolean)
         fClock.timeShiftValue = 0.5
         
         overlayWidget.BaseDate = Now()
-        
+             
         ' if an alarm is not selected then choose the first available alarm
         '     raise the alarm till and alarm toggle
         ' if an alarm is already raised then we edit that
@@ -3613,11 +3636,14 @@ Public Property Let alarmtoggleEnabled(ByVal newValue As Boolean)
         
     Else
         overlayWidget.SliderInTransit = False
+        sliderset.Moveable = False
+        glow.Moveable = False
+        
         Call screenWrite("Cancelling Alarm Edit Mode")
         Call screenWrite("Slider Mechanism Placed in Rest Position")
         
         alarmtoggle.Move alarmToggleOut, alarmtoggleTop
-        SliderFreed = False
+        mSliderFreed = False
         overlayWidget.SliderEnabled = False
         fClock.timeShiftValue = 0
         
@@ -3738,7 +3764,7 @@ End Property
 ' Property  : SetTogglePressed
 ' Author    : beededea
 ' Date      : 10/05/2023
-' Purpose   :
+' Purpose   : property to allow the set toggle to be selected by keypress or otherwise
 '---------------------------------------------------------------------------------------
 '
 Public Property Let SetTogglePressed(ByVal newValue As Boolean)

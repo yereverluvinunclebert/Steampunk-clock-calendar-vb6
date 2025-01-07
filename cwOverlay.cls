@@ -141,7 +141,7 @@ Private Sub Class_Initialize()
     tmrTimeShift.Enabled = False
    
     Set tmrDigitRotator = Nothing
-    Set tmrDigitRotator = New_c.Timer(50, False)
+    Set tmrDigitRotator = New_c.Timer(14, False)
     
     tmrDigitRotator.Enabled = False
     
