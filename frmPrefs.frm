@@ -5889,8 +5889,6 @@ Private Sub populatePrefsComboBoxes()
 
     Dim useloop As Integer: useloop = 0
     Dim minString As String: minString = vbNullString
-'    Dim hrsString As String: hrsString = vbNullString
-'    Dim dayString As String: dayString = vbNullString
     
     On Error GoTo populatePrefsComboBoxes_Error
     

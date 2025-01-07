@@ -30,7 +30,6 @@ Private Declare Function mciSendString Lib "winmm.dll" Alias "mciSendStringA" _
 Public WithEvents clockForm As cWidgetForm
 Attribute clockForm.VB_VarHelpID = -1
 
-'Private WithEvents tmrDisplay As cTimer
 Public WithEvents tmrZZZZSound As cTimer
 Attribute tmrZZZZSound.VB_VarHelpID = -1
 Public WithEvents tmrTILLSound As cTimer
@@ -68,7 +67,6 @@ Private mhelpToggleEnabled As Boolean
 Private mTimeShiftValue As Currency
 Private mRotateBusyTimer As Boolean
 Private mSetTogglePressed As Boolean
-
 
 Public mShowHelp As Boolean 'change to property get/set
 
@@ -135,7 +133,6 @@ Private WithEvents weekdayred As cWidgetBase
 Attribute weekdayred.VB_VarHelpID = -1
 Private WithEvents weekdaytill As cWidgetBase
 Attribute weekdaytill.VB_VarHelpID = -1
-'Private WithEvents weekdayshadow As cWidgetBase
 Private WithEvents dropdown As cWidgetBase
 Attribute dropdown.VB_VarHelpID = -1
 Private WithEvents bellset As cWidgetBase
@@ -152,6 +149,7 @@ Attribute clockset.VB_VarHelpID = -1
 Private lblTerminalText As cwLabel
 
 ' test labels, textboxes causing IDE crash
+
 Private newLabel As cwLabel
 Attribute newLabel.VB_VarHelpID = -1
 Private WithEvents textBox As cwTextBox
@@ -4540,11 +4538,11 @@ End Property
 ' Property  : RotateBusyTimer
 ' Author    : beededea
 ' Date      : 17/05/2023
-' Purpose   :
+' Purpose   : makes previous busy image invisible and next visible simulating rotation
 '---------------------------------------------------------------------------------------
 '
 Public Property Let RotateBusyTimer(ByVal newValue As Boolean)
-   On Error GoTo RotateBusyTimerLet_Error
+    On Error GoTo RotateBusyTimerLet_Error
     
     fClock.clockForm.Widgets("busy" & busyTimerRotateValue).Widget.Alpha = 0
 

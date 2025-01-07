@@ -283,8 +283,6 @@ o add now() button logic for all alarms
 Tasks to do:
 ============
 
-' busyblur persisting on occasion.
-
 ' test a recent alarm in VB6 and TB not currently working!
 
 ' weekday till flag, the text 'only' sometimes doubles up, possibly after a refresh after midnight when the till has been showing - identify the scenario
@@ -295,7 +293,7 @@ Tasks to do:
 
 ' frame in prefs icons not showing
 
-' change the HTML help
+' change the HTML help to match the new functionality
 
 ' match the numeric digit rotation to match the YWE version?
 
@@ -303,7 +301,7 @@ Tasks to do:
 
 ' find and replace globals within fclock class with property GET/SETs - WIP
 
-' check correct use of all properties to minimise CPU usage, locally should always be using the mversion of a variable rather than the property itself
+' check correct use of all properties to minimise CPU usage, locally should always be using the Version of a variable rather than the property itself
 
 ' descriptions on all routines - WIP
 
@@ -344,6 +342,8 @@ Tasks to do:
 ' reduce CPU usage to less than one percent
 
 ' create setup.exe with a different name.
+
+' busyblur persisting on occasion.
 
 ' -oOo-
 
