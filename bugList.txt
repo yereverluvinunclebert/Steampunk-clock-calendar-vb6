@@ -278,12 +278,14 @@ o add now() button logic for all alarms
 ' when an alarm is set via the GUI the widgetPrefs, all alarm setting fields should be zeroed.
 ' alter the speed of the numeric display rotation and test - minumum of 14
 
+' generate XML documentation
+
 ' -oOo-
 
 Tasks to do:
 ============
 
-' test a recent alarm in VB6 and TB not currently working!
+' test a recent alarm in VB6 and TB, not currently working!
 
 ' weekday till flag, the text 'only' sometimes doubles up, possibly after a refresh after midnight when the till has been showing - identify the scenario
 '     the weekday had not changed overnight and the previous transparent day indicator was left on screen, pressing the weekday toggle caused the new weekday
@@ -343,7 +345,9 @@ Tasks to do:
 
 ' create setup.exe with a different name.
 
-' busyblur persisting on occasion.
+' busyblur persisting on occasion. Identify when.
+
+' update XML documentation
 
 ' -oOo-
 

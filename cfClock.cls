@@ -4544,6 +4544,8 @@ End Property
 Public Property Let RotateBusyTimer(ByVal newValue As Boolean)
     On Error GoTo RotateBusyTimerLet_Error
     
+    If startupFlg = False Then Exit Property
+    
     fClock.clockForm.Widgets("busy" & busyTimerRotateValue).Widget.Alpha = 0
 
     busyTimerRotateValue = busyTimerRotateValue + 1

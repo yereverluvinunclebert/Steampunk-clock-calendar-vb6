@@ -159,7 +159,7 @@ Public Sub mainRoutine(ByVal restart As Boolean)
     End If
         
     'load the preferences form but don't yet show it, speeds up access to the prefs via the menu
-    frmTimer.tmrStartupDelay.Enabled = True
+    If widgetPrefs.IsLoaded = False Then Load widgetPrefs
     
     'load the message form but don't yet show it, speeds up access to the message form when needed.
     Load frmMessage
@@ -232,21 +232,21 @@ End Sub
 ' Author: beededea
 ' Date: 21/06/2024
 ' ----------------------------------------------------------------
-Public Sub startupDelay()
-    
-    On Error GoTo startupDelay_Error
-    
-    frmTimer.tmrStartupDelay.Enabled = False
-    
-    If widgetPrefs.IsLoaded = False Then Load widgetPrefs ' not needed as widgetPrefs is called in several place during setting toggle properties
-    
-   On Error GoTo 0
-   Exit Sub
-
-startupDelay_Error:
-
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure startupDelay of Class Module cfClock"
-End Sub
+'Public Sub startupDelay()
+'
+'    On Error GoTo startupDelay_Error
+'
+'    frmTimer.tmrStartupDelay.Enabled = False
+'
+'    If widgetPrefs.IsLoaded = False Then Load widgetPrefs
+'
+'   On Error GoTo 0
+'   Exit Sub
+'
+'startupDelay_Error:
+'
+'    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure startupDelay of Class Module cfClock"
+'End Sub
  
 '---------------------------------------------------------------------------------------
 ' Procedure : checkFirstTime
