@@ -299,9 +299,8 @@ Public gblSmoothSecondHand As String
 'Public gblSecondaryDaylightSaving As String
 
 ' config
-Public gblEnableTooltips As String
+Public gblClockTooltips As String
 Public gblEnablePrefsTooltips As String
-Public gblEnableBalloonTooltips As String
 Public gblEnablePrefsBalloonTooltips As String
 
 Public gblShowTaskbar As String
@@ -1725,7 +1724,7 @@ End Sub
 Public Sub setMainTooltips()
    On Error GoTo setMainTooltips_Error
 
-    If gblEnableTooltips = "True" Then
+    If gblClockTooltips = "1" Then
 
         overlayWidget.Widget.ToolTip = "Use CTRL+mouse scrollwheel up/down to resize."
         aboutWidget.Widget.ToolTip = "Click on me to make me go away."
@@ -1774,7 +1773,7 @@ Public Sub setMainTooltips()
         
         
 '            Case "bellset"
-'                If gblEnableBalloonTooltips = "True" Then CreateToolTip clockForm.hWnd, "Click here to set or edit an alarm.", _
+'                If gblClockTooltips ="1" Then CreateToolTip clockForm.hWnd, "Click here to set or edit an alarm.", _
 '                     TTIconInfo, widgetName & " Alarm Toggle Help", , , , True
 '                With clockForm.Widgets("redalarmcover").Widget
 '                    .Alpha = 0
@@ -2071,7 +2070,7 @@ Public Sub getKeyPress(ByVal KeyCode As Integer, ByVal Shift As Integer)
             End If
         Case 37, 40 ' Left and down cursor key
             ' move the slider left
-                ' if the slider is enabled and the timeShiftValue <> 0.5 then start the timer that shifts the digital clocks forwards or backwards
+            ' if the slider is enabled and the timeShiftValue <> 0.5 then start the timer that shifts the digital clocks forwards or backwards
             If fClock.SliderFreed = True Then
                 fClock.timeShiftValue = fClock.timeShiftValue - 0.05
             End If
@@ -2815,7 +2814,7 @@ Public Sub clearAllMessageBoxRegistryEntries()
     SaveSetting App.EXEName, "Options", "Show message" & "mnuSupportClickEvent", 0
     SaveSetting App.EXEName, "Options", "Show message" & "chkDpiAwarenessRestart", 0
     SaveSetting App.EXEName, "Options", "Show message" & "chkDpiAwarenessAbnormal", 0
-    SaveSetting App.EXEName, "Options", "Show message" & "optEnableTooltipsClick", 0
+    SaveSetting App.EXEName, "Options", "Show message" & "optClockTooltipsClick", 0
     SaveSetting App.EXEName, "Options", "Show message" & "lblGitHubDblClick", 0
     SaveSetting App.EXEName, "Options", "Show message" & "sliOpacityClick", 0
 

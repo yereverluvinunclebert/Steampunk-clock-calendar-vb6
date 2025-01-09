@@ -358,7 +358,7 @@ Public Sub InitFromPSD(ByRef PSD_FileNameOrByteArray As Variant)
                         
                         ' all non-clickable Layer-Widgets will be -1 or "non-hoverable" and "fully click-through"
                         W.HoverColor = -1 ' task: might change this later when new ver or RC6 arrives
-                        If gblEnableTooltips = "True" Then W.ToolTip = "Ctrl + mouse scrollwheel up/down to resize, you can also drag me to a new position."
+                        If gblClockTooltips = "1" Then W.ToolTip = "Ctrl + mouse scrollwheel up/down to resize, you can also drag me to a new position."
                         W.MousePointer = IDC_SIZEALL
                         
                     End If
@@ -482,53 +482,53 @@ Private Sub clockForm_BubblingEvent(ByRef sender As Object, ByRef EventName As S
             Case "topdigitalclock"
                 Call clearWeekdayTill
             Case "sliderset"
-                If gblEnableBalloonTooltips = "True" Then CreateToolTip clockForm.hWnd, "This is the Time Slider. Click and drag me left/right to alter time.", _
+                If gblClockTooltips = "0" Then CreateToolTip clockForm.hWnd, "This is the Time Slider. Click and drag me left/right to alter time.", _
                      TTIconInfo, widgetName & " Locking pin Help", , , , True
             Case "helpbottom"
-                If gblEnableBalloonTooltips = "True" Then CreateToolTip clockForm.hWnd, "This is the Widget Help. Click on me to make me go away.", _
+                If gblClockTooltips = "0" Then CreateToolTip clockForm.hWnd, "This is the Widget Help. Click on me to make me go away.", _
                      TTIconInfo, widgetName & " Help", , , , True
             Case "timemachinetoggle"
-                If gblEnableBalloonTooltips = "True" Then CreateToolTip clockForm.hWnd, "Toggle the time machine images.", _
+                If gblClockTooltips = "0" Then CreateToolTip clockForm.hWnd, "Toggle the time machine images.", _
                      TTIconInfo, widgetName & " Time Toggle Help", , , , True
             Case "displayscreentoggle"
-                If gblEnableBalloonTooltips = "True" Then CreateToolTip clockForm.hWnd, "Toggle back screen.", _
+                If gblClockTooltips = "0" Then CreateToolTip clockForm.hWnd, "Toggle back screen.", _
                      TTIconInfo, widgetName & " Back Screen Toggle Help", , , , True
             Case "weekdaytoggle"
-                If gblEnableBalloonTooltips = "True" Then CreateToolTip clockForm.hWnd, "Toggle weekday indicator.", _
+                If gblClockTooltips = "0" Then CreateToolTip clockForm.hWnd, "Toggle weekday indicator.", _
                      TTIconInfo, widgetName & " Weekday Toggle Help", , , , True
             Case "helptoggle"
-                If gblEnableBalloonTooltips = "True" Then CreateToolTip clockForm.hWnd, "Click me to show the help dropdown canvas.", _
+                If gblClockTooltips = "0" Then CreateToolTip clockForm.hWnd, "Click me to show the help dropdown canvas.", _
                      TTIconInfo, widgetName & " Help Toggle Help", , , , True
             Case "help1toggle"
-                If gblEnableBalloonTooltips = "True" Then CreateToolTip clockForm.hWnd, "Click me to show help dropdown canvas number two.", _
+                If gblClockTooltips = "0" Then CreateToolTip clockForm.hWnd, "Click me to show help dropdown canvas number two.", _
                      TTIconInfo, widgetName & " Help Number 1 Help Toggle", , , , True
             Case "help2toggle"
-                If gblEnableBalloonTooltips = "True" Then CreateToolTip clockForm.hWnd, "Click me to show help dropdown canvas number three.", _
+                If gblClockTooltips = "0" Then CreateToolTip clockForm.hWnd, "Click me to show help dropdown canvas number three.", _
                      TTIconInfo, widgetName & " Help Number 2 Help Toggle", , , , True
             Case "help3toggle"
-                If gblEnableBalloonTooltips = "True" Then CreateToolTip clockForm.hWnd, "Click me to show help dropdown canvas number one.", _
+                If gblClockTooltips = "0" Then CreateToolTip clockForm.hWnd, "Click me to show help dropdown canvas number one.", _
                      TTIconInfo, widgetName & " Help Number 3 Help Toggle", , , , True
             
             Case "alarmtoggle"
-                If gblEnableBalloonTooltips = "True" Then CreateToolTip clockForm.hWnd, "Click here to enter alarm mode.", _
+                If gblClockTooltips = "0" Then CreateToolTip clockForm.hWnd, "Click here to enter alarm mode.", _
                      TTIconInfo, widgetName & " Alarm Toggle Help", , , , True
             Case "settoggle"
-                If gblEnableBalloonTooltips = "True" Then CreateToolTip clockForm.hWnd, "In alarm mode, when you are editing an alarm, press this toggle (or the bell) to save the alarm.", _
+                If gblClockTooltips = "0" Then CreateToolTip clockForm.hWnd, "In alarm mode, when you are editing an alarm, press this toggle (or the bell) to save the alarm.", _
                      TTIconInfo, widgetName & " Loud Toggle Help", , , , True
             Case "mutetoggle"
-                If gblEnableBalloonTooltips = "True" Then CreateToolTip clockForm.hWnd, "Mute chimes and ALL sounds on/off.", _
+                If gblClockTooltips = "0" Then CreateToolTip clockForm.hWnd, "Mute chimes and ALL sounds on/off.", _
                      TTIconInfo, widgetName & " Mute Toggle Help", , , , True
             Case "pendulumtoggle"
-                If gblEnableBalloonTooltips = "True" Then CreateToolTip clockForm.hWnd, "Stop/start the pendulum by clicking on it.", _
+                If gblClockTooltips = "0" Then CreateToolTip clockForm.hWnd, "Stop/start the pendulum by clicking on it.", _
                      TTIconInfo, widgetName & " Pendulum Toggle Help", , , , True
             Case "clockset"
-                If gblEnableBalloonTooltips = "True" Then CreateToolTip clockForm.hWnd, "This is just the analogue clock face, clicking here does nothing at the moment.", _
+                If gblClockTooltips = "0" Then CreateToolTip clockForm.hWnd, "This is just the analogue clock face, clicking here does nothing at the moment.", _
                      TTIconInfo, widgetName & " Clock face Help", , , , True
             Case "pendulumtransparent"
-                If gblEnableBalloonTooltips = "True" Then CreateToolTip clockForm.hWnd, "Stop/start the pendulum.", _
+                If gblClockTooltips = "0" Then CreateToolTip clockForm.hWnd, "Stop/start the pendulum.", _
                      TTIconInfo, widgetName & " Pendulum Help", , , , True
             Case "displayscreen"
-                If gblEnableBalloonTooltips = "True" Then CreateToolTip clockForm.hWnd, "To lower kinematoscope press S toggle. " & vbCrLf & vbCrLf & " Scroll up the display screen text by double-clicking on it - each time sending a carriage return to the screen.", _
+                If gblClockTooltips = "0" Then CreateToolTip clockForm.hWnd, "To lower kinematoscope press S toggle. " & vbCrLf & vbCrLf & " Scroll up the display screen text by double-clicking on it - each time sending a carriage return to the screen.", _
                     TTIconInfo, widgetName & " Kinematoscope Toggle Help", , , , True
                 Call clearWeekdayTill
                 With clockForm.Widgets("redalarmcover").Widget
@@ -536,60 +536,60 @@ Private Sub clockForm_BubblingEvent(ByRef sender As Object, ByRef EventName As S
                     .Refresh
                 End With
             Case "bellset"
-                If gblEnableBalloonTooltips = "True" Then CreateToolTip clockForm.hWnd, "Click here to set or edit an alarm.", _
+                If gblClockTooltips = "0" Then CreateToolTip clockForm.hWnd, "Click here to set or edit an alarm.", _
                      TTIconInfo, widgetName & " Alarm Toggle Help", , , , True
                 With clockForm.Widgets("redalarmcover").Widget
                     .Alpha = 0
                     .Refresh
                 End With
             Case "clapperleft"
-                If gblEnableBalloonTooltips = "True" Then CreateToolTip clockForm.hWnd, "Chiming is currently enabled, click to mute the clock chimes.", _
+                If gblClockTooltips = "0" Then CreateToolTip clockForm.hWnd, "Chiming is currently enabled, click to mute the clock chimes.", _
                      TTIconInfo, widgetName & " Chime Mute Toggle Help", , , , True
             Case "clapperright"
-                If gblEnableBalloonTooltips = "True" Then CreateToolTip clockForm.hWnd, "Chiming is currently disabled, click to enable the clock chimes..", _
+                If gblClockTooltips = "0" Then CreateToolTip clockForm.hWnd, "Chiming is currently disabled, click to enable the clock chimes..", _
                      TTIconInfo, widgetName & " Chime Enable Toggle Help", , , , True
             Case "dropdown"
-                If gblEnableBalloonTooltips = "True" Then CreateToolTip clockForm.hWnd, "Click me for information.", _
+                If gblClockTooltips = "0" Then CreateToolTip clockForm.hWnd, "Click me for information.", _
                      TTIconInfo, widgetName & " Dropdown Toggle Help", , , , True
             Case "backtoggle"
-                If gblEnableBalloonTooltips = "True" Then CreateToolTip clockForm.hWnd, "Toggle the Back Screen to make the text easier to read.", _
+                If gblClockTooltips = "0" Then CreateToolTip clockForm.hWnd, "Toggle the Back Screen to make the text easier to read.", _
                      TTIconInfo, widgetName & " Back Screen Toggle Help", , , , True
             Case "alarmtoggle1"
-                If gblEnableBalloonTooltips = "True" Then CreateToolTip clockForm.hWnd, "Click to set or view alarm number one.", _
+                If gblClockTooltips = "0" Then CreateToolTip clockForm.hWnd, "Click to set or view alarm number one.", _
                      TTIconInfo, widgetName & " Alarm 1 Toggle Help", , , , True
             Case "alarmtoggle2"
-                If gblEnableBalloonTooltips = "True" Then CreateToolTip clockForm.hWnd, "Click to set or view alarm number two.", _
+                If gblClockTooltips = "0" Then CreateToolTip clockForm.hWnd, "Click to set or view alarm number two.", _
                      TTIconInfo, widgetName & " Alarm 2 Toggle Help", , , , True
             Case "alarmtoggle3"
-                If gblEnableBalloonTooltips = "True" Then CreateToolTip clockForm.hWnd, "Click to set or view alarm number three.", _
+                If gblClockTooltips = "0" Then CreateToolTip clockForm.hWnd, "Click to set or view alarm number three.", _
                      TTIconInfo, widgetName & " Alarm 3 Toggle Help", , , , True
             Case "alarmtoggle4"
-                If gblEnableBalloonTooltips = "True" Then CreateToolTip clockForm.hWnd, "Click to set or view alarm number four.", _
+                If gblClockTooltips = "0" Then CreateToolTip clockForm.hWnd, "Click to set or view alarm number four.", _
                      TTIconInfo, widgetName & " Alarm 4 Toggle Help", , , , True
             Case "alarmtoggle5"
-                If gblEnableBalloonTooltips = "True" Then CreateToolTip clockForm.hWnd, "Click to set or view alarm number five.", _
+                If gblClockTooltips = "0" Then CreateToolTip clockForm.hWnd, "Click to set or view alarm number five.", _
                      TTIconInfo, widgetName & " Alarm 5 Toggle Help", , , , True
             Case "chain"
-                If gblEnableBalloonTooltips = "True" Then CreateToolTip clockForm.hWnd, "Pulling the chain will silence the ticks.", _
+                If gblClockTooltips = "0" Then CreateToolTip clockForm.hWnd, "Pulling the chain will silence the ticks.", _
                      TTIconInfo, widgetName & " Chain Help", , , , True
             Case "crankup"
-                If gblEnableBalloonTooltips = "True" Then CreateToolTip clockForm.hWnd, "Crank me down to quieten the whole clock.", _
+                If gblClockTooltips = "0" Then CreateToolTip clockForm.hWnd, "Crank me down to quieten the whole clock.", _
                      TTIconInfo, widgetName & " Crank Help", , , , True
             Case "crankdown"
-                If gblEnableBalloonTooltips = "True" Then CreateToolTip clockForm.hWnd, "Crank up the sound! Crank me up to make more sound throughout the whole clock.", _
+                If gblClockTooltips = "0" Then CreateToolTip clockForm.hWnd, "Crank up the sound! Crank me up to make more sound throughout the whole clock.", _
                      TTIconInfo, widgetName & " Crank Help", , , , True
             Case "lockingpinlocked"
-                If gblEnableBalloonTooltips = "True" Then CreateToolTip clockForm.hWnd, "Click here to unlock the clock and make it moveable using mouse.", _
+                If gblClockTooltips = "0" Then CreateToolTip clockForm.hWnd, "Click here to unlock the clock and make it moveable using mouse.", _
                      TTIconInfo, widgetName & " Locking Pin Help", , , , True
             Case "lockingpin"
-                If gblEnableBalloonTooltips = "True" Then CreateToolTip clockForm.hWnd, "Click here to lock the clock in place on the desktop.", _
+                If gblClockTooltips = "0" Then CreateToolTip clockForm.hWnd, "Click here to lock the clock in place on the desktop.", _
                      TTIconInfo, widgetName & " Locking Pin Help", , , , True
              Case "helpdropdown"
-                If gblEnableBalloonTooltips = "True" Then CreateToolTip clockForm.hWnd, "Click here to lock the clock in place on the desktop.", _
+                If gblClockTooltips = "0" Then CreateToolTip clockForm.hWnd, "Click here to lock the clock in place on the desktop.", _
                      TTIconInfo, widgetName & " Dropdown Pin Help", , , , True
                      
             Case "weekdaytill" ' this does the job for all the weekday tills underneath
-                If gblEnableBalloonTooltips = "True" Then CreateToolTip clockForm.hWnd, "Click here to lower the weekday flag.", _
+                If gblClockTooltips = "0" Then CreateToolTip clockForm.hWnd, "Click here to lower the weekday flag.", _
                      TTIconInfo, widgetName & " Weekday Indicator Help", , , , True
                 ' set the weekday red cover to solid
                 If clockForm.Widgets(fDayOfWeek).Widget.Alpha <> 0 Then
@@ -641,7 +641,7 @@ Private Sub clockForm_BubblingEvent(ByRef sender As Object, ByRef EventName As S
                 End If
                 
             Case "redalarmcover"
-                If gblEnableBalloonTooltips = "True" Then CreateToolTip clockForm.hWnd, "Click this alarm flag to delete this alarm.", _
+                If gblClockTooltips = "0" Then CreateToolTip clockForm.hWnd, "Click this alarm flag to delete this alarm.", _
                      TTIconInfo, widgetName & " Alarm Indicator Help", , , , True
                  weekdayred.Alpha = 0
                  weekdayred.Refresh
@@ -657,7 +657,7 @@ Private Sub clockForm_BubblingEvent(ByRef sender As Object, ByRef EventName As S
                 End If
                 
             Case "weekdayred"
-                If gblEnableBalloonTooltips = "True" Then CreateToolTip clockForm.hWnd, "Click here to lower the weekday flag.", _
+                If gblClockTooltips = "0" Then CreateToolTip clockForm.hWnd, "Click here to lower the weekday flag.", _
                      TTIconInfo, widgetName & " Weekday Indicator Help", , , , True
             
             Case "lblterminaltext"
@@ -2578,7 +2578,7 @@ End Sub
 '                alter the size of the form to correspond to the monitor
 '---------------------------------------------------------------------------------------
 '
-Private Sub clockForm_MouseUp(ByRef Button As Integer, ByRef Shift As Integer, ByRef x As Single, ByRef y As Single)
+Private Sub clockForm_MouseUp(ByRef Button As Integer, ByRef Shift As Integer, ByRef X As Single, ByRef Y As Single)
 
     On Error GoTo clockForm_MouseUp_Error
     
@@ -2613,8 +2613,8 @@ End Sub
 ' Purpose   :
 '---------------------------------------------------------------------------------------
 '
-Private Sub clockForm_MouseMove(ByRef Button As Integer, ByRef Shift As Integer, ByRef x As Single, ByRef y As Single)
-  Static x0 As Single, y0 As Single: If Button = 0 Then x0 = x: y0 = y 'just store the offsets when no button is down
+Private Sub clockForm_MouseMove(ByRef Button As Integer, ByRef Shift As Integer, ByRef X As Single, ByRef Y As Single)
+  Static x0 As Single, y0 As Single: If Button = 0 Then x0 = X: y0 = Y 'just store the offsets when no button is down
   
    On Error GoTo clockForm_MouseMove_Error
     
@@ -2623,8 +2623,8 @@ Private Sub clockForm_MouseMove(ByRef Button As Integer, ByRef Shift As Integer,
 
     If Button = vbLeftButton And Not clockForm.ActiveWidget Is Nothing Then 'Form-Dragging (under certain conditions)
 
-      FX = (x - x0) * clockForm.WidgetRoot.Zoom + clockForm.Left
-      FY = (y - y0) * clockForm.WidgetRoot.Zoom + clockForm.Top
+      FX = (X - x0) * clockForm.WidgetRoot.Zoom + clockForm.Left
+      FY = (Y - y0) * clockForm.WidgetRoot.Zoom + clockForm.Top
       clockForm.Move FX, FY
       
       Debug.Print "FX " & FX
@@ -2714,7 +2714,7 @@ End Sub
 ' Purpose   :
 '---------------------------------------------------------------------------------------
 '
-Private Sub clockForm_MouseDown(ByRef Button As Integer, ByRef Shift As Integer, ByRef x As Single, ByRef y As Single)
+Private Sub clockForm_MouseDown(ByRef Button As Integer, ByRef Shift As Integer, ByRef X As Single, ByRef Y As Single)
    On Error GoTo W_MouseDown_Error
 
     frmTimer.tmrScreenResolution.Enabled = False

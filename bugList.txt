@@ -280,6 +280,8 @@ o add now() button logic for all alarms
 
 ' generate XML documentation
 
+' busyblur persisting on occasion. Identify when and fix
+
 ' -oOo-
 
 Tasks to do:
@@ -345,7 +347,7 @@ Tasks to do:
 
 ' create setup.exe with a different name.
 
-' busyblur persisting on occasion. Identify when.
+
 
 ' update XML documentation
 
