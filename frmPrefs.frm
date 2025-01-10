@@ -355,7 +355,7 @@ Begin VB.Form widgetPrefs
             Top             =   2685
             Width           =   3345
             Begin VB.OptionButton optClockTooltips 
-               Caption         =   "Disable Clock Tooltips"
+               Caption         =   "Disable Clock Tooltips *"
                Height          =   300
                Index           =   2
                Left            =   225
@@ -405,7 +405,7 @@ Begin VB.Form widgetPrefs
             Top             =   3810
             Width           =   3150
             Begin VB.OptionButton optPrefsTooltips 
-               Caption         =   "Disable Prefs Tooltips"
+               Caption         =   "Disable Prefs Tooltips *"
                Height          =   195
                Index           =   2
                Left            =   135
@@ -3189,9 +3189,10 @@ Private Sub optClockTooltips_Click(Index As Integer)
     On Error GoTo optClockTooltips_Click_Error
 
     btnSave.Enabled = True ' enable the save button
-    
+
     If prefsStartupFlg = False Then
         gblClockTooltips = CStr(Index)
+    
         optClockTooltips(0).Tag = CStr(Index)
         optClockTooltips(1).Tag = CStr(Index)
         optClockTooltips(2).Tag = CStr(Index)
@@ -3220,9 +3221,41 @@ End Sub
 
 
 
+'---------------------------------------------------------------------------------------
+' Procedure : optClockTooltips_MouseMove
+' Author    : beededea
+' Date      : 10/01/2025
+' Purpose   :
+'---------------------------------------------------------------------------------------
+'
 Private Sub optClockTooltips_MouseMove(Index As Integer, Button As Integer, Shift As Integer, X As Single, Y As Single)
-    If gblPrefsTooltips = "0" Then CreateToolTip optClockTooltips(Index).hWnd, "This setting enables/disables the tooltips for elements within the Steampunk GUI. These tooltips are multi-line and in general more attractive, note that their font size will match the Windows system font size.", _
+    Dim thisToolTip As String: thisToolTip = vbNullString
+    On Error GoTo optClockTooltips_MouseMove_Error
+
+    If gblPrefsTooltips = "0" Then
+        If Index = 0 Then
+            thisToolTip = "This setting enables the balloon tooltips for elements within the Steampunk GUI. These tooltips are multi-line and in general more attractive than standard windows style tooltips, note that their font size will match the Windows system font size."
+            CreateToolTip optClockTooltips(Index).hWnd, thisToolTip, _
                   TTIconInfo, "Help on Balloon Tooltips on the GUI", , , , True
+        ElseIf Index = 1 Then
+            thisToolTip = "This setting enables the RichClient square tooltips for elements within the Steampunk GUI. These tooltips are multi-line and in general more attractive than standard windows style tooltips."
+            CreateToolTip optClockTooltips(Index).hWnd, thisToolTip, _
+                  TTIconInfo, "Help on RichClient Tooltips on the GUI", , , , True
+        ElseIf Index = 2 Then
+            thisToolTip = "This setting disables the balloon tooltips for elements within the Steampunk GUI."
+            CreateToolTip optClockTooltips(Index).hWnd, thisToolTip, _
+                  TTIconInfo, "Help on Disabling Tooltips on the GUI", , , , True
+        End If
+        
+    
+    End If
+
+   On Error GoTo 0
+   Exit Sub
+
+optClockTooltips_MouseMove_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure optClockTooltips_MouseMove of Form widgetPrefs"
 End Sub
 
 
@@ -3240,16 +3273,19 @@ Private Sub optPrefsTooltips_Click(Index As Integer)
 
    On Error GoTo optPrefsTooltips_Click_Error
 
-    btnSave.Enabled = True ' enable the save button
-    gblPrefsTooltips = CStr(Index)
-    optPrefsTooltips(0).Tag = CStr(Index)
-    optPrefsTooltips(1).Tag = CStr(Index)
-    optPrefsTooltips(2).Tag = CStr(Index)
+    If prefsStartupFlg = False Then
     
-    sPutINISetting "Software\SteampunkClockCalendar", "prefsTooltips", gblPrefsTooltips, gblSettingsFile
-    
-    ' set the tooltips on the prefs screen
-    Call setPrefsTooltips
+        btnSave.Enabled = True ' enable the save button
+        gblPrefsTooltips = CStr(Index)
+        optPrefsTooltips(0).Tag = CStr(Index)
+        optPrefsTooltips(1).Tag = CStr(Index)
+        optPrefsTooltips(2).Tag = CStr(Index)
+        
+        sPutINISetting "Software\SteampunkClockCalendar", "prefsTooltips", gblPrefsTooltips, gblSettingsFile
+        
+        ' set the tooltips on the prefs screen
+        Call setPrefsTooltips
+    End If
      
    On Error GoTo 0
    Exit Sub
@@ -3529,9 +3565,6 @@ Private Sub Form_Load()
     ' determine the frame heights in dynamic sizing or normal mode
     Call setframeHeights
     
-    ' set the tooltips on the prefs screen
-    Call setPrefsTooltips
-    
     ' set the text in any labels that need a vbCrLf to space the text
     Call setPrefsLabels
     
@@ -3540,6 +3573,9 @@ Private Sub Form_Load()
         
     ' adjust all the preferences and main program controls
     Call adjustPrefsControls
+    
+    ' set the tooltips on the prefs screen
+    Call setPrefsTooltips
     
     ' adjust the theme used by the prefs alone
     Call adjustPrefsTheme
@@ -5529,7 +5565,7 @@ Private Sub adjustPrefsControls(Optional ByVal restart As Boolean)
     optClockTooltips(1).Tag = CStr(gblClockTooltips)
     optClockTooltips(2).Tag = CStr(gblClockTooltips)
         
-    optPrefsTooltips(CStr(gblClockTooltips)).Value = True
+    optPrefsTooltips(CStr(gblPrefsTooltips)).Value = True
     optPrefsTooltips(0).Tag = CStr(gblPrefsTooltips)
     optPrefsTooltips(1).Tag = CStr(gblPrefsTooltips)
     optPrefsTooltips(2).Tag = CStr(gblPrefsTooltips)
@@ -6705,10 +6741,41 @@ End Sub
 
 
 
+'---------------------------------------------------------------------------------------
+' Procedure : optPrefsTooltips_MouseMove
+' Author    : beededea
+' Date      : 10/01/2025
+' Purpose   :
+'---------------------------------------------------------------------------------------
+'
 Private Sub optPrefsTooltips_MouseMove(Index As Integer, Button As Integer, Shift As Integer, X As Single, Y As Single)
-    ' NOTE: see setPrefsTooltips for cancelling this particular tooltip.
-    If gblPrefsTooltips = "0" Then CreateToolTip optPrefsTooltips(Index).hWnd, "This setting enables/disables the enhanced balloon tooltips for elements within this Preference Utility. These tooltips are multi-line and in general more attractive, note that their font size will match the Windows system font size.", _
+    Dim thisToolTip As String: thisToolTip = vbNullString
+
+    On Error GoTo optPrefsTooltips_MouseMove_Error
+
+    If gblPrefsTooltips = "0" Then
+        If Index = 0 Then
+            thisToolTip = "This setting enables the balloon tooltips for elements within the Steampunk GUI. These tooltips are multi-line and in general more attractive than standard windows style tooltips, note that their font size will match the Windows system font size."
+            CreateToolTip optPrefsTooltips(Index).hWnd, thisToolTip, _
                   TTIconInfo, "Help on Balloon Tooltips on the Preference Utility", , , , True
+        ElseIf Index = 1 Then
+            thisToolTip = "This setting enables the standard Windows-style square tooltips for elements within the Steampunk GUI. These tooltips are single-line and the font size is limited to the Windows font size."
+            CreateToolTip optPrefsTooltips(Index).hWnd, thisToolTip, _
+                  TTIconInfo, "Help on RichClient Tooltips on the Preference Utility", , , , True
+        ElseIf Index = 2 Then
+            thisToolTip = "This setting disables the balloon tooltips for elements within the Steampunk GUI."
+            CreateToolTip optPrefsTooltips(Index).hWnd, thisToolTip, _
+                  TTIconInfo, "Help on Disabling Tooltips on the Preference Utility", , , , True
+        End If
+    End If
+    
+
+   On Error GoTo 0
+   Exit Sub
+
+optPrefsTooltips_MouseMove_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure optPrefsTooltips_MouseMove of Form widgetPrefs"
 End Sub
 
 Private Sub sliGaugeSize_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
@@ -7393,10 +7460,10 @@ Public Sub setPrefsTooltips()
         chkIgnoreMouse.ToolTipText = "Checking this box causes the program to ignore all mouse events."
         sliOpacity.ToolTipText = "Set the transparency of the program. Any change in opacity takes place instantly."
         cmbScrollWheelDirection.ToolTipText = "To change the direction of the mouse scroll wheel when resizing the clock gauge."
-        optClockTooltips(0).ToolTipText = "Check the box to enable larger balloon tooltips for all controls on the main program"
-        optClockTooltips(1).ToolTipText = "Check the box to enable RC type square tooltips for all controls on the main program"
-        optClockTooltips(2).ToolTipText = "Check the box to disable tooltips for all controls on the main program"
         
+        optClockTooltips(0).ToolTipText = "Check the box to enable larger balloon tooltips for all controls on the main program"
+        optClockTooltips(1).ToolTipText = "Check the box to enable RichClient square tooltips for all controls on the main program"
+        optClockTooltips(2).ToolTipText = "Check the box to disable tooltips for all controls on the main program"
         
         chkShowTaskbar.ToolTipText = "Check the box to show the widget in the taskbar"
         chkShowHelp.ToolTipText = "Check the box to show the help page on startup"
@@ -7416,9 +7483,9 @@ Public Sub setPrefsTooltips()
         chkDpiAwareness.ToolTipText = " Check the box to make the program DPI aware. RESTART required."
         'optEnablePrefsTooltips.ToolTipText = "Check the box to enable tooltips for all controls in the preferences utility"
         
-        optPrefsTooltips(0).ToolTipText = "This setting enables/disables the enhanced balloon tooltips for elements within this Preference Utility. These tooltips are multi-line and in general more attractive, note that their font size will match the Windows system font size."
-        optPrefsTooltips(1).ToolTipText = "This setting enables/disables the enhanced balloon tooltips for elements within this Preference Utility. These tooltips are multi-line and in general more attractive, note that their font size will match the Windows system font size."
-        optPrefsTooltips(2).ToolTipText = "This setting enables/disables the enhanced balloon tooltips for elements within this Preference Utility. These tooltips are multi-line and in general more attractive, note that their font size will match the Windows system font size."
+        optPrefsTooltips(0).ToolTipText = "Check the box to enable larger balloon tooltips for all controls within this Preference Utility. These tooltips are multi-line and in general more attractive, note that their font size will match the Windows system font size."
+        optPrefsTooltips(1).ToolTipText = "Check the box to enable Windows-style square tooltips for all controls within this Preference Utility. Note that their font size will match the Windows system font size."
+        optPrefsTooltips(2).ToolTipText = "This setting enables/disables the tooltips for all elements within this Preference Utility."
 
         btnResetMessages.ToolTipText = "This button restores the pop-up messages to their original visible state."
         

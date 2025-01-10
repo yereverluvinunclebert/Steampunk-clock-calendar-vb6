@@ -1235,8 +1235,6 @@ Public Sub readSettingsFile(ByVal Location As String, ByVal gblSettingsFile As S
 
         ' configuration
         gblClockTooltips = fGetINISetting(Location, "clockTooltips", gblSettingsFile)
-        
-        'gblEnablePrefsTooltips = fGetINISetting(Location, "enablePrefsTooltips", gblSettingsFile)
         gblPrefsTooltips = fGetINISetting(Location, "prefsTooltips", gblSettingsFile)
         
         gblShowTaskbar = fGetINISetting(Location, "showTaskbar", gblSettingsFile)

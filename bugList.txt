@@ -283,13 +283,15 @@ o add now() button logic for all alarms
 ' busyblur persisting on occasion. Identify when and fix
 
 ' widgetPrefs, config, added code for the disable option to the clock tooltips
+' widgetPrefs, config, add code for the disable option to the prefs tooltips - wip
+' widgetPrefs, modify the onMouseOver tooltip code to handle the different index options for both the clock and the prefs
 
 ' -oOo-
 
 Tasks to do:
 ============
 
-' widgetPrefs, config, add code for the disable option to the prefs tooltips
+' reload when prefs change, make sure all reloads set the same gbl flag to prevent errors
 
 ' test a recent alarm in VB6 and TB, not currently working!
 
