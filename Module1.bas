@@ -300,8 +300,8 @@ Public gblSmoothSecondHand As String
 
 ' config
 Public gblClockTooltips As String
-Public gblEnablePrefsTooltips As String
-Public gblEnablePrefsBalloonTooltips As String
+'Public gblEnablePrefsTooltips As String
+Public gblPrefsTooltips As String
 
 Public gblShowTaskbar As String
 Public gblShowHelp As String

@@ -298,8 +298,8 @@ Private Sub initialiseGlobalVars()
     ' config
     gblClockTooltips = vbNullString
     
-    gblEnablePrefsBalloonTooltips = vbNullString
-    gblEnablePrefsTooltips = vbNullString
+    gblPrefsTooltips = vbNullString
+    'gblEnablePrefsTooltips = vbNullString
     
     gblShowTaskbar = vbNullString
     gblShowHelp = vbNullString
@@ -1236,8 +1236,8 @@ Public Sub readSettingsFile(ByVal Location As String, ByVal gblSettingsFile As S
         ' configuration
         gblClockTooltips = fGetINISetting(Location, "clockTooltips", gblSettingsFile)
         
-        gblEnablePrefsTooltips = fGetINISetting(Location, "enablePrefsTooltips", gblSettingsFile)
-        gblEnablePrefsBalloonTooltips = fGetINISetting(Location, "enablePrefsBalloonTooltips", gblSettingsFile)
+        'gblEnablePrefsTooltips = fGetINISetting(Location, "enablePrefsTooltips", gblSettingsFile)
+        gblPrefsTooltips = fGetINISetting(Location, "prefsTooltips", gblSettingsFile)
         
         gblShowTaskbar = fGetINISetting(Location, "showTaskbar", gblSettingsFile)
         gblShowHelp = fGetINISetting(Location, "showHelp", gblSettingsFile)
@@ -1394,8 +1394,9 @@ Public Sub validateInputs()
         If gblClockTooltips = "False" Then gblClockTooltips = "0"
         If gblClockTooltips = vbNullString Then gblClockTooltips = "0"
         
-        If gblEnablePrefsTooltips = vbNullString Then gblEnablePrefsTooltips = "false"
-        If gblEnablePrefsBalloonTooltips = vbNullString Then gblEnablePrefsBalloonTooltips = "True"
+        'If gblEnablePrefsTooltips = vbNullString Then gblEnablePrefsTooltips = "false"
+        If gblPrefsTooltips = "False" Then gblPrefsTooltips = "0"
+        If gblPrefsTooltips = vbNullString Then gblPrefsTooltips = "0"
         
         If gblShowTaskbar = vbNullString Then gblShowTaskbar = "0"
         If gblShowHelp = vbNullString Then gblShowHelp = "0"

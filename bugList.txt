@@ -282,10 +282,14 @@ o add now() button logic for all alarms
 
 ' busyblur persisting on occasion. Identify when and fix
 
+' widgetPrefs, config, added code for the disable option to the clock tooltips
+
 ' -oOo-
 
 Tasks to do:
 ============
+
+' widgetPrefs, config, add code for the disable option to the prefs tooltips
 
 ' test a recent alarm in VB6 and TB, not currently working!
 
@@ -346,8 +350,6 @@ Tasks to do:
 ' reduce CPU usage to less than one percent
 
 ' create setup.exe with a different name.
-
-
 
 ' update XML documentation
 
