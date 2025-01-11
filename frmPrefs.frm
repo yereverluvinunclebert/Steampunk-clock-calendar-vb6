@@ -6584,71 +6584,38 @@ Private Sub fraWindowInner_MouseMove(Button As Integer, Shift As Integer, X As S
                   TTIconInfo, "Help on YWE Quirk Mode Options", , , , True
 End Sub
 
-   Private Sub imgGeneral_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
-        #If TWINBASIC Then
-            Exit Sub
-        #Else
-            imgGeneral.Visible = False
-            imgGeneralClicked.Visible = True
-        #End If
-    End Sub
-    Private Sub imgAbout_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
-        #If TWINBASIC Then
-            Exit Sub
-        #Else
-            imgAbout.Visible = False
-            imgAboutClicked.Visible = True
-        #End If
-    End Sub
-    Private Sub imgDevelopment_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
-        #If TWINBASIC Then
-            Exit Sub
-        #Else
-            imgDevelopment.Visible = False
-            imgDevelopmentClicked.Visible = True
-        #End If
-    End Sub
-    Private Sub imgFonts_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
-        #If TWINBASIC Then
-            Exit Sub
-        #Else
-            imgFonts.Visible = False
-            imgFontsClicked.Visible = True
-        #End If
-    End Sub
-    Private Sub imgConfig_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
-        #If TWINBASIC Then
-            Exit Sub
-        #Else
-            imgConfig.Visible = False
-            imgConfigClicked.Visible = True
-        #End If
-    End Sub
-    Private Sub imgPosition_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
-
-        #If TWINBASIC Then
-            Exit Sub
-        #Else
-            imgPosition.Visible = False
-            imgPositionClicked.Visible = True
-        #End If
-    End Sub
-    Private Sub imgSounds_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
-        #If TWINBASIC Then
-            Exit Sub
-        #Else
-            imgSounds.Visible = False
-            imgSoundsClicked.Visible = True
-        #End If
-    End Sub
-    Private Sub imgWindow_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
-        #If TWINBASIC Then
-            Exit Sub
-        #Else
-            imgWindow.Visible = False
-            imgWindowClicked.Visible = True
-        #End If
-    End Sub
+Private Sub imgGeneral_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
+        imgGeneral.Visible = False
+        imgGeneralClicked.Visible = True
+End Sub
+Private Sub imgAbout_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
+    imgAbout.Visible = False
+    imgAboutClicked.Visible = True
+End Sub
+Private Sub imgDevelopment_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
+    imgDevelopment.Visible = False
+    imgDevelopmentClicked.Visible = True
+End Sub
+Private Sub imgFonts_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
+    imgFonts.Visible = False
+    imgFontsClicked.Visible = True
+End Sub
+Private Sub imgConfig_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
+    imgConfig.Visible = False
+    imgConfigClicked.Visible = True
+End Sub
+Private Sub imgPosition_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
+    imgPosition.Visible = False
+    imgPositionClicked.Visible = True
+End Sub
+Private Sub imgSounds_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
+    imgSounds.Visible = False
+    imgSoundsClicked.Visible = True
+End Sub
+Private Sub imgWindow_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
+    imgWindow.Visible = False
+    imgWindowClicked.Visible = True
+End Sub
 
 Private Sub fraGeneralButton_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
     If gblPrefsTooltips = "0" Then CreateToolTip fraGeneralButton.hWnd, "Clicking on the General icon reveals the General Tab where the essential items can be configured, alarms, startup &c.", _
@@ -6685,13 +6652,15 @@ Private Sub fraAboutButton_MouseMove(Button As Integer, Shift As Integer, X As S
                   TTIconInfo, "Help on the About Tab Icon", , , , True
 End Sub
 
-
-Private Sub imgGeneral_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
-    Call picButtonMouseUpEvent("general", imgGeneral, imgGeneralClicked, fraGeneral, fraGeneralButton) ' was imgGeneralMouseUpEvent
-End Sub
-
-
-
+#If TWINBASIC Then
+    Private Sub imgGeneralClicked_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
+        Call picButtonMouseUpEvent("general", imgGeneral, imgGeneralClicked, fraGeneral, fraGeneralButton) ' was imgGeneralMouseUpEvent
+    End Sub
+#Else
+    Private Sub imgGeneral_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
+        Call picButtonMouseUpEvent("general", imgGeneral, imgGeneralClicked, fraGeneral, fraGeneralButton) ' was imgGeneralMouseUpEvent
+    End Sub
+#End If
 
 '---------------------------------------------------------------------------------------
 ' Procedure : lblGitHub_dblClick
@@ -6937,43 +6906,73 @@ End Sub
 Private Sub txtAboutText_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
     fraScrollbarCover.Visible = False
 End Sub
+#If TWINBASIC Then
+    Private Sub imgAboutClicked_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
+        Call picButtonMouseUpEvent("about", imgAbout, imgAboutClicked, fraAbout, fraAboutButton)
+    End Sub
+#Else
+    Private Sub imgAbout_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
+        Call picButtonMouseUpEvent("about", imgAbout, imgAboutClicked, fraAbout, fraAboutButton)
+    End Sub
+#End If
 
+#If TWINBASIC Then
+    Private Sub imgDevelopmentClicked_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
+        Call picButtonMouseUpEvent("development", imgDevelopment, imgDevelopmentClicked, fraDevelopment, fraDevelopmentButton)
+    End Sub
+#Else
+    Private Sub imgDevelopment_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
+        Call picButtonMouseUpEvent("development", imgDevelopment, imgDevelopmentClicked, fraDevelopment, fraDevelopmentButton)
+    End Sub
+#End If
+#If TWINBASIC Then
+    Private Sub imgFontsClicked_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
+        Call picButtonMouseUpEvent("fonts", imgFonts, imgFontsClicked, fraFonts, fraFontsButton)
+    End Sub
+#Else
+    Private Sub imgFonts_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
+        Call picButtonMouseUpEvent("fonts", imgFonts, imgFontsClicked, fraFonts, fraFontsButton)
+    End Sub
+#End If
+#If TWINBASIC Then
+    Private Sub imgConfigClicked_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
+        Call picButtonMouseUpEvent("config", imgConfig, imgConfigClicked, fraConfig, fraConfigButton) ' was imgConfigMouseUpEvent
+    End Sub
+#Else
+    Private Sub imgConfig_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
+        Call picButtonMouseUpEvent("config", imgConfig, imgConfigClicked, fraConfig, fraConfigButton) ' was imgConfigMouseUpEvent
+    End Sub
+#End If
 
-Private Sub imgAbout_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
-    Call picButtonMouseUpEvent("about", imgAbout, imgAboutClicked, fraAbout, fraAboutButton)
-End Sub
+#If TWINBASIC Then
+    Private Sub imgPositionClicked_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
+        Call picButtonMouseUpEvent("position", imgPosition, imgPositionClicked, fraPosition, fraPositionButton)
+    End Sub
+#Else
+    Private Sub imgPosition_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
+        Call picButtonMouseUpEvent("position", imgPosition, imgPositionClicked, fraPosition, fraPositionButton)
+    End Sub
+#End If
 
-Private Sub imgDevelopment_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
-    Call picButtonMouseUpEvent("development", imgDevelopment, imgDevelopmentClicked, fraDevelopment, fraDevelopmentButton)
-End Sub
+#If TWINBASIC Then
+    Private Sub imgSoundsClicked_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
+        Call picButtonMouseUpEvent("sounds", imgSounds, imgSoundsClicked, fraSounds, fraSoundsButton)
+    End Sub
+#Else
+    Private Sub imgSounds_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
+        Call picButtonMouseUpEvent("sounds", imgSounds, imgSoundsClicked, fraSounds, fraSoundsButton)
+    End Sub
+#End If
 
-
-Private Sub imgFonts_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
-    Call picButtonMouseUpEvent("fonts", imgFonts, imgFontsClicked, fraFonts, fraFontsButton)
-End Sub
-
-
-Private Sub imgConfig_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
-    Call picButtonMouseUpEvent("config", imgConfig, imgConfigClicked, fraConfig, fraConfigButton) ' was imgConfigMouseUpEvent
-End Sub
-
-
-
-
-Private Sub imgPosition_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
-    Call picButtonMouseUpEvent("position", imgPosition, imgPositionClicked, fraPosition, fraPositionButton)
-End Sub
-
-
-Private Sub imgSounds_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
-    'Call imgSoundsMouseUpEvent
-    Call picButtonMouseUpEvent("sounds", imgSounds, imgSoundsClicked, fraSounds, fraSoundsButton)
-End Sub
-
-
-Private Sub imgWindow_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
-    Call picButtonMouseUpEvent("window", imgWindow, imgWindowClicked, fraWindow, fraWindowButton)
-End Sub
+#If TWINBASIC Then
+    Private Sub imgWindowClicked_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
+        Call picButtonMouseUpEvent("window", imgWindow, imgWindowClicked, fraWindow, fraWindowButton)
+    End Sub
+#Else
+    Private Sub imgWindow_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
+        Call picButtonMouseUpEvent("window", imgWindow, imgWindowClicked, fraWindow, fraWindowButton)
+    End Sub
+#End If
 
 'Private Sub sliAnimationInterval_Change()
 '    'overlayWidget.RotationSpeed = sliAnimationInterval.Value

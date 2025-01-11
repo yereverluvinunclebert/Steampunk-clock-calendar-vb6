@@ -35,7 +35,7 @@ Description="A FOSS Steampunk Clock Calendar Visual/TwinBasic Widget for Windows
 CompatibleMode="0"
 MajorVer=0
 MinorVer=0
-RevisionVer=2396
+RevisionVer=2408
 AutoIncrementVer=1
 ServerSupportFiles=0
 VersionComments="Alpha-release version. "
@@ -67,11 +67,11 @@ GenerateMap=0
 TSAware=0
 XPManifest=0
 ResBuildName=.\Steampunk Clock Calendar.dll
-ReplaceIcon=0
+ReplaceIcon=1
 SendCommandArgs=0
 SymbDbgPref=0
 RevisionVersion=0
-AppIconFile=.\Resources\images\Steampunk clock calendar 48x48x32.ico
+AppIconFile=.\Resources\images\wotw-clock-small-03.ico
 
 [Rubberduck]
 ProjectId=79e9b044-786f-4d2a-abd2-5aecb28ec8a1

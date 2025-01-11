@@ -286,12 +286,13 @@ o add now() button logic for all alarms
 ' widgetPrefs, config, add code for the disable option to the prefs tooltips - wip
 ' widgetPrefs, modify the onMouseOver tooltip code to handle the different index options for both the clock and the prefs
 
+' reload when prefs change, make sure all reloadWidget set the same gbl flag to prevent screenWrite errors
+
+
 ' -oOo-
 
 Tasks to do:
 ============
-
-' reload when prefs change, make sure all reloadWidget set the same gbl flag to prevent screenWrite errors
 
 ' find a TB workaround for the onMouseOver not working when a frame is disabled
 
