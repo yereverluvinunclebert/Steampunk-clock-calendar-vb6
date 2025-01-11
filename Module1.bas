@@ -2082,8 +2082,8 @@ Public Sub getKeyPress(ByVal KeyCode As Integer, ByVal Shift As Integer)
         Case 82 ' Shift+R for a hard Restart
             If Shift = 1 Then Call hardRestart
         Case 116
-            gblFClockAvailable = False ' tell the screenwrite util that the clockform structure is no longer available to write console events into
-            Erase gblTerminalRows ' remove the old text stored in the display screen array
+'            gblFClockAvailable = False ' tell the screenwrite util that the clockform structure is no longer available to write console events into
+'            Erase gblTerminalRows ' remove the old text stored in the display screen array
             Call reloadWidget 'f5 refresh button as per all browsers
     End Select
  
@@ -2328,6 +2328,10 @@ End Sub
 Public Sub reloadWidget()
     
     On Error GoTo reloadWidget_Error
+    
+    gblFClockAvailable = False ' tell the screenwrite util that the clockform is no longer available to write console events to
+    
+    Erase gblTerminalRows ' remove the old text stored in the display screen array
     
     Call savePosition
     

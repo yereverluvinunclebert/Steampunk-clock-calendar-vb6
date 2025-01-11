@@ -152,11 +152,7 @@ End Sub
 Private Sub menuReload_Click()
 
     On Error GoTo menuReload_Click_Error
-    
-    gblFClockAvailable = False ' tell the screenwrite util that the clockform is no longer available to write console events to
-    
-    Erase gblTerminalRows ' remove the old text stored in the display screen array
-    
+        
     If CTRL_1 = True Then
         CTRL_1 = False
         Call hardRestart

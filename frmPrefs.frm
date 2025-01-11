@@ -3296,16 +3296,6 @@ optPrefsTooltips_Click_Error:
     
 End Sub
 
-'Private Sub optPrefsTooltips_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
-'    ' NOTE: see setPrefsTooltips for cancelling this particular tooltip.
-'    If gblPrefsTooltips = "0" Then CreateToolTip optPrefsTooltips.hWnd, "This setting enables/disables the enhanced balloon tooltips for elements within this Preference Utility. These tooltips are multi-line and in general more attractive, note that their font size will match the Windows system font size.", _
-'                  TTIconInfo, "Help on Balloon Tooltips on the Preference Utility", , , , True
-'End Sub
-
-'Private Sub optEnablePrefsTooltips_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
-'    If gblPrefsTooltips = "0" Then CreateToolTip optEnablePrefsTooltips.hWnd, "This setting enables/disables the native " & gblCodingEnvironment & " -style tooltips for elements within this Preference Utility.", _
-'                  TTIconInfo, "Help on  " & gblCodingEnvironment & " Native Style Tooltips on the Preference Utility", , , , True
-'End Sub
 
 
 
@@ -4955,8 +4945,6 @@ Private Sub btnSave_Click()
 
     ' configuration
     gblClockTooltips = CStr(optClockTooltips(0).Tag)
-    
-    'gblEnablePrefsTooltips = CStr(optEnablePrefsTooltips.Value)
     gblPrefsTooltips = CStr(optPrefsTooltips(0).Tag)
     
     gblShowTaskbar = CStr(chkShowTaskbar.Value)
@@ -7381,6 +7369,7 @@ Public Sub setPrefsTooltips()
                   TTIconInfo, "Help", , , , True
         CreateToolTip optPrefsTooltips(2).hWnd, "", _
                   TTIconInfo, "Help", , , , True
+                  
     End If
      
      If optPrefsTooltips(1).Value = True Then

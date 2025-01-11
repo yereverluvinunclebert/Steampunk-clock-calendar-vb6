@@ -291,7 +291,11 @@ o add now() button logic for all alarms
 Tasks to do:
 ============
 
-' reload when prefs change, make sure all reloads set the same gbl flag to prevent errors
+' reload when prefs change, make sure all reloadWidget set the same gbl flag to prevent screenWrite errors
+
+' find a TB workaround for the onMouseOver not working when a frame is disabled
+
+' TB bug frame in prefs icons not showing
 
 ' test a recent alarm in VB6 and TB, not currently working!
 
@@ -300,8 +304,6 @@ Tasks to do:
 '     to appear but the previous one persists
 
 ' add time machine functionality
-
-' frame in prefs icons not showing
 
 ' change the HTML help to match the new functionality
 
