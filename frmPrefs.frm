@@ -3549,6 +3549,10 @@ Private Sub Form_Load()
     ' note the monitor primary at the preferences form_load and store as oldClockFormMonitorPrimary
     prefsMonitorStruct = formScreenProperties(widgetPrefs, prefsFormMonitorID)
     oldPrefsFormMonitorPrimary = prefsMonitorStruct.IsPrimary ' -1 true
+    
+    #If TWINBASIC Then
+       Call setVisualStyles
+    #End If
       
     ' read the last saved position from the settings.ini
     Call readPrefsPosition
@@ -3622,6 +3626,33 @@ Form_Load_Error:
 
 End Sub
 
+#If TWINBASIC Then
+    '---------------------------------------------------------------------------------------
+    ' Procedure : setVisualStyles
+    ' Author    : beededea
+    ' Date      : 13/01/2025
+    ' Purpose   : loop through all the controls and identify the labels and text boxes and disable modern styles
+    '---------------------------------------------------------------------------------------
+    '
+        Private Sub setVisualStyles()
+            Dim Ctrl As Control
+          
+            On Error GoTo setVisualStyles_Error
+
+            For Each Ctrl In widgetPrefs.Controls
+                If (TypeOf Ctrl Is textBox) Or (TypeOf Ctrl Is FileListBox) Or (TypeOf Ctrl Is ComboBox) Or (TypeOf Ctrl Is CheckBox) Or (TypeOf Ctrl Is OptionButton) Or (TypeOf Ctrl Is Frame) Or (TypeOf Ctrl Is ListBox) Then
+                    Ctrl.VisualStyles = False
+                End If
+            Next
+
+       On Error GoTo 0
+       Exit Sub
+
+setVisualStyles_Error:
+
+        MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure setVisualStyles of Form widgetPrefs"
+        End Sub
+#End If
 
 '---------------------------------------------------------------------------------------
 ' Procedure : hideBusyTimer
