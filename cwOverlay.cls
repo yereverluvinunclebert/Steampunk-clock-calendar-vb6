@@ -1883,7 +1883,7 @@ Private Sub ShallWeRingAlarm()
             screenWrite ("Alarm 1 Raised! " & CStr(gblAlarm1))
             screenWrite ("Press alarm till to cancel raised alarm ")
             
-            ' the alarm entries are removed here and written to the config straight away, preventing another accidental alarm being raised.
+            ' the alarm entries are removed here from the prefs, the nulling of the alarms is written to the config is done from within deleteRunningAlarms
             
             If widgetPrefs.IsLoaded = True Then widgetPrefs.txtAlarm1Date.Text = "Alarm not yet set"
             If widgetPrefs.IsLoaded = True Then widgetPrefs.txtAlarm1Time.Text = ""
@@ -1892,12 +1892,6 @@ Private Sub ShallWeRingAlarm()
                 widgetPrefs.txtAlarm1Time.Refresh
             End If
             
-            gblAlarm1Date = vbNullString
-            gblAlarm1Time = vbNullString
-            
-            sPutINISetting "Software\SteampunkClockCalendar", "alarm1Date", gblAlarm1Date, gblSettingsFile
-            sPutINISetting "Software\SteampunkClockCalendar", "alarm1Time", gblAlarm1Time, gblSettingsFile
-          
             ' start the alarm timer ringing the bell
             tmrAlarmRinging.Enabled = True
           
@@ -1924,7 +1918,7 @@ Private Sub ShallWeRingAlarm()
             screenWrite ("Alarm 2 Raised! " & CStr(gblAlarm2))
             screenWrite ("Press alarm till to cancel raised alarm ")
             
-            ' the alarm entries are removed here and written to the config straight away, preventing another accidental alarm being raised.
+            ' the alarm entries are removed here from the prefs, the nulling of the alarms is written to the config is done from within deleteRunningAlarms
             
             If widgetPrefs.IsLoaded = True Then widgetPrefs.txtAlarm2Date.Text = "Alarm not yet set"
             If widgetPrefs.IsLoaded = True Then widgetPrefs.txtAlarm2Time.Text = ""
@@ -1932,12 +1926,6 @@ Private Sub ShallWeRingAlarm()
                 widgetPrefs.txtAlarm2Date.Refresh
                 widgetPrefs.txtAlarm2Time.Refresh
             End If
-            
-            gblAlarm2Date = vbNullString
-            gblAlarm2Time = vbNullString
-            
-            sPutINISetting "Software\SteampunkClockCalendar", "alarm2Date", gblAlarm2Date, gblSettingsFile
-            sPutINISetting "Software\SteampunkClockCalendar", "alarm2Time", gblAlarm2Time, gblSettingsFile
           
             ' start the alarm timer ringing the bell
             tmrAlarmRinging.Enabled = True
@@ -1966,7 +1954,7 @@ Private Sub ShallWeRingAlarm()
             screenWrite ("Alarm 3 Raised! " & CStr(gblAlarm3))
             screenWrite ("Press alarm till to cancel raised alarm ")
             
-            ' the alarm entries are removed here and written to the config straight away, preventing another accidental alarm being raised.
+            ' the alarm entries are removed here from the prefs, the nulling of the alarms is written to the config is done from within deleteRunningAlarms
             
             If widgetPrefs.IsLoaded = True Then widgetPrefs.txtAlarm3Date.Text = "Alarm not yet set"
             If widgetPrefs.IsLoaded = True Then widgetPrefs.txtAlarm3Time.Text = ""
@@ -1974,12 +1962,6 @@ Private Sub ShallWeRingAlarm()
                 widgetPrefs.txtAlarm3Date.Refresh
                 widgetPrefs.txtAlarm3Time.Refresh
             End If
-            
-            gblAlarm3Date = vbNullString
-            gblAlarm3Time = vbNullString
-            
-            sPutINISetting "Software\SteampunkClockCalendar", "alarm3Date", gblAlarm3Date, gblSettingsFile
-            sPutINISetting "Software\SteampunkClockCalendar", "alarm3Time", gblAlarm3Time, gblSettingsFile
           
             ' start the alarm timer ringing the bell
             tmrAlarmRinging.Enabled = True
@@ -2007,7 +1989,7 @@ Private Sub ShallWeRingAlarm()
             screenWrite ("Alarm 4 Raised! " & CStr(gblAlarm4))
             screenWrite ("Press alarm till to cancel raised alarm ")
             
-            ' the alarm entries are removed here and written to the config straight away, preventing another accidental alarm being raised.
+            ' the alarm entries are removed here from the prefs, the nulling of the alarms is written to the config is done from within deleteRunningAlarms
             
             If widgetPrefs.IsLoaded = True Then widgetPrefs.txtAlarm4Date.Text = "Alarm not yet set"
             If widgetPrefs.IsLoaded = True Then widgetPrefs.txtAlarm4Time.Text = ""
@@ -2015,12 +1997,6 @@ Private Sub ShallWeRingAlarm()
                 widgetPrefs.txtAlarm4Date.Refresh
                 widgetPrefs.txtAlarm4Time.Refresh
             End If
-            
-            gblAlarm4Date = vbNullString
-            gblAlarm4Time = vbNullString
-            
-            sPutINISetting "Software\SteampunkClockCalendar", "alarm4Date", gblAlarm4Date, gblSettingsFile
-            sPutINISetting "Software\SteampunkClockCalendar", "alarm4Time", gblAlarm4Time, gblSettingsFile
           
             ' start the alarm timer ringing the bell
             tmrAlarmRinging.Enabled = True
@@ -2048,7 +2024,7 @@ Private Sub ShallWeRingAlarm()
             screenWrite ("Alarm 5 Raised! " & CStr(gblAlarm5))
             screenWrite ("Press alarm till to cancel raised alarm ")
             
-            ' the alarm entries are removed here and written to the config straight away, preventing another accidental alarm being raised.
+            ' the alarm entries are removed here from the prefs, the nulling of the alarms is written to the config is done from within deleteRunningAlarms
             
             If widgetPrefs.IsLoaded = True Then widgetPrefs.txtAlarm5Date.Text = "Alarm not yet set"
             If widgetPrefs.IsLoaded = True Then widgetPrefs.txtAlarm5Time.Text = ""
@@ -2056,12 +2032,6 @@ Private Sub ShallWeRingAlarm()
                 widgetPrefs.txtAlarm5Date.Refresh
                 widgetPrefs.txtAlarm5Time.Refresh
             End If
-            
-            gblAlarm5Date = vbNullString
-            gblAlarm5Time = vbNullString
-            
-            sPutINISetting "Software\SteampunkClockCalendar", "alarm5Date", gblAlarm5Date, gblSettingsFile
-            sPutINISetting "Software\SteampunkClockCalendar", "alarm5Time", gblAlarm5Time, gblSettingsFile
           
             ' start the alarm timer ringing the bell
             tmrAlarmRinging.Enabled = True
@@ -2069,9 +2039,6 @@ Private Sub ShallWeRingAlarm()
             Exit Sub
         End If
     End If
-    
-
-
                 
    On Error GoTo 0
    Exit Sub
@@ -2248,7 +2215,7 @@ End Sub
 '             For this Overlay-Widget alone, we make everything "fully click-through"
 '---------------------------------------------------------------------------------------------
 '
-Private Sub W_HitTest(ByVal x As Single, ByVal y As Single, HitResultHit As Boolean) 'ensure ClickThrough-behaviour in ImagePixels which are "fully Alpha"
+Private Sub W_HitTest(ByVal X As Single, ByVal Y As Single, HitResultHit As Boolean) 'ensure ClickThrough-behaviour in ImagePixels which are "fully Alpha"
    On Error GoTo W_HitTest_Error
 
    HitResultHit = False
