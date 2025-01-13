@@ -295,16 +295,20 @@ o add now() button logic for all alarms
 ' the time is not displayed in the numeric time field when an alarm is ringing
 ' clicking on the alarm Toggle raised closes the alarm but does not turn off a ringing alarm
 
+' the PSD for the helpBottom needs to be updated - set key and the close Diamond
+
 ' -oOo-
 
 Tasks to do:
 ============
 
-' the PSD for the helBottom needs to be updated - set key and the close Diamond
-
 ' weekday till flag, the text 'only' sometimes doubles up, possibly after a refresh after midnight when the till has been showing - identify the scenario
 '     the weekday had not changed overnight and the previous transparent day indicator was left on screen, pressing the weekday toggle caused the new weekday
 '     to appear but the previous one persists
+
+' add a reset button to arrive at the current time, double click on the clock face?
+
+' if the alarm has a date/time already set, then the alarm set start time should be the current alarm date/time as set.
 
 ' add time machine functionality
 

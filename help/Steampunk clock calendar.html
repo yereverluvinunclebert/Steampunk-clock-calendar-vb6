@@ -15,14 +15,19 @@
 	font-size: medium;
 	letter-spacing: normal;
 }
+.auto-style3 {
+	text-decoration: underline;
+}
 </style>
 </head>
 
 <body>
 
-<h1>Steampunk Clock Calendar VB6 Cairo Widget ver. 0.0.518<br />
+<h1>Steampunk Clock Calendar VB6/TwinBasic/TwinBasic Cairo Widget ver. 0.1 build 
+2416<br />
 </h1>
-Document Version No. 00001<br />
+<div>
+	Document Version No. 00002<br />
 <br />
 <img alt="Showing Widget in operation on Windows 10" height="795" src="SteampunkclockcalendaronDesktop.jpg" title="Showing DieselVolumeControl in operation on Windows 10" width="1280" />
 <big style="font-weight: bold;"><br />
@@ -32,30 +37,30 @@ Clock/Calendar Widget in operation on Windows, (mid right)</span><br />
 Welcome to the Steampunk Clock Calendar Widget.</big><br />
 <br />
 <img alt="sauron.png" src="sauron.png" style="width: 48px; height: 48px; float: left;" title="sauron.png" />The 
-Steampunk Clock Calendar VB6 widget is a useful utility displaying a clock 
+Steampunk Clock Calendar VB6/TwinBasic widget is a useful utility displaying a clock 
 /calendar in a decidedly Steampunk fashion on your desktop. It can be resized 
 and placed anywhere on your desktop. It uses minimal resources and helps give 
 your desktop a Steampunk make-over.
 <span style="color: rgb(0, 0, 0); font-family: &quot;Times New Roman&quot;; font-size: medium; font-style: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; display: inline ! important; float: none;">
 On modern systems the CPU usage of this widget is negligible less being than 
 0.9% (i7 6700K @4ghz). &nbsp;</span>This help file describes just the Clock/Calendar 
-widget and not the other widgets shown above. The others are a mix of VB6 
-binaries and javascript desktop widgets that will be converted to VB6 'widgets' 
+widget and not the other widgets shown above. The others are a mix of 
+	VB6/TwinBasic/TwinBasic 
+binaries and javascript desktop widgets that will be converted to 
+	VB6/TwinBasic/TwinBasic 'widgets' 
 one at a time as time allows<br />
 <br />
-This version was developed on Windows 7/10 using 32 bit VisualBasic 6 as a FOSS 
+This version was developed on Windows 7/10 using 32 bit VisualBasic 6 and 
+	TwinBasic as a FOSS 
 project, creating a WoW64 widget for the desktop. This version will run on 
 Windows Vista, 7, 8, 10 and 11+. There will also be a separate version for 
 Windows XP and ReactOS. These latter versions will not the option for 
 DPI-awareness, otherwise they will operate exactly the same.<br />
 <br />
 It is open source to allow easy configuration, bug-fixing, enhancement and 
-community contribution towards a set of free-and-useful VB6 utilities that can 
-be created by anyone. The first step was the creation of this template program 
-to form the basis for the conversion of other desktop utilities or 'widgets' 
-from other engines as shown above. A future step is new VB6 widgets with more 
-functionality and then hopefully, conversion of each to RADBasic/TwinBasic for 
-future-proofing and 64bit-ness. <br />
+community contribution towards a set of free-and-useful VB6/TwinBasic utilities that can 
+be created by anyone. The next step is conversion of each to TwinBasic 64 for 
+future-proofing. <br />
 <br />
 This utility is one of a set of steampunk and Steampunk widgets. That you can 
 find them all here on Deviantart:
@@ -67,6 +72,7 @@ enhancements and contributions will be gratefully received if you ever choose to
 contribute.<br />
 <br />
 <img alt="" height="150" src="wotw-clock-help-preview.jpg" width="150" /><br />
+</div>
 <div class="indent">
 	<h3>Installation</h3>
 	<img alt="sauron.png" src="sauron.png" style="width: 48px; height: 48px; float: left;" title="sauron.png" />When 
@@ -84,7 +90,7 @@ contribute.<br />
 	When you install the Steampunk Clock Calendar Widget for the first time you 
 	will need to accept that your anti-virus tool will pause the installation to 
 	test the installation program for malware. Due to this program being written 
-	in VB6 and being a new program your a/v tool has not encountered, it WILL 
+	in VB6/TwinBasic and being a new program your a/v tool has not encountered, it WILL 
 	flag it as being potentially malware. This is a FALSE POSITIVE. This occurs 
 	with such tools as Avast or similar, see below.<br />
 	<br />
@@ -97,28 +103,32 @@ contribute.<br />
 	confidence that you need. There is a link on the tool's right click menu 
 	that will take you straight through to the github page here:
 	<a href="https://github.com/yereverluvinunclebert/Diesel-Volume-Control-VB6">
-	https://github.com/yereverluvinunclebert/Steampunk-Volume-Control-VB6</a><br />
+	https://github.com/yereverluvinunclebert/Steampunk-Volume-Control-VB6/TwinBasic</a><br />
 	<br />
-	The a/v tool I have installed on my PC is Avast - the following&nbsp;is what 
-	occurs on installation on my system: When Avast first encounters the 
-	SETUP.EXE file it will test this for malware, it takes approx. 20-30 seconds 
-	to complete a scan. Let it finish. Once done, the setup will then run the 
-	installation and finally it will run the Steampunk Clock Calendar Cairo 
-	Widget itself. At this point Avast will do another scan to test the 
-	Steampunk Clock/Calendar Widget program binary (the .exe file) which will 
-	take another 30 seconds or so. When that second scan is complete you will 
+	The a/v tool I have installed for testing on my PC is Avast - that is an a/v 
+	tool that many will have installed. The following&nbsp;is what 
+	occurs during installation on my system: You download and run the 
+	clockCalendarInstaller.EXE which is the installer for this program. When Avast first encounters the file it will test 
+	it for malware, it takes approx. 20-30 seconds 
+	to complete a scan. Let it finish. It should find no trace of malware. Once done, the 
+	clockCalendarInstaller will then perform the 
+	installation and when completed it will attempt to run the Steampunk Clock Calendar 
+	and place it on your desktop At this point Avast may do another scan to test 
+	the Steampunk Clock/Calendar Widget program binary (the Steampunk Clock 
+	Calendar.exe file) which will 
+	take another 30 seconds or so. When that second scan is complete you should 
 	find the Steampunk Clock/Calendar on your desktop running nomally.<br />
 	<br />
 	Until the Avast databases are updated and it fully trusts the program, Avast 
-	may try to scan it every time it is run. This is a pain but it will 
+	may try to scan it <span class="auto-style3">every time it is run.</span> This is a pain but it will 
 	eventually go away. In the meantime, if you want to prevent your a/v tool 
 	from scanning (and being continually intrusive on a trusted program such as 
 	this) then you will need to set an exception or an exclusion within Avast 
-	(or whichever anti-virus tool you use). &nbsp;Eventually, the creators of the 
+	(whichever anti-virus tool you use). &nbsp;Eventually, the creators of the 
 	various a/v tools will become familiar with this particular utility and the 
 	binary will no longer raise any false positives nor alarms. <br />
 	<br />
-	This is a new VB6 utility so it is an inevitable occurrence - being a new 
+	This is a new VB6/TwinBasic utility so it is an inevitable occurrence - being a new 
 	and unknown binary, it is of course&nbsp;frustrating but it will eventually go 
 	away.&nbsp;<br />
 	<br />
@@ -254,8 +264,9 @@ contribute.<br />
 	The Set Toggle (18)<br />
 	</span>
 	<br />
-	The set toggle sets any alarm currently being edited. At any other time is 
-	does nothing.<span style="font-weight: bold;"><br />
+	Press the Alarm Toggle first to start editing an alarm but then press the set toggle 
+	that will save any alarm currently being edited, returning the clock back to 
+	clock mode.<span style="font-weight: bold;"><br />
 	<br />
 	The Mute Toggle (19)<br />
 	<br />
@@ -343,7 +354,7 @@ contribute.<br />
 	<span style="font-weight: bold;">Fig 04. The About Window.<br />
 	</span><br />
 	The about window gives me credit for doing everything but in reality the 
-	program comprises a lot of FOSS VB6 code &nbsp;from other developers. I have 
+	program comprises a lot of FOSS VB6/TwinBasic code &nbsp;from other developers. I have 
 	given credit&nbsp;to the original authors&nbsp;of any code I have used and there is a 
 	section here in this document that gives credit where credit is due.<br />
 	<br />
@@ -458,10 +469,10 @@ contribute.<br />
 	<br />
 	This menu option only appears if the DEBUG selection option is ON in the 
 	Development Preferences. In the prefs, enter the path here to Just 
-	Clock/Calendar widget's .vbp file (a VB6 project file). If the widget's 
+	Clock/Calendar widget's .vbp file (a VB6/TwinBasic project file). If the widget's 
 	source code has been downloaded from github, unpacked and placed somewhere 
-	locally - in addition, if you have installed the VB6 IDE, this menu option 
-	will add an option to conveniently launch the VB6 IDE, opening up the 
+	locally - in addition, if you have installed the VB6/TwinBasic IDE, this menu option 
+	will add an option to conveniently launch the VB6/TwinBasic IDE, opening up the 
 	project, so you can edit the program, re-code and compile dynamically. &nbsp;A 
 	link to the current github location will be found on the update button on 
 	the about page of the preferences.<br />
@@ -503,7 +514,7 @@ sizeable by dragging the right hand corner to the size you require.<br /><br />
 General Panel contains the most important user-configurable items required for 
 the program to operate correctly. <br /><br /><br /><br />
 <span style="font-weight: bold;">Widget Functions:&nbsp;</span>You can enable or 
-disable the program's&nbsp; functionality.&nbsp;The function to disable the widget is 
+disable the program's&nbsp;functionality.&nbsp;The function to disable the widget is 
 merely here to replicate the functionality of the Yahoo and Xwidget versions of 
 this widget. <br /><br /><span style="font-weight: bold;">Auto Start:&nbsp;</span> The auto start option 
 allows the widget to automatically run on system restart. The program is very 
@@ -512,11 +523,16 @@ slim-line and will have little or no impact on system startup times.<br /><br />
 option will cause the pendulum to start animating a simple swing. Note this 
 animations uses up precious cpu cycles, so only enable it on fast systems when 
 you have plenty of cpu to spare.<br /><br /><span style="font-weight: bold;">The Five Alarms: &nbsp;</span>The alarms here can be 
-set using the steampunk UI or simply edited here by hand. Note that when you 
-press the save button it will verify each of the alarms as being valid or not. 
+set using the steampunk UI or simply edited here by hand. Starting from the 
+left, there is a 'o' button, clicking on it will fill the day/month fields with 
+the current date/time. <br />
+<br />
+When you have set a future date/time for an alarm, when you press the save 
+button it will verify each of the alarms as being valid or not. By each of the 
+date and time fields is a verify button '&gt;'. Press to verify your date in 
+advance.<br />
 If any date is not valid or in the past then the save will fail. In this case 
-correct the faulty alarm and re-save. By each of the date and time fields is a 
-verify button '&gt;'. Press to verify your date in advance.<br /><br /></span>
+correct the faulty alarm and re-save. <br /><br /></span>
 <br />
 <img alt="The Config Prefs pane" src="prefs-config.jpg" title="The Config Prefs pane" /><br />
 <span style="font-weight: bold;">Fig 08. The Config Prefs pane.<br /><br />
@@ -639,8 +655,8 @@ location.<br /><br />It may also be useful to assign a program to run on&nbsp;th
 of this widget. <br /><br /></span>The default editor configuration option is greyed out until the DEBUG 
 selection option is ON. Enter the path here to your project's&nbsp;<span style="color: rgb(0, 0, 0); font-family: &quot;Times New Roman&quot;; font-size: medium; font-style: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; display: inline ! important; float: none;">Visual 
 Basic Project file</span>(.vbp). If the program's source code is unpacked and 
-placed somewhere locally - and the VB6 IDE is installed, this menu option will 
-launch the VB6 IDE and the program will appear ready for editing.<br />
+placed somewhere locally - and the VB6/TwinBasic IDE is installed, this menu option will 
+launch the VB6/TwinBasic IDE and the program will appear ready for editing.<br />
 <br />
 Note the ballon tooltips are shown above, each control will have its own 
 tooltip.<br />
@@ -760,28 +776,34 @@ to enable drag-corner resizing. <br /><br /><br /><br />
 <img alt="sauron.png" src="sauron.png" style="width: 48px; height: 48px; float: left;" title="sauron.png" />The 
 utility was created using VB6 and the RC6/Cairo graphic wrapper from Olaf 
 Schmidt. Some brief history: VB6 was once Microsoft's vaunted flagship language 
-but they abandoned it. I used VB6 to a) prove it can be done and b) to 
-reacquaint myself with the technology further. Olaf's RC6 upgrades VB6 to use a 
-multi-platform modern graphics engine not dependent of VB6 native forms. In 
-addition a chap called Wayne Phillips has come up with a VB6 alternative that is 
-100% VB6 language compatible&nbsp;<span style="text-decoration: underline;">and is 
-also 64bit</span>. The utility will be migrated to TwinBasic next so there WILL 
+but they abandoned it. I used VB6 firstly to prove it can be done and secondly to 
+reacquaint myself with the technology further. Olaf's RichClient 6 upgrades VB6 
+to incorporate a 
+multi-platform modern graphics engine independent of VB6 native forms.<br />
+<br />
+This documentation will also cover the TwinBasic version, a VB6 alternative that is 
+100% VB6 language compatible&nbsp;<span class="auto-style3">that can also 
+produce </span><span style="text-decoration: underline;">64bit binaries</span>. The utility 
+is being migrated to TwinBasic so there WILL 
 be a version that is future-proof. <br />
 <br />
-When the 64bit version exists, this help file will apply to either version as 
-they will be functionally identical. This program was built upon Windows 7, in 
+This help file will apply to either version as 
+they will all be functionally identical. This program was built upon Windows 7, in 
 my opinion Microsoft's last good desktop operating system with a decent GUI - 
-with no nags, no tiles nor advertising. However, it can also be developed on 
+with no nags, no tiles nor advertising. However, I have recently migrated to 
+developing to Windows 10 on 
 Win10/11+ and above, just as well. It also runs and operates with no issues at 
 all on all later versions of this operating system. It has also been tested on 
-Linux and Mac OSX, both running Wine.
-<h3>VB6 Version Credits:<br />
+Linux and Mac OSX, both running Wine. <br />
+&nbsp;<h3>VB6/TwinBasic Version Credits: <br />
 </h3>
 <div style="text-align: justify;">
 	<img alt="sauron.png" src="sauron.png" style="width: 48px; height: 48px; float: left;" title="sauron.png" />In 
 	addition to using VB6, I also used&nbsp;MZ-TOOLS 3.0 &amp; ver 8.0, CodeHelp Core IDE 
 	Extender Framework 2.2, vbAdvance, some of Shaggrat's IDE addins (map &amp; code 
 	folder) and Rubberduck. <br />
+	<br />
+	In the TwinBasic version, no add-ins were used.<br />
 	<br />
 	This program was built with the assistance of various snippets or chunks of 
 	FOSS code. VB6 has been around for so long that&nbsp;the codebase is immense. You 
@@ -790,9 +812,10 @@ Linux and Mac OSX, both running Wine.
 	<span style="text-decoration: underline;">immeasurably</span>.<br />
 	<br />
 	Olaf Schmidt&nbsp;&nbsp;&nbsp; - This tool was built using the RichClient RC6 Cairo wrapper 
-	for VB6. Specifically the components using transparency. &nbsp;Olaf made changes 
+	for VB6/TwinBasic. Specifically the components using transparency. &nbsp;Olaf made changes 
 	to his libraries specifically for my needs - impressive. Thanks for the 
-	massive effort Olaf in creating Cairo counterparts for all the native VB6 
+	massive effort Olaf in creating Cairo counterparts for all the native 
+	VB6/TwinBasic 
 	controls and giving us access to advanced features&nbsp;such as image and control 
 	transparency.&nbsp;In addition, this program makes use of Olaf's PSD parser. His 
 	code allows the program to make use of a Photoshop PSD file that contains 
