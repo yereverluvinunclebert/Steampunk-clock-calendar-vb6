@@ -2596,7 +2596,7 @@ End Sub
 '                alter the size of the form to correspond to the monitor
 '---------------------------------------------------------------------------------------
 '
-Private Sub clockForm_MouseUp(ByRef Button As Integer, ByRef Shift As Integer, ByRef X As Single, ByRef Y As Single)
+Private Sub clockForm_MouseUp(ByRef Button As Integer, ByRef Shift As Integer, ByRef x As Single, ByRef y As Single)
 
     On Error GoTo clockForm_MouseUp_Error
     
@@ -2631,8 +2631,8 @@ End Sub
 ' Purpose   :
 '---------------------------------------------------------------------------------------
 '
-Private Sub clockForm_MouseMove(ByRef Button As Integer, ByRef Shift As Integer, ByRef X As Single, ByRef Y As Single)
-  Static x0 As Single, y0 As Single: If Button = 0 Then x0 = X: y0 = Y 'just store the offsets when no button is down
+Private Sub clockForm_MouseMove(ByRef Button As Integer, ByRef Shift As Integer, ByRef x As Single, ByRef y As Single)
+  Static x0 As Single, y0 As Single: If Button = 0 Then x0 = x: y0 = y 'just store the offsets when no button is down
   
    On Error GoTo clockForm_MouseMove_Error
     
@@ -2641,8 +2641,8 @@ Private Sub clockForm_MouseMove(ByRef Button As Integer, ByRef Shift As Integer,
 
     If Button = vbLeftButton And Not clockForm.ActiveWidget Is Nothing Then 'Form-Dragging (under certain conditions)
 
-      FX = (X - x0) * clockForm.WidgetRoot.Zoom + clockForm.Left
-      FY = (Y - y0) * clockForm.WidgetRoot.Zoom + clockForm.Top
+      FX = (x - x0) * clockForm.WidgetRoot.Zoom + clockForm.Left
+      FY = (y - y0) * clockForm.WidgetRoot.Zoom + clockForm.Top
       clockForm.Move FX, FY
       
       Debug.Print "FX " & FX
@@ -2732,7 +2732,7 @@ End Sub
 ' Purpose   :
 '---------------------------------------------------------------------------------------
 '
-Private Sub clockForm_MouseDown(ByRef Button As Integer, ByRef Shift As Integer, ByRef X As Single, ByRef Y As Single)
+Private Sub clockForm_MouseDown(ByRef Button As Integer, ByRef Shift As Integer, ByRef x As Single, ByRef y As Single)
    On Error GoTo W_MouseDown_Error
 
     frmTimer.tmrScreenResolution.Enabled = False
@@ -3613,11 +3613,10 @@ Public Property Let alarmtoggleEnabled(ByVal newValue As Boolean)
         tmrZZZZSound.Enabled = True ' does a little buzz after 1/10th of a second, not cutting off the preceding 'clunk' prematurely
         
         overlayWidget.GetFutureTime = vbNullString
+
         
         ' set the slider position to the start point
         fClock.timeShiftValue = 0.5
-        
-        overlayWidget.BaseDate = Now()
              
         ' if an alarm is not selected then choose the first available alarm
         '     raise the alarm till and alarm toggle
@@ -3630,16 +3629,22 @@ Public Property Let alarmtoggleEnabled(ByVal newValue As Boolean)
             And alarmtoggle5Enabled = False Then
                 Sleep 500
                 If gblAlarm1Date = "Alarm not yet set" Then
+                    overlayWidget.BaseDate = Now()
                     alarmtoggle1Enabled = True
                 ElseIf gblAlarm2Date = "Alarm not yet set" Then
+                    overlayWidget.BaseDate = Now()
                     alarmtoggle2Enabled = True
                 ElseIf gblAlarm3Date = "Alarm not yet set" Then
+                    overlayWidget.BaseDate = Now()
                     alarmtoggle3Enabled = True
                 ElseIf gblAlarm4Date = "Alarm not yet set" Then
+                    overlayWidget.BaseDate = Now()
                     alarmtoggle4Enabled = True
                 ElseIf gblAlarm5Date = "Alarm not yet set" Then
+                    overlayWidget.BaseDate = Now()
                     alarmtoggle5Enabled = True
                 Else
+                    overlayWidget.BaseDate = gblAlarm1
                     alarmtoggle1Enabled = True
                 End If
         End If
@@ -3649,6 +3654,8 @@ Public Property Let alarmtoggleEnabled(ByVal newValue As Boolean)
         Else
             tmrTILLSound.Enabled = True ' does a little buzz after 9/10th of a second, not cutting off the preceding 'zzzz' prematurely
         End If
+        
+        gblShowAlarmDateTime = True ' causes the cache for the displayed time to the current alarm date/time selected
         
     Else
         overlayWidget.SliderInTransit = False
@@ -3668,6 +3675,8 @@ Public Property Let alarmtoggleEnabled(ByVal newValue As Boolean)
         alarmtoggle3Enabled = False
         alarmtoggle4Enabled = False
         alarmtoggle5Enabled = False
+        
+        gblShowAlarmDateTime = False ' turns off the cache displaying the current alarm date/time selected
 
     End If
         

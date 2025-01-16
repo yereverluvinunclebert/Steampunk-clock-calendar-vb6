@@ -297,15 +297,20 @@ o add now() button logic for all alarms
 
 ' the PSD for the helpBottom needs to be updated - set key and the close Diamond
 ' change the HTML help to match the new functionality
+' add visualstyles = false to all controls on the prefs form using beta 645
+' about text VB6 / Twinbasic wip, check if the PSD is on the e6410. Nope
 
 ' -oOo-
 
 Tasks to do:
 ============
 
-' if the alarm has a date/time already set, then the alarm set start time should be the current alarm date/time as set.
+' if the alarm has a date/time already set, then the alarm set start time should be the current alarm date/time as set - wip
+' now set the alarm displayed after an automatic 'rotate' to the current alarm
 
 ' add a reset to arrive at the current time, double click on the clock face?
+
+' when selecting a project file VBP to run, allow selection of a different file for TwinBasic and VB6 using the same settings.ini file
 
 ' weekday till flag, the text 'only' sometimes doubles up, possibly after a refresh after midnight when the till has been showing - identify the scenario
 '     the weekday had not changed overnight and the previous transparent day indicator was left on screen, pressing the weekday toggle caused the new weekday
@@ -313,19 +318,17 @@ Tasks to do:
 
 ' add time machine functionality
 
-' add visualstyles = false to all controls on the prefs form using beta 623
-
 ' match the numeric digit rotation to match the YWE version?
 
 ' find and replace globals within overlay class with property GET/SETs - WIP
 
-' find and replace globals within fclock class with property GET/SETs - WIP
+' find and replace globals within fClock class with property GET/SETs - WIP
 
-' check correct use of all properties to minimise CPU usage, locally should always be using the Version of a variable rather than the property itself
+' check correct use of all properties to minimise CPU usage, locally should always be using the Version of a variable rather than the property LET/SET itself
 
-' descriptions on all routines - WIP          k_
+' descriptions on all routines - WIP
 
-' about text VB6 / Twinbasic wip, check if the PSD is on the e6410.
+' about text VB6 / Twinbasic wip, check if the PSD is on the G5.
 
 ' combine a new counter rotating sound recording the current Konfabulator widget.
 

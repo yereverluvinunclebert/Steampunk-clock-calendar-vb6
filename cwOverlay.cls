@@ -1670,6 +1670,7 @@ Private Sub tmrClock_TimerRoutine()
         ' add the time deviation to the base date
         
         pvtCurrentDateToDisplay = DateAdd("s", mTimeDeviation, mBaseDate)
+        Debug.Print mBaseDate
         mGetFutureTime = pvtCurrentDateToDisplay
          
         pvtThisHour = Hour(pvtCurrentDateToDisplay)
@@ -2215,7 +2216,7 @@ End Sub
 '             For this Overlay-Widget alone, we make everything "fully click-through"
 '---------------------------------------------------------------------------------------------
 '
-Private Sub W_HitTest(ByVal X As Single, ByVal Y As Single, HitResultHit As Boolean) 'ensure ClickThrough-behaviour in ImagePixels which are "fully Alpha"
+Private Sub W_HitTest(ByVal x As Single, ByVal y As Single, HitResultHit As Boolean) 'ensure ClickThrough-behaviour in ImagePixels which are "fully Alpha"
    On Error GoTo W_HitTest_Error
 
    HitResultHit = False
