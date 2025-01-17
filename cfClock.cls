@@ -474,10 +474,10 @@ Private Sub clockForm_BubblingEvent(ByRef sender As Object, ByRef EventName As S
     stdMessage = "Right Click to open the menu and the preferences. CTRL+ Mouse scrollwheel UP/DOWN to resize. "
     stdSubject = "You can turn off the balloon tooltips in the preferences."
     
+    ' set the balloon tooltips
     If EventName = "W_MouseMove" Then
         Debug.Print sender.Widget.Key
         Select Case LCase$(sender.Widget.Key)
-            
             
             Case "topdigitalclock"
                 Call clearWeekdayTill
@@ -522,7 +522,7 @@ Private Sub clockForm_BubblingEvent(ByRef sender As Object, ByRef EventName As S
                 If gblClockTooltips = "0" Then CreateToolTip clockForm.hWnd, "Stop/start the pendulum by clicking on it.", _
                      TTIconInfo, widgetName & " Pendulum Toggle Help", , , , True
             Case "clockset"
-                If gblClockTooltips = "0" Then CreateToolTip clockForm.hWnd, "This is just the analogue clock face, clicking here does nothing at the moment.", _
+                If gblClockTooltips = "0" Then CreateToolTip clockForm.hWnd, "This is just the analogue clock face, if an alarm is open for editing, clicking here resets the current alarm to the current time.", _
                      TTIconInfo, widgetName & " Clock face Help", , , , True
             Case "pendulumtransparent"
                 If gblClockTooltips = "0" Then CreateToolTip clockForm.hWnd, "Stop/start the pendulum.", _
@@ -691,6 +691,9 @@ Private Sub clockForm_BubblingEvent(ByRef sender As Object, ByRef EventName As S
         Select Case LCase$(sender.Widget.Key)
             Case "helpdropdown"
                 Call helpdropdown_myMouseDown
+            
+            Case "clockset"
+                Call clockset_myMouseDown
 
             Case "pendulumtransparent"
                 Call pendulumtransparent_myMouseDown
@@ -828,6 +831,29 @@ Private Sub clockForm_BubblingEvent(ByRef sender As Object, ByRef EventName As S
 clockForm_BubblingEvent_Error:
 
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure clockForm_BubblingEvent of Class Module cfClock"
+End Sub
+
+
+'---------------------------------------------------------------------------------------
+' Procedure : clockset_myMouseDown
+' Author    : beededea
+' Date      : 16/01/2025
+' Purpose   : if an alarm has been raised, set the base date displayed to the current date/time
+'---------------------------------------------------------------------------------------
+'
+Private Sub clockset_myMouseDown()
+
+   On Error GoTo clockset_myMouseDown_Error
+
+   ' if an alarm has been raised
+   ' set the base date displayed to the current date/time
+
+   On Error GoTo 0
+   Exit Sub
+
+clockset_myMouseDown_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure clockset_myMouseDown of Class Module cfClock"
 End Sub
 
 '---------------------------------------------------------------------------------------

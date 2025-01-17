@@ -335,7 +335,8 @@ Public gblVolumeBoost  As String
 Public gblDebug As String
 Public gblDblClickCommand As String
 Public gblOpenFile As String
-Public gblDefaultEditor As String
+Public gblDefaultVB6Editor As String
+Public gblDefaultTBEditor As String
        
 ' font
 Public gblClockFont As String
@@ -1718,7 +1719,7 @@ End Sub
 ' Procedure : setMainTooltips
 ' Author    : beededea
 ' Date      : 15/05/2023
-' Purpose   :
+' Purpose   : set the tooltips using RichClient tooltips
 '---------------------------------------------------------------------------------------
 '
 Public Sub setMainTooltips()
@@ -1761,7 +1762,6 @@ Public Sub setMainTooltips()
         fClock.clockForm.Widgets("crankdown").Widget.ToolTip = "Crank up the sound! Crank me up to make more sound throughout the whole clock."
         fClock.clockForm.Widgets("weekdayred").Widget.ToolTip = "Click here to lower the weekday flag."
         fClock.clockForm.Widgets("weekdaytill").Widget.ToolTip = "Click here to lower the weekday flag."
-        'fClock.clockForm.Widgets("weekdayshadow").Widget.ToolTip = "Click here to lower the weekday flag."
         fClock.clockForm.Widgets("dropdown").Widget.ToolTip = "Click me for information."
         fClock.clockForm.Widgets("bellset").Widget.ToolTip = "Press to do something, not figured out what yet"
         fClock.clockForm.Widgets("helpdropdown").Widget.ToolTip = "Click here to lock the clock in place on the desktop."
@@ -1770,8 +1770,8 @@ Public Sub setMainTooltips()
         fClock.clockForm.Widgets("lockingpinlocked").Widget.ToolTip = "Click here to unlock the clock and make it moveable using mouse. "
         fClock.clockForm.Widgets("lockingpin").Widget.ToolTip = "Click here to lock the clock in place on the desktop."
         fClock.clockForm.Widgets("redalarmcover").Widget.ToolTip = "Click this alarm flag to delete this alarm."
-        
-        
+        fClock.clockForm.Widgets("clockset").Widget.ToolTip = "This is just the analogue clock face, if an alarm is open for editing, clicking here resets the current alarm to the current time."
+
 '            Case "bellset"
 '                If gblClockTooltips ="1" Then CreateToolTip clockForm.hWnd, "Click here to set or edit an alarm.", _
 '                     TTIconInfo, widgetName & " Alarm Toggle Help", , , , True
@@ -1854,12 +1854,12 @@ Public Sub setMainTooltips()
         fClock.clockForm.Widgets("crankdown").Widget.ToolTip = vbNullString
         fClock.clockForm.Widgets("weekdayred").Widget.ToolTip = vbNullString
         fClock.clockForm.Widgets("weekdaytill").Widget.ToolTip = vbNullString
-        'fClock.clockForm.Widgets("weekdayshadow").Widget.ToolTip = vbNullString
         fClock.clockForm.Widgets("dropdown").Widget.ToolTip = vbNullString
         fClock.clockForm.Widgets("bellset").Widget.ToolTip = vbNullString
         fClock.clockForm.Widgets("helpdropdown").Widget.ToolTip = vbNullString
         fClock.clockForm.Widgets("pendulumtransparent").Widget.ToolTip = vbNullString
         fClock.clockForm.Widgets("glow").Widget.ToolTip = vbNullString
+        fClock.clockForm.Widgets("clockset").Widget.ToolTip = vbNullString
     End If
     
     Call ChangeToolTipWidgetDefaultSettings(Cairo.ToolTipWidget.Widget)

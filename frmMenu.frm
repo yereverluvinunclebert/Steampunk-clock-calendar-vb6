@@ -219,7 +219,12 @@ Private Sub mnuEditWidget_Click()
     
    On Error GoTo mnuEditWidget_Click_Error
 
-    editorPath = gblDefaultEditor
+    #If TWINBASIC Then
+        editorPath = gblDefaultTBEditor
+    #Else
+        editorPath = gblDefaultVB6Editor
+    #End If
+    
     If fFExists(editorPath) Then ' if it is a folder already
         '''If debugflg = 1  Then msgBox "ShellExecute " & sCommand
         

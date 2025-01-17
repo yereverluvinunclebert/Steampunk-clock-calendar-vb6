@@ -6,7 +6,7 @@ Option Explicit
 
 '------------------------------------------------------ STARTS
 ' for SetWindowPos z-ordering
-Public Declare Function SetWindowPos Lib "user32" (ByVal hWnd As Long, ByVal hWndInsertAfter As Long, ByVal X As Long, ByVal Y As Long, ByVal cx As Long, ByVal cy As Long, ByVal wFlags As Long) As Long
+Public Declare Function SetWindowPos Lib "user32" (ByVal hWnd As Long, ByVal hWndInsertAfter As Long, ByVal x As Long, ByVal y As Long, ByVal cx As Long, ByVal cy As Long, ByVal wFlags As Long) As Long
 
 Public Const HWND_TOP As Long = 0 ' for SetWindowPos z-ordering
 Public Const HWND_TOPMOST As Long = -1
@@ -330,12 +330,12 @@ Private Sub initialiseGlobalVars()
     gblEnableChimes = vbNullString
     gblVolumeBoost = vbNullString
     
-    
     ' development
     gblDebug = vbNullString
     gblDblClickCommand = vbNullString
     gblOpenFile = vbNullString
-    gblDefaultEditor = vbNullString
+    gblDefaultVB6Editor = vbNullString
+    gblDefaultTBEditor = vbNullString
          
     ' font
     gblClockFont = vbNullString
@@ -589,6 +589,7 @@ End Sub
 '---------------------------------------------------------------------------------------
 '
 Public Sub adjustMainControls()
+   Dim thisEditor As String: thisEditor = vbNullString
    
    On Error GoTo adjustMainControls_Error
 
@@ -619,8 +620,14 @@ Public Sub adjustMainControls()
         menuForm.mnuTurnFunctionsOn.Checked = False
     End If
     
-    If gblDefaultEditor <> vbNullString And gblDebug = "1" Then
-        menuForm.mnuEditWidget.Caption = "Edit Widget using " & gblDefaultEditor
+    If gblDebug = "1" Then
+        #If TWINBASIC Then
+            If gblDefaultTBEditor <> vbNullString Then thisEditor = gblDefaultTBEditor
+        #Else
+            If gblDefaultVB6Editor <> vbNullString Then thisEditor = gblDefaultVB6Editor
+        #End If
+        
+        menuForm.mnuEditWidget.Caption = "Edit Widget using " & thisEditor
         menuForm.mnuEditWidget.Visible = True
     Else
         menuForm.mnuEditWidget.Visible = False
@@ -1285,7 +1292,8 @@ Public Sub readSettingsFile(ByVal Location As String, ByVal gblSettingsFile As S
         gblDebug = fGetINISetting(Location, "debug", gblSettingsFile)
         gblDblClickCommand = fGetINISetting(Location, "dblClickCommand", gblSettingsFile)
         gblOpenFile = fGetINISetting(Location, "openFile", gblSettingsFile)
-        gblDefaultEditor = fGetINISetting(Location, "defaultEditor", gblSettingsFile)
+        gblDefaultVB6Editor = fGetINISetting(Location, "defaultVB6Editor", gblSettingsFile)
+        gblDefaultTBEditor = fGetINISetting(Location, "defaultTBEditor", gblSettingsFile)
         
         ' other
         gblClockHighDpiXPos = fGetINISetting("Software\SteampunkClockCalendar", "clockHighDpiXPos", gblSettingsFile)
@@ -1445,7 +1453,8 @@ Public Sub validateInputs()
         If gblDebug = vbNullString Then gblDebug = "0"
         If gblDblClickCommand = vbNullString And gblFirstTimeRun = "True" Then gblDblClickCommand = "mmsys.cpl"
         If gblOpenFile = vbNullString Then gblOpenFile = vbNullString
-        If gblDefaultEditor = vbNullString Then gblDefaultEditor = vbNullString
+        If gblDefaultVB6Editor = vbNullString Then gblDefaultVB6Editor = vbNullString
+        If gblDefaultTBEditor = vbNullString Then gblDefaultTBEditor = vbNullString
         
         ' window
         If gblWindowLevel = vbNullString Then gblWindowLevel = "1" 'WindowLevel", gblSettingsFile)

@@ -300,17 +300,20 @@ o add now() button logic for all alarms
 ' add visualstyles = false to all controls on the prefs form using beta 645
 ' about text VB6 / Twinbasic wip, check if the PSD is on the e6410. Nope
 
+' if the alarm has a date/time already set, then the alarm set start time should be the current alarm date/time as set - wip
+
 ' -oOo-
 
 Tasks to do:
 ============
 
-' if the alarm has a date/time already set, then the alarm set start time should be the current alarm date/time as set - wip
-' now set the alarm displayed after an automatic 'rotate' to the current alarm
-
 ' add a reset to arrive at the current time, double click on the clock face?
 
-' when selecting a project file VBP to run, allow selection of a different file for TwinBasic and VB6 using the same settings.ini file
+' when selecting a project file VBP to run, allow selection of a different file for TwinBasic and VB6 using the same settings.ini file WIP
+
+' CHM update and path in the s2g file
+
+' speed up population of the comboboxes by doing it at design time
 
 ' weekday till flag, the text 'only' sometimes doubles up, possibly after a refresh after midnight when the till has been showing - identify the scenario
 '     the weekday had not changed overnight and the previous transparent day indicator was left on screen, pressing the weekday toggle caused the new weekday
