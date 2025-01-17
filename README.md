@@ -1,8 +1,8 @@
 # Steampunk Clock Calendar-VB6
  
-A FOSS Desktop Utility VB6 WoW64 Widget for Windows XP, ReactOS, Vista, Win7, 8 and 10/11+.
+A FOSS Desktop Utility VB6 WoW64 Widget for Windows Vista, Win7, 8 and 10/11+.
 
-My current VB6/TwinBasic/RC6 PSD program being worked upon now, in progress, you can download it but do expect some functionality to be incomplete and unpolished. Estimated at 99% graphically complete, 96% functionally complete but only 90% code-complete. I am always adding in new functionality as this is an educational project for me, there are code improvements to be made, alternative, more efficient methods found &c.
+My current VB6/TwinBasic/RC6 PSD program being worked upon now, in progress, you can download it but do expect some functionality to be possibly incomplete and unpolished. Estimated at 99% graphically complete, 96% functionally complete but only 90% code-complete. I am always adding in new functionality as this is an educational project for me, there are code improvements to be made, alternative, more efficient methods found &c.
 
 What does the program do already in its unfinished state?
 
@@ -43,11 +43,9 @@ If you want to compile this yourself, clone/download the lot. You will of course
  fire up. The first time you run it there will be no assigned function and so it 
  will state as such and then pop up the preferences so that you can enter the 
  command of your choice. The widget takes command line-style commands for 
- windows. Mouse hover over the widget and press CTRL+mousewheel up/down to resize. It works well on Windows Vista
- to Windows 11. There will be another version for ReactOS and Windows XP, not yet built, watch this space.
+ windows. Mouse hover over the widget and press CTRL+mousewheel up/down to resize. It works well from Windows Vista through to Windows 11. There will hopefully be another version for ReactOS and Windows XP, not yet built, watch this space.
 
 ![steampunk_clock_calendar_mkii__2_9__rc_by_yereverluvinuncleber-d4l5xny](https://github.com/yereverluvinunclebert/Steampunk-clock-calendar-version-2.9/assets/2788342/f2dc5337-0c98-418c-9b68-2374ae7c4222)
-
 
  This widget is currently Beta-grade software, under development, not yet 
  ready to use on a production system - use at your own risk.
