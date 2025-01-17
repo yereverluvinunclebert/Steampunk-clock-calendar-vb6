@@ -22,11 +22,11 @@ If you just want to install it on your desktop, there is a clockCalendarInstalle
 
 https://github.com/yereverluvinunclebert/Steampunk-clock-calendar-vb6/releases/tag/SteampunkClock%2FCalendar0.0.1build2422 
 
-If you want to compile this yourself, follow the same link and download the source - or use github desktop to clone the program. To edit/compile you will of course, need the VB6 IDE or the TwinBasic IDE. VB6 is available from ebay or by MSDN subscription, TwinBasic is downloadable and available for free here: https://twinbasic.com/. If you have VB6 already installed then you use that, of course.
-
- Why VB6? Well, with a 64 bit, modern-language upgrade improvement being delivered now, in the form of "100% compatible" TwinBasic, coupled with support for transparent PNGs via RC/Cairo, VB6 native code has an amazing future. 
+If you want to compile this yourself, follow the same link and download the source - or use github desktop to clone the program. To edit/compile you will of course, need the VB6 IDE or the TwinBasic IDE. VB6 is available from ebay or by MSDN subscription, TwinBasic is downloadable and available for free here: https://twinbasic.com/. If you have VB6 already installed then you use that, of course. Instructions, below.
 
  ![vb6-logo-200](https://github.com/yereverluvinunclebert/Panzer-JustClock-VB6/assets/2788342/7986e544-0b94-4a10-90bb-2d9fb60c294a)
+ 
+ Why VB6? Well, with a 64 bit, modern-language upgrade improvement being delivered now, in the form of "100% compatible" TwinBasic, coupled with support for transparent PNGs via RC/Cairo, VB6 native code has an   amazing future. 
 
  If you want to use TwinBasic then I suggest you use the TwinBasic tailored version that can be found here: https://github.com/yereverluvinunclebert/tbSteampunk-clock-calendar
  
