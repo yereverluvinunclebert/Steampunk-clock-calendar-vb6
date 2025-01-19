@@ -302,16 +302,29 @@ o add now() button logic for all alarms
 
 ' if the alarm has a date/time already set, then the alarm set start time should be the current alarm date/time as set - wip
 
+' add preliminary code to reset to the current time, via a double click on the clock face
+' when selecting a project file VBP to run, allow selection of a different file for TwinBasic and VB6 using the same settings.ini file WIP
+
 ' -oOo-
 
 Tasks to do:
 ============
 
-' add a reset to arrive at the current time, double click on the clock face?
-
-' when selecting a project file VBP to run, allow selection of a different file for TwinBasic and VB6 using the same settings.ini file WIP
+' add main code to reset to the current time, via a double click on the clock face
 
 ' CHM update and path in the s2g file
+
+when first install
+     busytimer still visible
+     swap the crank sounds
+     show help on widget start
+     weekday toggle on?
+     screen font size 6pt
+     big screens start with DPI ON
+     big screens size the prefs larger
+     preference size is not saving
+
+     in help mode don't force the weekday toggle, simply check the enabled value first, enable it temporarily and then disable it when the help is closed if it needs to be closed.
 
 ' speed up population of the comboboxes by doing it at design time
 
