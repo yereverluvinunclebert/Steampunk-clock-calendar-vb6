@@ -312,6 +312,7 @@ Public gblDpiAwareness As String
 
 Public gblGaugeSize As String
 Public gblScrollWheelDirection As String
+Public gblNumericDisplayRotation As String
 
 ' position
 Public gblAspectHidden As String
@@ -397,7 +398,7 @@ Public gblAlarmToggle3Enabled As String
 Public gblAlarmToggle4Enabled As String
 Public gblAlarmToggle5Enabled As String
 
-Public gblRaisedAlarm As Integer
+Public gblAlarmTogglePressed As Integer
 
 ' vars stored for positioning the prefs form
 Public gblPrefsHighDpiXPosTwips As String

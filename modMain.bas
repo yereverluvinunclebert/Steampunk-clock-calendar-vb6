@@ -6,7 +6,7 @@ Option Explicit
 
 '------------------------------------------------------ STARTS
 ' for SetWindowPos z-ordering
-Public Declare Function SetWindowPos Lib "user32" (ByVal hWnd As Long, ByVal hWndInsertAfter As Long, ByVal x As Long, ByVal y As Long, ByVal cx As Long, ByVal cy As Long, ByVal wFlags As Long) As Long
+Public Declare Function SetWindowPos Lib "user32" (ByVal hWnd As Long, ByVal hWndInsertAfter As Long, ByVal X As Long, ByVal Y As Long, ByVal cx As Long, ByVal cy As Long, ByVal wFlags As Long) As Long
 
 Public Const HWND_TOP As Long = 0 ' for SetWindowPos z-ordering
 Public Const HWND_TOPMOST As Long = -1
@@ -311,6 +311,7 @@ Private Sub initialiseGlobalVars()
     
     gblGaugeSize = vbNullString
     gblScrollWheelDirection = vbNullString
+    gblNumericDisplayRotation = vbNullString
     
     ' position
     gblAspectHidden = vbNullString
@@ -611,6 +612,8 @@ Public Sub adjustMainControls()
     End If
     
 '    overlayWidget.ZoomDirection = gblScrollWheelDirection
+
+    ' chkNumericDisplayRotation
     
     If gblWidgetFunctions = "1" Then
         menuForm.mnuSwitchOff.Checked = False
@@ -1255,6 +1258,7 @@ Public Sub readSettingsFile(ByVal Location As String, ByVal gblSettingsFile As S
         
         gblGaugeSize = fGetINISetting(Location, "gaugeSize", gblSettingsFile)
         gblScrollWheelDirection = fGetINISetting(Location, "scrollWheelDirection", gblSettingsFile)
+        gblNumericDisplayRotation = fGetINISetting(Location, "numericDisplayRotation", gblSettingsFile)
         
         ' position
         gblAspectHidden = fGetINISetting(Location, "aspectHidden", gblSettingsFile)
@@ -1413,6 +1417,7 @@ Public Sub validateInputs()
         If gblDpiAwareness = vbNullString Then gblDpiAwareness = "0"
         If gblGaugeSize = vbNullString Then gblGaugeSize = "25"
         If gblScrollWheelDirection = vbNullString Then gblScrollWheelDirection = "1"
+        If gblNumericDisplayRotation = vbNullString Then gblNumericDisplayRotation = "1"
                
         ' fonts
         If gblPrefsFont = vbNullString Then gblPrefsFont = "times new roman"

@@ -305,6 +305,10 @@ o add now() button logic for all alarms
 ' add preliminary code to reset to the current time, via a double click on the clock face
 ' when selecting a project file VBP to run, allow selection of a different file for TwinBasic and VB6 using the same settings.ini file WIP
 
+' bugfix to project file selection button
+' when an alarm is not set then it should display the current date, not 1970
+' alarm toggles now change toggle image dynamically when alarm set
+
 ' -oOo-
 
 Tasks to do:
@@ -314,10 +318,10 @@ Tasks to do:
 
 ' CHM update and path in the s2g file
 
-when first install
+' when first install
      busytimer still visible
      swap the crank sounds
-     show help on widget start
+     show help on widget start always
      weekday toggle on?
      screen font size 6pt
      big screens start with DPI ON

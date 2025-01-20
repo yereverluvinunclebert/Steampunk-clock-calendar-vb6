@@ -356,6 +356,11 @@ Public Property Let BaseDate(ByVal newValue As String)
 
    If mBaseDate <> newValue Then mBaseDate = newValue Else Exit Property
    Debug.Print mBaseDate
+   
+    ' normal time displayed,
+    pvtThisHour = CInt(Hour(mBaseDate))
+    pvtThisMins = CInt(Minute(mBaseDate))
+    pvtThisSecs = CInt(Second(mBaseDate))
 
    On Error GoTo 0
    Exit Property
@@ -795,7 +800,7 @@ Private Sub populateDigitalHoursCache(ByRef CC As cCairoContext, Optional ByVal 
     On Error GoTo populateDigitalHoursCache_Error
        
     ' if the rotator is functioning then display the contents from that...
-    If tmrDigitRotator.Enabled = True Then
+    If gblNumericDisplayRotation = "1" And tmrDigitRotator.Enabled = True Then
         localHour = CInt(pvtHoursRotatorString)
         hourString = pvtHoursRotatorString
     Else
@@ -894,8 +899,9 @@ Private Sub populateDigitalMinsCache(ByRef CC As cCairoContext, Optional ByVal a
        
     On Error GoTo populateDigitalMinsCache_Error
 
+
     ' if the rotator is functioning then display the contents from that...
-    If tmrDigitRotator.Enabled = True Then
+    If gblNumericDisplayRotation = "1" And tmrDigitRotator.Enabled = True Then
         localMins = CInt(pvtMinsRotatorString)
         minString = pvtHoursRotatorString
     Else
@@ -989,7 +995,7 @@ Private Sub populateDigitalYearCache(ByRef CC As cCairoContext, Optional ByVal a
     On Error GoTo populateDigitalYearCache_Error
 
     ' if the rotator is functioning then display the contents from that...
-    If tmrDigitRotator.Enabled = True Then
+    If gblNumericDisplayRotation = "1" And tmrDigitRotator.Enabled = True Then
         yearString = pvtYearRotatorString
     Else
         If alarmYear <> vbNullString Then
@@ -1120,7 +1126,7 @@ Private Sub populateDigitalMonthCache(ByRef CC As cCairoContext, Optional ByVal 
     On Error GoTo populateDigitalMonthCache_Error
     
     ' if the rotator is functioning then display the contents from that...
-    If tmrDigitRotator.Enabled = True Then
+    If gblNumericDisplayRotation = "1" And tmrDigitRotator.Enabled = True Then
         thisMonth = CInt(pvtMonthRotatorString)
     Else
         thisMonth = Month(Now) ' coerce date variant to integer
@@ -1189,7 +1195,7 @@ Private Sub populateDigitalDayofMonthCache(ByRef CC As cCairoContext, Optional B
    On Error GoTo populateDigitalDayofMonthCache_Error
    
     ' if the rotator is functioning then display the contents from that...
-    If tmrDigitRotator.Enabled = True Then
+    If gblNumericDisplayRotation = "1" And tmrDigitRotator.Enabled = True Then
         localDay = CInt(pvtDaysRotatorString)
         dayString = pvtDaysRotatorString
     Else
@@ -1311,17 +1317,27 @@ Private Sub populateDigitalClockCache(ByRef CC As cCairoContext)
     Dim theHours As String: theHours = vbNullString
     Dim theMins As String: theMins = vbNullString
     
+    Dim dateAndTime As String: dateAndTime = vbNullString
+    Dim alarmDateString As String: alarmDateString = vbNullString
+    Dim alarmTimeString As String: alarmTimeString = vbNullString
+    
     On Error GoTo populateDigitalClockCache_Error
     
     If gblShowAlarmDateTime = True Then ' don't always want the stored dates/times to show when setting a new alarm ' replace with a property get/set?
         If gblAlarmToggle1Enabled = "True" Then
             ' read the date and time variables for alarmtoggle1
             If gblAlarm1Date = "Alarm not yet set" Then
-                theDay = "01"
-                theMonth = "01"
-                theYear = "1970"
-                theHours = "00"
-                theMins = "00"
+            
+                dateAndTime = Now()
+
+                alarmDateString = Left$(dateAndTime, 10)
+                alarmTimeString = Mid$(dateAndTime, 12, 5)
+
+                theDay = Left$(alarmDateString, 2)
+                theMonth = Mid$(alarmDateString, 4, 2)
+                theYear = Mid$(alarmDateString, 7, 4)
+                theHours = Left$(alarmTimeString, 2)
+                theMins = Mid$(alarmTimeString, 4, 2)
             Else
                 theDay = Left$(gblAlarm1Date, 2)
                 theMonth = Mid$(gblAlarm1Date, 4, 2)
@@ -1334,11 +1350,17 @@ Private Sub populateDigitalClockCache(ByRef CC As cCairoContext)
         If gblAlarmToggle2Enabled = "True" Then
             ' read the date and time variables for alarmtoggle2
             If gblAlarm2Date = "Alarm not yet set" Then
-                theDay = "01"
-                theMonth = "01"
-                theYear = "1970"
-                theHours = "00"
-                theMins = "00"
+            
+                dateAndTime = Now()
+                
+                alarmDateString = Left$(dateAndTime, 10)
+                alarmTimeString = Mid$(dateAndTime, 12, 5)
+                
+                theDay = Left$(alarmDateString, 2)
+                theMonth = Mid$(alarmDateString, 4, 2)
+                theYear = Mid$(alarmDateString, 7, 4)
+                theHours = Left$(alarmTimeString, 2)
+                theMins = Mid$(alarmTimeString, 4, 2)
             Else
                 theDay = Left$(gblAlarm2Date, 2)
                 theMonth = Mid$(gblAlarm2Date, 4, 2)
@@ -1351,11 +1373,17 @@ Private Sub populateDigitalClockCache(ByRef CC As cCairoContext)
         If gblAlarmToggle3Enabled = "True" Then
             ' read the date and time variables for alarmtoggle3
             If gblAlarm3Date = "Alarm not yet set" Then
-                theDay = "01"
-                theMonth = "01"
-                theYear = "1970"
-                theHours = "00"
-                theMins = "00"
+            
+                dateAndTime = Now()
+                
+                alarmDateString = Left$(dateAndTime, 10)
+                alarmTimeString = Mid$(dateAndTime, 12, 5)
+                
+                theDay = Left$(alarmDateString, 2)
+                theMonth = Mid$(alarmDateString, 4, 2)
+                theYear = Mid$(alarmDateString, 7, 4)
+                theHours = Left$(alarmTimeString, 2)
+                theMins = Mid$(alarmTimeString, 4, 2)
             Else
                 theDay = Left$(gblAlarm3Date, 2)
                 theMonth = Mid$(gblAlarm3Date, 4, 2)
@@ -1368,11 +1396,17 @@ Private Sub populateDigitalClockCache(ByRef CC As cCairoContext)
         If gblAlarmToggle4Enabled = "True" Then
             ' read the date and time variables for alarmtoggle4
             If gblAlarm4Date = "Alarm not yet set" Then
-                theDay = "01"
-                theMonth = "01"
-                theYear = "1970"
-                theHours = "00"
-                theMins = "00"
+            
+                dateAndTime = Now()
+                
+                alarmDateString = Left$(dateAndTime, 10)
+                alarmTimeString = Mid$(dateAndTime, 12, 5)
+                
+                theDay = Left$(alarmDateString, 2)
+                theMonth = Mid$(alarmDateString, 4, 2)
+                theYear = Mid$(alarmDateString, 7, 4)
+                theHours = Left$(alarmTimeString, 2)
+                theMins = Mid$(alarmTimeString, 4, 2)
             Else
                 theDay = Left$(gblAlarm4Date, 2)
                 theMonth = Mid$(gblAlarm4Date, 4, 2)
@@ -1383,13 +1417,21 @@ Private Sub populateDigitalClockCache(ByRef CC As cCairoContext)
         End If
         
         If gblAlarmToggle5Enabled = "True" Then
+            ' read the date and time variables for alarmtoggle5
              If gblAlarm5Date = "Alarm not yet set" Then
-                theDay = "01"
-                theMonth = "01"
-                theYear = "1970"
-                theHours = "00"
-                theMins = "00"
-            Else       ' read the date and time variables for alarmtoggle5
+            
+                dateAndTime = Now()
+                
+                alarmDateString = Left$(dateAndTime, 10)
+                alarmTimeString = Mid$(dateAndTime, 12, 5)
+                
+                theDay = Left$(alarmDateString, 2)
+                theMonth = Mid$(alarmDateString, 4, 2)
+                theYear = Mid$(alarmDateString, 7, 4)
+                theHours = Left$(alarmTimeString, 2)
+                theMins = Mid$(alarmTimeString, 4, 2)
+            Else
+                
                 theDay = Left$(gblAlarm5Date, 2)
                 theMonth = Mid$(gblAlarm5Date, 4, 2)
                 theYear = Mid$(gblAlarm5Date, 7, 4)
@@ -1397,14 +1439,30 @@ Private Sub populateDigitalClockCache(ByRef CC As cCairoContext)
                 theMins = Mid$(gblAlarm5Time, 4, 2)
             End If
         End If
+    Else
+        dateAndTime = Now()
+
+        alarmDateString = Left$(dateAndTime, 10)
+        alarmTimeString = Mid$(dateAndTime, 12, 5)
+    
+        theDay = Left$(alarmDateString, 2)
+        theMonth = Mid$(alarmDateString, 4, 2)
+        theYear = Mid$(alarmDateString, 7, 4)
+        theHours = Left$(alarmTimeString, 2)
+        theMins = Mid$(alarmTimeString, 4, 2)
     End If
     
     If mSliderInTransit = True Or mSliderEnabled = True Then
-        theDay = Left$(pvtCurrentDateToDisplay, 2)
-        theMonth = Mid$(pvtCurrentDateToDisplay, 4, 2)
-        theYear = Mid$(pvtCurrentDateToDisplay, 7, 4)
-        theHours = Mid$(pvtCurrentDateToDisplay, 12, 2)
-        theMins = Mid$(pvtCurrentDateToDisplay, 15, 2)
+
+        alarmDateString = Left$(pvtCurrentDateToDisplay, 10)
+        alarmTimeString = Mid$(pvtCurrentDateToDisplay, 12, 5)
+    
+        theDay = Left$(alarmDateString, 2)
+        theMonth = Mid$(alarmDateString, 4, 2)
+        theYear = Mid$(alarmDateString, 7, 4)
+        theHours = Mid$(alarmTimeString, 12, 2)
+        theMins = Mid$(alarmTimeString, 4, 2)
+        
     End If
 
     Call populateDigitalDayofMonthCache(CC, theDay)
@@ -1413,6 +1471,8 @@ Private Sub populateDigitalClockCache(ByRef CC As cCairoContext)
     Call populateDigitalHoursCache(CC, theHours)
     Call populateDigitalMinsCache(CC, theMins)
     Call populateAMPMDigitalDayCache(CC, theHours)
+    
+    W.Refresh
 
    On Error GoTo 0
    Exit Sub
@@ -1659,7 +1719,6 @@ End Sub
 Private Sub tmrClock_TimerRoutine()
 
     Dim fileToPlay As String: fileToPlay = vbNullString
-    Dim a As Long
     
     ' slider is activated and the clock is in alarm SET mode, we display the time chosen by the user dragging the slider
     On Error GoTo tmrClock_TimerRoutine_Error
@@ -1669,13 +1728,23 @@ Private Sub tmrClock_TimerRoutine()
         ' take the current date at the point the the alarm slider was activated
         ' add the time deviation to the base date
         
+        If mBaseDate = vbNullString Then
+            'MsgBox "mBaseDate has a problem"
+            mBaseDate = Now()
+        End If
+
+        If mTimeDeviation = 0 Then
+            MsgBox "mTimeDeviation has a problem"
+            Exit Sub
+        End If
+        
         pvtCurrentDateToDisplay = DateAdd("s", mTimeDeviation, mBaseDate)
-        Debug.Print mBaseDate
+        'Debug.Print mBaseDate
         mGetFutureTime = pvtCurrentDateToDisplay
          
-        pvtThisHour = Hour(pvtCurrentDateToDisplay)
-        pvtThisMins = Minute(pvtCurrentDateToDisplay)
-        pvtThisSecs = Second(pvtCurrentDateToDisplay)
+        pvtThisHour = CInt(Hour(pvtCurrentDateToDisplay))
+        pvtThisMins = CInt(Minute(pvtCurrentDateToDisplay))
+        pvtThisSecs = CInt(Second(pvtCurrentDateToDisplay))
         
         ' calculate angles of hour and second hand for the analogue clock
         pvtHourDegrees = 30 * (pvtThisHour Mod 12 + (pvtThisMins) / 60) ' global vars used in the paint event
@@ -1687,24 +1756,24 @@ Private Sub tmrClock_TimerRoutine()
         '  test for alarms 1-5 being displayed manually by the user, pressing alarm 1-5 toggles
         If gblAlarmToggle1Enabled = "True" Then
             If gblAlarm1Time = vbNullString Then gblAlarm1Time = "00:00"
-            pvtThisHour = Hour(gblAlarm1Time)
-            pvtThisMins = Minute(gblAlarm1Time)
-            pvtThisSecs = Second(gblAlarm1Time)
+            pvtThisHour = CInt(Hour(gblAlarm1Time))
+            pvtThisMins = CInt(Minute(gblAlarm1Time))
+            pvtThisSecs = CInt(Second(gblAlarm1Time))
         ElseIf gblAlarmToggle2Enabled = "True" Then
             If gblAlarm2Time = vbNullString Then gblAlarm2Time = "00:00"
-            pvtThisHour = Hour(gblAlarm2Time)
-            pvtThisMins = Minute(gblAlarm2Time)
-            pvtThisSecs = Second(gblAlarm2Time)
+            pvtThisHour = CInt(Hour(gblAlarm2Time))
+            pvtThisMins = CInt(Minute(gblAlarm2Time))
+            pvtThisSecs = CInt(Second(gblAlarm2Time))
         ElseIf gblAlarmToggle3Enabled = "True" Then
              If gblAlarm3Time = vbNullString Then gblAlarm3Time = "00:00"
-            pvtThisHour = Hour(gblAlarm3Time)
-            pvtThisMins = Minute(gblAlarm3Time)
-            pvtThisSecs = Second(gblAlarm3Time)
+            pvtThisHour = CInt(Hour(gblAlarm3Time))
+            pvtThisMins = CInt(Minute(gblAlarm3Time))
+            pvtThisSecs = CInt(Second(gblAlarm3Time))
         ElseIf gblAlarmToggle4Enabled = "True" Then
             If gblAlarm4Time = vbNullString Then gblAlarm4Time = "00:00"
-            pvtThisHour = Hour(gblAlarm4Time)
-            pvtThisMins = Minute(gblAlarm4Time)
-            pvtThisSecs = Second(gblAlarm4Time)
+            pvtThisHour = CInt(Hour(gblAlarm4Time))
+            pvtThisMins = CInt(Minute(gblAlarm4Time))
+            pvtThisSecs = CInt(Second(gblAlarm4Time))
         ElseIf gblAlarmToggle5Enabled = "True" Then
             If gblAlarm5Time = vbNullString Then gblAlarm5Time = "00:00"
             pvtThisHour = Hour(gblAlarm5Time)
@@ -1712,9 +1781,9 @@ Private Sub tmrClock_TimerRoutine()
             pvtThisSecs = Second(gblAlarm5Time)
         Else
             ' normal time displayed,
-            pvtThisHour = Hour(Now)
-            pvtThisMins = Minute(Now)
-            pvtThisSecs = Second(Now)
+            pvtThisHour = CInt(Hour(Now))
+            pvtThisMins = CInt(Minute(Now))
+            pvtThisSecs = CInt(Second(Now))
         End If
     
         ' calculate angles of hour and second hand for the analogue clock
@@ -1770,7 +1839,7 @@ Private Sub tmrClock_TimerRoutine()
     
                 screenWrite ("chiming half past the hour at " & CStr(pvtThisHour) & ":30")
     
-            ElseIf pvtThisMins = 45 And (pvtThisSecs = 51) Then '9 seconds before
+            ElseIf pvtThisMins = 44 And (pvtThisSecs = 51) Then '9 seconds before
     
                 If gblVolumeBoost = "1" Then
                     fileToPlay = "threequarterchime.wav"
@@ -2216,7 +2285,7 @@ End Sub
 '             For this Overlay-Widget alone, we make everything "fully click-through"
 '---------------------------------------------------------------------------------------------
 '
-Private Sub W_HitTest(ByVal x As Single, ByVal y As Single, HitResultHit As Boolean) 'ensure ClickThrough-behaviour in ImagePixels which are "fully Alpha"
+Private Sub W_HitTest(ByVal X As Single, ByVal Y As Single, HitResultHit As Boolean) 'ensure ClickThrough-behaviour in ImagePixels which are "fully Alpha"
    On Error GoTo W_HitTest_Error
 
    HitResultHit = False

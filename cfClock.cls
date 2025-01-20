@@ -691,9 +691,6 @@ Private Sub clockForm_BubblingEvent(ByRef sender As Object, ByRef EventName As S
         Select Case LCase$(sender.Widget.Key)
             Case "helpdropdown"
                 Call helpdropdown_myMouseDown
-            
-            Case "clockset"
-                Call clockset_myMouseDown
 
             Case "pendulumtransparent"
                 Call pendulumtransparent_myMouseDown
@@ -793,6 +790,8 @@ Private Sub clockForm_BubblingEvent(ByRef sender As Object, ByRef EventName As S
                 Call displayscreen_myDblClick
             Case "backscreen"
                 Call displayscreen_myDblClick
+            Case "clockset"
+                Call clockset_myDblClick
         End Select
     End If
     
@@ -835,25 +834,31 @@ End Sub
 
 
 '---------------------------------------------------------------------------------------
-' Procedure : clockset_myMouseDown
+' Procedure : clockset_myDblClick
 ' Author    : beededea
 ' Date      : 16/01/2025
 ' Purpose   : if an alarm has been raised, set the base date displayed to the current date/time
 '---------------------------------------------------------------------------------------
 '
-Private Sub clockset_myMouseDown()
+Private Sub clockset_myDblClick()
 
-   On Error GoTo clockset_myMouseDown_Error
+   On Error GoTo clockset_myDblClick_Error
 
    ' if an alarm has been raised
    ' set the base date displayed to the current date/time
+    
+    If alarmtoggleEnabled = False Then Exit Sub
+    
+    If gblAlarmTogglePressed = 1 Then
+        overlayWidget.BaseDate = Now()
+    End If
 
    On Error GoTo 0
    Exit Sub
 
-clockset_myMouseDown_Error:
+clockset_myDblClick_Error:
 
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure clockset_myMouseDown of Class Module cfClock"
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure clockset_myDblClick of Class Module cfClock"
 End Sub
 
 '---------------------------------------------------------------------------------------
@@ -944,15 +949,15 @@ Private Sub deleteRunningAlarms()
         PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
     End If
     
-    If gblRaisedAlarm = 1 And gblAlarm1Date <> "Alarm not yet set" Then
+    If gblAlarmTogglePressed = 1 And gblAlarm1Date <> "Alarm not yet set" Then
         Call deleteAlarm1(anAlarmDeleted)
-    ElseIf gblRaisedAlarm = 2 And gblAlarm2Date <> "Alarm not yet set" Then
+    ElseIf gblAlarmTogglePressed = 2 And gblAlarm2Date <> "Alarm not yet set" Then
         Call deleteAlarm2(anAlarmDeleted)
-    ElseIf gblRaisedAlarm = 3 And gblAlarm3Date <> "Alarm not yet set" Then
+    ElseIf gblAlarmTogglePressed = 3 And gblAlarm3Date <> "Alarm not yet set" Then
         Call deleteAlarm3(anAlarmDeleted)
-    ElseIf gblRaisedAlarm = 4 And gblAlarm4Date <> "Alarm not yet set" Then
+    ElseIf gblAlarmTogglePressed = 4 And gblAlarm4Date <> "Alarm not yet set" Then
         Call deleteAlarm4(anAlarmDeleted)
-    ElseIf gblRaisedAlarm = 5 And gblAlarm5Date <> "Alarm not yet set" Then
+    ElseIf gblAlarmTogglePressed = 5 And gblAlarm5Date <> "Alarm not yet set" Then
         Call deleteAlarm5(anAlarmDeleted)
     Else
         If alarmtoggle1Enabled = True Then alarmtoggle1Enabled = False
@@ -1353,8 +1358,6 @@ Private Sub alarmtoggle1_myMouseDown()
     
     If gblWidgetFunctions = "0" Or gblIgnoreMouse = "1" Then Exit Sub
     
-    gblShowAlarmDateTime = True ' var that allows the stored alarm date/time to be displayed
-
     If gblVolumeBoost = "1" Then
         fileToPlay = "till.wav"
     Else
@@ -1398,9 +1401,7 @@ Private Sub alarmtoggle2_myMouseDown()
     On Error GoTo alarmtoggle2_myMouseDown_Error
     
     If gblWidgetFunctions = "0" Or gblIgnoreMouse = "1" Then Exit Sub
-    
-    gblShowAlarmDateTime = True ' var that allows the stored alarm date/time to be displayed 'alarmtoggle2"
-    
+        
     If gblVolumeBoost = "1" Then
         fileToPlay = "till.wav"
     Else
@@ -1444,9 +1445,7 @@ Private Sub alarmtoggle3_myMouseDown()
     On Error GoTo alarmtoggle3_myMouseDown_Error
     
     If gblWidgetFunctions = "0" Or gblIgnoreMouse = "1" Then Exit Sub
-    
-    gblShowAlarmDateTime = True ' var that allows the stored alarm date/time to be displayed 'alarmtoggle3"
-    
+        
     If gblVolumeBoost = "1" Then
         fileToPlay = "till.wav"
     Else
@@ -1491,9 +1490,7 @@ Private Sub alarmtoggle4_myMouseDown()
     On Error GoTo alarmtoggle4_myMouseDown_Error
     
     If gblWidgetFunctions = "0" Or gblIgnoreMouse = "1" Then Exit Sub
-    
-    gblShowAlarmDateTime = True ' var that allows the stored alarm date/time to be displayed 'alarmtoggle4"
-    
+        
     If gblVolumeBoost = "1" Then
         fileToPlay = "till.wav"
     Else
@@ -1537,9 +1534,7 @@ Private Sub alarmtoggle5_myMouseDown()
     On Error GoTo alarmtoggle5_myMouseDown_Error
     
     If gblWidgetFunctions = "0" Or gblIgnoreMouse = "1" Then Exit Sub
-    
-    gblShowAlarmDateTime = True ' var that allows the stored alarm date/time to be displayed 'alarmtoggle5"
-    
+        
     If gblVolumeBoost = "1" Then
         fileToPlay = "till.wav"
     Else
@@ -1927,7 +1922,8 @@ Private Sub settoggle_myMouseDown()
             sPutINISetting "Software\SteampunkClockCalendar", "alarm1Date", gblAlarm1Date, gblSettingsFile
             sPutINISetting "Software\SteampunkClockCalendar", "alarm1Time", gblAlarm1Time, gblSettingsFile
                       
-            
+            fClock.clockForm.Widgets("alarmtoggle1").Widget.ImageKey = "alarmtoggle1armed"
+
         ElseIf mAlarmToggle2Enabled = True Then
             
             ' it is perfectly correct to refer to the widgetPrefs controls directly, as the form is a class and the controls are publicly exposed.
@@ -1946,6 +1942,8 @@ Private Sub settoggle_myMouseDown()
             sPutINISetting "Software\SteampunkClockCalendar", "alarm2Date", gblAlarm2Date, gblSettingsFile
             sPutINISetting "Software\SteampunkClockCalendar", "alarm2Time", gblAlarm2Time, gblSettingsFile
           
+            fClock.clockForm.Widgets("alarmtoggle2").Widget.ImageKey = "alarmtoggle2armed"
+       
        ElseIf mAlarmToggle3Enabled = True Then
             
             ' it is perfectly correct to refer to the widgetPrefs controls directly, as the form is a class and the controls are publicly exposed.
@@ -1964,6 +1962,8 @@ Private Sub settoggle_myMouseDown()
             sPutINISetting "Software\SteampunkClockCalendar", "alarm3Date", gblAlarm3Date, gblSettingsFile
             sPutINISetting "Software\SteampunkClockCalendar", "alarm3Time", gblAlarm3Time, gblSettingsFile
           
+            fClock.clockForm.Widgets("alarmtoggle3").Widget.ImageKey = "alarmtoggle3armed"
+       
        ElseIf mAlarmToggle4Enabled = True Then
             
             ' it is perfectly correct to refer to the widgetPrefs controls directly, as the form is a class and the controls are publicly exposed.
@@ -1982,6 +1982,8 @@ Private Sub settoggle_myMouseDown()
             sPutINISetting "Software\SteampunkClockCalendar", "alarm4Date", gblAlarm4Date, gblSettingsFile
             sPutINISetting "Software\SteampunkClockCalendar", "alarm4Time", gblAlarm4Time, gblSettingsFile
           
+            fClock.clockForm.Widgets("alarmtoggle4").Widget.ImageKey = "alarmtoggle4armed"
+        
         ElseIf mAlarmToggle5Enabled = True Then
             
             ' it is perfectly correct to refer to the widgetPrefs controls directly, as the form is a class and the controls are publicly exposed.
@@ -2000,6 +2002,8 @@ Private Sub settoggle_myMouseDown()
             sPutINISetting "Software\SteampunkClockCalendar", "alarm5Date", gblAlarm5Date, gblSettingsFile
             sPutINISetting "Software\SteampunkClockCalendar", "alarm5Time", gblAlarm5Time, gblSettingsFile
           
+            fClock.clockForm.Widgets("alarmtoggle5").Widget.ImageKey = "alarmtoggle5armed"
+        
         End If
         answerMsg = "Alarm has been successfully set."
         answer = msgBoxA(answerMsg, vbExclamation + vbOKOnly, "Alarm has been successfully set.", True, "settoggle_myMouseDownEventB")
@@ -2118,6 +2122,7 @@ Private Sub displayScreenToggle_myMouseDown()
     If gblDisplayScreenToggleEnabled = "False" Then
         displayScreenToggleEnabled = True
     Else
+        gblDisplayScreenToggleEnabled = "True"
         displayScreenToggleEnabled = False
     End If
     
@@ -2622,7 +2627,7 @@ End Sub
 '                alter the size of the form to correspond to the monitor
 '---------------------------------------------------------------------------------------
 '
-Private Sub clockForm_MouseUp(ByRef Button As Integer, ByRef Shift As Integer, ByRef x As Single, ByRef y As Single)
+Private Sub clockForm_MouseUp(ByRef Button As Integer, ByRef Shift As Integer, ByRef X As Single, ByRef Y As Single)
 
     On Error GoTo clockForm_MouseUp_Error
     
@@ -2657,8 +2662,8 @@ End Sub
 ' Purpose   :
 '---------------------------------------------------------------------------------------
 '
-Private Sub clockForm_MouseMove(ByRef Button As Integer, ByRef Shift As Integer, ByRef x As Single, ByRef y As Single)
-  Static x0 As Single, y0 As Single: If Button = 0 Then x0 = x: y0 = y 'just store the offsets when no button is down
+Private Sub clockForm_MouseMove(ByRef Button As Integer, ByRef Shift As Integer, ByRef X As Single, ByRef Y As Single)
+  Static x0 As Single, y0 As Single: If Button = 0 Then x0 = X: y0 = Y 'just store the offsets when no button is down
   
    On Error GoTo clockForm_MouseMove_Error
     
@@ -2667,8 +2672,8 @@ Private Sub clockForm_MouseMove(ByRef Button As Integer, ByRef Shift As Integer,
 
     If Button = vbLeftButton And Not clockForm.ActiveWidget Is Nothing Then 'Form-Dragging (under certain conditions)
 
-      FX = (x - x0) * clockForm.WidgetRoot.Zoom + clockForm.Left
-      FY = (y - y0) * clockForm.WidgetRoot.Zoom + clockForm.Top
+      FX = (X - x0) * clockForm.WidgetRoot.Zoom + clockForm.Left
+      FY = (Y - y0) * clockForm.WidgetRoot.Zoom + clockForm.Top
       clockForm.Move FX, FY
       
       Debug.Print "FX " & FX
@@ -2758,7 +2763,7 @@ End Sub
 ' Purpose   :
 '---------------------------------------------------------------------------------------
 '
-Private Sub clockForm_MouseDown(ByRef Button As Integer, ByRef Shift As Integer, ByRef x As Single, ByRef y As Single)
+Private Sub clockForm_MouseDown(ByRef Button As Integer, ByRef Shift As Integer, ByRef X As Single, ByRef Y As Single)
    On Error GoTo W_MouseDown_Error
 
     frmTimer.tmrScreenResolution.Enabled = False
@@ -4170,8 +4175,12 @@ Public Property Let alarmtoggle1Enabled(ByVal newValue As Boolean)
     '       subroutine populateDigitalClockCache, this checks the current state of the alarm toggle and shows the alarm.
     
     If newValue = True Then
+        gblShowAlarmDateTime = True ' var that allows the stored alarm date/time to be displayed
+
         gblAlarmToggle1Enabled = "True"
-        gblRaisedAlarm = 1
+        gblAlarmTogglePressed = 1
+        gblShowAlarmDateTime = True ' var that allows the stored alarm date/time to be displayed
+
         alarmtoggle1.Move alarmtoggle1Out, alarmtoggle1Top
         Call hideAlarmTills
         fClock.clockForm.Widgets("alarm1till").Widget.Alpha = alphaVal
@@ -4179,12 +4188,18 @@ Public Property Let alarmtoggle1Enabled(ByVal newValue As Boolean)
     
         If gblAlarmFlgRaised = True Then Call deleteRunningAlarms
     
-        gblRaisedAlarm = 0
+        gblAlarmTogglePressed = 0
         gblAlarmToggle1Enabled = "False"
+        gblShowAlarmDateTime = False ' var that allows the stored alarm date/time to be displayed
+
         alarmtoggle1.Move alarmtoggle1In, alarmtoggle1Top
         Call hideAlarmTills
         fClock.clockForm.Widgets("alarm1till").Widget.Alpha = 0
         fClock.clockForm.Widgets("redalarmcover").Widget.Alpha = 0
+        
+        overlayWidget.BaseDate = Now()
+        triggerDigitalClockPopulation = True
+        
     End If
     
     sPutINISetting "Software\SteampunkClockCalendar", "alarmToggle1Enabled", gblAlarmToggle1Enabled, gblSettingsFile
@@ -4198,8 +4213,10 @@ Public Property Let alarmtoggle1Enabled(ByVal newValue As Boolean)
         Call screenWrite("Cancelling Alarm View Mode")
     End If
     
-    triggerDigitalClockPopulation = True
-    overlayWidget.tmrDigitRotator.Enabled = True
+    If gblNumericDisplayRotation = "1" Then
+        triggerDigitalClockPopulation = True
+        overlayWidget.tmrDigitRotator.Enabled = True
+    End If
     
     clockForm.Refresh
      
@@ -4262,7 +4279,9 @@ Public Property Let alarmtoggle2Enabled(ByVal newValue As Boolean)
     
     If newValue = True Then
         gblAlarmToggle2Enabled = "True"
-        gblRaisedAlarm = 2
+        gblAlarmTogglePressed = 2
+        gblShowAlarmDateTime = True ' var that allows the stored alarm date/time to be displayed
+        
         alarmtoggle2.Move alarmtoggle2Out, alarmtoggle2Top
         Call hideAlarmTills
         fClock.clockForm.Widgets("alarm2till").Widget.Alpha = alphaVal
@@ -4271,11 +4290,17 @@ Public Property Let alarmtoggle2Enabled(ByVal newValue As Boolean)
         If gblAlarmFlgRaised = True Then Call deleteRunningAlarms
         
         gblAlarmToggle2Enabled = "False"
-        gblRaisedAlarm = 0
+        gblAlarmTogglePressed = 0
+        gblShowAlarmDateTime = False ' var that allows the stored alarm date/time to be displayed
+        
         alarmtoggle2.Move alarmtoggle2In, alarmtoggle2Top
         Call hideAlarmTills
         fClock.clockForm.Widgets("alarm2till").Widget.Alpha = 0
         fClock.clockForm.Widgets("redalarmcover").Widget.Alpha = 0
+        
+        overlayWidget.BaseDate = Now()
+        triggerDigitalClockPopulation = True
+
     End If
     
     sPutINISetting "Software\SteampunkClockCalendar", "alarmtoggle2Enabled", gblAlarmToggle2Enabled, gblSettingsFile
@@ -4294,8 +4319,11 @@ Public Property Let alarmtoggle2Enabled(ByVal newValue As Boolean)
         Call screenWrite("Cancelling Alarm View Mode")
     End If
     
-    triggerDigitalClockPopulation = True
-    overlayWidget.tmrDigitRotator.Enabled = True
+  
+    If gblNumericDisplayRotation = "1" Then
+        triggerDigitalClockPopulation = True
+        overlayWidget.tmrDigitRotator.Enabled = True
+    End If
     
     clockForm.Refresh
          
@@ -4358,7 +4386,9 @@ Public Property Let alarmtoggle3Enabled(ByVal newValue As Boolean)
     
     If newValue = True Then
         gblAlarmToggle3Enabled = "True"
-        gblRaisedAlarm = 3
+        gblAlarmTogglePressed = 3
+        gblShowAlarmDateTime = True ' var that allows the stored alarm date/time to be displayed
+       
         alarmtoggle3.Move alarmtoggle3Out, alarmtoggle3Top
         Call hideAlarmTills
         fClock.clockForm.Widgets("alarm3till").Widget.Alpha = alphaVal
@@ -4367,11 +4397,17 @@ Public Property Let alarmtoggle3Enabled(ByVal newValue As Boolean)
         If gblAlarmFlgRaised = True Then Call deleteRunningAlarms
         
         gblAlarmToggle3Enabled = "False"
-        gblRaisedAlarm = 0
+        gblAlarmTogglePressed = 0
+        gblShowAlarmDateTime = False ' var that allows the stored alarm date/time to be displayed
+        
         alarmtoggle3.Move alarmtoggle3In, alarmtoggle3Top
         Call hideAlarmTills
         fClock.clockForm.Widgets("alarm3till").Widget.Alpha = 0
         fClock.clockForm.Widgets("redalarmcover").Widget.Alpha = 0
+                        
+        overlayWidget.BaseDate = Now()
+        triggerDigitalClockPopulation = True
+
     End If
     
     sPutINISetting "Software\SteampunkClockCalendar", "alarmtoggle3Enabled", gblAlarmToggle3Enabled, gblSettingsFile
@@ -4385,8 +4421,10 @@ Public Property Let alarmtoggle3Enabled(ByVal newValue As Boolean)
         Call screenWrite("Cancelling Alarm View Mode")
     End If
     
-    triggerDigitalClockPopulation = True
-    overlayWidget.tmrDigitRotator.Enabled = True
+    If gblNumericDisplayRotation = "1" Then
+        triggerDigitalClockPopulation = True
+        overlayWidget.tmrDigitRotator.Enabled = True
+    End If
     
     clockForm.Refresh
      
@@ -4449,7 +4487,9 @@ Public Property Let alarmtoggle4Enabled(ByVal newValue As Boolean)
     
     If newValue = True Then
         gblAlarmToggle4Enabled = "True"
-        gblRaisedAlarm = 4
+        gblAlarmTogglePressed = 4
+        gblShowAlarmDateTime = True ' var that allows the stored alarm date/time to be displayed
+        
         alarmtoggle4.Move alarmtoggle4Out, alarmtoggle4Top
         Call hideAlarmTills
         fClock.clockForm.Widgets("alarm4till").Widget.Alpha = alphaVal
@@ -4458,11 +4498,17 @@ Public Property Let alarmtoggle4Enabled(ByVal newValue As Boolean)
         If gblAlarmFlgRaised = True Then Call deleteRunningAlarms
         
         gblAlarmToggle4Enabled = "False"
-        gblRaisedAlarm = 0
+        gblAlarmTogglePressed = 0
+        gblShowAlarmDateTime = False ' var that allows the stored alarm date/time to be displayed
+        
         alarmtoggle4.Move alarmtoggle4In, alarmtoggle4Top
         Call hideAlarmTills
         fClock.clockForm.Widgets("alarm4till").Widget.Alpha = 0
         fClock.clockForm.Widgets("redalarmcover").Widget.Alpha = 0
+                
+        overlayWidget.BaseDate = Now()
+        triggerDigitalClockPopulation = True
+
     End If
     
     sPutINISetting "Software\SteampunkClockCalendar", "alarmtoggle4Enabled", gblAlarmToggle4Enabled, gblSettingsFile
@@ -4476,8 +4522,10 @@ Public Property Let alarmtoggle4Enabled(ByVal newValue As Boolean)
         Call screenWrite("Cancelling Alarm View Mode")
     End If
     
-    triggerDigitalClockPopulation = True
-    overlayWidget.tmrDigitRotator.Enabled = True
+    If gblNumericDisplayRotation = "1" Then
+        triggerDigitalClockPopulation = True
+        overlayWidget.tmrDigitRotator.Enabled = True
+    End If
     
     clockForm.Refresh
      
@@ -4541,7 +4589,9 @@ Public Property Let alarmtoggle5Enabled(ByVal newValue As Boolean)
     
     If newValue = True Then
         gblAlarmToggle5Enabled = "True"
-        gblRaisedAlarm = 5
+        gblAlarmTogglePressed = 5
+        gblShowAlarmDateTime = True ' var that allows the stored alarm date/time to be displayed
+       
         alarmtoggle5.Move alarmtoggle5Out, alarmtoggle5Top
         Call hideAlarmTills
         fClock.clockForm.Widgets("alarm5till").Widget.Alpha = alphaVal
@@ -4550,11 +4600,17 @@ Public Property Let alarmtoggle5Enabled(ByVal newValue As Boolean)
         If gblAlarmFlgRaised = True Then Call deleteRunningAlarms
         
         gblAlarmToggle5Enabled = "False"
-        gblRaisedAlarm = 0
+        gblAlarmTogglePressed = 0
+        gblShowAlarmDateTime = False ' var that allows the stored alarm date/time to be displayed
+        
         alarmtoggle5.Move alarmtoggle5In, alarmtoggle5Top
         Call hideAlarmTills
         fClock.clockForm.Widgets("alarm5till").Widget.Alpha = 0
         fClock.clockForm.Widgets("redalarmcover").Widget.Alpha = 0
+                        
+        overlayWidget.BaseDate = Now()
+        triggerDigitalClockPopulation = True
+
     End If
     
     sPutINISetting "Software\SteampunkClockCalendar", "alarmtoggle5Enabled", gblAlarmToggle5Enabled, gblSettingsFile
@@ -4568,8 +4624,10 @@ Public Property Let alarmtoggle5Enabled(ByVal newValue As Boolean)
         Call screenWrite("Cancelling Alarm View Mode")
     End If
     
-    triggerDigitalClockPopulation = True
-    overlayWidget.tmrDigitRotator.Enabled = True
+    If gblNumericDisplayRotation = "1" Then
+        triggerDigitalClockPopulation = True
+        overlayWidget.tmrDigitRotator.Enabled = True
+    End If
     
     clockForm.Refresh
      
