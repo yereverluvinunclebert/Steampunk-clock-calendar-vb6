@@ -265,8 +265,9 @@ Private Sub sleepTimer_Timer()
         fClock.clockForm.Refresh
         
         If gblNumericDisplayRotation = "1" Then
+            overlayWidget.BaseDate = Now()
             triggerDigitalClockPopulation = True
-            overlayWidget.tmrDigitRotator.Enabled = True
+            'overlayWidget.tmrDigitRotator.Enabled = True
         End If
         
         overlayWidget.Widget.Parent.Refresh

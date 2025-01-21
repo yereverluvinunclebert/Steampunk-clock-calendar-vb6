@@ -101,7 +101,7 @@ Application_Pathname=%AppDir%\Steampunk Clock Calendar.exe
 RunBeforeInstall=No
 BeforeInstall=,,,1,1,0,
 RunAfterInstall=Yes
-AfterInstall=E:\vb6\Steampunk-clock-calendar-vb6\help\help.chm,,%AppDir%\help,1,0,1,
+AfterInstall=%AppDir%\help\help.chm,,%AppDir%\help,1,0,1,
 RunBeforeUninstall=No
 BeforeUninstall=,,,1,2,1,
 

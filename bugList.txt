@@ -306,8 +306,14 @@ o add now() button logic for all alarms
 ' when selecting a project file VBP to run, allow selection of a different file for TwinBasic and VB6 using the same settings.ini file WIP
 
 ' bugfix to project file selection button
-' when an alarm is not set then it should display the current date, not 1970
 ' alarm toggles now change toggle image dynamically when alarm set
+o changed gblRaisedAlarm to gblAlarmTogglePressed
+o added control and variables to handle Numeric Display Rotation
+o changes in populateDigitalClockCache to handle dates/times in a consistent manner
+o fixed a potential mismatch of values in the tmrClock_TimerRoutine
+o fixed the three quarter hour chiming 1 minute late
+o alarms now display the current time as start time when no alarm set, not 1970
+o added code when un-setting all alarms to specifically reverse the alarm function and display the current time
 
 ' -oOo-
 
@@ -317,6 +323,10 @@ Tasks to do:
 ' add main code to reset to the current time, via a double click on the clock face
 
 ' CHM update and path in the s2g file
+
+' time is now incorrect after a sleep restart - needs testing
+
+' tooltips to the overlay widget
 
 ' when first install
      busytimer still visible
@@ -386,6 +396,10 @@ Tasks to do:
 
 ' create setup.exe with a different name.
 
+' console, retain the complete history in the screen array
+
+' console, allow scroll up and down through the console messages
+
 ' update XML documentation
 
 ' -oOo-
@@ -408,7 +422,7 @@ Tasks to do:
 
 ' recreate the clock imagery using a large scale version of the PSD
 
-subclass the font dialog non-modal pop up to centre it on screen using lpfhook?
+' subclass the font dialog non-modal pop up to centre it on screen using lpfhook?
 
 Static Linking in TB only.
          In TwinBasic static library linking is possible allowing incorporation of DLLs into the misc section and compiling into the finished binary
