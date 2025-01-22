@@ -1717,14 +1717,14 @@ mnuLicence_ClickEvent_Error:
 
 End Sub
 '---------------------------------------------------------------------------------------
-' Procedure : setMainTooltips
+' Procedure : setRichClientTooltips
 ' Author    : beededea
 ' Date      : 15/05/2023
 ' Purpose   : set the tooltips using RichClient tooltips
 '---------------------------------------------------------------------------------------
 '
-Public Sub setMainTooltips()
-   On Error GoTo setMainTooltips_Error
+Public Sub setRichClientTooltips()
+   On Error GoTo setRichClientTooltips_Error
 
     If gblClockTooltips = "1" Then
 
@@ -1739,8 +1739,10 @@ Public Sub setMainTooltips()
         fClock.clockForm.Widgets("lblTerminalText").Widget.ToolTip = "To lower kinematoscope press S toggle. Scroll up the display screen text by double-clicking on it - each time sending a carriage return to the screen."
         fClock.clockForm.Widgets("displayscreentoggle").Widget.ToolTip = "Toggle back screen."
         fClock.clockForm.Widgets("weekdaytoggle").Widget.ToolTip = "Toggle weekday indicator. "
-        fClock.clockForm.Widgets("helpToggle").Widget.ToolTip = "Click me to show the help dropdown canvas."
+        fClock.clockForm.Widgets("helptoggle").Widget.ToolTip = "Click me to show the help dropdown canvas."
+
 '        fClock.clockForm.Widgets("help1toggle").Widget.ToolTip = "Click me to show help dropdown canvas number 2."
+
 '        fClock.clockForm.Widgets("help2toggle").Widget.ToolTip = "Click me to show help dropdown canvas number 3."
         fClock.clockForm.Widgets("help3toggle").Widget.ToolTip = "Click me to show the next help dropdown canvas."
         
@@ -1755,7 +1757,7 @@ Public Sub setMainTooltips()
         fClock.clockForm.Widgets("alarmtoggle3").Widget.ToolTip = "Click to set or view alarm number three."
         fClock.clockForm.Widgets("alarmtoggle4").Widget.ToolTip = "Click to set or view alarm number four. "
         fClock.clockForm.Widgets("alarmtoggle5").Widget.ToolTip = "Click to set or view alarm number five. "
-        fClock.clockForm.Widgets("clapperLeft").Widget.ToolTip = "Chiming is currently enabled, click to mute the clock chimes."
+        fClock.clockForm.Widgets("clapperleft").Widget.ToolTip = "Chiming is currently enabled, click to mute the clock chimes."
         fClock.clockForm.Widgets("clapperright").Widget.ToolTip = "Chiming is currently disabled, click to enable the clock chimes. "
         fClock.clockForm.Widgets("labellayer").Widget.ToolTip = "This is the Widget Help. Click on me to make me go away."
         fClock.clockForm.Widgets("chain").Widget.ToolTip = "Pulling the chain will silence the ticks."
@@ -1773,6 +1775,10 @@ Public Sub setMainTooltips()
         fClock.clockForm.Widgets("redalarmcover").Widget.ToolTip = "Click this alarm flag to delete this alarm."
         fClock.clockForm.Widgets("clockset").Widget.ToolTip = "This is just the analogue clock face, if an alarm is open for editing, clicking here resets the current alarm to the current time."
 
+        fClock.clockForm.Widgets("timedisplay").Widget.ToolTip = "This will display the year in digital alphanumeric form, either the current time or a future alarm time as you require."
+        fClock.clockForm.Widgets("yeardisplay").Widget.ToolTip = "This will display the year in digital alphanumeric form, either the current year or a future alarm year as you require."
+        fClock.clockForm.Widgets("datedisplay").Widget.ToolTip = "This will display the date in digital alphanumeric form, either the current date or a future alarm date as you require."
+        
 '            Case "bellset"
 '                If gblClockTooltips ="1" Then CreateToolTip clockForm.hWnd, "Click here to set or edit an alarm.", _
 '                     TTIconInfo, widgetName & " Alarm Toggle Help", , , , True
@@ -1831,7 +1837,7 @@ Public Sub setMainTooltips()
         fClock.clockForm.Widgets("screenbackground").Widget.ToolTip = vbNullString
         fClock.clockForm.Widgets("displayscreentoggle").Widget.ToolTip = vbNullString
         fClock.clockForm.Widgets("weekdaytoggle").Widget.ToolTip = vbNullString
-        fClock.clockForm.Widgets("helpToggle").Widget.ToolTip = vbNullString
+        fClock.clockForm.Widgets("helptoggle").Widget.ToolTip = vbNullString
 '        fClock.clockForm.Widgets("help1toggle").Widget.ToolTip = vbNullString
 '        fClock.clockForm.Widgets("help2toggle").Widget.ToolTip = vbNullString
         fClock.clockForm.Widgets("help3toggle").Widget.ToolTip = vbNullString
@@ -1847,7 +1853,7 @@ Public Sub setMainTooltips()
         fClock.clockForm.Widgets("alarmtoggle3").Widget.ToolTip = vbNullString
         fClock.clockForm.Widgets("alarmtoggle4").Widget.ToolTip = vbNullString
         fClock.clockForm.Widgets("alarmtoggle5").Widget.ToolTip = vbNullString
-        fClock.clockForm.Widgets("clapperLeft").Widget.ToolTip = vbNullString
+        fClock.clockForm.Widgets("clapperleft").Widget.ToolTip = vbNullString
         fClock.clockForm.Widgets("clapperright").Widget.ToolTip = vbNullString
         fClock.clockForm.Widgets("labellayer").Widget.ToolTip = vbNullString
         fClock.clockForm.Widgets("chain").Widget.ToolTip = vbNullString
@@ -1861,16 +1867,21 @@ Public Sub setMainTooltips()
         fClock.clockForm.Widgets("pendulumtransparent").Widget.ToolTip = vbNullString
         fClock.clockForm.Widgets("glow").Widget.ToolTip = vbNullString
         fClock.clockForm.Widgets("clockset").Widget.ToolTip = vbNullString
-    End If
+        
+        fClock.clockForm.Widgets("timedisplay").Widget.ToolTip = vbNullString
+        fClock.clockForm.Widgets("yeardisplay").Widget.ToolTip = vbNullString
+        fClock.clockForm.Widgets("datedisplay").Widget.ToolTip = vbNullString
+   
+   End If
     
     Call ChangeToolTipWidgetDefaultSettings(Cairo.ToolTipWidget.Widget)
 
    On Error GoTo 0
    Exit Sub
 
-setMainTooltips_Error:
+setRichClientTooltips_Error:
 
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure setMainTooltips of Module Module1"
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure setRichClientTooltips of Module Module1"
 End Sub
 '---------------------------------------------------------------------------------------
 ' Procedure : ChangeToolTipWidgetDefaultSettings

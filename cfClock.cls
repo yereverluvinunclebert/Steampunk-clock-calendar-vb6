@@ -86,8 +86,8 @@ Private WithEvents displayscreentoggle As cWidgetBase
 Attribute displayscreentoggle.VB_VarHelpID = -1
 Private WithEvents weekdaytoggle As cWidgetBase
 Attribute weekdaytoggle.VB_VarHelpID = -1
-Private WithEvents helpToggle As cWidgetBase
-Attribute helpToggle.VB_VarHelpID = -1
+Private WithEvents helptoggle As cWidgetBase
+Attribute helptoggle.VB_VarHelpID = -1
 Private WithEvents help1toggle As cWidgetBase
 Attribute help1toggle.VB_VarHelpID = -1
 Private WithEvents help2toggle As cWidgetBase
@@ -117,8 +117,8 @@ Private WithEvents alarmtoggle4 As cWidgetBase
 Attribute alarmtoggle4.VB_VarHelpID = -1
 Private WithEvents alarmtoggle5 As cWidgetBase
 Attribute alarmtoggle5.VB_VarHelpID = -1
-Private WithEvents clapperLeft As cWidgetBase
-Attribute clapperLeft.VB_VarHelpID = -1
+Private WithEvents clapperleft As cWidgetBase
+Attribute clapperleft.VB_VarHelpID = -1
 Private WithEvents clapperright As cWidgetBase
 Attribute clapperright.VB_VarHelpID = -1
 Private WithEvents labellayer As cWidgetBase
@@ -145,6 +145,12 @@ Private WithEvents glow As cWidgetBase
 Attribute glow.VB_VarHelpID = -1
 Private WithEvents clockset As cWidgetBase
 Attribute clockset.VB_VarHelpID = -1
+Private WithEvents timedisplay As cWidgetBase
+Attribute timedisplay.VB_VarHelpID = -1
+Private WithEvents yeardisplay As cWidgetBase
+Attribute yeardisplay.VB_VarHelpID = -1
+Private WithEvents datedisplay As cWidgetBase
+Attribute datedisplay.VB_VarHelpID = -1
 
 Private lblTerminalText As cwLabel
 
@@ -337,17 +343,22 @@ Public Sub InitFromPSD(ByRef PSD_FileNameOrByteArray As Variant)
         pvtPSDHeight = .Height       'store the original Psd-Pixel-Width/Height in Private vars (as the base from which we calculate the zoomed Form-Width/Height)
     
         For I = 0 To .LayersCount - 1 ' loop through each of the Layers in the PSD
-            If .LayerByteSize(I) Then  ' this is a true Alpha-Surface-Layer and not just a PSD layer 'group'
+            If .LayerByteSize(I) Then  ' check this is a true Alpha-Surface-Layer and not just a PSD layer 'group'
                 If .LayerAlphaPercent(I) > 0 Then ' only handles layers that have an opacity greater than 0 - need to note this for the future, this will cause a problem!
+                    
                     'add each current Layer path and surface object into the global ImageList collection (using LayerPath as the ImageKey)
                     Cairo.ImageList.AddSurface .LayerPath(I), .LayerSurface(I)
                     
-                    If collPSDNonUIElements.Exists(.LayerPath(I)) Then ' we do not create Widgets for those in this exclude list.
+                    ' check if each layer is in the layer exclude list, if it IS then we add it to a collection for non UI elements (ie. do not create Widgets)
+                    If collPSDNonUIElements.Exists(.LayerPath(I)) Then
                         
-                        'we add layer info. (used in cwOverlay) to the "excluded paths" previously defined in Sub Main,
+                        'we add layer info. (used later in cwOverlay) to the excluded layers that will form the overlay.
                         collPSDNonUIElements(.LayerPath(I)) = Array(.LayerX(I), .LayerY(I), someOpacity)  'here we update the so far empty slots with the PSD-offsets
                 
-                    Else 'everything not in the exclude-list will get its own Widget-instance
+                    Else
+                    
+                        'create a widget instance for all layers in the PSD, excluding any layers entered into the exclude-list
+                        
                         Set W = clockForm.Widgets.Add(New cwAlphaImg, LCase$(.LayerPath(I)), .LayerX(I), .LayerY(I), .LayerWidth(I), .LayerHeight(I)).Widget
                         
                         W.ImageKey = W.Key 'W.Key equals ImageList-Key, set above - and LayerPath(i) at this point ... set it also as the ImageKey of our new created Widget
@@ -413,7 +424,7 @@ Public Sub InitFromPSD(ByRef PSD_FileNameOrByteArray As Variant)
     Set displayscreentoggle = clockForm.Widgets("displayscreentoggle").Widget
     Set screenbackground = clockForm.Widgets("screenbackground").Widget
     Set weekdaytoggle = clockForm.Widgets("weekdaytoggle").Widget
-    Set helpToggle = clockForm.Widgets("helptoggle").Widget
+    Set helptoggle = clockForm.Widgets("helptoggle").Widget
     Set help1toggle = clockForm.Widgets("help1toggle").Widget
     Set help2toggle = clockForm.Widgets("help2toggle").Widget
     Set help3toggle = clockForm.Widgets("help3toggle").Widget
@@ -430,7 +441,7 @@ Public Sub InitFromPSD(ByRef PSD_FileNameOrByteArray As Variant)
     Set alarmtoggle4 = clockForm.Widgets("alarmtoggle4").Widget
     Set alarmtoggle5 = clockForm.Widgets("alarmtoggle5").Widget
     
-    Set clapperLeft = clockForm.Widgets("clapperleft").Widget
+    Set clapperleft = clockForm.Widgets("clapperleft").Widget
     Set clapperright = clockForm.Widgets("clapperright").Widget
     Set labellayer = clockForm.Widgets("labellayer").Widget
     Set chain = clockForm.Widgets("chain").Widget
@@ -445,6 +456,11 @@ Public Sub InitFromPSD(ByRef PSD_FileNameOrByteArray As Variant)
     Set pendulumtransparent = clockForm.Widgets("pendulumtransparent").Widget
     Set clockset = clockForm.Widgets("clockset").Widget
     Set glow = clockForm.Widgets("glow").Widget
+    
+    Set timedisplay = clockForm.Widgets("timedisplay").Widget
+    Set yeardisplay = clockForm.Widgets("yeardisplay").Widget
+    Set datedisplay = clockForm.Widgets("datedisplay").Widget
+
     
     On Error GoTo 0
    Exit Sub
@@ -518,6 +534,7 @@ Private Sub clockForm_BubblingEvent(ByRef sender As Object, ByRef EventName As S
             Case "mutetoggle"
                 If gblClockTooltips = "0" Then CreateToolTip clockForm.hWnd, "Mute chimes and ALL sounds on/off.", _
                      TTIconInfo, widgetName & " Mute Toggle Help", , , , True
+                     
             Case "pendulumtoggle"
                 If gblClockTooltips = "0" Then CreateToolTip clockForm.hWnd, "Stop/start the pendulum by clicking on it.", _
                      TTIconInfo, widgetName & " Pendulum Toggle Help", , , , True
@@ -596,11 +613,8 @@ Private Sub clockForm_BubblingEvent(ByRef sender As Object, ByRef EventName As S
                     weekdayred.Alpha = Val(gblOpacity) / 100
                     weekdayred.Refresh
                 End If
-'                With clockForm.Widgets("redalarmcover").Widget
-'                    .Alpha = 0
-'                    .Refresh
-'                End With
-                     
+
+
 
             ' monday - sunday ensuring the weekday till goes red even when hovering over the day text in=mages.
             Case "monday"
@@ -670,6 +684,16 @@ Private Sub clockForm_BubblingEvent(ByRef sender As Object, ByRef EventName As S
                     .Refresh
                 End With
 
+            Case "timedisplay"
+                If gblClockTooltips = "0" Then CreateToolTip clockForm.hWnd, "This will display the time in digital alphanumeric form, either the current time or a future alarm time as you require.", _
+                     TTIconInfo, widgetName & " Date Display Help", , , , True
+            Case "yeardisplay"
+                If gblClockTooltips = "0" Then CreateToolTip clockForm.hWnd, "This will display the year in digital alphanumeric form, either the current year or a future alarm date as you require.", _
+                     TTIconInfo, widgetName & " Date Display Help", , , , True
+            Case "datedisplay"
+                If gblClockTooltips = "0" Then CreateToolTip clockForm.hWnd, "This will display the date in digital alphanumeric form, either the current date or a future alarm date as you require.", _
+                     TTIconInfo, widgetName & " Date Display Help", , , , True
+        
         End Select
     End If
     
@@ -2412,7 +2436,7 @@ Private Sub helpdropdown_myMouseDown()
         clockForm.Widgets("txthelp").Widget.Alpha = 0
         clockForm.Widgets("txtalarm").Widget.Alpha = 0
         clockForm.Widgets("txtlinks").Widget.Alpha = 0
-        helpToggle.Alpha = alphaVal
+        helptoggle.Alpha = alphaVal
         
         clockForm.Refresh
     End If
@@ -2627,7 +2651,7 @@ End Sub
 '                alter the size of the form to correspond to the monitor
 '---------------------------------------------------------------------------------------
 '
-Private Sub clockForm_MouseUp(ByRef Button As Integer, ByRef Shift As Integer, ByRef X As Single, ByRef Y As Single)
+Private Sub clockForm_MouseUp(ByRef Button As Integer, ByRef Shift As Integer, ByRef x As Single, ByRef y As Single)
 
     On Error GoTo clockForm_MouseUp_Error
     
@@ -2662,8 +2686,8 @@ End Sub
 ' Purpose   :
 '---------------------------------------------------------------------------------------
 '
-Private Sub clockForm_MouseMove(ByRef Button As Integer, ByRef Shift As Integer, ByRef X As Single, ByRef Y As Single)
-  Static x0 As Single, y0 As Single: If Button = 0 Then x0 = X: y0 = Y 'just store the offsets when no button is down
+Private Sub clockForm_MouseMove(ByRef Button As Integer, ByRef Shift As Integer, ByRef x As Single, ByRef y As Single)
+  Static x0 As Single, y0 As Single: If Button = 0 Then x0 = x: y0 = y 'just store the offsets when no button is down
   
    On Error GoTo clockForm_MouseMove_Error
     
@@ -2672,8 +2696,8 @@ Private Sub clockForm_MouseMove(ByRef Button As Integer, ByRef Shift As Integer,
 
     If Button = vbLeftButton And Not clockForm.ActiveWidget Is Nothing Then 'Form-Dragging (under certain conditions)
 
-      FX = (X - x0) * clockForm.WidgetRoot.Zoom + clockForm.Left
-      FY = (Y - y0) * clockForm.WidgetRoot.Zoom + clockForm.Top
+      FX = (x - x0) * clockForm.WidgetRoot.Zoom + clockForm.Left
+      FY = (y - y0) * clockForm.WidgetRoot.Zoom + clockForm.Top
       clockForm.Move FX, FY
       
       Debug.Print "FX " & FX
@@ -2763,7 +2787,7 @@ End Sub
 ' Purpose   :
 '---------------------------------------------------------------------------------------
 '
-Private Sub clockForm_MouseDown(ByRef Button As Integer, ByRef Shift As Integer, ByRef X As Single, ByRef Y As Single)
+Private Sub clockForm_MouseDown(ByRef Button As Integer, ByRef Shift As Integer, ByRef x As Single, ByRef y As Single)
    On Error GoTo W_MouseDown_Error
 
     frmTimer.tmrScreenResolution.Enabled = False
@@ -3175,7 +3199,7 @@ Public Property Let clapperEnabled(ByVal newValue As Boolean)
         gblEnableChimes = "1"
         gblClapperEnabled = "True"
         clapperright.Alpha = 0
-        clapperLeft.Alpha = alphaVal
+        clapperleft.Alpha = alphaVal
         If widgetPrefs.IsLoaded = True Then widgetPrefs.chkEnableChimes.Value = 1
         If pvtMuteInitiatingControl = "clapper" Then
                 If gblVolumeBoost = "1" Then
@@ -3192,7 +3216,7 @@ Public Property Let clapperEnabled(ByVal newValue As Boolean)
         gblClapperEnabled = "False"
         'If pvtMuteInitiatingControl = "clapper" Then muteToggleEnabled = True
         clapperright.Alpha = alphaVal
-        clapperLeft.Alpha = 0
+        clapperleft.Alpha = 0
         If widgetPrefs.IsLoaded = True Then widgetPrefs.chkEnableChimes.Value = 0
     End If
     
@@ -4075,7 +4099,7 @@ Public Property Let helpToggleEnabled(ByVal newValue As Boolean)
         Else
             fileToPlay = "rollerblinddown-quiet.wav"
         End If
-        helpToggle.Alpha = 0
+        helptoggle.Alpha = 0
         clockForm.Widgets("woodenbar").Widget.Alpha = alphaVal
         clockForm.Widgets("help1toggle").Widget.Alpha = alphaVal
         clockForm.Widgets("helpdropdown").Widget.Alpha = alphaVal
@@ -4089,7 +4113,7 @@ Public Property Let helpToggleEnabled(ByVal newValue As Boolean)
             fileToPlay = "rollerblindup-quiet.wav"
         End If
     
-        helpToggle.Alpha = alphaVal
+        helptoggle.Alpha = alphaVal
         clockForm.Widgets("woodenbar").Widget.Alpha = 0
         clockForm.Widgets("help1toggle").Widget.Alpha = 0
         clockForm.Widgets("help2toggle").Widget.Alpha = 0

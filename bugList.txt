@@ -315,6 +315,12 @@ o fixed the three quarter hour chiming 1 minute late
 o alarms now display the current time as start time when no alarm set, not 1970
 o added code when un-setting all alarms to specifically reverse the alarm function and display the current time
 
+' CHM update and path in the s2g file
+' added comments to important places
+
+' fix to wake from sleep
+' balloon tooltips to the overlay widget - temporary solution, place items underneath the overlay images and capture the events on those instead.
+
 ' -oOo-
 
 Tasks to do:
@@ -322,18 +328,12 @@ Tasks to do:
 
 ' add main code to reset to the current time, via a double click on the clock face
 
-' CHM update and path in the s2g file
-
-' time is now incorrect after a sleep restart - needs testing
-
-' tooltips to the overlay widget
-
-' when first install
+' on very first install
      busytimer still visible
      swap the crank sounds
      show help on widget start always
      weekday toggle on?
-     screen font size 6pt
+     console screen font size 6pt
      big screens start with DPI ON
      big screens size the prefs larger
      preference size is not saving

@@ -1,4 +1,11 @@
 Attribute VB_Name = "modMain"
+'---------------------------------------------------------------------------------------
+' Module    : modMain
+' Author    : beededea
+' Date      : 22/01/2025
+' Purpose   :
+'---------------------------------------------------------------------------------------
+
 '@IgnoreModule IntegerDataType, ModuleWithoutFolder
 ' clockForm_BubblingEvent ' leaving that here so I can copy/paste to find it
 
@@ -6,7 +13,7 @@ Option Explicit
 
 '------------------------------------------------------ STARTS
 ' for SetWindowPos z-ordering
-Public Declare Function SetWindowPos Lib "user32" (ByVal hWnd As Long, ByVal hWndInsertAfter As Long, ByVal X As Long, ByVal Y As Long, ByVal cx As Long, ByVal cy As Long, ByVal wFlags As Long) As Long
+Public Declare Function SetWindowPos Lib "user32" (ByVal hWnd As Long, ByVal hWndInsertAfter As Long, ByVal x As Long, ByVal y As Long, ByVal cx As Long, ByVal cy As Long, ByVal wFlags As Long) As Long
 
 Public Const HWND_TOP As Long = 0 ' for SetWindowPos z-ordering
 Public Const HWND_TOPMOST As Long = -1
@@ -1016,6 +1023,25 @@ Public Sub adjustMainControls()
         .Tag = 0.01
     End With
     
+    With fClock.clockForm.Widgets("timedisplay").Widget
+        .HoverColor = 0
+        .MousePointer = IDC_HAND
+        .Alpha = Val(gblOpacity) / 100
+        .Tag = 0.01
+    End With
+    With fClock.clockForm.Widgets("yeardisplay").Widget
+        .HoverColor = 0
+        .MousePointer = IDC_HAND
+        .Alpha = Val(gblOpacity) / 100
+        .Tag = 0.01
+    End With
+    With fClock.clockForm.Widgets("datedisplay").Widget
+        .HoverColor = 0
+        .MousePointer = IDC_HAND
+        .Alpha = Val(gblOpacity) / 100
+        .Tag = 0.01
+    End With
+    
     ' set the lock state of the clock
     If gblPreventDragging = "0" Then
         menuForm.mnuLockWidget.Checked = False
@@ -1175,7 +1201,7 @@ Public Sub adjustMainControls()
     Call setAlphaFormZordering
     
     ' set the tooltips on the main screen
-    Call setMainTooltips
+    Call setRichClientTooltips
     
     ' set the hiding time for the hiding timer, can't read the minutes from comboxbox as the prefs isn't yet open
     Call setHidingTime

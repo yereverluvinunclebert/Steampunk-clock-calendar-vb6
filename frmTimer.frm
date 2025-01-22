@@ -262,12 +262,14 @@ Private Sub sleepTimer_Timer()
       
         gblFClockAvailable = True
         Call screenWrite("system has just woken up from a sleep at " & Now() & vbCrLf & "updating digital clocks... ")
+        
+        overlayWidget.BaseDate = Now()
+        triggerDigitalClockPopulation = True
+        
         fClock.clockForm.Refresh
         
         If gblNumericDisplayRotation = "1" Then
-            overlayWidget.BaseDate = Now()
-            triggerDigitalClockPopulation = True
-            'overlayWidget.tmrDigitRotator.Enabled = True
+            overlayWidget.tmrDigitRotator.Enabled = True
         End If
         
         overlayWidget.Widget.Parent.Refresh
