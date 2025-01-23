@@ -216,7 +216,7 @@ Public Sub initAndShowLicenceForm(ByVal x As Long, ByVal y As Long, Optional ByV
         "If you use this software in any way whatsoever then that implies acceptance of the licence. If you do not wish to comply with the licence terms then please remove the download, binary and source code from your systems immediately." & vbCrLf & vbCrLf & _
         "You may use any of my own imagery in your own creations but commercially only with my permission. In all other non-commercial cases I require a credit to the original artist using my name or one of my pseudonyms and a link to my site. With regard to the commercial use of incorporated images, permission and a licence would need to be obtained from the original owner and creator, ie. me."
 
-    lblDeclineOrNot.borderWidth = 0
+    lblDeclineOrNot.BorderWidth = 0
     lblDeclineOrNot.WordWrap = True
     lblDeclineOrNot.Alignment = vbCenter
     lblDeclineOrNot.Widget.BackColor = -1
@@ -248,9 +248,9 @@ Private Sub btnAccept_Click()
     On Error GoTo btnAccept_Click_Error
     
     If gblVolumeBoost = "1" Then
-        fileToPlay = "ting.wav"
+        fileToPlay = "tingting.wav"
     Else
-        fileToPlay = "ting-quiet.wav"
+        fileToPlay = "tingting-quiet.wav"
     End If
     
     If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then

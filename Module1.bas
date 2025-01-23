@@ -2665,16 +2665,16 @@ End Sub
 Public Sub TurnFunctionsOn()
     Dim fileToPlay As String: fileToPlay = vbNullString
 
-   On Error GoTo TurnFunctionsOn_Error
+    On Error GoTo TurnFunctionsOn_Error
    
     overlayWidget.tmrClock.Enabled = True
 
    ' need to add set/get for these public timers
 
     If gblVolumeBoost = "1" Then
-        fileToPlay = "ting.wav"
+        fileToPlay = "tingting.wav"
     Else
-        fileToPlay = "ting-quiet.wav"
+        fileToPlay = "tingting-quiet.wav"
     End If
 
     If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then

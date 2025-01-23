@@ -877,9 +877,9 @@ Private Sub clockset_myDblClick()
     overlayWidget.AlarmSetCurrentDate = True
             
     If gblVolumeBoost = "1" Then
-        fileToPlay = "ting.wav"
+        fileToPlay = "tingting.wav"
     Else
-        fileToPlay = "ting-quiet.wav"
+        fileToPlay = "tingting-quiet.wav"
     End If
 
     If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then

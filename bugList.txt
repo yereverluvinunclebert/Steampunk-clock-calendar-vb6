@@ -321,14 +321,13 @@ o added code when un-setting all alarms to specifically reverse the alarm functi
 ' fix to wake from sleep
 ' balloon tooltips to the overlay widget - temporary solution, place items underneath the overlay images and capture the events on those instead.
 ' swap the crank sounds
-     console screen font size 5pt
+' console screen font size 5pt
+' add main code to reset to the current time, via a double click on the clock face
 
 ' -oOo-
 
 Tasks to do:
 ============
-
-' add main code to reset to the current time, via a double click on the clock face
 
 ' on very first install
      busytimer still visible
