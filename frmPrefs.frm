@@ -6134,181 +6134,181 @@ populatePrefsComboBoxes_Error:
                 
 End Sub
 
-'---------------------------------------------------------------------------------------
-' Procedure : fillComboAlarmMinute
-' Author    : beededea
-' Date      : 31/10/2024
-' Purpose   : add the minute options to the minute combobox
-'---------------------------------------------------------------------------------------
+''---------------------------------------------------------------------------------------
+'' Procedure : fillComboAlarmMinute
+'' Author    : beededea
+'' Date      : 31/10/2024
+'' Purpose   : add the minute options to the minute combobox
+''---------------------------------------------------------------------------------------
+''
+'Private Sub fillComboAlarmMinute(ByRef thisComboBox As ComboBox)
+'    Dim useloop As Integer: useloop = 0
+'    Dim minString As String: minString = vbNullString
 '
-Private Sub fillComboAlarmMinute(ByRef thisComboBox As ComboBox)
-    Dim useloop As Integer: useloop = 0
-    Dim minString As String: minString = vbNullString
-    
-    On Error GoTo fillComboAlarmMinute_Error
-    
-    thisComboBox.AddItem "", 0
-    thisComboBox.ItemData(0) = 0
-    
-    For useloop = 0 To 59
-        minString = CStr(useloop)
-        If useloop <= 9 Then
-            minString = "0" & CStr(useloop)
-        End If
-        thisComboBox.AddItem minString, useloop + 1
-        thisComboBox.ItemData(useloop + 1) = useloop
-        If useloop Mod (5) = 0 Then fClock.RotateBusyTimer = True
-    Next useloop
-   
-    fClock.RotateBusyTimer = True
-       
-   On Error GoTo 0
-   Exit Sub
-
-fillComboAlarmMinute_Error:
-
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure fillComboAlarmMinute of Form widgetPrefs"
-
-End Sub
-
-
-'---------------------------------------------------------------------------------------
-' Procedure : fillComboAlarmHour
-' Author    : beededea
-' Date      : 31/10/2024
-' Purpose   : add the hour options to the hour combobox
-'---------------------------------------------------------------------------------------
+'    On Error GoTo fillComboAlarmMinute_Error
 '
-Private Sub fillComboAlarmHour(ByRef thisComboBox As ComboBox)
-    Dim useloop As Integer: useloop = 0
-    Dim hrsString As String: hrsString = vbNullString
-    
-    On Error GoTo fillComboAlarmHour_Error
-    
-    thisComboBox.AddItem "", 0
-    thisComboBox.ItemData(0) = 0
-        
-    For useloop = 0 To 23
-        hrsString = CStr(useloop)
-        If useloop <= 9 Then
-            hrsString = "0" & CStr(useloop)
-        End If
-        thisComboBox.AddItem hrsString, useloop + 1
-        thisComboBox.ItemData(useloop + 1) = useloop
-    Next useloop
-
-    fClock.RotateBusyTimer = True
-   
-   On Error GoTo 0
-   Exit Sub
-
-fillComboAlarmHour_Error:
-
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure fillComboAlarmHour of Form widgetPrefs"
-
-End Sub
-   
-
-    
-'---------------------------------------------------------------------------------------
-' Procedure : fillComboAlarmYear
-' Author    : beededea
-' Date      : 31/10/2024
-' Purpose   :  add the next hundred year options to the year combobox
-'---------------------------------------------------------------------------------------
+'    thisComboBox.AddItem "", 0
+'    thisComboBox.ItemData(0) = 0
 '
-Private Sub fillComboAlarmYear(ByRef thisComboBox As ComboBox)
-    Dim useloop As Integer: useloop = 0
-
-    On Error GoTo fillComboAlarmYear_Error
-
-    thisComboBox.AddItem "", 0
-    thisComboBox.ItemData(0) = 0
-        
-    For useloop = 1 To 100
-        thisComboBox.AddItem CStr(Year(Now) + useloop - 1), useloop
-        thisComboBox.ItemData(useloop) = Year(Now) + useloop - 1
-        If useloop Mod (10) = 0 Then fClock.RotateBusyTimer = True
-    Next useloop
-
-    fClock.RotateBusyTimer = True
-       
-  On Error GoTo 0
-   Exit Sub
-
-fillComboAlarmYear_Error:
-
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure fillComboAlarmYear of Form widgetPrefs"
-    
-End Sub
-'---------------------------------------------------------------------------------------
-' Procedure : fillComboAlarmDay
-' Author    : beededea
-' Date      : 30/10/2024
-' Purpose   : add the day options to the day combobox
-'---------------------------------------------------------------------------------------
+'    For useloop = 0 To 59
+'        minString = CStr(useloop)
+'        If useloop <= 9 Then
+'            minString = "0" & CStr(useloop)
+'        End If
+'        thisComboBox.AddItem minString, useloop + 1
+'        thisComboBox.ItemData(useloop + 1) = useloop
+'        If useloop Mod (5) = 0 Then fClock.RotateBusyTimer = True
+'    Next useloop
 '
-Private Sub fillComboAlarmDay(ByRef thisComboBox As ComboBox)
-    Dim useloop As Integer: useloop = 0
-    Dim dayString As String: dayString = vbNullString
-    
-    On Error GoTo fillComboAlarmDay_Error
-    
-    thisComboBox.AddItem "", 0
-    thisComboBox.ItemData(0) = 0
-
-    For useloop = 1 To 31
-        dayString = CStr(useloop)
-        If useloop <= 9 Then
-            dayString = "0" & CStr(useloop)
-        End If
-        thisComboBox.AddItem dayString, useloop
-        thisComboBox.ItemData(useloop) = useloop
-        
-        If useloop Mod (5) = 0 Then fClock.RotateBusyTimer = True
-    Next useloop
-   
-    fClock.RotateBusyTimer = True
-       
-   On Error GoTo 0
-   Exit Sub
-
-fillComboAlarmDay_Error:
-
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure fillComboAlarmDay of Form widgetPrefs"
-End Sub
-
-    
-'---------------------------------------------------------------------------------------
-' Procedure : fillComboAlarmMonth
-' Author    : beededea
-' Date      : 31/10/2024
-' Purpose   : add the month options to the month combobox
-'---------------------------------------------------------------------------------------
+'    fClock.RotateBusyTimer = True
 '
-Private Sub fillComboAlarmMonth(ByRef thisComboBox As ComboBox)
-    Dim useloop As Integer: useloop = 0
-
-    On Error GoTo fillComboAlarmMonth_Error
-
-    thisComboBox.AddItem "", 0
-    thisComboBox.ItemData(0) = 0
-    
-    For useloop = 1 To 12
-        thisComboBox.AddItem Left$(MonthName(useloop), 3), useloop
-        thisComboBox.ItemData(useloop) = useloop
-    Next useloop
-
-    fClock.RotateBusyTimer = True
-   
-   On Error GoTo 0
-   Exit Sub
-
-fillComboAlarmMonth_Error:
-
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure fillComboAlarmMonth of Form widgetPrefs"
-    
-End Sub
+'   On Error GoTo 0
+'   Exit Sub
+'
+'fillComboAlarmMinute_Error:
+'
+'    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure fillComboAlarmMinute of Form widgetPrefs"
+'
+'End Sub
+'
+'
+''---------------------------------------------------------------------------------------
+'' Procedure : fillComboAlarmHour
+'' Author    : beededea
+'' Date      : 31/10/2024
+'' Purpose   : add the hour options to the hour combobox
+''---------------------------------------------------------------------------------------
+''
+'Private Sub fillComboAlarmHour(ByRef thisComboBox As ComboBox)
+'    Dim useloop As Integer: useloop = 0
+'    Dim hrsString As String: hrsString = vbNullString
+'
+'    On Error GoTo fillComboAlarmHour_Error
+'
+'    thisComboBox.AddItem "", 0
+'    thisComboBox.ItemData(0) = 0
+'
+'    For useloop = 0 To 23
+'        hrsString = CStr(useloop)
+'        If useloop <= 9 Then
+'            hrsString = "0" & CStr(useloop)
+'        End If
+'        thisComboBox.AddItem hrsString, useloop + 1
+'        thisComboBox.ItemData(useloop + 1) = useloop
+'    Next useloop
+'
+'    fClock.RotateBusyTimer = True
+'
+'   On Error GoTo 0
+'   Exit Sub
+'
+'fillComboAlarmHour_Error:
+'
+'    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure fillComboAlarmHour of Form widgetPrefs"
+'
+'End Sub
+'
+'
+'
+''---------------------------------------------------------------------------------------
+'' Procedure : fillComboAlarmYear
+'' Author    : beededea
+'' Date      : 31/10/2024
+'' Purpose   :  add the next hundred year options to the year combobox
+''---------------------------------------------------------------------------------------
+''
+'Private Sub fillComboAlarmYear(ByRef thisComboBox As ComboBox)
+'    Dim useloop As Integer: useloop = 0
+'
+'    On Error GoTo fillComboAlarmYear_Error
+'
+'    thisComboBox.AddItem "", 0
+'    thisComboBox.ItemData(0) = 0
+'
+'    For useloop = 1 To 100
+'        thisComboBox.AddItem CStr(Year(Now) + useloop - 1), useloop
+'        thisComboBox.ItemData(useloop) = Year(Now) + useloop - 1
+'        If useloop Mod (10) = 0 Then fClock.RotateBusyTimer = True
+'    Next useloop
+'
+'    fClock.RotateBusyTimer = True
+'
+'  On Error GoTo 0
+'   Exit Sub
+'
+'fillComboAlarmYear_Error:
+'
+'    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure fillComboAlarmYear of Form widgetPrefs"
+'
+'End Sub
+''---------------------------------------------------------------------------------------
+'' Procedure : fillComboAlarmDay
+'' Author    : beededea
+'' Date      : 30/10/2024
+'' Purpose   : add the day options to the day combobox
+''---------------------------------------------------------------------------------------
+''
+'Private Sub fillComboAlarmDay(ByRef thisComboBox As ComboBox)
+'    Dim useloop As Integer: useloop = 0
+'    Dim dayString As String: dayString = vbNullString
+'
+'    On Error GoTo fillComboAlarmDay_Error
+'
+'    thisComboBox.AddItem "", 0
+'    thisComboBox.ItemData(0) = 0
+'
+'    For useloop = 1 To 31
+'        dayString = CStr(useloop)
+'        If useloop <= 9 Then
+'            dayString = "0" & CStr(useloop)
+'        End If
+'        thisComboBox.AddItem dayString, useloop
+'        thisComboBox.ItemData(useloop) = useloop
+'
+'        If useloop Mod (5) = 0 Then fClock.RotateBusyTimer = True
+'    Next useloop
+'
+'    fClock.RotateBusyTimer = True
+'
+'   On Error GoTo 0
+'   Exit Sub
+'
+'fillComboAlarmDay_Error:
+'
+'    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure fillComboAlarmDay of Form widgetPrefs"
+'End Sub
+'
+'
+''---------------------------------------------------------------------------------------
+'' Procedure : fillComboAlarmMonth
+'' Author    : beededea
+'' Date      : 31/10/2024
+'' Purpose   : add the month options to the month combobox
+''---------------------------------------------------------------------------------------
+''
+'Private Sub fillComboAlarmMonth(ByRef thisComboBox As ComboBox)
+'    Dim useloop As Integer: useloop = 0
+'
+'    On Error GoTo fillComboAlarmMonth_Error
+'
+'    thisComboBox.AddItem "", 0
+'    thisComboBox.ItemData(0) = 0
+'
+'    For useloop = 1 To 12
+'        thisComboBox.AddItem Left$(MonthName(useloop), 3), useloop
+'        thisComboBox.ItemData(useloop) = useloop
+'    Next useloop
+'
+'    fClock.RotateBusyTimer = True
+'
+'   On Error GoTo 0
+'   Exit Sub
+'
+'fillComboAlarmMonth_Error:
+'
+'    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure fillComboAlarmMonth of Form widgetPrefs"
+'
+'End Sub
     
     
 '---------------------------------------------------------------------------------------
