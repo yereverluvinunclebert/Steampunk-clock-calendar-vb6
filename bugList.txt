@@ -300,7 +300,7 @@ o add now() button logic for all alarms
 ' add visualstyles = false to all controls on the prefs form using beta 645
 ' about text VB6 / Twinbasic wip, check if the PSD is on the e6410. Nope
 
-' if the alarm has a date/time already set, then the alarm set start time should be the current alarm date/time as set - wip
+' if the alarm has a date/time already set, then the alarm set start time should be the current alarm date/time as set
 
 ' add preliminary code to reset to the current time, via a double click on the clock face
 ' when selecting a project file VBP to run, allow selection of a different file for TwinBasic and VB6 using the same settings.ini file WIP
@@ -320,6 +320,8 @@ o added code when un-setting all alarms to specifically reverse the alarm functi
 
 ' fix to wake from sleep
 ' balloon tooltips to the overlay widget - temporary solution, place items underneath the overlay images and capture the events on those instead.
+' swap the crank sounds
+     console screen font size 5pt
 
 ' -oOo-
 
@@ -330,10 +332,8 @@ Tasks to do:
 
 ' on very first install
      busytimer still visible
-     swap the crank sounds
      show help on widget start always
      weekday toggle on?
-     console screen font size 6pt
      big screens start with DPI ON
      big screens size the prefs larger
      preference size is not saving

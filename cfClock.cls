@@ -865,17 +865,31 @@ End Sub
 '---------------------------------------------------------------------------------------
 '
 Private Sub clockset_myDblClick()
+    Dim fileToPlay As String: fileToPlay = vbNullString
 
-   On Error GoTo clockset_myDblClick_Error
+    On Error GoTo clockset_myDblClick_Error
 
    ' if an alarm has been raised
    ' set the base date displayed to the current date/time
-    
+     
     If alarmtoggleEnabled = False Then Exit Sub
     
-    If gblAlarmTogglePressed = 1 Then
-        overlayWidget.BaseDate = Now()
+    overlayWidget.AlarmSetCurrentDate = True
+            
+    If gblVolumeBoost = "1" Then
+        fileToPlay = "ting.wav"
+    Else
+        fileToPlay = "ting-quiet.wav"
     End If
+
+    If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
+        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
+    End If
+
+    overlayWidget.BaseDate = Now()
+    triggerDigitalClockPopulation = True
+
+    clockForm.Refresh
 
    On Error GoTo 0
    Exit Sub
@@ -3347,9 +3361,9 @@ Private Sub crankdown_myMouseDown()
     If gblWidgetFunctions = "0" Or gblIgnoreMouse = "1" Then Exit Sub
     
     If gblVolumeBoost = "1" Then
-        fileToPlay = "crank.wav"
-    Else
         fileToPlay = "crank-quiet.wav"
+    Else
+        fileToPlay = "crank.wav"
     End If
     If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
         PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
@@ -3384,9 +3398,9 @@ Private Sub crankup_myMouseDown()
     If gblWidgetFunctions = "0" Or gblIgnoreMouse = "1" Then Exit Sub
     
     If gblVolumeBoost = "1" Then
-        fileToPlay = "crank.wav"
-    Else
         fileToPlay = "crank-quiet.wav"
+    Else
+        fileToPlay = "crank.wav"
     End If
     If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
         PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
@@ -4201,6 +4215,7 @@ Public Property Let alarmtoggle1Enabled(ByVal newValue As Boolean)
     If newValue = True Then
         gblShowAlarmDateTime = True ' var that allows the stored alarm date/time to be displayed
 
+        overlayWidget.AlarmSetCurrentDate = False
         gblAlarmToggle1Enabled = "True"
         gblAlarmTogglePressed = 1
         gblShowAlarmDateTime = True ' var that allows the stored alarm date/time to be displayed
@@ -4241,6 +4256,7 @@ Public Property Let alarmtoggle1Enabled(ByVal newValue As Boolean)
         triggerDigitalClockPopulation = True
         overlayWidget.tmrDigitRotator.Enabled = True
     End If
+
     
     clockForm.Refresh
      
@@ -4302,6 +4318,7 @@ Public Property Let alarmtoggle2Enabled(ByVal newValue As Boolean)
     '       subroutine populateDigitalClockCache, this checks the current state if the alarm toggle and shows the alarm.
     
     If newValue = True Then
+        overlayWidget.AlarmSetCurrentDate = False
         gblAlarmToggle2Enabled = "True"
         gblAlarmTogglePressed = 2
         gblShowAlarmDateTime = True ' var that allows the stored alarm date/time to be displayed
@@ -4409,6 +4426,7 @@ Public Property Let alarmtoggle3Enabled(ByVal newValue As Boolean)
     '       subroutine populateDigitalClockCache, this checks the current state if the alarm toggle and shows the alarm.
     
     If newValue = True Then
+        overlayWidget.AlarmSetCurrentDate = False
         gblAlarmToggle3Enabled = "True"
         gblAlarmTogglePressed = 3
         gblShowAlarmDateTime = True ' var that allows the stored alarm date/time to be displayed
@@ -4510,6 +4528,7 @@ Public Property Let alarmtoggle4Enabled(ByVal newValue As Boolean)
     '       subroutine populateDigitalClockCache, this checks the current state if the alarm toggle and shows the alarm.
     
     If newValue = True Then
+        overlayWidget.AlarmSetCurrentDate = False
         gblAlarmToggle4Enabled = "True"
         gblAlarmTogglePressed = 4
         gblShowAlarmDateTime = True ' var that allows the stored alarm date/time to be displayed
@@ -4612,6 +4631,7 @@ Public Property Let alarmtoggle5Enabled(ByVal newValue As Boolean)
     '       subroutine populateDigitalClockCache, this checks the current state if the alarm toggle and shows the alarm.
     
     If newValue = True Then
+        overlayWidget.AlarmSetCurrentDate = False
         gblAlarmToggle5Enabled = "True"
         gblAlarmTogglePressed = 5
         gblShowAlarmDateTime = True ' var that allows the stored alarm date/time to be displayed

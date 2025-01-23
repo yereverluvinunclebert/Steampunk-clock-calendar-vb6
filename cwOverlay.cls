@@ -65,6 +65,7 @@ Private mTimeShiftValueSecs As Currency
 Private mTriggerTimeShift As Boolean
 Private mGetFutureTime As String
 Private mSliderEnabled As Boolean
+Private mAlarmSetCurrentDate As Boolean
 
 ' private vars general usage
 
@@ -725,6 +726,53 @@ TriggerTimeShiftLet_Error:
 End Property
  
  
+ 
+  
+ '---------------------------------------------------------------------------------------
+' Property  : AlarmSetCurrentDate
+' Author    : beededea
+' Date      : 17/05/2023
+' Purpose   :
+'---------------------------------------------------------------------------------------
+'
+Public Property Get AlarmSetCurrentDate() As Boolean
+   On Error GoTo AlarmSetCurrentDateGet_Error
+
+   AlarmSetCurrentDate = mAlarmSetCurrentDate
+
+   On Error GoTo 0
+   Exit Property
+
+AlarmSetCurrentDateGet_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property AlarmSetCurrentDate of Class Module cwoverlay"
+End Property
+
+'---------------------------------------------------------------------------------------
+' Property  : AlarmSetCurrentDate
+' Author    : beededea
+' Date      : 10/05/2023
+' Purpose   :
+'---------------------------------------------------------------------------------------
+'
+Public Property Let AlarmSetCurrentDate(ByVal newValue As Boolean)
+   On Error GoTo AlarmSetCurrentDateLet_Error
+   
+   mAlarmSetCurrentDate = newValue
+
+    If mAlarmSetCurrentDate = True Then
+        Call tmrTimeShiftRoutine
+        Call tmrClock_TimerRoutine
+     End If
+
+   On Error GoTo 0
+   Exit Property
+
+AlarmSetCurrentDateLet_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property AlarmSetCurrentDate of Class Module cwoverlay"
+End Property
+
 '---------------------------------------------------------------------------------------
 ' Procedure : drawTimeMachineImages
 ' Author    : beededea
@@ -1326,7 +1374,7 @@ Private Sub populateDigitalClockCache(ByRef CC As cCairoContext)
     If gblShowAlarmDateTime = True Then ' don't always want the stored dates/times to show when setting a new alarm ' replace with a property get/set?
         If gblAlarmToggle1Enabled = "True" Then
             ' read the date and time variables for alarmtoggle1
-            If gblAlarm1Date = "Alarm not yet set" Then
+            If gblAlarm1Date = "Alarm not yet set" Or mAlarmSetCurrentDate = True Then
             
                 dateAndTime = Now()
 
@@ -1338,6 +1386,7 @@ Private Sub populateDigitalClockCache(ByRef CC As cCairoContext)
                 theYear = Mid$(alarmDateString, 7, 4)
                 theHours = Left$(alarmTimeString, 2)
                 theMins = Mid$(alarmTimeString, 4, 2)
+                
             Else
                 theDay = Left$(gblAlarm1Date, 2)
                 theMonth = Mid$(gblAlarm1Date, 4, 2)
@@ -1349,7 +1398,7 @@ Private Sub populateDigitalClockCache(ByRef CC As cCairoContext)
             
         If gblAlarmToggle2Enabled = "True" Then
             ' read the date and time variables for alarmtoggle2
-            If gblAlarm2Date = "Alarm not yet set" Then
+            If gblAlarm2Date = "Alarm not yet set" Or mAlarmSetCurrentDate = True Then
             
                 dateAndTime = Now()
                 
@@ -1372,7 +1421,7 @@ Private Sub populateDigitalClockCache(ByRef CC As cCairoContext)
         
         If gblAlarmToggle3Enabled = "True" Then
             ' read the date and time variables for alarmtoggle3
-            If gblAlarm3Date = "Alarm not yet set" Then
+            If gblAlarm3Date = "Alarm not yet set" Or mAlarmSetCurrentDate = True Then
             
                 dateAndTime = Now()
                 
@@ -1395,7 +1444,7 @@ Private Sub populateDigitalClockCache(ByRef CC As cCairoContext)
         
         If gblAlarmToggle4Enabled = "True" Then
             ' read the date and time variables for alarmtoggle4
-            If gblAlarm4Date = "Alarm not yet set" Then
+            If gblAlarm4Date = "Alarm not yet set" Or mAlarmSetCurrentDate = True Then
             
                 dateAndTime = Now()
                 
@@ -1418,7 +1467,7 @@ Private Sub populateDigitalClockCache(ByRef CC As cCairoContext)
         
         If gblAlarmToggle5Enabled = "True" Then
             ' read the date and time variables for alarmtoggle5
-             If gblAlarm5Date = "Alarm not yet set" Then
+             If gblAlarm5Date = "Alarm not yet set" Or mAlarmSetCurrentDate = True Then
             
                 dateAndTime = Now()
                 
@@ -2285,7 +2334,7 @@ End Sub
 '             For this Overlay-Widget alone, we make everything "fully click-through"
 '---------------------------------------------------------------------------------------------
 '
-Private Sub W_HitTest(ByVal X As Single, ByVal Y As Single, HitResultHit As Boolean) 'ensure ClickThrough-behaviour in ImagePixels which are "fully Alpha"
+Private Sub W_HitTest(ByVal x As Single, ByVal y As Single, HitResultHit As Boolean) 'ensure ClickThrough-behaviour in ImagePixels which are "fully Alpha"
    On Error GoTo W_HitTest_Error
 
    HitResultHit = False
