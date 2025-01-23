@@ -1773,7 +1773,7 @@ Public Sub setRichClientTooltips()
         fClock.clockForm.Widgets("lockingpinlocked").Widget.ToolTip = "Click here to unlock the clock and make it moveable using mouse. "
         fClock.clockForm.Widgets("lockingpin").Widget.ToolTip = "Click here to lock the clock in place on the desktop."
         fClock.clockForm.Widgets("redalarmcover").Widget.ToolTip = "Click this alarm flag to delete this alarm."
-        fClock.clockForm.Widgets("clockset").Widget.ToolTip = "This is just the analogue clock face, if an alarm is open for editing, clicking here resets the current alarm to the current time."
+        fClock.clockForm.Widgets("clockset").Widget.ToolTip = "This is just the analogue clock face, if an alarm is open for editing, double-clicking here resets the current alarm to the current time."
 
         fClock.clockForm.Widgets("timedisplay").Widget.ToolTip = "This will display the year in digital alphanumeric form, either the current time or a future alarm time as you require."
         fClock.clockForm.Widgets("yeardisplay").Widget.ToolTip = "This will display the year in digital alphanumeric form, either the current year or a future alarm year as you require."

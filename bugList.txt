@@ -323,11 +323,16 @@ o added code when un-setting all alarms to specifically reverse the alarm functi
 ' swap the crank sounds
 ' console screen font size 5pt
 ' add main code to reset to the current time, via a double click on the clock face
+' ting and tingting added
 
 ' -oOo-
 
 Tasks to do:
 ============
+
+' preference size is not saving
+
+' speed up population of the comboboxes by doing it at design time 
 
 ' on very first install
      busytimer still visible
@@ -335,11 +340,13 @@ Tasks to do:
      weekday toggle on?
      big screens start with DPI ON
      big screens size the prefs larger
-     preference size is not saving
 
-     in help mode don't force the weekday toggle, simply check the enabled value first, enable it temporarily and then disable it when the help is closed if it needs to be closed.
 
-' speed up population of the comboboxes by doing it at design time
+' clockform.refresh or overlaywidget.refresh?
+
+' test for alpha = 0 on all widget events and avoid responding when value is zero.
+
+' in help mode don't force the weekday toggle, simply check the enabled value first, enable it temporarily and then disable it when the help is closed if it needs to be closed.
 
 ' weekday till flag, the text 'only' sometimes doubles up, possibly after a refresh after midnight when the till has been showing - identify the scenario
 '     the weekday had not changed overnight and the previous transparent day indicator was left on screen, pressing the weekday toggle caused the new weekday

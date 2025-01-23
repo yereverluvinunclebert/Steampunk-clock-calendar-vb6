@@ -539,7 +539,7 @@ Private Sub clockForm_BubblingEvent(ByRef sender As Object, ByRef EventName As S
                 If gblClockTooltips = "0" Then CreateToolTip clockForm.hWnd, "Stop/start the pendulum by clicking on it.", _
                      TTIconInfo, widgetName & " Pendulum Toggle Help", , , , True
             Case "clockset"
-                If gblClockTooltips = "0" Then CreateToolTip clockForm.hWnd, "This is just the analogue clock face, if an alarm is open for editing, clicking here resets the current alarm to the current time.", _
+                If gblClockTooltips = "0" Then CreateToolTip clockForm.hWnd, "This is just the analogue clock face, if an alarm is open for editing, double-clicking here resets the current alarm to the current time.", _
                      TTIconInfo, widgetName & " Clock face Help", , , , True
             Case "pendulumtransparent"
                 If gblClockTooltips = "0" Then CreateToolTip clockForm.hWnd, "Stop/start the pendulum.", _
