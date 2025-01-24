@@ -333,21 +333,21 @@ o added code when un-setting all alarms to specifically reverse the alarm functi
 ' added balloon tooltip text to the now() alarm buttons.   
 ' weekday toggle on?
 ' always show help on widget first start
-' preference size is not saving
+' when switching from low to high DPI the prefs left position is lost and should be recalculated
+
 
 ' -oOo-
 
 Tasks to do:
 ============
 
-' size of the clockForm as a proportion of the screen size
-
 ' on very first install
-
+     preference size is not saving
      big screens start with DPI ON
      size of the prefs as a proportion of the screen size
+     size of the clockForm as a proportion of the screen size
 
-' when switching from low to high DPI the prefs left position is lost and should be recalculated
+
 
 ' clockform.refresh or overlaywidget.refresh?
 
