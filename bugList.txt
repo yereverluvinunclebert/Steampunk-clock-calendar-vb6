@@ -330,7 +330,10 @@ o added code when un-setting all alarms to specifically reverse the alarm functi
 ' preference position on first run fixed. Now centred.
 ' clockform now a decent size on startup 100%
 ' moved hideBusyTimer to a public location, called in mainRoutine
-' added balloon tooltip text to the now() alarm buttons.
+' added balloon tooltip text to the now() alarm buttons.   
+' weekday toggle on?
+' always show help on widget first start
+' preference size is not saving
 
 ' -oOo-
 
@@ -339,18 +342,12 @@ Tasks to do:
 
 ' size of the clockForm as a proportion of the screen size
 
-' preference size is not saving
-
 ' on very first install
-     busytimer still visible
-     always show help on widget first start
-     weekday toggle on?
+
      big screens start with DPI ON
-     big screens size the prefs larger
-     
+     size of the prefs as a proportion of the screen size
 
-
-' size of the prefs as a proportion of the screen size
+' when switching from low to high DPI the prefs left position is lost and should be recalculated
 
 ' clockform.refresh or overlaywidget.refresh?
 

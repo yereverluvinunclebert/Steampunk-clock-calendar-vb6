@@ -13,7 +13,7 @@ Option Explicit
 
 '------------------------------------------------------ STARTS
 ' for SetWindowPos z-ordering
-Public Declare Function SetWindowPos Lib "user32" (ByVal hWnd As Long, ByVal hWndInsertAfter As Long, ByVal x As Long, ByVal y As Long, ByVal cx As Long, ByVal cy As Long, ByVal wFlags As Long) As Long
+Public Declare Function SetWindowPos Lib "user32" (ByVal hWnd As Long, ByVal hWndInsertAfter As Long, ByVal X As Long, ByVal Y As Long, ByVal cx As Long, ByVal cy As Long, ByVal wFlags As Long) As Long
 
 Public Const HWND_TOP As Long = 0 ' for SetWindowPos z-ordering
 Public Const HWND_TOPMOST As Long = -1
@@ -1440,7 +1440,7 @@ Public Sub validateInputs()
         If gblPrefsTooltips = vbNullString Then gblPrefsTooltips = "0"
         
         If gblShowTaskbar = vbNullString Then gblShowTaskbar = "0"
-        If gblShowHelp = vbNullString Then gblShowHelp = "0"
+        If gblShowHelp = vbNullString Then gblShowHelp = "1"
         If gblTogglePendulum = vbNullString Then gblTogglePendulum = "0"
         If gbl24HourClockMode = vbNullString Then gbl24HourClockMode = "1"
         
@@ -1514,7 +1514,7 @@ Public Sub validateInputs()
         If gblPendulumEnabled = vbNullString Then gblPendulumEnabled = "False"
         
         
-        If gblWeekdayToggleEnabled = vbNullString Then gblWeekdayToggleEnabled = "False"
+        If gblWeekdayToggleEnabled = vbNullString Then gblWeekdayToggleEnabled = "True"
         If gblDisplayScreenToggleEnabled = vbNullString Then gblDisplayScreenToggleEnabled = "True"
         If gblTimeMachineToggleEnabled = vbNullString Then gblTimeMachineToggleEnabled = "False"
         If gblBackToggleEnabled = vbNullString Then gblBackToggleEnabled = "True"
