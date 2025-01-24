@@ -3593,7 +3593,7 @@ Private Sub Form_Load()
 
     On Error GoTo Form_Load_Error
     
-    'Me.Show
+    Me.Visible = False
         
     prefsStartupFlg = True ' this is used to prevent some control initialisations from running code at startup
     prefsDynamicSizingFlg = False
@@ -3674,8 +3674,8 @@ Private Sub Form_Load()
     ' set the height of the whole form not higher than the screen size, cause a form_resize event
     If gblDpiAwareness = "1" Then
         gblPrefsFormResizedInCode = True
-        If prefsFormHeight < physicalScreenHeightTwips Then
-            widgetPrefs.Height = prefsFormHeight ' 16450
+        If gblPrefsPrimaryHeightTwips < physicalScreenHeightTwips Then
+            widgetPrefs.Height = CLng(gblPrefsPrimaryHeightTwips) ' 16450
         Else
             widgetPrefs.Height = physicalScreenHeightTwips - 1000
         End If
@@ -5569,6 +5569,8 @@ Private Sub adjustPrefsControls(Optional ByVal restart As Boolean)
     
     ' note the monitor ID at PrefsForm form_load and store as the prefsFormMonitorID
     'prefsMonitorStruct = formScreenProperties(widgetPrefs, prefsFormMonitorID)
+    
+    widgetPrefs.Height = CLng(gblPrefsPrimaryHeightTwips)
             
     ' general tab
     chkWidgetFunctions.Value = Val(gblWidgetFunctions)
@@ -6450,6 +6452,8 @@ Public Sub PrefsForm_resize()
     End If
     
     gblPrefsFormResizedInCode = False
+    
+    Call writePrefsPosition
     
     'lblSize.Caption = "topIconWidth = " & topIconWidth & " imgGeneral width = " & imgGeneral.Width
 

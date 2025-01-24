@@ -334,7 +334,8 @@ o added code when un-setting all alarms to specifically reverse the alarm functi
 ' weekday toggle on?
 ' always show help on widget first start
 ' when switching from low to high DPI the prefs left position is lost and should be recalculated
-
+' after very first install preference size is not saving
+' resize before prefs is visible prevents user observing the resize event.
 
 ' -oOo-
 
@@ -342,12 +343,9 @@ Tasks to do:
 ============
 
 ' on very first install
-     preference size is not saving
      big screens start with DPI ON
-     size of the prefs as a proportion of the screen size
-     size of the clockForm as a proportion of the screen size
-
-
+     if big screen and high DPI ON then size of the prefs as a proportion of the screen size
+     if big screen then size of the clockForm as a proportion of the screen size
 
 ' clockform.refresh or overlaywidget.refresh?
 

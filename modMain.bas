@@ -165,7 +165,11 @@ Public Sub mainRoutine(ByVal restart As Boolean)
     End If
         
     'load the preferences form but don't yet show it, speeds up access to the prefs via the menu
-    If widgetPrefs.IsLoaded = False Then Load widgetPrefs
+    If widgetPrefs.IsLoaded = False Then
+        Load widgetPrefs
+        gblPrefsFormResizedInCode = True
+        Call widgetPrefs.PrefsForm_resize
+    End If
     
     'load the message form but don't yet show it, speeds up access to the message form when needed.
     Load frmMessage
