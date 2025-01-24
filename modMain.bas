@@ -183,6 +183,9 @@ Public Sub mainRoutine(ByVal restart As Boolean)
     clockMonitorStruct = cWidgetFormScreenProperties(fClock.clockForm, clockFormMonitorID)
     oldClockFormMonitorPrimary = clockMonitorStruct.IsPrimary
     
+    ' make the busy sand timer invisible
+    Call hideBusyTimer
+    
     startupFlg = False
         
     ' RC message pump will auto-exit when Cairo Forms > 0 so we run it only when 0, this prevents message interruption
@@ -1442,7 +1445,7 @@ Public Sub validateInputs()
         If gbl24HourClockMode = vbNullString Then gbl24HourClockMode = "1"
         
         If gblDpiAwareness = vbNullString Then gblDpiAwareness = "0"
-        If gblGaugeSize = vbNullString Then gblGaugeSize = "25"
+        If gblGaugeSize = vbNullString Then gblGaugeSize = "100"
         If gblScrollWheelDirection = vbNullString Then gblScrollWheelDirection = "1"
         If gblNumericDisplayRotation = vbNullString Then gblNumericDisplayRotation = "1"
                

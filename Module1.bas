@@ -2950,3 +2950,37 @@ fDayOfWeek_Error:
 End Function
 
 
+'---------------------------------------------------------------------------------------
+' Procedure : hideBusyTimer
+' Author    : beededea
+' Date      : 03/01/2025
+' Purpose   :
+'---------------------------------------------------------------------------------------
+'
+Public Sub hideBusyTimer()
+
+   On Error GoTo hideBusyTimer_Error
+
+    fClock.clockForm.Widgets("busy1").Widget.Alpha = 0
+    fClock.clockForm.Widgets("busy2").Widget.Alpha = 0
+    fClock.clockForm.Widgets("busy3").Widget.Alpha = 0
+    fClock.clockForm.Widgets("busy4").Widget.Alpha = 0
+    fClock.clockForm.Widgets("busy5").Widget.Alpha = 0
+    fClock.clockForm.Widgets("busy6").Widget.Alpha = 0
+    
+    fClock.clockForm.Widgets("busy1").Widget.Refresh
+    fClock.clockForm.Widgets("busy2").Widget.Refresh
+    fClock.clockForm.Widgets("busy3").Widget.Refresh
+    fClock.clockForm.Widgets("busy4").Widget.Refresh
+    fClock.clockForm.Widgets("busy5").Widget.Refresh
+    fClock.clockForm.Widgets("busy6").Widget.Refresh
+
+   On Error GoTo 0
+   Exit Sub
+
+hideBusyTimer_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure hideBusyTimer of Form widgetPrefs"
+    
+End Sub
+

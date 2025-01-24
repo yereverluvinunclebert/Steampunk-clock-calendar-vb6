@@ -327,10 +327,17 @@ o added code when un-setting all alarms to specifically reverse the alarm functi
 
 ' speed up population of the comboboxes by doing it at design time
 
+' preference position on first run fixed. Now centred.
+' clockform now a decent size on startup 100%
+' moved hideBusyTimer to a public location, called in mainRoutine
+' added balloon tooltip text to the now() alarm buttons.
+
 ' -oOo-
 
 Tasks to do:
 ============
+
+' size of the clockForm as a proportion of the screen size
 
 ' preference size is not saving
 
@@ -342,8 +349,8 @@ Tasks to do:
      big screens size the prefs larger
      
 
-' size of the clockForm as a proportion of the screen size
-' size of the clockForm as a proportion of the screen size
+
+' size of the prefs as a proportion of the screen size
 
 ' clockform.refresh or overlaywidget.refresh?
 
