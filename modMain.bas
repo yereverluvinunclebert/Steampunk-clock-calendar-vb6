@@ -104,7 +104,6 @@ Public Sub mainRoutine(ByVal restart As Boolean)
     
     ' resolve VB6 sizing width bug
     Call determineScreenDimensions
-    gblPrefsPrimaryHeightTwips = 1000 * screenTwipsPerPixelY
     
     extractCommand = Command$ ' capture any parameter passed, remove if a soft reload
     If restart = True Then extractCommand = vbNullString
@@ -1431,6 +1430,8 @@ Public Sub validateInputs()
         If gblClockTooltips = "False" Then gblClockTooltips = "0"
         If gblClockTooltips = vbNullString Then gblClockTooltips = "0"
         
+
+
         'If gblEnablePrefsTooltips = vbNullString Then gblEnablePrefsTooltips = "false"
         If gblPrefsTooltips = "False" Then gblPrefsTooltips = "0"
         If gblPrefsTooltips = vbNullString Then gblPrefsTooltips = "0"
@@ -1513,10 +1514,10 @@ Public Sub validateInputs()
         If gblWeekdayToggleEnabled = vbNullString Then gblWeekdayToggleEnabled = "False"
         If gblDisplayScreenToggleEnabled = vbNullString Then gblDisplayScreenToggleEnabled = "True"
         If gblTimeMachineToggleEnabled = vbNullString Then gblTimeMachineToggleEnabled = "False"
-        If gblBackToggleEnabled = vbNullString Then gblBackToggleEnabled = "False"
+        If gblBackToggleEnabled = vbNullString Then gblBackToggleEnabled = "True"
         If gblClapperEnabled = vbNullString Then gblClapperEnabled = "True"
         If gblChainEnabled = vbNullString Then gblChainEnabled = "True"
-        If gblCrankEnabled = vbNullString Then gblCrankEnabled = "True"
+        If gblCrankEnabled = vbNullString Then gblCrankEnabled = "False"
         If gblAlarmToggle1Enabled = vbNullString Then gblAlarmToggle1Enabled = "False"
         If gblAlarmToggle2Enabled = vbNullString Then gblAlarmToggle2Enabled = "False"
         If gblAlarmToggle3Enabled = vbNullString Then gblAlarmToggle3Enabled = "False"

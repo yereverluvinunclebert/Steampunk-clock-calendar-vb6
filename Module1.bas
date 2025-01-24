@@ -2471,38 +2471,45 @@ Public Sub readPrefsPosition()
         gblPrefsHighDpiXPosTwips = fGetINISetting("Software\SteampunkClockCalendar", "formHighDpiXPosTwips", gblSettingsFile)
         gblPrefsHighDpiYPosTwips = fGetINISetting("Software\SteampunkClockCalendar", "formHighDpiYPosTwips", gblSettingsFile)
         
-'        ' if a current location not stored then position to the middle of the screen
-'        If gblPrefsHighDpiXPosTwips <> "" Then
-'            widgetPrefs.Left = Val(gblPrefsHighDpiXPosTwips)
-'        Else
-'            widgetPrefs.Left = physicalScreenWidthTwips / 2 - widgetPrefs.Width / 2
-'        End If
-'
-'        If gblPrefsHighDpiYPosTwips <> "" Then
-'            widgetPrefs.Top = Val(gblPrefsHighDpiYPosTwips)
-'        Else
-'            widgetPrefs.Top = Screen.Height / 2 - widgetPrefs.Height / 2
-'        End If
+        ' if a current location not stored then position to the middle of the screen
+        If gblPrefsHighDpiXPosTwips <> "" Then
+            widgetPrefs.Left = Val(gblPrefsHighDpiXPosTwips)
+        Else
+            widgetPrefs.Left = physicalScreenWidthTwips / 2 - widgetPrefs.Width / 2
+        End If
+
+        If gblPrefsHighDpiYPosTwips <> "" Then
+            widgetPrefs.Top = Val(gblPrefsHighDpiYPosTwips)
+        Else
+            widgetPrefs.Top = Screen.Height / 2 - widgetPrefs.Height / 2
+        End If
     Else
         gblPrefsLowDpiXPosTwips = fGetINISetting("Software\SteampunkClockCalendar", "formLowDpiXPosTwips", gblSettingsFile)
         gblPrefsLowDpiYPosTwips = fGetINISetting("Software\SteampunkClockCalendar", "formLowDpiYPosTwips", gblSettingsFile)
+              
+        ' if a current location not stored then position to the middle of the screen
+        If gblPrefsLowDpiXPosTwips <> "" Then
+            widgetPrefs.Left = Val(gblPrefsLowDpiXPosTwips)
+        Else
+            widgetPrefs.Left = physicalScreenWidthTwips / 2 - widgetPrefs.Width / 2
+        End If
         
-'        ' if a current location not stored then position to the middle of the screen
-'        If gblPrefsLowDpiXPosTwips <> "" Then
-'            widgetPrefs.Left = Val(gblPrefsLowDpiXPosTwips)
-'        Else
-'            widgetPrefs.Left = physicalScreenWidthTwips / 2 - widgetPrefs.Width / 2
-'        End If
-'
-'        If gblPrefsLowDpiYPosTwips <> "" Then
-'            widgetPrefs.Top = Val(gblPrefsLowDpiYPosTwips)
-'        Else
-'            widgetPrefs.Top = Screen.Height / 2 - widgetPrefs.Height / 2
-'        End If
+        gblPrefsLowDpiXPosTwips = widgetPrefs.Left
+
+        If gblPrefsLowDpiYPosTwips <> "" Then
+            widgetPrefs.Top = Val(gblPrefsLowDpiYPosTwips)
+        Else
+            widgetPrefs.Top = Screen.Height / 2 - widgetPrefs.Height / 2
+        End If
+        
+        gblPrefsLowDpiYPosTwips = widgetPrefs.Top
     End If
         
     gblPrefsPrimaryHeightTwips = fGetINISetting("Software\SteampunkClockCalendar", "prefsPrimaryHeightTwips", gblSettingsFile)
     gblPrefsSecondaryHeightTwips = fGetINISetting("Software\SteampunkClockCalendar", "prefsSecondaryHeightTwips", gblSettingsFile)
+        
+    If gblPrefsPrimaryHeightTwips = "" Then gblPrefsPrimaryHeightTwips = CStr(1000 * screenTwipsPerPixelY)
+    
     
    On Error GoTo 0
    Exit Sub

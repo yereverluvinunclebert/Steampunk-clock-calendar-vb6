@@ -325,6 +325,8 @@ o added code when un-setting all alarms to specifically reverse the alarm functi
 ' add main code to reset to the current time, via a double click on the clock face
 ' ting and tingting added
 
+' speed up population of the comboboxes by doing it at design time
+
 ' -oOo-
 
 Tasks to do:
@@ -332,15 +334,16 @@ Tasks to do:
 
 ' preference size is not saving
 
-' speed up population of the comboboxes by doing it at design time 
-
 ' on very first install
      busytimer still visible
-     show help on widget start always
+     always show help on widget first start
      weekday toggle on?
      big screens start with DPI ON
      big screens size the prefs larger
+     
 
+' size of the clockForm as a proportion of the screen size
+' size of the clockForm as a proportion of the screen size
 
 ' clockform.refresh or overlaywidget.refresh?
 
