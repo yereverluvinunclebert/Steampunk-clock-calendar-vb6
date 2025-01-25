@@ -2667,7 +2667,7 @@ End Sub
 '                alter the size of the form to correspond to the monitor
 '---------------------------------------------------------------------------------------
 '
-Private Sub clockForm_MouseUp(ByRef Button As Integer, ByRef Shift As Integer, ByRef X As Single, ByRef Y As Single)
+Private Sub clockForm_MouseUp(ByRef Button As Integer, ByRef Shift As Integer, ByRef x As Single, ByRef y As Single)
 
     On Error GoTo clockForm_MouseUp_Error
     
@@ -2702,8 +2702,8 @@ End Sub
 ' Purpose   :
 '---------------------------------------------------------------------------------------
 '
-Private Sub clockForm_MouseMove(ByRef Button As Integer, ByRef Shift As Integer, ByRef X As Single, ByRef Y As Single)
-  Static x0 As Single, y0 As Single: If Button = 0 Then x0 = X: y0 = Y 'just store the offsets when no button is down
+Private Sub clockForm_MouseMove(ByRef Button As Integer, ByRef Shift As Integer, ByRef x As Single, ByRef y As Single)
+  Static x0 As Single, y0 As Single: If Button = 0 Then x0 = x: y0 = y 'just store the offsets when no button is down
   
    On Error GoTo clockForm_MouseMove_Error
     
@@ -2712,8 +2712,8 @@ Private Sub clockForm_MouseMove(ByRef Button As Integer, ByRef Shift As Integer,
 
     If Button = vbLeftButton And Not clockForm.ActiveWidget Is Nothing Then 'Form-Dragging (under certain conditions)
 
-      FX = (X - x0) * clockForm.WidgetRoot.Zoom + clockForm.Left
-      FY = (Y - y0) * clockForm.WidgetRoot.Zoom + clockForm.Top
+      FX = (x - x0) * clockForm.WidgetRoot.Zoom + clockForm.Left
+      FY = (y - y0) * clockForm.WidgetRoot.Zoom + clockForm.Top
       clockForm.Move FX, FY
       
       Debug.Print "FX " & FX
@@ -2803,7 +2803,7 @@ End Sub
 ' Purpose   :
 '---------------------------------------------------------------------------------------
 '
-Private Sub clockForm_MouseDown(ByRef Button As Integer, ByRef Shift As Integer, ByRef X As Single, ByRef Y As Single)
+Private Sub clockForm_MouseDown(ByRef Button As Integer, ByRef Shift As Integer, ByRef x As Single, ByRef y As Single)
    On Error GoTo W_MouseDown_Error
 
     frmTimer.tmrScreenResolution.Enabled = False

@@ -72,6 +72,7 @@ Private rcVS         As RECT 'coordinates for Virtual Screen
 ' vars to obtain correct screen width (to correct VB6 bug) STARTS
 Public Const HORZRES As Integer = 8
 Public Const VERTRES As Integer = 10
+Public Const DESKTOPHORZRES As Integer = &H76
 
 Public screenTwipsPerPixelX As Long ' .07 DAEB 26/04/2021 common.bas changed to use pixels alone, removed all unnecessary twip conversion
 Public screenTwipsPerPixelY As Long ' .07 DAEB 26/04/2021 common.bas changed to use pixels alone, removed all unnecessary twip conversion
@@ -89,14 +90,22 @@ Public screenTwipsPerPixelY As Long ' .07 DAEB 26/04/2021 common.bas changed to 
 '
 Public Function fPixelsPerInchX() As Long
     Dim hDC As Long: hDC = 0
+    Dim virtualWidth As Long: virtualWidth = 0
+    Dim physicalWidth As Long: physicalWidth = 0
     
-    Const LOGPIXELSX As Integer = 88       '  Logical pixels/inch in X
+    Const ninetysix As Double = 96
+    'Const LOGPIXELSX As Integer = 88       '  Logical pixels/inch in X
 
     On Error GoTo fPixelsPerInchX_Error
     
     hDC = GetDC(0)
     If hDC <> 0 Then
-        fPixelsPerInchX = GetDeviceCaps(hDC, LOGPIXELSX)
+        'fPixelsPerInchX = GetDeviceCaps(hDC, LOGPIXELSX) ' always returns 96DPI
+        
+        virtualWidth = GetDeviceCaps(hDC, HORZRES)
+        physicalWidth = GetDeviceCaps(hDC, DESKTOPHORZRES)
+
+        fPixelsPerInchX = (96 * physicalWidth / virtualWidth)
         ReleaseDC 0, hDC
     End If
 

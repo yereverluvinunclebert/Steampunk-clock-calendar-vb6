@@ -743,13 +743,15 @@ End Sub
 ' Procedure : testDPIAndSetInitialAwareness
 ' Author    : beededea
 ' Date      : 29/10/2023
-' Purpose   :
+' Purpose   : if screen width in pixels is greater than 2160 then set high DPI by default
 '---------------------------------------------------------------------------------------
 '
 Public Sub testDPIAndSetInitialAwareness()
     On Error GoTo testDPIAndSetInitialAwareness_Error
 
-    If fPixelsPerInchX() > 96 Then ' only DPI aware by default when greater than 'standard'
+    'If fPixelsPerInchX() > 96 Then ' always seems to provide 96, no matter what I do.
+    
+     If physicalScreenWidthPixels > 1960 Then
         gblDpiAwareness = "1"
         Call setDPIaware
     End If

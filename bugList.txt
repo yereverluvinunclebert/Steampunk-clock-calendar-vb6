@@ -337,15 +337,15 @@ o added code when un-setting all alarms to specifically reverse the alarm functi
 ' after very first install preference size is not saving
 ' resize before prefs is visible prevents user observing the resize event.
 
+' big screens start with DPI ON
+' on very first install if big screen then size of the clockForm as a proportion of the screen size
+
 ' -oOo-
 
 Tasks to do:
 ============
 
-' on very first install
-     big screens start with DPI ON
-     if big screen and high DPI ON then size of the prefs as a proportion of the screen size
-     if big screen then size of the clockForm as a proportion of the screen size
+' on very first install if big screen and high DPI ON then size of the prefs as a proportion of the screen size
 
 ' clockform.refresh or overlaywidget.refresh?
 

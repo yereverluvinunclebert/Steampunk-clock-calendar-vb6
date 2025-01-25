@@ -13,7 +13,7 @@ Option Explicit
 
 '------------------------------------------------------ STARTS
 ' for SetWindowPos z-ordering
-Public Declare Function SetWindowPos Lib "user32" (ByVal hWnd As Long, ByVal hWndInsertAfter As Long, ByVal X As Long, ByVal Y As Long, ByVal cx As Long, ByVal cy As Long, ByVal wFlags As Long) As Long
+Public Declare Function SetWindowPos Lib "user32" (ByVal hWnd As Long, ByVal hWndInsertAfter As Long, ByVal x As Long, ByVal y As Long, ByVal cx As Long, ByVal cy As Long, ByVal wFlags As Long) As Long
 
 Public Const HWND_TOP As Long = 0 ' for SetWindowPos z-ordering
 Public Const HWND_TOPMOST As Long = -1
@@ -150,7 +150,7 @@ Public Sub mainRoutine(ByVal restart As Boolean)
     Call makeVisibleFormElements
         
     ' run the functions that are also called at reload time.
-    Call adjustMainControls ' this needs to be here after the initialisation of the Cairo forms and widgets
+    Call adjustMainControls(licenceState) ' this needs to be here after the initialisation of the Cairo forms and widgets
     
     ' move/hide onto/from the main screen
     Call mainScreen
@@ -602,8 +602,9 @@ End Sub
 ' Purpose   : called at runtime and on restart, sets the characteristics of the gauge, individual controls and menus
 '---------------------------------------------------------------------------------------
 '
-Public Sub adjustMainControls()
+Public Sub adjustMainControls(Optional ByVal licenceState As Integer)
    Dim thisEditor As String: thisEditor = vbNullString
+   Dim bigScreen As Long: bigScreen = 3840
    
    On Error GoTo adjustMainControls_Error
 
@@ -613,6 +614,14 @@ Public Sub adjustMainControls()
     ' initial call just to obtain initial physical screen monitor ID
     Call positionClockByMonitorSize
         
+    ' if the licenstate is 0 then the program is running for the first time, so pre-size the form to fit larger screens
+    If licenceState = 0 Then
+        ' the widget displays at 100% at a screen width of 3840 pixels
+        If physicalScreenWidthPixels >= bigScreen Then
+            gblGaugeSize = CStr((physicalScreenWidthPixels / bigScreen) * 100)
+        End If
+    End If
+    
     ' set the initial size
     If monitorCount > 1 And (LTrim$(gblMultiMonitorResize) = "1" Or LTrim$(gblMultiMonitorResize) = "2") Then
         If clockMonitorStruct.IsPrimary = True Then
@@ -623,10 +632,6 @@ Public Sub adjustMainControls()
     Else
         fClock.AdjustZoom Val(gblGaugeSize) / 100
     End If
-    
-'    overlayWidget.ZoomDirection = gblScrollWheelDirection
-
-    ' chkNumericDisplayRotation
     
     If gblWidgetFunctions = "1" Then
         menuForm.mnuSwitchOff.Checked = False
