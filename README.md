@@ -22,7 +22,7 @@ When finished, this Steampunk Clock Calendar widget will be an attractive steamp
  
 If you just want to install it on your desktop, there is a clockCalendarInstaller.exe here that you can download and run now: 
 
-https://github.com/yereverluvinunclebert/Steampunk-clock-calendar-vb6/releases/tag/SteampunkClock%2FCalendar0.0.1build2422 
+Latest Release: [https://github.com/yereverluvinunclebert/Steampunk-clock-calendar-vb6/releases/tag/SteampunkClock%2FCalendar0.0.1build2556](https://github.com/yereverluvinunclebert/Steampunk-clock-calendar-vb6/releases/tag/SteampunkClock%2FCalendar0.0.1build2556)
 
 If you want to compile this yourself, follow the same link and download the source - or use github desktop to clone the program. To edit/compile you will of course, need the VB6 IDE or the TwinBasic IDE. VB6 is available from ebay or by MSDN subscription, TwinBasic is downloadable and available for free here: https://twinbasic.com/. If you have VB6 already installed then you use that, of course. Instructions, below.
 
