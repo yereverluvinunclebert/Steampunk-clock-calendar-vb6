@@ -162,7 +162,7 @@ At the back-end there are more preferences that may be changed, all are document
 	PrivateExtractIcons code http://www.activevb.de/rubriken/  
 	Subclassing code - Elroy  
 	Open File common dialog code without dependent OCX - http://forums.codeguru.com/member.php?92278-rxbagain  
-   centre-ing dialogs code from Chris001 https://www.vbforums.com/member.php?65196-Chris001
+	Centre-ing dialogs code from Chris001 https://www.vbforums.com/member.php?65196-Chris001
 	VBAdvance  
  
  Tested on :
