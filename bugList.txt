@@ -342,6 +342,7 @@ o added code when un-setting all alarms to specifically reverse the alarm functi
 ' if the alarmtoggle is pressed and the alarm chosen is toggled off by user input, then the alarm toggle should pop out
 
 ' on very first install if big screen and high DPI ON then size of the prefs as a proportion of the screen size - check
+' subclass the font dialog non-modal pop up to centre it on screen
 
 ' -oOo-
 
@@ -350,15 +351,19 @@ Tasks to do:
 
 ' when an alarm has been raised and an alarm toggle selected, if you move the slider forward to a future date/time, a double click does not revert the time to the current time.
 
-' clockform.refresh or overlaywidget.refresh?
+' add time machine functionality
 
-' subclass the font dialog non-modal pop up to centre it on screen using lpfhook?
+' about text VB6 / Twinbasic wip, check if the PSD is on the G5.
+
+' combine a new counter rotating sound recording the current Konfabulator widget.
+
+' check correct use of all properties to minimise CPU usage, locally should always be using the Version of a variable rather than the property LET/SET itself
+
+' clockform.refresh or overlaywidget.refresh?
 
 ' weekday till flag, the text 'only' sometimes doubles up, possibly after a refresh after midnight when the till has been showing - identify the scenario
 '     the weekday had not changed overnight and the previous transparent day indicator was left on screen, pressing the weekday toggle caused the new weekday
 '     to appear but the previous one persists
-
-' add time machine functionality
 
 ' descriptions on all routines - WIP
 
@@ -367,12 +372,6 @@ Tasks to do:
 ' find and replace globals within overlay class with property GET/SETs - WIP
 
 ' find and replace globals within fClock class with property GET/SETs - WIP
-
-' check correct use of all properties to minimise CPU usage, locally should always be using the Version of a variable rather than the property LET/SET itself
-
-' about text VB6 / Twinbasic wip, check if the PSD is on the G5.
-
-' combine a new counter rotating sound recording the current Konfabulator widget.
 
 ' .VAlign on the label? not working, raised as a bug with Olaf? 0=Top, -1 and 1=Middle
 
