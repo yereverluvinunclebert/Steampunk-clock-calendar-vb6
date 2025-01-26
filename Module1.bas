@@ -2515,6 +2515,7 @@ Public Sub readPrefsPosition()
     gblPrefsPrimaryHeightTwips = fGetINISetting("Software\SteampunkClockCalendar", "prefsPrimaryHeightTwips", gblSettingsFile)
     gblPrefsSecondaryHeightTwips = fGetINISetting("Software\SteampunkClockCalendar", "prefsSecondaryHeightTwips", gblSettingsFile)
         
+   ' on very first install this will be zero, then size of the prefs as a proportion of the screen size
     If gblPrefsPrimaryHeightTwips = "" Then gblPrefsPrimaryHeightTwips = CStr(1000 * screenTwipsPerPixelY)
     
     

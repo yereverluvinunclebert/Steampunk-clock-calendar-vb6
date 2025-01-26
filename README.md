@@ -91,31 +91,40 @@ When you are ready to set the alarm, click the bellset, two bells will sound and
 * Please note that while the timepiece in Alarm Mode all clock functions are switched off *
 * Alarms will not sound whilst in alarm mode *
 
-To cancel an alarm setting or viewing operation just click on the clock face.
-To cancel a ringing alarm - just click on the bellset.
+To cancel an alarm setting , press the A key again. just click on the clock face.
+To cancel a ringing alarm - just click on the alarm flag 1-5 that has been raised.
 
-Each time you press the alarm bell to set an alarm, a pop-up will display indicating
+Each time you press the alarm bell to set an alarm, a pop-up flag will display indicating
 which alarm you are going to set. Each time you press the A key, it will select the next alarm.
 To the right of the clock there are from zero to five alarm toggles depending on how many alarms you
-have previously set. f you click on the toggle it will display the date and time set for this alarm.
+have previously set. If you click on the toggle it will display the date and time set for this alarm.
 If you then click on the associated 'cash-register-style' pop-up it will allow you to delete this alarm.
 
-L Key - gently quietens the whole clock: ticking, chimes, alarm sounds all reduced by 21db.
+H Key - Press for a drop-down Help canvas.
 
-M Key - leaves all other sounds alone but turns off only the chimes. Another click turns the
-         chimes back on again. You will see the bell clapper move to/from the bell set.
+M Key - Mute key, mutes all sounds. Another press toggles sounds back on.
+
+Clapper - Turns off the alarms only.  Another click turns the
+          alarms back on again. You will see the bell clapper move to/from the bell set.
+          
+A Key - This turns on the alarm setting mode, the time slider will move to the middle.
+
+S Key - When you have selected a future date/time, press the S key to set the alarm.
 
 P Key - Turns off the pendulum. Another click turns it on again. Single-click on the pendulum itself
          also turns off the pendulum.
 
-Crank - The hand crank is the master volume control. Crank it down to mute all sounds and crank
-         it up to restore the sound back to the level it was prior to muting.
+Crank - The hand crank gently quietens the whole clock: ticking, chimes, alarm sounds all reduced by 21db. Crank 
+         it down to mute all sounds and crank it up to restore the sound back to the level it was prior to muting.
 
 To the left of the digital clock is another brass toggle:
 
-S Key - Raises the transparent screen logging the various controls you select. Because the screen is
-         transparent the text may be hard to see when used on a dark desktop background. A new 'B' key
-         will also appear on the right of the screen frame that allows you to raise/lower the back screen.
+W Key - raises the Weekday Indicator
+
+D Key - Raises the transparent display logging the various controls you select. Because the screen is
+         transparent the text may be hard to see when used on a dark desktop background. 
+         
+B Key    On the right of the screen frame that allows you to raise/lower the back screen.
          This will allow you to read the text.
 	 
 ![wotw-clock-help-imageII](https://github.com/yereverluvinunclebert/Steampunk-clock-calendar-version-2.9/assets/2788342/ca4d4f68-ee8c-4d93-a684-3ee90907192a)
@@ -153,6 +162,7 @@ At the back-end there are more preferences that may be changed, all are document
 	PrivateExtractIcons code http://www.activevb.de/rubriken/  
 	Subclassing code - Elroy  
 	Open File common dialog code without dependent OCX - http://forums.codeguru.com/member.php?92278-rxbagain  
+   centre-ing dialogs code from Chris001 https://www.vbforums.com/member.php?65196-Chris001
 	VBAdvance  
  
  Tested on :

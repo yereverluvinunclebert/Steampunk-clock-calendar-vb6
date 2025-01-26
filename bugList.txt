@@ -341,18 +341,18 @@ o added code when un-setting all alarms to specifically reverse the alarm functi
 ' on very first install if big screen then size of the clockForm as a proportion of the screen size
 ' if the alarmtoggle is pressed and the alarm chosen is toggled off by user input, then the alarm toggle should pop out
 
+' on very first install if big screen and high DPI ON then size of the prefs as a proportion of the screen size - check
+
 ' -oOo-
 
 Tasks to do:
 ============
 
-' on very first install if big screen and high DPI ON then size of the prefs as a proportion of the screen size
+' when an alarm has been raised and an alarm toggle selected, if you move the slider forward to a future date/time, a double click does not revert the time to the current time.
 
 ' clockform.refresh or overlaywidget.refresh?
 
-' test for alpha = 0 on all widget events and avoid responding when value is zero.
-
-' in help mode don't force the weekday toggle, simply check the enabled value first, enable it temporarily and then disable it when the help is closed if it needs to be closed.
+' subclass the font dialog non-modal pop up to centre it on screen using lpfhook?
 
 ' weekday till flag, the text 'only' sometimes doubles up, possibly after a refresh after midnight when the till has been showing - identify the scenario
 '     the weekday had not changed overnight and the previous transparent day indicator was left on screen, pressing the weekday toggle caused the new weekday
@@ -360,15 +360,15 @@ Tasks to do:
 
 ' add time machine functionality
 
-' match the numeric digit rotation to match the YWE version?
+' descriptions on all routines - WIP
+
+' match the numeric digit rotation to match  the YWE version?
 
 ' find and replace globals within overlay class with property GET/SETs - WIP
 
 ' find and replace globals within fClock class with property GET/SETs - WIP
 
 ' check correct use of all properties to minimise CPU usage, locally should always be using the Version of a variable rather than the property LET/SET itself
-
-' descriptions on all routines - WIP
 
 ' about text VB6 / Twinbasic wip, check if the PSD is on the G5.
 
@@ -434,7 +434,7 @@ Tasks to do:
 
 ' recreate the clock imagery using a large scale version of the PSD
 
-' subclass the font dialog non-modal pop up to centre it on screen using lpfhook?
+
 
 Static Linking in TB only.
          In TwinBasic static library linking is possible allowing incorporation of DLLs into the misc section and compiling into the finished binary
