@@ -1783,8 +1783,8 @@ Private Sub tmrClock_TimerRoutine()
         End If
 
         If mTimeDeviation = 0 Then
-            MsgBox "mTimeDeviation has a problem"
-            Exit Sub
+            'MsgBox "mTimeDeviation has a problem"
+            mTimeDeviation = 0
         End If
         
         pvtCurrentDateToDisplay = DateAdd("s", mTimeDeviation, mBaseDate)

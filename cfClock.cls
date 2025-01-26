@@ -1412,6 +1412,7 @@ Private Sub alarmtoggle1_myMouseDown()
         alarmtoggle1Enabled = True
     Else
         alarmtoggle1Enabled = False
+        If alarmtoggleEnabled = True Then alarmtoggleEnabled = False
     End If
     
     clockForm.Refresh
@@ -1456,6 +1457,7 @@ Private Sub alarmtoggle2_myMouseDown()
         alarmtoggle2Enabled = True
     Else
         alarmtoggle2Enabled = False
+        If alarmtoggleEnabled = True Then alarmtoggleEnabled = False
     End If
     
     clockForm.Refresh
@@ -1500,7 +1502,8 @@ Private Sub alarmtoggle3_myMouseDown()
         alarmtoggle3Enabled = True
     Else
         alarmtoggle3Enabled = False
-    End If
+        If alarmtoggleEnabled = True Then alarmtoggleEnabled = False
+   End If
     
     clockForm.Refresh
 
@@ -1545,6 +1548,7 @@ Private Sub alarmtoggle4_myMouseDown()
         alarmtoggle4Enabled = True
     Else
         alarmtoggle4Enabled = False
+        If alarmtoggleEnabled = True Then alarmtoggleEnabled = False
     End If
     
     clockForm.Refresh
@@ -1589,6 +1593,7 @@ Private Sub alarmtoggle5_myMouseDown()
         alarmtoggle5Enabled = True
     Else
         alarmtoggle5Enabled = False
+        If alarmtoggleEnabled = True Then alarmtoggleEnabled = False
     End If
     
     clockForm.Refresh

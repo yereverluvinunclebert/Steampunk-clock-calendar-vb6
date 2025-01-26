@@ -339,6 +339,7 @@ o added code when un-setting all alarms to specifically reverse the alarm functi
 
 ' big screens start with DPI ON
 ' on very first install if big screen then size of the clockForm as a proportion of the screen size
+' if the alarmtoggle is pressed and the alarm chosen is toggled off by user input, then the alarm toggle should pop out
 
 ' -oOo-
 
