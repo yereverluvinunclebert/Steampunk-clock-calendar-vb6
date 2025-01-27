@@ -254,7 +254,7 @@ End Sub
 Private Sub btnButtonTwo_Click()
    On Error GoTo btnButtonTwo_Click_Error
 
-    If formShowAgainChkBox = True Then SaveSetting App.EXEName, "Options", "Show message" & formMsgContext, chkShowAgain.value
+    If formShowAgainChkBox = True Then SaveSetting App.EXEName, "Options", "Show message" & formMsgContext, chkShowAgain.Value
     yesNoReturnValue = 7
     Me.Hide
 
@@ -277,7 +277,7 @@ Private Sub btnButtonOne_Click()
    On Error GoTo btnButtonOne_Click_Error
 
     Me.Visible = False
-    If formShowAgainChkBox = True Then SaveSetting App.EXEName, "Options", "Show message" & formMsgContext, chkShowAgain.value
+    If formShowAgainChkBox = True Then SaveSetting App.EXEName, "Options", "Show message" & formMsgContext, chkShowAgain.Value
     yesNoReturnValue = 6
     Me.Hide
 
@@ -588,7 +588,7 @@ Public Property Let propButtonVal(ByVal newValue As Integer)
             fileToPlay = "ting-quiet.wav"
         End If
         If fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
-            PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
+            playSound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
         End If
     ElseIf mPropButtonVal >= 32 Then '    vbQuestion
         mPropButtonVal = mPropButtonVal - 32
@@ -606,7 +606,7 @@ Public Property Let propButtonVal(ByVal newValue As Integer)
         End If
         
         If fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
-            PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
+            playSound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
         End If
     End If
 

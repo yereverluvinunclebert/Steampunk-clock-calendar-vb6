@@ -254,7 +254,7 @@ Private Sub btnAccept_Click()
     End If
     
     If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
-        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
+        playSound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
     End If
 
     answer = msgBoxA("User accepted licence, thankyou.", vbOKOnly + vbExclamation, "Licence Acceptance", True, "btnAcceptClick")

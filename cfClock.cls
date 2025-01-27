@@ -296,7 +296,7 @@ Public Property Let ShowHelp(ByVal newValue As Boolean)
     End If
     
     If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
-        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
+        playSound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
     End If
 
    On Error GoTo 0
@@ -477,7 +477,7 @@ End Sub
 ' Purpose   : central handling of all Click-Events
 '---------------------------------------------------------------------------------------
 '
-Private Sub clockForm_BubblingEvent(ByRef sender As Object, ByRef EventName As String, ByRef P1 As Variant, ByRef P2 As Variant, ByRef P3 As Variant, ByRef P4 As Variant, ByRef P5 As Variant, ByRef P6 As Variant, ByRef P7 As Variant)
+Private Sub clockForm_BubblingEvent(ByRef sender As Object, ByRef EventName As String, ByRef p1 As Variant, ByRef p2 As Variant, ByRef P3 As Variant, ByRef P4 As Variant, ByRef P5 As Variant, ByRef P6 As Variant, ByRef P7 As Variant)
    
     Dim stdMessage As String: stdMessage = vbNullString
     Dim stdSubject As String: stdSubject = vbNullString
@@ -885,7 +885,7 @@ Private Sub clockset_myDblClick()
     End If
 
     If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
-        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
+        playSound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
     End If
 
     overlayWidget.BaseDate = Now()
@@ -924,7 +924,7 @@ Private Sub displayscreen_myDblClick()
     End If
 
     If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
-        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
+        playSound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
     End If
 
    On Error GoTo 0
@@ -986,7 +986,7 @@ Private Sub deleteRunningAlarms()
     End If
 
     If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
-        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
+        playSound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
     End If
     
     If gblAlarmTogglePressed = 1 And gblAlarm1Date <> "Alarm not yet set" Then
@@ -1027,7 +1027,7 @@ Private Sub deleteRunningAlarms()
     End If
     
     If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
-        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
+        playSound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
     End If
     
         
@@ -1303,7 +1303,7 @@ Private Sub bellset_myMouseDown()
     End If
     
     If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
-        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
+        playSound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
     End If
 
    On Error GoTo 0
@@ -1366,7 +1366,7 @@ Private Sub dropdown_myMouseDown()
     End If
     
     If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
-        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
+        playSound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
     End If
     
     clockForm.Refresh
@@ -1405,7 +1405,7 @@ Private Sub alarmtoggle1_myMouseDown()
     End If
     
     If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
-        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
+        playSound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
     End If
     
     If alarmtoggle1Enabled = False Then
@@ -1450,7 +1450,7 @@ Private Sub alarmtoggle2_myMouseDown()
     End If
     
     If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
-        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
+        playSound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
     End If
         
     If alarmtoggle2Enabled = False Then
@@ -1495,7 +1495,7 @@ Private Sub alarmtoggle3_myMouseDown()
     End If
     
     If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
-        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
+        playSound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
     End If
         
     If alarmtoggle3Enabled = False Then
@@ -1541,7 +1541,7 @@ Private Sub alarmtoggle4_myMouseDown()
     End If
     
     If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
-        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
+        playSound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
     End If
     
     If alarmtoggle4Enabled = False Then
@@ -1586,7 +1586,7 @@ Private Sub alarmtoggle5_myMouseDown()
     End If
     
     If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
-        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
+        playSound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
     End If
     
     If alarmtoggle5Enabled = False Then
@@ -1648,7 +1648,7 @@ Private Sub weekdayred_myMouseDown()
     End If
     
     If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
-        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
+        playSound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
     End If
     
     clockForm.Widgets(thisDayOfWeek).Widget.Alpha = 0
@@ -1695,7 +1695,7 @@ Private Sub chain_myMouseDown()
     End If
          
     If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
-        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME
+        playSound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME
     End If
     
     clockForm.Refresh
@@ -1734,7 +1734,7 @@ Private Sub backtoggle_myMouseDown()
     End If
      
     If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
-        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
+        playSound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
     End If
         
     If gblBackToggleEnabled = "False" Then
@@ -1782,7 +1782,7 @@ Private Sub alarmtoggle_myMouseDown()
     End If
      
     If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
-        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME
+        playSound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME
     End If
         
     If alarmtoggleEnabled = False Then
@@ -1829,7 +1829,7 @@ Private Sub timeMachineToggle_myMouseDown()
     End If
      
     If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
-        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
+        playSound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
     End If
     
     If gblTimeMachineToggleEnabled = "False" Then
@@ -1871,7 +1871,7 @@ Private Sub weekdayToggle_myMouseDown()
     End If
      
     If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
-        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME
+        playSound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME
     End If
     
     If gblWeekdayToggleEnabled = "False" Then
@@ -1937,7 +1937,7 @@ Private Sub settoggle_myMouseDown()
     End If
      
     If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
-        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
+        playSound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
     End If
 
     answerMsg = "No future date/time has been selected so an alarm cannot be set."
@@ -2161,7 +2161,7 @@ Private Sub displayScreenToggle_myMouseDown()
     End If
      
     If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
-        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
+        playSound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
     End If
   
     If gblDisplayScreenToggleEnabled = "False" Then
@@ -2359,7 +2359,7 @@ Private Sub help3toggle_myMouseDown()
     End If
     
     If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
-        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
+        playSound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
     End If
     
     clockForm.Refresh
@@ -2394,7 +2394,7 @@ Private Sub pendulumtransparent_myMouseDown()
     End If
     
     If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
-        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
+        playSound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
     End If
 
     If overlayWidget.SwingPendulum = False Then
@@ -2445,7 +2445,7 @@ Private Sub helpdropdown_myMouseDown()
             fileToPlay = "rollerblindup-quiet.wav"
         End If
         If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
-            PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
+            playSound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
         End If
         
         clockForm.Widgets("woodenbar").Widget.Alpha = 0
@@ -2858,7 +2858,7 @@ Private Sub sliderset_myMouseDown()
         Call screenWrite("slider mechanism held, use A toggle to release")
         
         If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
-            PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
+            playSound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
         End If
     End If
      
@@ -3091,7 +3091,7 @@ Public Property Let displayScreenToggleEnabled(ByVal newValue As Boolean)
     End If
      
     If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
-        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME
+        playSound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME
     End If
 
       
@@ -3148,7 +3148,7 @@ Private Sub clapperleft_myMouseDown()
     End If
 
     If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
-        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
+        playSound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
     End If
         
     If clapperEnabled = True Then
@@ -3229,7 +3229,7 @@ Public Property Let clapperEnabled(ByVal newValue As Boolean)
                     fileToPlay = "singleBell-quiet.wav"
                 End If
                 If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
-                PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
+                playSound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
             End If
         End If
     Else
@@ -3373,7 +3373,7 @@ Private Sub crankdown_myMouseDown()
         fileToPlay = "crank.wav"
     End If
     If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
-        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
+        playSound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
     End If
     
     crankedRaised = True
@@ -3410,7 +3410,7 @@ Private Sub crankup_myMouseDown()
         fileToPlay = "crank.wav"
     End If
     If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
-        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
+        playSound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
     End If
     
     crankedRaised = False
@@ -3619,7 +3619,7 @@ Public Property Let weekdayToggleEnabled(ByVal newValue As Boolean)
     End If
     
     If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
-        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME
+        playSound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME
     End If
 
       
@@ -3943,7 +3943,7 @@ Public Property Let muteToggleEnabled(ByVal newValue As Boolean)
     End If
          
     If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
-        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
+        playSound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
     End If
 
     If newValue = True Then
@@ -3960,9 +3960,10 @@ Public Property Let muteToggleEnabled(ByVal newValue As Boolean)
             fileToPlay = "ticktock-quiet.wav"
         End If
         
-        fileToPlay = App.path & "\resources\sounds\" & fileToPlay
-        If fFExists(fileToPlay) Then
-            lngReturn = mciSendString("stop " & fileToPlay, "", 0, 0)
+        If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
+            ' lngReturn = mciSendString("stop " & fileToPlay, "", 0, 0)
+            
+            stopAsynchSound App.path & "\resources\sounds\" & fileToPlay
         End If
     Else
         mutetoggle.Move muteToggleOut, muteToggleTop
@@ -4052,7 +4053,7 @@ Public Property Let pendulumToggleEnabled(ByVal newValue As Boolean)
     End If
      
     If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
-        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
+        playSound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
     End If
     
     sPutINISetting "Software\SteampunkClockCalendar", "pendulumToggleEnabled", gblPendulumToggleEnabled, gblSettingsFile
@@ -4148,7 +4149,7 @@ Public Property Let helpToggleEnabled(ByVal newValue As Boolean)
     End If
      
     If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
-        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
+        playSound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
     End If
     
     If mhelpToggleEnabled <> newValue Then mhelpToggleEnabled = newValue Else Exit Property
@@ -4788,7 +4789,7 @@ Private Sub tmrTILLSound_Timer()
     End If
     
     If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
-        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
+        playSound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
     End If
     
     tmrTILLSound.Enabled = False
@@ -4823,7 +4824,7 @@ Private Sub tmrZZZZSound_Timer()
     End If
     
     If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
-        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
+        playSound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
     End If
     
     tmrZZZZSound.Enabled = False
@@ -4858,12 +4859,9 @@ Private Sub tmrTickingSound_Timer()
     Else
         fileToPlay = "ticktock-quiet.wav"
     End If
-        
-    fileToPlay = App.path & "\resources\sounds\" & fileToPlay
-    If gblEnableSounds = "1" And fFExists(fileToPlay) Then
     
-        lngReturn = mciSendString("Play " & fileToPlay, "", 0, 0)
-        'PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
+    If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
+        playAsynchSound App.path & "\resources\sounds\" & fileToPlay
     End If
         
     tmrTickingSound.Enabled = True
@@ -4900,16 +4898,15 @@ Public Property Let ticking(ByVal newValue As Boolean)
      Else
         tmrTickingSound.Enabled = False
         
-        ' stop MCI from playing
+        ' stop the sound from playing
         If gblVolumeBoost = "1" Then
             fileToPlay = "ticktock.wav"
         Else
             fileToPlay = "ticktock-quiet.wav"
         End If
         
-        fileToPlay = App.path & "\resources\sounds\" & fileToPlay
-        If fFExists(fileToPlay) Then
-            lngReturn = mciSendString("stop " & fileToPlay, "", 0, 0)
+        If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
+            stopAsynchSound App.path & "\resources\sounds\" & fileToPlay
         End If
     End If
 

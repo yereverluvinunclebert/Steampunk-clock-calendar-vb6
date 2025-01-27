@@ -1870,7 +1870,8 @@ Private Sub tmrClock_TimerRoutine()
                     fileToPlay = "quarterchime-quiet.wav"
                 End If
                 If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
-                    PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
+                    'playSound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
+                    playAsynchSound App.path & "\resources\sounds\" & fileToPlay
                 End If
     
                screenWrite ("chiming quarter past the hour at " & CStr(pvtThisHour) & ":15")
@@ -1883,7 +1884,7 @@ Private Sub tmrClock_TimerRoutine()
                     fileToPlay = "halfchime-quiet.wav"
                 End If
                 If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
-                    PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
+                    playAsynchSound App.path & "\resources\sounds\" & fileToPlay
                 End If
     
                 screenWrite ("chiming half past the hour at " & CStr(pvtThisHour) & ":30")
@@ -1896,7 +1897,7 @@ Private Sub tmrClock_TimerRoutine()
                     fileToPlay = "threequarterchime-quiet.wav"
                 End If
                 If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
-                    PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
+                    playAsynchSound App.path & "\resources\sounds\" & fileToPlay
                 End If
     
                 screenWrite ("chiming quarter to the hour at " & CStr(pvtThisHour) & ":45")
@@ -1909,7 +1910,7 @@ Private Sub tmrClock_TimerRoutine()
                     fileToPlay = "fullchime-quiet.wav"
                 End If
                 If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
-                    PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
+                    playAsynchSound App.path & "\resources\sounds\" & fileToPlay
                 End If
                 
                 screenWrite ("chiming full hour ")
@@ -2187,7 +2188,7 @@ Public Sub tmrAlarmRinging_Timer()
            fileToPlay = "alarmbells-quiet.wav"
        End If
        If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
-           PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
+           playSound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
        End If
 
    On Error GoTo 0
@@ -2303,7 +2304,7 @@ Private Sub tollbell()
     If tollCount = 1 Then screenWrite ("Chiming using " & fileToPlay & " at " & Now())
     
     If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
-        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
+        playSound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
     End If
     
     screenWrite ("Tolling bell for " & tollhours & " o'clock, chime no." & tollCount)

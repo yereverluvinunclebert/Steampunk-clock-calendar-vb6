@@ -53,7 +53,7 @@ Private Type FONTSTRUC
   hDC As Long
   lpLogFont As Long
   iPointSize As Long
-  Flags As Long
+  flags As Long
   rgbColors As Long
   lCustData As Long
   lpfnHook As Long
@@ -72,7 +72,7 @@ Private Type ChooseColorStruct
     hInstance As Long
     rgbResult As Long
     lpCustColors As Long
-    Flags As Long
+    flags As Long
     lCustData As Long
     lpfnHook As Long
     lpTemplateName As String
@@ -151,7 +151,7 @@ Public Declare Function ShellExecute Lib "Shell32.dll" Alias "ShellExecuteA" (By
 Public Const SND_ASYNC As Long = &H1             '  play asynchronously
 Public Const SND_FILENAME  As Long = &H20000     '  name is a file name
 
-Public Declare Function PlaySound Lib "winmm.dll" Alias "PlaySoundA" (ByVal lpszName As String, ByVal hModule As Long, ByVal dwFlags As Long) As Long
+Public Declare Function playSound Lib "winmm.dll" Alias "PlaySoundA" (ByVal lpszName As String, ByVal hModule As Long, ByVal dwFlags As Long) As Long
 '------------------------------------------------------ ENDS
 
 
@@ -222,7 +222,7 @@ Private Type OPENFILENAME
     nMaxFileTitle As Long        'The length of lpstrFileTitle + 1
     lpstrInitialDir As String    'The path to the initial path :) If you pass an empty string the initial path is the current path.
     lpstrTitle As String         'The caption of the dialog.
-    Flags As FileOpenConstants                'Flags. See the values in MSDN Library (you can look at the flags property of the common dialog control)
+    flags As FileOpenConstants                'Flags. See the values in MSDN Library (you can look at the flags property of the common dialog control)
     nFileOffset As Integer       'Points to the what character in lpstrFile where the actual filename begins (zero based)
     nFileExtension As Integer    'Same as nFileOffset except that it points to the file extention.
     lpstrDefExt As String        'Can contain the extention Windows should add to a file if the user doesn't provide one (used with the GetSaveFileName API function)
@@ -523,9 +523,6 @@ Public gblPrefsFormResizedInCode As Boolean
 Public gblFClockAvailable As Boolean
 Public gblAlarmFlgRaised As Boolean
 Public gblCodingEnvironment As String
-
-
-'Public gblSystemAwokenFromSleep As Boolean
 
 
 '---------------------------------------------------------------------------------------
@@ -1410,7 +1407,7 @@ Public Function fDialogFont(ByRef f As FormFontInfo) As Boolean
     CopyMemory ByVal lLogFontAddress, logFnt, Len(logFnt)
     ftStruc.lpLogFont = lLogFontAddress
     'ftStruc.flags = CF_SCREENFONTS Or CF_EFFECTS Or CF_INITTOLOGFONTSTRUCT
-    ftStruc.Flags = CF_SCREENFONTS Or CF_INITTOLOGFONTSTRUCT
+    ftStruc.flags = CF_SCREENFONTS Or CF_INITTOLOGFONTSTRUCT
     If ChooseFont(ftStruc) = 1 Then
       CopyMemory logFnt, ByVal lLogFontAddress, Len(logFnt)
       f.Weight = logFnt.lfWeight
@@ -1556,7 +1553,7 @@ Public Sub aboutClickEvent()
     
 
     If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
-        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
+        playSound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
     End If
     
     ' The RC forms are measured in pixels so the positioning needs to pre-convert the twips into pixels
@@ -1606,7 +1603,7 @@ Public Sub licenceSplash()
     End If
     
     If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
-        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
+        playSound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
     End If
     
     
@@ -2269,6 +2266,8 @@ Public Sub unloadAllForms(ByVal endItAll As Boolean)
     
    On Error GoTo unloadAllForms_Error
    
+    FreeSound ALL_SOUND_BUFFERS
+   
     frmTimer.revealWidgetTimer.Enabled = False
     frmTimer.tmrScreenResolution.Enabled = False
     frmTimer.unhideTimer.Enabled = False
@@ -2619,7 +2618,7 @@ Public Sub toggleWidgetLock()
     sPutINISetting "Software\SteampunkClockCalendar", "preventDragging", gblPreventDragging, gblSettingsFile
    
     If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
-        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
+        playSound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
     End If
     
     On Error GoTo 0
@@ -2693,7 +2692,7 @@ Public Sub TurnFunctionsOn()
     End If
 
     If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
-        PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
+        playSound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
     End If
 
     menuForm.mnuSwitchOff.Checked = False
@@ -2991,4 +2990,5 @@ hideBusyTimer_Error:
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure hideBusyTimer of Form widgetPrefs"
     
 End Sub
+
 

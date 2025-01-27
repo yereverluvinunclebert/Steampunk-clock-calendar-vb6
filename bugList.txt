@@ -344,6 +344,10 @@ o added code when un-setting all alarms to specifically reverse the alarm functi
 ' on very first install if big screen and high DPI ON then size of the prefs as a proportion of the screen size - check
 ' subclass the font dialog non-modal pop up to centre it on screen
 
+' ticking using mciSendString API will not play ticktock.wav on Win 11
+' implemented new method of playing sounds asynchronously
+' changed major sounds to asynch operation.
+
 ' -oOo-
 
 Tasks to do:
@@ -352,6 +356,8 @@ Tasks to do:
 ' when an alarm has been raised and an alarm toggle selected, if you move the slider forward to a future date/time, a double click does not revert the time to the current time.
 
 ' add time machine functionality
+
+' 00xx issue on small slider movements just trying to change the time
 
 ' about text VB6 / Twinbasic wip, check if the PSD is on the G5.
 
