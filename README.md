@@ -4,7 +4,7 @@ A FOSS Desktop Utility VB6 WoW64 Widget for Windows Vista, Win7, 8 and 10/11+.
 
 ![steampunk_clock_calendar_mkii__2_9__rc_by_yereverluvinuncleber-d4l5xny](https://github.com/yereverluvinunclebert/Steampunk-clock-calendar-version-2.9/assets/2788342/f2dc5337-0c98-418c-9b68-2374ae7c4222)
 
-My current VB6/TwinBasic/RC6 PSD program being worked upon now, in progress, you can download it but do expect some functionality to be possibly incomplete and unpolished. Estimated at 99% graphically complete, 96% functionally complete but only 90% code-complete. I am always adding in new functionality as this is an educational project for me, there are code improvements to be made, alternative, more efficient methods found &c.
+My current VB6/TwinBasic/RC6 PSD program being worked upon now, in progress, you can download it but do expect some functionality to be possibly incomplete and unpolished. Estimated at 99% graphically complete, 96% functionally complete but only 91% code-complete. I am always adding in new functionality as this is an educational project for me, there are code improvements to be made, alternative, more efficient methods found &c.
 
 What does the program do already in its unfinished state?
 
