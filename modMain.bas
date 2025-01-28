@@ -1842,7 +1842,7 @@ End Function
 ' Procedure : loadSoundFiles
 ' Author    : beededea
 ' Date      : 27/01/2025
-' Purpose   : Load the sounds into buffers ready for playing
+' Purpose   : Load the sounds into numbered buffers ready for playing
 '---------------------------------------------------------------------------------------
 '
 Private Sub loadSoundFiles()
@@ -1878,7 +1878,7 @@ End Sub
 ' Procedure : playAsynchSound
 ' Author    : beededea
 ' Date      : 27/01/2025
-' Purpose   : requires minimal changes to playSound code
+' Purpose   : requires minimal changes to replace playSound code in the rest of the program
 '---------------------------------------------------------------------------------------
 '
 Public Sub playAsynchSound(ByVal SoundFile As String)
@@ -1902,7 +1902,7 @@ Public Sub playAsynchSound(ByVal SoundFile As String)
      If SoundFile = App.path & "\resources\sounds\ticktock-quiet.wav" Then soundindex = 13
      If SoundFile = App.path & "\resources\sounds\ticktock.wav" Then soundindex = 14
 
-     Call playSounds(soundindex)
+     Call playSounds(soundindex) ' writes the wav files (previously stored in a memory buffer) and feeds that buffer to the waveOutWrite API
 
    On Error GoTo 0
    Exit Sub
@@ -1923,9 +1923,9 @@ End Sub
 '
 Public Sub stopAsynchSound(ByVal SoundFile As String)
 
-    Dim soundindex As Long: soundindex = 0
+     Dim soundindex As Long: soundindex = 0
 
-    On Error GoTo stopAsynchSound_Error
+     On Error GoTo stopAsynchSound_Error
 
      If SoundFile = App.path & "\resources\sounds\belltoll-quiet.wav" Then soundindex = 1
      If SoundFile = App.path & "\resources\sounds\belltoll.wav" Then soundindex = 2

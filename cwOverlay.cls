@@ -330,7 +330,7 @@ End Property
 ' Property : BaseDate
 ' Author    : beededea
 ' Date      : 17/05/2023
-' Purpose   :
+' Purpose   : Gets the base date for the clock to determine the deviation from...
 '---------------------------------------------------------------------------------------
 '
 Public Property Get BaseDate() As String
@@ -349,7 +349,7 @@ End Property
 ' Property  : BaseDate
 ' Author    : beededea
 ' Date      : 17/05/2023
-' Purpose   :
+' Purpose   : Sets the base date for the clock to determine the deviation from...
 '---------------------------------------------------------------------------------------
 '
 Public Property Let BaseDate(ByVal newValue As String)
@@ -375,7 +375,7 @@ End Property
 ' Procedure : MyOpacity
 ' Author    : beededea
 ' Date      : 17/05/2023
-' Purpose   :
+' Purpose   : property used to determine the opacity of elements in the overlay
 '---------------------------------------------------------------------------------------
 '
 Public Property Let MyOpacity(ByVal newValue As Double)
@@ -394,7 +394,7 @@ End Property
 ' Procedure : MyOpacity
 ' Author    : beededea
 ' Date      : 17/05/2023
-' Purpose   :
+' Purpose   : property used to determine the opacity of elements in the overlay
 '---------------------------------------------------------------------------------------
 '
 Public Property Get MyOpacity() As Double
@@ -414,7 +414,7 @@ End Property
 ' Property : SwingPendulum
 ' Author    : beededea
 ' Date      : 17/05/2023
-' Purpose   :
+' Purpose   : property used to toggle the swinging pendulum animation
 '---------------------------------------------------------------------------------------
 '
 Public Property Get SwingPendulum() As Boolean
@@ -433,7 +433,7 @@ End Property
 ' Property  : SwingPendulum
 ' Author    : beededea
 ' Date      : 17/05/2023
-' Purpose   :
+' Purpose   : property used to toggle the swinging pendulum animation
 '---------------------------------------------------------------------------------------
 '
 Public Property Let SwingPendulum(ByVal newValue As Boolean)
@@ -462,7 +462,7 @@ End Property
 
 ' ----------------------------------------------------------------
 ' Procedure Name: timeShiftValueSecs
-' Purpose:
+' Purpose: property containing the timeshift value in seconds
 ' Procedure Kind: Property (Get)
 ' Procedure Access: Public
 ' Return Type: Currency
@@ -486,7 +486,7 @@ End Property
 
 ' ----------------------------------------------------------------
 ' Procedure Name: timeShiftValueSecs
-' Purpose:
+' Purpose: property containing the timeshift value in seconds
 ' Procedure Kind: Property (Let)
 ' Procedure Access: Public
 ' Parameter RHS (Currency):
@@ -507,10 +507,10 @@ timeShiftValueSecs_Error:
 
 End Property
 '---------------------------------------------------------------------------------------
-' Property : TimeMachine
+' Property  : TimeMachine
 ' Author    : beededea
 ' Date      : 17/05/2023
-' Purpose   :
+' Purpose   : property to toggle the time machine on/off
 '---------------------------------------------------------------------------------------
 '
 Public Property Get TimeMachine() As Boolean
@@ -529,7 +529,7 @@ End Property
 ' Property  : TimeMachine
 ' Author    : beededea
 ' Date      : 17/05/2023
-' Purpose   :
+' Purpose   : property to toggle the time machine on/off
 '---------------------------------------------------------------------------------------
 '
 Public Property Let TimeMachine(ByVal newValue As Boolean)
@@ -549,7 +549,7 @@ End Property
 ' Property  : Hidden
 ' Author    : beededea
 ' Date      : 17/05/2023
-' Purpose   :
+' Purpose   : property to set the hidden value of the whole widget
 '---------------------------------------------------------------------------------------
 '
 Public Property Get Hidden() As Boolean
@@ -572,7 +572,7 @@ End Property
 ' Property  : Hidden
 ' Author    : beededea
 ' Date      : 10/05/2023
-' Purpose   :
+' Purpose   : property to set the hidden value of the whole widget
 '---------------------------------------------------------------------------------------
 '
 Public Property Let Hidden(ByVal newValue As Boolean)
@@ -601,7 +601,7 @@ End Property
 ' Property  : SliderEnabled
 ' Author    : beededea
 ' Date      : 17/05/2023
-' Purpose   :
+' Purpose   : property to toggle the enabling of the time slider
 '---------------------------------------------------------------------------------------
 '
 Public Property Get SliderEnabled() As Boolean
@@ -622,7 +622,7 @@ End Property
 ' Property  : SliderEnabled
 ' Author    : beededea
 ' Date      : 10/05/2023
-' Purpose   :
+' Purpose   : property to toggle the enabling of the time slider
 '---------------------------------------------------------------------------------------
 '
 Public Property Let SliderEnabled(ByVal newValue As Boolean)
@@ -642,7 +642,7 @@ End Property
 ' Property  : GetFutureTime
 ' Author    : beededea
 ' Date      : 17/05/2023
-' Purpose   :
+' Purpose   : a property that contains the future date/time currently selected by the timeSlider
 '---------------------------------------------------------------------------------------
 '
 Public Property Get GetFutureTime() As String
@@ -663,7 +663,7 @@ End Property
 ' Property  : GetFutureTime
 ' Author    : beededea
 ' Date      : 10/05/2023
-' Purpose   :
+' Purpose   : a property that contains the future date/time currently selected by the timeSlider
 '---------------------------------------------------------------------------------------
 '
 Public Property Let GetFutureTime(ByVal newValue As String)
@@ -684,7 +684,12 @@ End Property
 ' Property  : TriggerTimeShift
 ' Author    : beededea
 ' Date      : 17/05/2023
-' Purpose   :
+' Purpose   : property that lets user-triggered slider movement call the same routines in the advance/retard timer
+'
+'             A timer runs in the background to advance/retard time when the slider is being held still.
+'             this property calls the same routines in the foreground task.
+'
+'             This has to be done this way as VB6 timers run at reduced CPU time/priority.
 '---------------------------------------------------------------------------------------
 '
 Public Property Get TriggerTimeShift() As Boolean
@@ -704,7 +709,12 @@ End Property
 ' Property  : TriggerTimeShift
 ' Author    : beededea
 ' Date      : 10/05/2023
-' Purpose   :
+' Purpose   : property that lets user-triggered slider movement call the same routines in the advance/retard timer
+'
+'             A timer runs in the background to advance/retard time when the slider is being held still.
+'             this property calls the same routines in the foreground task.
+'
+'             This has to be done this way as VB6 timers run at reduced CPU time/priority.
 '---------------------------------------------------------------------------------------
 '
 Public Property Let TriggerTimeShift(ByVal newValue As Boolean)
@@ -794,7 +804,7 @@ End Sub
 ' Procedure : DrawDigitalClocks
 ' Author    : beededea
 ' Date      : 06/09/2024
-' Purpose   : display the hours and mins
+' Purpose   : display the hours and mins from the cache
 '---------------------------------------------------------------------------------------
 '
 Sub DrawDigitalClocks(ByRef CC As cCairoContext)
@@ -832,7 +842,7 @@ End Sub
 
 ' ----------------------------------------------------------------
 ' Procedure Name: populateDigitalHoursCache
-' Purpose:
+' Purpose: add the digital hour images to the hours cache
 ' Procedure Kind: Sub
 ' Procedure ACCess: Private
 ' Parameter CC (CCCContext):
@@ -932,7 +942,7 @@ End Sub
 
 ' ----------------------------------------------------------------
 ' Procedure Name: populateDigitalMinsCache
-' Purpose:
+' Purpose: add the digital minutes images to the minutes cache
 ' Procedure Kind: Sub
 ' Procedure Access: Private
 ' Parameter CC (cCairoContext):
@@ -1028,7 +1038,7 @@ End Sub
 
 ' ----------------------------------------------------------------
 ' Procedure Name: populateDigitalYearCache
-' Purpose: year digits for digital display
+' Purpose: add the year digits for digital display to the cache
 ' Procedure Kind: Sub
 ' Procedure Access: Private
 ' Parameter CC (cCairoContext):
@@ -1159,7 +1169,7 @@ End Sub
 
 ' ----------------------------------------------------------------
 ' Procedure Name: populateDigitalMonthCache
-' Purpose: month digits for digital display
+' Purpose: month digits for digital display to the month cache
 ' Procedure Kind: Sub
 ' Procedure Access: Private
 ' Parameter CC (cCairoContext):
@@ -1226,7 +1236,7 @@ End Sub
 
 ' ----------------------------------------------------------------
 ' Procedure Name: populateDigitalDayofMonthCache
-' Purpose: ' day digits for digital display
+' Purpose: ' day digits for digital display  to the day of the month cache
 ' Procedure Kind: Sub
 ' Procedure Access: Private
 ' Parameter CC (cCairoContext):
@@ -1321,7 +1331,7 @@ End Sub
 ' Procedure : populateAMPMDigitalDayCache
 ' Author    : beededea
 ' Date      : 17/05/2023
-' Purpose   :
+' Purpose   : AM/PM digits for digital display to the day of the AM/PM cache
 '---------------------------------------------------------------------------------------
 
 Private Sub populateAMPMDigitalDayCache(ByRef CC As cCairoContext, Optional ByVal alarmHour As String)
@@ -1356,7 +1366,7 @@ End Sub
 ' Procedure : populateDigitalClockCache
 ' Author    : beededea
 ' Date      : 17/05/2023
-' Purpose   :
+' Purpose   : determine what needs to be inserted into the cache and add resulting images to the various caches
 '---------------------------------------------------------------------------------------
 Private Sub populateDigitalClockCache(ByRef CC As cCairoContext)
     Dim theDay As String: theDay = vbNullString
@@ -1762,7 +1772,7 @@ End Sub
 ' Procedure : tmrClock_TimerRoutine
 ' Author    : beededea
 ' Date      : 31/12/2024
-' Purpose   :
+' Purpose   : main timer controlling the analogue clock only
 '---------------------------------------------------------------------------------------
 '
 Private Sub tmrClock_TimerRoutine()

@@ -347,6 +347,8 @@ o added code when un-setting all alarms to specifically reverse the alarm functi
 ' ticking using mciSendString API will not play ticktock.wav on Win 11
 ' implemented new method of playing sounds asynchronously
 ' changed major sounds to asynch operation.
+' fixed corrupt ticktock.wav file
+' descriptions on all routines on the cwOverlay
 
 ' -oOo-
 
@@ -366,6 +368,8 @@ Tasks to do:
 ' check correct use of all properties to minimise CPU usage, locally should always be using the Version of a variable rather than the property LET/SET itself
 
 ' clockform.refresh or overlaywidget.refresh?
+
+' add another overlay that handles the animation of the pendulum alone that can run at a much higher frequency and reducing CPU usage overall.
 
 ' weekday till flag, the text 'only' sometimes doubles up, possibly after a refresh after midnight when the till has been showing - identify the scenario
 '     the weekday had not changed overnight and the previous transparent day indicator was left on screen, pressing the weekday toggle caused the new weekday
