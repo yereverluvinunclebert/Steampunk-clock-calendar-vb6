@@ -349,11 +349,16 @@ o added code when un-setting all alarms to specifically reverse the alarm functi
 ' changed major sounds to asynch operation.
 ' fixed corrupt ticktock.wav file
 ' descriptions on all routines on the cwOverlay
+' create setup.exe with a different name.
 
 ' -oOo-
 
 Tasks to do:
 ============
+
+' change and test the slider values to make time changes more practical
+
+' tick chain is not saving and restoring its position when pulled
 
 ' when an alarm has been raised and an alarm toggle selected, if you move the slider forward to a future date/time, a double click does not revert the time to the current time.
 
@@ -361,27 +366,40 @@ Tasks to do:
 
 ' 00xx issue on small slider movements just trying to change the time
 
+' descriptions on all routines in cfClock - WIP
+' descriptions on all routines in cfMain - WIP
+' descriptions on all routines in cwAbout - WIP
+' descriptions on all routines in cwLicence - WIP
+' descriptions on all routines in module1 - WIP
+' descriptions on all routines in module2 - WIP
+' descriptions on all routines in modResize - WIP
+' descriptions on all routines in modMain - WIP
+' descriptions on all routines in widgetPrefs - WIP
+' descriptions on all routines in menuForm - WIP
+' descriptions on all routines in frmTimer - WIP
+' descriptions on all routines in frmMessage - WIP
+
 ' about text VB6 / Twinbasic wip, check if the PSD is on the G5.
 
-' combine a new counter rotating sound recording the current Konfabulator widget.
+' combine a new counter-rotating sound recording the current Konfabulator widget.
 
 ' check correct use of all properties to minimise CPU usage, locally should always be using the Version of a variable rather than the property LET/SET itself
 
 ' clockform.refresh or overlaywidget.refresh?
 
-' add another overlay that handles the animation of the pendulum alone that can run at a much higher frequency and reducing CPU usage overall.
-
 ' weekday till flag, the text 'only' sometimes doubles up, possibly after a refresh after midnight when the till has been showing - identify the scenario
 '     the weekday had not changed overnight and the previous transparent day indicator was left on screen, pressing the weekday toggle caused the new weekday
 '     to appear but the previous one persists
 
-' descriptions on all routines - WIP
+' add another overlay that handles the animation of the pendulum alone that can run at a much higher frequency and reducing CPU usage overall.
 
-' match the numeric digit rotation to match  the YWE version?
+' match the numeric digit rotation to match the YWE version? Not sure...
 
 ' find and replace globals within overlay class with property GET/SETs - WIP
 
 ' find and replace globals within fClock class with property GET/SETs - WIP
+
+' replace the dropdown comboxes for the date selection with Krool's date/time calendar
 
 ' .VAlign on the label? not working, raised as a bug with Olaf? 0=Top, -1 and 1=Middle
 
@@ -392,7 +410,9 @@ Tasks to do:
 
 ' shadow behind cwlabel background when background screen lowered, 1. try adding a refresh, 2, try another control
 
-' look at Olaf's pendulum code
+' rubberduck the code
+
+' look at Olaf's pendulum code - if the pendulum swinging is still using too much CPU after the new overlay
 
 ' Create a XP /ReactOS version using old APIs and RC5 - no DPI awareness, as XP does not have the API nor the capability.
         https://www.vbforums.com/showthread.php?896944-VB6-QUESTION-Check-if-API-exists
@@ -414,8 +434,6 @@ Tasks to do:
 ' identify the resizing code changes/additions for multi monitor systems so the code can be back-ported to older VB6 widgets
 
 ' reduce CPU usage to less than one percent
-
-' create setup.exe with a different name.
 
 ' console, retain the complete history in the screen array
 
