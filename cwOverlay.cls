@@ -129,7 +129,7 @@ Private Sub Class_Initialize()
     Set tmrClock = Nothing
     Set tmrClock = New_c.Timer(intervalValue, True)
     
-    tmrClock.Enabled = True
+    tmrClock.Enabled = False
     
     Set tmrPendulum = Nothing
     Set tmrPendulum = New_c.Timer(70, False)

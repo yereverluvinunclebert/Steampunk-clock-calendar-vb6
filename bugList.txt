@@ -351,20 +351,20 @@ o added code when un-setting all alarms to specifically reverse the alarm functi
 ' descriptions on all routines on the cwOverlay
 ' create setup.exe with a different name.
 
+' tick chain is not saving and restoring its position when pulled
+
 ' -oOo-
 
 Tasks to do:
 ============
 
-' change and test the slider values to make time changes more practical
+' 00xx issue on small slider movements just trying to change the time
 
-' tick chain is not saving and restoring its position when pulled
+' change and test the slider values to make time changes more practical
 
 ' when an alarm has been raised and an alarm toggle selected, if you move the slider forward to a future date/time, a double click does not revert the time to the current time.
 
 ' add time machine functionality
-
-' 00xx issue on small slider movements just trying to change the time
 
 ' descriptions on all routines in cfClock - WIP
 ' descriptions on all routines in cfMain - WIP

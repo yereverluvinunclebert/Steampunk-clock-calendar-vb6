@@ -217,7 +217,7 @@ End Sub
 ' Property : ShowHelp
 ' Author    : beededea
 ' Date      : 17/05/2023
-' Purpose   :
+' Purpose   : Property to show both the background help and the upper help layer, the one that sits on top of the rest of the clock.
 '---------------------------------------------------------------------------------------
 '
 Public Property Get ShowHelp() As Boolean
@@ -236,7 +236,7 @@ End Property
 ' Property  : ShowHelp
 ' Author    : beededea
 ' Date      : 17/05/2023
-' Purpose   :
+' Purpose   : Property to show both the background help and the upper help layer, the one that sits on top of the rest of the clock.
 '---------------------------------------------------------------------------------------
 '
 Public Property Let ShowHelp(ByVal newValue As Boolean)
@@ -269,16 +269,20 @@ Public Property Let ShowHelp(ByVal newValue As Boolean)
          
     Else
 
-        ' the next two lines are a temporary hack.
-        ' when widgets are made lapha = 0 they are still clickable, I can move these to the overlay or I
-        ' can just move them out of the way so that any click on an invisible element does not interfere with one 'underneath'
+        ' the next two lines are a complete hack compared to what I am used to in Konfabulator layers.
+        ' when RC widgets are made alpha = 0 they are still clickable, so we have to
+        ' move them out of the way so that any click on an invisible
+        ' element does not interfere with one 'underneath'.
+        ' the top help layer in particular is the problem as it intercepts any click to underlying widgets.
+        ' it could be moved to the overlay and then click-throughs on transparent areas can be made to bubble through
+        ' but it is all a bit of a hack. Instead we have a normal RC widget and we simply move it out of the way...
         
          helpbottom.Alpha = 0
          labellayer.Alpha = 0
 
         If pvtHelpMoved = False Then
-            helpbottom.Move helpbottomLeft + 700, helpbottomTop
-            labellayer.Move labellayerLeft + 400, labellayerTop ' the 400 is a magical number that moves them just out of the way without causing tearing
+            helpbottom.Move helpbottomLeft + 700, helpbottomTop ' this is not strictly required but without it occasionally generates a shadow...
+            labellayer.Move labellayerLeft + 400, labellayerTop ' the "400" is a magical number that moves the widget layer just out of the way without causing tearing
             pvtHelpMoved = True
         End If
     
@@ -311,10 +315,12 @@ End Property
 ' Procedure : InitFromPSD
 ' Author    : olaf schmidt and me
 ' Date      : 31/07/2023
-' Purpose   :    loads up the Cairo imageList with keyed entries and a surface from each and every PSD layer
-'                adds path X,Y and alpha to the excluded collection
-'                creates widgets with corresponding keynames, locations and sizes as per PSD for each layer
-'                cwOverlay class puts it on the screen
+' Purpose   :  Using a previously populated Cairo imageList with keyed entries  it creates a surface from each and every PSD layer
+'              in the PSD file.
+'              It adds path X,Y and alpha properties to the excluded collection
+'              It then creates widgets with corresponding keynames, locations and sizes as per the original PSD for each layer
+'              It creates an instance of the cwOverlay class and populates it with the excluded items that will be rendered in the overlay
+'              The overlay comprises items that are non-clickable and will not generate events, ie. animated clock hands, pendulum &c.
 '---------------------------------------------------------------------------------------
 '
 Public Sub InitFromPSD(ByRef PSD_FileNameOrByteArray As Variant)
@@ -382,10 +388,12 @@ Public Sub InitFromPSD(ByRef PSD_FileNameOrByteArray As Variant)
     Set overlayWidget.cCollOverlayImages = collPSDNonUIElements 'make the excluded PSD-Surface-Paths known to the Overlay-Widget
         overlayWidget.cxPerc = 0.645 'define the relative center (within cwOverlay, which has the same size as the Form and the PSD...) this is used for clock-hand-positioning
         overlayWidget.cyPerc = 0.334
+        
+    ' need to create a second overlay here just for the pendulum animation.
 
     thisZorder = clockForm.Widgets.GetOneBasedChildIndexByKey("displayScreen")
 
-    ' set some Font and ForeColor Properties and draw some Text on the Widget
+    'create a label widget, set some Font and ForeColor Properties
     Set lblTerminalText = clockForm.Widgets.Add(New_W("cwLabel"), "lblTerminalText", 423, 74, 220, 165, True, thisZorder + 1)
 
     With lblTerminalText
@@ -400,23 +408,23 @@ Public Sub InitFromPSD(ByRef PSD_FileNameOrByteArray As Variant)
         .Widget.BackColor = -1
     End With
     
-    gblFClockAvailable = True
+    gblFClockAvailable = True ' this sets a flag to stop text being written to the screen before it is created/rendered.
     
-    'the next 5 lines will init a "moving Slider" (which was defined as "sliderset"-layer in the PSD)
+    'the next 5 lines will init a "moving Slider" (which was defined as the "sliderset" layer in the PSD)
     Set sliderset = clockForm.Widgets("sliderset").Widget 'store the already (in PSD-Loop created) Widget-reference in an explicit "WithEvents-Variable"
         
     With sliderset
-        .Moveable = False 'make it not moveable by default
+        .Moveable = False 'make it not moveable by default, it is switched ON elsewhere
         .HoverColor = 0
         .MousePointer = IDC_HAND
         .Tag = 0.01
     End With
     
-    
     pvtSldFixedTop = sliderset.Top   'and store the initial position-data for y-direction (which will not be changed)
     pvtSldXMax = sliderset.Left      'as well as the x-direction related pos (which is initially at the "100%-Volume, right-endswitch" )
-    pvtSldXMin = pvtSldXMax - 116       'the Min-Value is simply the Max-Value minus Slider-Range (the 300pxl-range was determined by "probing")
+    pvtSldXMin = pvtSldXMax - 116    'the Min-Value is simply the Max-Value minus Slider-Range (the 300pxl-range was determined by "probing")
 
+     ' set the various widgets as WithEvents Variables
     Set helpbottom = clockForm.Widgets("helpbottom").Widget
     Set screentop = clockForm.Widgets("screentop").Widget
     Set displayscreen = clockForm.Widgets("displayscreen").Widget
@@ -449,7 +457,7 @@ Public Sub InitFromPSD(ByRef PSD_FileNameOrByteArray As Variant)
     Set crankdown = clockForm.Widgets("crankdown").Widget
     Set weekdayred = clockForm.Widgets("weekdayred").Widget
     Set weekdaytill = clockForm.Widgets("weekdaytill").Widget
-    'Set weekdayshadow = clockForm.Widgets("weekdayshadow").Widget
+
     Set dropdown = clockForm.Widgets("dropdown").Widget
     Set bellset = clockForm.Widgets("bellset").Widget
     Set helpdropdown = clockForm.Widgets("helpdropdown").Widget
@@ -457,11 +465,10 @@ Public Sub InitFromPSD(ByRef PSD_FileNameOrByteArray As Variant)
     Set clockset = clockForm.Widgets("clockset").Widget
     Set glow = clockForm.Widgets("glow").Widget
     
-    Set timedisplay = clockForm.Widgets("timedisplay").Widget
+    Set timedisplay = clockForm.Widgets("timedisplay").Widget ' widgets used only for intercepting numeric display mouseMoves for balloon tooltips.
     Set yeardisplay = clockForm.Widgets("yeardisplay").Widget
     Set datedisplay = clockForm.Widgets("datedisplay").Widget
 
-    
     On Error GoTo 0
    Exit Sub
 
@@ -474,7 +481,7 @@ End Sub
 ' Procedure : clockForm_BubblingEvent
 ' Author    : beededea
 ' Date      : 31/07/2023
-' Purpose   : central handling of all Click-Events
+' Purpose   : central handling of all Click-Events for all pre-defined PSD layer widgets
 '---------------------------------------------------------------------------------------
 '
 Private Sub clockForm_BubblingEvent(ByRef sender As Object, ByRef EventName As String, ByRef p1 As Variant, ByRef p2 As Variant, ByRef P3 As Variant, ByRef P4 As Variant, ByRef P5 As Variant, ByRef P6 As Variant, ByRef P7 As Variant)
@@ -492,7 +499,7 @@ Private Sub clockForm_BubblingEvent(ByRef sender As Object, ByRef EventName As S
     stdMessage = "Right Click to open the menu and the preferences. CTRL+ Mouse scrollwheel UP/DOWN to resize. "
     stdSubject = "You can turn off the balloon tooltips in the preferences."
     
-    ' set the balloon tooltips
+    ' set the balloon tooltips and perform other tasks onMouseMove, RC style tooltips are defined elsewhere
     If EventName = "W_MouseMove" Then
         Debug.Print sender.Widget.Key
         Select Case LCase$(sender.Widget.Key)
@@ -615,8 +622,6 @@ Private Sub clockForm_BubblingEvent(ByRef sender As Object, ByRef EventName As S
                     weekdayred.Alpha = Val(gblOpacity) / 100
                     weekdayred.Refresh
                 End If
-
-
 
             ' monday - sunday ensuring the weekday till goes red even when hovering over the day text in=mages.
             Case "monday"
@@ -3528,6 +3533,7 @@ Public Property Let chainEnabled(ByVal newValue As Boolean)
         If widgetPrefs.IsLoaded = True Then widgetPrefs.chkEnableTicks.Value = 0
     End If
        
+    sPutINISetting "Software\SteampunkClockCalendar", "enableTicks", gblEnableTicks, gblSettingsFile
     sPutINISetting "Software\SteampunkClockCalendar", "chainEnabled", gblChainEnabled, gblSettingsFile
 
     If mChainEnabled <> newValue Then mChainEnabled = newValue Else Exit Property
