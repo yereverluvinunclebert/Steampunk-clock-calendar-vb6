@@ -3522,13 +3522,13 @@ Public Property Let chainEnabled(ByVal newValue As Boolean)
     If newValue = True Then
         chain.Move chainLeft, chainTop + 10
         gblChainEnabled = "True"
-        gblEnableTicks = "True"
+        gblEnableTicks = "1"
         ticking = True
         If widgetPrefs.IsLoaded = True Then widgetPrefs.chkEnableTicks.Value = 1
     Else
         chain.Move chainLeft, chainTop - 10
         gblChainEnabled = "False"
-        gblEnableTicks = "False"
+        gblEnableTicks = "0"
         ticking = False
         If widgetPrefs.IsLoaded = True Then widgetPrefs.chkEnableTicks.Value = 0
     End If
