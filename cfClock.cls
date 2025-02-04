@@ -15,7 +15,7 @@ Attribute VB_Exposed = False
 ' Module    : cfClock
 ' Author    : beededea
 ' Date      : 18/10/2024
-' Purpose   :
+' Purpose   : This is the class for the clock form and all the elements upon it.
 '---------------------------------------------------------------------------------------
 
 '@IgnoreModule IntegerDataType, ModuleWithoutFolder
@@ -23,9 +23,9 @@ Option Explicit
 
 Private Declare Sub Sleep Lib "kernel32.dll" (ByVal dwMilliseconds As Long)
 
-Private Declare Function mciSendString Lib "winmm.dll" Alias "mciSendStringA" _
- (ByVal lpstrCommand As String, ByVal lpstrReturnString As String, _
-  ByVal uReturnLength As Long, ByVal hwndCallback As Long) As Long
+'Private Declare Function mciSendString Lib "winmm.dll" Alias "mciSendStringA" _
+' (ByVal lpstrCommand As String, ByVal lpstrReturnString As String, _
+'  ByVal uReturnLength As Long, ByVal hwndCallback As Long) As Long
 
 Public WithEvents clockForm As cWidgetForm
 Attribute clockForm.VB_VarHelpID = -1
@@ -184,7 +184,6 @@ Private busyTimerRotateValue As Integer
 '---------------------------------------------------------------------------------------
 '
 Private Sub Class_Initialize()
-
    
     On Error GoTo Class_Initialize_Error
     
@@ -200,9 +199,6 @@ Private Sub Class_Initialize()
     
     Set tmrTickingSound = Nothing
     Set tmrTickingSound = New_c.Timer(300, False)
-    
-'    Set tmrDisplay = Nothing
-'    Set tmrDisplay = New_c.Timer(1000, True)
 
    On Error GoTo 0
    Exit Sub
@@ -910,7 +906,8 @@ End Sub
 ' Procedure : displayscreen_myDblClick
 ' Author    : beededea
 ' Date      : 27/10/2024
-' Purpose   :
+' Purpose   :  - note: - can't use a std MouseDown as
+'             declaring a widget as cWidgetBase 'WithEvents' does not provide a std MouseDown with a sender object
 '---------------------------------------------------------------------------------------
 '
 Private Sub displayscreen_myDblClick()
@@ -1054,7 +1051,7 @@ End Sub
 ' Procedure : deleteAlarm1
 ' Author    : beededea
 ' Date      : 29/09/2024
-' Purpose   :
+' Purpose   : Delete alarm number 1
 '---------------------------------------------------------------------------------------
 '
 Private Sub deleteAlarm1(ByRef anAlarmDeleted As Boolean)
@@ -1106,7 +1103,7 @@ deleteAlarm1_Error:
 ' Procedure : deleteAlarm2
 ' Author    : beededea
 ' Date      : 29/09/2024
-' Purpose   :
+' Purpose   : Delete alarm number 2
 '---------------------------------------------------------------------------------------
 '
 Private Sub deleteAlarm2(ByRef anAlarmDeleted As Boolean)
@@ -1152,7 +1149,7 @@ deleteAlarm2_Error:
 ' Procedure : deleteAlarm3
 ' Author    : beededea
 ' Date      : 29/09/2024
-' Purpose   :
+' Purpose   : Delete alarm number 3
 '---------------------------------------------------------------------------------------
 '
 Private Sub deleteAlarm3(ByRef anAlarmDeleted As Boolean)
@@ -1198,7 +1195,7 @@ deleteAlarm3_Error:
 ' Procedure : deleteAlarm4
 ' Author    : beededea
 ' Date      : 29/09/2024
-' Purpose   :
+' Purpose   : Delete alarm number 4
 '---------------------------------------------------------------------------------------
 '
     Private Sub deleteAlarm4(ByRef anAlarmDeleted As Boolean)
@@ -1244,7 +1241,7 @@ deleteAlarm4_Error:
 ' Procedure : deleteAlarm5
 ' Author    : beededea
 ' Date      : 29/09/2024
-' Purpose   :
+' Purpose   : Delete alarm number 5
 '---------------------------------------------------------------------------------------
 '
 Private Sub deleteAlarm5(ByRef anAlarmDeleted As Boolean)
@@ -1290,7 +1287,8 @@ deleteAlarm5_Error:
 ' Procedure : bellset_myMouseDown
 ' Author    : beededea
 ' Date      : 03/08/2023
-' Purpose   :  - note: - can't use a std MouseDown as
+' Purpose   : handle a click on the bell, mutes the alarms
+'             - note: - can't use a std MouseDown as
 '             declaring a widget as cWidgetBase 'WithEvents' does not provide a std MouseDown with a sender object
 '---------------------------------------------------------------------------------------
 '
@@ -1324,7 +1322,8 @@ End Sub
 ' Procedure : dropdown_MouseDown
 ' Author    : beededea
 ' Date      : 03/08/2023
-' Purpose   :  - note: - can't use a std MouseDown as
+' Purpose   : a click on the dropdown canvas
+'             - note: - can't use a std MouseDown as
 '             declaring a widget as cWidgetBase 'WithEvents' does not provide a std MouseDown with a sender object
 '---------------------------------------------------------------------------------------
 '
@@ -1341,9 +1340,9 @@ Private Sub dropdown_myMouseDown()
     
     On Error GoTo dropdown_MouseDown_Error
     
-     If gblWidgetFunctions = "0" Or gblIgnoreMouse = "1" Then Exit Sub
+    If gblWidgetFunctions = "0" Or gblIgnoreMouse = "1" Then Exit Sub
     
-   dropdownTop = dropdown.Top
+    dropdownTop = dropdown.Top
     dropdownLeft = dropdown.Left
             
     alphaVal = Val(gblOpacity) / 100
@@ -1391,7 +1390,8 @@ End Sub
 ' Procedure : alarmtoggle1_myMouseDown
 ' Author    : beededea
 ' Date      : 03/08/2023
-' Purpose   :  - note: - can't use a std MouseDown as
+' Purpose   : A mouse click on the alarm number 1 toggle
+'             - note: - can't use a std MouseDown as
 '             declaring a widget as cWidgetBase 'WithEvents' does not provide a std MouseDown with a sender object
 '---------------------------------------------------------------------------------------
 '
@@ -1436,7 +1436,8 @@ End Sub
 ' Procedure : alarmtoggle2_myMouseDown
 ' Author    : beededea
 ' Date      : 03/08/2023
-' Purpose   :  - note: - can't use a std MouseDown as
+' Purpose   : A mouse click on the alarm number 1 toggle
+'             - note: - can't use a std MouseDown as
 '             declaring a widget as cWidgetBase 'WithEvents' does not provide a std MouseDown with a sender object
 '---------------------------------------------------------------------------------------
 '
@@ -1481,7 +1482,7 @@ End Sub
 ' Procedure : alarmtoggle3_myMouseDown
 ' Author    : beededea
 ' Date      : 03/08/2023
-' Purpose   :  - note: - can't use a std MouseDown as
+' Purpose   : A mouse click on the alarm number 1 toggle - note: - can't use a std MouseDown as
 '             declaring a widget as cWidgetBase 'WithEvents' does not provide a std MouseDown with a sender object
 '---------------------------------------------------------------------------------------
 '
@@ -1527,7 +1528,7 @@ End Sub
 ' Procedure : alarmtoggle4_myMouseDown
 ' Author    : beededea
 ' Date      : 03/08/2023
-' Purpose   :  - note: - can't use a std MouseDown as
+' Purpose   : A mouse click on the alarm number 1 toggle - note: - can't use a std MouseDown as
 '             declaring a widget as cWidgetBase 'WithEvents' does not provide a std MouseDown with a sender object
 '---------------------------------------------------------------------------------------
 '
@@ -1572,7 +1573,7 @@ End Sub
 ' Procedure : alarmtoggle5_myMouseDown
 ' Author    : beededea
 ' Date      : 03/08/2023
-' Purpose   :  - note: - can't use a std MouseDown as
+' Purpose   : A mouse click on the alarm number 1 toggle - note: - can't use a std MouseDown as
 '             declaring a widget as cWidgetBase 'WithEvents' does not provide a std MouseDown with a sender object
 '---------------------------------------------------------------------------------------
 '
@@ -1620,7 +1621,7 @@ End Sub
 ' Procedure : weekdayred_myMouseDown
 ' Author    : beededea
 ' Date      : 03/08/2023
-' Purpose   :  - note: - can't use a std MouseDown as
+' Purpose   : A mouse click on the weekday red overlay - note: - can't use a std MouseDown as
 '             declaring a widget as cWidgetBase 'WithEvents' does not provide a std MouseDown with a sender object
 '---------------------------------------------------------------------------------------
 '
@@ -1675,7 +1676,7 @@ End Sub
 ' Procedure : chain_myMouseDown
 ' Author    : beededea
 ' Date      : 03/08/2023
-' Purpose   :  - note: - can't use a std MouseDown as
+' Purpose   : A mouse click on the chain that controls the ticking - note: - can't use a std MouseDown as
 '             declaring a widget as cWidgetBase 'WithEvents' does not provide a std MouseDown with a sender object
 '---------------------------------------------------------------------------------------
 '
@@ -1721,7 +1722,7 @@ End Sub
 ' Procedure : backtoggle_myMouseDown
 ' Author    : beededea
 ' Date      : 03/08/2023
-' Purpose   :  - note: - can't use a std MouseDown as
+' Purpose   : A mouse click on the back screen toggle - note: - can't use a std MouseDown as
 '             declaring a widget as cWidgetBase 'WithEvents' does not provide a std MouseDown with a sender object
 '---------------------------------------------------------------------------------------
 '
@@ -1766,7 +1767,7 @@ End Sub
 ' Procedure : alarmtoggle_myMouseDown
 ' Author    : beededea
 ' Date      : 03/08/2023
-' Purpose   :  - note: - can't use a std MouseDown as
+' Purpose   : A mouse click on the main alarm toggle that sets the alarms - note: - can't use a std MouseDown as
 '             declaring a widget as cWidgetBase 'WithEvents' does not provide a std MouseDown with a sender object
 '---------------------------------------------------------------------------------------
 '
@@ -1815,7 +1816,7 @@ End Sub
 ' Procedure : timeMachineToggle_myMouseDown
 ' Author    : beededea
 ' Date      : 03/08/2023
-' Purpose   :  - note: - can't use a std MouseDown as
+' Purpose   : A time machine toggle - note: - can't use a std MouseDown as
 '             declaring a widget as cWidgetBase 'WithEvents' does not provide a std MouseDown with a sender object
 '---------------------------------------------------------------------------------------
 '
@@ -1859,7 +1860,8 @@ End Sub
 ' Procedure : weekdayToggle_myMouseDown
 ' Author    : beededea
 ' Date      : 03/08/2023
-' Purpose   :
+' Purpose   : a click on the weekday toggle  - note: - can't use a std MouseDown as
+'             declaring a widget as cWidgetBase 'WithEvents' does not provide a std MouseDown with a sender object
 '---------------------------------------------------------------------------------------
 '
 Private Sub weekdayToggle_myMouseDown()
@@ -2080,7 +2082,7 @@ End Sub
 ' Procedure : mutetoggle_myMouseDown
 ' Author    : beededea
 ' Date      : 03/08/2023
-' Purpose   :
+' Purpose   : mutes the sound
 '---------------------------------------------------------------------------------------
 '
 Private Sub mutetoggle_myMouseDown()
@@ -2112,7 +2114,7 @@ End Sub
 ' Procedure : pendulumtoggle_myMouseDown
 ' Author    : beededea
 ' Date      : 03/08/2023
-' Purpose   :
+' Purpose   : starts the pendulum moving
 '---------------------------------------------------------------------------------------
 '
 Private Sub pendulumtoggle_myMouseDown()
@@ -2142,7 +2144,7 @@ End Sub
 ' Procedure : displayScreenToggle_myMouseDown
 ' Author    : beededea
 ' Date      : 03/08/2023
-' Purpose   :
+' Purpose   : the toggle that raises or lowers the display
 '---------------------------------------------------------------------------------------
 '
 Private Sub displayScreenToggle_myMouseDown()
@@ -2195,7 +2197,7 @@ End Sub
 ' Procedure : helptoggle_myMouseDown
 ' Author    : beededea
 ' Date      : 03/08/2023
-' Purpose   :
+' Purpose   : the help toggle reveals the help dropdown on the left hand side
 '---------------------------------------------------------------------------------------
 '
 Private Sub helptoggle_myMouseDown()
@@ -2322,7 +2324,7 @@ End Sub
 ' Procedure : help3toggle_myMouseDown
 ' Author    : beededea
 ' Date      : 03/08/2023
-' Purpose   : help3toggle is the topmost so it receives all the clicks
+' Purpose   : help3toggle is the topmost so it receives all the clicks - RC
 '---------------------------------------------------------------------------------------
 '
 Private Sub help3toggle_myMouseDown()
@@ -2382,7 +2384,7 @@ End Sub
 ' Procedure : pendulumtransparent_myMouseDown
 ' Author    : beededea
 ' Date      : 29/07/2024
-' Purpose   :
+' Purpose   : Cannot click on the pendulum as it is within the overlay animations, instead we have a transparent area underneath that collects the clicks for the pendulum.
 '---------------------------------------------------------------------------------------
 '
 Private Sub pendulumtransparent_myMouseDown()
@@ -2425,7 +2427,7 @@ End Sub
 ' Procedure : helptoggle_myMouseDown
 ' Author    : beededea
 ' Date      : 03/08/2023
-' Purpose   :
+' Purpose   : A click handled on the help canvas dropdown itself
 '---------------------------------------------------------------------------------------
 '
 Private Sub helpdropdown_myMouseDown()
@@ -2479,14 +2481,14 @@ End Sub
 ' Procedure : lockingpin_mouseDown
 ' Author    : beededea
 ' Date      : 03/08/2023
-' Purpose   :
+' Purpose   : Locking the locking pin that locks the widget in place
 '---------------------------------------------------------------------------------------
 '
 Private Sub lockit()
    On Error GoTo lockingpin_mouseDown_Error
      If gblWidgetFunctions = "0" Or gblIgnoreMouse = "1" Then Exit Sub
     
-   clockForm.Widgets("lockingpinlocked").Widget.Alpha = Val(gblOpacity) / 100
+    clockForm.Widgets("lockingpinlocked").Widget.Alpha = Val(gblOpacity) / 100
     clockForm.Widgets("lockingpin").Widget.Alpha = Val(gblOpacity) / 100
 
     clockForm.Widgets("lockingpinlocked").Widget.Visible = True
@@ -2504,17 +2506,18 @@ lockingpin_mouseDown_Error:
 
 End Sub
 
+
 '---------------------------------------------------------------------------------------
-' Procedure : lockingpin_mouseDown
+' Procedure : unlockit
 ' Author    : beededea
-' Date      : 03/08/2023
-' Purpose   :
+' Date      : 03/02/2025
+' Purpose   : Unlocking the locking pin that locks the widget in place
 '---------------------------------------------------------------------------------------
 '
 Private Sub unlockit()
-   On Error GoTo lockingpin_mouseDown_Error
 
-    
+   On Error GoTo unlockit_Error
+
     clockForm.Widgets("lockingpinlocked").Widget.Alpha = Val(gblOpacity) / 100
     clockForm.Widgets("lockingpin").Widget.Alpha = Val(gblOpacity) / 100
 
@@ -2523,13 +2526,13 @@ Private Sub unlockit()
 
     clockForm.Refresh
     Call toggleWidgetLock
-    
+
    On Error GoTo 0
    Exit Sub
 
-lockingpin_mouseDown_Error:
+unlockit_Error:
 
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure lockingpin_mouseDown of Class Module cfClock"
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure unlockit of Class Module cfClock"
 
 End Sub
 
@@ -2537,44 +2540,19 @@ End Sub
 ' Procedure : helpbottom_myMouseDown
 ' Author    : beededea
 ' Date      : 04/08/2024
-' Purpose   :
+' Purpose   : this handles a click upon the underlying parchment help
 '---------------------------------------------------------------------------------------
 '
 Private Sub helpbottom_myMouseDown()
-'    Dim helpbottomTop As Long: helpbottomTop = 0
-'    Dim helpbottomLeft As Long: helpbottomLeft = 0
-'    Dim labellayerTop As Long: labellayerTop = 0
-'    Dim labellayerLeft As Long: labellayerLeft = 0
-'    Dim alphaVal As single: alphaVal = 0
-
-'    Dim fileToPlay As String: fileToPlay = vbNullString
     
     On Error GoTo helpbottom_myMouseDown_Error
-'
-'    helpbottomTop = helpbottom.Top
-'    helpbottomLeft = helpbottom.Left
-'
-'    labellayerTop = labellayer.Top
-'    labellayerLeft = labellayer.Left
 
      If gblWidgetFunctions = "0" Or gblIgnoreMouse = "1" Then Exit Sub
     
-     If helpbottom.Alpha <> 0 Then ' cope with the click on the invisible helpbottom layer
+     If helpbottom.Alpha <> 0 Then ' cope with the click on the invisible helpbottom layer that is still clickable in RC
         
         ShowHelp = False
                 
-        'If startupFlg = True Then
-            'clockForm.Widgets("monday").Widget.Alpha = 0
-            'f alarmtoggle1Enabled = False Then clockForm.Widgets("alarm1till").Widget.Alpha = 0
-            'clockForm.Widgets("redarlarmcover").Widget.Alpha = 0
-        'End If
-        
-'        fileToPlay = "pagefumble.wav"
-'        If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
-'            PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
-'        End If
-                
-        'clockForm.Refresh
     End If
         
    On Error GoTo 0
@@ -2595,7 +2573,7 @@ End Sub
 ' Procedure : clockForm_DblClick
 ' Author    : beededea
 ' Date      : 05/05/2023
-' Purpose   :
+' Purpose   : If a double-click command has been selected in the prefs then this will carry it out
 '---------------------------------------------------------------------------------------
 '
 Private Sub clockForm_DblClick()
@@ -2648,7 +2626,7 @@ End Sub
 ' Procedure : clockForm_KeyDown
 ' Author    : beededea
 ' Date      : 01/06/2019
-' Purpose   : get F5 and SHIFT keypresses
+' Purpose   : get F5 and SHIFT keypresses and key downs for the main toggles H,A,S,M,P,T,D,W,B & 1-5
 '---------------------------------------------------------------------------------------
 '
 Private Sub clockForm_KeyDown(ByRef KeyCode As Integer, ByRef Shift As Integer)
@@ -2709,7 +2687,7 @@ End Sub
 ' Procedure : clockForm_MouseMove
 ' Author    : beededea
 ' Date      : 31/07/2023
-' Purpose   :
+' Purpose   : move the whole form on a mousDown and drag
 '---------------------------------------------------------------------------------------
 '
 Private Sub clockForm_MouseMove(ByRef Button As Integer, ByRef Shift As Integer, ByRef x As Single, ByRef y As Single)
@@ -2744,7 +2722,7 @@ End Sub
 ' Procedure : clockForm_MouseWheel
 ' Author    : beededea
 ' Date      : 31/07/2023
-' Purpose   : rotate forward positive = smaller
+' Purpose   : Handles rotation of the mousewheel, with CTRL key pressed, making the widget smaller or larger. By default, rotate forward positive = smaller
 '---------------------------------------------------------------------------------------
 '
 Private Sub clockForm_MouseWheel(ByVal MouseKeys As Long, ByVal Rotation As Long, ByVal Xpos As Single, ByVal Ypos As Single)
@@ -2777,7 +2755,7 @@ End Sub
 ' Procedure : AdjustZoom
 ' Author    : olaf schmidt
 ' Date      : 31/07/2023
-' Purpose   :
+' Purpose   : Adjust the size of the whole clock, anchoring the clock top left, storing the values for later use
 '---------------------------------------------------------------------------------------
 '
 Public Sub AdjustZoom(ByVal NewZoom As Single)
@@ -3971,7 +3949,8 @@ Public Property Let muteToggleEnabled(ByVal newValue As Boolean)
         If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
             ' lngReturn = mciSendString("stop " & fileToPlay, "", 0, 0)
             
-            stopAsynchSound App.path & "\resources\sounds\" & fileToPlay
+            'stopAsynchSound App.path & "\resources\sounds\" & fileToPlay
+            Call stopAllAsynchSounds
         End If
     Else
         mutetoggle.Move muteToggleOut, muteToggleTop

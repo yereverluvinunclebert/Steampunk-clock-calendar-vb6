@@ -38,6 +38,10 @@ Public Property Get Widgets() As cWidgets: Set Widgets = W.Widgets: End Property
 Private Sub W_HitTest(ByVal x As Single, ByVal y As Single, HitResultHit As Boolean) 'ensure ClickThrough-behaviour in ImagePixels which are "fully Alpha"
   HitResultHit = False
   Dim Srf As cCairoSurface, Pxl() As Long
+  
+  ' this single line determines whether
+  'If W.Alpha = 0 Or W.Enabled = False Then Exit Sub
+  
   If Cairo.ImageList.Exists(W.ImageKey) And W.HoverColor <> -1 Then Set Srf = Cairo.ImageList(W.ImageKey) Else Exit Sub
   If Not Srf.BindToArrayLong(Pxl) Or W.Width = 0 Or W.Height = 0 Then Exit Sub
      HitResultHit = Pxl(x * Srf.Width / W.Width, y * Srf.Height / W.Height) 'only when the Pixel==0==FullAlpha, will HitResultHit be returned False

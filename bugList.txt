@@ -351,20 +351,21 @@ o added code when un-setting all alarms to specifically reverse the alarm functi
 ' descriptions on all routines on the cwOverlay
 ' create setup.exe with a different name.
 
-' tick chain is not saving and restoring its position when pulled
 ' moved the clock timer start to a position later in the main_routine
 ' fixed github removing linebreaks from repos by:  git config --global core.autocrlf true
 ' updated release text
 ' zipped the source folder and uploaded manually.
+
+' tick chain is not saving and restoring its position when pulled
 
 ' -oOo-
 
 Tasks to do:
 ============
 
-' 00xx issue on small slider movements just trying to change the time
-
 ' change and test the slider values to make time changes more practical
+
+' 00xx issue on small slider movements just trying to change the time
 
 ' when an alarm has been raised and an alarm toggle selected, if you move the slider forward to a future date/time, a double click does not revert the time to the current time.
 
@@ -417,6 +418,9 @@ Tasks to do:
 ' rubberduck the code
 
 ' look at Olaf's pendulum code - if the pendulum swinging is still using too much CPU after the new overlay
+
+Test the help drop down, the weekday and alarm tills and other items that have other items below them to see how they react with this code in cwAlpha.cls:
+'If W.Alpha = 0 Or W.Enabled = False Then Exit Sub
 
 ' Create a XP /ReactOS version using old APIs and RC5 - no DPI awareness, as XP does not have the API nor the capability.
         https://www.vbforums.com/showthread.php?896944-VB6-QUESTION-Check-if-API-exists

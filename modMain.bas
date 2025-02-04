@@ -1922,7 +1922,7 @@ End Sub
 ' Procedure : stopAsynchSound
 ' Author    : beededea
 ' Date      : 27/01/2025
-' Purpose   : requires minimal changes to playSound code
+' Purpose   : requires minimal changes to previous playSound code
 '---------------------------------------------------------------------------------------
 '
 Public Sub stopAsynchSound(ByVal SoundFile As String)
@@ -1957,3 +1957,37 @@ stopAsynchSound_Error:
 
 End Sub
 
+
+'---------------------------------------------------------------------------------------
+' Procedure : stopAllAsynchSounds
+' Author    : beededea
+' Date      : 04/02/2025
+' Purpose   : ONLY stops any WAV files currently playing in asynchronous mode.
+'---------------------------------------------------------------------------------------
+'
+Public Sub stopAllAsynchSounds()
+            
+   On Error GoTo stopAllAsynchSounds_Error
+
+    Call StopSound(1)
+    Call StopSound(2)
+    Call StopSound(3)
+    Call StopSound(4)
+    Call StopSound(5)
+    Call StopSound(6)
+    Call StopSound(7)
+    Call StopSound(8)
+    Call StopSound(9)
+    Call StopSound(10)
+    Call StopSound(12)
+    Call StopSound(13)
+    Call StopSound(14)
+
+   On Error GoTo 0
+   Exit Sub
+
+stopAllAsynchSounds_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure stopAllAsynchSounds of Module modMain"
+
+End Sub
