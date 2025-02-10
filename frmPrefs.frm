@@ -6377,7 +6377,7 @@ End Sub
 ' Procedure : Form_Resize
 ' Author    : beededea
 ' Date      : 30/05/2023
-' Purpose   : Called at every twip of resising, goodness knows what interval, we barely use this, instead we subclass and look for WM_EXITSIZEMOVE
+' Purpose   : IMPORTANT: Called at every twip of resising, goodness knows what interval, we barely use this, instead we subclass and look for WM_EXITSIZEMOVE
 '---------------------------------------------------------------------------------------
 '
 Private Sub Form_Resize()
@@ -6406,7 +6406,7 @@ End Sub
 ' Procedure : PrefsForm_resize
 ' Author    : beededea
 ' Date      : 10/10/2024
-' Purpose   : routine to resize the prefs called by subclassing om a mouseUp form event during a bottom-right corner-drag or in code as required.
+' Purpose   : routine to resize the prefs called by subclassing on a mouseUp form event during a bottom-right corner-drag or in code as required.
 '---------------------------------------------------------------------------------------
 '
 Public Sub PrefsForm_resize()

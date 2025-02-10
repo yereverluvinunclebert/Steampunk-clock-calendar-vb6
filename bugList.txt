@@ -358,6 +358,10 @@ o added code when un-setting all alarms to specifically reverse the alarm functi
 
 ' tick chain is not saving and restoring its position when pulled
 
+' mute button mutes playSound WAV files but not those played asynchronously
+
+' descriptions on all routines in cfClock
+
 ' -oOo-
 
 Tasks to do:
@@ -371,7 +375,10 @@ Tasks to do:
 
 ' add time machine functionality
 
-' descriptions on all routines in cfClock - WIP
+' disable chimes vs alarms disabled
+
+
+
 ' descriptions on all routines in cfMain - WIP
 ' descriptions on all routines in cwAbout - WIP
 ' descriptions on all routines in cwLicence - WIP
@@ -396,6 +403,14 @@ Tasks to do:
 '     the weekday had not changed overnight and the previous transparent day indicator was left on screen, pressing the weekday toggle caused the new weekday
 '     to appear but the previous one persists
 
+' tmrTILLSound_Timer 1 timer delay, convert to asynch. sound
+
+' tmrTickingSound_Timer timer to allow a sound sequence of ticks to be played, needs replacing with a timed tick that corresponds with pendulum movement
+
+' rationalise SliderFreed,  SliderEnabled, SliderInTransit
+
+' sliderSet movement should cause asynch. sounds rather than causing a timer to call the sound in the background.
+
 ' add another overlay that handles the animation of the pendulum alone that can run at a much higher frequency and reducing CPU usage overall.
 
 ' match the numeric digit rotation to match the YWE version? Not sure...
@@ -403,6 +418,10 @@ Tasks to do:
 ' find and replace globals within overlay class with property GET/SETs - WIP
 
 ' find and replace globals within fClock class with property GET/SETs - WIP
+
+' find and replace timers within overlay class with property GET/SETs - WIP
+
+' find and replace timers within fClock class with property GET/SETs - WIP
 
 ' replace the dropdown comboxes for the date selection with Krool's date/time calendar
 
@@ -419,8 +438,8 @@ Tasks to do:
 
 ' look at Olaf's pendulum code - if the pendulum swinging is still using too much CPU after the new overlay
 
-Test the help drop down, the weekday and alarm tills and other items that have other items below them to see how they react with this code in cwAlpha.cls:
-'If W.Alpha = 0 Or W.Enabled = False Then Exit Sub
+' Test the help drop down, the weekday and alarm tills and other items that have other items below them to see how they react with this code in cwAlpha.cls:
+' If W.Alpha = 0 Or W.Enabled = False Then Exit Sub
 
 ' Create a XP /ReactOS version using old APIs and RC5 - no DPI awareness, as XP does not have the API nor the capability.
         https://www.vbforums.com/showthread.php?896944-VB6-QUESTION-Check-if-API-exists

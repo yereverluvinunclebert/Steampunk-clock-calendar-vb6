@@ -54,7 +54,7 @@ Private mTimeMachineToggleEnabled As Boolean
 Private mBackToggleEnabled As Boolean
 Private mClapperEnabled As Boolean
 Private mChainEnabled As Boolean
-Private mCrankedRaised As Boolean
+Private mcrankRaised As Boolean
 Private mTicking As Boolean
 Private mPendulumEnabled As Boolean
 Private mAlarmtoggleEnabled As Boolean
@@ -2785,15 +2785,16 @@ AdjustZoom_Error:
 End Sub
 
 '---------------------------------------------------------------------------------------
-' Procedure : W_MouseDown
+' Procedure : clockForm_MouseDown
 ' Author    :
 ' Date      : 09/05/2023
-' Purpose   :
+' Purpose   : A click on the clock form, test screen resolution and handle right mouse click for the menu
 '---------------------------------------------------------------------------------------
 '
 Private Sub clockForm_MouseDown(ByRef Button As Integer, ByRef Shift As Integer, ByRef x As Single, ByRef y As Single)
-   On Error GoTo W_MouseDown_Error
+   On Error GoTo clockForm_MouseDown_Error
 
+    'essential code to test for monitor resolution before and after a mouse-down pick up and drag to another monitor
     frmTimer.tmrScreenResolution.Enabled = False
     frmTimer.tmrScreenResolution.Interval = 200
     frmTimer.tmrScreenResolution.Enabled = True
@@ -2802,21 +2803,22 @@ Private Sub clockForm_MouseDown(ByRef Button As Integer, ByRef Shift As Integer,
         Call menuForm.PopupMenu(menuForm.mnuMainMenu)
     Else
         If gblIgnoreMouse = "1" Then Exit Sub
-        ' do whatever you want with a mouseDown here, not doing anything at the moment but we will...
+        ' so we pass it through
     End If
 
    On Error GoTo 0
    Exit Sub
 
-W_MouseDown_Error:
+clockForm_MouseDown_Error:
 
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure W_MouseDown of Class Module cfClock"
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure clockForm_MouseDown of Class Module cfClock"
 End Sub
 '---------------------------------------------------------------------------------------
 ' Procedure : sliderset_myMouseDown
 ' Author    : beededea
 ' Date      : 03/08/2023
-' Purpose   :  - note: - can't use a std MouseDown as
+' Purpose   : Touching the slider, prepares it for a movement
+'             - note: - can't use a std MouseDown as
 '             declaring a widget as cWidgetBase 'WithEvents' does not provide a std MouseDown with a sender object
 '---------------------------------------------------------------------------------------
 '
@@ -2827,6 +2829,7 @@ Private Sub sliderset_myMouseDown()
     
     If gblWidgetFunctions = "0" Or gblIgnoreMouse = "1" Then Exit Sub
     
+    ' prevents the whole UI from moving whilst we drag the slider
     overlayWidget.Locked = True
 
     pvtSlidersetMousedown = True
@@ -2857,6 +2860,10 @@ End Sub
 ' ----------------------------------------------------------------
 ' Procedure Name: sliderset_Moving
 ' Purpose:  RC Widget Event-Handler for sliderset with the property .moveable = true
+'           Constrains the sliderset within bounds
+'           Triggers the animation of the clock hands in the background (at lower priority) for when the slider is being held still
+'           Causes the same animation effect to occur when the slider is in transit (higher priority)
+'
 ' Procedure Kind: Sub
 ' Procedure Access: Private
 ' Author: beededea
@@ -2868,7 +2875,7 @@ Private Sub sliderset_Moving()
     
     On Error GoTo sliderset_Moving_Error
     
-    ' set the clock timer to a small interval to allow the clock hands to rotate rapidly as the slider moves to the extreme right/left
+    ' set the clock timer to an even smaller interval to allow the clock hands to rotate rapidly as the slider moves to the extreme right/left
     overlayWidget.tmrClock.Interval = 25
     
     sliderSetCount = sliderSetCount + 1
@@ -2876,7 +2883,7 @@ Private Sub sliderset_Moving()
     pvtSldX = sliderset.Left
     If pvtSldX < pvtSldXMin Then pvtSldX = pvtSldXMin Else If pvtSldX > pvtSldXMax Then pvtSldX = pvtSldXMax 'keep pvtSldX "in range"
     
-    If tmrZZZZSound.Enabled = False And pvtSlidersetMousedown = True Then tmrZZZZSound.Enabled = True
+    If tmrZZZZSound.Enabled = False And pvtSlidersetMousedown = True Then tmrZZZZSound.Enabled = True ' this makes a simultaneous sound - needs to be changed to an async. sound
     
     timeShiftValue = (pvtSldX - pvtSldXMin) / (pvtSldXMax - pvtSldXMin) 'assign the new Value to the Public Prop, to trigger all the necessary refreshs
     overlayWidget.timeShiftValueSecs = timeShiftValue
@@ -2950,7 +2957,7 @@ End Property
 
 ' ----------------------------------------------------------------
 ' Procedure Name: timeShiftValue
-' Purpose:
+' Purpose: Property that holds the amount of timeshift from the centre, positive or negative
 ' Procedure Kind: Property (Get)
 ' Procedure Access: Public
 ' Return Type: Currency
@@ -2974,7 +2981,7 @@ End Property
 
 ' ----------------------------------------------------------------
 ' Procedure Name: timeShiftValue
-' Purpose:
+' Purpose:  Property that holds the amount of timeshift from the centre, positive or negative
 ' Procedure Kind: Property (Let)
 ' Procedure Access: Public
 ' Parameter RHS (Currency):
@@ -2988,10 +2995,10 @@ Public Property Let timeShiftValue(ByVal RHS As Currency)
     pvtSldX = RHS * (pvtSldXMax - pvtSldXMin) + pvtSldXMin
     overlayWidget.sldCurWidth = pvtSldXMax - pvtSldX 'inform the Overlay about the new current "Cable-Width"
     
-    sliderset.Move pvtSldX, pvtSldFixedTop 'move the sliderset-widget accordingly
-    glow.Move pvtSldX + 29, pvtSldFixedTop - 13 'move the glow along with the sliderset-widget accordingly
-    
-    If mTimeShiftValue <> RHS Then mTimeShiftValue = RHS Else Exit Property  'only refresh, when there was a change to the previous value
+    sliderset.Move pvtSldX, pvtSldFixedTop      ' move the sliderset-widget accordingly
+    glow.Move pvtSldX + 29, pvtSldFixedTop - 13 ' move the glow along with the sliderset-widget
+     
+    If mTimeShiftValue <> RHS Then mTimeShiftValue = RHS Else Exit Property  ' only refresh, when there was a change to the previous value
     
     If Not Cairo.ToolTipForm Is Nothing Then Cairo.ToolTipForm.Visible = False
     clockForm.Refresh
@@ -3013,7 +3020,7 @@ End Property
 ' Property  : displayScreenToggleEnabled
 ' Author    : beededea
 ' Date      : 10/05/2023
-' Purpose   :
+' Purpose   : Property that controls the display screen visibility
 '---------------------------------------------------------------------------------------
 '
 Public Property Let displayScreenToggleEnabled(ByVal newValue As Boolean)
@@ -3091,7 +3098,7 @@ End Property
 ' Property  : displayScreenToggleEnabled
 ' Author    : beededea
 ' Date      : 17/05/2023
-' Purpose   :
+' Purpose   : Property that controls the display screen visibility
 '---------------------------------------------------------------------------------------
 '
 Public Property Get displayScreenToggleEnabled() As Boolean
@@ -3111,7 +3118,8 @@ End Property
 ' Procedure : clapperleft_myMouseDown
 ' Author    : beededea
 ' Date      : 03/08/2023
-' Purpose   :  - note: - can't use a std MouseDown as
+' Purpose   : The clapper in left position, clickable to 'move' or reveal the clapper to the right, disabling the alarms
+'             Note: - can't use a std MouseDown as
 '             declaring a widget as cWidgetBase 'WithEvents' does not provide a std MouseDown with a sender object
 '---------------------------------------------------------------------------------------
 '
@@ -3155,7 +3163,8 @@ End Sub
 ' Procedure : clapperright_myMouseDown
 ' Author    : beededea
 ' Date      : 03/08/2023
-' Purpose   :  - note: - can't use a std MouseDown as
+' Purpose   : The clapper in right position, clickable to 'move' or reveal the clapper to the left, enabling the alarms
+'             - note: - can't use a std MouseDown as
 '             declaring a widget as cWidgetBase 'WithEvents' does not provide a std MouseDown with a sender object
 '---------------------------------------------------------------------------------------
 '
@@ -3188,7 +3197,7 @@ End Sub
 ' Property  : clapperEnabled
 ' Author    : beededea
 ' Date      : 10/05/2023
-' Purpose   :
+' Purpose   : a property determining the bell clapper state
 '---------------------------------------------------------------------------------------
 '
 Public Property Let clapperEnabled(ByVal newValue As Boolean)
@@ -3246,7 +3255,7 @@ End Property
 ' Property  : clapperEnabled
 ' Author    : beededea
 ' Date      : 17/05/2023
-' Purpose   :
+' Purpose   : a property determining the bell clapper state
 '---------------------------------------------------------------------------------------
 '
 Public Property Get clapperEnabled() As Boolean
@@ -3266,7 +3275,7 @@ End Property
 ' Property  : backToggleEnabled
 ' Author    : beededea
 ' Date      : 10/05/2023
-' Purpose   :
+' Purpose   : A property determining the state of the background for the display screen
 '---------------------------------------------------------------------------------------
 '
 Public Property Let backToggleEnabled(ByVal newValue As Boolean)
@@ -3317,7 +3326,7 @@ End Property
 ' Property  : backToggleEnabled
 ' Author    : beededea
 ' Date      : 17/05/2023
-' Purpose   :
+' Purpose   : A property determining the state of the background for the display screen
 '---------------------------------------------------------------------------------------
 '
 Public Property Get backToggleEnabled() As Boolean
@@ -3338,7 +3347,8 @@ End Property
 ' Procedure : crankdown_myMouseDown
 ' Author    : beededea
 ' Date      : 03/08/2023
-' Purpose   :  - note: - can't use a std MouseDown as
+' Purpose   : Clicking on the crank handle when in down position is a toggle back up again and increases the volume of all sounds
+'             - note: - can't use a std MouseDown as
 '             declaring a widget as cWidgetBase 'WithEvents' does not provide a std MouseDown with a sender object
 '---------------------------------------------------------------------------------------
 '
@@ -3359,7 +3369,7 @@ Private Sub crankdown_myMouseDown()
         playSound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
     End If
     
-    crankedRaised = True
+    crankRaised = True
 
     clockForm.Refresh
 
@@ -3375,8 +3385,9 @@ End Sub
 ' Procedure : crankup_myMouseDown
 ' Author    : beededea
 ' Date      : 03/08/2023
-' Purpose   :  - note: - can't use a std MouseDown as
-'             declaring a widget as cWidgetBase 'WithEvents' does not provide a std MouseDown with a sender object
+' Purpose   :  Clicking on the crank handle when in up position is a toggle back down again and decreases the volume of all sounds
+'              - note: - can't use a std MouseDown as
+'              declaring a widget as cWidgetBase 'WithEvents' does not provide a std MouseDown with a sender object
 '---------------------------------------------------------------------------------------
 '
 Private Sub crankup_myMouseDown()
@@ -3396,7 +3407,7 @@ Private Sub crankup_myMouseDown()
         playSound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
     End If
     
-    crankedRaised = False
+    crankRaised = False
 
     clockForm.Refresh
 
@@ -3413,16 +3424,16 @@ End Sub
 
 
 '---------------------------------------------------------------------------------------
-' Property  : crankedRaised
+' Property  : crankRaised
 ' Author    : beededea
 ' Date      : 10/05/2023
-' Purpose   :
+' Purpose   : Property to determine the state of the crank, raised or not
 '---------------------------------------------------------------------------------------
 '
-Public Property Let crankedRaised(ByVal newValue As Boolean)
+Public Property Let crankRaised(ByVal newValue As Boolean)
     Dim alphaVal As Single: alphaVal = 0
   
-    On Error GoTo crankedRaisedLet_Error
+    On Error GoTo crankRaisedLet_Error
     
     alphaVal = Val(gblOpacity) / 100
     
@@ -3442,39 +3453,39 @@ Public Property Let crankedRaised(ByVal newValue As Boolean)
        
     sPutINISetting "Software\SteampunkClockCalendar", "crankEnabled", gblCrankEnabled, gblSettingsFile
 
-    If mCrankedRaised <> newValue Then mCrankedRaised = newValue Else Exit Property
-    crankedRaised = mCrankedRaised
+    If mcrankRaised <> newValue Then mcrankRaised = newValue Else Exit Property
+    crankRaised = mcrankRaised
     
-    Call screenWrite("volume crank raised = " & mCrankedRaised)
+    Call screenWrite("volume crank raised = " & mcrankRaised)
     
     clockForm.Refresh
      
    On Error GoTo 0
    Exit Property
 
-crankedRaisedLet_Error:
+crankRaisedLet_Error:
 
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property crankedRaised of Class Module cfClock"
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property crankRaised of Class Module cfClock"
 End Property
 
 '---------------------------------------------------------------------------------------
-' Property  : crankedRaised
+' Property  : crankRaised
 ' Author    : beededea
 ' Date      : 17/05/2023
-' Purpose   :
+' Purpose   : Property to determine the state of the crank, raised or not
 '---------------------------------------------------------------------------------------
 '
-Public Property Get crankedRaised() As Boolean
-   On Error GoTo crankedRaisedGet_Error
+Public Property Get crankRaised() As Boolean
+   On Error GoTo crankRaisedGet_Error
 
-    crankedRaised = mCrankedRaised
+    crankRaised = mcrankRaised
 
    On Error GoTo 0
    Exit Property
 
-crankedRaisedGet_Error:
+crankRaisedGet_Error:
 
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property crankedRaised of Class Module cfClock"
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property crankRaised of Class Module cfClock"
 End Property
 
 
@@ -3484,7 +3495,7 @@ End Property
 ' Property  : chainEnabled
 ' Author    : beededea
 ' Date      : 10/05/2023
-' Purpose   :
+' Purpose   : Property to determine the toggle state of the chain, ie. has it been pulled and what is the current state?
 '---------------------------------------------------------------------------------------
 '
 Public Property Let chainEnabled(ByVal newValue As Boolean)
@@ -3532,7 +3543,7 @@ End Property
 ' Property  : chainEnabled
 ' Author    : beededea
 ' Date      : 17/05/2023
-' Purpose   :
+' Purpose   : Property to determine the toggle state of the chain, ie. has it been pulled and what is the current state?
 '---------------------------------------------------------------------------------------
 '
 Public Property Get chainEnabled() As Boolean
@@ -3551,7 +3562,7 @@ End Property
 ' Property  : weekdayToggleEnabled
 ' Author    : beededea
 ' Date      : 10/05/2023
-' Purpose   :
+' Purpose   : property to determine by value the state of the weekday toggle, raised or not
 '---------------------------------------------------------------------------------------
 '
 Public Property Let weekdayToggleEnabled(ByVal newValue As Boolean)
@@ -3624,7 +3635,7 @@ End Property
 ' Property  : weekdayToggleEnabled
 ' Author    : beededea
 ' Date      : 17/05/2023
-' Purpose   :
+' Purpose   : property to determine by value the state of the weekday toggle, raised or not
 '---------------------------------------------------------------------------------------
 '
 Public Property Get weekdayToggleEnabled() As Boolean
@@ -3645,7 +3656,7 @@ End Property
 ' Property  : alarmtoggleEnabled
 ' Author    : beededea
 ' Date      : 10/05/2023
-' Purpose   : the A alarm toggle for switching on the alarm mode
+' Purpose   : property to determine by value the state of the A alarm toggle for switching on the alarm mode
 '---------------------------------------------------------------------------------------
 '
 Public Property Let alarmtoggleEnabled(ByVal newValue As Boolean)
@@ -3759,7 +3770,7 @@ End Property
 ' Property  : alarmtoggleEnabled
 ' Author    : beededea
 ' Date      : 17/05/2023
-' Purpose   :
+' Purpose   : property to determine by value the state of the A alarm toggle for switching on the alarm mode
 '---------------------------------------------------------------------------------------
 '
 Public Property Get alarmtoggleEnabled() As Boolean
@@ -3779,7 +3790,7 @@ End Property
 ' Property  : timeMachineToggleEnabled
 ' Author    : beededea
 ' Date      : 10/05/2023
-' Purpose   :
+' Purpose   : property to determine by value the state of the time machine toggle for switching on the time machine mode (not yet implemented)
 '---------------------------------------------------------------------------------------
 '
 Public Property Let timeMachineToggleEnabled(ByVal newValue As Boolean)
@@ -3831,7 +3842,7 @@ End Property
 ' Property  : timeMachineToggleEnabled
 ' Author    : beededea
 ' Date      : 17/05/2023
-' Purpose   :
+' Purpose   : property to determine by value the state of the time machine toggle for switching on the time machine mode (not yet implemented)
 '---------------------------------------------------------------------------------------
 '
 Public Property Get timeMachineToggleEnabled() As Boolean
@@ -3851,7 +3862,7 @@ End Property
 ' Property  : SetTogglePressed
 ' Author    : beededea
 ' Date      : 10/05/2023
-' Purpose   : property to allow the set toggle to be selected by keypress or otherwise
+' Purpose   : property to determine by value the state of the set toggle, it being selected by keypress or otherwise
 '---------------------------------------------------------------------------------------
 '
 Public Property Let SetTogglePressed(ByVal newValue As Boolean)
@@ -3882,7 +3893,7 @@ End Property
 ' Property  : SetTogglePressed
 ' Author    : beededea
 ' Date      : 17/05/2023
-' Purpose   :
+' Purpose   : property to determine by value the state of the set toggle, it being selected by keypress or otherwise
 '---------------------------------------------------------------------------------------
 '
 Public Property Get SetTogglePressed() As Boolean
@@ -3903,7 +3914,7 @@ End Property
 ' Property  : muteToggleEnabled
 ' Author    : beededea
 ' Date      : 10/05/2023
-' Purpose   :
+' Purpose   : property to determine by value the state of the mute toggle, it being selected by keypress or otherwise
 '---------------------------------------------------------------------------------------
 '
 Public Property Let muteToggleEnabled(ByVal newValue As Boolean)
@@ -3981,7 +3992,7 @@ End Property
 ' Property  : muteToggleEnabled
 ' Author    : beededea
 ' Date      : 17/05/2023
-' Purpose   :
+' Purpose   : property to determine by value the state of the mute toggle, it being selected by keypress or otherwise
 '---------------------------------------------------------------------------------------
 '
 Public Property Get muteToggleEnabled() As Boolean
@@ -4004,7 +4015,7 @@ End Property
 ' Property  : pendulumToggleEnabled
 ' Author    : beededea
 ' Date      : 10/05/2023
-' Purpose   :
+' Purpose   : property to determine by value the state of the pendulum toggle, it being selected by keypress on an underlying invisible item or otherwise
 '---------------------------------------------------------------------------------------
 '
 Public Property Let pendulumToggleEnabled(ByVal newValue As Boolean)
@@ -4064,7 +4075,7 @@ End Property
 ' Property  : pendulumToggleEnabled
 ' Author    : beededea
 ' Date      : 17/05/2023
-' Purpose   :
+' Purpose   : property to determine by value the state of the pendulum toggle, it being selected by keypress on an underlying invisible item or otherwise
 '---------------------------------------------------------------------------------------
 '
 Public Property Get pendulumToggleEnabled() As Boolean
@@ -4087,7 +4098,7 @@ End Property
 ' Property  : helpToggleEnabled
 ' Author    : beededea
 ' Date      : 10/05/2023
-' Purpose   :
+' Purpose   : property to determine by value the state of the help toggle, it being selected by keypress or otherwise
 '---------------------------------------------------------------------------------------
 '
 Public Property Let helpToggleEnabled(ByVal newValue As Boolean)
@@ -4157,7 +4168,7 @@ End Property
 ' Property  : helpToggleEnabled
 ' Author    : beededea
 ' Date      : 17/05/2023
-' Purpose   :
+' Purpose   : property to determine by value the state of the help toggle, it being selected by keypress or otherwise
 '---------------------------------------------------------------------------------------
 '
 Public Property Get helpToggleEnabled() As Boolean
@@ -4184,7 +4195,7 @@ End Property
 ' Property  : alarmtoggle1Enabled
 ' Author    : beededea
 ' Date      : 10/05/2023
-' Purpose   :
+' Purpose   : property to determine by value the state of the alarm toggle number ONE, it being selected by keypress or otherwise
 '---------------------------------------------------------------------------------------
 '
 Public Property Let alarmtoggle1Enabled(ByVal newValue As Boolean)
@@ -4267,7 +4278,7 @@ End Property
 ' Property  : alarmtoggle1Enabled
 ' Author    : beededea
 ' Date      : 17/05/2023
-' Purpose   :
+' Purpose   : property to determine by value the state of the alarm toggle number ONE, it being selected by keypress or otherwise
 '---------------------------------------------------------------------------------------
 '
 Public Property Get alarmtoggle1Enabled() As Boolean
@@ -4289,7 +4300,7 @@ End Property
 ' Property  : alarmtoggle2Enabled
 ' Author    : beededea
 ' Date      : 10/05/2023
-' Purpose   :
+' Purpose   : property to determine by value the state of the alarm toggle number TWO, it being selected by keypress or otherwise
 '---------------------------------------------------------------------------------------
 '
 Public Property Let alarmtoggle2Enabled(ByVal newValue As Boolean)
@@ -4375,7 +4386,7 @@ End Property
 ' Property  : alarmtoggle2Enabled
 ' Author    : beededea
 ' Date      : 17/05/2023
-' Purpose   :
+' Purpose   : property to determine by value the state of the alarm toggle number TWO, it being selected by keypress or otherwise
 '---------------------------------------------------------------------------------------
 '
 Public Property Get alarmtoggle2Enabled() As Boolean
@@ -4397,7 +4408,7 @@ End Property
 ' Property  : alarmtoggle3Enabled
 ' Author    : beededea
 ' Date      : 10/05/2023
-' Purpose   :
+' Purpose   : property to determine by value the state of the alarm toggle number TWO, it being selected by keypress or otherwise
 '---------------------------------------------------------------------------------------
 '
 Public Property Let alarmtoggle3Enabled(ByVal newValue As Boolean)
@@ -4477,7 +4488,7 @@ End Property
 ' Property  : alarmtoggle3Enabled
 ' Author    : beededea
 ' Date      : 17/05/2023
-' Purpose   :
+' Purpose   : property to determine by value the state of the alarm toggle number THREE, it being selected by keypress or otherwise
 '---------------------------------------------------------------------------------------
 '
 Public Property Get alarmtoggle3Enabled() As Boolean
@@ -4498,7 +4509,7 @@ End Property
 ' Property  : alarmtoggle4Enabled
 ' Author    : beededea
 ' Date      : 10/05/2023
-' Purpose   :
+' Purpose   : property to determine by value the state of the alarm toggle number THREE, it being selected by keypress or otherwise
 '---------------------------------------------------------------------------------------
 '
 Public Property Let alarmtoggle4Enabled(ByVal newValue As Boolean)
@@ -4579,7 +4590,7 @@ End Property
 ' Property  : alarmtoggle4Enabled
 ' Author    : beededea
 ' Date      : 17/05/2023
-' Purpose   :
+' Purpose   : property to determine by value the state of the alarm toggle number FOUR, it being selected by keypress or otherwise
 '---------------------------------------------------------------------------------------
 '
 Public Property Get alarmtoggle4Enabled() As Boolean
@@ -4601,7 +4612,7 @@ End Property
 ' Property  : alarmtoggle5Enabled
 ' Author    : beededea
 ' Date      : 10/05/2023
-' Purpose   :
+' Purpose   : property to determine by value the state of the alarm toggle number FIVE, it being selected by keypress or otherwise
 '---------------------------------------------------------------------------------------
 '
 Public Property Let alarmtoggle5Enabled(ByVal newValue As Boolean)
@@ -4682,7 +4693,7 @@ End Property
 ' Property  : alarmtoggle5Enabled
 ' Author    : beededea
 ' Date      : 17/05/2023
-' Purpose   :
+' Purpose   : property to determine by value the state of the alarm toggle number FIVE, it being selected by keypress or otherwise
 '---------------------------------------------------------------------------------------
 '
 Public Property Get alarmtoggle5Enabled() As Boolean
@@ -4731,7 +4742,7 @@ End Property
 
 ' ----------------------------------------------------------------
 ' Procedure Name: hideAlarmTills
-' Purpose:
+' Purpose: Hide any unwanted alarms, only one alarm can be displayed at any one time.
 ' Procedure Kind: sub
 ' Procedure Access: Private
 ' Return Type: String
@@ -4758,7 +4769,7 @@ End Sub
 
 ' ----------------------------------------------------------------
 ' Procedure Name: tmrTILLSound_Timer
-' Purpose:
+' Purpose: obsolete, needs to be replaced by use of an asynchronous sound
 ' Procedure Kind: Sub
 ' Procedure Access: Private
 ' Author: beededea
@@ -4793,7 +4804,7 @@ End Sub
 
 ' ----------------------------------------------------------------
 ' Procedure Name: tmrZZZZSound_Timer
-' Purpose:
+' Purpose: obsolete, needs to be replaced by use of an asynchronous sound
 ' Procedure Kind: Sub
 ' Procedure Access: Private
 ' Author: beededea
@@ -4826,7 +4837,7 @@ End Sub
 
 ' ----------------------------------------------------------------
 ' Procedure Name: tmrTickingSound_Timer
-' Purpose:
+' Purpose: timer to allow a sound sequence of ticks to be played, needs replacing with a timed tick that corresponds with pendulum movement
 ' Procedure Kind: Sub
 ' Procedure Access: Private
 ' Author: beededea
@@ -4866,7 +4877,7 @@ End Sub
 ' Property  : ticking
 ' Author    : beededea
 ' Date      : 10/05/2023
-' Purpose   :
+' Purpose   : property to determine by value the state of the ticking toggle, it being selected by keypress or otherwise
 '---------------------------------------------------------------------------------------
 '
 Public Property Let ticking(ByVal newValue As Boolean)
@@ -4914,7 +4925,7 @@ End Property
 ' Property  : ticking
 ' Author    : beededea
 ' Date      : 17/05/2023
-' Purpose   :
+' Purpose   : property to determine by value the state of the ticking toggle, it being selected by keypress or otherwise
 '---------------------------------------------------------------------------------------
 '
 Public Property Get ticking() As Boolean
@@ -4935,7 +4946,7 @@ End Property
 ' Procedure : clearWeekdayTill
 ' Author    : beededea
 ' Date      : 04/08/2024
-' Purpose   :
+' Purpose   : routine called from clockForm_BubblingEvent to clear the weekday till
 '---------------------------------------------------------------------------------------
 '
 Private Sub clearWeekdayTill()
@@ -4988,8 +4999,10 @@ End Sub
 ' Procedure : IsVisible
 ' Author    : beededea
 ' Date      : 08/05/2023
-' Purpose   : calling a manual property to a form allows external checks to the form to
-'             determine whether it is loaded, without also activating the form automatically.
+'
+' Purpose   : Useful property to determine by value as to whether this form is loaded,
+'             allowing external checks to the form to determine whether it is loaded,
+'             WITHOUT activating the form automatically.
 '---------------------------------------------------------------------------------------
 '
 Public Property Get IsVisible() As Boolean

@@ -1127,15 +1127,15 @@ Public Sub adjustMainControls(Optional ByVal licenceState As Integer)
     End If
     
     If gblCrankEnabled = "True" Then
-        fClock.crankedRaised = True
+        fClock.crankRaised = True
     Else
-        fClock.crankedRaised = False
+        fClock.crankRaised = False
     End If
      
 '    If gblVolumeBoost = "1" Then
-'        fClock.crankedRaised = True
+'        fClock.crankRaised = True
 '    Else
-'        fClock.crankedRaised = False
+'        fClock.crankRaised = False
 '    End If
       
     If gblPendulumToggleEnabled = "True" Then
