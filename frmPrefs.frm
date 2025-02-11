@@ -2582,8 +2582,6 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 '@IgnoreModule IntegerDataType, ModuleWithoutFolder
 
-' clockForm_BubblingEvent ' leaving that here so I can copy/paste to find it
-
 '---------------------------------------------------------------------------------------
 ' Module    : widgetPrefs
 ' Author    : beededea

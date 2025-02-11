@@ -1,6 +1,6 @@
 Attribute VB_Name = "Module1"
 '@IgnoreModule IntegerDataType, ModuleWithoutFolder
-' clockForm_BubblingEvent ' leaving that here so I can copy/paste to find it
+
 
 '---------------------------------------------------------------------------------------
 ' Module    : Module1
@@ -49,7 +49,7 @@ End Type
 
 Private Type FONTSTRUC
   lStructSize As Long
-  hWnd As Long
+  hwnd As Long
   hDC As Long
   lpLogFont As Long
   iPointSize As Long
@@ -142,7 +142,7 @@ End Enum
 
 '------------------------------------------------------ STARTS
 ' APIs for useful functions START
-Public Declare Function ShellExecute Lib "Shell32.dll" Alias "ShellExecuteA" (ByVal hWnd As Long, ByVal lpOperation As String, ByVal lpFile As String, ByVal lpParameters As String, ByVal lpDirectory As String, ByVal nShowCmd As Long) As Long
+Public Declare Function ShellExecute Lib "Shell32.dll" Alias "ShellExecuteA" (ByVal hwnd As Long, ByVal lpOperation As String, ByVal lpFile As String, ByVal lpParameters As String, ByVal lpDirectory As String, ByVal nShowCmd As Long) As Long
 ' APIs for useful functions END
 '------------------------------------------------------ ENDS
 
@@ -1651,7 +1651,7 @@ Public Sub mnuCoffee_ClickEvent()
     answer = msgBoxA(answerMsg, vbExclamation + vbYesNo, "Request to Donate a Kofi", True, "mnuCoffeeClickEvent")
 
     If answer = vbYes Then
-        Call ShellExecute(menuForm.hWnd, "Open", "https://www.ko-fi.com/yereverluvinunclebert", vbNullString, App.path, 1)
+        Call ShellExecute(menuForm.hwnd, "Open", "https://www.ko-fi.com/yereverluvinunclebert", vbNullString, App.path, 1)
     End If
 
    On Error GoTo 0
@@ -1681,7 +1681,7 @@ Public Sub mnuSupport_ClickEvent()
     answer = msgBoxA(answerMsg, vbExclamation + vbYesNo, "Request to Contact Support", True, "mnuSupportClickEvent")
 
     If answer = vbYes Then
-        Call ShellExecute(menuForm.hWnd, "Open", "https://github.com/yereverluvinunclebert/Steampunk-clock-calendar-" & gblCodingEnvironment & "/issues", vbNullString, App.path, 1)
+        Call ShellExecute(menuForm.hwnd, "Open", "https://github.com/yereverluvinunclebert/Steampunk-clock-calendar-" & gblCodingEnvironment & "/issues", vbNullString, App.path, 1)
     End If
 
    On Error GoTo 0
@@ -1937,7 +1937,7 @@ Public Sub makeVisibleFormElements()
 
     monitorCount = fGetMonitorCount
     If monitorCount > 1 Then
-        Call SetFormOnMonitor(fClock.clockForm.hWnd, formLeftPixels, formTopPixels)
+        Call SetFormOnMonitor(fClock.clockForm.hwnd, formLeftPixels, formTopPixels)
     Else
         fClock.clockForm.Left = formLeftPixels
         fClock.clockForm.Top = formTopPixels
@@ -2249,7 +2249,7 @@ Form_Unload_Error:
 
     With Err
          If .Number <> 0 Then
-            MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure Form_Unload of Class Module cfMain"
+            MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure Form_Unload of Class Module module1"
             Resume Next
           End If
     End With
@@ -2760,7 +2760,7 @@ Public Sub hardRestart()
     If fFExists(thisCommand) Then
         
         ' run the selected program
-        Call ShellExecute(widgetPrefs.hWnd, "open", thisCommand, "Steampunk Clock Calendar.exe prefs", "", 1)
+        Call ShellExecute(widgetPrefs.hwnd, "open", thisCommand, "Steampunk Clock Calendar.exe prefs", "", 1)
     Else
         'answer = MsgBox(thisCommand & " is missing", vbOKOnly + vbExclamation)
         answerMsg = thisCommand & " is missing"

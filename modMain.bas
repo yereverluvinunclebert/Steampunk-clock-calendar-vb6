@@ -7,7 +7,7 @@ Attribute VB_Name = "modMain"
 '---------------------------------------------------------------------------------------
 
 '@IgnoreModule IntegerDataType, ModuleWithoutFolder
-' clockForm_BubblingEvent ' leaving that here so I can copy/paste to find it
+
 
 Option Explicit
 
@@ -1715,11 +1715,11 @@ Private Sub createRCFormsOnCurrentDisplay()
     On Error GoTo createRCFormsOnCurrentDisplay_Error
 
     With New_c.Displays(1) 'get the current Display
-      Call fMain.initAndShowAboutForm(.WorkLeft, .WorkTop, 1000, 1000, widgetName)
+      Call fMain.initAndCreateAboutForm(.WorkLeft, .WorkTop, 1000, 1000, widgetName)
     End With
 
     With New_c.Displays(1) 'get the current Display
-      Call fMain.initAndShowLicenceForm(.WorkLeft, .WorkTop, 1000, 1000, widgetName)
+      Call fMain.initAndCreateLicenceForm(.WorkLeft, .WorkTop, 1000, 1000, widgetName)
     End With
     
         On Error GoTo 0

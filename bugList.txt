@@ -377,9 +377,11 @@ Tasks to do:
 
 ' disable chimes vs alarms disabled
 
-
-
 ' descriptions on all routines in cfMain - WIP
+' removed references to ' clockForm_BubblingEvent
+' removed licenceform _move event
+' fixed all error messages incorrectly pointing to cfMain
+
 ' descriptions on all routines in cwAbout - WIP
 ' descriptions on all routines in cwLicence - WIP
 ' descriptions on all routines in module1 - WIP

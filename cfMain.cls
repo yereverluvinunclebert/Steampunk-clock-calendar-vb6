@@ -12,12 +12,11 @@ Attribute VB_Creatable = True
 Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
 '@IgnoreModule IntegerDataType, ModuleWithoutFolder
-' clockForm_BubblingEvent
 '---------------------------------------------------------------------------------------
 ' Module    : cfMain
 ' Author    : beededea
 ' Date      : 28/05/2023
-' Purpose   :
+' Purpose   : The parent class for both the licence and about us forms
 '---------------------------------------------------------------------------------------
 
 Option Explicit
@@ -42,13 +41,13 @@ Attribute lblDeclineOrNot.VB_VarHelpID = -1
 
 
 '---------------------------------------------------------------------------------------
-' Procedure : initAndShowAboutForm
+' Procedure : initAndCreateAboutForm
 ' Author    :
 ' Date      : 27/04/2023
-' Purpose   :
+' Purpose   : Initialise and create the about form only, add the about widget based on the about class, to the form
 '---------------------------------------------------------------------------------------
 '
-Public Sub initAndShowAboutForm(ByVal x As Long, ByVal y As Long, Optional ByVal dx As Long, Optional ByVal dy As Long, Optional ByVal Caption As String)
+Public Sub initAndCreateAboutForm(ByVal x As Long, ByVal y As Long, Optional ByVal dx As Long, Optional ByVal dy As Long, Optional ByVal Caption As String)
     
     Dim aboutFormWidth As Long: aboutFormWidth = 0
     Dim aboutFormHeight As Long: aboutFormHeight = 0
@@ -58,7 +57,7 @@ Public Sub initAndShowAboutForm(ByVal x As Long, ByVal y As Long, Optional ByVal
     
     Const WFFStyleTool As Integer = 7 ' additional styles above the normal five  WFFStyleTool = 7 makes the taskbar button go away
     
-    On Error GoTo initAndShowAboutForm_Error
+    On Error GoTo initAndCreateAboutForm_Error
     
     If gblDpiAwareness = "0" Then
         aboutFormWidth = 650
@@ -102,20 +101,21 @@ Public Sub initAndShowAboutForm(ByVal x As Long, ByVal y As Long, Optional ByVal
    On Error GoTo 0
    Exit Sub
 
-initAndShowAboutForm_Error:
+initAndCreateAboutForm_Error:
 
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure initAndShowAboutForm of Class Module cfMain"
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure initAndCreateAboutForm of Class Module cfMain"
     
 End Sub
 
 '---------------------------------------------------------------------------------------
-' Procedure : initAndShowLicenceForm
+' Procedure : initAndCreateLicenceForm
 ' Author    :
 ' Date      : 27/04/2023
-' Purpose   :
+' Purpose   : Initialise and create the licence form only, add the licence widget based on the licence class, to the form
+'             as well as two RC cwButton widgets for the accept and decline buttons
 '---------------------------------------------------------------------------------------
 '
-Public Sub initAndShowLicenceForm(ByVal x As Long, ByVal y As Long, Optional ByVal dx As Long, Optional ByVal dy As Long, Optional ByVal Caption As String)
+Public Sub initAndCreateLicenceForm(ByVal x As Long, ByVal y As Long, Optional ByVal dx As Long, Optional ByVal dy As Long, Optional ByVal Caption As String)
     
     Dim licenceFormWidth As Long: licenceFormWidth = 0
     Dim licenceFormHeight As Long: licenceFormHeight = 0
@@ -126,7 +126,7 @@ Public Sub initAndShowLicenceForm(ByVal x As Long, ByVal y As Long, Optional ByV
     
     Const WFFStyleTool As Integer = 7 ' additional styles above the normal five  WFFStyleTool = 7 makes the taskbar button go away
     
-    On Error GoTo initAndShowLicenceForm_Error
+    On Error GoTo initAndCreateLicenceForm_Error
     
     If gblDpiAwareness = "0" Then
         licenceFormWidth = 650
@@ -228,16 +228,16 @@ Public Sub initAndShowLicenceForm(ByVal x As Long, ByVal y As Long, Optional ByV
    On Error GoTo 0
    Exit Sub
 
-initAndShowLicenceForm_Error:
+initAndCreateLicenceForm_Error:
 
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure initAndShowLicenceForm of Class Module cfMain"
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure initAndCreateLicenceForm of Class Module cfMain"
     
 End Sub
 '---------------------------------------------------------------------------------------
 ' Procedure : btnAccept_Click
 ' Author    : beededea
 ' Date      : 20/09/2023
-' Purpose   :
+' Purpose   : Click event for this RC cwButton widget
 '---------------------------------------------------------------------------------------
 '
 Private Sub btnAccept_Click()
@@ -280,7 +280,7 @@ End Sub
 ' Procedure : btnDecline_Click
 ' Author    : beededea
 ' Date      : 20/09/2023
-' Purpose   :
+' Purpose   : Click event for this RC cwButton widget
 '---------------------------------------------------------------------------------------
 '
 Private Sub btnDecline_Click()
@@ -308,35 +308,35 @@ End Sub
 
 
 
-'---------------------------------------------------------------------------------------
-' Procedure : licenceForm_MouseMove
-' Author    : beededea
-' Date      : 31/07/2023
-' Purpose   :
-'---------------------------------------------------------------------------------------
+''---------------------------------------------------------------------------------------
+'' Procedure : licenceForm_MouseMove
+'' Author    : beededea
+'' Date      : 31/07/2023
+'' Purpose   : MouseMove event for the whole form
+''---------------------------------------------------------------------------------------
+''
+'Private Sub licenceForm_MouseMove(ByRef Button As Integer, ByRef Shift As Integer, ByRef x As Single, ByRef y As Single)
+'  Static x0 As Single, y0 As Single: If Button = 0 Then x0 = x: y0 = y 'just store the offsets when no button is down
 '
-Private Sub licenceForm_MouseMove(ByRef Button As Integer, ByRef Shift As Integer, ByRef x As Single, ByRef y As Single)
-  Static x0 As Single, y0 As Single: If Button = 0 Then x0 = x: y0 = y 'just store the offsets when no button is down
-  
-   On Error GoTo licenceForm_MouseMove_Error
-    
-    If overlayWidget.Locked = True Then Exit Sub
-    If gblIgnoreMouse = "1" Then Exit Sub
-
-    If Button = vbLeftButton And Not licenceForm.ActiveWidget Is Nothing Then 'Form-Dragging (under certain conditions)
-
-      licenceFormX = (x - x0) * licenceForm.WidgetRoot.Zoom + licenceForm.Left
-      licenceFormY = (y - y0) * licenceForm.WidgetRoot.Zoom + licenceForm.Top
-      licenceForm.Move licenceFormX, licenceFormY
-    End If
-
-
-   On Error GoTo 0
-   Exit Sub
-
-licenceForm_MouseMove_Error:
-
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure licenceForm_MouseMove of Class Module cfClock"
-End Sub
+'   On Error GoTo licenceForm_MouseMove_Error
+'
+'    If overlayWidget.Locked = True Then Exit Sub
+'    If gblIgnoreMouse = "1" Then Exit Sub
+'
+''    If Button = vbLeftButton And Not licenceForm.ActiveWidget Is Nothing Then 'Form-Dragging (under certain conditions)
+''
+''      licenceFormX = (x - x0) * licenceForm.WidgetRoot.Zoom + licenceForm.Left
+''      licenceFormY = (y - y0) * licenceForm.WidgetRoot.Zoom + licenceForm.Top
+''      licenceForm.Move licenceFormX, licenceFormY
+''    End If
+'
+'
+'   On Error GoTo 0
+'   Exit Sub
+'
+'licenceForm_MouseMove_Error:
+'
+'    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure licenceForm_MouseMove of Class Module cfClock"
+'End Sub
 
 
