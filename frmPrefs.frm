@@ -3591,7 +3591,8 @@ Private Sub Form_Load()
 
     On Error GoTo Form_Load_Error
     
-    SetHook
+    ' Set the subclass hook for dialog forms to centre them in the middle of the monitor
+    If Not InIDE Then SetHook
     
     Me.Visible = False
         
@@ -6539,7 +6540,8 @@ Private Sub Form_Unload(Cancel As Integer)
 
     'gblPrefsLoadedFlg = False
     
-    ReleaseHook
+    ' Release the subclass hook for dialog forms
+    If Not InIDE Then ReleaseHook
     
     IsLoaded = False
     

@@ -8,15 +8,27 @@ Attribute VB_Name = "Subclasser"
 
 Option Explicit
 
-Private Declare Function SetWindowSubclass Lib "comctl32" Alias "#410" (ByVal hWnd As Long, ByVal pfnSubclass As Long, ByVal uIdSubclass As Long, Optional ByVal dwRefData As Long) As Long
-Private Declare Function GetWindowSubclass Lib "comctl32" Alias "#411" (ByVal hWnd As Long, ByVal pfnSubclass As Long, ByVal uIdSubclass As Long, pdwRefData As Long) As Long
-Private Declare Function RemoveWindowSubclass Lib "comctl32" Alias "#412" (ByVal hWnd As Long, ByVal pfnSubclass As Long, ByVal uIdSubclass As Long) As Long
-Private Declare Function NextSubclassProcOnChain Lib "comctl32" Alias "#413" (ByVal hWnd As Long, ByVal uMsg As Long, ByVal wParam As Long, ByVal lParam As Long) As Long
+
+'Private Declare Function GetWindowRect Lib "user32" (ByVal hwnd As Long, lpRect As RECT) As Long
+'Private Declare Function SetWindowPos Lib "user32" (ByVal hwnd As Long, ByVal hWndInsertAfter As Long, ByVal x As Long, ByVal y As Long, ByVal cx As Long, ByVal cy As Long, ByVal wFlags As Long) As Long
+'Private Declare Function GetClassName Lib "user32" Alias "GetClassNameA" (ByVal hwnd As Long, ByVal lpClassName As String, ByVal nMaxCount As Long) As Long
+
+Private Declare Function SetWindowSubclass Lib "comctl32" Alias "#410" (ByVal hwnd As Long, ByVal pfnSubclass As Long, ByVal uIdSubclass As Long, Optional ByVal dwRefData As Long) As Long
+Private Declare Function GetWindowSubclass Lib "comctl32" Alias "#411" (ByVal hwnd As Long, ByVal pfnSubclass As Long, ByVal uIdSubclass As Long, pdwRefData As Long) As Long
+Private Declare Function RemoveWindowSubclass Lib "comctl32" Alias "#412" (ByVal hwnd As Long, ByVal pfnSubclass As Long, ByVal uIdSubclass As Long) As Long
+Private Declare Function NextSubclassProcOnChain Lib "comctl32" Alias "#413" (ByVal hwnd As Long, ByVal uMsg As Long, ByVal wParam As Long, ByVal lParam As Long) As Long
 '
 Private Declare Sub CopyMemory Lib "kernel32" Alias "RtlMoveMemory" (ByRef Dest As Any, ByRef Source As Any, ByVal Bytes As Long)
 Private Declare Function vbaObjSetAddref Lib "msvbvm60" Alias "__vbaObjSetAddref" (ByRef dstObject As Any, ByRef srcObjPtr As Any) As Long
 Private Declare Function GetComboBoxInfo Lib "user32" (ByVal hwndCombo As Long, CBInfo As COMBOBOXINFOSTRUCTURE) As Long
 '
+'Private Type CWPSTRUCT
+'        lParam As Long
+'        wParam As Long
+'        message As Long
+'        hwnd As Long
+'End Type
+
 Private Type RECT
     Left   As Long
     Top    As Long
@@ -57,14 +69,14 @@ End Type
 
 
 
-Private Sub SubclassSomeWindow(hWnd As Long, AddressOf_ProcToSubclass As Long, Optional dwRefData As Long, Optional uIdSubclass As Long)
-    If uIdSubclass = 0& Then uIdSubclass = hWnd
-    Call SetWindowSubclass(hWnd, AddressOf_ProcToSubclass, uIdSubclass, dwRefData)
+Private Sub SubclassSomeWindow(hwnd As Long, AddressOf_ProcToSubclass As Long, Optional dwRefData As Long, Optional uIdSubclass As Long)
+    If uIdSubclass = 0& Then uIdSubclass = hwnd
+    Call SetWindowSubclass(hwnd, AddressOf_ProcToSubclass, uIdSubclass, dwRefData)
 End Sub
 
-Private Sub UnSubclassSomeWindow(hWnd As Long, AddressOf_ProcToSubclass As Long, Optional uIdSubclass As Long)
-    If uIdSubclass = 0& Then uIdSubclass = hWnd
-    Call RemoveWindowSubclass(hWnd, AddressOf_ProcToSubclass, uIdSubclass)
+Private Sub UnSubclassSomeWindow(hwnd As Long, AddressOf_ProcToSubclass As Long, Optional uIdSubclass As Long)
+    If uIdSubclass = 0& Then uIdSubclass = hwnd
+    Call RemoveWindowSubclass(hwnd, AddressOf_ProcToSubclass, uIdSubclass)
 End Sub
 
 'Public Sub SubclassMouseWheel(CtlHwnd As Long, TheObjPtr As Long)
@@ -129,13 +141,13 @@ End Sub
 ' Purpose   :
 '---------------------------------------------------------------------------------------
 '
-Private Function ComboBox_Proc(ByVal hWnd As Long, ByVal uMsg As Long, ByVal wParam As Long, ByVal lParam As Long, ByVal uIdSubclass As Long, ByVal dwRefData As Long) As Long
+Private Function ComboBox_Proc(ByVal hwnd As Long, ByVal uMsg As Long, ByVal wParam As Long, ByVal lParam As Long, ByVal uIdSubclass As Long, ByVal dwRefData As Long) As Long
     Const WM_DESTROY                    As Long = &H2&  ' All other needed constants are declared within the procedures.
    On Error GoTo ComboBox_Proc_Error
 
     If uMsg = WM_DESTROY Then
-        UnSubclassSomeWindow hWnd, AddressOf_ComboBox_Proc, uIdSubclass
-        ComboBox_Proc = NextSubclassProcOnChain(hWnd, uMsg, wParam, lParam)
+        UnSubclassSomeWindow hwnd, AddressOf_ComboBox_Proc, uIdSubclass
+        ComboBox_Proc = NextSubclassProcOnChain(hwnd, uMsg, wParam, lParam)
         Exit Function
     End If
     '
@@ -174,7 +186,7 @@ Private Function ComboBox_Proc(ByVal hWnd As Long, ByVal uMsg As Long, ByVal wPa
     End If
     '
     ' If we fell out, just proceed as normal.
-    ComboBox_Proc = NextSubclassProcOnChain(hWnd, uMsg, wParam, lParam)
+    ComboBox_Proc = NextSubclassProcOnChain(hwnd, uMsg, wParam, lParam)
 
    On Error GoTo 0
    Exit Function
@@ -192,18 +204,25 @@ End Function
 ' Purpose   :
 '---------------------------------------------------------------------------------------
 '
-Private Function Form_Proc(ByVal hWnd As Long, ByVal uMsg As Long, ByVal wParam As Long, ByVal lParam As Long, ByVal uIdSubclass As Long, ByVal dwRefData As Long) As Long
+Private Function Form_Proc(ByVal hwnd As Long, ByVal uMsg As Long, ByVal wParam As Long, ByVal lParam As Long, ByVal uIdSubclass As Long, ByVal dwRefData As Long) As Long
     Const WM_DESTROY            As Long = &H2&  ' All other needed constants are declared within the procedures.
     'Const WM_MOVE               As Long = &H3  ' called all during any form move
     Const WM_EXITSIZEMOVE       As Long = &H232 ' called only when all movement is completed
-        
+'    Const WM_CREATE             As Long = &H1
+'    Const SWP_NOSIZE            As Long = &H1
+'    Const SWP_FRAMECHANGED      As Long = &H20
+    
     Dim frm As Object
+           
+'    Dim tCWP As CWPSTRUCT
+'    Dim tRECT As RECT
+'    Dim sClass As String
     
     On Error GoTo Form_Proc_Error
 
     If uMsg = WM_DESTROY Then
-        UnSubclassSomeWindow hWnd, AddressOf_Form_Proc, uIdSubclass
-        Form_Proc = NextSubclassProcOnChain(hWnd, uMsg, wParam, lParam)
+        UnSubclassSomeWindow hwnd, AddressOf_Form_Proc, uIdSubclass
+        Form_Proc = NextSubclassProcOnChain(hwnd, uMsg, wParam, lParam)
         Exit Function
     End If
     '
@@ -214,9 +233,24 @@ Private Function Form_Proc(ByVal hWnd As Long, ByVal uMsg As Long, ByVal wParam 
         On Error GoTo 0
         Set frm = Nothing
     End If
+    
+'    If uMsg = WM_CREATE Then
+'
+'        CopyMemory tCWP, ByVal lParam, Len(tCWP)
+'
+'        'Check the Type of Windows Being Created
+'        sClass = Space(255)
+'        sClass = Left$(sClass, GetClassName(tCWP.hwnd, ByVal sClass, 255))
+'        'If it's a Dialog Window, Center it..
+'        If sClass = "#32770" Then
+'            Call GetWindowRect(tCWP.hwnd, tRECT)
+'            Call SetWindowPos(tCWP.hwnd, 0, ((Screen.Width / Screen.TwipsPerPixelX) - (tRECT.Right - tRECT.Left)) / 2, ((Screen.Height / Screen.TwipsPerPixelY) - (tRECT.Bottom - tRECT.Top)) / 2, 0, 0, SWP_NOSIZE Or SWP_FRAMECHANGED)
+'        End If
+'    End If
+    
     '
     ' If we fell out, just proceed as normal.
-    Form_Proc = NextSubclassProcOnChain(hWnd, uMsg, wParam, lParam)
+    Form_Proc = NextSubclassProcOnChain(hwnd, uMsg, wParam, lParam)
     
 
    On Error GoTo 0

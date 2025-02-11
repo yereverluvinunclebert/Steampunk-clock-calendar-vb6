@@ -362,10 +362,17 @@ o added code when un-setting all alarms to specifically reverse the alarm functi
 
 ' descriptions on all routines in cfClock
 
+' descriptions on all routines in cfMain - WIP
+' removed references to ' clockForm_BubblingEvent
+' removed licenceform _move event
+' fixed all error messages incorrectly pointing to cfMain
+
 ' -oOo-
 
 Tasks to do:
 ============
+
+' hook and release hook, document
 
 ' change and test the slider values to make time changes more practical
 
@@ -377,11 +384,6 @@ Tasks to do:
 
 ' disable chimes vs alarms disabled
 
-' descriptions on all routines in cfMain - WIP
-' removed references to ' clockForm_BubblingEvent
-' removed licenceform _move event
-' fixed all error messages incorrectly pointing to cfMain
-
 ' descriptions on all routines in cwAbout - WIP
 ' descriptions on all routines in cwLicence - WIP
 ' descriptions on all routines in module1 - WIP
@@ -392,6 +394,13 @@ Tasks to do:
 ' descriptions on all routines in menuForm - WIP
 ' descriptions on all routines in frmTimer - WIP
 ' descriptions on all routines in frmMessage - WIP
+
+' grigri <grigri@shinyhappypixels.com> to credits
+' Rod Stephens @ vb-helper.com resize
+
+' create diagram of the program flow.
+
+' windowHook can this be handled by Elroy's sub classing code?
 
 ' about text VB6 / Twinbasic wip, check if the PSD is on the G5.
 
