@@ -16,7 +16,7 @@ Attribute VB_Exposed = False
 ' Class Module      : cwLicence
 ' Author            : beededea
 ' Date              : 17/05/2023
-' Purpose           :
+' Purpose           : puts a licence widget on the form
 '---------------------------------------------------------------------------------------
 
 Option Explicit
@@ -68,7 +68,7 @@ End Sub
 ' Procedure : Widget
 ' Author    : olaf schmidt
 ' Date      : 21/09/2023
-' Purpose   :
+' Purpose   : An RC default property
 '---------------------------------------------------------------------------------------
 '
 Public Property Get Widget() As cWidgetBase
@@ -87,7 +87,7 @@ End Property
 ' Procedure : Widgets
 ' Author    : olaf schmidt
 ' Date      : 21/09/2023
-' Purpose   :
+' Purpose   : An RC default property
 '---------------------------------------------------------------------------------------
 '
 Public Property Get Widgets() As cWidgets
@@ -106,7 +106,7 @@ End Property
 ' Procedure : Zoom
 ' Author    : beededea
 ' Date      : 17/05/2023
-' Purpose   :
+' Purpose   : property to determine (by value) the zoom value, it being selected by a mousewheel scroll or the slider in the prefs
 '---------------------------------------------------------------------------------------
 '
 Public Property Get Zoom() As Double
@@ -125,7 +125,7 @@ End Property
 ' Procedure : Zoom
 ' Author    : beededea
 ' Date      : 17/05/2023
-' Purpose   :
+' Purpose   : property to determine (by value) the zoom value, it being selected by a mousewheel scroll or the slider in the prefs
 '---------------------------------------------------------------------------------------
 '
 Public Property Let Zoom(ByVal newValue As Double)
@@ -147,10 +147,10 @@ End Property
 ' Procedure : W_MouseMove
 ' Author    : beededea
 ' Date      : 17/05/2023
-' Purpose   :
+' Purpose   : Handle the mouse move event for the widget
 '---------------------------------------------------------------------------------------
 '
-Private Sub W_MouseDown(Button As Integer, Shift As Integer, ByVal X As Single, ByVal y As Single)
+Private Sub W_MouseDown(Button As Integer, Shift As Integer, ByVal x As Single, ByVal y As Single)
    On Error GoTo W_MouseDown_Error
 
     tmrLicenceFadeOut.Enabled = True
@@ -166,7 +166,7 @@ End Sub
 ' Procedure : MyOpacity
 ' Author    : beededea
 ' Date      : 17/05/2023
-' Purpose   :
+' Purpose   : property to determine (by value) the opacity value used by RenderSurfaceContent
 '---------------------------------------------------------------------------------------
 '
 Public Property Let MyOpacity(ByVal newValue As Double)
@@ -185,7 +185,7 @@ End Property
 ' Procedure : MyOpacity
 ' Author    : beededea
 ' Date      : 17/05/2023
-' Purpose   :
+' Purpose   : property to determine (by value) the opacity value used by RenderSurfaceContent
 '---------------------------------------------------------------------------------------
 '
 Public Property Get MyOpacity() As Double
@@ -205,7 +205,7 @@ End Property
 ' Procedure : ShowMe
 ' Author    : beededea
 ' Date      : 17/05/2023
-' Purpose   :
+' Purpose   : property to determine (by value) that triggers a fade in timer
 '---------------------------------------------------------------------------------------
 '
 Public Property Let ShowMe(ByVal newValue As Boolean)
@@ -226,7 +226,7 @@ End Property
 ' Procedure : ShowMe
 ' Author    : beededea
 ' Date      : 17/05/2023
-' Purpose   :
+' Purpose   : property to determine (by value) that triggers a fade in timer
 '---------------------------------------------------------------------------------------
 '
 Public Property Get ShowMe() As Boolean
@@ -304,7 +304,7 @@ End Sub
 ' Procedure : W_Paint
 ' Author    : beededea
 ' Date      : 17/05/2023
-' Purpose   :
+' Purpose   : Default RC paint routine
 '---------------------------------------------------------------------------------------
 '
 Private Sub W_Paint(CC As RC6.cCairoContext, ByVal xAbs As Single, ByVal yAbs As Single, ByVal dx_Aligned As Single, ByVal dy_Aligned As Single, UserObj As Object)
@@ -324,7 +324,7 @@ End Sub
 ' Procedure : Draw
 ' Author    : beededea
 ' Date      : 17/05/2023
-' Purpose   :
+' Purpose   : Draw routine called by W_PAINT
 '---------------------------------------------------------------------------------------
 '
 Private Sub Draw(ByRef CC As cCairoContext, ByVal dx As Single, ByVal dy As Single)

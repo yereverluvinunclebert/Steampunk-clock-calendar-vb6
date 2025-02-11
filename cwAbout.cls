@@ -16,7 +16,7 @@ Attribute VB_Exposed = False
 ' Class Module      : cwAbout
 ' Author            : beededea
 ' Date              : 17/05/2023
-' Purpose           :
+' Purpose           : puts an about widget on the form
 '---------------------------------------------------------------------------------------
 
 Option Explicit
