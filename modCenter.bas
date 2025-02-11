@@ -1,4 +1,11 @@
 Attribute VB_Name = "modCenter"
+'---------------------------------------------------------------------------------------
+' Module    : modCentre
+' Author    : https://www.vbforums.com/member.php?65196-Chris001
+' Date      : 11/02/2025
+' Purpose   : Intercepts all form WM_CREATE messages, tests for a dialog class placing the form in the middle rather than top left.
+'---------------------------------------------------------------------------------------
+
 Option Explicit
 
 Private Type CWPSTRUCT
