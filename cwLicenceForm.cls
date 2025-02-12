@@ -23,18 +23,47 @@ Option Explicit
  
 Private WithEvents W As cWidgetBase '<- this is required in each cwImplementation...
 Attribute W.VB_VarHelpID = -1
+
+' RC timers
+
 Private WithEvents tmrLicenceFadeIn As cTimer
 Attribute tmrLicenceFadeIn.VB_VarHelpID = -1
 Private WithEvents tmrLicenceFadeOut As cTimer
 Attribute tmrLicenceFadeOut.VB_VarHelpID = -1
 
-Private licencexo As Integer
-Private licenceyo As Integer
+' private members for property assignment
 
 Private mMyOpacity As Double
 Private mShowMe As Boolean
 Private mZoom As Double
 
+'local general vars used only within this class
+
+Private licencexo As Integer
+Private licenceyo As Integer
+
+
+'---------------------------------------------------------------------------------------
+' Procedure : initialisePrivateVars
+' Author    : beededea
+' Date      : 12/02/2025
+' Purpose   : initialise vars
+'---------------------------------------------------------------------------------------
+'
+Private Sub initialisePrivateVars()
+
+   On Error GoTo initialisePrivateVars_Error
+
+    licencexo = 0
+    licenceyo = 0
+
+   On Error GoTo 0
+   Exit Sub
+
+initialisePrivateVars_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure initialisePrivateVars of Class Module cwLicence"
+End Sub
 '---------------------------------------------------------------------------------------
 ' Procedure : Class_Initialize
 ' Author    : beededea
@@ -45,9 +74,9 @@ Private mZoom As Double
 Private Sub Class_Initialize()
 
    On Error GoTo Class_Initialize_Error
+   
+    Call initialisePrivateVars
 
-    licencexo = 0
-    licenceyo = 0
     MyOpacity = 0
     ShowMe = False
     

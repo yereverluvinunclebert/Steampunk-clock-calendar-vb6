@@ -5146,7 +5146,6 @@ Private Sub btnSave_Click()
         sPutINISetting "Software\SteampunkClockCalendar", "numericDisplayRotation", gblNumericDisplayRotation, gblSettingsFile
                 
         sPutINISetting "Software\SteampunkClockCalendar", "widgetFunctions", gblWidgetFunctions, gblSettingsFile
-        sPutINISetting "Software\SteampunkClockCalendar", "smoothSecondHand", gblSmoothSecondHand, gblSettingsFile
               
         sPutINISetting "Software\SteampunkClockCalendar", "aspectHidden", gblAspectHidden, gblSettingsFile
         sPutINISetting "Software\SteampunkClockCalendar", "widgetPosition", gblWidgetPosition, gblSettingsFile

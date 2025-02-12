@@ -29,13 +29,15 @@ Public cCollOverlayImages As cCollection 'collection made available publically, 
 Private WithEvents W As cWidgetBase
 Attribute W.VB_VarHelpID = -1
 
+' public vars external usage
+
 Public sldCurWidth As Double ' need to add set/get for these public vars
 Public cxPerc As Single      ' need to add set/get for these public vars
-Public cyPerc As Single      ' need to add set/get for these public vars
+Public cyPerc As Single       ' available externally, to allow the overlay to be centered on the form, need to add set/let for these public vars
 
-' timer vars
+' RC timers
 
-Public WithEvents tmrClock As cTimer
+Public WithEvents tmrClock As cTimer         ' all need to be changed to private timers controlled by properties
 Attribute tmrClock.VB_VarHelpID = -1
 Public WithEvents tmrPendulum As cTimer
 Attribute tmrPendulum.VB_VarHelpID = -1
@@ -43,7 +45,6 @@ Public WithEvents tmrTolling As cTimer
 Attribute tmrTolling.VB_VarHelpID = -1
 Public WithEvents tmrCountdownToToll As cTimer
 Attribute tmrCountdownToToll.VB_VarHelpID = -1
-
 Public WithEvents tmrTimeShift As cTimer    ' need to add set/get for these public timers
 Attribute tmrTimeShift.VB_VarHelpID = -1
 Public WithEvents tmrDigitRotator As cTimer ' need to add set/get for these
@@ -51,12 +52,12 @@ Attribute tmrDigitRotator.VB_VarHelpID = -1
 Public WithEvents tmrAlarmRinging As cTimer ' need to add set/get for these public timers
 Attribute tmrAlarmRinging.VB_VarHelpID = -1
 
-' class member vars
+' class private members for property assignment
 
-Private mLocked As Boolean ' property Locked
-Private mMyOpacity As Single ' property opacity
+Private mLocked As Boolean
+Private mMyOpacity As Single
 Private mTimeMachine As Boolean
-Private mHidden As Boolean ' property Hidden
+Private mHidden As Boolean
 Private mSwingPendulum As Boolean
 Private mTimeDeviation As Currency
 Private mBaseDate As String
@@ -91,7 +92,50 @@ Private pvtDaysRotatorString As String
 Private pvtMonthRotatorString As String
 Private pvtYearRotatorString As String
 
-Private pvtCurrentDateToDisplay As String ': pvtCurrentDateToDisplay = vbNullString
+Private pvtCurrentDateToDisplay As String
+
+'---------------------------------------------------------------------------------------
+' Procedure : initialisePrivateVars
+' Author    : beededea
+' Date      : 12/02/2025
+' Purpose   : initialise vars
+'---------------------------------------------------------------------------------------
+'
+Private Sub initialisePrivateVars()
+
+   On Error GoTo initialisePrivateVars_Error
+
+    pvtHourDegrees = 0
+    pvtMinsDegrees = 0
+    pvtSecsDegrees = 0
+    pvtSeconds = 0
+    
+    pvtFirstRun = False
+    pvtThisHour = 0
+    pvtThisMins = 0
+    pvtThisSecs = 0
+    
+    pvtPendulumAcceleration = 0
+    pvtGravity = 0
+    pvtPendulumAngle = 0
+    pvtPendulumVelocity = 0
+    
+    pvtRotatorLimit = 0
+    pvtMinsRotatorString = vbNullString
+    pvtHoursRotatorString = vbNullString
+    pvtDaysRotatorString = vbNullString
+    pvtMonthRotatorString = vbNullString
+    pvtYearRotatorString = vbNullString
+    
+    pvtCurrentDateToDisplay = vbNullString
+
+   On Error GoTo 0
+   Exit Sub
+
+initialisePrivateVars_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure initialisePrivateVars of Class Module cwOverlay"
+End Sub
 
 '---------------------------------------------------------------------------------------
 ' Procedure : Class_Initialize for cwOverlay
@@ -104,6 +148,8 @@ Private Sub Class_Initialize()
     Dim intervalValue As Integer: intervalValue = 0
     
     On Error GoTo Class_Initialize_Error
+    
+    Call initialisePrivateVars
 
     Set W = Cairo.WidgetBase
         W.BackColor = -1            ' we don't use any BackColor here, transparent
@@ -111,7 +157,6 @@ Private Sub Class_Initialize()
 
     intervalValue = 1000
     pvtFirstRun = True
-    pvtRotatorLimit = 0
     
     ' variables set for the pendulum
     ' g = -0.1, a = 0.6, v = 2.5 uses 3% of cpu with a 40ms timer
@@ -168,6 +213,7 @@ Class_Initialize_Error:
 
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure Class_Initialize of Class Module cwOverlay"
 End Sub
+
 
 '---------------------------------------------------------------------------------------
 ' Procedure : Widget
@@ -246,51 +292,13 @@ LockedLet_Error:
 
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property Locked of Class Module cwoverlay"
 End Property
-'---------------------------------------------------------------------------------------
-' Property  : TimeDeviation
-' Author    : beededea
-' Date      : 17/05/2023
-' Purpose   :
-'---------------------------------------------------------------------------------------
-'
-Public Property Get TimeDeviation() As Currency
-   On Error GoTo TimeDeviationGet_Error
 
-   TimeDeviation = mTimeDeviation
-
-   On Error GoTo 0
-   Exit Property
-
-TimeDeviationGet_Error:
-
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property TimeDeviation of Class Module cwoverlay"
-End Property
-'---------------------------------------------------------------------------------------
-' Property  : TimeDeviation
-' Author    : beededea
-' Date      : 17/05/2023
-' Purpose   :
-'---------------------------------------------------------------------------------------
-'
-Public Property Let TimeDeviation(ByVal newValue As Currency)
-   On Error GoTo TimeDeviationLet_Error
-
-   If mTimeDeviation <> newValue Then mTimeDeviation = newValue Else Exit Property
-   Debug.Print mTimeDeviation
-
-   On Error GoTo 0
-   Exit Property
-
-TimeDeviationLet_Error:
-
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property TimeDeviation of Class Module cwoverlay"
-End Property
 
 '---------------------------------------------------------------------------------------
 ' Property : SliderInTransit
 ' Author    : beededea
 ' Date      : 17/05/2023
-' Purpose   : the flag that allows a call to the routine that causes the 'rotation' of the numeric display when the slider is dragged by the user
+' Purpose   : property to determine (by value) that allows a call to the routine that causes the 'rotation' of the numeric display when the slider is dragged by the user
 '---------------------------------------------------------------------------------------
 '
 Public Property Get SliderInTransit() As Boolean
@@ -309,7 +317,7 @@ End Property
 ' Property  : SliderInTransit
 ' Author    : beededea
 ' Date      : 17/05/2023
-' Purpose   : the flag that allows a call to the routine that causes the 'rotation' of the numeric display when the slider is dragged by the user
+' Purpose   : property to determine (by value) that allows a call to the routine that causes the 'rotation' of the numeric display when the slider is dragged by the user
 '---------------------------------------------------------------------------------------
 '
 Public Property Let SliderInTransit(ByVal newValue As Boolean)
@@ -330,7 +338,7 @@ End Property
 ' Property : BaseDate
 ' Author    : beededea
 ' Date      : 17/05/2023
-' Purpose   : Gets the base date for the clock to determine the deviation from...
+' Purpose   : Property (by value) that sets the base date for the clock to determine the deviation from...
 '---------------------------------------------------------------------------------------
 '
 Public Property Get BaseDate() As String
@@ -349,7 +357,7 @@ End Property
 ' Property  : BaseDate
 ' Author    : beededea
 ' Date      : 17/05/2023
-' Purpose   : Sets the base date for the clock to determine the deviation from...
+' Purpose   : Property (by value) that sets the base date for the clock to determine the deviation from...
 '---------------------------------------------------------------------------------------
 '
 Public Property Let BaseDate(ByVal newValue As String)
@@ -375,7 +383,7 @@ End Property
 ' Procedure : MyOpacity
 ' Author    : beededea
 ' Date      : 17/05/2023
-' Purpose   : property used to determine the opacity of elements in the overlay
+' Purpose   : property (by value) used to determine the opacity of elements in the overlay
 '---------------------------------------------------------------------------------------
 '
 Public Property Let MyOpacity(ByVal newValue As Double)
@@ -394,7 +402,7 @@ End Property
 ' Procedure : MyOpacity
 ' Author    : beededea
 ' Date      : 17/05/2023
-' Purpose   : property used to determine the opacity of elements in the overlay
+' Purpose   : property (by value) used to determine the opacity of elements in the overlay
 '---------------------------------------------------------------------------------------
 '
 Public Property Get MyOpacity() As Double
@@ -414,7 +422,7 @@ End Property
 ' Property : SwingPendulum
 ' Author    : beededea
 ' Date      : 17/05/2023
-' Purpose   : property used to toggle the swinging pendulum animation
+' Purpose   : property (by value) used to toggle the swinging pendulum animation
 '---------------------------------------------------------------------------------------
 '
 Public Property Get SwingPendulum() As Boolean
@@ -433,7 +441,7 @@ End Property
 ' Property  : SwingPendulum
 ' Author    : beededea
 ' Date      : 17/05/2023
-' Purpose   : property used to toggle the swinging pendulum animation
+' Purpose   : property (by value) used to toggle the swinging pendulum animation
 '---------------------------------------------------------------------------------------
 '
 Public Property Let SwingPendulum(ByVal newValue As Boolean)
@@ -462,7 +470,7 @@ End Property
 
 ' ----------------------------------------------------------------
 ' Procedure Name: timeShiftValueSecs
-' Purpose: property containing the timeshift value in seconds
+' Purpose: property (by value) containing the timeshift value in seconds
 ' Procedure Kind: Property (Get)
 ' Procedure Access: Public
 ' Return Type: Currency
@@ -486,7 +494,7 @@ End Property
 
 ' ----------------------------------------------------------------
 ' Procedure Name: timeShiftValueSecs
-' Purpose: property containing the timeshift value in seconds
+' Purpose: property (by value) containing the timeshift value in seconds
 ' Procedure Kind: Property (Let)
 ' Procedure Access: Public
 ' Parameter RHS (Currency):
@@ -510,7 +518,7 @@ End Property
 ' Property  : TimeMachine
 ' Author    : beededea
 ' Date      : 17/05/2023
-' Purpose   : property to toggle the time machine on/off
+' Purpose   : property to determine (by value)  the toggle the time machine on/off
 '---------------------------------------------------------------------------------------
 '
 Public Property Get TimeMachine() As Boolean
@@ -529,7 +537,7 @@ End Property
 ' Property  : TimeMachine
 ' Author    : beededea
 ' Date      : 17/05/2023
-' Purpose   : property to toggle the time machine on/off
+' Purpose   : property to determine (by value)  the toggle the time machine on/off
 '---------------------------------------------------------------------------------------
 '
 Public Property Let TimeMachine(ByVal newValue As Boolean)
@@ -549,7 +557,7 @@ End Property
 ' Property  : Hidden
 ' Author    : beededea
 ' Date      : 17/05/2023
-' Purpose   : property to set the hidden value of the whole widget
+' Purpose   : property to determine (by value)  the set the hidden value of the whole widget
 '---------------------------------------------------------------------------------------
 '
 Public Property Get Hidden() As Boolean
@@ -572,7 +580,7 @@ End Property
 ' Property  : Hidden
 ' Author    : beededea
 ' Date      : 10/05/2023
-' Purpose   : property to set the hidden value of the whole widget
+' Purpose   : property to determine (by value)  the set the hidden value of the whole widget
 '---------------------------------------------------------------------------------------
 '
 Public Property Let Hidden(ByVal newValue As Boolean)
@@ -601,7 +609,7 @@ End Property
 ' Property  : SliderEnabled
 ' Author    : beededea
 ' Date      : 17/05/2023
-' Purpose   : property to toggle the enabling of the time slider
+' Purpose   : property to determine (by value)  the toggle the enabling of the time slider
 '---------------------------------------------------------------------------------------
 '
 Public Property Get SliderEnabled() As Boolean
@@ -622,7 +630,7 @@ End Property
 ' Property  : SliderEnabled
 ' Author    : beededea
 ' Date      : 10/05/2023
-' Purpose   : property to toggle the enabling of the time slider
+' Purpose   : property to determine (by value)  the toggle the enabling of the time slider
 '---------------------------------------------------------------------------------------
 '
 Public Property Let SliderEnabled(ByVal newValue As Boolean)
@@ -642,7 +650,7 @@ End Property
 ' Property  : GetFutureTime
 ' Author    : beededea
 ' Date      : 17/05/2023
-' Purpose   : a property that contains the future date/time currently selected by the timeSlider
+' Purpose   : a property (by value) that contains the future date/time currently selected by the timeSlider
 '---------------------------------------------------------------------------------------
 '
 Public Property Get GetFutureTime() As String
@@ -663,7 +671,7 @@ End Property
 ' Property  : GetFutureTime
 ' Author    : beededea
 ' Date      : 10/05/2023
-' Purpose   : a property that contains the future date/time currently selected by the timeSlider
+' Purpose   : a property (by value) that contains the future date/time currently selected by the timeSlider
 '---------------------------------------------------------------------------------------
 '
 Public Property Let GetFutureTime(ByVal newValue As String)
@@ -684,7 +692,7 @@ End Property
 ' Property  : TriggerTimeShift
 ' Author    : beededea
 ' Date      : 17/05/2023
-' Purpose   : property that lets user-triggered slider movement call the same routines in the advance/retard timer
+' Purpose   : property (by value) that lets user-triggered slider movement call the same routines in the advance/retard timer
 '
 '             A timer runs in the background to advance/retard time when the slider is being held still.
 '             this property calls the same routines in the foreground task.
@@ -709,7 +717,7 @@ End Property
 ' Property  : TriggerTimeShift
 ' Author    : beededea
 ' Date      : 10/05/2023
-' Purpose   : property that lets user-triggered slider movement call the same routines in the advance/retard timer
+' Purpose   : property (by value) that lets user-triggered slider movement call the same routines in the advance/retard timer
 '
 '             A timer runs in the background to advance/retard time when the slider is being held still.
 '             this property calls the same routines in the foreground task.
@@ -742,7 +750,7 @@ End Property
 ' Property  : AlarmSetCurrentDate
 ' Author    : beededea
 ' Date      : 17/05/2023
-' Purpose   :
+' Purpose   : property (by value) to set the alarm date for the timeshift routines
 '---------------------------------------------------------------------------------------
 '
 Public Property Get AlarmSetCurrentDate() As Boolean
@@ -762,7 +770,7 @@ End Property
 ' Property  : AlarmSetCurrentDate
 ' Author    : beededea
 ' Date      : 10/05/2023
-' Purpose   :
+' Purpose   : property (by value) to set the alarm date for the timeshift routines
 '---------------------------------------------------------------------------------------
 '
 Public Property Let AlarmSetCurrentDate(ByVal newValue As Boolean)

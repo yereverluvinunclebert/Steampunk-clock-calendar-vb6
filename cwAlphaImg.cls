@@ -15,10 +15,10 @@ Attribute VB_Exposed = False
 ' Module    : cwAlphaImg
 ' Author    : Olaf Schmidt
 ' Date      : 05/12/2023
-' Purpose   :
+' Purpose   :  a very simple Image-Widget, which expects an ImageKey - and ensures ClickThrough-behaviour
 '---------------------------------------------------------------------------------------
 
-Option Explicit 'a very simple Image-Widget, which expects an ImageKey - and ensures ClickThrough-behaviour
+Option Explicit
  
 Private WithEvents W As cWidgetBase
 Attribute W.VB_VarHelpID = -1

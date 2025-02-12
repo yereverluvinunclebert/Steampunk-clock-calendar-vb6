@@ -367,13 +367,20 @@ o added code when un-setting all alarms to specifically reverse the alarm functi
 ' removed licenceform _move event
 ' fixed all error messages incorrectly pointing to cfMain
 ' descriptions on all routines in cwAbout
+' descriptions on all routines in cwLicence
+' hook and release hook, document
+
+' initialise all vars in cfClock and add comments to all vars
+' initialise all vars in cwAbout and add comments to all vars
+' initialise all vars in cwLicence and add comments to all vars
+' initialise all vars in cwOverlay and add comments to all vars
+
+
 
 ' -oOo-
 
 Tasks to do:
 ============
-
-' hook and release hook, document
 
 ' change and test the slider values to make time changes more practical
 
@@ -385,15 +392,14 @@ Tasks to do:
 
 ' disable chimes vs alarms disabled
 
-' descriptions on all routines in cwLicence - WIP
 ' descriptions on all routines in module1 - WIP
-' descriptions on all routines in module2 - WIP
-' descriptions on all routines in modResize - WIP
-' descriptions on all routines in modMain - WIP
-' descriptions on all routines in widgetPrefs - WIP
-' descriptions on all routines in menuForm - WIP
-' descriptions on all routines in frmTimer - WIP
-' descriptions on all routines in frmMessage - WIP
+' descriptions on all routines in module2 -
+' descriptions on all routines in modResize -
+' descriptions on all routines in modMain -
+' descriptions on all routines in widgetPrefs -
+' descriptions on all routines in menuForm -
+' descriptions on all routines in frmTimer -
+' descriptions on all routines in frmMessage -
 
 ' grigri <grigri@shinyhappypixels.com> to credits
 ' Rod Stephens @ vb-helper.com resize

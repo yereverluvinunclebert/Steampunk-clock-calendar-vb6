@@ -312,8 +312,6 @@ Private Sub initialiseGlobalVars()
     ' general
     gblStartup = vbNullString
     gblWidgetFunctions = vbNullString
-    
-    gblSmoothSecondHand = vbNullString
 
     ' config
     gblClockTooltips = vbNullString
@@ -1281,12 +1279,6 @@ Public Sub readSettingsFile(ByVal Location As String, ByVal gblSettingsFile As S
         gblStartup = fGetINISetting(Location, "startup", gblSettingsFile)
         gblWidgetFunctions = fGetINISetting(Location, "widgetFunctions", gblSettingsFile)
         
-        gblSmoothSecondHand = fGetINISetting(Location, "smoothSecondHand", gblSettingsFile)
-        
-'        gblClockFaceSwitchPref = fGetINISetting(location, "clockFaceSwitchPref", gblSettingsFile)
-        'gblSecondaryGaugeTimeZone = fGetINISetting(location, "secondaryGaugeTimeZone", gblSettingsFile)
-        'gblSecondaryDaylightSaving = fGetINISetting(location, "secondaryDaylightSaving", gblSettingsFile)
-
         ' configuration
         gblClockTooltips = fGetINISetting(Location, "clockTooltips", gblSettingsFile)
         gblPrefsTooltips = fGetINISetting(Location, "prefsTooltips", gblSettingsFile)
@@ -1437,19 +1429,10 @@ Public Sub validateInputs()
 '        If gblAnimationInterval = vbNullString Then gblAnimationInterval = "130"
         If gblStartup = vbNullString Then gblStartup = "1"
         
-        If gblSmoothSecondHand = vbNullString Then gblSmoothSecondHand = "0"
-        
-        'If gblClockFaceSwitchPref = vbNullString Then gblClockFaceSwitchPref = "0"
-
-        'If gblSecondaryGaugeTimeZone = vbNullString Then gblSecondaryGaugeTimeZone = "1"
-        'If gblSecondaryDaylightSaving = vbNullString Then gblSecondaryDaylightSaving = "1"
-
         ' Configuration
         If gblClockTooltips = "False" Then gblClockTooltips = "0"
         If gblClockTooltips = vbNullString Then gblClockTooltips = "0"
         
-
-
         'If gblEnablePrefsTooltips = vbNullString Then gblEnablePrefsTooltips = "false"
         If gblPrefsTooltips = "False" Then gblPrefsTooltips = "0"
         If gblPrefsTooltips = vbNullString Then gblPrefsTooltips = "0"

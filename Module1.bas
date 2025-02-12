@@ -1,12 +1,11 @@
 Attribute VB_Name = "Module1"
 '@IgnoreModule IntegerDataType, ModuleWithoutFolder
 
-
 '---------------------------------------------------------------------------------------
 ' Module    : Module1
 ' Author    : beededea
 ' Date      : 27/04/2023
-' Purpose   : Module for declaring any public and private constants, APIs and types used by the functions therein.
+' Purpose   : Module for declaring any public and private constants, APIs and types, public subroutines and functions.
 '---------------------------------------------------------------------------------------
 
 Option Explicit
@@ -264,6 +263,7 @@ Private Declare Function GetOpenFileName Lib "comdlg32" Alias "GetOpenFileNameA"
 '  Bottom As Long ' This is +1 (bottom - top = height)
 'End Type
 
+
 '------------------------------------------------------ STARTS
 ' APIs, constants and types defined for determining the OS version
 Private Declare Function GetVersionEx Lib "kernel32" Alias "GetVersionExA" _
@@ -283,20 +283,35 @@ Private Const VER_PLATFORM_WIN32_WINDOWS As Long = 1
 Private Const VER_PLATFORM_WIN32_NT As Long = 2
 '------------------------------------------------------ ENDS
 
+
+'------------------------------------------------------ STARTS
+' APIs, constants and types defined for determining existence of files and folders
+Private Const OF_EXIST         As Long = &H4000
+Private Const OFS_MAXPATHNAME  As Long = 128
+Private Const HFILE_ERROR      As Long = -1
+ 
+Private Type OFSTRUCT
+    cBytes As Byte
+    fFixedDisk As Byte
+    nErrCode As Integer
+    Reserved1 As Integer
+    Reserved2 As Integer
+    szPathName(OFS_MAXPATHNAME) As Byte
+End Type
+     
+Private Declare Function OpenFile Lib "kernel32" (ByVal lpFileName As String, _
+                            lpReOpenBuff As OFSTRUCT, ByVal wStyle As Long) As Long
+Private Declare Function PathFileExists Lib "shlwapi" Alias "PathFileExistsA" (ByVal pszPath As String) As Long
+Private Declare Function PathIsDirectory Lib "shlwapi" Alias "PathIsDirectoryA" (ByVal pszPath As String) As Long
+'------------------------------------------------------ ENDS
+             
+
 '------------------------------------------------------ STARTS
 ' stored vars read from settings.ini
 '
 ' general
 Public gblStartup As String
 Public gblWidgetFunctions As String
-
-'Public gblAnimationInterval As String
-Public gblSmoothSecondHand As String
-
-
-'Public gblClockFaceSwitchPref As String
-'Public gblSecondaryGaugeTimeZone As String
-'Public gblSecondaryDaylightSaving As String
 
 ' config
 Public gblClockTooltips As String
@@ -445,7 +460,7 @@ Public gblAlarm5FlgRaised As Boolean
 
 '------------------------------------------------------ STARTS
 ' General variables declared
-'Public toolSettingsFile  As String
+
 Public classicThemeCapable As Boolean
 Public storeThemeColour As Long
 Public windowsVer As String
@@ -481,35 +496,12 @@ Public aspectRatio As String
 Public oldgblSettingsModificationTime  As Date
 
 Public Const visibleAreaWidth As Long = 648 ' this is the width of the rightmost visible point of the widget - ie. the surround
-'------------------------------------------------------ ENDS
 
-'------------------------------------------------------ STARTS
-Private Const OF_EXIST         As Long = &H4000
-Private Const OFS_MAXPATHNAME  As Long = 128
-Private Const HFILE_ERROR      As Long = -1
- 
-Private Type OFSTRUCT
-    cBytes As Byte
-    fFixedDisk As Byte
-    nErrCode As Integer
-    Reserved1 As Integer
-    Reserved2 As Integer
-    szPathName(OFS_MAXPATHNAME) As Byte
-End Type
-     
-Private Declare Function OpenFile Lib "kernel32" (ByVal lpFileName As String, _
-                            lpReOpenBuff As OFSTRUCT, ByVal wStyle As Long) As Long
-Private Declare Function PathFileExists Lib "shlwapi" Alias "PathFileExistsA" (ByVal pszPath As String) As Long
-Private Declare Function PathIsDirectory Lib "shlwapi" Alias "PathIsDirectoryA" (ByVal pszPath As String) As Long
 Public gblWindowLevelWasChanged As Boolean
-
-'------------------------------------------------------ ENDS
-                            
-
-
 
 ' Flag for debug mode '.06 DAEB 19/04/2021 common.bas moved to the common area so that it can be used by each of the utilities
 Private mbDebugMode As Boolean ' .30 DAEB 03/03/2021 frmMain.frm replaced the inIDE function that used a variant to one without
+
 Public startupFlg As Boolean
 Public msgBoxADynamicSizingFlg As Boolean
 Public monitorCount As Long
@@ -523,6 +515,8 @@ Public gblPrefsFormResizedInCode As Boolean
 Public gblFClockAvailable As Boolean
 Public gblAlarmFlgRaised As Boolean
 Public gblCodingEnvironment As String
+
+'------------------------------------------------------ ENDS
 
 
 '---------------------------------------------------------------------------------------

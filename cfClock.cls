@@ -27,22 +27,29 @@ Private Declare Sub Sleep Lib "kernel32.dll" (ByVal dwMilliseconds As Long)
 ' (ByVal lpstrCommand As String, ByVal lpstrReturnString As String, _
 '  ByVal uReturnLength As Long, ByVal hwndCallback As Long) As Long
 
+' Declare clockForm as an RC form to be available throughout by calling fClock as defined as this class in modMain
+
 Public WithEvents clockForm As cWidgetForm
 Attribute clockForm.VB_VarHelpID = -1
 
-Public WithEvents tmrZZZZSound As cTimer
+' RC timers
+
+Public WithEvents tmrZZZZSound As cTimer ' need to be changed to private timers controlled by properties
 Attribute tmrZZZZSound.VB_VarHelpID = -1
 Public WithEvents tmrTILLSound As cTimer
 Attribute tmrTILLSound.VB_VarHelpID = -1
 Public WithEvents tmrTickingSound As cTimer
 Attribute tmrTickingSound.VB_VarHelpID = -1
 
-Public collPSDNonUIElements As cCollection
-Public FX As Long
-Public FY As Long
-Public FZ As Single  'available on the outside, even after the Form is closed
+' public vars and objects
 
-' private member properties
+Public collPSDNonUIElements As cCollection
+
+Public FX As Long   ' available externally, to allow the clockForm to be moved, need to add set/let for these public vars
+Public FY As Long
+Public FZ As Single
+
+' class private members for property assignment
 
 Private mMute As Integer
 Private mSliderFreed As Boolean
@@ -67,10 +74,9 @@ Private mhelpToggleEnabled As Boolean
 Private mTimeShiftValue As Currency
 Private mRotateBusyTimer As Boolean
 Private mSetTogglePressed As Boolean
+Private mShowHelp As Boolean
 
-Public mShowHelp As Boolean 'change to property get/set
-
-' widgets
+' RC widgets
 
 Private WithEvents helpbottom As cWidgetBase
 Attribute helpbottom.VB_VarHelpID = -1
@@ -94,7 +100,6 @@ Private WithEvents help2toggle As cWidgetBase
 Attribute help2toggle.VB_VarHelpID = -1
 Private WithEvents help3toggle As cWidgetBase
 Attribute help3toggle.VB_VarHelpID = -1
-
 Private WithEvents pendulumtoggle As cWidgetBase
 Attribute pendulumtoggle.VB_VarHelpID = -1
 Private WithEvents mutetoggle As cWidgetBase
@@ -152,16 +157,11 @@ Attribute yeardisplay.VB_VarHelpID = -1
 Private WithEvents datedisplay As cWidgetBase
 Attribute datedisplay.VB_VarHelpID = -1
 
+' the RC text label that displays the console messages
+
 Private lblTerminalText As cwLabel
 
-' test labels, textboxes causing IDE crash
-
-Private newLabel As cwLabel
-Attribute newLabel.VB_VarHelpID = -1
-Private WithEvents textBox As cwTextBox
-Attribute textBox.VB_VarHelpID = -1
-
-'general vars
+'local general vars used only within this class
 
 Private pvtSldFixedTop As Double
 Private pvtSldXMax As Double
@@ -173,9 +173,37 @@ Private pvtAlarmInitiatingControl As String
 Private pvtSlidersetMousedown As Boolean
 Private pvtPSDWidth As Long
 Private pvtPSDHeight As Long
-Private busyTimerRotateValue As Integer
+Private pvtBusyTimerRotateValue As Integer
 
+'---------------------------------------------------------------------------------------
+' Procedure : initialisePrivateVars
+' Author    : beededea
+' Date      : 12/02/2025
+' Purpose   :
+'---------------------------------------------------------------------------------------
+'
+Private Sub initialisePrivateVars()
+   On Error GoTo initialisePrivateVars_Error
 
+    pvtSldFixedTop = 0
+    pvtSldXMax = 0
+    pvtSldXMin = 0
+    pvtSldX = 0
+    pvtHelpMoved = False
+    pvtMuteInitiatingControl = vbNullString
+    pvtAlarmInitiatingControl = vbNullString
+    pvtSlidersetMousedown = False
+    pvtPSDWidth = 0
+    pvtPSDHeight = 0
+    pvtBusyTimerRotateValue = 0
+
+   On Error GoTo 0
+   Exit Sub
+
+initialisePrivateVars_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure initialisePrivateVars of Class Module cfClock"
+End Sub
 '---------------------------------------------------------------------------------------
 ' Procedure : Class_Initialize
 ' Author    : olaf schmidt
@@ -187,7 +215,7 @@ Private Sub Class_Initialize()
    
     On Error GoTo Class_Initialize_Error
     
-    busyTimerRotateValue = 1
+    pvtBusyTimerRotateValue = 1
 
     Set collPSDNonUIElements = New_c.Collection(False)
     
@@ -4722,12 +4750,12 @@ Public Property Let RotateBusyTimer(ByVal newValue As Boolean)
     
     If startupFlg = False Then Exit Property
     
-    fClock.clockForm.Widgets("busy" & busyTimerRotateValue).Widget.Alpha = 0
+    fClock.clockForm.Widgets("busy" & pvtBusyTimerRotateValue).Widget.Alpha = 0
 
-    busyTimerRotateValue = busyTimerRotateValue + 1
-    If busyTimerRotateValue >= 6 Then busyTimerRotateValue = 1
+    pvtBusyTimerRotateValue = pvtBusyTimerRotateValue + 1
+    If pvtBusyTimerRotateValue >= 6 Then pvtBusyTimerRotateValue = 1
 
-    With fClock.clockForm.Widgets("busy" & busyTimerRotateValue).Widget
+    With fClock.clockForm.Widgets("busy" & pvtBusyTimerRotateValue).Widget
         .Alpha = 1
         .Refresh
     End With

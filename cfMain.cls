@@ -21,13 +21,19 @@ Attribute VB_Exposed = False
 
 Option Explicit
 
+' Declare both RC forms to be available throughout by calling cfMain parent
+
 Public WithEvents aboutForm As cWidgetForm
 Attribute aboutForm.VB_VarHelpID = -1
 Public WithEvents licenceForm As cWidgetForm
 Attribute licenceForm.VB_VarHelpID = -1
 
-Public licenceFormX As Long
-Public licenceFormY As Long
+'public vars (unused) for positioning the licence form externally
+
+'Public licenceFormX As Long
+'Public licenceFormY As Long
+
+' RC widgets
 
 Private WithEvents btnAccept As cwButton
 Attribute btnAccept.VB_VarHelpID = -1
@@ -38,7 +44,6 @@ Attribute textBox.VB_VarHelpID = -1
 Private lblDeclineOrNot As cwLabel
 Attribute lblDeclineOrNot.VB_VarHelpID = -1
  
-
 
 '---------------------------------------------------------------------------------------
 ' Procedure : initAndCreateAboutForm
