@@ -89,7 +89,7 @@ Public Sub mainRoutine(ByVal restart As Boolean)
     ' initialise global vars
     Call initialiseGlobalVars
     
-    startupFlg = True
+    gblStartupFlg = True
     
     #If TWINBASIC Then
         gblCodingEnvironment = "TwinBasic"
@@ -114,7 +114,7 @@ Public Sub mainRoutine(ByVal restart As Boolean)
     Call addImagesToImageList
     
     ' check the Windows version
-    classicThemeCapable = fTestClassicThemeCapable
+    gblClassicThemeCapable = fTestClassicThemeCapable
   
     ' get this tool's entry in the trinkets settings file and assign the app.path
     Call getTrinketsFile
@@ -185,9 +185,9 @@ Public Sub mainRoutine(ByVal restart As Boolean)
     ' configure any global timers here
     Call configureTimers
     
-    ' note the monitor primary at clockForm form_load and store oldClockFormMonitorPrimary
+    ' note the monitor primary at clockForm form_load and store gblOldClockFormMonitorPrimary
     clockMonitorStruct = cWidgetFormScreenProperties(fClock.clockForm, clockFormMonitorID)
-    oldClockFormMonitorPrimary = clockMonitorStruct.IsPrimary
+    gblOldClockFormMonitorPrimary = clockMonitorStruct.IsPrimary
     
     ' make the busy sand timer invisible
     Call hideBusyTimer
@@ -196,7 +196,7 @@ Public Sub mainRoutine(ByVal restart As Boolean)
     overlayWidget.tmrClock.Enabled = True
     
     
-    startupFlg = False
+    gblStartupFlg = False
         
     ' RC message pump will auto-exit when Cairo Forms > 0 so we run it only when 0, this prevents message interruption
     ' when running twice on reload.
@@ -307,7 +307,7 @@ Private Sub initialiseGlobalVars()
       
     On Error GoTo initialiseGlobalVars_Error
     
-    monitorCount = 0
+    gblMonitorCount = 0
 
     ' general
     gblStartup = vbNullString
@@ -433,23 +433,23 @@ Private Sub initialiseGlobalVars()
     
     ' general variables declared
     'toolSettingsFile = vbNullString
-    classicThemeCapable = False
-    storeThemeColour = 0
-    windowsVer = vbNullString
+    gblClassicThemeCapable = False
+    gblStoreThemeColour = 0
+    'windowsVer = vbNullString
     
     ' vars to obtain correct screen width (to correct VB6 bug) STARTS
     screenTwipsPerPixelX = 0
     screenTwipsPerPixelY = 0
-    physicalScreenWidthTwips = 0
-    physicalScreenHeightTwips = 0
-    physicalScreenHeightPixels = 0
-    physicalScreenWidthPixels = 0
+    gblPhysicalScreenWidthTwips = 0
+    gblPhysicalScreenHeightTwips = 0
+    gblPhysicalScreenHeightPixels = 0
+    gblPhysicalScreenWidthPixels = 0
     
-    virtualScreenHeightPixels = 0
-    virtualScreenWidthPixels = 0
+    gblVirtualScreenHeightPixels = 0
+    gblVirtualScreenWidthPixels = 0
     
-    oldPhysicalScreenHeightPixels = 0
-    oldPhysicalScreenWidthPixels = 0
+    gblOldPhysicalScreenHeightPixels = 0
+    gblOldPhysicalScreenWidthPixels = 0
     
     gblPrefsPrimaryHeightTwips = vbNullString
     gblPrefsSecondaryHeightTwips = vbNullString
@@ -460,15 +460,15 @@ Private Sub initialiseGlobalVars()
     gblMessageAWidthTwips = vbNullString
     
     ' key presses
-    CTRL_1 = False
-    SHIFT_1 = False
+    gblCTRL_1 = False
+    gblSHIFT_1 = False
     
     ' other globals
-    debugFlg = 0
-    minutesToHide = 0
-    aspectRatio = vbNullString
+    gblDebugFlg = 0
+    gblMinutesToHide = 0
+    gblAspectRatio = vbNullString
     revealWidgetTimerCount = 0
-    oldgblSettingsModificationTime = #1/1/2000 12:00:00 PM#
+    gblOldSettingsModificationTime = #1/1/2000 12:00:00 PM#
     
     gblCodingEnvironment = vbNullString
 
@@ -621,13 +621,13 @@ Public Sub adjustMainControls(Optional ByVal licenceState As Integer)
     ' if the licenstate is 0 then the program is running for the first time, so pre-size the form to fit larger screens
     If licenceState = 0 Then
         ' the widget displays at 100% at a screen width of 3840 pixels
-        If physicalScreenWidthPixels >= bigScreen Then
-            gblGaugeSize = CStr((physicalScreenWidthPixels / bigScreen) * 100)
+        If gblPhysicalScreenWidthPixels >= bigScreen Then
+            gblGaugeSize = CStr((gblPhysicalScreenWidthPixels / bigScreen) * 100)
         End If
     End If
     
     ' set the initial size
-    If monitorCount > 1 And (LTrim$(gblMultiMonitorResize) = "1" Or LTrim$(gblMultiMonitorResize) = "2") Then
+    If gblMonitorCount > 1 And (LTrim$(gblMultiMonitorResize) = "1" Or LTrim$(gblMultiMonitorResize) = "2") Then
         If clockMonitorStruct.IsPrimary = True Then
             Call fClock.AdjustZoom(Val(gblClockPrimaryHeightRatio))
         Else
@@ -1221,7 +1221,7 @@ Public Sub adjustMainControls(Optional ByVal licenceState As Integer)
     ' set the hiding time for the hiding timer, can't read the minutes from comboxbox as the prefs isn't yet open
     Call setHidingTime
 
-    If minutesToHide > 0 Then menuForm.mnuHideWidget.Caption = "Hide Widget for " & minutesToHide & " min."
+    If gblMinutesToHide > 0 Then menuForm.mnuHideWidget.Caption = "Hide Widget for " & gblMinutesToHide & " min."
     
     ' refresh the form in order to show the above changes immediately
     fClock.clockForm.Refresh
@@ -1591,7 +1591,7 @@ End Sub
 '
 Private Sub getToolSettingsFile()
     On Error GoTo getToolSettingsFile_Error
-    ''If debugflg = 1  Then Debug.Print "%getToolSettingsFile"
+    ''If gblDebugFlg = 1  Then Debug.Print "%getToolSettingsFile"
     
     Dim iFileNo As Integer: iFileNo = 0
     
@@ -1635,7 +1635,7 @@ Private Sub configureTimers()
 
     On Error GoTo configureTimers_Error
     
-    oldgblSettingsModificationTime = FileDateTime(gblSettingsFile)
+    gblOldSettingsModificationTime = FileDateTime(gblSettingsFile)
 
     frmTimer.tmrScreenResolution.Enabled = True
     frmTimer.unhideTimer.Enabled = True
@@ -1666,12 +1666,12 @@ Private Sub setHidingTime()
     
     On Error GoTo setHidingTime_Error
 
-    If gblHidingTime = "0" Then minutesToHide = 1
-    If gblHidingTime = "1" Then minutesToHide = 5
-    If gblHidingTime = "2" Then minutesToHide = 10
-    If gblHidingTime = "3" Then minutesToHide = 20
-    If gblHidingTime = "4" Then minutesToHide = 30
-    If gblHidingTime = "5" Then minutesToHide = 60
+    If gblHidingTime = "0" Then gblMinutesToHide = 1
+    If gblHidingTime = "1" Then gblMinutesToHide = 5
+    If gblHidingTime = "2" Then gblMinutesToHide = 10
+    If gblHidingTime = "3" Then gblMinutesToHide = 20
+    If gblHidingTime = "4" Then gblMinutesToHide = 30
+    If gblHidingTime = "5" Then gblMinutesToHide = 60
 
     On Error GoTo 0
     Exit Sub

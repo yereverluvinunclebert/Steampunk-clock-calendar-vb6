@@ -3210,7 +3210,7 @@ Private Sub chk24HourClockMode_Click()
     End If
     
     If gblNumericDisplayRotation = "1" Then
-        triggerDigitalClockPopulation = True
+        gblTriggerDigitalClockPopulation = True
         overlayWidget.tmrDigitRotator.Enabled = True
     End If
     
@@ -3631,9 +3631,9 @@ Private Sub Form_Load()
     ' subclass controls that need additional functionality that VB6 does not provide (scrollwheel/balloon tooltips)
     Call subClassControls
     
-    ' note the monitor primary at the preferences form_load and store as oldClockFormMonitorPrimary
+    ' note the monitor primary at the preferences form_load and store as gblOldClockFormMonitorPrimary
     prefsMonitorStruct = formScreenProperties(widgetPrefs, prefsFormMonitorID)
-    oldPrefsFormMonitorPrimary = prefsMonitorStruct.IsPrimary ' -1 true
+    gblOldPrefsFormMonitorPrimary = prefsMonitorStruct.IsPrimary ' -1 true
     
     #If TWINBASIC Then
        Call setVisualStyles
@@ -3675,10 +3675,10 @@ Private Sub Form_Load()
     ' set the height of the whole form not higher than the screen size, cause a form_resize event
     If gblDpiAwareness = "1" Then
         gblPrefsFormResizedInCode = True
-        If gblPrefsPrimaryHeightTwips < physicalScreenHeightTwips Then
+        If gblPrefsPrimaryHeightTwips < gblPhysicalScreenHeightTwips Then
             widgetPrefs.Height = CLng(gblPrefsPrimaryHeightTwips) ' 16450
         Else
-            widgetPrefs.Height = physicalScreenHeightTwips - 1000
+            widgetPrefs.Height = gblPhysicalScreenHeightTwips - 1000
         End If
     End If
     
@@ -4041,7 +4041,7 @@ Public Sub positionPrefsMonitor()
     End If
     
     If formLeftTwips = 0 Then
-        If ((fClock.clockForm.Left + fClock.clockForm.Width) * screenTwipsPerPixelX) + 200 + widgetPrefs.Width > physicalScreenWidthTwips Then
+        If ((fClock.clockForm.Left + fClock.clockForm.Width) * screenTwipsPerPixelX) + 200 + widgetPrefs.Width > gblPhysicalScreenWidthTwips Then
             widgetPrefs.Left = (fClock.clockForm.Left * screenTwipsPerPixelX) - (widgetPrefs.Width + 200)
         End If
     End If
@@ -4051,7 +4051,7 @@ Public Sub positionPrefsMonitor()
     If formLeftTwips <> 0 Then
         widgetPrefs.Left = formLeftTwips
     Else
-        widgetPrefs.Left = physicalScreenWidthTwips / 2 - widgetPrefs.Width / 2
+        widgetPrefs.Left = gblPhysicalScreenWidthTwips / 2 - widgetPrefs.Width / 2
     End If
     
     If formTopTwips <> 0 Then
@@ -4061,7 +4061,7 @@ Public Sub positionPrefsMonitor()
     End If
     
     'monitorCount = fGetMonitorCount
-    If monitorCount > 1 Then Call SetFormOnMonitor(Me.hwnd, formLeftTwips / fTwipsPerPixelX, formTopTwips / fTwipsPerPixelY)
+    If gblMonitorCount > 1 Then Call SetFormOnMonitor(Me.hwnd, formLeftTwips / fTwipsPerPixelX, formTopTwips / fTwipsPerPixelY)
     
     ' calculate the on-screen widget position
     If Me.Left < 0 Then
@@ -4070,16 +4070,16 @@ Public Sub positionPrefsMonitor()
     If Me.Top < 0 Then
         widgetPrefs.Top = 0
     End If
-    If Me.Left > virtualScreenWidthTwips - 2500 Then
-        widgetPrefs.Left = virtualScreenWidthTwips - 2500
+    If Me.Left > gblVirtualScreenWidthTwips - 2500 Then
+        widgetPrefs.Left = gblVirtualScreenWidthTwips - 2500
     End If
-    If Me.Top > virtualScreenHeightTwips - 2500 Then
-        widgetPrefs.Top = virtualScreenHeightTwips - 2500
+    If Me.Top > gblVirtualScreenHeightTwips - 2500 Then
+        widgetPrefs.Top = gblVirtualScreenHeightTwips - 2500
     End If
     
     
     ' if just one monitor or the global switch is off then exit
-    If monitorCount > 1 And LTrim$(gblMultiMonitorResize) = "2" Then
+    If gblMonitorCount > 1 And LTrim$(gblMultiMonitorResize) = "2" Then
 
         If prefsMonitorStruct.IsPrimary = True Then
             gblPrefsFormResizedInCode = True
@@ -4254,7 +4254,7 @@ End Sub
 Private Sub btnAboutDebugInfo_Click()
 
    On Error GoTo btnAboutDebugInfo_Click_Error
-   'If debugflg = 1 Then Debug.Print "%btnAboutDebugInfo_Click"
+   'If gblDebugFlg = 1 Then Debug.Print "%btnAboutDebugInfo_Click"
 
     'mnuDebug_Click
     MsgBox "The debug mode is not yet enabled."
@@ -4296,7 +4296,7 @@ End Sub
 '
 Private Sub btnFacebook_Click()
    On Error GoTo btnFacebook_Click_Error
-   'If debugflg = 1 Then DebugPrint "%btnFacebook_Click"
+   'If gblDebugFlg = 1 Then DebugPrint "%btnFacebook_Click"
 
     Call menuForm.mnuFacebook_Click
     
@@ -4371,7 +4371,7 @@ End Sub
 '
 Private Sub btnUpdate_Click()
    On Error GoTo btnUpdate_Click_Error
-   'If debugflg = 1 Then DebugPrint "%btnUpdate_Click"
+   'If gblDebugFlg = 1 Then DebugPrint "%btnUpdate_Click"
 
     'MsgBox "The update button is not yet enabled."
     menuForm.mnuLatest_Click
@@ -4524,7 +4524,7 @@ Private Sub chkPreventDragging_Click()
         overlayWidget.Locked = False
         gblPreventDragging = "0"
         menuForm.mnuLockWidget.Checked = False
-        If aspectRatio = "landscape" Then
+        If gblAspectRatio = "landscape" Then
             txtLandscapeHoffset.Text = vbNullString
             txtLandscapeVoffset.Text = vbNullString
         Else
@@ -4535,7 +4535,7 @@ Private Sub chkPreventDragging_Click()
         overlayWidget.Locked = True
         gblPreventDragging = "1"
         menuForm.mnuLockWidget.Checked = True
-        If aspectRatio = "landscape" Then
+        If gblAspectRatio = "landscape" Then
             txtLandscapeHoffset.Text = fClock.clockForm.Left
             txtLandscapeVoffset.Text = fClock.clockForm.Top
         Else
@@ -4609,10 +4609,10 @@ Private Sub cmbAspectHidden_Click()
 
    On Error GoTo cmbAspectHidden_Click_Error
 
-    If cmbAspectHidden.ListIndex = 1 And aspectRatio = "portrait" Then
+    If cmbAspectHidden.ListIndex = 1 And gblAspectRatio = "portrait" Then
         'overlayWidget.Hidden = True
         fClock.clockForm.Visible = False
-    ElseIf cmbAspectHidden.ListIndex = 2 And aspectRatio = "landscape" Then
+    ElseIf cmbAspectHidden.ListIndex = 2 And gblAspectRatio = "landscape" Then
         'overlayWidget.Hidden = True
         fClock.clockForm.Visible = False
     Else
@@ -5707,7 +5707,7 @@ Private Sub adjustPrefsControls(Optional ByVal restart As Boolean)
     cmbWidgetPosition.ListIndex = Val(gblWidgetPosition)
         
     If gblPreventDragging = "1" Then
-        If aspectRatio = "landscape" Then
+        If gblAspectRatio = "landscape" Then
 '            txtLandscapeHoffset.Text = fClock.clockForm.Left
 '            txtLandscapeVoffset.Text = fClock.clockForm.Top
             If gblDpiAwareness = "1" Then
@@ -5751,7 +5751,7 @@ Private Sub adjustPrefsControls(Optional ByVal restart As Boolean)
     cmbHidingTime.ListIndex = Val(gblHidingTime)
     cmbMultiMonitorResize.ListIndex = Val(gblMultiMonitorResize)
     
-    If monitorCount > 1 Then
+    If gblMonitorCount > 1 Then
         cmbMultiMonitorResize.Visible = True
         lblWindowLevel(10).Visible = True
         lblWindowLevel(11).Visible = True
@@ -7858,7 +7858,7 @@ End Sub
 '
 Private Sub loadPrefsAboutText()
     On Error GoTo loadPrefsAboutText_Error
-    'If debugflg = 1 Then Debug.Print "%loadPrefsAboutText"
+    'If gblDebugFlg = 1 Then Debug.Print "%loadPrefsAboutText"
     
     lblMajorVersion.Caption = App.Major
     lblMinorVersion.Caption = App.Minor
@@ -7989,7 +7989,7 @@ Private Sub themeTimer_Timer()
 
     SysClr = GetSysColor(COLOR_BTNFACE)
 
-    If SysClr <> storeThemeColour Then
+    If SysClr <> gblStoreThemeColour Then
         Call setThemeColour
     End If
 
@@ -8271,7 +8271,7 @@ Private Sub setThemeColour()
     Dim SysClr As Long: SysClr = 0
     
    On Error GoTo setThemeColour_Error
-   'If debugflg = 1  Then Debug.Print "%setThemeColour"
+   'If gblDebugFlg = 1  Then Debug.Print "%setThemeColour"
 
     If IsThemeActive() = False Then
         'MsgBox "Windows Classic Theme detected"
@@ -8289,7 +8289,7 @@ Private Sub setThemeColour()
         mnuLight.Caption = "Light Theme Enabled"
     End If
 
-    storeThemeColour = SysClr
+    gblStoreThemeColour = SysClr
 
    On Error GoTo 0
    Exit Sub
@@ -8315,7 +8315,7 @@ Private Sub adjustPrefsTheme()
             Call setThemeShade(240, 240, 240)
         End If
     Else
-        If classicThemeCapable = True Then
+        If gblClassicThemeCapable = True Then
             mnuAuto.Caption = "Auto Theme Enabled - Click to Disable"
             themeTimer.Enabled = True
         Else
@@ -8508,7 +8508,7 @@ Private Sub setframeHeights()
         fraFonts.Height = 4533
         
         ' the lowest window controls are not displayed on a single monitor
-        If monitorCount > 1 Then
+        If gblMonitorCount > 1 Then
             fraWindow.Height = 8138
             fraWindowInner.Height = 7500
         Else

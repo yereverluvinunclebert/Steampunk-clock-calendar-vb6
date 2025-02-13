@@ -55,14 +55,14 @@ End Type
 
 Private Declare Function EnumDisplayMonitors Lib "user32" (ByVal hDC As Long, lprcClip As Any, ByVal lpfnEnum As Long, dwData As Long) As Long
 Private Declare Function GetSystemMetrics Lib "user32" (ByVal nIndex As Long) As Long
-Public Declare Function GetDC Lib "user32" (ByVal hWnd As Long) As Long
-Public Declare Function ReleaseDC Lib "user32" (ByVal hWnd As Long, ByVal hDC As Long) As Long
+Public Declare Function GetDC Lib "user32" (ByVal hwnd As Long) As Long
+Public Declare Function ReleaseDC Lib "user32" (ByVal hwnd As Long, ByVal hDC As Long) As Long
 Public Declare Function GetDeviceCaps Lib "gdi32" (ByVal hDC As Long, ByVal nIndex As Long) As Long
 'Private Declare Function CreateDC Lib "gdi32" Alias "CreateDCA" (ByVal lpDriverName As String, ByVal lpDeviceName As String, ByVal lpOutput As String, ByVal lpInitData As Long) As Long
 Private Declare Function UnionRect Lib "user32" (lprcDst As RECT, lprcSrc1 As RECT, lprcSrc2 As RECT) As Long
 Private Declare Function OffsetRect Lib "user32" (lpRect As RECT, ByVal x As Long, ByVal y As Long) As Long
-Private Declare Function MoveWindow Lib "user32" (ByVal hWnd As Long, ByVal x As Long, ByVal y As Long, ByVal nWidth As Long, ByVal nHeight As Long, ByVal bRepaint As Long) As Long
-Private Declare Function GetWindowRect Lib "user32.dll" (ByVal hWnd As Long, lpRect As RECT) As Long
+Private Declare Function MoveWindow Lib "user32" (ByVal hwnd As Long, ByVal x As Long, ByVal y As Long, ByVal nWidth As Long, ByVal nHeight As Long, ByVal bRepaint As Long) As Long
+Private Declare Function GetWindowRect Lib "user32.dll" (ByVal hwnd As Long, lpRect As RECT) As Long
 Private Declare Function MonitorFromRect Lib "user32" (rc As RECT, ByVal dwFlags As dwFlags) As Long
 Private Declare Function GetMonitorInfo Lib "user32" Alias "GetMonitorInfoA" (ByVal hMonitor As Long, MonInfo As tagMONITORINFO) As Long
 
@@ -245,7 +245,7 @@ End Function
 '             if the form finds itself offscreen due to monitor position/resolution changes.
 '---------------------------------------------------------------------------------------
 '
-Public Sub SetFormOnMonitor(ByRef hWnd As Long, ByVal Left As Long, ByVal Top As Long)
+Public Sub SetFormOnMonitor(ByRef hwnd As Long, ByVal Left As Long, ByVal Top As Long)
 
 ' 2536 , 1038
 
@@ -255,7 +255,7 @@ Public Sub SetFormOnMonitor(ByRef hWnd As Long, ByVal Left As Long, ByVal Top As
     
     On Error GoTo setFormOnMonitor_Error
 
-    GetWindowRect hWnd, rc 'obtain the current form's window rectangle co-ords
+    GetWindowRect hwnd, rc 'obtain the current form's window rectangle co-ords
         
     'move the window rectangle to the previously saved position supplied as two params.
     OffsetRect rc, Left - rc.Left, Top - rc.Top
@@ -276,7 +276,7 @@ Public Sub SetFormOnMonitor(ByRef hWnd As Long, ByVal Left As Long, ByVal Top As
     If rc.Bottom > mi.rcWork.Bottom Then OffsetRect rc, 0, mi.rcWork.Bottom - rc.Bottom
     
     'move the window to new calculated position
-    MoveWindow hWnd, rc.Left, rc.Top, rc.Right - rc.Left, rc.Bottom - rc.Top, 0
+    MoveWindow hwnd, rc.Left, rc.Top, rc.Right - rc.Left, rc.Bottom - rc.Top, 0
 
     On Error GoTo 0
     Exit Sub
@@ -308,10 +308,10 @@ Public Function cWidgetFormScreenProperties(ByVal frm As cWidgetForm, ByRef moni
     
     On Error GoTo cWidgetFormScreenProperties_Error
    
-    'If debugFlg = 1 Then MsgBox "%" & " func cWidgetFormScreenProperties"
+    'If gblDebugFlg = 1 Then MsgBox "%" & " func cWidgetFormScreenProperties"
     
     ' reads the size and position of the user supplied form window
-    GetWindowRect frm.hWnd, Frect
+    GetWindowRect frm.hwnd, Frect
     hMonitor = MonitorFromRect(Frect, MONITOR_DEFAULTTOPRIMARY) ' get handle for monitor containing most of Frm
                                                                 ' if disconnected return handle (and properties) for primary monitor
     On Error GoTo GetMonitorInformation_Err
@@ -370,10 +370,10 @@ Public Function formScreenProperties(ByVal frm As Form, ByRef monitorID As Long)
     
     On Error GoTo formScreenProperties_Error
    
-    If debugFlg = 1 Then MsgBox "%" & " func formScreenProperties"
+    If gblDebugFlg = 1 Then MsgBox "%" & " func formScreenProperties"
     
     ' reads the size and position of the user supplied form window
-    GetWindowRect frm.hWnd, Frect
+    GetWindowRect frm.hwnd, Frect
     hMonitor = MonitorFromRect(Frect, MONITOR_DEFAULTTOPRIMARY) ' get handle for monitor containing most of Frm
                                                                 ' if disconnected return handle (and properties) for primary monitor
     On Error GoTo GetMonitorInformation_Err
@@ -449,7 +449,7 @@ Public Sub positionPrefsByMonitorSize()
     On Error GoTo positionPrefsByMonitorSize_Error
 
     ' if just one monitor or the global switch is off then exit
-    If monitorCount > 1 And (LTrim$(gblMultiMonitorResize) = "1" Or LTrim$(gblMultiMonitorResize) = "2") Then
+    If gblMonitorCount > 1 And (LTrim$(gblMultiMonitorResize) = "1" Or LTrim$(gblMultiMonitorResize) = "2") Then
     
         ' turn off the timer that saves the prefs height and position
         widgetPrefs.tmrPrefsMonitorSaveHeight.Enabled = False
@@ -475,9 +475,9 @@ Public Sub positionPrefsByMonitorSize()
         If oldPrefsClockLeftPixels = 0 Then oldPrefsClockLeftPixels = widgetPrefs.Left
     
         ' if the monitor ID has changed
-        If oldPrefsFormMonitorPrimary <> prefsFormMonitorPrimary Then
+        If gblOldPrefsFormMonitorPrimary <> prefsFormMonitorPrimary Then
     
-            screenWrite ("Prefs Stored monitor primary status = " & CBool(oldPrefsFormMonitorPrimary))
+            screenWrite ("Prefs Stored monitor primary status = " & CBool(gblOldPrefsFormMonitorPrimary))
             screenWrite ("Prefs Current monitor primary status = " & CBool(prefsFormMonitorPrimary))
            
             If LTrim$(gblMultiMonitorResize) = "1" Then
@@ -502,7 +502,7 @@ Public Sub positionPrefsByMonitorSize()
         End If
         
         ' set the current values as 'old' for comparison on next run
-        oldPrefsFormMonitorPrimary = prefsFormMonitorPrimary
+        gblOldPrefsFormMonitorPrimary = prefsFormMonitorPrimary
         
         oldPrefsMonitorStructWidthTwips = monitorStructWidthTwips
         oldPrefsMonitorStructHeightTwips = monitorStructHeightTwips
@@ -655,7 +655,7 @@ Public Sub positionClockByMonitorSize()
 
     On Error GoTo positionClockByMonitorSize_Error
   
-    If monitorCount > 1 And (LTrim$(gblMultiMonitorResize) = "1" Or LTrim$(gblMultiMonitorResize) = "2") Then
+    If gblMonitorCount > 1 And (LTrim$(gblMultiMonitorResize) = "1" Or LTrim$(gblMultiMonitorResize) = "2") Then
     
         If fClock.clockForm.Left = oldClockLeftPixels Then Exit Sub ' this can only work if the reposition is being performed by the timer
         ' we are also calling it on a mouseUP event, so the comparison to original position is lost to us
@@ -673,9 +673,9 @@ Public Sub positionClockByMonitorSize()
         If oldMonitorStructHeightTwips = 0 Then oldMonitorStructHeightTwips = monitorStructHeightTwips
         If oldClockLeftPixels = 0 Then oldClockLeftPixels = fClock.clockForm.Left
     
-        If oldClockFormMonitorPrimary <> clockFormMonitorPrimary Then
+        If gblOldClockFormMonitorPrimary <> clockFormMonitorPrimary Then
             
-            screenWrite ("Stored monitor primary status = " & CBool(oldClockFormMonitorPrimary))
+            screenWrite ("Stored monitor primary status = " & CBool(gblOldClockFormMonitorPrimary))
             screenWrite ("Current monitor primary status = " & CBool(clockFormMonitorPrimary))
             
             If LTrim$(gblMultiMonitorResize) = "1" Then
@@ -718,7 +718,7 @@ Public Sub positionClockByMonitorSize()
             End If
         End If
     
-        oldClockFormMonitorPrimary = clockFormMonitorPrimary
+        gblOldClockFormMonitorPrimary = clockFormMonitorPrimary
         
         oldMonitorStructWidthTwips = monitorStructWidthTwips
         oldMonitorStructHeightTwips = monitorStructHeightTwips

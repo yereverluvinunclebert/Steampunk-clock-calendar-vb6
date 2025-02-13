@@ -1594,7 +1594,7 @@ Private Sub tmrDigitRotator_Timer()
          
     ' trigger a paint event
         
-    triggerDigitalClockPopulation = True
+    gblTriggerDigitalClockPopulation = True
     overlayWidget.Widget.Parent.Refresh
    
    On Error GoTo 0
@@ -1874,7 +1874,7 @@ Private Sub tmrClock_TimerRoutine()
         
         ' this should be called once only at first run after startup to populate the digital clock cache
         If pvtFirstRun = True Then
-            triggerDigitalClockPopulation = True
+            gblTriggerDigitalClockPopulation = True
             pvtFirstRun = False
         End If
             
@@ -2451,9 +2451,9 @@ Private Sub W_Paint(ByRef CC As cCairoContext, ByVal xAbs As Single, ByVal yAbs 
     Next
     
     ' if first time running then populate the digital clocks.
-    If triggerDigitalClockPopulation = True Or mSliderInTransit = True Then
+    If gblTriggerDigitalClockPopulation = True Or mSliderInTransit = True Then
         Call populateDigitalClockCache(CC)
-        triggerDigitalClockPopulation = False
+        gblTriggerDigitalClockPopulation = False
     Else ' update the correct digital display when a time change occurs
         If pvtThisSecs <= 1 Then
             Call populateDigitalMinsCache(CC)

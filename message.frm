@@ -154,7 +154,7 @@ Private Sub Form_Load()
     
     'MsgBox "Form_Load"
     
-    If gblMessageAHeightTwips = "" Then gblMessageAHeightTwips = physicalScreenHeightTwips / 5.5
+    If gblMessageAHeightTwips = "" Then gblMessageAHeightTwips = gblPhysicalScreenHeightTwips / 5.5
     
     msgBoxACurrentWidth = Val(gblMessageAWidthTwips)
     msgBoxACurrentHeight = Val(gblMessageAHeightTwips)
@@ -215,7 +215,7 @@ Private Sub Form_Resize()
         currentFont = Val(gblPrefsFontSizeLowDPI)
     End If
     
-    If msgBoxADynamicSizingFlg = True Then
+    If gblMsgBoxADynamicSizingFlg = True Then
         Call setMessageIconImagesLight(1920)
         Call resizeControls(Me, msgBoxAControlPositions(), msgBoxACurrentWidth, msgBoxACurrentHeight, currentFont)
         Me.Width = Me.Height / ratio ' maintain the aspect ratio
@@ -224,7 +224,7 @@ Private Sub Form_Resize()
     End If
 
 ''    If widgetPrefs.mnuDark.Checked = True Then
-''        Call setMessageIconImagesDark(determineIconWidth(Me, msgBoxADynamicSizingFlg))
+''        Call setMessageIconImagesDark(determineIconWidth(Me, gblMsgBoxADynamicSizingFlg))
 ''    Else
 '        Call setMessageIconImagesLight(1920)
 ''    End If
@@ -345,9 +345,9 @@ Public Property Let propMessage(ByVal newValue As String)
     
     ' Expand the form and move the other controls if the message is too long to show.
           
-    If msgBoxADynamicSizingFlg = True Then
+    If gblMsgBoxADynamicSizingFlg = True Then
         ' this causes a resize event
-        ' Me.Height = (physicalScreenHeightTwips / 5.5) '+ intDiff
+        ' Me.Height = (gblPhysicalScreenHeightTwips / 5.5) '+ intDiff
     Else
         fraPicVB.Top = 285
     End If
@@ -685,7 +685,7 @@ Private Sub loadHigherResMessageImages()
     If Me.WindowState = vbMinimized Then Exit Sub
 
 '    If widgetPrefs.mnuDark.Checked = True Then
-'        Call setMessageIconImagesDark(determineIconWidth(Me, msgBoxADynamicSizingFlg))
+'        Call setMessageIconImagesDark(determineIconWidth(Me, gblMsgBoxADynamicSizingFlg))
 '    Else
         Call setMessageIconImagesLight(1920)
 '    End If

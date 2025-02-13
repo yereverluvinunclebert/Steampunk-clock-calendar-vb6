@@ -105,7 +105,7 @@ Private Sub revealWidgetTimer_Timer()
     On Error GoTo revealWidgetTimer_Timer_Error
 
     revealWidgetTimerCount = revealWidgetTimerCount + 1
-    If revealWidgetTimerCount >= (minutesToHide * 12) Then
+    If revealWidgetTimerCount >= (gblMinutesToHide * 12) Then
         revealWidgetTimerCount = 0
 
         fClock.clockForm.Visible = True
@@ -144,24 +144,24 @@ Private Sub tmrScreenResolution_Timer()
     
     On Error GoTo tmrScreenResolution_Timer_Error
 
-    physicalScreenHeightPixels = GetDeviceCaps(Me.hDC, VERTRES)
-    physicalScreenWidthPixels = GetDeviceCaps(Me.hDC, HORZRES)
+    gblPhysicalScreenHeightPixels = GetDeviceCaps(Me.hDC, VERTRES)
+    gblPhysicalScreenWidthPixels = GetDeviceCaps(Me.hDC, HORZRES)
     
-    virtualScreenWidthPixels = fVirtualScreenWidth(True)
-    virtualScreenHeightPixels = fVirtualScreenHeight(True)
+    gblVirtualScreenWidthPixels = fVirtualScreenWidth(True)
+    gblVirtualScreenHeightPixels = fVirtualScreenHeight(True)
 
     ' calls a routine that tests for a change in the monitor upon which the form sits, if so, resizes
     'Call positionClockByMonitorSize
     
     ' will be used to check for orientation changes
-    If (oldPhysicalScreenHeightPixels <> physicalScreenHeightPixels) Or (oldPhysicalScreenWidthPixels <> physicalScreenWidthPixels) Then
+    If (gblOldPhysicalScreenHeightPixels <> gblPhysicalScreenHeightPixels) Or (gblOldPhysicalScreenWidthPixels <> gblPhysicalScreenWidthPixels) Then
         
         ' move/hide onto/from the main screen and position per orientation portrait/landscape
         Call mainScreen
 '
         'store the resolution change
-        oldPhysicalScreenHeightPixels = physicalScreenHeightPixels
-        oldPhysicalScreenWidthPixels = physicalScreenWidthPixels
+        gblOldPhysicalScreenHeightPixels = gblPhysicalScreenHeightPixels
+        gblOldPhysicalScreenWidthPixels = gblPhysicalScreenWidthPixels
     End If
 
     On Error GoTo 0
@@ -264,7 +264,7 @@ Private Sub sleepTimer_Timer()
         Call screenWrite("system has just woken up from a sleep at " & Now() & vbCrLf & "updating digital clocks... ")
         
         overlayWidget.BaseDate = Now()
-        triggerDigitalClockPopulation = True
+        gblTriggerDigitalClockPopulation = True
         
         fClock.clockForm.Refresh
         

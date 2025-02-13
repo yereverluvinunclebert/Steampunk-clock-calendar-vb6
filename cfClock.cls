@@ -918,7 +918,7 @@ Private Sub clockset_myDblClick()
     End If
 
     overlayWidget.BaseDate = Now()
-    triggerDigitalClockPopulation = True
+    gblTriggerDigitalClockPopulation = True
 
     clockForm.Refresh
 
@@ -2629,8 +2629,8 @@ Private Sub clockForm_DblClick()
         thisCommand = Replace(thisCommand, "%systemroot%", userprof)
     End If
     
-    If SHIFT_1 = True Then
-        SHIFT_1 = False
+    If gblSHIFT_1 = True Then
+        gblSHIFT_1 = False
         Call ShellExecute(fClock.clockForm.hwnd, "Open", gblOpenFile, vbNullString, App.path, 1)
     Else
         Call ShellExecute(fClock.clockForm.hwnd, "runas", thisCommand, vbNullString, App.path, 1)
@@ -4271,7 +4271,7 @@ Public Property Let alarmtoggle1Enabled(ByVal newValue As Boolean)
         fClock.clockForm.Widgets("redalarmcover").Widget.Alpha = 0
         
         overlayWidget.BaseDate = Now()
-        triggerDigitalClockPopulation = True
+        gblTriggerDigitalClockPopulation = True
         
     End If
     
@@ -4287,7 +4287,7 @@ Public Property Let alarmtoggle1Enabled(ByVal newValue As Boolean)
     End If
     
     If gblNumericDisplayRotation = "1" Then
-        triggerDigitalClockPopulation = True
+        gblTriggerDigitalClockPopulation = True
         overlayWidget.tmrDigitRotator.Enabled = True
     End If
 
@@ -4374,7 +4374,7 @@ Public Property Let alarmtoggle2Enabled(ByVal newValue As Boolean)
         fClock.clockForm.Widgets("redalarmcover").Widget.Alpha = 0
         
         overlayWidget.BaseDate = Now()
-        triggerDigitalClockPopulation = True
+        gblTriggerDigitalClockPopulation = True
 
     End If
     
@@ -4396,7 +4396,7 @@ Public Property Let alarmtoggle2Enabled(ByVal newValue As Boolean)
     
   
     If gblNumericDisplayRotation = "1" Then
-        triggerDigitalClockPopulation = True
+        gblTriggerDigitalClockPopulation = True
         overlayWidget.tmrDigitRotator.Enabled = True
     End If
     
@@ -4482,7 +4482,7 @@ Public Property Let alarmtoggle3Enabled(ByVal newValue As Boolean)
         fClock.clockForm.Widgets("redalarmcover").Widget.Alpha = 0
                         
         overlayWidget.BaseDate = Now()
-        triggerDigitalClockPopulation = True
+        gblTriggerDigitalClockPopulation = True
 
     End If
     
@@ -4498,7 +4498,7 @@ Public Property Let alarmtoggle3Enabled(ByVal newValue As Boolean)
     End If
     
     If gblNumericDisplayRotation = "1" Then
-        triggerDigitalClockPopulation = True
+        gblTriggerDigitalClockPopulation = True
         overlayWidget.tmrDigitRotator.Enabled = True
     End If
     
@@ -4584,7 +4584,7 @@ Public Property Let alarmtoggle4Enabled(ByVal newValue As Boolean)
         fClock.clockForm.Widgets("redalarmcover").Widget.Alpha = 0
                 
         overlayWidget.BaseDate = Now()
-        triggerDigitalClockPopulation = True
+        gblTriggerDigitalClockPopulation = True
 
     End If
     
@@ -4600,7 +4600,7 @@ Public Property Let alarmtoggle4Enabled(ByVal newValue As Boolean)
     End If
     
     If gblNumericDisplayRotation = "1" Then
-        triggerDigitalClockPopulation = True
+        gblTriggerDigitalClockPopulation = True
         overlayWidget.tmrDigitRotator.Enabled = True
     End If
     
@@ -4687,7 +4687,7 @@ Public Property Let alarmtoggle5Enabled(ByVal newValue As Boolean)
         fClock.clockForm.Widgets("redalarmcover").Widget.Alpha = 0
                         
         overlayWidget.BaseDate = Now()
-        triggerDigitalClockPopulation = True
+        gblTriggerDigitalClockPopulation = True
 
     End If
     
@@ -4703,7 +4703,7 @@ Public Property Let alarmtoggle5Enabled(ByVal newValue As Boolean)
     End If
     
     If gblNumericDisplayRotation = "1" Then
-        triggerDigitalClockPopulation = True
+        gblTriggerDigitalClockPopulation = True
         overlayWidget.tmrDigitRotator.Enabled = True
     End If
     
@@ -4748,7 +4748,7 @@ End Property
 Public Property Let RotateBusyTimer(ByVal newValue As Boolean)
     On Error GoTo RotateBusyTimerLet_Error
     
-    If startupFlg = False Then Exit Property
+    If gblStartupFlg = False Then Exit Property
     
     fClock.clockForm.Widgets("busy" & pvtBusyTimerRotateValue).Widget.Alpha = 0
 

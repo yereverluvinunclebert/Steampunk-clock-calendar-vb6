@@ -22,6 +22,7 @@ Attribute VB_Exposed = False
 Option Explicit
 
 ' Declare both RC forms to be available throughout by calling cfMain parent
+' ie. scope is project-wide but must be referenced with instantiated object's name.
 
 Public WithEvents aboutForm As cWidgetForm
 Attribute aboutForm.VB_VarHelpID = -1
@@ -67,19 +68,19 @@ Public Sub initAndCreateAboutForm(ByVal x As Long, ByVal y As Long, Optional ByV
     If gblDpiAwareness = "0" Then
         aboutFormWidth = 650
         aboutFormHeight = 650
-        If aboutFormWidth > virtualScreenWidthPixels Then aboutFormWidth = virtualScreenWidthPixels
-        If aboutFormHeight > virtualScreenHeightPixels Then aboutFormHeight = virtualScreenHeightPixels
+        If aboutFormWidth > gblVirtualScreenWidthPixels Then aboutFormWidth = gblVirtualScreenWidthPixels
+        If aboutFormHeight > gblVirtualScreenHeightPixels Then aboutFormHeight = gblVirtualScreenHeightPixels
     Else
         aboutFormWidth = 1000
         aboutFormHeight = 1000
-        If aboutFormWidth > virtualScreenWidthPixels Then
-            aboutFormWidth = virtualScreenWidthPixels
+        If aboutFormWidth > gblVirtualScreenWidthPixels Then
+            aboutFormWidth = gblVirtualScreenWidthPixels
             aboutWidgetZoomValue = 1.5
         Else
             aboutWidgetZoomValue = 1.5
         End If
-        If aboutFormHeight > virtualScreenHeightPixels Then
-            aboutFormHeight = virtualScreenHeightPixels
+        If aboutFormHeight > gblVirtualScreenHeightPixels Then
+            aboutFormHeight = gblVirtualScreenHeightPixels
             aboutWidgetZoomValue = 1.5
         Else
             aboutWidgetZoomValue = 1.5
@@ -136,21 +137,21 @@ Public Sub initAndCreateLicenceForm(ByVal x As Long, ByVal y As Long, Optional B
     If gblDpiAwareness = "0" Then
         licenceFormWidth = 650
         licenceFormHeight = 550
-        If licenceFormWidth > virtualScreenWidthPixels Then licenceFormWidth = virtualScreenWidthPixels
-        If licenceFormHeight > virtualScreenHeightPixels Then licenceFormHeight = virtualScreenHeightPixels
+        If licenceFormWidth > gblVirtualScreenWidthPixels Then licenceFormWidth = gblVirtualScreenWidthPixels
+        If licenceFormHeight > gblVirtualScreenHeightPixels Then licenceFormHeight = gblVirtualScreenHeightPixels
         licenceWidgetZoomValue = 0.8
     Else
         licenceFormWidth = 750
         licenceFormHeight = 650
-        If licenceFormWidth > virtualScreenWidthPixels Then
-            licenceFormWidth = virtualScreenWidthPixels
+        If licenceFormWidth > gblVirtualScreenWidthPixels Then
+            licenceFormWidth = gblVirtualScreenWidthPixels
             licenceWidgetZoomValue = 0.8
         Else
             licenceWidgetZoomValue = 1.5
         End If
         
-        If licenceFormHeight > virtualScreenHeightPixels Then
-            licenceFormHeight = virtualScreenHeightPixels
+        If licenceFormHeight > gblVirtualScreenHeightPixels Then
+            licenceFormHeight = gblVirtualScreenHeightPixels
             licenceWidgetZoomValue = 0.8
         Else
             licenceWidgetZoomValue = 1.5

@@ -146,7 +146,7 @@ Public Declare Function ShellExecute Lib "Shell32.dll" Alias "ShellExecuteA" (By
 '------------------------------------------------------ ENDS
 
 '------------------------------------------------------ STARTS
-' Constants and APIs for playing sounds
+' Constants and APIs for playing sounds non-asychronously
 Public Const SND_ASYNC As Long = &H1             '  play asynchronously
 Public Const SND_FILENAME  As Long = &H20000     '  name is a file name
 
@@ -246,22 +246,7 @@ Private x_OpenFilename As OPENFILENAME
 
 ' APIs declared for opening a common dialog box to select files without OCX dependencies
 Private Declare Function GetOpenFileName Lib "comdlg32" Alias "GetOpenFileNameA" (lpofn As OPENFILENAME) As Long
-'Private Declare Function SHBrowseForFolderA Lib "Shell32.dll" (bInfo As BROWSEINFO) As Long
-'Private Declare Function SHGetPathFromIDListA Lib "Shell32.dll" (ByVal pidl As Long, ByVal szPath As String) As Long
-'Private Declare Function CoTaskMemFree Lib "ole32.dll" (lp As Any) As Long
-'Private Declare Function SendMessage Lib "user32" Alias "SendMessageA" (ByVal hwnd As Long, ByVal wMsg As Long, ByVal wParam As Long, lParam As Any) As Long
 '------------------------------------------------------ ENDS
-
-
-'Private Declare Function GetWindowRect Lib "user32.dll" (ByVal hwnd As Long, ByVal lpRect As RECT) As Long
-'Private Declare Function GetClientRect Lib "user32.dll" (ByVal hwnd As Long, ByVal lpRect As RECT) As Long
-'
-'Public Type RECT
-'  Left As Long
-'  Top As Long
-'  Right As Long ' This is +1 (right - left = width)
-'  Bottom As Long ' This is +1 (bottom - top = height)
-'End Type
 
 
 '------------------------------------------------------ STARTS
@@ -307,29 +292,29 @@ Private Declare Function PathIsDirectory Lib "shlwapi" Alias "PathIsDirectoryA" 
              
 
 '------------------------------------------------------ STARTS
-' stored vars read from settings.ini
+' Stored vars read from settings.ini
+' There are so many global vars because the old YWE javascript version of this program used global vars, this was a conversion.
 '
 ' general
+ 
 Public gblStartup As String
 Public gblWidgetFunctions As String
 
 ' config
-Public gblClockTooltips As String
-'Public gblEnablePrefsTooltips As String
-Public gblPrefsTooltips As String
 
+Public gblClockTooltips As String
+Public gblPrefsTooltips As String
 Public gblShowTaskbar As String
 Public gblShowHelp As String
 Public gblTogglePendulum As String
 Public gbl24HourClockMode As String
-
 Public gblDpiAwareness As String
-
 Public gblGaugeSize As String
 Public gblScrollWheelDirection As String
 Public gblNumericDisplayRotation As String
 
 ' position
+
 Public gblAspectHidden As String
 Public gblWidgetPosition As String
 Public gblWidgetLandscape As String
@@ -342,12 +327,14 @@ Public gblvLocationPercPrefValue As String
 Public gblhLocationPercPrefValue As String
 
 ' sounds
+
 Public gblEnableSounds  As String
 Public gblEnableTicks  As String
 Public gblEnableChimes  As String
 Public gblVolumeBoost  As String
 
 ' development
+
 Public gblDebug As String
 Public gblDblClickCommand As String
 Public gblOpenFile As String
@@ -355,6 +342,7 @@ Public gblDefaultVB6Editor As String
 Public gblDefaultTBEditor As String
        
 ' font
+
 Public gblClockFont As String
 Public gblPrefsFont As String
 Public gblPrefsFontSizeHighDPI As String
@@ -368,6 +356,7 @@ Public gblDisplayScreenFontItalics As String
 Public gblDisplayScreenFontColour As String
 
 ' window
+
 Public gblWindowLevel As String
 Public gblPreventDragging As String
 Public gblOpacity  As String
@@ -377,8 +366,8 @@ Public gblIgnoreMouse  As String
 Public gblFirstTimeRun  As String
 Public gblMultiMonitorResize  As String
 
-
 ' General storage variables declared
+
 Public gblSettingsDir As String
 Public gblSettingsFile As String
 
@@ -392,13 +381,12 @@ Public gblClockLowDpiYPos As String
 Public gblLastSelectedTab As String
 Public gblSkinTheme As String
 Public gblUnhide As String
-
-'Public gblSetTogglePressed As String
 Public gblMuteToggleEnabled As String
 Public gblPendulumToggleEnabled As String
 Public gblPendulumEnabled As String
 
 ' global properties for the state of each UI element, read at startup
+
 Public gblWeekdayToggleEnabled As String
 Public gblDisplayScreenToggleEnabled As String
 Public gblTimeMachineToggleEnabled As String
@@ -412,15 +400,14 @@ Public gblAlarmToggle2Enabled As String
 Public gblAlarmToggle3Enabled As String
 Public gblAlarmToggle4Enabled As String
 Public gblAlarmToggle5Enabled As String
-
 Public gblAlarmTogglePressed As Integer
 
 ' vars stored for positioning the prefs form
+
 Public gblPrefsHighDpiXPosTwips As String
 Public gblPrefsHighDpiYPosTwips As String
 Public gblPrefsLowDpiXPosTwips As String
 Public gblPrefsLowDpiYPosTwips As String
-
 Public gblPrefsPrimaryHeightTwips As String
 Public gblPrefsSecondaryHeightTwips As String
 Public gblClockPrimaryHeightRatio As String
@@ -434,88 +421,76 @@ Public gblAlarm2Date As String
 Public gblAlarm3Date As String
 Public gblAlarm4Date As String
 Public gblAlarm5Date As String
-
 Public gblAlarm1Time As String
 Public gblAlarm2Time As String
 Public gblAlarm3Time As String
 Public gblAlarm4Time As String
 Public gblAlarm5Time As String
-
-
 Public gblAlarm1 As String
 Public gblAlarm2 As String
 Public gblAlarm3 As String
 Public gblAlarm4 As String
 Public gblAlarm5 As String
-
-
 Public gblAlarm1FlgRaised As Boolean
 Public gblAlarm2FlgRaised As Boolean
 Public gblAlarm3FlgRaised As Boolean
 Public gblAlarm4FlgRaised As Boolean
 Public gblAlarm5FlgRaised As Boolean
-
 '------------------------------------------------------ ENDS
 
 
 '------------------------------------------------------ STARTS
 ' General variables declared
 
-Public classicThemeCapable As Boolean
-Public storeThemeColour As Long
-Public windowsVer As String
+Public gblClassicThemeCapable As Boolean
+Public gblStoreThemeColour As Long
 
 ' vars to obtain actual correct screen width (to correct VB6 bug) twips
-Public physicalScreenWidthTwips As Long
-Public physicalScreenHeightTwips As Long
+Public gblPhysicalScreenWidthTwips As Long
+Public gblPhysicalScreenHeightTwips As Long
 
 ' pixels
-Public physicalScreenHeightPixels As Long
-Public physicalScreenWidthPixels As Long
+Public gblPhysicalScreenHeightPixels As Long
+Public gblPhysicalScreenWidthPixels As Long
 
 ' vars to obtain the virtual (multi-monitor) width twips
-Public virtualScreenHeightTwips As Long
-Public virtualScreenWidthTwips As Long
+Public gblVirtualScreenHeightTwips As Long
+Public gblVirtualScreenWidthTwips As Long
 
 ' pixels
-Public virtualScreenHeightPixels As Long
-Public virtualScreenWidthPixels As Long
+Public gblVirtualScreenHeightPixels As Long
+Public gblVirtualScreenWidthPixels As Long
 
-Public oldPhysicalScreenHeightPixels As Long
-Public oldPhysicalScreenWidthPixels As Long
+Public gblOldPhysicalScreenHeightPixels As Long
+Public gblOldPhysicalScreenWidthPixels As Long
 
 ' key presses
-Public CTRL_1 As Boolean
-Public SHIFT_1 As Boolean
+Public gblCTRL_1 As Boolean
+Public gblSHIFT_1 As Boolean
 
 ' other globals
-Public debugFlg As Integer
-Public minutesToHide As Integer
-Public aspectRatio As String
-  
-Public oldgblSettingsModificationTime  As Date
-
-Public Const visibleAreaWidth As Long = 648 ' this is the width of the rightmost visible point of the widget - ie. the surround
-
+Public gblMinutesToHide As Integer
+Public gblAspectRatio As String
+Public gblOldSettingsModificationTime  As Date
 Public gblWindowLevelWasChanged As Boolean
 
 ' Flag for debug mode '.06 DAEB 19/04/2021 common.bas moved to the common area so that it can be used by each of the utilities
-Private mbDebugMode As Boolean ' .30 DAEB 03/03/2021 frmMain.frm replaced the inIDE function that used a variant to one without
+Private pvtDebugMode As Boolean ' .30 DAEB 03/03/2021 frmMain.frm replaced the inIDE function that used a variant to one without
+Public gblDebugFlg As Integer
 
-Public startupFlg As Boolean
-Public msgBoxADynamicSizingFlg As Boolean
-Public monitorCount As Long
+Public gblStartupFlg As Boolean
+Public gblMsgBoxADynamicSizingFlg As Boolean
+Public gblMonitorCount As Long
 Public gblTerminalRows(15) As String
-Public triggerDigitalClockPopulation As Boolean
+Public gblTriggerDigitalClockPopulation As Boolean
 
-Public oldPrefsFormMonitorPrimary As Long
-Public oldClockFormMonitorPrimary As Long
+Public gblOldPrefsFormMonitorPrimary As Long
+Public gblOldClockFormMonitorPrimary As Long
 Public gblPrefsFormResizedInCode As Boolean
 
 Public gblFClockAvailable As Boolean
 Public gblAlarmFlgRaised As Boolean
 Public gblCodingEnvironment As String
-
 '------------------------------------------------------ ENDS
 
 
@@ -652,7 +627,7 @@ Public Function fLicenceState() As Integer
     Dim slicence As String: slicence = "0"
     
     On Error GoTo fLicenceState_Error
-    ''If debugflg = 1  Then DebugPrint "%" & "fLicenceState"
+    ''If gblDebugFlg = 1  Then DebugPrint "%" & "fLicenceState"
     
     fLicenceState = 0
     ' read the tool's own settings file
@@ -680,7 +655,7 @@ End Function
 Public Sub showLicence(ByVal licenceState As Integer)
     Dim slicence As String: slicence = "0"
     On Error GoTo showLicence_Error
-    ''If debugflg = 1  Then DebugPrint "%" & "showLicence"
+    ''If gblDebugFlg = 1  Then DebugPrint "%" & "showLicence"
     
     ' if the licence state is not already accepted then display the licence form
     If licenceState = 0 Then
@@ -711,12 +686,12 @@ Public Sub setDPIaware()
     On Error GoTo setDPIaware_Error
     
 '    Cairo.SetDPIAwareness ' for debugging
-'    msgBoxADynamicSizingFlg = True
+'    gblMsgBoxADynamicSizingFlg = True
     
     If gblDpiAwareness = "1" Then
         If Not InIDE Then
             Cairo.SetDPIAwareness ' this way avoids the VB6 IDE shrinking (sadly, VB6 has a high DPI unaware IDE)
-            msgBoxADynamicSizingFlg = True
+            gblMsgBoxADynamicSizingFlg = True
         End If
     End If
 
@@ -742,7 +717,7 @@ Public Sub testDPIAndSetInitialAwareness()
 
     'If fPixelsPerInchX() > 96 Then ' always seems to provide 96, no matter what I do.
     
-     If physicalScreenWidthPixels > 1960 Then
+     If gblPhysicalScreenWidthPixels > 1960 Then
         gblDpiAwareness = "1"
         Call setDPIaware
     End If
@@ -776,7 +751,7 @@ Public Sub LoadFileToTB(ByVal TxtBox As Object, ByVal FilePath As String, Option
     
     On Error GoTo LoadFileToTB_Error
 
-   ''If debugflg = 1  Then msgbox "%" & LoadFileToTB
+   ''If gblDebugFlg = 1  Then msgbox "%" & LoadFileToTB
 
     If Dir$(FilePath) = vbNullString Then Exit Sub
     
@@ -923,7 +898,7 @@ Public Sub addTargetFile(ByVal fieldValue As String, ByRef retFileName As String
     Dim retfileTitle As String: retfileTitle = vbNullString
     Const x_MaxBuffer As Integer = 256
     
-    ''If debugflg = 1  Then Debug.Print "%" & "addTargetfile"
+    ''If gblDebugFlg = 1  Then Debug.Print "%" & "addTargetfile"
     
     On Error Resume Next
     
@@ -980,7 +955,7 @@ End Sub
 Public Function fGetDirectory(ByRef path As String) As String
 
    On Error GoTo fGetDirectory_Error
-   ''If debugflg = 1  Then DebugPrint "%" & "fnGetDirectory"
+   ''If gblDebugFlg = 1  Then DebugPrint "%" & "fnGetDirectory"
 
     If InStrRev(path, "\") = 0 Then
         fGetDirectory = vbNullString
@@ -1005,7 +980,7 @@ End Function
 '
 Public Sub obtainOpenFileName(ByRef retFileName As String, ByRef retfileTitle As String)
    On Error GoTo obtainOpenFileName_Error
-   ''If debugflg = 1  Then Debug.Print "%obtainOpenFileName"
+   ''If gblDebugFlg = 1  Then Debug.Print "%obtainOpenFileName"
 
   If GetOpenFileName(x_OpenFilename) <> 0 Then
 '    If x_OpenFilename.lpstrFile = "*.*" Then
@@ -1112,7 +1087,7 @@ End Function
 'Description: Tests the multiplicity of Windows versions and returns some values
 '----------------------------------------
 Public Function fTestClassicThemeCapable() As Boolean
-
+    Dim windowsVer As String
     '=================================
     '2000 / XP / NT / 7 / 8 / 10
     '=================================
@@ -1242,7 +1217,7 @@ Public Sub changeFont(ByVal frm As Form, ByVal fntNow As Boolean, ByRef fntFont 
     'fntUnderline = False
     fntFontResult = False
     
-    'If debugflg = 1  Then Debug.Print "%mnuFont_Click"
+    'If gblDebugFlg = 1  Then Debug.Print "%mnuFont_Click"
 
     displayFontSelector fntFont, fntSize, fntWeight, fntStyle, fntColour, fntItalics, fntUnderline, fntFontResult
     If fntFontResult = False Then Exit Sub
@@ -1552,8 +1527,8 @@ Public Sub aboutClickEvent()
     
     ' The RC forms are measured in pixels so the positioning needs to pre-convert the twips into pixels
    
-    fMain.aboutForm.Top = (physicalScreenHeightPixels / 2) - (fMain.aboutForm.Height / 2)
-    fMain.aboutForm.Left = (physicalScreenWidthPixels / 2) - (fMain.aboutForm.Width / 2)
+    fMain.aboutForm.Top = (gblPhysicalScreenHeightPixels / 2) - (fMain.aboutForm.Height / 2)
+    fMain.aboutForm.Left = (gblPhysicalScreenWidthPixels / 2) - (fMain.aboutForm.Width / 2)
      
     fMain.aboutForm.Load
     fMain.aboutForm.Show
@@ -1601,8 +1576,8 @@ Public Sub licenceSplash()
     End If
     
     
-    fMain.licenceForm.Top = (physicalScreenHeightPixels / 2) - (fMain.licenceForm.Height / 2)
-    fMain.licenceForm.Left = (physicalScreenWidthPixels / 2) - (fMain.licenceForm.Width / 2)
+    fMain.licenceForm.Top = (gblPhysicalScreenHeightPixels / 2) - (fMain.licenceForm.Height / 2)
+    fMain.licenceForm.Left = (gblPhysicalScreenWidthPixels / 2) - (fMain.licenceForm.Width / 2)
      
     'licenceWidget.opacity = 0
     'opacityflag = 0
@@ -1929,8 +1904,8 @@ Public Sub makeVisibleFormElements()
     
     ' The RC forms are measured in pixels, whereas the native forms are in twips, do remember that...
 
-    monitorCount = fGetMonitorCount
-    If monitorCount > 1 Then
+    gblMonitorCount = fGetMonitorCount
+    If gblMonitorCount > 1 Then
         Call SetFormOnMonitor(fClock.clockForm.hwnd, formLeftPixels, formTopPixels)
     Else
         fClock.clockForm.Left = formLeftPixels
@@ -1976,20 +1951,20 @@ Public Sub getKeyPress(ByVal KeyCode As Integer, ByVal Shift As Integer)
 
     On Error GoTo getkeypress_Error
 
-    If CTRL_1 Or SHIFT_1 Then
-            CTRL_1 = False
-            SHIFT_1 = False
+    If gblCTRL_1 Or gblSHIFT_1 Then
+            gblCTRL_1 = False
+            gblSHIFT_1 = False
     End If
     
     If Shift Then
-        SHIFT_1 = True
+        gblSHIFT_1 = True
     End If
 
     Select Case KeyCode
         Case vbKeyControl
-            CTRL_1 = True
+            gblCTRL_1 = True
         Case vbKeyShift
-            SHIFT_1 = True
+            gblSHIFT_1 = True
             
         Case vbKeyA ' a key alarmtoggle
             If fClock.alarmtoggleEnabled = True Then
@@ -2114,28 +2089,26 @@ Public Sub determineScreenDimensions()
 
    On Error GoTo determineScreenDimensions_Error
    
-    'If debugflg = 1 Then msgbox "% sub determineScreenDimensions"
+    'If gblDebugFlg = 1 Then msgbox "% sub determineScreenDimensions"
 
     ' only calling TwipsPerPixelX/Y functions once on startup
     screenTwipsPerPixelY = fTwipsPerPixelY
     screenTwipsPerPixelX = fTwipsPerPixelX
     
-    physicalScreenHeightPixels = GetDeviceCaps(menuForm.hDC, VERTRES) ' we use the name of any form that we don't mind being loaded at this point
-    physicalScreenWidthPixels = GetDeviceCaps(menuForm.hDC, HORZRES)
+    gblPhysicalScreenHeightPixels = GetDeviceCaps(menuForm.hDC, VERTRES) ' we use the name of any form that we don't mind being loaded at this point
+    gblPhysicalScreenWidthPixels = GetDeviceCaps(menuForm.hDC, HORZRES)
 
-    physicalScreenHeightTwips = physicalScreenHeightPixels * screenTwipsPerPixelY
-    physicalScreenWidthTwips = physicalScreenWidthPixels * screenTwipsPerPixelX
+    gblPhysicalScreenHeightTwips = gblPhysicalScreenHeightPixels * screenTwipsPerPixelY
+    gblPhysicalScreenWidthTwips = gblPhysicalScreenWidthPixels * screenTwipsPerPixelX
     
-    virtualScreenHeightPixels = fVirtualScreenHeight(True)
-    virtualScreenWidthPixels = fVirtualScreenWidth(True)
+    gblVirtualScreenHeightPixels = fVirtualScreenHeight(True)
+    gblVirtualScreenWidthPixels = fVirtualScreenWidth(True)
 
-    virtualScreenHeightTwips = fVirtualScreenHeight(False)
-    virtualScreenWidthTwips = fVirtualScreenWidth(False)
+    gblVirtualScreenHeightTwips = fVirtualScreenHeight(False)
+    gblVirtualScreenWidthTwips = fVirtualScreenWidth(False)
     
-
-    
-    oldPhysicalScreenHeightPixels = physicalScreenHeightPixels ' will be used to check for orientation changes
-    oldPhysicalScreenWidthPixels = physicalScreenWidthPixels
+    gblOldPhysicalScreenHeightPixels = gblPhysicalScreenHeightPixels ' will be used to check for orientation changes
+    gblOldPhysicalScreenWidthPixels = gblPhysicalScreenWidthPixels
     
    On Error GoTo 0
    Exit Sub
@@ -2157,14 +2130,14 @@ Public Sub mainScreen()
    On Error GoTo mainScreen_Error
 
     ' check for aspect ratio and determine whether it is in portrait or landscape mode
-    If physicalScreenWidthPixels > physicalScreenHeightPixels Then
-        aspectRatio = "landscape"
+    If gblPhysicalScreenWidthPixels > gblPhysicalScreenHeightPixels Then
+        gblAspectRatio = "landscape"
     Else
-        aspectRatio = "portrait"
+        gblAspectRatio = "portrait"
     End If
     
     ' check if the widget has a lock for the screen type.
-    If aspectRatio = "landscape" Then
+    If gblAspectRatio = "landscape" Then
         If gblWidgetLandscape = "1" Then
             If gblLandscapeFormHoffset <> vbNullString Then
                 fClock.clockForm.Left = Val(gblLandscapeFormHoffset)
@@ -2178,7 +2151,7 @@ Public Sub mainScreen()
     End If
     
     ' check if the widget has a lock for the screen type.
-    If aspectRatio = "portrait" Then
+    If gblAspectRatio = "portrait" Then
         If gblWidgetPortrait = "1" Then
             fClock.clockForm.Left = Val(gblPortraitHoffset)
             fClock.clockForm.Top = Val(gblPortraitYoffset)
@@ -2198,18 +2171,18 @@ Public Sub mainScreen()
     End If
     
     
-    If fClock.clockForm.Left > virtualScreenWidthPixels - 50 Then
-        fClock.clockForm.Left = virtualScreenWidthPixels - 150
+    If fClock.clockForm.Left > gblVirtualScreenWidthPixels - 50 Then
+        fClock.clockForm.Left = gblVirtualScreenWidthPixels - 150
     End If
-    If fClock.clockForm.Top > virtualScreenHeightPixels - 50 Then
-        fClock.clockForm.Top = virtualScreenHeightPixels - 150
+    If fClock.clockForm.Top > gblVirtualScreenHeightPixels - 50 Then
+        fClock.clockForm.Top = gblVirtualScreenHeightPixels - 150
     End If
 '
     ' calculate the current hlocation in % of the screen
     ' store the current hlocation in % of the screen
     If gblWidgetPosition = "1" Then
-        gblhLocationPercPrefValue = CStr(fClock.clockForm.Left / virtualScreenWidthPixels * 100)
-        gblvLocationPercPrefValue = CStr(fClock.clockForm.Top / virtualScreenHeightPixels * 100)
+        gblhLocationPercPrefValue = CStr(fClock.clockForm.Left / gblVirtualScreenWidthPixels * 100)
+        gblvLocationPercPrefValue = CStr(fClock.clockForm.Top / gblVirtualScreenHeightPixels * 100)
     End If
 
    On Error GoTo 0
@@ -2411,9 +2384,9 @@ End Sub
 '
 Public Sub makeProgramPreferencesAvailable()
     On Error GoTo makeProgramPreferencesAvailable_Error
-'    Dim debugFlg As Integer: debugFlg = 1
+'    Dim gblDebugFlg As Integer: gblDebugFlg = 1
     
-'    If debugFlg = 1 Then
+'    If gblDebugFlg = 1 Then
 '
 '        MsgBox "widgetPrefs.Visible " & widgetPrefs.Visible
 '        MsgBox "widgetPrefs.WindowState " & widgetPrefs.WindowState
@@ -2470,7 +2443,7 @@ Public Sub readPrefsPosition()
         If gblPrefsHighDpiXPosTwips <> "" Then
             widgetPrefs.Left = Val(gblPrefsHighDpiXPosTwips)
         Else
-            widgetPrefs.Left = physicalScreenWidthTwips / 2 - widgetPrefs.Width / 2
+            widgetPrefs.Left = gblPhysicalScreenWidthTwips / 2 - widgetPrefs.Width / 2
         End If
         
         gblPrefsHighDpiXPosTwips = widgetPrefs.Left
@@ -2491,7 +2464,7 @@ Public Sub readPrefsPosition()
         If gblPrefsLowDpiXPosTwips <> "" Then
             widgetPrefs.Left = Val(gblPrefsLowDpiXPosTwips)
         Else
-            widgetPrefs.Left = physicalScreenWidthTwips / 2 - widgetPrefs.Width / 2
+            widgetPrefs.Left = gblPhysicalScreenWidthTwips / 2 - widgetPrefs.Width / 2
         End If
         
         gblPrefsLowDpiXPosTwips = widgetPrefs.Left
@@ -2785,7 +2758,7 @@ Public Function InIDE() As Boolean
     ' .30 DAEB 03/03/2021 frmMain.frm replaced the inIDE function that used a variant to one without
     ' This will only be done if in the IDE
     Debug.Assert InDebugMode
-    If mbDebugMode Then
+    If pvtDebugMode Then
         InIDE = True
     End If
 
@@ -2808,7 +2781,7 @@ End Function
 Private Function InDebugMode() As Boolean
    On Error GoTo InDebugMode_Error
 
-    mbDebugMode = True
+    pvtDebugMode = True
     InDebugMode = True
 
    On Error GoTo 0
