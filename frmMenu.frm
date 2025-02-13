@@ -72,7 +72,7 @@ Begin VB.Form menuForm
          Caption         =   ""
       End
       Begin VB.Menu menuReload 
-         Caption         =   "Reload Widget (F5)"
+         Caption         =   "Reload Widget (F5 or Shift+F5 for hard restart)"
       End
       Begin VB.Menu mnuEditWidget 
          Caption         =   "Edit Widget using..."
@@ -157,14 +157,21 @@ End Sub
 '---------------------------------------------------------------------------------------
 '
 Private Sub menuReload_Click()
+    Dim answer As VbMsgBoxResult: answer = vbNo
+    Dim answerMsg As String: answerMsg = vbNullString
 
     On Error GoTo menuReload_Click_Error
+    
+    answer = vbYes
+    answerMsg = "Performing a hard restart now, press OK."
         
-    If gblCTRL_1 = True Then
-        gblCTRL_1 = False
+    If gblSHIFT_1 = True Then
+        gblSHIFT_1 = False
+        answer = msgBoxA(answerMsg, vbExclamation + vbOK, "Performing a hard restart", True, "menuReloadClick")
+        
         Call hardRestart
     Else
-         Call reloadWidget
+         Call reloadProgram
     End If
     
     On Error GoTo 0

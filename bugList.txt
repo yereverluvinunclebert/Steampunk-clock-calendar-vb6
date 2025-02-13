@@ -377,13 +377,13 @@ o added code when un-setting all alarms to specifically reverse the alarm functi
 ' gblSmoothSecondHand removed
 ' gblOldClockFormMonitorPrimary
 
+' module1.bas - renamed all global vars, now starting with gbl to identify - and tested
+' descriptions on all routines in module1
 
 ' -oOo-
 
 Tasks to do:
 ============
-
-gblOldSettingsModificationTime
 
 ' change and test the slider values to make time changes more practical
 
@@ -395,7 +395,6 @@ gblOldSettingsModificationTime
 
 ' disable chimes vs alarms disabled
 
-' descriptions on all routines in module1 - WIP
 ' descriptions on all routines in module2 -
 ' descriptions on all routines in modResize -
 ' descriptions on all routines in modMain -
@@ -406,12 +405,21 @@ gblOldSettingsModificationTime
 
 ' grigri <grigri@shinyhappypixels.com> to credits
 ' Rod Stephens @ vb-helper.com resize
+' RobDog888 https://www.vbforums.com/member.php?17511-RobDog888 for the OpenFile method of testing file existence.
+' zeezee https://www.vbforums.com/member.php?90054-zeezee  for the PathFileExists method of testing folder existence.
+' LoadFileToTB ' Author    : https://www.vbforums.com/member.php?95578-Zach_VB6
 
 ' create diagram of the program flow.
 
 ' about text VB6 / Twinbasic wip, check if the PSD is on the G5.
 
 ' combine a new counter-rotating sound recording the current Konfabulator widget.
+
+' these need to be replaced with asynchronous playing sounds
+    
+    fClock.tmrZZZZSound.Enabled = False
+    fClock.tmrTILLSound.Enabled = False
+    fClock.tmrTickingSound.Enabled = False
 
 ' check correct use of all properties to minimise CPU usage, locally should always be using the Version of a variable rather than the property LET/SET itself
 

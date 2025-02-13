@@ -3288,7 +3288,7 @@ Private Sub optClockTooltips_Click(Index As Integer)
         If answer = vbNo Then
             Exit Sub
         Else
-            Call reloadWidget
+            Call reloadProgram
         End If
     End If
 
@@ -4168,7 +4168,7 @@ Private Sub chkDpiAwareness_Click()
         Else
 
             sPutINISetting "Software\SteampunkClockCalendar", "dpiAwareness", gblDpiAwareness, gblSettingsFile
-            'Call reloadWidget ' this is insufficient, image controls still fail to resize and autoscale correctly
+            'Call reloadProgram ' this is insufficient, image controls still fail to resize and autoscale correctly
             Call hardRestart
         End If
 
@@ -5123,9 +5123,9 @@ Private Sub btnSave_Click()
      
             
     If gblStartup = "1" Then
-        Call savestring(HKEY_CURRENT_USER, "SOFTWARE\Microsoft\Windows\CurrentVersion\Run", "SteampunkClockCalendar", """" & App.path & "\" & "Steampunk Clock Calendar.exe""")
+        Call writeRegistry(HKEY_CURRENT_USER, "SOFTWARE\Microsoft\Windows\CurrentVersion\Run", "SteampunkClockCalendar", """" & App.path & "\" & "Steampunk Clock Calendar.exe""")
     Else
-        Call savestring(HKEY_CURRENT_USER, "SOFTWARE\Microsoft\Windows\CurrentVersion\Run", "SteampunkClockCalendar", vbNullString)
+        Call writeRegistry(HKEY_CURRENT_USER, "SOFTWARE\Microsoft\Windows\CurrentVersion\Run", "SteampunkClockCalendar", vbNullString)
     End If
 
     ' save the values from the general tab
@@ -5241,7 +5241,7 @@ Private Sub btnSave_Click()
     ' reload here if the gblWindowLevel Was Changed
     If gblWindowLevelWasChanged = True Then
         gblWindowLevelWasChanged = False
-        Call reloadWidget
+        Call reloadProgram
     End If
     
    On Error GoTo 0

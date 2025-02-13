@@ -476,6 +476,7 @@ Public gblWindowLevelWasChanged As Boolean
 
 ' Flag for debug mode '.06 DAEB 19/04/2021 common.bas moved to the common area so that it can be used by each of the utilities
 Private pvtDebugMode As Boolean ' .30 DAEB 03/03/2021 frmMain.frm replaced the inIDE function that used a variant to one without
+
 Public gblDebugFlg As Integer
 
 Public gblStartupFlg As Boolean
@@ -498,7 +499,7 @@ Public gblCodingEnvironment As String
 ' Procedure : ScreenWrite
 ' Author    : beededea
 ' Date      : 29/08/2024
-' Purpose   :
+' Purpose   : subroutine to write a line of new text to an array, then on to an RC label widget, writing text to the display console
 '---------------------------------------------------------------------------------------
 '
 Sub screenWrite(screentext As String)
@@ -508,25 +509,22 @@ Sub screenWrite(screentext As String)
     
     On Error GoTo ScreenWrite_Error
 
-    ' move the existing screen text
+    ' move the existing screen text up one row in the array to make space for the new text coming in below
     For a = 0 To 14
          gblTerminalRows(15 - a) = gblTerminalRows(15 - a - 1)
     Next
 
+    ' stick in the new text at the bottom row.
     gblTerminalRows(0) = screentext
     
-    ' print the console text on the screen
+    ' build a chunk of interim text line by line from the array to write to the screen label widget, each line ended with a CR
     If gblDisplayScreenToggleEnabled = "True" Then
         For a = 14 To 0 Step -1
             interimText = interimText & gblTerminalRows(a) & vbCrLf
         Next a
     End If
     
-'    If screentext = "system has just woken up from a sleep, updating... " Then
-'        MsgBox "gblDisplayScreenToggleEnabled " & gblDisplayScreenToggleEnabled & vbCrLf & vbCrLf & " interimtext = " & interimText & vbCrLf & vbCrLf & "gblFClockAvailable = " & gblFClockAvailable
-'    End If
-    
-     ' Test to see whether the clockform is available to write console events to...
+     ' Test the flag to see whether the clockform is available before we attempt to write console events to it.
      If gblFClockAvailable = True Then Call writeCaption(interimText)
 
    On Error GoTo 0
@@ -541,8 +539,9 @@ End Sub
 ' Procedure : writeCaption
 ' Author    : beededea
 ' Date      : 16/10/2024
-' Purpose   : Cannot reference clockForm in ScreenWrite as the clockform may not be available for sending messages to
-'             so kept here in a eparate routine that cane be called by ScreenWrite
+' Purpose   : Cannot 'even' reference clockForm directly in ScreenWrite above as the clockform may not yet have been instantiated, so we use a global flag instead
+'             to see if the clockForm is available for sending messages to the label widget that sits upon it.
+'             The offending call is kept here in a separate routine that can be called by ScreenWrite without generating a runtime error.
 '---------------------------------------------------------------------------------------
 '
 Private Sub writeCaption(ByVal interimText As String)
@@ -550,7 +549,6 @@ Private Sub writeCaption(ByVal interimText As String)
    On Error GoTo writeCaption_Error
 
     fClock.clockForm.Widgets("lblTerminalText").Caption = interimText
-    'fClock.clockForm.Widgets("lblTerminalText").Widget.Refresh
     
    On Error GoTo 0
    Exit Sub
@@ -566,7 +564,7 @@ End Sub
 ' Procedure : fFExists
 ' Author    : RobDog888 https://www.vbforums.com/member.php?17511-RobDog888
 ' Date      : 19/07/2023
-' Purpose   :
+' Purpose   : Test for file existence using the OpenFile API
 '---------------------------------------------------------------------------------------
 '
 Public Function fFExists(ByVal Fname As String) As Boolean
@@ -598,7 +596,7 @@ End Function
 ' Procedure : fDirExists
 ' Author    : zeezee https://www.vbforums.com/member.php?90054-zeezee
 ' Date      : 19/07/2023
-' Purpose   :
+' Purpose   : Test for file existence using the PathFileExists API
 '---------------------------------------------------------------------------------------
 '
 Public Function fDirExists(ByVal pstrFolder As String) As Boolean
@@ -679,7 +677,7 @@ End Sub
 ' Procedure : setDPIaware
 ' Author    : beededea
 ' Date      : 29/10/2023
-' Purpose   : This sets DPI awareness for the whole program incl. native VB6 forms, requires a program hard restart.
+' Purpose   : This sets DPI awareness for the whole program incl. especially the VB6 forms, requires a program hard restart.
 '---------------------------------------------------------------------------------------
 '
 Public Sub setDPIaware()
@@ -694,7 +692,6 @@ Public Sub setDPIaware()
             gblMsgBoxADynamicSizingFlg = True
         End If
     End If
-
 
     On Error GoTo 0
     Exit Sub
@@ -732,19 +729,16 @@ End Sub
 
 '---------------------------------------------------------------------------------------
 ' Procedure : LoadFileToTB
-' Author    : beededea
+' Author    : https://www.vbforums.com/member.php?95578-Zach_VB6
 ' Date      : 26/08/2019
-' Purpose   :
+' Purpose   : Loads file specified by FilePath into textcontrol
+'             (e.g., Text Box, Rich Text Box) specified by TxtBox
 '---------------------------------------------------------------------------------------
 '
 Public Sub LoadFileToTB(ByVal TxtBox As Object, ByVal FilePath As String, Optional ByVal Append As Boolean = False)
-    'PURPOSE: Loads file specified by FilePath into textcontrol
-    '(e.g., Text Box, Rich Text Box) specified by TxtBox
-    
+
     'If Append = true, then loaded text is appended to existing
     ' contents else existing contents are overwritten
-    
-    'Returns: True if Successful, false otherwise
     
     Dim iFile As Integer: iFile = 0
     Dim s As String: s = vbNullString
@@ -766,8 +760,6 @@ Public Sub LoadFileToTB(ByVal TxtBox As Object, ByVal FilePath As String, Option
     Else
         TxtBox.Text = s
     End If
-    
-    'LoadFileToTB = True
     
 ErrorHandler:
     If iFile > 0 Then Close #iFile
@@ -813,7 +805,7 @@ End Function
 ' Procedure : sPutINISetting
 ' Author    : beededea
 ' Date      : 05/07/2019
-' Purpose   : Save INI Setting in the File
+' Purpose   : Save a specific INI setting to a specific section of the filename supplied using a key to identify the setting
 '---------------------------------------------------------------------------------------
 '
 Public Sub sPutINISetting(ByVal sHeading As String, ByVal sKey As String, ByVal sSetting As String, ByRef sINIFileName As String)
@@ -834,18 +826,18 @@ End Sub
 
 
 '---------------------------------------------------------------------------------------
-' Procedure : savestring
+' Procedure : writeRegistry
 ' Author    : beededea
 ' Date      : 05/07/2019
-' Purpose   :
+' Purpose   : write to the registry
 '---------------------------------------------------------------------------------------
 '
-Public Sub savestring(ByRef hKey As Long, ByRef strPath As String, ByRef strvalue As String, ByRef strData As String)
+Public Sub writeRegistry(ByRef hKey As Long, ByRef strPath As String, ByRef strvalue As String, ByRef strData As String)
 
     Dim keyhand As Long: keyhand = 0
     Dim unusedReturnValue As Long: unusedReturnValue = 0
     
-    On Error GoTo savestring_Error
+    On Error GoTo writeRegistry_Error
 
     unusedReturnValue = RegCreateKey(hKey, strPath, keyhand)
     unusedReturnValue = RegSetValueEx(keyhand, strvalue, 0, REG_SZ, ByVal strData, Len(strData))
@@ -854,9 +846,9 @@ Public Sub savestring(ByRef hKey As Long, ByRef strPath As String, ByRef strvalu
    On Error GoTo 0
    Exit Sub
 
-savestring_Error:
+writeRegistry_Error:
 
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure savestring of module module1"
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure writeRegistry of module module1"
 End Sub
 '---------------------------------------------------------------------------------------
 ' Procedure : fSpecialFolder
@@ -870,15 +862,15 @@ Public Function fSpecialFolder(ByVal pfe As FolderEnum) As String
     Dim strPath As String: strPath = vbNullString
     Dim strBuffer As String: strBuffer = vbNullString
     
-   On Error GoTo fSpecialFolder_Error
+    On Error GoTo fSpecialFolder_Error
 
     strBuffer = Space$(MAX_PATH)
     If SHGetFolderPath(0, pfe, 0, 0, strBuffer) = 0 Then strPath = Left$(strBuffer, InStr(strBuffer, vbNullChar) - 1)
     If Right$(strPath, 1) = "\" Then strPath = Left$(strPath, Len(strPath) - 1)
     fSpecialFolder = strPath
 
-   On Error GoTo 0
-   Exit Function
+    On Error GoTo 0
+    Exit Function
 
 fSpecialFolder_Error:
 
@@ -940,10 +932,6 @@ Public Sub addTargetFile(ByVal fieldValue As String, ByRef retFileName As String
    
    Exit Sub
 
-'addTargetfile_Error:
-'
-'    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure addTargetfile of module module1.bas"
- 
 End Sub
 '---------------------------------------------------------------------------------------
 ' Procedure : fGetDirectory
@@ -975,7 +963,7 @@ End Function
 ' Procedure : obtainOpenFileName
 ' Author    : beededea
 ' Date      : 02/09/2019
-' Purpose   : using GetOpenFileName API rturns file name and title, the filename will be buffered to 256 bytes
+' Purpose   : using GetOpenFileName API returns file name and title, the filename will be buffered to 256 bytes
 '---------------------------------------------------------------------------------------
 '
 Public Sub obtainOpenFileName(ByRef retFileName As String, ByRef retfileTitle As String)
@@ -1012,6 +1000,8 @@ End Sub
 ' Author    :
 ' Date      : 28/05/2023
 ' Purpose   : Returns the version of Windows that the user is running
+'             Be aware that if run in the VB6 IDE it may result in "Windows XP" regardless of the o/s you are running.
+'             May also report Win 8 for Win 8 and above.
 '---------------------------------------------------------------------------------------
 '
 Public Function GetWindowsVersion() As String
@@ -1084,7 +1074,7 @@ End Function
 
 '----------------------------------------
 'Name: TestWinVer
-'Description: Tests the multiplicity of Windows versions and returns some values
+'Description: Tests the multiplicity of Windows versions and returns some values, largely redundant now, might be used later for XP/ReactOS testing/running.
 '----------------------------------------
 Public Function fTestClassicThemeCapable() As Boolean
     Dim windowsVer As String
@@ -1101,7 +1091,7 @@ Public Function fTestClassicThemeCapable() As Boolean
     windowsVer = vbNullString
     
     ' other variable assignments
-    strString = fGetstring(HKEY_LOCAL_MACHINE, "SOFTWARE\Microsoft\Windows NT\CurrentVersion", "ProductName")
+    strString = fReadRegistry(HKEY_LOCAL_MACHINE, "SOFTWARE\Microsoft\Windows NT\CurrentVersion", "ProductName")
     windowsVer = strString
 
     ' note that when running in compatibility mode the o/s will respond with "Windows XP"
@@ -1114,25 +1104,25 @@ Public Function fTestClassicThemeCapable() As Boolean
     Select Case windowsVer
     Case "Windows NT 4.0"
         fTestClassicThemeCapable = True
-        strString = fGetstring(HKEY_LOCAL_MACHINE, "SOFTWARE\Microsoft\Windows NT\CurrentVersion", "ProgramFilesDir")
+        strString = fReadRegistry(HKEY_LOCAL_MACHINE, "SOFTWARE\Microsoft\Windows NT\CurrentVersion", "ProgramFilesDir")
     Case "Windows 2000"
         fTestClassicThemeCapable = True
-        strString = fGetstring(HKEY_LOCAL_MACHINE, "SOFTWARE\Microsoft\Windows NT\CurrentVersion", "ProgramFilesDir")
+        strString = fReadRegistry(HKEY_LOCAL_MACHINE, "SOFTWARE\Microsoft\Windows NT\CurrentVersion", "ProgramFilesDir")
     Case "Windows XP"
         fTestClassicThemeCapable = True
-        strString = fGetstring(HKEY_LOCAL_MACHINE, "SOFTWARE\Microsoft\Windows\CurrentVersion", "ProgramFilesDir")
+        strString = fReadRegistry(HKEY_LOCAL_MACHINE, "SOFTWARE\Microsoft\Windows\CurrentVersion", "ProgramFilesDir")
     Case "Windows Server 2003"
         fTestClassicThemeCapable = True
-        strString = fGetstring(HKEY_LOCAL_MACHINE, "SOFTWARE\Microsoft\Windows NT\CurrentVersion", "ProgramFilesDir")
+        strString = fReadRegistry(HKEY_LOCAL_MACHINE, "SOFTWARE\Microsoft\Windows NT\CurrentVersion", "ProgramFilesDir")
     Case "Windows Vista"
         fTestClassicThemeCapable = True
-        strString = fGetstring(HKEY_LOCAL_MACHINE, "SOFTWARE\Microsoft\Windows NT\CurrentVersion", "ProgramFilesDir")
+        strString = fReadRegistry(HKEY_LOCAL_MACHINE, "SOFTWARE\Microsoft\Windows NT\CurrentVersion", "ProgramFilesDir")
     Case "Windows 7"
         fTestClassicThemeCapable = True
-        strString = fGetstring(HKEY_LOCAL_MACHINE, "SOFTWARE\Microsoft\Windows NT\CurrentVersion", "ProgramFilesDir")
+        strString = fReadRegistry(HKEY_LOCAL_MACHINE, "SOFTWARE\Microsoft\Windows NT\CurrentVersion", "ProgramFilesDir")
     Case Else ' windows 8/10/11+
         fTestClassicThemeCapable = False
-        strString = fGetstring(HKEY_LOCAL_MACHINE, "SOFTWARE\Microsoft\Windows\CurrentVersion", "ProgramFilesDir")
+        strString = fReadRegistry(HKEY_LOCAL_MACHINE, "SOFTWARE\Microsoft\Windows\CurrentVersion", "ProgramFilesDir")
     End Select
 
     ProgramFilesDir = strString
@@ -1153,13 +1143,13 @@ End Function
 
 
 '---------------------------------------------------------------------------------------
-' Procedure : fGetstring
+' Procedure : fReadRegistry
 ' Author    : beededea
 ' Date      : 05/07/2019
 ' Purpose   : get a string from the registry
 '---------------------------------------------------------------------------------------
 '
-Public Function fGetstring(ByRef hKey As Long, ByRef strPath As String, ByRef strvalue As String) As String
+Public Function fReadRegistry(ByRef hKey As Long, ByRef strPath As String, ByRef strvalue As String) As String
 
     Dim keyhand As Long: keyhand = 0
     Dim lResult As Long: lResult = 0
@@ -1170,7 +1160,7 @@ Public Function fGetstring(ByRef hKey As Long, ByRef strPath As String, ByRef st
 
     Dim lValueType As Variant
 
-    On Error GoTo fGetstring_Error
+    On Error GoTo fReadRegistry_Error
 
     unusedReturnValue = RegOpenKey(hKey, strPath, keyhand)
     lResult = RegQueryValueEx(keyhand, strvalue, 0&, lValueType, ByVal 0&, lDataBufSize)
@@ -1181,9 +1171,9 @@ Public Function fGetstring(ByRef hKey As Long, ByRef strPath As String, ByRef st
         If lResult = ERROR_SUCCESS Then
             intZeroPos = InStr(strBuf, Chr$(0))
             If intZeroPos > 0 Then
-                fGetstring = Left$(strBuf, intZeroPos - 1)
+                fReadRegistry = Left$(strBuf, intZeroPos - 1)
             Else
-                fGetstring = strBuf
+                fReadRegistry = strBuf
             End If
         End If
     End If
@@ -1191,19 +1181,19 @@ Public Function fGetstring(ByRef hKey As Long, ByRef strPath As String, ByRef st
    On Error GoTo 0
    Exit Function
 
-fGetstring_Error:
+fReadRegistry_Error:
 
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure fGetstring of module module1"
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure fReadRegistry of module module1"
 End Function
 
 
 
-' select a font for the fnt form
+'
 '---------------------------------------------------------------------------------------
 ' Procedure : changeFont
 ' Author    : beededea
 ' Date      : 02/05/2023
-' Purpose   :
+' Purpose   : select a font for the default form
 '---------------------------------------------------------------------------------------
 '
 Public Sub changeFont(ByVal frm As Form, ByVal fntNow As Boolean, ByRef fntFont As String, ByRef fntSize As Integer, ByRef fntWeight As Integer, ByRef fntStyle As Boolean, ByRef fntColour As Long, ByRef fntItalics As Boolean, ByRef fntUnderline As Boolean, ByRef fntFontResult As Boolean)
@@ -1221,13 +1211,7 @@ Public Sub changeFont(ByVal frm As Form, ByVal fntNow As Boolean, ByRef fntFont 
 
     displayFontSelector fntFont, fntSize, fntWeight, fntStyle, fntColour, fntItalics, fntUnderline, fntFontResult
     If fntFontResult = False Then Exit Sub
-'
-'    If fntWeight > 700 Then
-'        'fntBold = True
-'    Else
-'        'fntBold = False
-'    End If
-    
+
     If fntFont <> vbNullString And fntNow = True Then
         Call changeFormFont(frm, fntFont, Val(fntSize), fntWeight, fntStyle, fntItalics, fntColour)
     End If
@@ -1245,7 +1229,7 @@ End Sub
 ' Procedure : displayFontSelector
 ' Author    : beededea
 ' Date      : 29/02/2020
-' Purpose   : select a font for the supplied form
+' Purpose   : display the font dialog selector
 '---------------------------------------------------------------------------------------
 '
 Public Sub displayFontSelector(ByRef currFont As String, ByRef currSize As Integer, ByRef currWeight As Integer, ByVal currStyle As Boolean, ByRef currColour As Long, ByRef currItalics As Boolean, ByRef currUnderline As Boolean, ByRef fontResult As Boolean)
@@ -1337,7 +1321,8 @@ End Sub
 ' Procedure : fDialogFont
 ' Author    : beededea
 ' Date      : 21/08/2020
-' Purpose   : display the default windows dialog box that allows the user to select a font
+' Purpose   : display the default windows dialog box that allows the user to select a font.
+'             note: this is placed central screen by subclassing in modCentre.bas
 '---------------------------------------------------------------------------------------
 '
 Public Function fDialogFont(ByRef f As FormFontInfo) As Boolean
@@ -1356,8 +1341,7 @@ Public Function fDialogFont(ByRef f As FormFontInfo) As Boolean
     logFnt.lfItalic = f.Italic * -1
     logFnt.lfUnderline = f.UnderLine * -1
     logFnt.lfHeight = -fMulDiv(CLng(f.Height), GetDeviceCaps(GetDC(hWndAccessApp), LOGPIXELSY), 72)
-    'f.Name = "Centurion Light SF"
-    Call StringToByte(f.Name, logFnt.lfFaceName()) ' HERE
+    Call StringToByte(f.Name, logFnt.lfFaceName())
     ftStruc.rgbColors = f.Color
     ftStruc.lStructSize = Len(ftStruc)
     
@@ -1403,7 +1387,7 @@ End Function
 ' Procedure : fMulDiv
 ' Author    :
 ' Date      : 21/08/2020
-' Purpose   :  fMulDiv function multiplies two 32-bit values and then divides the 64-bit result by a third 32-bit value.
+' Purpose   : Used in fDialogFont above, the fMulDiv function multiplies two 32-bit values and then divides the 64-bit result by a third 32-bit value.
 '---------------------------------------------------------------------------------------
 '
 Private Function fMulDiv(ByVal In1 As Long, ByVal In2 As Long, ByVal In3 As Long) As Long
@@ -1439,7 +1423,7 @@ End Function
 ' Procedure : StringToByte
 ' Author    :
 ' Date      : 21/08/2020
-' Purpose   : convert a provided string to a byte array
+' Purpose   : Used in fDialogFont above, converts a provided string to a byte array
 '---------------------------------------------------------------------------------------
 '
 Private Sub StringToByte(ByVal InString As String, ByRef ByteArray() As Byte)
@@ -1471,7 +1455,7 @@ End Sub
 ' Procedure : fByteToString
 ' Author    :
 ' Date      : 21/08/2020
-' Purpose   : convert a byte array provided to a string
+' Purpose   : Used in fDialogFont above, converts a byte array provided to a string
 '---------------------------------------------------------------------------------------
 '
 Private Function fByteToString(ByRef aBytes() As Byte) As String
@@ -1507,7 +1491,7 @@ End Function
 ' Procedure : aboutClickEvent
 ' Author    : beededea
 ' Date      : 02/05/2023
-' Purpose   :
+' Purpose   : the public subroutine called by two forms, handling the menu about click event for both
 '---------------------------------------------------------------------------------------
 '
 Public Sub aboutClickEvent()
@@ -1556,7 +1540,7 @@ End Sub
 ' Procedure : licenceSplash
 ' Author    : beededea
 ' Date      : 03/08/2023
-' Purpose   :
+' Purpose   : a public subroutine called by two forms, handling the menu licence click event for both as well as some point in the startup main.
 '---------------------------------------------------------------------------------------
 '
 Public Sub licenceSplash()
@@ -1607,7 +1591,7 @@ End Sub
 ' Procedure : mnuCoffee_ClickEvent
 ' Author    : beededea
 ' Date      : 20/05/2023
-' Purpose   :
+' Purpose   : the public subroutine called by two forms, handling the specific menu click event for both
 '---------------------------------------------------------------------------------------
 '
 Public Sub mnuCoffee_ClickEvent()
@@ -1635,7 +1619,7 @@ End Sub
 ' Procedure : mnuSupport_ClickEvent
 ' Author    : beededea
 ' Date      : 20/05/2023
-' Purpose   :
+' Purpose   : the public subroutine called by two forms, handling the specific menu click event for both
 '---------------------------------------------------------------------------------------
 '
 Public Sub mnuSupport_ClickEvent()
@@ -1665,14 +1649,12 @@ End Sub
 ' Procedure : mnuLicence_ClickEvent
 ' Author    : beededea
 ' Date      : 20/05/2023
-' Purpose   :
+' Purpose   : the public subroutine called by two forms, handling the specific menu click event for both
 '---------------------------------------------------------------------------------------
 '
 Public Sub mnuLicence_ClickEvent()
 
    On Error GoTo mnuLicence_ClickEvent_Error
-
-    'Call LoadFileToTB(frmLicence.txtLicenceTextBox, App.Path & "\Resources\txt\licence.txt", False)
     
     Call licenceSplash
 
@@ -1688,7 +1670,8 @@ End Sub
 ' Procedure : setRichClientTooltips
 ' Author    : beededea
 ' Date      : 15/05/2023
-' Purpose   : set the tooltips using RichClient tooltips
+' Purpose   : Set the tooltips using RC tooltip functionality only.
+'             Note: there are also the balloon tooltips and standard VB tooltips set elsewhere.
 '---------------------------------------------------------------------------------------
 '
 Public Sub setRichClientTooltips()
@@ -1747,53 +1730,6 @@ Public Sub setRichClientTooltips()
         fClock.clockForm.Widgets("yeardisplay").Widget.ToolTip = "This will display the year in digital alphanumeric form, either the current year or a future alarm year as you require."
         fClock.clockForm.Widgets("datedisplay").Widget.ToolTip = "This will display the date in digital alphanumeric form, either the current date or a future alarm date as you require."
         
-'            Case "bellset"
-'                If gblClockTooltips ="1" Then CreateToolTip clockForm.hWnd, "Click here to set or edit an alarm.", _
-'                     TTIconInfo, widgetName & " Alarm Toggle Help", , , , True
-'                With clockForm.Widgets("redalarmcover").Widget
-'                    .Alpha = 0
-'                    .Refresh
-'                End With
-
-
-'            Case "monday"
-'                If weekdayToggleEnabled = "true" Then
-'                    weekdayred.Alpha = Val(gblOpacity) / 100
-'                    weekdayred.Refresh
-'                End If
-'            Case "tuesday"
-'                If weekdayToggleEnabled = "true" Then
-'                    weekdayred.Alpha = Val(gblOpacity) / 100
-'                    weekdayred.Refresh
-'                End If
-'            Case "wednesday"
-'                If weekdayToggleEnabled = "true" Then
-'                    weekdayred.Alpha = Val(gblOpacity) / 100
-'                    weekdayred.Refresh
-'                End If
-'            Case "thursday"
-'                If weekdayToggleEnabled = "true" Then
-'                    weekdayred.Alpha = Val(gblOpacity) / 100
-'                    weekdayred.Refresh
-'                End If
-'            Case "friday"
-'                If weekdayToggleEnabled = "true" Then
-'                    weekdayred.Alpha = Val(gblOpacity) / 100
-'                    weekdayred.Refresh
-'                End If
-'            Case "saturday"
-'                If weekdayToggleEnabled = "true" Then
-'                    weekdayred.Alpha = Val(gblOpacity) / 100
-'                    weekdayred.Refresh
-'                End If
-'            Case "sunday"
-'                If weekdayToggleEnabled = "true" Then
-'                    weekdayred.Alpha = Val(gblOpacity) / 100
-'                    weekdayred.Refresh
-'                End If
-'
-        
-        
     Else
         overlayWidget.Widget.ToolTip = vbNullString
         aboutWidget.Widget.ToolTip = vbNullString
@@ -1842,7 +1778,7 @@ Public Sub setRichClientTooltips()
    
    End If
     
-    Call ChangeToolTipWidgetDefaultSettings(Cairo.ToolTipWidget.Widget)
+   Call ChangeToolTipWidgetDefaultSettings(Cairo.ToolTipWidget.Widget)
 
    On Error GoTo 0
    Exit Sub
@@ -1855,7 +1791,7 @@ End Sub
 ' Procedure : ChangeToolTipWidgetDefaultSettings
 ' Author    : beededea
 ' Date      : 20/06/2023
-' Purpose   :
+' Purpose   : Set the size and characteristics of the RC tooltips
 '---------------------------------------------------------------------------------------
 '
 Public Sub ChangeToolTipWidgetDefaultSettings(ByRef My_Widget As cWidgetBase)
@@ -1881,8 +1817,8 @@ End Sub
 ' Procedure : makeVisibleFormElements
 ' Author    : beededea
 ' Date      : 01/03/2023
-' Purpose   : ' adjust Form Position on startup placing form onto Correct Monitor when placed off screen due to
-'               monitor/resolution changes.
+' Purpose   : adjust Form Position on startup placing form onto Correct Monitor when placed off screen due to
+'             monitor/resolution changes.
 '---------------------------------------------------------------------------------------
 '
 Public Sub makeVisibleFormElements()
@@ -1934,17 +1870,6 @@ End Sub
 ' Author    : beededea
 ' Date      : 20/06/2019
 ' Purpose   : getting a keypress from the keyboard
-    '36 home
-    '40 is down
-    '38 is up
-    '37 is left
-    '39 is right
-    '33  Page up
-    '34  Page down
-    '35  End
-    'ctrl 116
-    'Shift 16
-    'f5 18
 '---------------------------------------------------------------------------------------
 '
 Public Sub getKeyPress(ByVal KeyCode As Integer, ByVal Shift As Integer)
@@ -1952,8 +1877,8 @@ Public Sub getKeyPress(ByVal KeyCode As Integer, ByVal Shift As Integer)
     On Error GoTo getkeypress_Error
 
     If gblCTRL_1 Or gblSHIFT_1 Then
-            gblCTRL_1 = False
-            gblSHIFT_1 = False
+        gblCTRL_1 = False
+        gblSHIFT_1 = False
     End If
     
     If Shift Then
@@ -2059,12 +1984,12 @@ Public Sub getKeyPress(ByVal KeyCode As Integer, ByVal Shift As Integer)
             If fClock.SliderFreed = True Then
                 fClock.timeShiftValue = fClock.timeShiftValue + 0.05
             End If
-        Case 82 ' Shift+R for a hard Restart
-            If Shift = 1 Then Call hardRestart
         Case 116
-'            gblFClockAvailable = False ' tell the screenwrite util that the clockform structure is no longer available to write console events into
-'            Erase gblTerminalRows ' remove the old text stored in the display screen array
-            Call reloadWidget 'f5 refresh button as per all browsers
+            If Shift = 1 Then
+                Call hardRestart
+            Else
+                Call reloadProgram 'f5 refresh button as per all browsers
+            End If
     End Select
  
     On Error GoTo 0
@@ -2081,8 +2006,9 @@ End Sub
 ' Procedure : determineScreenDimensions
 ' Author    : beededea
 ' Date      : 18/09/2020
-' Purpose   : VB6 has a bug - it should return width in twips on my screen but often returns a faulty value when a game runs full screen, changing the resolution
-'             the screen width determination is incorrect, the API call below resolves this.
+' Purpose   : VB6 has a bug - the screen width determination is incorrect, the API call below resolves this.
+'             In addition, it often returns a faulty value when a full screen game runs, changing the resolution
+'             This routine, sets up vars that will be used for checking orientation changes
 '---------------------------------------------------------------------------------------
 '
 Public Sub determineScreenDimensions()
@@ -2123,7 +2049,9 @@ End Sub
 ' Procedure : mainScreen
 ' Author    : beededea
 ' Date      : 04/05/2023
-' Purpose   : Function to move the main_window onto the main screen - called on startup and by timer
+' Purpose   : Function to move the main_window onto the main screen if it has been accidentally moved off - an accident that is possible by user positioning
+'             calculate the current hlocation in % of the screen
+'             - called on startup and by timer
 '---------------------------------------------------------------------------------------
 '
 Public Sub mainScreen()
@@ -2199,13 +2127,13 @@ End Sub
 ' Procedure : thisForm_Unload
 ' Author    : beededea
 ' Date      : 18/08/2022
-' Purpose   : the standard form unload routine
+' Purpose   : the standard form unload routine called from several places
 '---------------------------------------------------------------------------------------
 '
 Public Sub thisForm_Unload() ' name follows VB6 standard naming convention
     On Error GoTo Form_Unload_Error
     
-    Call savePosition
+    Call saveMainRCFormPosition
     
     Call unloadAllForms(True)
 
@@ -2233,30 +2161,37 @@ Public Sub unloadAllForms(ByVal endItAll As Boolean)
     
    On Error GoTo unloadAllForms_Error
    
-    FreeSound ALL_SOUND_BUFFERS
+    ' empty all asynchronous sound buffers and release
+    Call FreeSound(ALL_SOUND_BUFFERS)
    
+    ' stop all VB6 timers in the timer form
     frmTimer.revealWidgetTimer.Enabled = False
     frmTimer.tmrScreenResolution.Enabled = False
     frmTimer.unhideTimer.Enabled = False
     frmTimer.sleepTimer.Enabled = False
+    
+    ' stop all VB6 timers in the prefs form
     
     widgetPrefs.tmrPrefsMonitorSaveHeight.Enabled = False
     widgetPrefs.themeTimer.Enabled = False
     widgetPrefs.tmrPrefsScreenResolution.Enabled = False
     widgetPrefs.tmrWritePosition.Enabled = False
     
+    ' stop RC timers for playing sounds with delay, need to be replaced with asynchronous playing sounds
+    
     fClock.tmrZZZZSound.Enabled = False
     fClock.tmrTILLSound.Enabled = False
     fClock.tmrTickingSound.Enabled = False
+    
+    ' stop all RC6 timers (need to add let/get property controls for these currently public timers)
     
     overlayWidget.tmrClock.Enabled = False
     overlayWidget.tmrPendulum.Enabled = False
     overlayWidget.tmrTolling.Enabled = False
     overlayWidget.tmrCountdownToToll.Enabled = False
-    
-    overlayWidget.tmrTimeShift.Enabled = False    ' need to add set/get for these public timers
-    overlayWidget.tmrDigitRotator.Enabled = False ' need to add set/get for these
-    overlayWidget.tmrAlarmRinging.Enabled = False ' need to add set/get for these public timers
+    overlayWidget.tmrTimeShift.Enabled = False
+    overlayWidget.tmrDigitRotator.Enabled = False
+    overlayWidget.tmrAlarmRinging.Enabled = False
 
     'unload the RC6 widgets on the RC6 forms first
     
@@ -2270,15 +2205,19 @@ Public Sub unloadAllForms(ByVal endItAll As Boolean)
     Unload frmTimer
     Unload menuForm
 
-    fMain.aboutForm.Unload  ' RC6's own method for killing forms
+    ' RC6's own method for killing forms
+    
+    fMain.aboutForm.Unload
     fClock.clockForm.Unload
     fMain.licenceForm.Unload
     
-    ' remove all variable references to each form in turn
+    ' remove all variable references to each RC form in turn
     
     Set fMain.aboutForm = Nothing
     Set fClock.clockForm = Nothing
     Set fMain.licenceForm = Nothing
+    
+    ' remove all variable references to each VB6 form in turn
     
     Set widgetPrefs = Nothing
     Set frmTimer = Nothing
@@ -2299,21 +2238,21 @@ End Sub
 
 
 '---------------------------------------------------------------------------------------
-' Procedure : reloadWidget
+' Procedure : reloadProgram
 ' Author    : beededea
 ' Date      : 05/05/2023
-' Purpose   :
+' Purpose   : called from several places to reload the program
 '---------------------------------------------------------------------------------------
 '
-Public Sub reloadWidget()
+Public Sub reloadProgram()
     
-    On Error GoTo reloadWidget_Error
+    On Error GoTo reloadProgram_Error
     
     gblFClockAvailable = False ' tell the screenwrite util that the clockform is no longer available to write console events to
     
     Erase gblTerminalRows ' remove the old text stored in the display screen array
     
-    Call savePosition
+    Call saveMainRCFormPosition
     
     Call unloadAllForms(False) ' unload forms but do not END
     
@@ -2323,11 +2262,11 @@ Public Sub reloadWidget()
     On Error GoTo 0
     Exit Sub
 
-reloadWidget_Error:
+reloadProgram_Error:
 
     With Err
          If .Number <> 0 Then
-            MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure reloadWidget of Module Module1"
+            MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure reloadProgram of Module Module1"
             Resume Next
           End If
     End With
@@ -2335,15 +2274,15 @@ reloadWidget_Error:
 End Sub
 
 '---------------------------------------------------------------------------------------
-' Procedure : savePosition
+' Procedure : saveMainRCFormPosition
 ' Author    : beededea
 ' Date      : 04/08/2023
-' Purpose   :
+' Purpose   : called from several locations saves the clock X,Y positions in high or low DPI forms as well as the current size
 '---------------------------------------------------------------------------------------
 '
-Public Sub savePosition()
+Public Sub saveMainRCFormPosition()
 
-   On Error GoTo savePosition_Error
+   On Error GoTo saveMainRCFormPosition_Error
 
     If gblDpiAwareness = "1" Then
         gblClockHighDpiXPos = CStr(fClock.clockForm.Left) ' saving in pixels
@@ -2358,7 +2297,6 @@ Public Sub savePosition()
         sPutINISetting "Software\SteampunkClockCalendar", "clockLowDpiYPos", gblClockLowDpiYPos, gblSettingsFile
     End If
     
-            
     sPutINISetting "Software\SteampunkClockCalendar", "clockPrimaryHeightRatio", gblClockPrimaryHeightRatio, gblSettingsFile
     sPutINISetting "Software\SteampunkClockCalendar", "clockSecondaryHeightRatio", gblClockSecondaryHeightRatio, gblSettingsFile
     gblGaugeSize = CStr(fClock.clockForm.WidgetRoot.Zoom * 100)
@@ -2367,9 +2305,9 @@ Public Sub savePosition()
    On Error GoTo 0
    Exit Sub
 
-savePosition_Error:
+saveMainRCFormPosition_Error:
 
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure savePosition of Module Module1"
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure saveMainRCFormPosition of Module Module1"
     
 End Sub
     
@@ -2379,7 +2317,7 @@ End Sub
 ' Procedure : makeProgramPreferencesAvailable
 ' Author    : beededea
 ' Date      : 01/05/2023
-' Purpose   : open the prefs
+' Purpose   : open the VB6 preference form in the correct position
 '---------------------------------------------------------------------------------------
 '
 Public Sub makeProgramPreferencesAvailable()
@@ -2554,7 +2492,7 @@ End Sub
 ' Procedure : toggleWidgetLock
 ' Author    : beededea
 ' Date      : 03/08/2023
-' Purpose   :
+' Purpose   : called from a few locations, toggles the lock state and saves it
 '---------------------------------------------------------------------------------------
 '
 Public Sub toggleWidgetLock()
@@ -2604,7 +2542,7 @@ End Sub
 ' Procedure : SwitchOff
 ' Author    : beededea
 ' Date      : 03/08/2023
-' Purpose   :
+' Purpose   : Turns off the functionality for the whole program, stopping all timers and then saves the state
 '---------------------------------------------------------------------------------------
 '
 Public Sub SwitchOff()
@@ -2614,10 +2552,12 @@ Public Sub SwitchOff()
     menuForm.mnuSwitchOff.Checked = True
     menuForm.mnuTurnFunctionsOn.Checked = False
     
+    ' need to add let/get to control all these public timers
+    
     overlayWidget.tmrClock.Enabled = False
     overlayWidget.tmrPendulum.Enabled = False
     overlayWidget.tmrTolling.Enabled = False
-    overlayWidget.tmrCountdownToToll.Enabled = False ' need to add set/get for these public timers
+    overlayWidget.tmrCountdownToToll.Enabled = False
     overlayWidget.tmrTimeShift.Enabled = False
     overlayWidget.tmrDigitRotator.Enabled = False
     overlayWidget.tmrAlarmRinging.Enabled = False
@@ -2640,17 +2580,17 @@ End Sub
 ' Procedure : TurnFunctionsOn
 ' Author    : beededea
 ' Date      : 03/08/2023
-' Purpose   :
+' Purpose   : turns only the main timer on and then saves the state
 '---------------------------------------------------------------------------------------
 '
 Public Sub TurnFunctionsOn()
     Dim fileToPlay As String: fileToPlay = vbNullString
 
     On Error GoTo TurnFunctionsOn_Error
-   
+       
+    ' need to add let/get for this public timers
+    
     overlayWidget.tmrClock.Enabled = True
-
-   ' need to add set/get for these public timers
 
     If gblVolumeBoost = "1" Then
         fileToPlay = "tingting.wav"
@@ -2677,42 +2617,11 @@ TurnFunctionsOn_Error:
 End Sub
 
 
-'''---------------------------------------------------------------------------------------
-''' Procedure : IsDLSavings
-''' Author    : beededea
-''' Date      : 13/08/2023
-''' Purpose   :
-'''---------------------------------------------------------------------------------------
-'''
-'Public Function IsDLSavings() As Boolean
-'
-'    Dim uInfo As TimeZoneInfo, lReturn As Long
-'
-'    On Error GoTo IsDLSavings_Error
-'
-'    lReturn = GetTimeZoneInformation(uInfo)
-'
-'    If lReturn = TIME_ZONE_ID_DAYLIGHT Then
-'        IsDLSavings = True
-'    End If
-'
-'   On Error GoTo 0
-'   Exit Function
-'
-'IsDLSavings_Error:
-'
-'    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure IsDLSavings of Module Module1"
-'
-'End Function
-
-
-
-
 '---------------------------------------------------------------------------------------
 ' Procedure : hardRestart
 ' Author    : beededea
 ' Date      : 14/08/2023
-' Purpose   :
+' Purpose   : Perform a hard restart using an external program causing the prefs to run immediately afterward.
 '---------------------------------------------------------------------------------------
 '
 Public Sub hardRestart()
@@ -2814,6 +2723,7 @@ Public Sub clearAllMessageBoxRegistryEntries()
     SaveSetting App.EXEName, "Options", "Show message" & "optClockTooltipsClick", 0
     SaveSetting App.EXEName, "Options", "Show message" & "lblGitHubDblClick", 0
     SaveSetting App.EXEName, "Options", "Show message" & "sliOpacityClick", 0
+    SaveSetting App.EXEName, "Options", "Show message" & " ", 0
 
     On Error GoTo 0
     Exit Sub
@@ -2830,62 +2740,62 @@ clearAllMessageBoxRegistryEntries_Error:
 End Sub
 
 
-'---------------------------------------------------------------------------------------
-' Procedure : determineIconWidth
-' Author    : beededea
-' Date      : 02/10/2023
-' Purpose   :
-'---------------------------------------------------------------------------------------
+''---------------------------------------------------------------------------------------
+'' Procedure : determineIconWidth
+'' Author    : beededea
+'' Date      : 02/10/2023
+'' Purpose   :
+''---------------------------------------------------------------------------------------
+''
+'Public Function determineIconWidth(ByRef thisForm As Form, ByVal thisDynamicSizingFlg As Boolean) As Long
 '
-Public Function determineIconWidth(ByRef thisForm As Form, ByVal thisDynamicSizingFlg As Boolean) As Long
-
-    Dim topIconWidth As Long: topIconWidth = 0
-    
-    On Error GoTo determineIconWidth_Error
-    
-'    If thisDynamicSizingFlg = False Then
-'        'Exit Function
+'    Dim topIconWidth As Long: topIconWidth = 0
+'
+'    On Error GoTo determineIconWidth_Error
+'
+''    If thisDynamicSizingFlg = False Then
+''        'Exit Function
+''    End If
+'
+'    If thisForm.Width < 10500 Then
+'        topIconWidth = 600 '40 pixels
 '    End If
-    
-    If thisForm.Width < 10500 Then
-        topIconWidth = 600 '40 pixels
-    End If
-    
-    If thisForm.Width >= 10500 And thisForm.Width < 12000 Then
-        topIconWidth = 730
-    End If
-            
-    If thisForm.Width >= 12000 And thisForm.Width < 13500 Then
-        topIconWidth = 834
-    End If
-            
-    If thisForm.Width >= 13500 And thisForm.Width < 15000 Then
-        topIconWidth = 940
-    End If
-            
-    If thisForm.Width >= 15000 Then
-        topIconWidth = 1010
-    End If
-    'topIconWidth = 2000
-    determineIconWidth = topIconWidth
-    
-    On Error GoTo 0
-    Exit Function
-
-determineIconWidth_Error:
-
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure determineIconWidth of Form widgetPrefs"
-
-End Function
+'
+'    If thisForm.Width >= 10500 And thisForm.Width < 12000 Then
+'        topIconWidth = 730
+'    End If
+'
+'    If thisForm.Width >= 12000 And thisForm.Width < 13500 Then
+'        topIconWidth = 834
+'    End If
+'
+'    If thisForm.Width >= 13500 And thisForm.Width < 15000 Then
+'        topIconWidth = 940
+'    End If
+'
+'    If thisForm.Width >= 15000 Then
+'        topIconWidth = 1010
+'    End If
+'    'topIconWidth = 2000
+'    determineIconWidth = topIconWidth
+'
+'    On Error GoTo 0
+'    Exit Function
+'
+'determineIconWidth_Error:
+'
+'    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure determineIconWidth of Form widgetPrefs"
+'
+'End Function
 
 
 
 
 ' ----------------------------------------------------------------
 ' Procedure Name: fDayOfWeek
-' Purpose:
+' Purpose: Returns the day of the week when given today's date
 ' Procedure Kind: Function
-' Procedure Access: Private
+' Procedure Access: Public
 ' Return Type: String
 ' Author: beededea
 ' Date: 17/06/2024
@@ -2928,7 +2838,7 @@ End Function
 ' Procedure : hideBusyTimer
 ' Author    : beededea
 ' Date      : 03/01/2025
-' Purpose   :
+' Purpose   : hide all of the sand timer image widgets used to make an animated sand timer
 '---------------------------------------------------------------------------------------
 '
 Public Sub hideBusyTimer()

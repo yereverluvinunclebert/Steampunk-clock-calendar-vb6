@@ -671,32 +671,32 @@ End Property
 
 
 
-'---------------------------------------------------------------------------------------
-' Procedure : loadHigherResMessageImages
-' Author    : beededea
-' Date      : 18/06/2023
-' Purpose   :
-'---------------------------------------------------------------------------------------
+''---------------------------------------------------------------------------------------
+'' Procedure : loadHigherResMessageImages
+'' Author    : beededea
+'' Date      : 18/06/2023
+'' Purpose   :
+''---------------------------------------------------------------------------------------
+''
+'Private Sub loadHigherResMessageImages()
 '
-Private Sub loadHigherResMessageImages()
-
-    On Error GoTo loadHigherResMessageImages_Error
-
-    If Me.WindowState = vbMinimized Then Exit Sub
-
-'    If widgetPrefs.mnuDark.Checked = True Then
-'        Call setMessageIconImagesDark(determineIconWidth(Me, gblMsgBoxADynamicSizingFlg))
-'    Else
-        Call setMessageIconImagesLight(1920)
-'    End If
-
-   On Error GoTo 0
-   Exit Sub
-
-loadHigherResMessageImages_Error:
-
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure loadHigherResMessageImages of Form widgetPrefs"
-End Sub
+'    On Error GoTo loadHigherResMessageImages_Error
+'
+'    If Me.WindowState = vbMinimized Then Exit Sub
+'
+''    If widgetPrefs.mnuDark.Checked = True Then
+''        Call setMessageIconImagesDark(determineIconWidth(Me, gblMsgBoxADynamicSizingFlg))
+''    Else
+'        Call setMessageIconImagesLight(1920)
+''    End If
+'
+'   On Error GoTo 0
+'   Exit Sub
+'
+'loadHigherResMessageImages_Error:
+'
+'    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure loadHigherResMessageImages of Form widgetPrefs"
+'End Sub
 
 
 '---------------------------------------------------------------------------------------

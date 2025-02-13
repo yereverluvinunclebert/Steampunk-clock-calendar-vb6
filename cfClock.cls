@@ -2690,7 +2690,7 @@ Private Sub clockForm_MouseUp(ByRef Button As Integer, ByRef Shift As Integer, B
     frmTimer.tmrScreenResolution.Interval = 4500
 
     ' save the form x,y position whenever the globe/form is dragged
-    Call savePosition
+    Call saveMainRCFormPosition
 
     Call positionClockByMonitorSize
     
