@@ -1,4 +1,11 @@
 Attribute VB_Name = "Module2"
+'---------------------------------------------------------------------------------------
+' Module    : Module2
+' Author    : beededea
+' Date      : 13/02/2025
+' Purpose   :
+'---------------------------------------------------------------------------------------
+
 '@IgnoreModule IntegerDataType, ModuleWithoutFolder
     ' 23/01/2021 .01 monitorModule.bas DAEB added if then else if you can't get device context
 
@@ -81,48 +88,50 @@ Public screenTwipsPerPixelY As Long ' .07 DAEB 26/04/2021 common.bas changed to 
 
 
 
-'---------------------------------------------------------------------------------------
-' Procedure : fPixelsPerInchX
-' Author    : Elroy from Vbforums
-' Date      : 23/01/2021
-' Purpose   :
-'---------------------------------------------------------------------------------------
+''---------------------------------------------------------------------------------------
+'' Procedure : fPixelsPerInchX
+'' Author    : Elroy from Vbforums
+'' Date      : 23/01/2021
+'' Purpose   :
+''---------------------------------------------------------------------------------------
+''
+'Public Function fPixelsPerInchX() As Long
+'    Dim hDC As Long: hDC = 0
+'    Dim virtualWidth As Long: virtualWidth = 0
+'    Dim physicalWidth As Long: physicalWidth = 0
 '
-Public Function fPixelsPerInchX() As Long
-    Dim hDC As Long: hDC = 0
-    Dim virtualWidth As Long: virtualWidth = 0
-    Dim physicalWidth As Long: physicalWidth = 0
-    
-    Const ninetysix As Double = 96
-    'Const LOGPIXELSX As Integer = 88       '  Logical pixels/inch in X
-
-    On Error GoTo fPixelsPerInchX_Error
-    
-    hDC = GetDC(0)
-    If hDC <> 0 Then
-        'fPixelsPerInchX = GetDeviceCaps(hDC, LOGPIXELSX) ' always returns 96DPI
-        
-        virtualWidth = GetDeviceCaps(hDC, HORZRES)
-        physicalWidth = GetDeviceCaps(hDC, DESKTOPHORZRES)
-
-        fPixelsPerInchX = (96 * physicalWidth / virtualWidth)
-        ReleaseDC 0, hDC
-    End If
-
-   On Error GoTo 0
-   Exit Function
-
-fPixelsPerInchX_Error:
-
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure fPixelsPerInchX of Module Module1"
-End Function
+'    Const ninetysix As Double = 96
+'    'Const LOGPIXELSX As Integer = 88       '  Logical pixels/inch in X
+'
+'    On Error GoTo fPixelsPerInchX_Error
+'
+'    hDC = GetDC(0)
+'    If hDC <> 0 Then
+'        'fPixelsPerInchX = GetDeviceCaps(hDC, LOGPIXELSX) ' always returns 96DPI
+'
+'        virtualWidth = GetDeviceCaps(hDC, HORZRES)
+'        physicalWidth = GetDeviceCaps(hDC, DESKTOPHORZRES)
+'
+'        fPixelsPerInchX = (96 * physicalWidth / virtualWidth)
+'        ReleaseDC 0, hDC
+'    End If
+'
+'   On Error GoTo 0
+'   Exit Function
+'
+'fPixelsPerInchX_Error:
+'
+'    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure fPixelsPerInchX of Module Module1"
+'End Function
 
 
 '---------------------------------------------------------------------------------------
 ' Procedure : fTwipsPerPixelX
 ' Author    : Elroy from Vbforums
 ' Date      : 23/01/2021
-' Purpose   : This works even on Tablet PC.  The problem is: when the tablet screen is rotated, the "Screen" object of VB doesn't pick it up.
+' Purpose   : Calculate the twips per pixel in the X axis, by default does not use Screen.TwipsPerPixelX
+'             as when a tablet screen is rotated, the "Screen" object of VB doesn't respond to the change
+'             so it has to be done by hand using GetDeviceCaps API.
 '---------------------------------------------------------------------------------------
 '
 Public Function fTwipsPerPixelX() As Single
@@ -157,7 +166,9 @@ End Function
 ' Procedure : fTwipsPerPixelY
 ' Author    : Elroy from Vbforums
 ' Date      : 23/01/2021
-' Purpose   : This works even on Tablet PC.  The problem is: when the tablet screen is rotated, the "Screen" object of VB doesn't pick it up.
+' Purpose   : Calculate the twips per pixel in the Y axis, by default does not use Screen.TwipsPerPixelX
+'             as when a tablet screen is rotated, the "Screen" object of VB doesn't respond to the change
+'             so it has to be done by hand using GetDeviceCaps API.
 '---------------------------------------------------------------------------------------
 '
 Public Function fTwipsPerPixelY() As Single
@@ -193,7 +204,7 @@ End Function
 ' Procedure : fGetMonitorCount
 ' Author    : beededea
 ' Date      : 17/08/2024
-' Purpose   :
+' Purpose   : Return the count of the number of monitors using the EnumDisplayMonitors API to callback to MonitorEnumProc
 '---------------------------------------------------------------------------------------
 '
 Public Function fGetMonitorCount() As Long
@@ -213,7 +224,7 @@ End Function
 ' Procedure : MonitorEnumProc
 ' Author    : beededea
 ' Date      : 06/10/2023
-' Purpose   :
+' Purpose   : Return the count of the number of monitors using the EnumDisplayMonitors API to callback to this function
 '---------------------------------------------------------------------------------------
 '
 Private Function MonitorEnumProc(ByVal hMonitor As Long, ByVal hdcMonitor As Long, ByRef lprcMonitor As RECT, ByRef dwData As Long) As Long
@@ -233,10 +244,6 @@ MonitorEnumProc_Error:
      MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure MonitorEnumProc of Module Module2"
 End Function
 
-' 3840 x 2160 screen 1
-' 1920 x 1080 screen 2
-' 5760 x 3240
-
 '---------------------------------------------------------------------------------------
 ' Procedure : setFormOnMonitor
 ' Author    : Hypetia from TekTips https://www.tek-tips.com/userinfo.cfm?member=Hypetia
@@ -246,8 +253,6 @@ End Function
 '---------------------------------------------------------------------------------------
 '
 Public Sub SetFormOnMonitor(ByRef hwnd As Long, ByVal Left As Long, ByVal Top As Long)
-
-' 2536 , 1038
 
     Dim rc As RECT ' structure that receives the screen coordinate
     Dim hMonitor As Long: hMonitor = 0
@@ -295,8 +300,8 @@ End Sub
 ' Procedure : cWidgetFormScreenProperties
 ' Author    :
 ' Date      : 23/01/2021
-' Purpose   : provides the properties of the monitor upon which the supplied form's rectangle sits.
-'             User supplies the form name.
+' Purpose   : provides the properties of the monitor upon which the supplied RC form's rectangle sits.
+'             User supplies the RC form name.
 '---------------------------------------------------------------------------------------
 '
 Public Function cWidgetFormScreenProperties(ByVal frm As cWidgetForm, ByRef monitorID As Long) As UDTMonitor
@@ -357,8 +362,8 @@ End Function
 ' Procedure : formScreenProperties
 ' Author    :
 ' Date      : 23/01/2021
-' Purpose   : provides the properties of the monitor upon which the supplied form's rectangle sits.
-'             User supplies the form name.
+' Purpose   : provides the properties of the monitor upon which the supplied VB6 form's rectangle sits.
+'             User supplies the VB6 form name.
 '---------------------------------------------------------------------------------------
 '
 Public Function formScreenProperties(ByVal frm As Form, ByRef monitorID As Long) As UDTMonitor
@@ -556,7 +561,9 @@ positionPrefsByMonitorSize_Error:
 ' Procedure : fVirtualScreenWidth
 ' Author    : beededea
 ' Date      : 17/08/2024
-' Purpose   :
+' Purpose   : Determines the whole screen width including any virtual 'extra' caused by multiple monitor positioning.
+'             Called on startup and via tmrScreenResolution_Timer to test whether the width of the current monitor
+'             where the form currently sits, has changed.
 '---------------------------------------------------------------------------------------
 '
 Public Function fVirtualScreenWidth(ByRef inPixels As Boolean) As Long
@@ -581,11 +588,22 @@ fVirtualScreenWidth_Error:
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure fVirtualScreenWidth of Module Module2"
 End Function
 
+'---------------------------------------------------------------------------------------
+' Procedure : fVirtualScreenHeight
+' Author    : beededea
+' Date      : 14/02/2025
+' Purpose   : Determines the whole screen height including any virtual 'extra' caused by multiple monitor positioning.
+'             Called on startup and via tmrScreenResolution_Timer to test whether the height of the current monitor
+'             where the form currently sits, has changed.
+'---------------------------------------------------------------------------------------
+'
 Public Function fVirtualScreenHeight(ByRef inPixels As Boolean, Optional ByRef bSubtractTaskbar As Boolean = False) As Long
     ' This works even on Tablet PC.  The problem is: when the tablet screen is rotated, the "Screen" object of VB doesn't pick it up.
     Dim Pixels As Long: Pixels = 0
     Const CYVIRTUALSCREEN = 79
     '
+   On Error GoTo fVirtualScreenHeight_Error
+
     Pixels = GetSystemMetrics(CYVIRTUALSCREEN)
     If bSubtractTaskbar Then
         ' The taskbar is typically 30 pixels or 450 twips, or, at least, this is the assumption made here.
@@ -601,35 +619,15 @@ Public Function fVirtualScreenHeight(ByRef inPixels As Boolean, Optional ByRef b
     Else
         fVirtualScreenHeight = fVirtualScreenHeight * screenTwipsPerPixelY
     End If
+
+   On Error GoTo 0
+   Exit Function
+
+fVirtualScreenHeight_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure fVirtualScreenHeight of Module Module2"
     
 End Function
-
-' Author    : Elroy from Vbforums
-'Public Function fCurrentScreenWidth()
-'    ' This works even on Tablet PC.  The problem is: when the tablet screen is rotated, the "Screen" object of VB doesn't pick it up.
-'    Dim Pixels As Long: Pixels = 0
-'    Const SM_CXSCREEN = 0
-'    '
-'    Pixels = GetSystemMetrics(SM_CXSCREEN)
-'    fCurrentScreenWidth = Pixels * fTwipsPerPixelX
-'End Function
-
-' Author    : Elroy from Vbforums
-'Public Function fCurrentScreenHeight(Optional bSubtractTaskbar As Boolean = False)
-'    ' This works even on Tablet PC.  The problem is: when the tablet screen is rotated, the "Screen" object of VB doesn't pick it up.
-'    Dim Pixels As Long: Pixels = 0
-'    Const SM_CYSCREEN = 1
-'    '
-'    Pixels = GetSystemMetrics(SM_CYSCREEN)
-'    If bSubtractTaskbar Then
-'        ' The taskbar is typically 30 pixels or 450 twips, or, at least, this is the assumption made here.
-'        ' It can actually be multiples of this, or possibly moved to the side or top.
-'        ' This procedure does not account for these possibilities.
-'        fCurrentScreenHeight = (Pixels - 30) * fTwipsPerPixelY
-'    Else
-'        fCurrentScreenHeight = Pixels * fTwipsPerPixelY
-'    End If
-'End Function
 
 
 '---------------------------------------------------------------------------------------

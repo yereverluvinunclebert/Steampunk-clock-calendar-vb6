@@ -379,6 +379,7 @@ o added code when un-setting all alarms to specifically reverse the alarm functi
 
 ' module1.bas - renamed all global vars, now starting with gbl to identify - and tested
 ' descriptions on all routines in module1
+' renamed some routines to reflect their function
 
 ' -oOo-
 
