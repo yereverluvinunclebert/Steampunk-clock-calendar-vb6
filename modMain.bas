@@ -40,19 +40,19 @@ Public fMain As New cfMain
 Public aboutWidget As cwAbout
 Public licenceWidget As cwLicence
 
-Public revealWidgetTimerCount As Integer
+'Public revealWidgetTimerCount As Integer
  
 Public fClock As New cfClock
 Public overlayWidget As cwOverlay
 Public widgetName As String
-Private B() As Byte
+'Private B() As Byte
 
 
 '---------------------------------------------------------------------------------------
 ' Procedure : Main
 ' Author    : beededea
 ' Date      : 27/04/2023
-' Purpose   :
+' Purpose   : Program's entry point
 '---------------------------------------------------------------------------------------
 '
 Private Sub Main()
@@ -217,7 +217,7 @@ End Sub
 ' Procedure : writeVirtualScreen
 ' Author    : beededea
 ' Date      : 06/01/2025
-' Purpose   : writes to the virtual screen
+' Purpose   : writes some startup stuff to the virtual screen
 '---------------------------------------------------------------------------------------
 '
  Private Sub writeVirtualScreen()
@@ -243,31 +243,7 @@ writeVirtualScreen_Error:
 End Sub
  
 
-' ----------------------------------------------------------------
-' Procedure Name: startupDelay
-' Purpose: load the preferences form but don't yet show it. Done via a timer to make startup a little quicker especially on TB
-'          which is slower than VB6 reading through a loop of values and assigning the results to combo box controls .
-' Procedure Kind: Sub
-' Procedure Access: Private
-' Author: beededea
-' Date: 21/06/2024
-' ----------------------------------------------------------------
-'Public Sub startupDelay()
-'
-'    On Error GoTo startupDelay_Error
-'
-'    frmTimer.tmrStartupDelay.Enabled = False
-'
-'    If widgetPrefs.IsLoaded = False Then Load widgetPrefs
-'
-'   On Error GoTo 0
-'   Exit Sub
-'
-'startupDelay_Error:
-'
-'    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure startupDelay of Class Module cfClock"
-'End Sub
- 
+
 '---------------------------------------------------------------------------------------
 ' Procedure : checkFirstTime
 ' Author    : beededea
@@ -438,8 +414,8 @@ Private Sub initialiseGlobalVars()
     'windowsVer = vbNullString
     
     ' vars to obtain correct screen width (to correct VB6 bug) STARTS
-    screenTwipsPerPixelX = 0
-    screenTwipsPerPixelY = 0
+    gblScreenTwipsPerPixelX = 0
+    gblScreenTwipsPerPixelY = 0
     gblPhysicalScreenWidthTwips = 0
     gblPhysicalScreenHeightTwips = 0
     gblPhysicalScreenHeightPixels = 0
@@ -467,7 +443,7 @@ Private Sub initialiseGlobalVars()
     gblDebugFlg = 0
     gblMinutesToHide = 0
     gblAspectRatio = vbNullString
-    revealWidgetTimerCount = 0
+    'revealWidgetTimerCount = 0
     gblOldSettingsModificationTime = #1/1/2000 12:00:00 PM#
     
     gblCodingEnvironment = vbNullString

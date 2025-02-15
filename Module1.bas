@@ -2018,14 +2018,14 @@ Public Sub determineScreenDimensions()
     'If gblDebugFlg = 1 Then msgbox "% sub determineScreenDimensions"
 
     ' only calling TwipsPerPixelX/Y functions once on startup
-    screenTwipsPerPixelY = fTwipsPerPixelY
-    screenTwipsPerPixelX = fTwipsPerPixelX
+    gblScreenTwipsPerPixelY = fTwipsPerPixelY
+    gblScreenTwipsPerPixelX = fTwipsPerPixelX
     
     gblPhysicalScreenHeightPixels = GetDeviceCaps(menuForm.hDC, VERTRES) ' we use the name of any form that we don't mind being loaded at this point
     gblPhysicalScreenWidthPixels = GetDeviceCaps(menuForm.hDC, HORZRES)
 
-    gblPhysicalScreenHeightTwips = gblPhysicalScreenHeightPixels * screenTwipsPerPixelY
-    gblPhysicalScreenWidthTwips = gblPhysicalScreenWidthPixels * screenTwipsPerPixelX
+    gblPhysicalScreenHeightTwips = gblPhysicalScreenHeightPixels * gblScreenTwipsPerPixelY
+    gblPhysicalScreenWidthTwips = gblPhysicalScreenWidthPixels * gblScreenTwipsPerPixelX
     
     gblVirtualScreenHeightPixels = fVirtualScreenHeight(True)
     gblVirtualScreenWidthPixels = fVirtualScreenWidth(True)
@@ -2420,7 +2420,7 @@ Public Sub readPrefsPosition()
     gblPrefsSecondaryHeightTwips = fGetINISetting("Software\SteampunkClockCalendar", "prefsSecondaryHeightTwips", gblSettingsFile)
         
    ' on very first install this will be zero, then size of the prefs as a proportion of the screen size
-    If gblPrefsPrimaryHeightTwips = "" Then gblPrefsPrimaryHeightTwips = CStr(1000 * screenTwipsPerPixelY)
+    If gblPrefsPrimaryHeightTwips = "" Then gblPrefsPrimaryHeightTwips = CStr(1000 * gblScreenTwipsPerPixelY)
     
     
    On Error GoTo 0

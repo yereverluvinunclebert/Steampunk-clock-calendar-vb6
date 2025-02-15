@@ -381,6 +381,13 @@ o added code when un-setting all alarms to specifically reverse the alarm functi
 ' descriptions on all routines in module1
 ' renamed some routines to reflect their function
 
+' descriptions on all routines in module2
+' descriptions on all routines in modResize 
+' revealWidgetTimerCount as static
+
+' descriptions on all routines in modMain -
+' globals on all routines in modMain -
+
 ' -oOo-
 
 Tasks to do:
@@ -396,9 +403,6 @@ Tasks to do:
 
 ' disable chimes vs alarms disabled
 
-' descriptions on all routines in module2 -
-' descriptions on all routines in modResize -
-' descriptions on all routines in modMain -
 ' descriptions on all routines in widgetPrefs -
 ' descriptions on all routines in menuForm -
 ' descriptions on all routines in frmTimer -

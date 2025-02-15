@@ -1,4 +1,11 @@
 Attribute VB_Name = "modResize"
+'---------------------------------------------------------------------------------------
+' Module    : modResize
+' Author    : beededea
+' Date      : 14/02/2025
+' Purpose   :
+'---------------------------------------------------------------------------------------
+
 Option Explicit
 
 '@IgnoreModule IntegerDataType, ModuleWithoutFolder
@@ -70,24 +77,6 @@ Public Sub resizeControls(ByRef thisForm As Form, ByRef m_ControlPositions() As 
         End With
         I = I + 1
     Next Ctrl
-    
-    'If you want to adapt to a PictureBox (instead of the Form), then just replace all the Me.refs with your PicBox-Identifier.
-
-
-'    Dim W: W = thisForm.ScaleX(thisForm.ScaleWidth, thisForm.ScaleMode, vbPixels)
-'    Dim H: H = thisForm.ScaleY(thisForm.ScaleHeight, thisForm.ScaleMode, vbPixels)
-    '  Set Me.Picture = Cairo.ImageList.AddImage("", B, W, H, True).Picture
-      
-    '    B = New_c.FSO.ReadByteContent(FileName)
-    '    Set pic1.Picture = Cairo.ImageList.AddImage("", B, W, H, True).Picture
-    '    pic1.AutoRedraw = True
-    '    Cairo.ImageList.AddImage "myImage", B 'Load image to Bytes with no Resize
-    '    With Cairo.CreateSurface(W, H)
-    '        .CreateContext.RenderSurfaceContent "myImage", 0, 0, W, H, CAIRO_FILTER_BEST
-    '        .DrawToDC pic1.hdc
-    '    End With
-        
-        '  Set Me.Picture = Cairo.ImageList.AddImage("", B, W, H, True).Picture
         
    On Error GoTo 0
    Exit Sub

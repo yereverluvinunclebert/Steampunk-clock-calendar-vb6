@@ -2619,7 +2619,6 @@ Private Declare Function IsThemeActive Lib "uxtheme" () As Boolean
 
 '------------------------------------------------------ STARTS
 ' Private Types for determining prefs sizing
-'Private gblPrefsLoadedFlg As Boolean
 Private prefsDynamicSizingFlg As Boolean
 Private lastFormHeight As Long
 Private Const cPrefsFormHeight As Long = 11055
@@ -4041,8 +4040,8 @@ Public Sub positionPrefsMonitor()
     End If
     
     If formLeftTwips = 0 Then
-        If ((fClock.clockForm.Left + fClock.clockForm.Width) * screenTwipsPerPixelX) + 200 + widgetPrefs.Width > gblPhysicalScreenWidthTwips Then
-            widgetPrefs.Left = (fClock.clockForm.Left * screenTwipsPerPixelX) - (widgetPrefs.Width + 200)
+        If ((fClock.clockForm.Left + fClock.clockForm.Width) * gblScreenTwipsPerPixelX) + 200 + widgetPrefs.Width > gblPhysicalScreenWidthTwips Then
+            widgetPrefs.Left = (fClock.clockForm.Left * gblScreenTwipsPerPixelX) - (widgetPrefs.Width + 200)
         End If
     End If
 

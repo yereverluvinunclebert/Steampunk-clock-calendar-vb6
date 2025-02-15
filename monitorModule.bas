@@ -81,8 +81,8 @@ Public Const HORZRES As Integer = 8
 Public Const VERTRES As Integer = 10
 Public Const DESKTOPHORZRES As Integer = &H76
 
-Public screenTwipsPerPixelX As Long ' .07 DAEB 26/04/2021 common.bas changed to use pixels alone, removed all unnecessary twip conversion
-Public screenTwipsPerPixelY As Long ' .07 DAEB 26/04/2021 common.bas changed to use pixels alone, removed all unnecessary twip conversion
+Public gblScreenTwipsPerPixelX As Long ' .07 DAEB 26/04/2021 common.bas changed to use pixels alone, removed all unnecessary twip conversion
+Public gblScreenTwipsPerPixelY As Long ' .07 DAEB 26/04/2021 common.bas changed to use pixels alone, removed all unnecessary twip conversion
 'Public physicalScreenWidthTwips As Long
 'Public physicalScreenHeightTwips As Long
 
@@ -327,13 +327,13 @@ Public Function cWidgetFormScreenProperties(ByVal frm As cWidgetForm, ByRef moni
     With cWidgetFormScreenProperties
         .handle = hMonitor
         'convert all dimensions from pixels to twips
-        .Left = MONITORINFO.rcMonitor.Left * screenTwipsPerPixelX
-        .Right = MONITORINFO.rcMonitor.Right * screenTwipsPerPixelX
-        .Top = MONITORINFO.rcMonitor.Top * screenTwipsPerPixelY
-        .Bottom = MONITORINFO.rcMonitor.Bottom * screenTwipsPerPixelY
+        .Left = MONITORINFO.rcMonitor.Left * gblScreenTwipsPerPixelX
+        .Right = MONITORINFO.rcMonitor.Right * gblScreenTwipsPerPixelX
+        .Top = MONITORINFO.rcMonitor.Top * gblScreenTwipsPerPixelY
+        .Bottom = MONITORINFO.rcMonitor.Bottom * gblScreenTwipsPerPixelY
 
-        .Height = (MONITORINFO.rcMonitor.Bottom - MONITORINFO.rcMonitor.Top) * screenTwipsPerPixelY
-        .Width = (MONITORINFO.rcMonitor.Right - MONITORINFO.rcMonitor.Left) * screenTwipsPerPixelX
+        .Height = (MONITORINFO.rcMonitor.Bottom - MONITORINFO.rcMonitor.Top) * gblScreenTwipsPerPixelY
+        .Width = (MONITORINFO.rcMonitor.Right - MONITORINFO.rcMonitor.Left) * gblScreenTwipsPerPixelX
 
         .IsPrimary = MONITORINFO.dwFlags And MONITORINFOF_PRIMARY
     End With
@@ -389,13 +389,13 @@ Public Function formScreenProperties(ByVal frm As Form, ByRef monitorID As Long)
     With formScreenProperties
         .handle = hMonitor
         'convert all dimensions from pixels to twips
-        .Left = MONITORINFO.rcMonitor.Left * screenTwipsPerPixelX
-        .Right = MONITORINFO.rcMonitor.Right * screenTwipsPerPixelX
-        .Top = MONITORINFO.rcMonitor.Top * screenTwipsPerPixelY
-        .Bottom = MONITORINFO.rcMonitor.Bottom * screenTwipsPerPixelY
+        .Left = MONITORINFO.rcMonitor.Left * gblScreenTwipsPerPixelX
+        .Right = MONITORINFO.rcMonitor.Right * gblScreenTwipsPerPixelX
+        .Top = MONITORINFO.rcMonitor.Top * gblScreenTwipsPerPixelY
+        .Bottom = MONITORINFO.rcMonitor.Bottom * gblScreenTwipsPerPixelY
 
-        .Height = (MONITORINFO.rcMonitor.Bottom - MONITORINFO.rcMonitor.Top) * screenTwipsPerPixelY
-        .Width = (MONITORINFO.rcMonitor.Right - MONITORINFO.rcMonitor.Left) * screenTwipsPerPixelX
+        .Height = (MONITORINFO.rcMonitor.Bottom - MONITORINFO.rcMonitor.Top) * gblScreenTwipsPerPixelY
+        .Width = (MONITORINFO.rcMonitor.Right - MONITORINFO.rcMonitor.Left) * gblScreenTwipsPerPixelX
 
         .IsPrimary = MONITORINFO.dwFlags And MONITORINFOF_PRIMARY
     End With
@@ -577,7 +577,7 @@ Public Function fVirtualScreenWidth(ByRef inPixels As Boolean) As Long
     If inPixels = True Then
         fVirtualScreenWidth = Pixels
     Else
-        fVirtualScreenWidth = Pixels * screenTwipsPerPixelX
+        fVirtualScreenWidth = Pixels * gblScreenTwipsPerPixelX
     End If
 
    On Error GoTo 0
@@ -617,7 +617,7 @@ Public Function fVirtualScreenHeight(ByRef inPixels As Boolean, Optional ByRef b
     If inPixels = True Then
         fVirtualScreenHeight = fVirtualScreenHeight
     Else
-        fVirtualScreenHeight = fVirtualScreenHeight * screenTwipsPerPixelY
+        fVirtualScreenHeight = fVirtualScreenHeight * gblScreenTwipsPerPixelY
     End If
 
    On Error GoTo 0

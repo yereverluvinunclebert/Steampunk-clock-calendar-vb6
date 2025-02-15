@@ -102,6 +102,8 @@ Option Explicit
 '---------------------------------------------------------------------------------------
 '
 Private Sub revealWidgetTimer_Timer()
+    Static revealWidgetTimerCount As Integer
+    
     On Error GoTo revealWidgetTimer_Timer_Error
 
     revealWidgetTimerCount = revealWidgetTimerCount + 1
