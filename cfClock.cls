@@ -208,7 +208,7 @@ End Sub
 ' Procedure : Class_Initialize
 ' Author    : olaf schmidt
 ' Date      : 31/07/2023
-' Purpose   :
+' Purpose   : Constructor (Initialise)
 '---------------------------------------------------------------------------------------
 '
 Private Sub Class_Initialize()

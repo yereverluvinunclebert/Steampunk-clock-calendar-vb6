@@ -116,7 +116,6 @@ Private yesNoReturnValue As Integer
 Private formMsgContext As String
 Private formShowAgainChkBox As Boolean
 
-'Private lastFormHeight As Long
 
 Private Const cMsgBoxAFormHeight As Long = 2565
 Private Const cMsgBoxAFormWidth  As Long = 11055

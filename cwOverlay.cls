@@ -141,7 +141,7 @@ End Sub
 ' Procedure : Class_Initialize for cwOverlay
 ' Author    : olaf schmidt
 ' Date      : 31/07/2023
-' Purpose   : set the inital values of private vars, set up the timers
+' Purpose   : Constructor (Initialise) set the inital values of private vars, set up the timers
 '---------------------------------------------------------------------------------------
 '
 Private Sub Class_Initialize()

@@ -68,7 +68,7 @@ End Sub
 ' Procedure : Class_Initialize
 ' Author    : beededea
 ' Date      : 17/05/2023
-' Purpose   :
+' Purpose   : Constructor (Initialise)
 '---------------------------------------------------------------------------------------
 '
 Private Sub Class_Initialize()
