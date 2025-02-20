@@ -109,6 +109,16 @@ si_the_geek       for his special folder code
 
 Elroy on VB forums for the balloon tooltips and his subclassing code
 
+grigri grigri@shinyhappypixels.com - playing sound files asynchronously
+
+Rod Stephens @ vb-helper.com for the resizing form code
+
+RobDog888 https://www.vbforums.com/member.php?17511-RobDog888 for the OpenFile method of testing file existence.
+
+zeezee https://www.vbforums.com/member.php?90054-zeezee  for the PathFileExists method of testing folder existence.
+
+Zach_VB6  https://www.vbforums.com/member.php?95578-Zach_VB6 for loading a file to a textbox
+
 -oOo-
 
 Harry Whitfield for his quality testing, brain stimulation and being an unwitting source of inspiration.

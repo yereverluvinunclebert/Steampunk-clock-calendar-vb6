@@ -389,12 +389,18 @@ o added code when un-setting all alarms to specifically reverse the alarm functi
 ' globals on all routines in modMain -
 
 ' descriptions on all routines in widgetPrefs
+
 ' tidy widgetPrefs form_load
+' added several names to credits in about.txt
 
 ' -oOo-
 
 Tasks to do:
 ============
+
+' menu restart - hard...
+
+' resizing the main form
 
 ' change and test the slider values to make time changes more practical
 
@@ -411,12 +417,6 @@ Tasks to do:
 ' descriptions on all routines in frmMessage -
 
 ' tidy mainRoutine
-
-' grigri <grigri@shinyhappypixels.com> to credits
-' Rod Stephens @ vb-helper.com resize
-' RobDog888 https://www.vbforums.com/member.php?17511-RobDog888 for the OpenFile method of testing file existence.
-' zeezee https://www.vbforums.com/member.php?90054-zeezee  for the PathFileExists method of testing folder existence.
-' LoadFileToTB ' Author    : https://www.vbforums.com/member.php?95578-Zach_VB6
 
 ' create diagram of the program flow.
 

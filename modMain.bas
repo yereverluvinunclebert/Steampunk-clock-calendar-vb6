@@ -13,7 +13,7 @@ Option Explicit
 
 '------------------------------------------------------ STARTS
 ' for SetWindowPos z-ordering
-Public Declare Function SetWindowPos Lib "user32" (ByVal hwnd As Long, ByVal hWndInsertAfter As Long, ByVal x As Long, ByVal y As Long, ByVal cx As Long, ByVal cy As Long, ByVal wFlags As Long) As Long
+Public Declare Function SetWindowPos Lib "user32" (ByVal hWnd As Long, ByVal hWndInsertAfter As Long, ByVal x As Long, ByVal y As Long, ByVal cx As Long, ByVal cy As Long, ByVal wFlags As Long) As Long
 
 Public Const HWND_TOP As Long = 0 ' for SetWindowPos z-ordering
 Public Const HWND_TOPMOST As Long = -1
@@ -26,9 +26,9 @@ Public Const OnTopFlags  As Long = SWP_NOMOVE Or SWP_NOSIZE
 
 '------------------------------------------------------ STARTS
 ' to set the full window Opacity
-Private Declare Function SetLayeredWindowAttributes Lib "user32" (ByVal hwnd As Long, ByVal crKey As Long, ByVal bAlpha As Byte, ByVal dwFlags As Long) As Long
-Private Declare Function GetWindowLong Lib "user32" Alias "GetWindowLongA" (ByVal hwnd As Long, ByVal nIndex As Long) As Long
-Private Declare Function SetWindowLong Lib "user32" Alias "SetWindowLongA" (ByVal hwnd As Long, ByVal nIndex As Long, ByVal dwNewLong As Long) As Long
+Private Declare Function SetLayeredWindowAttributes Lib "user32" (ByVal hWnd As Long, ByVal crKey As Long, ByVal bAlpha As Byte, ByVal dwFlags As Long) As Long
+Private Declare Function GetWindowLong Lib "user32" Alias "GetWindowLongA" (ByVal hWnd As Long, ByVal nIndex As Long) As Long
+Private Declare Function SetWindowLong Lib "user32" Alias "SetWindowLongA" (ByVal hWnd As Long, ByVal nIndex As Long, ByVal dwNewLong As Long) As Long
 
 Private Const WS_EX_LAYERED  As Long = &H80000
 Private Const GWL_EXSTYLE  As Long = (-20)
@@ -36,16 +36,16 @@ Private Const LWA_COLORKEY  As Long = &H1       'to transparent
 Private Const LWA_ALPHA  As Long = &H2          'to semi transparent
 '------------------------------------------------------ ENDS
 
+' class objects instantiated
 Public fMain As New cfMain
 Public aboutWidget As cwAbout
 Public licenceWidget As cwLicence
-
-'Public revealWidgetTimerCount As Integer
- 
 Public fClock As New cfClock
 Public overlayWidget As cwOverlay
-Public widgetName As String
-'Private B() As Byte
+
+' any other private vars
+Public gblWidgetName As String
+
 
 
 '---------------------------------------------------------------------------------------
@@ -82,7 +82,6 @@ Public Sub mainRoutine(ByVal restart As Boolean)
     Dim extractCommand As String: extractCommand = vbNullString
     Dim thisPSDFullPath As String: thisPSDFullPath = vbNullString
     Dim licenceState As Integer: licenceState = 0
-    Dim clockFormMonitorID As Long: clockFormMonitorID = 0
 
     On Error GoTo main_routine_Error
     
@@ -90,26 +89,26 @@ Public Sub mainRoutine(ByVal restart As Boolean)
     Call initialiseGlobalVars
     
     gblStartupFlg = True
+    gblWidgetName = "Steampunk Clock Calendar"
+    thisPSDFullPath = App.path & "\Res\Steampunk Clock Calendar.psd"
+    
+    extractCommand = Command$ ' capture any parameter passed, remove if a soft reload
+    If restart = True Then extractCommand = vbNullString
     
     #If TWINBASIC Then
         gblCodingEnvironment = "TwinBasic"
     #Else
         gblCodingEnvironment = "VB6"
     #End If
-    
-    widgetName = "Steampunk Clock Calendar"
-    thisPSDFullPath = App.path & "\Res\Steampunk Clock Calendar.psd"
         
     menuForm.mnuAbout.Caption = "About Steampunk Clock Calendar Cairo " & gblCodingEnvironment & " widget"
     
-    loadSoundFiles
+    ' Load the sounds into numbered buffers ready for playing
+    Call loadAsynchSoundFiles
     
     ' resolve VB6 sizing width bug
     Call determineScreenDimensions
-    
-    extractCommand = Command$ ' capture any parameter passed, remove if a soft reload
-    If restart = True Then extractCommand = vbNullString
-    
+
     'add Resources to the global ImageList
     Call addImagesToImageList
     
@@ -132,12 +131,7 @@ Public Sub mainRoutine(ByVal restart As Boolean)
     Call writeVirtualScreen
     
     ' check first usage via licence acceptance value and then set initial DPI awareness
-    licenceState = fLicenceState()
-    If licenceState = 0 Then
-        Call testDPIAndSetInitialAwareness ' determine High DPI awareness or not by default on first run
-    Else
-        Call setDPIaware ' determine the user settings for DPI awareness, for this program and all its forms.
-    End If
+    Call setAutomaticDPIState(licenceState)
 
     'load the collection for storing the overlay surfaces with its relevant keys direct from the PSD
     If restart = False Then Call loadExcludePathCollection ' no need to reload the collPSDNonUIElements layer name keys on a reload
@@ -160,19 +154,12 @@ Public Sub mainRoutine(ByVal restart As Boolean)
     ' if the program is run in unhide mode, write the settings and exit
     Call handleUnhideMode(extractCommand)
     
-    ' if the parameter states re-open prefs then shows the prefs
-    If extractCommand = "prefs" Then
-        Call makeProgramPreferencesAvailable
-        extractCommand = vbNullString
-    End If
-        
     'load the preferences form but don't yet show it, speeds up access to the prefs via the menu
-    If widgetPrefs.IsLoaded = False Then
-        Load widgetPrefs
-        gblPrefsFormResizedInCode = True
-        Call widgetPrefs.PrefsForm_resize
-    End If
+    Call loadPreferenceForm
     
+    ' if the parameter states re-open prefs then shows the prefs
+    If extractCommand = "prefs" Then Call makeProgramPreferencesAvailable
+
     'load the message form but don't yet show it, speeds up access to the message form when needed.
     Load frmMessage
     
@@ -185,9 +172,8 @@ Public Sub mainRoutine(ByVal restart As Boolean)
     ' configure any global timers here
     Call configureTimers
     
-    ' note the monitor primary at clockForm form_load and store gblOldClockFormMonitorPrimary
-    clockMonitorStruct = cWidgetFormScreenProperties(fClock.clockForm, clockFormMonitorID)
-    gblOldClockFormMonitorPrimary = clockMonitorStruct.IsPrimary
+    ' note the monitor primary at the preferences form_load and store as gblOldClockFormMonitorPrimary
+    Call identifyPrimaryMonitor
     
     ' make the busy sand timer invisible
     Call hideBusyTimer
@@ -195,11 +181,11 @@ Public Sub mainRoutine(ByVal restart As Boolean)
     ' start the main clock timer
     overlayWidget.tmrClock.Enabled = True
     
-    
+    ' end the startup by un-setting the start global flag
     gblStartupFlg = False
         
     ' RC message pump will auto-exit when Cairo Forms > 0 so we run it only when 0, this prevents message interruption
-    ' when running twice on reload.
+    ' when running twice on reload. Do not move this line.
     If Cairo.WidgetForms.Count = 0 Then Cairo.WidgetForms.EnterMessageLoop
      
    On Error GoTo 0
@@ -212,6 +198,79 @@ main_routine_Error:
 End Sub
  
 
+'---------------------------------------------------------------------------------------
+' Procedure : loadPreferenceForm
+' Author    : beededea
+' Date      : 20/02/2025
+' Purpose   : load the preferences form but don't yet show it, speeds up access to the prefs via the menu
+'---------------------------------------------------------------------------------------
+'
+Private Sub loadPreferenceForm()
+        
+   On Error GoTo loadPreferenceForm_Error
+
+    If widgetPrefs.IsLoaded = False Then
+        Load widgetPrefs
+        gblPrefsFormResizedInCode = True
+        Call widgetPrefs.PrefsForm_resize
+    End If
+
+   On Error GoTo 0
+   Exit Sub
+
+loadPreferenceForm_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure loadPreferenceForm of Module modMain"
+End Sub
+
+'---------------------------------------------------------------------------------------
+' Procedure : setAutomaticDPIState
+' Author    : beededea
+' Date      : 20/02/2025
+' Purpose   : check first usage via licence acceptance value and then set initial DPI awareness
+'---------------------------------------------------------------------------------------
+'
+Private Sub setAutomaticDPIState(ByRef licenceState As Integer)
+   On Error GoTo setAutomaticDPIState_Error
+
+    licenceState = fLicenceState()
+    If licenceState = 0 Then
+        Call testDPIAndSetInitialAwareness ' determine High DPI awareness or not by default on first run
+    Else
+        Call setDPIaware ' determine the user settings for DPI awareness, for this program and all its forms.
+    End If
+
+   On Error GoTo 0
+   Exit Sub
+
+setAutomaticDPIState_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure setAutomaticDPIState of Module modMain"
+End Sub
+ 
+'
+'---------------------------------------------------------------------------------------
+' Procedure : identifyPrimaryMonitor
+' Author    : beededea
+' Date      : 20/02/2025
+' Purpose   : note the monitor primary at the main form_load and store as gblOldClockFormMonitorPrimary - will be resampled regularly later and compared
+'---------------------------------------------------------------------------------------
+'
+Private Sub identifyPrimaryMonitor()
+    Dim clockFormMonitorID As Long: clockFormMonitorID = 0
+    
+    On Error GoTo identifyPrimaryMonitor_Error
+
+    clockMonitorStruct = cWidgetFormScreenProperties(fClock.clockForm, clockFormMonitorID)
+    gblOldClockFormMonitorPrimary = clockMonitorStruct.IsPrimary
+
+   On Error GoTo 0
+   Exit Sub
+
+identifyPrimaryMonitor_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure identifyPrimaryMonitor of Module modMain"
+End Sub
  
 '---------------------------------------------------------------------------------------
 ' Procedure : writeVirtualScreen
@@ -1224,11 +1283,11 @@ Public Sub setAlphaFormZordering()
    On Error GoTo setAlphaFormZordering_Error
 
     If Val(gblWindowLevel) = 0 Then
-        Call SetWindowPos(fClock.clockForm.hwnd, HWND_BOTTOM, 0&, 0&, 0&, 0&, OnTopFlags)
+        Call SetWindowPos(fClock.clockForm.hWnd, HWND_BOTTOM, 0&, 0&, 0&, 0&, OnTopFlags)
     ElseIf Val(gblWindowLevel) = 1 Then
-        Call SetWindowPos(fClock.clockForm.hwnd, HWND_TOP, 0&, 0&, 0&, 0&, OnTopFlags)
+        Call SetWindowPos(fClock.clockForm.hWnd, HWND_TOP, 0&, 0&, 0&, 0&, OnTopFlags)
     ElseIf Val(gblWindowLevel) = 2 Then
-        Call SetWindowPos(fClock.clockForm.hwnd, HWND_TOPMOST, 0&, 0&, 0&, 0&, OnTopFlags)
+        Call SetWindowPos(fClock.clockForm.hWnd, HWND_TOPMOST, 0&, 0&, 0&, 0&, OnTopFlags)
     End If
 
    On Error GoTo 0
@@ -1532,7 +1591,7 @@ Private Sub getTrinketsFile()
     Dim iFileNo As Integer: iFileNo = 0
     
     gblTrinketsDir = fSpecialFolder(feUserAppData) & "\trinkets" ' just for this user alone
-    gblTrinketsFile = gblTrinketsDir & "\" & widgetName & ".ini"
+    gblTrinketsFile = gblTrinketsDir & "\" & gblWidgetName & ".ini"
         
     'if the folder does not exist then create the folder
     If Not fDirExists(gblTrinketsDir) Then
@@ -1674,11 +1733,11 @@ Private Sub createRCFormsOnCurrentDisplay()
     On Error GoTo createRCFormsOnCurrentDisplay_Error
 
     With New_c.Displays(1) 'get the current Display
-      Call fMain.initAndCreateAboutForm(.WorkLeft, .WorkTop, 1000, 1000, widgetName)
+      Call fMain.initAndCreateAboutForm(.WorkLeft, .WorkTop, 1000, 1000, gblWidgetName)
     End With
 
     With New_c.Displays(1) 'get the current Display
-      Call fMain.initAndCreateLicenceForm(.WorkLeft, .WorkTop, 1000, 1000, widgetName)
+      Call fMain.initAndCreateLicenceForm(.WorkLeft, .WorkTop, 1000, 1000, gblWidgetName)
     End With
     
         On Error GoTo 0
@@ -1802,15 +1861,15 @@ End Function
 
 
 '---------------------------------------------------------------------------------------
-' Procedure : loadSoundFiles
+' Procedure : loadAsynchSoundFiles
 ' Author    : beededea
 ' Date      : 27/01/2025
 ' Purpose   : Load the sounds into numbered buffers ready for playing
 '---------------------------------------------------------------------------------------
 '
-Private Sub loadSoundFiles()
+Private Sub loadAsynchSoundFiles()
 
-   On Error GoTo loadSoundFiles_Error
+   On Error GoTo loadAsynchSoundFiles_Error
 
     LoadSoundFile 1, App.path & "\resources\sounds\belltoll-quiet.wav"
     LoadSoundFile 2, App.path & "\resources\sounds\belltoll.wav"
@@ -1830,9 +1889,9 @@ Private Sub loadSoundFiles()
    On Error GoTo 0
    Exit Sub
 
-loadSoundFiles_Error:
+loadAsynchSoundFiles_Error:
 
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure loadSoundFiles of Module modMain"
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure loadAsynchSoundFiles of Module modMain"
 
 End Sub
 

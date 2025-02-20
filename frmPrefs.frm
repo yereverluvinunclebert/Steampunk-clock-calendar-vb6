@@ -3451,7 +3451,7 @@ Private Sub Form_Load()
     Call setFormResizingVars
     
     ' note the monitor primary at the preferences form_load and store as gblOldClockFormMonitorPrimary
-    Call identifyPrimaryMonitor
+    Call identifyPrefsPrimaryMonitor
     
     ' reverts TwinBasic form themeing to that of the earlier classic look and feel
     #If TWINBASIC Then
@@ -3595,17 +3595,17 @@ setFormResizingVars_Error:
 End Sub
 
 '---------------------------------------------------------------------------------------
-' Procedure : identifyPrimaryMonitor
+' Procedure : identifyPrefsPrimaryMonitor
 ' Author    : beededea
 ' Date      : 20/02/2025
-' Purpose   : note the monitor primary at the preferences form_load and store as gblOldClockFormMonitorPrimary
+' Purpose   : note the monitor primary at the preferences form_load and store as gblOldPrefsFormMonitorPrimary - will be resampled regularly later and compared
 '---------------------------------------------------------------------------------------
 '
-Private Sub identifyPrimaryMonitor()
+Private Sub identifyPrefsPrimaryMonitor()
     'Dim prefsFormHeight As Long: prefsFormHeight = 0
     Dim prefsFormMonitorID As Long: prefsFormMonitorID = 0
     
-    On Error GoTo identifyPrimaryMonitor_Error
+    On Error GoTo identifyPrefsPrimaryMonitor_Error
     
     'prefsFormHeight = gblPrefsCurrentHeight
 
@@ -3615,9 +3615,9 @@ Private Sub identifyPrimaryMonitor()
    On Error GoTo 0
    Exit Sub
 
-identifyPrimaryMonitor_Error:
+identifyPrefsPrimaryMonitor_Error:
 
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure identifyPrimaryMonitor of Form widgetPrefs"
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure identifyPrefsPrimaryMonitor of Form widgetPrefs"
 
 End Sub
 '---------------------------------------------------------------------------------------
@@ -5592,7 +5592,7 @@ End Sub
 ' Purpose   : adjust the controls so their startup position matches the last write of the config file
 '---------------------------------------------------------------------------------------
 '
-Private Sub adjustPrefsControls(Optional ByVal restart As Boolean)
+Private Sub adjustPrefsControls(Optional ByVal restartState As Boolean)
     
     Dim fntWeight As Integer: fntWeight = 0
     Dim fntStyle As Boolean: fntStyle = False
@@ -5715,7 +5715,7 @@ Private Sub adjustPrefsControls(Optional ByVal restart As Boolean)
     lblGitHub.Caption = "You can find the code for the Steampunk Clock Calendar on github, visit by double-clicking this link https://github.com/yereverluvinunclebert/ Steampunk-Clock-Calendar"
      
      
-     If Not restart = True Then
+     If Not restartState = True Then
         ' fonts tab
         If gblPrefsFont <> vbNullString Then
             txtPrefsFont.Text = gblPrefsFont
