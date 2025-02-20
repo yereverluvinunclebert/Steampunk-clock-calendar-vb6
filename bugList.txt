@@ -388,6 +388,9 @@ o added code when un-setting all alarms to specifically reverse the alarm functi
 ' descriptions on all routines in modMain -
 ' globals on all routines in modMain -
 
+' descriptions on all routines in widgetPrefs
+' tidy widgetPrefs form_load
+
 ' -oOo-
 
 Tasks to do:
@@ -403,13 +406,11 @@ Tasks to do:
 
 ' disable chimes vs alarms disabled
 
-' descriptions on all routines in widgetPrefs - wip
 ' descriptions on all routines in menuForm -
 ' descriptions on all routines in frmTimer -
 ' descriptions on all routines in frmMessage -
 
 ' tidy mainRoutine
-' tidy widgetPrefs form_load
 
 ' grigri <grigri@shinyhappypixels.com> to credits
 ' Rod Stephens @ vb-helper.com resize

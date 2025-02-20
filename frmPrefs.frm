@@ -3405,10 +3405,8 @@ End Sub
 Private Sub Form_Initialize()
     On Error GoTo Form_Initialize_Error
     
-    'gblPrefsLoadedFlg = False
-    IsLoaded = False
-    pvtPrefsDynamicSizingFlg = False
-    pvtLastFormHeight = 0
+    ' initialise private variables
+    Call initialisePrefsVars
 
     On Error GoTo 0
     Exit Sub
@@ -3429,59 +3427,37 @@ Form_Initialize_Error:
 '---------------------------------------------------------------------------------------
 '
 Private Sub Form_Load()
-    Dim prefsFormHeight As Long: prefsFormHeight = 0
-    Dim prefsFormMonitorID As Long: prefsFormMonitorID = 0
 
     On Error GoTo Form_Load_Error
     
+    Me.Visible = False
+    btnSave.Enabled = False ' disable the save button
+    Me.mnuAbout.Caption = "About Steampunk Clock Calendar Cairo " & gblCodingEnvironment & " widget"
+
+    pvtPrefsStartupFlg = True ' this is used to prevent some control initialisations from running code at startup
+    'pvtPrefsDynamicSizingFlg = False
+    IsLoaded = True
+    gblWindowLevelWasChanged = False
+    gblPrefsCurrentWidth = pvtcPrefsFormWidth
+    gblPrefsCurrentHeight = pvtcPrefsFormHeight
+            
     ' Set the subclass hook for dialog forms to centre them in the middle of the monitor
     If Not InIDE Then SetHook
     
-    Me.Visible = False
-        
-    pvtPrefsStartupFlg = True ' this is used to prevent some control initialisations from running code at startup
-    pvtPrefsDynamicSizingFlg = False
-    'gblPrefsLoadedFlg = True ' this is a variable tested by an added form property to indicate whether the form is loaded or not
-    IsLoaded = True
-    gblWindowLevelWasChanged = False
-        
-    gblPrefsCurrentWidth = pvtcPrefsFormWidth
-    gblPrefsCurrentHeight = pvtcPrefsFormHeight
-    
-    prefsFormHeight = gblPrefsCurrentHeight
-    
-    With lblDragCorner
-      .ForeColor = &H80000015
-      .BackStyle = vbTransparent
-      .AutoSize = True
-      .Font.Size = 12
-      .Font.Name = "Marlett"
-      .Caption = "o"
-      .Font.Bold = False
-      .Visible = False
-    End With
-     
-    btnSave.Enabled = False ' disable the save button
-
-    If gblDpiAwareness = "1" Then
-        pvtPrefsDynamicSizingFlg = True
-        chkEnableResizing.Value = 1
-        lblDragCorner.Visible = True
-    End If
-    
-    Me.mnuAbout.Caption = "About Steampunk Clock Calendar Cairo " & gblCodingEnvironment & " widget"
-        
     ' subclass controls that need additional functionality that VB6 does not provide (scrollwheel/balloon tooltips)
     Call subClassControls
     
-    ' note the monitor primary at the preferences form_load and store as gblOldClockFormMonitorPrimary
-    prefsMonitorStruct = formScreenProperties(widgetPrefs, prefsFormMonitorID)
-    gblOldPrefsFormMonitorPrimary = prefsMonitorStruct.IsPrimary ' -1 true
+    ' set form resizing
+    Call setFormResizingVars
     
+    ' note the monitor primary at the preferences form_load and store as gblOldClockFormMonitorPrimary
+    Call identifyPrimaryMonitor
+    
+    ' reverts TwinBasic form themeing to that of the earlier classic look and feel
     #If TWINBASIC Then
        Call setVisualStyles
     #End If
-      
+       
     ' read the last saved position from the settings.ini
     Call readPrefsPosition
         
@@ -3516,25 +3492,15 @@ Private Sub Form_Load()
     Call loadHigherResPrefsImages
     
     ' set the height of the whole form not higher than the screen size, cause a form_resize event
-    If gblDpiAwareness = "1" Then
-        gblPrefsFormResizedInCode = True
-        If gblPrefsPrimaryHeightTwips < gblPhysicalScreenHeightTwips Then
-            widgetPrefs.Height = CLng(gblPrefsPrimaryHeightTwips) ' 16450
-        Else
-            widgetPrefs.Height = gblPhysicalScreenHeightTwips - 1000
-        End If
-    End If
+    Call setPrefsHeight
     
     ' position the prefs on the current monitor
     Call positionPrefsMonitor
     
-    ' start the timer that records the prefs position every 10 seconds
-    tmrWritePosition.Enabled = True
+    ' start the timers
+    Call startPrefsTimers
     
-    ' start the timer that detects a MOVE event on the preferences form
-    tmrPrefsScreenResolution.Enabled = True
-    
-    ' end the startup by un-setting the start flag
+    ' end the startup by un-setting the start global-ish flag
     pvtPrefsStartupFlg = False
     
     btnSave.Enabled = False
@@ -3547,6 +3513,167 @@ Form_Load_Error:
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure Form_Load of Form widgetPrefs"
 
 End Sub
+
+'---------------------------------------------------------------------------------------
+' Procedure : initialisePrefsVars
+' Author    : beededea
+' Date      : 20/02/2025
+' Purpose   : initialise private variables
+'---------------------------------------------------------------------------------------
+'
+Private Sub initialisePrefsVars()
+
+   On Error GoTo initialisePrefsVars_Error
+
+    pvtPrefsDynamicSizingFlg = False
+    pvtLastFormHeight = 0
+    pvtPrefsStartupFlg = False
+    pvtAllowSizeChangeFlg = False
+    pCmbMultiMonitorResizeBalloonTooltip = vbNullString
+    pCmbScrollWheelDirectionBalloonTooltip = vbNullString
+    pCmbWindowLevelBalloonTooltip = vbNullString
+    pCmbHidingTimeBalloonTooltip = vbNullString
+    pCmbAspectHiddenBalloonTooltip = vbNullString
+    pCmbWidgetPositionBalloonTooltip = vbNullString
+    pCmbWidgetLandscapeBalloonTooltip = vbNullString
+    pCmbWidgetPortraitBalloonTooltip = vbNullString
+    pCmbDebugBalloonTooltip = vbNullString
+    pCmbAlarmDayBalloonTooltip = vbNullString
+    pCmbAlarmMonthBalloonTooltip = vbNullString
+    pCmbAlarmYearBalloonTooltip = vbNullString
+    pCmbAlarmHoursBalloonTooltip = vbNullString
+    pCmbAlarmMinutesBalloonTooltip = vbNullString
+    pvtPrefsFormResizedByDrag = False
+    mIsLoaded = False ' property
+
+   On Error GoTo 0
+   Exit Sub
+
+initialisePrefsVars_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure initialisePrefsVars of Form widgetPrefs"
+
+End Sub
+
+     
+'
+'---------------------------------------------------------------------------------------
+' Procedure : setFormResizingVars
+' Author    : beededea
+' Date      : 20/02/2025
+' Purpose   : set form resizing characteristics
+'---------------------------------------------------------------------------------------
+'
+Private Sub setFormResizingVars()
+
+   On Error GoTo setFormResizingVars_Error
+
+    With lblDragCorner
+      .ForeColor = &H80000015
+      .BackStyle = vbTransparent
+      .AutoSize = True
+      .Font.Size = 12
+      .Font.Name = "Marlett"
+      .Caption = "o"
+      .Font.Bold = False
+      .Visible = False
+    End With
+    
+    If gblDpiAwareness = "1" Then
+        pvtPrefsDynamicSizingFlg = True
+        chkEnableResizing.Value = 1
+        lblDragCorner.Visible = True
+    End If
+
+   On Error GoTo 0
+   Exit Sub
+
+setFormResizingVars_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure setFormResizingVars of Form widgetPrefs"
+    
+End Sub
+
+'---------------------------------------------------------------------------------------
+' Procedure : identifyPrimaryMonitor
+' Author    : beededea
+' Date      : 20/02/2025
+' Purpose   : note the monitor primary at the preferences form_load and store as gblOldClockFormMonitorPrimary
+'---------------------------------------------------------------------------------------
+'
+Private Sub identifyPrimaryMonitor()
+    'Dim prefsFormHeight As Long: prefsFormHeight = 0
+    Dim prefsFormMonitorID As Long: prefsFormMonitorID = 0
+    
+    On Error GoTo identifyPrimaryMonitor_Error
+    
+    'prefsFormHeight = gblPrefsCurrentHeight
+
+    prefsMonitorStruct = formScreenProperties(widgetPrefs, prefsFormMonitorID)
+    gblOldPrefsFormMonitorPrimary = prefsMonitorStruct.IsPrimary ' -1 true
+
+   On Error GoTo 0
+   Exit Sub
+
+identifyPrimaryMonitor_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure identifyPrimaryMonitor of Form widgetPrefs"
+
+End Sub
+'---------------------------------------------------------------------------------------
+' Procedure : setPrefsHeight
+' Author    : beededea
+' Date      : 20/02/2025
+' Purpose   : set the height of the whole form not higher than the screen size, cause a form_resize event
+'---------------------------------------------------------------------------------------
+'
+Private Sub setPrefsHeight()
+
+   On Error GoTo setPrefsHeight_Error
+
+    If gblDpiAwareness = "1" Then
+        gblPrefsFormResizedInCode = True
+        If gblPrefsPrimaryHeightTwips < gblPhysicalScreenHeightTwips Then
+            widgetPrefs.Height = CLng(gblPrefsPrimaryHeightTwips) ' 16450
+        Else
+            widgetPrefs.Height = gblPhysicalScreenHeightTwips - 1000
+        End If
+    End If
+
+   On Error GoTo 0
+   Exit Sub
+
+setPrefsHeight_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure setPrefsHeight of Form widgetPrefs"
+End Sub
+   
+'---------------------------------------------------------------------------------------
+' Procedure : startPrefsTimers
+' Author    : beededea
+' Date      : 20/02/2025
+' Purpose   :  start the timers
+'---------------------------------------------------------------------------------------
+'
+Private Sub startPrefsTimers()
+
+    ' start the timer that records the prefs position every 10 seconds
+   On Error GoTo startPrefsTimers_Error
+
+    tmrWritePosition.Enabled = True
+    
+    ' start the timer that detects a MOVE event on the preferences form
+    tmrPrefsScreenResolution.Enabled = True
+
+   On Error GoTo 0
+   Exit Sub
+
+startPrefsTimers_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure startPrefsTimers of Form widgetPrefs"
+
+End Sub
+    
 
 #If TWINBASIC Then
     '---------------------------------------------------------------------------------------
