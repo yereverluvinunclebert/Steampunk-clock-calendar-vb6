@@ -116,8 +116,24 @@ Attribute VB_Exposed = False
 
 Option Explicit
 
+'---------------------------------------------------------------------------------------
+' Procedure : blank12_Click
+' Author    : beededea
+' Date      : 20/02/2025
+' Purpose   : Accidental clicking on a blank menu item next to the close widget menu item
+'---------------------------------------------------------------------------------------
+'
 Private Sub blank12_Click()
+   On Error GoTo blank12_Click_Error
+
     Call thisForm_Unload
+
+   On Error GoTo 0
+   Exit Sub
+
+blank12_Click_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure blank12_Click of Form menuForm"
 End Sub
 
 '---------------------------------------------------------------------------------------
@@ -153,7 +169,7 @@ End Sub
 ' Procedure : menuReload_Click
 ' Author    : beededea
 ' Date      : 03/05/2023
-' Purpose   :
+' Purpose   : reload via the menu
 '---------------------------------------------------------------------------------------
 '
 Private Sub menuReload_Click()
@@ -190,7 +206,7 @@ End Sub
 ' Procedure : mnuAppFolder_Click
 ' Author    : beededea
 ' Date      : 05/05/2023
-' Purpose   :
+' Purpose   : menu item to reveal the widget's app folder
 '---------------------------------------------------------------------------------------
 '
 Private Sub mnuAppFolder_Click()
@@ -202,7 +218,7 @@ Private Sub mnuAppFolder_Click()
     folderPath = App.path
     If fDirExists(folderPath) Then ' if it is a folder already
 
-        execStatus = ShellExecute(Me.hwnd, "open", folderPath, vbNullString, vbNullString, 1)
+        execStatus = ShellExecute(Me.hWnd, "open", folderPath, vbNullString, vbNullString, 1)
         If execStatus <= 32 Then MsgBox "Attempt to open folder failed."
     Else
         MsgBox "Having a bit of a problem opening a folder for this widget - " & folderPath & " It doesn't seem to have a valid working directory set.", "Steampunk Clock Calendar Confirmation Message", vbOKOnly + vbExclamation
@@ -224,7 +240,7 @@ End Sub
 ' Procedure : mnuEditWidget_Click
 ' Author    : beededea
 ' Date      : 05/05/2023
-' Purpose   :
+' Purpose   : menu item to open the VB6/TwinBasic IDE depending upon the editing environment, either the VBP or .TWINPROJ files
 '---------------------------------------------------------------------------------------
 '
 Private Sub mnuEditWidget_Click()
@@ -243,7 +259,7 @@ Private Sub mnuEditWidget_Click()
         '''If gblDebugFlg = 1  Then msgBox "ShellExecute " & sCommand
         
         ' run the selected program
-        execStatus = ShellExecute(Me.hwnd, "open", editorPath, vbNullString, vbNullString, 1)
+        execStatus = ShellExecute(Me.hWnd, "open", editorPath, vbNullString, vbNullString, 1)
         If execStatus <= 32 Then MsgBox "Attempt to open the IDE for this widget failed."
     Else
         MsgBox "Having a bit of a problem opening an IDE for this widget - " & editorPath & " It doesn't seem to have a valid working directory set."
@@ -265,7 +281,7 @@ End Sub
 ' Procedure : mnuGithubHome_Click
 ' Author    : beededea
 ' Date      : 18/10/2024
-' Purpose   :
+' Purpose   : menu item to open the github HTML page
 '---------------------------------------------------------------------------------------
 '
 Public Sub mnuGithubHome_Click()
@@ -281,7 +297,7 @@ Public Sub mnuGithubHome_Click()
     answer = msgBoxA(answerMsg, vbExclamation + vbYesNo, "Request to Upgrade", True, "mnuGithubHomeClick")
 
     If answer = vbYes Then
-        Call ShellExecute(Me.hwnd, "Open", "https://github.com/yereverluvinunclebert/Steampunk-clock-calendar-" & gblCodingEnvironment, vbNullString, App.path, 1)
+        Call ShellExecute(Me.hWnd, "Open", "https://github.com/yereverluvinunclebert/Steampunk-clock-calendar-" & gblCodingEnvironment, vbNullString, App.path, 1)
     End If
 
    On Error GoTo 0
@@ -296,14 +312,14 @@ End Sub
 ' Procedure : mnuHelpHTM_Click
 ' Author    : beededea
 ' Date      : 14/05/2023
-' Purpose   :
+' Purpose   : menu item to open the help compiled HTML file
 '---------------------------------------------------------------------------------------
 '
 Private Sub mnuHelpHTM_Click()
     On Error GoTo mnuHelpHTM_Click_Error
 
         If fFExists(App.path & "\help\Help.chm") Then
-            Call ShellExecute(Me.hwnd, "Open", App.path & "\help\Help.chm", vbNullString, App.path, 1)
+            Call ShellExecute(Me.hWnd, "Open", App.path & "\help\Help.chm", vbNullString, App.path, 1)
         Else
             MsgBox ("The help file - Help.chm - is missing from the help folder.")
         End If
@@ -322,7 +338,7 @@ End Sub
 ' Procedure : mnuHelpSplash_Click
 ' Author    : beededea
 ' Date      : 03/08/2023
-' Purpose   :
+' Purpose   : menu item to open display the splash bitmap
 '---------------------------------------------------------------------------------------
 '
 Private Sub mnuHelpSplash_Click()
@@ -348,7 +364,7 @@ End Sub
 ' Procedure : mnuHideWidget_Click
 ' Author    : beededea
 ' Date      : 14/05/2023
-' Purpose   :
+' Purpose   : menu item to hide the main clock form
 '---------------------------------------------------------------------------------------
 '
 Private Sub mnuHideWidget_Click()
@@ -373,7 +389,7 @@ End Sub
 ' Procedure : mnuLockWidget_Click
 ' Author    : beededea
 ' Date      : 05/05/2023
-' Purpose   :
+' Purpose   : menu item to lock the clockform in place
 '---------------------------------------------------------------------------------------
 '
 Private Sub mnuLockWidget_Click()
@@ -398,7 +414,7 @@ End Sub
 ' Procedure : mnuProgramPreferences_Click
 ' Author    : beededea
 ' Date      : 07/05/2023
-' Purpose   :
+' Purpose   : menu item to lock the clockform in place on the desktop
 '---------------------------------------------------------------------------------------
 '
 Private Sub mnuProgramPreferences_Click()
@@ -424,7 +440,7 @@ End Sub
 ' Procedure : mnuQuit_Click
 ' Author    : beededea
 ' Date      : 07/04/2020
-' Purpose   :
+' Purpose   : menu item to quit the program altogether
 '---------------------------------------------------------------------------------------
 '
 Private Sub mnuQuit_Click()
@@ -468,7 +484,7 @@ End Sub
 ' Procedure : mnuFacebook_Click
 ' Author    : beededea
 ' Date      : 14/02/2019
-' Purpose   :
+' Purpose   : menu item to open the FB HTML page
 '---------------------------------------------------------------------------------------
 '
 Public Sub mnuFacebook_Click()
@@ -483,7 +499,7 @@ Public Sub mnuFacebook_Click()
     answer = msgBoxA(answerMsg, vbExclamation + vbYesNo, "Visit Facebook Request", True, "mnuFacebookClick")
     'answer = MsgBox("Visiting the Facebook chat page - this button opens a browser window and connects to our Facebook chat page. Proceed?", vbExclamation + vbYesNo)
     If answer = vbYes Then
-        Call ShellExecute(Me.hwnd, "Open", "http://www.facebook.com/profile.php?id=100012278951649", vbNullString, App.path, 1)
+        Call ShellExecute(Me.hWnd, "Open", "http://www.facebook.com/profile.php?id=100012278951649", vbNullString, App.path, 1)
     End If
 
     On Error GoTo 0
@@ -500,7 +516,7 @@ End Sub
 ' Procedure : mnuLatest_Click
 ' Author    : beededea
 ' Date      : 13/02/2019
-' Purpose   :
+' Purpose   : menu item to open the Github HTML page for the widget release page
 '---------------------------------------------------------------------------------------
 '
 Public Sub mnuLatest_Click()
@@ -516,7 +532,7 @@ Public Sub mnuLatest_Click()
     answer = msgBoxA(answerMsg, vbExclamation + vbYesNo, "Request to Upgrade", True, "mnuLatestClick")
 
     If answer = vbYes Then
-        Call ShellExecute(Me.hwnd, "Open", "https://github.com/yereverluvinunclebert/Steampunk-clock-calendar-" & gblCodingEnvironment & "/releases", vbNullString, App.path, 1)
+        Call ShellExecute(Me.hWnd, "Open", "https://github.com/yereverluvinunclebert/Steampunk-clock-calendar-" & gblCodingEnvironment & "/releases", vbNullString, App.path, 1)
     End If
 
 
@@ -533,7 +549,7 @@ End Sub
 ' Procedure : mnuLicence_Click
 ' Author    : beededea
 ' Date      : 14/02/2019
-' Purpose   :
+' Purpose   : menu item to open the licence form
 '---------------------------------------------------------------------------------------
 '
 Private Sub mnuLicence_Click()
@@ -556,7 +572,7 @@ End Sub
 ' Procedure : mnuSupport_Click
 ' Author    : beededea
 ' Date      : 13/02/2019
-' Purpose   :
+' Purpose   : menu item to open the issues page on github
 '---------------------------------------------------------------------------------------
 '
 Private Sub mnuSupport_Click()
@@ -606,7 +622,7 @@ End Sub
 ' Procedure : mnuSwitchOff_Click
 ' Author    : beededea
 ' Date      : 05/05/2023
-' Purpose   :
+' Purpose   : menu item to switch off all of the program's functions
 '---------------------------------------------------------------------------------------
 '
 Private Sub mnuSwitchOff_Click()
@@ -629,7 +645,7 @@ End Sub
 ' Procedure : mnuTurnFunctionsOn_Click
 ' Author    : beededea
 ' Date      : 05/05/2023
-' Purpose   :
+' Purpose   : menu item to switch on all of the program's functions
 '---------------------------------------------------------------------------------------
 '
 Private Sub mnuTurnFunctionsOn_Click()
@@ -651,7 +667,7 @@ End Sub
 ' Procedure : mnuWidgets_Click
 ' Author    : beededea
 ' Date      : 13/02/2019
-' Purpose   :
+' Purpose   : menu item to open the deviantart widgets page
 '---------------------------------------------------------------------------------------
 '
 Private Sub mnuWidgets_Click()
@@ -666,11 +682,9 @@ Private Sub mnuWidgets_Click()
     'answer = MsgBox(" This button opens a browser window and connects to the Steampunk widgets page on my site. Do you wish to proceed?", vbExclamation + vbYesNo)
 
     If answer = vbYes Then
-        Call ShellExecute(Me.hwnd, "Open", "https://www.deviantart.com/yereverluvinuncleber/gallery/59981269/yahoo-widgets", vbNullString, App.path, 1)
+        Call ShellExecute(Me.hWnd, "Open", "https://www.deviantart.com/yereverluvinuncleber/gallery/59981269/yahoo-widgets", vbNullString, App.path, 1)
     End If
     
-    
-
     On Error GoTo 0
     Exit Sub
 
@@ -684,7 +698,7 @@ End Sub
 ' Procedure : mnuAbout_Click
 ' Author    : beededea
 ' Date      : 13/02/2019
-' Purpose   :
+' Purpose   : menu item to open the about form
 '---------------------------------------------------------------------------------------
 '
 Private Sub mnuAbout_Click()

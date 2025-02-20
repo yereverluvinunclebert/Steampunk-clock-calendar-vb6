@@ -392,17 +392,24 @@ o added code when un-setting all alarms to specifically reverse the alarm functi
 
 ' tidy widgetPrefs form_load
 ' added several names to credits in about.txt
+' tidy main_routine
+' descriptions on all routines in menuForm
+' descriptions on all routines in frmTimer -
 
 ' -oOo-
 
 Tasks to do:
 ============
 
+' descriptions on all routines in frmMessage -
+
 ' menu restart - hard...
 
-' resizing the main form
+' resizing the main form via ctrl+mousewheel feeds back into prefs slider
 
-' change and test the slider values to make time changes more practical
+' reszing bug, going small) when the automatic resize across screens is enabled
+
+' change and test the main clock form slider values to make time changes more practical
 
 ' 00xx issue on small slider movements just trying to change the time
 
@@ -410,13 +417,7 @@ Tasks to do:
 
 ' add time machine functionality
 
-' disable chimes vs alarms disabled
-
-' descriptions on all routines in menuForm -
-' descriptions on all routines in frmTimer -
-' descriptions on all routines in frmMessage -
-
-' tidy mainRoutine
+' disable chimes vs alarms disabled - new prefs
 
 ' create diagram of the program flow.
 

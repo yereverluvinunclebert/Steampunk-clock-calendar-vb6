@@ -1,6 +1,6 @@
-Attribute VB_Name = "Module2"
+Attribute VB_Name = "monitorModule"
 '---------------------------------------------------------------------------------------
-' Module    : Module2
+' Module    : monitorModule
 ' Author    : beededea
 ' Date      : 13/02/2025
 ' Purpose   :
@@ -62,14 +62,14 @@ End Type
 
 Private Declare Function EnumDisplayMonitors Lib "user32" (ByVal hDC As Long, lprcClip As Any, ByVal lpfnEnum As Long, dwData As Long) As Long
 Private Declare Function GetSystemMetrics Lib "user32" (ByVal nIndex As Long) As Long
-Public Declare Function GetDC Lib "user32" (ByVal hwnd As Long) As Long
-Public Declare Function ReleaseDC Lib "user32" (ByVal hwnd As Long, ByVal hDC As Long) As Long
+Public Declare Function GetDC Lib "user32" (ByVal hWnd As Long) As Long
+Public Declare Function ReleaseDC Lib "user32" (ByVal hWnd As Long, ByVal hDC As Long) As Long
 Public Declare Function GetDeviceCaps Lib "gdi32" (ByVal hDC As Long, ByVal nIndex As Long) As Long
 'Private Declare Function CreateDC Lib "gdi32" Alias "CreateDCA" (ByVal lpDriverName As String, ByVal lpDeviceName As String, ByVal lpOutput As String, ByVal lpInitData As Long) As Long
 Private Declare Function UnionRect Lib "user32" (lprcDst As RECT, lprcSrc1 As RECT, lprcSrc2 As RECT) As Long
 Private Declare Function OffsetRect Lib "user32" (lpRect As RECT, ByVal x As Long, ByVal y As Long) As Long
-Private Declare Function MoveWindow Lib "user32" (ByVal hwnd As Long, ByVal x As Long, ByVal y As Long, ByVal nWidth As Long, ByVal nHeight As Long, ByVal bRepaint As Long) As Long
-Private Declare Function GetWindowRect Lib "user32.dll" (ByVal hwnd As Long, lpRect As RECT) As Long
+Private Declare Function MoveWindow Lib "user32" (ByVal hWnd As Long, ByVal x As Long, ByVal y As Long, ByVal nWidth As Long, ByVal nHeight As Long, ByVal bRepaint As Long) As Long
+Private Declare Function GetWindowRect Lib "user32.dll" (ByVal hWnd As Long, lpRect As RECT) As Long
 Private Declare Function MonitorFromRect Lib "user32" (rc As RECT, ByVal dwFlags As dwFlags) As Long
 Private Declare Function GetMonitorInfo Lib "user32" Alias "GetMonitorInfoA" (ByVal hMonitor As Long, MonInfo As tagMONITORINFO) As Long
 
@@ -217,7 +217,7 @@ Public Function fGetMonitorCount() As Long
 
 fGetMonitorCount_Error:
 
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure fGetMonitorCount of Module Module2"
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure fGetMonitorCount of Module monitorModule"
 End Function
 
 '---------------------------------------------------------------------------------------
@@ -241,7 +241,7 @@ Private Function MonitorEnumProc(ByVal hMonitor As Long, ByVal hdcMonitor As Lon
 
 MonitorEnumProc_Error:
 
-     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure MonitorEnumProc of Module Module2"
+     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure MonitorEnumProc of Module monitorModule"
 End Function
 
 '---------------------------------------------------------------------------------------
@@ -252,7 +252,7 @@ End Function
 '             if the form finds itself offscreen due to monitor position/resolution changes.
 '---------------------------------------------------------------------------------------
 '
-Public Sub SetFormOnMonitor(ByRef hwnd As Long, ByVal Left As Long, ByVal Top As Long)
+Public Sub SetFormOnMonitor(ByRef hWnd As Long, ByVal Left As Long, ByVal Top As Long)
 
     Dim rc As RECT ' structure that receives the screen coordinate
     Dim hMonitor As Long: hMonitor = 0
@@ -260,7 +260,7 @@ Public Sub SetFormOnMonitor(ByRef hwnd As Long, ByVal Left As Long, ByVal Top As
     
     On Error GoTo setFormOnMonitor_Error
 
-    GetWindowRect hwnd, rc 'obtain the current form's window rectangle co-ords
+    GetWindowRect hWnd, rc 'obtain the current form's window rectangle co-ords
         
     'move the window rectangle to the previously saved position supplied as two params.
     OffsetRect rc, Left - rc.Left, Top - rc.Top
@@ -281,7 +281,7 @@ Public Sub SetFormOnMonitor(ByRef hwnd As Long, ByVal Left As Long, ByVal Top As
     If rc.Bottom > mi.rcWork.Bottom Then OffsetRect rc, 0, mi.rcWork.Bottom - rc.Bottom
     
     'move the window to new calculated position
-    MoveWindow hwnd, rc.Left, rc.Top, rc.Right - rc.Left, rc.Bottom - rc.Top, 0
+    MoveWindow hWnd, rc.Left, rc.Top, rc.Right - rc.Left, rc.Bottom - rc.Top, 0
 
     On Error GoTo 0
     Exit Sub
@@ -316,7 +316,7 @@ Public Function cWidgetFormScreenProperties(ByVal frm As cWidgetForm, ByRef moni
     'If gblDebugFlg = 1 Then MsgBox "%" & " func cWidgetFormScreenProperties"
     
     ' reads the size and position of the user supplied form window
-    GetWindowRect frm.hwnd, Frect
+    GetWindowRect frm.hWnd, Frect
     hMonitor = MonitorFromRect(Frect, MONITOR_DEFAULTTOPRIMARY) ' get handle for monitor containing most of Frm
                                                                 ' if disconnected return handle (and properties) for primary monitor
     On Error GoTo GetMonitorInformation_Err
@@ -378,7 +378,7 @@ Public Function formScreenProperties(ByVal frm As Form, ByRef monitorID As Long)
     If gblDebugFlg = 1 Then MsgBox "%" & " func formScreenProperties"
     
     ' reads the size and position of the user supplied form window
-    GetWindowRect frm.hwnd, Frect
+    GetWindowRect frm.hWnd, Frect
     hMonitor = MonitorFromRect(Frect, MONITOR_DEFAULTTOPRIMARY) ' get handle for monitor containing most of Frm
                                                                 ' if disconnected return handle (and properties) for primary monitor
     On Error GoTo GetMonitorInformation_Err
@@ -527,7 +527,7 @@ Public Sub positionPrefsByMonitorSize()
 
 positionPrefsByMonitorSize_Error:
 
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure positionPrefsByMonitorSize of Module Module2"
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure positionPrefsByMonitorSize of Module monitorModule"
     
     End Sub
 
@@ -585,7 +585,7 @@ Public Function fVirtualScreenWidth(ByRef inPixels As Boolean) As Long
 
 fVirtualScreenWidth_Error:
 
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure fVirtualScreenWidth of Module Module2"
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure fVirtualScreenWidth of Module monitorModule"
 End Function
 
 '---------------------------------------------------------------------------------------
@@ -625,7 +625,7 @@ Public Function fVirtualScreenHeight(ByRef inPixels As Boolean, Optional ByRef b
 
 fVirtualScreenHeight_Error:
 
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure fVirtualScreenHeight of Module Module2"
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure fVirtualScreenHeight of Module monitorModule"
     
 End Function
 

@@ -112,10 +112,10 @@ Attribute VB_Exposed = False
 '@IgnoreModule IntegerDataType, ModuleWithoutFolder
 ' .74 DAEB 22/05/2022 rDIConConfig.frm Msgbox replacement that can be placed on top of the form instead as the middle of the screen STARTS
 Option Explicit
-Private yesNoReturnValue As Integer
-Private formMsgContext As String
-Private formShowAgainChkBox As Boolean
 
+Private pvtYesNoReturnValue As Integer
+Private pvtFormMsgContext As String
+Private pvtFormShowAgainChkBox As Boolean
 
 Private Const cMsgBoxAFormHeight As Long = 2565
 Private Const cMsgBoxAFormWidth  As Long = 11055
@@ -129,21 +129,36 @@ Private mPropReturnedValue As Integer
 
 
 
+'---------------------------------------------------------------------------------------
+' Procedure : Form_Activate
+' Author    : beededea
+' Date      : 20/02/2025
+' Purpose   : The form activate event for the enhanced message box
+'---------------------------------------------------------------------------------------
+'
 Private Sub Form_Activate()
 
-    'MsgBox "Form_Activate"
+   On Error GoTo Form_Activate_Error
+
     gblMessageAHeightTwips = fGetINISetting("Software\SteampunkClockCalendar", "messageAHeightTwips", gblSettingsFile)
     gblMessageAWidthTwips = fGetINISetting("Software\SteampunkClockCalendar", "messageAWidthTwips ", gblSettingsFile)
     
     frmMessage.Height = Val(gblMessageAHeightTwips)
     frmMessage.Width = Val(gblMessageAWidthTwips)
+
+   On Error GoTo 0
+   Exit Sub
+
+Form_Activate_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure Form_Activate of Form frmMessage"
 End Sub
 
 '---------------------------------------------------------------------------------------
 ' Procedure : Form_Load
 ' Author    : beededea
 ' Date      : 23/09/2023
-' Purpose   :
+' Purpose   : The form load event for the enhanced message box
 '---------------------------------------------------------------------------------------
 '
 Private Sub Form_Load()
@@ -151,21 +166,14 @@ Private Sub Form_Load()
 
     On Error GoTo Form_Load_Error
     
-    'MsgBox "Form_Load"
-    
     If gblMessageAHeightTwips = "" Then gblMessageAHeightTwips = gblPhysicalScreenHeightTwips / 5.5
     
     msgBoxACurrentWidth = Val(gblMessageAWidthTwips)
     msgBoxACurrentHeight = Val(gblMessageAHeightTwips)
-    
         
-    'If gblDpiAwareness = "1" Then
-        ' save the initial positions of ALL the controls on the msgbox form
-        Call SaveSizes(Me, msgBoxAControlPositions(), msgBoxACurrentWidth, msgBoxACurrentHeight)
-    'End If
+    ' save the initial positions of ALL the controls on the msgbox form
+    Call SaveSizes(Me, msgBoxAControlPositions(), msgBoxACurrentWidth, msgBoxACurrentHeight)
         
-    ' .TBD DAEB 05/05/2021 frmMessage.frm Added the font mod. here instead of within the changeFont tool
-    '                       as each instance of the form is new, the font modification must be here.
     For Each Ctrl In Me.Controls
          If (TypeOf Ctrl Is CommandButton) Or (TypeOf Ctrl Is textBox) Or (TypeOf Ctrl Is FileListBox) Or (TypeOf Ctrl Is Label) Or (TypeOf Ctrl Is ComboBox) Or (TypeOf Ctrl Is CheckBox) Or (TypeOf Ctrl Is OptionButton) Or (TypeOf Ctrl Is Frame) Or (TypeOf Ctrl Is ListBox) Then
             If gblPrefsFont <> "" Then Ctrl.Font.Name = gblPrefsFont
@@ -175,13 +183,10 @@ Private Sub Form_Load()
             Else
                 If Val(Abs(gblPrefsFontSizeLowDPI)) > 0 Then Ctrl.Font.Size = Val(Abs(gblPrefsFontSizeLowDPI))
             End If
-            'Ctrl.Font.Italic = CBool(SDSuppliedFontItalics) TBD
-           'If suppliedStyle <> "" Then Ctrl.Font.Style = suppliedStyle
         End If
     Next
 
     chkShowAgain.Visible = False
-
 
    On Error GoTo 0
    Exit Sub
@@ -193,10 +198,10 @@ Form_Load_Error:
 End Sub
 
 '---------------------------------------------------------------------------------------
-' Property : Form_Resize
+' Property  : Form_Resize
 ' Author    : beededea
 ' Date      : 23/09/2023
-' Purpose   :
+' Purpose   : Standard form resize event
 '---------------------------------------------------------------------------------------
 '
 Private Sub Form_Resize()
@@ -221,14 +226,6 @@ Private Sub Form_Resize()
     Else
         Call setMessageIconImagesLight(600)
     End If
-
-''    If widgetPrefs.mnuDark.Checked = True Then
-''        Call setMessageIconImagesDark(determineIconWidth(Me, gblMsgBoxADynamicSizingFlg))
-''    Else
-'        Call setMessageIconImagesLight(1920)
-''    End If
-
-    'MsgBox "Form_Resize"
     
     gblMessageAHeightTwips = Trim$(CStr(frmMessage.Height))
     gblMessageAWidthTwips = Trim$(CStr(frmMessage.Width))
@@ -244,17 +241,17 @@ Form_Resize_Error:
 End Sub
 
 '---------------------------------------------------------------------------------------
-' Property : btnButtonTwo_Click
+' Property  : btnButtonTwo_Click
 ' Author    : beededea
 ' Date      : 23/09/2023
-' Purpose   :
+' Purpose   : The second button often cancel or no
 '---------------------------------------------------------------------------------------
 '
 Private Sub btnButtonTwo_Click()
    On Error GoTo btnButtonTwo_Click_Error
 
-    If formShowAgainChkBox = True Then SaveSetting App.EXEName, "Options", "Show message" & formMsgContext, chkShowAgain.Value
-    yesNoReturnValue = 7
+    If pvtFormShowAgainChkBox = True Then SaveSetting App.EXEName, "Options", "Show message" & pvtFormMsgContext, chkShowAgain.Value
+    pvtYesNoReturnValue = 7
     Me.Hide
 
    On Error GoTo 0
@@ -266,18 +263,18 @@ btnButtonTwo_Click_Error:
 End Sub
 
 '---------------------------------------------------------------------------------------
-' Property : btnButtonOne_Click
+' Property  : btnButtonOne_Click
 ' Author    : beededea
 ' Date      : 23/09/2023
-' Purpose   :
+' Purpose   : The first button often yes or OK
 '---------------------------------------------------------------------------------------
 '
 Private Sub btnButtonOne_Click()
    On Error GoTo btnButtonOne_Click_Error
 
     Me.Visible = False
-    If formShowAgainChkBox = True Then SaveSetting App.EXEName, "Options", "Show message" & formMsgContext, chkShowAgain.Value
-    yesNoReturnValue = 6
+    If pvtFormShowAgainChkBox = True Then SaveSetting App.EXEName, "Options", "Show message" & pvtFormMsgContext, chkShowAgain.Value
+    pvtYesNoReturnValue = 6
     Me.Hide
 
    On Error GoTo 0
@@ -292,7 +289,7 @@ End Sub
 ' Procedure : Display
 ' Author    : beededea
 ' Date      : 23/09/2023
-' Purpose   :
+' Purpose   : a subroutine that displays the form, called from msgBoxA
 '---------------------------------------------------------------------------------------
 '
 Public Sub Display()
@@ -301,11 +298,11 @@ Public Sub Display()
     
     On Error GoTo Display_Error
 
-    If formShowAgainChkBox = True Then
+    If pvtFormShowAgainChkBox = True Then
     
         chkShowAgain.Visible = True
         ' Returns a key setting value from an application's entry in the Windows registry
-        intShow = GetSetting(App.EXEName, "Options", "Show message" & formMsgContext, vbUnchecked)
+        intShow = GetSetting(App.EXEName, "Options", "Show message" & pvtFormMsgContext, vbUnchecked)
         
         If intShow = vbUnchecked Then
             Me.Show vbModal
@@ -364,7 +361,7 @@ End Property
 ' Procedure : propMessage
 ' Author    : beededea
 ' Date      : 17/05/2023
-' Purpose   :
+' Purpose   : property to allow a message to be passed to the form
 '---------------------------------------------------------------------------------------
 '
 Public Property Get propMessage() As String
@@ -384,7 +381,7 @@ End Property
 ' Property  : propTitle
 ' Author    : beededea
 ' Date      : 23/09/2023
-' Purpose   :
+' Purpose   : property to allow a title to be passed to the form's title bar
 '---------------------------------------------------------------------------------------
 '
 Public Property Let propTitle(ByVal newValue As String)
@@ -409,7 +406,7 @@ End Property
 ' Procedure : propTitle
 ' Author    : beededea
 ' Date      : 17/05/2023
-' Purpose   :
+' Purpose   : property to allow a title to be passed to the form's title bar
 '---------------------------------------------------------------------------------------
 '
 Public Property Get propTitle() As String
@@ -429,7 +426,7 @@ End Property
 ' Property  : propMsgContext
 ' Author    : beededea
 ' Date      : 23/09/2023
-' Purpose   :
+' Purpose   : property to allow a message to be passed to the form for display within the message field
 '---------------------------------------------------------------------------------------
 '
 Public Property Let propMsgContext(ByVal newValue As String)
@@ -437,7 +434,7 @@ Public Property Let propMsgContext(ByVal newValue As String)
    
    If mPropMsgContext <> newValue Then mPropMsgContext = newValue Else Exit Property
 
-   formMsgContext = mPropMsgContext
+   pvtFormMsgContext = mPropMsgContext
 
    On Error GoTo 0
    Exit Property
@@ -450,7 +447,7 @@ End Property
 ' Procedure : propMsgContext
 ' Author    : beededea
 ' Date      : 17/05/2023
-' Purpose   :
+' Purpose   : property to allow a message to be passed to the form for display within the message field
 '---------------------------------------------------------------------------------------
 '
 Public Property Get propMsgContext() As String
@@ -469,13 +466,13 @@ End Property
 ' Procedure : propReturnedValue
 ' Author    : beededea
 ' Date      : 23/09/2023
-' Purpose   :
+' Purpose   : property to allow a value to be returned from the form
 '---------------------------------------------------------------------------------------
 '
 Public Property Get propReturnedValue() As Integer
    On Error GoTo propReturnedValue_Error
    
-    propReturnedValue = yesNoReturnValue
+    propReturnedValue = pvtYesNoReturnValue
 
    On Error GoTo 0
    Exit Property
@@ -490,7 +487,7 @@ End Property
 ' Property  : propReturnedValue
 ' Author    : beededea
 ' Date      : 23/09/2023
-' Purpose   :
+' Purpose   : property to allow a value to be returned from the form
 '---------------------------------------------------------------------------------------
 '
 Public Property Let propReturnedValue(ByVal newValue As Integer)
@@ -498,7 +495,7 @@ Public Property Let propReturnedValue(ByVal newValue As Integer)
    
     If mPropReturnedValue <> newValue Then mPropReturnedValue = newValue Else Exit Property
 
-    formShowAgainChkBox = mPropReturnedValue
+    pvtFormShowAgainChkBox = mPropReturnedValue
 
    On Error GoTo 0
    Exit Property
@@ -512,7 +509,7 @@ End Property
 ' Property  : propShowAgainChkBox
 ' Author    : beededea
 ' Date      : 23/09/2023
-' Purpose   :
+' Purpose   : property to allow a "hide this message" checkbox to be displayed on the form
 '---------------------------------------------------------------------------------------
 '
 Public Property Let propShowAgainChkBox(ByVal newValue As Boolean)
@@ -520,7 +517,7 @@ Public Property Let propShowAgainChkBox(ByVal newValue As Boolean)
    
     If mPropShowAgainChkBox <> newValue Then mPropShowAgainChkBox = newValue Else Exit Property
 
-    formShowAgainChkBox = mPropShowAgainChkBox
+    pvtFormShowAgainChkBox = mPropShowAgainChkBox
 
    On Error GoTo 0
    Exit Property
@@ -533,7 +530,7 @@ End Property
 ' Procedure : propShowAgainChkBox
 ' Author    : beededea
 ' Date      : 17/05/2023
-' Purpose   :
+' Purpose   : property to allow a "hide this message" checkbox to be displayed on the form
 '---------------------------------------------------------------------------------------
 '
 Public Property Get propShowAgainChkBox() As Boolean
@@ -552,7 +549,7 @@ End Property
 ' Property  : propButtonVal
 ' Author    : beededea
 ' Date      : 23/09/2023
-' Purpose   :
+' Purpose   : property that displays the type of button according to user selection
 '---------------------------------------------------------------------------------------
 '
 Public Property Let propButtonVal(ByVal newValue As Integer)
@@ -565,7 +562,6 @@ Public Property Let propButtonVal(ByVal newValue As Integer)
     
     btnButtonOne.Visible = False
     btnButtonTwo.Visible = False
-
     picVBInformation.Visible = False
     picVBCritical.Visible = False
     picVBExclamation.Visible = False
@@ -614,7 +610,6 @@ Public Property Let propButtonVal(ByVal newValue As Integer)
         btnButtonOne.Visible = False
         btnButtonTwo.Visible = True
         btnButtonTwo.Caption = "OK"
-        'btnButtonOne.Left = 4620
     End If
     If mPropButtonVal = 1 Then '    vbOKCancel 1
         btnButtonOne.Visible = True
@@ -626,19 +621,15 @@ Public Property Let propButtonVal(ByVal newValue As Integer)
     If mPropButtonVal = 2 Then 'vbAbortRetryIgnore 2
         btnButtonOne.Visible = True
         btnButtonTwo.Visible = True
-        'btnButtonThree.Visible = True
         btnButtonOne.Caption = "Abort"
         btnButtonOne.Caption = "Retry"
-        'btnButtonThree.Caption = "Ignore"
         picVBQuestion.Visible = True
     End If
     If mPropButtonVal = 3 Then '    vbYesNoCancel 3
         btnButtonOne.Visible = True
         btnButtonTwo.Visible = True
-        'btnButtonThree.Visible = True
         btnButtonOne.Caption = "Yes"
         btnButtonTwo.Caption = "No"
-        'btnButtonThree.Caption = "Cancel"
         picVBQuestion.Visible = True
     End If
     If mPropButtonVal = 4 Then '    vbYesNo 4
@@ -656,7 +647,6 @@ Public Property Let propButtonVal(ByVal newValue As Integer)
         picVBQuestion.Visible = True
     End If
 
-
    On Error GoTo 0
    Exit Property
 
@@ -667,42 +657,11 @@ propButtonVal_Error:
 End Property
 
 
-
-
-
-''---------------------------------------------------------------------------------------
-'' Procedure : loadHigherResMessageImages
-'' Author    : beededea
-'' Date      : 18/06/2023
-'' Purpose   :
-''---------------------------------------------------------------------------------------
-''
-'Private Sub loadHigherResMessageImages()
-'
-'    On Error GoTo loadHigherResMessageImages_Error
-'
-'    If Me.WindowState = vbMinimized Then Exit Sub
-'
-''    If widgetPrefs.mnuDark.Checked = True Then
-''        Call setMessageIconImagesDark(determineIconWidth(Me, gblMsgBoxADynamicSizingFlg))
-''    Else
-'        Call setMessageIconImagesLight(1920)
-''    End If
-'
-'   On Error GoTo 0
-'   Exit Sub
-'
-'loadHigherResMessageImages_Error:
-'
-'    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure loadHigherResMessageImages of Form widgetPrefs"
-'End Sub
-
-
 '---------------------------------------------------------------------------------------
 ' Procedure : setPrefsIconImagesLight
 ' Author    : beededea
 ' Date      : 22/06/2023
-' Purpose   :
+' Purpose   : set the icon images on the message form
 '---------------------------------------------------------------------------------------
 '
 Private Sub setMessageIconImagesLight(ByVal thisIconWidth As Long)

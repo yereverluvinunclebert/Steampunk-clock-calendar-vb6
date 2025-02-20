@@ -52,7 +52,7 @@ Begin VB.Form frmTimer
       Width           =   4125
    End
    Begin VB.Label Label2 
-      Caption         =   "settingsTimer for reading external changes to prefs"
+      Caption         =   "if the unhide setting is set by another process it will unhide the widget"
       Height          =   195
       Left            =   705
       TabIndex        =   2
@@ -85,20 +85,18 @@ Attribute VB_Exposed = False
 ' Module    : frmTimer
 ' Author    : beededea
 ' Date      : 25/10/2024
-' Purpose   :
+' Purpose   : holds all the VB6 timers used by the program
 '---------------------------------------------------------------------------------------
 
 '@IgnoreModule ModuleWithoutFolder
 Option Explicit
 
 
-
-
 '---------------------------------------------------------------------------------------
 ' Procedure : revealWidgetTimer_Timer
 ' Author    : beededea
 ' Date      : 05/05/2023
-' Purpose   :
+' Purpose   : revealWidgetTimer for revealing after a hide.
 '---------------------------------------------------------------------------------------
 '
 Private Sub revealWidgetTimer_Timer()
@@ -136,7 +134,8 @@ End Sub
 ' Procedure : tmrScreenResolution_Timer
 ' Author    : beededea
 ' Date      : 05/05/2023
-' Purpose   : for handling rotation of the screen in tablet mode or a resolution change
+' Purpose   : ScreenResolutionTimer for handling rotation of the screen
+'             in tablet mode or a resolution change
 '             possibly due to an old game in full screen mode.
 '---------------------------------------------------------------------------------------
 '
@@ -180,26 +179,6 @@ tmrScreenResolution_Timer_Error:
 End Sub
 
 
-'---------------------------------------------------------------------------------------
-' Procedure : tmrStartupDelay_Timer
-' Author    : beededea
-' Date      : 16/12/2024
-' Purpose   :
-'---------------------------------------------------------------------------------------
-'
-'Private Sub tmrStartupDelay_Timer()
-'
-'   On Error GoTo tmrStartupDelay_Timer_Error
-'
-'   Call startupDelay
-'
-'   On Error GoTo 0
-'   Exit Sub
-'
-'tmrStartupDelay_Timer_Error:
-'
-'    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure tmrStartupDelay_Timer of Form frmTimer"
-'End Sub
 
 '---------------------------------------------------------------------------------------
 ' Procedure : unhideTimer_Timer
@@ -238,7 +217,7 @@ End Sub
 ' Procedure : sleepTimer_Timer
 ' Author    : beededea
 ' Date      : 21/04/2021
-' Purpose   : timer that stores the last time
+' Purpose   : timer that stores the last time the timer was run
 ' if the current time is greater than the last time stored by more than 30 seconds we can assume the system
 ' has been sent to sleep, if the two are significantly different then we reorganise the dock
 '---------------------------------------------------------------------------------------
