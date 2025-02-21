@@ -394,22 +394,23 @@ o added code when un-setting all alarms to specifically reverse the alarm functi
 ' added several names to credits in about.txt
 ' tidy main_routine
 ' descriptions on all routines in menuForm
-' descriptions on all routines in frmTimer -
+' descriptions on all routines in frmTimer
+' descriptions on all routines in frmMessage
+' tmrZZZZSound to be replaced with asynchronous playing sounds
+' tmrTILLSound to be replaced with asynchronous playing sounds
 
 ' -oOo-
 
 Tasks to do:
 ============
 
-' descriptions on all routines in frmMessage -
-
 ' menu restart - hard...
 
 ' resizing the main form via ctrl+mousewheel feeds back into prefs slider
 
-' reszing bug, going small) when the automatic resize across screens is enabled
+' resizing bug, (going small) when the automatic resize across screens is enabled
 
-' change and test the main clock form slider values to make time changes more practical
+' change and test the main clock form time slider values to make minute changes more practical
 
 ' 00xx issue on small slider movements just trying to change the time
 
@@ -425,11 +426,6 @@ Tasks to do:
 
 ' combine a new counter-rotating sound recording the current Konfabulator widget.
 
-' these need to be replaced with asynchronous playing sounds
-    
-    fClock.tmrZZZZSound.Enabled = False
-    fClock.tmrTILLSound.Enabled = False
-    fClock.tmrTickingSound.Enabled = False
 
 ' check correct use of all properties to minimise CPU usage, locally should always be using the Version of a variable rather than the property LET/SET itself
 
@@ -528,3 +524,8 @@ Tasks to do:
 
 Static Linking in TB only.
          In TwinBasic static library linking is possible allowing incorporation of DLLs into the misc section and compiling into the finished binary
+
+
+
+
+

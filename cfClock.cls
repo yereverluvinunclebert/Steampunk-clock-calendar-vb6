@@ -857,11 +857,6 @@ Private Sub clockForm_BubblingEvent(ByRef sender As Object, ByRef EventName As S
             Case "bell"
                 'Call bell_mouseUp(Sender)
             Case "sliderset"
-    
-'                fileToPlay = "zzzz.wav"
-'                If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
-'                    PlaySound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
-'                End If
 
                 ' set the clock timer back to once per second
                 overlayWidget.tmrClock.Interval = 1000
@@ -871,7 +866,9 @@ Private Sub clockForm_BubblingEvent(ByRef sender As Object, ByRef EventName As S
                     fClock.timeShiftValue = 0.5
                     overlayWidget.tmrTimeShift.Enabled = False
                 End If
-
+                    
+                
+                
                 tmrZZZZSound.Enabled = True
             Case "sliderset"
                 pvtSlidersetMousedown = False ' never called!
@@ -3707,17 +3704,17 @@ Public Property Let alarmtoggleEnabled(ByVal newValue As Boolean)
         
         Call screenWrite("Entering Alarm Mode")
         Call screenWrite("Slider Mechanism Released, click bell to set")
+        
+        tmrZZZZSound.Enabled = True ' does a little buzz after 1/10th of a second, not cutting off the preceding 'clunk' prematurely
+        
        
         alarmtoggle.Move alarmToggleIn, alarmtoggleTop
         mSliderFreed = True
         sliderset.Moveable = True
         glow.Moveable = True
-        
-        tmrZZZZSound.Enabled = True ' does a little buzz after 1/10th of a second, not cutting off the preceding 'clunk' prematurely
-        
+                                
         overlayWidget.GetFutureTime = vbNullString
 
-        
         ' set the slider position to the start point
         fClock.timeShiftValue = 0.5
              
@@ -3761,6 +3758,9 @@ Public Property Let alarmtoggleEnabled(ByVal newValue As Boolean)
         gblShowAlarmDateTime = True ' causes the cache for the displayed time to the current alarm date/time selected
         
     Else
+        
+        tmrZZZZSound.Enabled = True
+        
         overlayWidget.SliderInTransit = False
         sliderset.Moveable = False
         glow.Moveable = False
@@ -3795,6 +3795,7 @@ alarmtoggleEnabledLet_Error:
 
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property alarmtoggleEnabled of Class Module cfClock"
 End Property
+
 
 '---------------------------------------------------------------------------------------
 ' Property  : alarmtoggleEnabled
@@ -4799,7 +4800,7 @@ End Sub
 
 ' ----------------------------------------------------------------
 ' Procedure Name: tmrTILLSound_Timer
-' Purpose: obsolete, needs to be replaced by use of an asynchronous sound
+' Purpose: plays a till sound with a delay
 ' Procedure Kind: Sub
 ' Procedure Access: Private
 ' Author: beededea
@@ -4817,7 +4818,7 @@ Private Sub tmrTILLSound_Timer()
     End If
     
     If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
-        playSound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
+        playAsynchSound App.path & "\resources\sounds\" & fileToPlay ', ByVal 0&, SND_FILENAME Or SND_ASYNC
     End If
     
     tmrTILLSound.Enabled = False
@@ -4834,7 +4835,7 @@ End Sub
 
 ' ----------------------------------------------------------------
 ' Procedure Name: tmrZZZZSound_Timer
-' Purpose: obsolete, needs to be replaced by use of an asynchronous sound
+' Purpose:  plays a till sound with a delay
 ' Procedure Kind: Sub
 ' Procedure Access: Private
 ' Author: beededea
@@ -4848,11 +4849,11 @@ Private Sub tmrZZZZSound_Timer()
     If gblVolumeBoost = "1" Then
         fileToPlay = "zzzz.wav"
     Else
-        fileToPlay = "zzzz-quiet.wav"
+        fileToPlay = "zzzz.wav"
     End If
     
     If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
-        playSound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
+        playAsynchSound App.path & "\resources\sounds\" & fileToPlay ', ByVal 0&, SND_FILENAME Or SND_ASYNC
     End If
     
     tmrZZZZSound.Enabled = False

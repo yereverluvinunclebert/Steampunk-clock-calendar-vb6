@@ -1885,6 +1885,10 @@ Private Sub loadAsynchSoundFiles()
     LoadSoundFile 12, App.path & "\resources\sounds\threequarterchime.wav"
     LoadSoundFile 13, App.path & "\resources\sounds\ticktock-quiet.wav"
     LoadSoundFile 14, App.path & "\resources\sounds\ticktock.wav"
+    LoadSoundFile 15, App.path & "\resources\sounds\zzzz-quiet.wav"
+    LoadSoundFile 16, App.path & "\resources\sounds\zzzz.wav"
+    LoadSoundFile 17, App.path & "\resources\sounds\till-quiet.wav"
+    LoadSoundFile 18, App.path & "\resources\sounds\till.wav"
 
    On Error GoTo 0
    Exit Sub
@@ -1923,6 +1927,10 @@ Public Sub playAsynchSound(ByVal SoundFile As String)
      If SoundFile = App.path & "\resources\sounds\threequarterchime.wav" Then soundindex = 12
      If SoundFile = App.path & "\resources\sounds\ticktock-quiet.wav" Then soundindex = 13
      If SoundFile = App.path & "\resources\sounds\ticktock.wav" Then soundindex = 14
+     If SoundFile = App.path & "\resources\sounds\zzzz-quiet.wav" Then soundindex = 15
+     If SoundFile = App.path & "\resources\sounds\zzzz.wav" Then soundindex = 16
+     If SoundFile = App.path & "\resources\sounds\till-quiet.wav" Then soundindex = 17
+     If SoundFile = App.path & "\resources\sounds\till.wav" Then soundindex = 18
 
      Call playSounds(soundindex) ' writes the wav files (previously stored in a memory buffer) and feeds that buffer to the waveOutWrite API
 
@@ -1934,6 +1942,7 @@ playAsynchSound_Error:
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure playAsynchSound of Module modMain"
 
 End Sub
+
 
 
 '---------------------------------------------------------------------------------------
@@ -1963,7 +1972,11 @@ Public Sub stopAsynchSound(ByVal SoundFile As String)
      If SoundFile = App.path & "\resources\sounds\threequarterchime.wav" Then soundindex = 12
      If SoundFile = App.path & "\resources\sounds\ticktock-quiet.wav" Then soundindex = 13
      If SoundFile = App.path & "\resources\sounds\ticktock.wav" Then soundindex = 14
-
+     If SoundFile = App.path & "\resources\sounds\zzzz-quiet.wav" Then soundindex = 15
+     If SoundFile = App.path & "\resources\sounds\zzzz.wav" Then soundindex = 16
+     If SoundFile = App.path & "\resources\sounds\till-quiet.wav" Then soundindex = 17
+     If SoundFile = App.path & "\resources\sounds\till.wav" Then soundindex = 18
+     
      Call StopSound(soundindex)
 
    On Error GoTo 0
@@ -2000,6 +2013,10 @@ Public Sub stopAllAsynchSounds()
     Call StopSound(12)
     Call StopSound(13)
     Call StopSound(14)
+    Call StopSound(15)
+    Call StopSound(16)
+    Call StopSound(17)
+    Call StopSound(18)
 
    On Error GoTo 0
    Exit Sub
@@ -2009,3 +2026,4 @@ stopAllAsynchSounds_Error:
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure stopAllAsynchSounds of Module modMain"
 
 End Sub
+

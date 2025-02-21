@@ -48,7 +48,7 @@ End Type
 
 Private Type FONTSTRUC
   lStructSize As Long
-  hwnd As Long
+  hWnd As Long
   hDC As Long
   lpLogFont As Long
   iPointSize As Long
@@ -141,7 +141,7 @@ End Enum
 
 '------------------------------------------------------ STARTS
 ' APIs for useful functions START
-Public Declare Function ShellExecute Lib "Shell32.dll" Alias "ShellExecuteA" (ByVal hwnd As Long, ByVal lpOperation As String, ByVal lpFile As String, ByVal lpParameters As String, ByVal lpDirectory As String, ByVal nShowCmd As Long) As Long
+Public Declare Function ShellExecute Lib "Shell32.dll" Alias "ShellExecuteA" (ByVal hWnd As Long, ByVal lpOperation As String, ByVal lpFile As String, ByVal lpParameters As String, ByVal lpDirectory As String, ByVal nShowCmd As Long) As Long
 ' APIs for useful functions END
 '------------------------------------------------------ ENDS
 
@@ -1604,7 +1604,7 @@ Public Sub mnuCoffee_ClickEvent()
     answer = msgBoxA(answerMsg, vbExclamation + vbYesNo, "Request to Donate a Kofi", True, "mnuCoffeeClickEvent")
 
     If answer = vbYes Then
-        Call ShellExecute(menuForm.hwnd, "Open", "https://www.ko-fi.com/yereverluvinunclebert", vbNullString, App.path, 1)
+        Call ShellExecute(menuForm.hWnd, "Open", "https://www.ko-fi.com/yereverluvinunclebert", vbNullString, App.path, 1)
     End If
 
    On Error GoTo 0
@@ -1634,7 +1634,7 @@ Public Sub mnuSupport_ClickEvent()
     answer = msgBoxA(answerMsg, vbExclamation + vbYesNo, "Request to Contact Support", True, "mnuSupportClickEvent")
 
     If answer = vbYes Then
-        Call ShellExecute(menuForm.hwnd, "Open", "https://github.com/yereverluvinunclebert/Steampunk-clock-calendar-" & gblCodingEnvironment & "/issues", vbNullString, App.path, 1)
+        Call ShellExecute(menuForm.hWnd, "Open", "https://github.com/yereverluvinunclebert/Steampunk-clock-calendar-" & gblCodingEnvironment & "/issues", vbNullString, App.path, 1)
     End If
 
    On Error GoTo 0
@@ -1842,7 +1842,7 @@ Public Sub makeVisibleFormElements()
 
     gblMonitorCount = fGetMonitorCount
     If gblMonitorCount > 1 Then
-        Call SetFormOnMonitor(fClock.clockForm.hwnd, formLeftPixels, formTopPixels)
+        Call SetFormOnMonitor(fClock.clockForm.hWnd, formLeftPixels, formTopPixels)
     Else
         fClock.clockForm.Left = formLeftPixels
         fClock.clockForm.Top = formTopPixels
@@ -1873,7 +1873,9 @@ End Sub
 '---------------------------------------------------------------------------------------
 '
 Public Sub getKeyPress(ByVal KeyCode As Integer, ByVal Shift As Integer)
-
+    Dim answer As VbMsgBoxResult: answer = vbNo
+    Dim answerMsg As String: answerMsg = vbNullString
+   
     On Error GoTo getkeypress_Error
 
     If gblCTRL_1 Or gblSHIFT_1 Then
@@ -1984,8 +1986,11 @@ Public Sub getKeyPress(ByVal KeyCode As Integer, ByVal Shift As Integer)
             If fClock.SliderFreed = True Then
                 fClock.timeShiftValue = fClock.timeShiftValue + 0.05
             End If
-        Case 116
+        Case 116 ' Performing a hard restart message box shift+F5
             If Shift = 1 Then
+                answer = vbYes
+                answerMsg = "Performing a hard restart now, press OK."
+                answer = msgBoxA(answerMsg, vbExclamation + vbOK, "Performing a hard restart", True, "getKeypressHardRestart1")
                 Call hardRestart
             Else
                 Call reloadProgram 'f5 refresh button as per all browsers
@@ -2636,7 +2641,7 @@ Public Sub hardRestart()
     If fFExists(thisCommand) Then
         
         ' run the selected program
-        Call ShellExecute(widgetPrefs.hwnd, "open", thisCommand, "Steampunk Clock Calendar.exe prefs", "", 1)
+        Call ShellExecute(widgetPrefs.hWnd, "open", thisCommand, "Steampunk Clock Calendar.exe prefs", "", 1)
     Else
         'answer = MsgBox(thisCommand & " is missing", vbOKOnly + vbExclamation)
         answerMsg = thisCommand & " is missing"
