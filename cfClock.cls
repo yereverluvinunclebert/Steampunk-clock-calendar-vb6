@@ -2767,7 +2767,8 @@ Private Sub clockForm_MouseWheel(ByVal MouseKeys As Long, ByVal Rotation As Long
         RotationDirection = Rotation
     End If
     
-   If MouseKeys = 8 Then Call AdjustZoom(FZ + RotationDirection / 2400)   'change the Zoom only, when the Ctrl-Key is down
+   'If MouseKeys = 8 Then Call AdjustZoom(FZ + RotationDirection / 2400)   'change the Zoom only, when the Ctrl-Key is down
+   If MouseKeys = 8 Then widgetPrefs.clockSize = (FZ + RotationDirection / 2400)
 
    On Error GoTo 0
    Exit Sub

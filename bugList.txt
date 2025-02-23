@@ -399,14 +399,16 @@ o added code when un-setting all alarms to specifically reverse the alarm functi
 ' tmrZZZZSound to be replaced with asynchronous playing sounds
 ' tmrTILLSound to be replaced with asynchronous playing sounds
 
+' Performing a hard restart, message box added to F5
+
+' resizing the main form via ctrl+mousewheel feeds back into prefs slider via a property
+
 ' -oOo-
 
 Tasks to do:
 ============
 
-' menu restart - hard...
 
-' resizing the main form via ctrl+mousewheel feeds back into prefs slider
 
 ' resizing bug, (going small) when the automatic resize across screens is enabled
 
@@ -425,7 +427,6 @@ Tasks to do:
 ' about text VB6 / Twinbasic wip, check if the PSD is on the G5.
 
 ' combine a new counter-rotating sound recording the current Konfabulator widget.
-
 
 ' check correct use of all properties to minimise CPU usage, locally should always be using the Version of a variable rather than the property LET/SET itself
 

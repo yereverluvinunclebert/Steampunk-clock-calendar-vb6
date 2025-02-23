@@ -187,7 +187,7 @@ Private Sub menuReload_Click()
         
         Call hardRestart
     Else
-         Call reloadProgram
+        Call reloadProgram
     End If
     
     On Error GoTo 0
