@@ -2757,6 +2757,8 @@ Private Sub clockForm_MouseWheel(ByVal MouseKeys As Long, ByVal Rotation As Long
    
    On Error GoTo clockForm_MouseWheel_Error
 
+    Rotation = Rotation / 2
+
     If gblScrollWheelDirection = "1" Then
         If Rotation > 0 Then
             RotationDirection = 0 - Abs(Rotation)
@@ -2767,8 +2769,8 @@ Private Sub clockForm_MouseWheel(ByVal MouseKeys As Long, ByVal Rotation As Long
         RotationDirection = Rotation
     End If
     
-   'If MouseKeys = 8 Then Call AdjustZoom(FZ + RotationDirection / 2400)   'change the Zoom only, when the Ctrl-Key is down
-   If MouseKeys = 8 Then widgetPrefs.clockSize = (FZ + RotationDirection / 2400)
+   'If MouseKeys = 8 Then Call AdjustZoom(FZ + RotationDirection / 2400)
+   If MouseKeys = 8 Then widgetPrefs.ClockSize = (FZ + RotationDirection / 2400) 'change the Zoom only, when the Ctrl-Key is down
 
    On Error GoTo 0
    Exit Sub
@@ -2796,7 +2798,8 @@ Public Sub AdjustZoom(ByVal NewZoom As Single)
     
     ' when resized from the gauge scroll up/down it needs to write it back so the size is correct when prefs opened.
     gblGaugeSize = CStr(NewZoom * 100)
-    If widgetPrefs.IsVisible = True Then widgetPrefs.sliGaugeSize = Val(gblGaugeSize)
+    
+    If widgetPrefs.IsLoaded Then widgetPrefs.sliGaugeSize.Value = Val(gblGaugeSize) ' ensure that the prefs size slider matches when zoom is modified without using the slider
     
     If clockMonitorStruct.IsPrimary = True Then
         gblClockPrimaryHeightRatio = CStr(NewZoom)

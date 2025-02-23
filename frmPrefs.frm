@@ -3133,6 +3133,7 @@ End Sub
 
 
 
+
 '---------------------------------------------------------------------------------------
 ' Procedure : optClockTooltips_Click
 ' Author    : beededea
@@ -7669,7 +7670,9 @@ Public Sub sliGaugeSize_Change()
     btnSave.Enabled = True ' enable the save button
     
     'If pvtAllowSizeChangeFlg = True Then Call fClock.AdjustZoom(sliGaugeSize.Value / 100)
-    If pvtAllowSizeChangeFlg = True Then clockSize = sliGaugeSize.Value / 100
+    If pvtAllowSizeChangeFlg = True Then Me.ClockSize = sliGaugeSize.Value / 100
+    
+    Call saveMainRCFormSize
 
     On Error GoTo 0
     Exit Sub
@@ -7681,33 +7684,33 @@ sliGaugeSize_Change_Error:
 End Sub
 
 '---------------------------------------------------------------------------------------
-' Property  : clockSize
+' Property  : ClockSize
 ' Author    : beededea
 ' Date      : 17/05/2023
-' Purpose   : property to determine (by value) the clockSize of the whole widget
+' Purpose   : property to determine (by value) the ClockSize of the whole widget
 '---------------------------------------------------------------------------------------
 '
-Public Property Get clockSize() As Single
+Public Property Get ClockSize() As Single
    On Error GoTo clockSizeGet_Error
 
-   clockSize = mClockSize
+   ClockSize = mClockSize
 
    On Error GoTo 0
    Exit Property
 
 clockSizeGet_Error:
 
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property clockSize of Class Module cwoverlay"
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property ClockSize of Class Module cwoverlay"
 End Property
 
 '---------------------------------------------------------------------------------------
-' Property  : clockSize
+' Property  : ClockSize
 ' Author    : beededea
 ' Date      : 10/05/2023
-' Purpose   : property to determine (by value) the clockSize value of the whole widget
+' Purpose   : property to determine (by value) the ClockSize value of the whole widget
 '---------------------------------------------------------------------------------------
 '
-Public Property Let clockSize(ByVal newValue As Single)
+Public Property Let ClockSize(ByVal newValue As Single)
    On Error GoTo clockSizeLet_Error
 
     If mClockSize <> newValue Then mClockSize = newValue Else Exit Property
@@ -7719,7 +7722,7 @@ Public Property Let clockSize(ByVal newValue As Single)
 
 clockSizeLet_Error:
 
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property clockSize of Class Module cwoverlay"
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property ClockSize of Class Module cwoverlay"
 End Property
 
 

@@ -2316,7 +2316,30 @@ saveMainRCFormPosition_Error:
     
 End Sub
     
+ '---------------------------------------------------------------------------------------
+' Procedure : saveMainRCFormSize
+' Author    : beededea
+' Date      : 04/08/2023
+' Purpose   : called from several locations saves the clock X,Y positions in high or low DPI forms as well as the current size
+'---------------------------------------------------------------------------------------
+'
+Public Sub saveMainRCFormSize()
+
+   On Error GoTo saveMainRCFormSize_Error
+
+    sPutINISetting "Software\SteampunkClockCalendar", "clockPrimaryHeightRatio", gblClockPrimaryHeightRatio, gblSettingsFile
+    sPutINISetting "Software\SteampunkClockCalendar", "clockSecondaryHeightRatio", gblClockSecondaryHeightRatio, gblSettingsFile
+    gblGaugeSize = CStr(fClock.clockForm.WidgetRoot.Zoom * 100)
+    sPutINISetting "Software\SteampunkClockCalendar", "gaugeSize", gblGaugeSize, gblSettingsFile
+
+   On Error GoTo 0
+   Exit Sub
+
+saveMainRCFormSize_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure saveMainRCFormSize of Module Module1"
     
+End Sub
 
 '---------------------------------------------------------------------------------------
 ' Procedure : makeProgramPreferencesAvailable

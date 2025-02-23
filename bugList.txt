@@ -408,7 +408,7 @@ o added code when un-setting all alarms to specifically reverse the alarm functi
 Tasks to do:
 ============
 
-
+' when a full chime is sounding, a mute does not mute it.
 
 ' resizing bug, (going small) when the automatic resize across screens is enabled
 
