@@ -381,6 +381,7 @@ Private Sub initialiseGlobalVars()
     gblEnableSounds = vbNullString
     gblEnableTicks = vbNullString
     gblEnableChimes = vbNullString
+    gblEnableAlarms = vbNullString
     gblVolumeBoost = vbNullString
     
     ' development
@@ -439,7 +440,9 @@ Private Sub initialiseGlobalVars()
     gblDisplayScreenToggleEnabled = vbNullString
     gblTimeMachineToggleEnabled = vbNullString
     gblBackToggleEnabled = vbNullString
-    gblClapperEnabled = vbNullString
+    gblAlarmClapperEnabled = vbNullString
+    gblChimeClapperEnabled = vbNullString
+
     gblChainEnabled = vbNullString
     gblCrankEnabled = vbNullString
     gblAlarmToggle1Enabled = vbNullString
@@ -947,20 +950,34 @@ Public Sub adjustMainControls(Optional ByVal licenceState As Integer)
         .Tag = 0.01
     End With
 
-    With fClock.clockForm.Widgets("clapperleft").Widget
+    With fClock.clockForm.Widgets("alarmclapperleft").Widget
         .HoverColor = 0
         .MousePointer = IDC_HAND
         .Alpha = Val(gblOpacity) / 100
         .Tag = 0.01
     End With
 
-    With fClock.clockForm.Widgets("clapperright").Widget
+    With fClock.clockForm.Widgets("alarmclapperright").Widget
         .HoverColor = 0
         .MousePointer = IDC_HAND
         .Alpha = 0
         .Tag = 0.01
     End With
 
+    With fClock.clockForm.Widgets("chimeclapperleft").Widget
+        .HoverColor = 0
+        .MousePointer = IDC_HAND
+        .Alpha = Val(gblOpacity) / 100
+        .Tag = 0.01
+    End With
+
+    With fClock.clockForm.Widgets("chimeclapperright").Widget
+        .HoverColor = 0
+        .MousePointer = IDC_HAND
+        .Alpha = 0
+        .Tag = 0.01
+    End With
+    
     With fClock.clockForm.Widgets("bar").Widget
         .HoverColor = 0
         .MousePointer = IDC_ARROW
@@ -1147,17 +1164,30 @@ Public Sub adjustMainControls(Optional ByVal licenceState As Integer)
         fClock.ticking = False
     End If
     
-    If gblClapperEnabled = "True" Then
-        fClock.clapperEnabled = True
+    If gblAlarmClapperEnabled = "True" Then
+        fClock.alarmclapperEnabled = True
     Else
-        fClock.clapperEnabled = False
+        fClock.alarmclapperEnabled = False
+    End If
+    
+        
+    If gblChimeClapperEnabled = "True" Then
+        fClock.chimeclapperEnabled = True
+    Else
+        fClock.chimeclapperEnabled = False
     End If
         
-    If gblEnableChimes = "1" Then
-        fClock.clapperEnabled = True
-    Else
-        fClock.clapperEnabled = False
-    End If
+'    If gblEnableChimes = "1" Then
+'        fClock.chimeclapperEnabled = True
+'    Else
+'        fClock.chimeclapperEnabled = False
+'    End If
+'
+'    If gblEnableAlarms = "1" Then
+'        fClock.alarmclapperEnabled = True
+'    Else
+'        fClock.alarmclapperEnabled = False
+'    End If
     
     If gblCrankEnabled = "True" Then
         fClock.crankRaised = True
@@ -1191,8 +1221,9 @@ Public Sub adjustMainControls(Optional ByVal licenceState As Integer)
         fClock.backToggleEnabled = True
     End If
      
-    fClock.clapperEnabled = CBool(gblClapperEnabled)
-    
+    fClock.alarmclapperEnabled = CBool(gblAlarmClapperEnabled)
+    fClock.chimeclapperEnabled = CBool(gblChimeClapperEnabled)
+
     fClock.alarmtoggleEnabled = False
     
     If gblAlarmToggle1Enabled = "True" Then
@@ -1359,6 +1390,7 @@ Public Sub readSettingsFile(ByVal Location As String, ByVal gblSettingsFile As S
         gblEnableSounds = fGetINISetting(Location, "enableSounds", gblSettingsFile)
         gblEnableTicks = fGetINISetting(Location, "enableTicks", gblSettingsFile)
         gblEnableChimes = fGetINISetting(Location, "enableChimes", gblSettingsFile)
+        gblEnableAlarms = fGetINISetting(Location, "enableAlarms", gblSettingsFile)
         gblVolumeBoost = fGetINISetting(Location, "volumeBoost", gblSettingsFile)
         
         
@@ -1403,7 +1435,9 @@ Public Sub readSettingsFile(ByVal Location As String, ByVal gblSettingsFile As S
         gblDisplayScreenToggleEnabled = fGetINISetting(Location, "displayScreenToggleEnabled", gblSettingsFile)
         gblTimeMachineToggleEnabled = fGetINISetting(Location, "timeMachineToggleEnabled", gblSettingsFile)
         gblBackToggleEnabled = fGetINISetting(Location, "backToggleEnabled", gblSettingsFile)
-        gblClapperEnabled = fGetINISetting(Location, "clapperEnabled", gblSettingsFile)
+        gblAlarmClapperEnabled = fGetINISetting(Location, "alarmclapperEnabled", gblSettingsFile)
+        gblChimeClapperEnabled = fGetINISetting(Location, "chimeclapperEnabled", gblSettingsFile)
+
         gblChainEnabled = fGetINISetting(Location, "chainEnabled", gblSettingsFile)
         gblCrankEnabled = fGetINISetting(Location, "crankEnabled", gblSettingsFile)
         gblAlarmToggle1Enabled = fGetINISetting(Location, "alarmToggle1Enabled", gblSettingsFile)
@@ -1502,6 +1536,7 @@ Public Sub validateInputs()
         If gblEnableSounds = vbNullString Then gblEnableSounds = "1"
         If gblEnableTicks = vbNullString Then gblEnableTicks = "0"
         If gblEnableChimes = vbNullString Then gblEnableChimes = "0"
+        If gblEnableAlarms = vbNullString Then gblEnableAlarms = "0"
         If gblVolumeBoost = vbNullString Then gblVolumeBoost = "0"
         
         
@@ -1551,7 +1586,8 @@ Public Sub validateInputs()
         If gblDisplayScreenToggleEnabled = vbNullString Then gblDisplayScreenToggleEnabled = "True"
         If gblTimeMachineToggleEnabled = vbNullString Then gblTimeMachineToggleEnabled = "False"
         If gblBackToggleEnabled = vbNullString Then gblBackToggleEnabled = "True"
-        If gblClapperEnabled = vbNullString Then gblClapperEnabled = "True"
+        If gblAlarmClapperEnabled = vbNullString Then gblAlarmClapperEnabled = "True"
+        If gblChimeClapperEnabled = vbNullString Then gblChimeClapperEnabled = "True"
         If gblChainEnabled = vbNullString Then gblChainEnabled = "True"
         If gblCrankEnabled = vbNullString Then gblCrankEnabled = "False"
         If gblAlarmToggle1Enabled = vbNullString Then gblAlarmToggle1Enabled = "False"

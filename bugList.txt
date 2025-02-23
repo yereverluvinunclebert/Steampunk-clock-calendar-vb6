@@ -403,24 +403,28 @@ o added code when un-setting all alarms to specifically reverse the alarm functi
 
 ' resizing the main form via ctrl+mousewheel feeds back into prefs slider via a property
 
+' resizing bug, (going small) when the automatic resize across screens is enabled
+' widgetPrefs slider gauge corresponds always
+' when a full chime is sounding, a mute does not mute it.
+' changes for saving and reading specifically only the alarm state on the right hand clapper,
+' new VB6 control on the prefs for the chimes only - ready for new UI control
+' new UI left hand clapper control on the clock for the chimes
+' changes for saving and reading specifically only the chime state on the left hand clapper,
+
 ' -oOo-
 
 Tasks to do:
 ============
 
-' when a full chime is sounding, a mute does not mute it.
-
-' resizing bug, (going small) when the automatic resize across screens is enabled
+' when an alarm has been raised and an alarm toggle selected, if you move the slider forward to a future date/time, a double click does not revert the time to the current time.
 
 ' change and test the main clock form time slider values to make minute changes more practical
 
 ' 00xx issue on small slider movements just trying to change the time
 
-' when an alarm has been raised and an alarm toggle selected, if you move the slider forward to a future date/time, a double click does not revert the time to the current time.
+ ' add time machine functionality
 
-' add time machine functionality
 
-' disable chimes vs alarms disabled - new prefs
 
 ' create diagram of the program flow.
 
@@ -435,8 +439,6 @@ Tasks to do:
 ' weekday till flag, the text 'only' sometimes doubles up, possibly after a refresh after midnight when the till has been showing - identify the scenario
 '     the weekday had not changed overnight and the previous transparent day indicator was left on screen, pressing the weekday toggle caused the new weekday
 '     to appear but the previous one persists
-
-' tmrTILLSound_Timer 1 timer delay, convert to asynch. sound
 
 ' tmrTickingSound_Timer timer to allow a sound sequence of ticks to be played, needs replacing with a timed tick that corresponds with pendulum movement
 
@@ -470,6 +472,8 @@ Tasks to do:
 ' rubberduck the code
 
 ' look at Olaf's pendulum code - if the pendulum swinging is still using too much CPU after the new overlay
+
+' the asynch sounds will not currently operate outside a timer
 
 ' Test the help drop down, the weekday and alarm tills and other items that have other items below them to see how they react with this code in cwAlpha.cls:
 ' If W.Alpha = 0 Or W.Enabled = False Then Exit Sub

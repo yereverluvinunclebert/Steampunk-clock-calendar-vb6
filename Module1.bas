@@ -331,6 +331,7 @@ Public gblhLocationPercPrefValue As String
 Public gblEnableSounds  As String
 Public gblEnableTicks  As String
 Public gblEnableChimes  As String
+Public gblEnableAlarms  As String
 Public gblVolumeBoost  As String
 
 ' development
@@ -391,7 +392,8 @@ Public gblWeekdayToggleEnabled As String
 Public gblDisplayScreenToggleEnabled As String
 Public gblTimeMachineToggleEnabled As String
 Public gblBackToggleEnabled As String
-Public gblClapperEnabled As String
+Public gblAlarmClapperEnabled As String
+Public gblChimeClapperEnabled As String
 Public gblChainEnabled As String
 Public gblCrankEnabled As String
 Public gblShowAlarmDateTime As Boolean
@@ -1708,8 +1710,10 @@ Public Sub setRichClientTooltips()
         fClock.clockForm.Widgets("alarmtoggle3").Widget.ToolTip = "Click to set or view alarm number three."
         fClock.clockForm.Widgets("alarmtoggle4").Widget.ToolTip = "Click to set or view alarm number four. "
         fClock.clockForm.Widgets("alarmtoggle5").Widget.ToolTip = "Click to set or view alarm number five. "
-        fClock.clockForm.Widgets("clapperleft").Widget.ToolTip = "Chiming is currently enabled, click to mute the clock chimes."
-        fClock.clockForm.Widgets("clapperright").Widget.ToolTip = "Chiming is currently disabled, click to enable the clock chimes. "
+        fClock.clockForm.Widgets("alarmclapperleft").Widget.ToolTip = "Alarm ringing is currently enabled, click to mute the alarm chimes."
+        fClock.clockForm.Widgets("alarmclapperright").Widget.ToolTip = "Alarm ringing is currently disabled, click to enable the alarm chimes. "
+        fClock.clockForm.Widgets("chimeclapperleft").Widget.ToolTip = "Chiming is currently disabled, click to enable the clock chimes."
+        fClock.clockForm.Widgets("chimeclapperright").Widget.ToolTip = "Chiming is currently enabled, click to mute the clock chimes. "
         fClock.clockForm.Widgets("labellayer").Widget.ToolTip = "This is the Widget Help. Click on me to make me go away."
         fClock.clockForm.Widgets("chain").Widget.ToolTip = "Pulling the chain will silence the ticks."
         fClock.clockForm.Widgets("crankup").Widget.ToolTip = "Crank me down to quieten the whole clock."
@@ -1757,8 +1761,10 @@ Public Sub setRichClientTooltips()
         fClock.clockForm.Widgets("alarmtoggle3").Widget.ToolTip = vbNullString
         fClock.clockForm.Widgets("alarmtoggle4").Widget.ToolTip = vbNullString
         fClock.clockForm.Widgets("alarmtoggle5").Widget.ToolTip = vbNullString
-        fClock.clockForm.Widgets("clapperleft").Widget.ToolTip = vbNullString
-        fClock.clockForm.Widgets("clapperright").Widget.ToolTip = vbNullString
+        fClock.clockForm.Widgets("alarmclapperleft").Widget.ToolTip = vbNullString
+        fClock.clockForm.Widgets("alarmclapperright").Widget.ToolTip = vbNullString
+        fClock.clockForm.Widgets("chimeclapperleft").Widget.ToolTip = vbNullString
+        fClock.clockForm.Widgets("chimeclapperright").Widget.ToolTip = vbNullString
         fClock.clockForm.Widgets("labellayer").Widget.ToolTip = vbNullString
         fClock.clockForm.Widgets("chain").Widget.ToolTip = vbNullString
         fClock.clockForm.Widgets("crankup").Widget.ToolTip = vbNullString

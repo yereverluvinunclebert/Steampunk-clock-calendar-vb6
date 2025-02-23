@@ -59,7 +59,8 @@ Private mWeekdayToggleEnabled As Boolean
 Private mDisplayScreenToggleEnabled As Boolean
 Private mTimeMachineToggleEnabled As Boolean
 Private mBackToggleEnabled As Boolean
-Private mClapperEnabled As Boolean
+Private mAlarmClapperEnabled As Boolean
+Private mChimeClapperEnabled As Boolean
 Private mChainEnabled As Boolean
 Private mcrankRaised As Boolean
 Private mTicking As Boolean
@@ -122,10 +123,14 @@ Private WithEvents alarmtoggle4 As cWidgetBase
 Attribute alarmtoggle4.VB_VarHelpID = -1
 Private WithEvents alarmtoggle5 As cWidgetBase
 Attribute alarmtoggle5.VB_VarHelpID = -1
-Private WithEvents clapperleft As cWidgetBase
-Attribute clapperleft.VB_VarHelpID = -1
-Private WithEvents clapperright As cWidgetBase
-Attribute clapperright.VB_VarHelpID = -1
+Private WithEvents alarmclapperleft As cWidgetBase
+Attribute alarmclapperleft.VB_VarHelpID = -1
+Private WithEvents alarmclapperright As cWidgetBase
+Attribute alarmclapperright.VB_VarHelpID = -1
+Private WithEvents chimeclapperleft As cWidgetBase
+Attribute chimeclapperleft.VB_VarHelpID = -1
+Private WithEvents chimeclapperright As cWidgetBase
+Attribute chimeclapperright.VB_VarHelpID = -1
 Private WithEvents labellayer As cWidgetBase
 Attribute labellayer.VB_VarHelpID = -1
 Private WithEvents chain As cWidgetBase
@@ -475,8 +480,11 @@ Public Sub InitFromPSD(ByRef PSD_FileNameOrByteArray As Variant)
     Set alarmtoggle4 = clockForm.Widgets("alarmtoggle4").Widget
     Set alarmtoggle5 = clockForm.Widgets("alarmtoggle5").Widget
     
-    Set clapperleft = clockForm.Widgets("clapperleft").Widget
-    Set clapperright = clockForm.Widgets("clapperright").Widget
+    Set alarmclapperleft = clockForm.Widgets("alarmclapperleft").Widget
+    Set alarmclapperright = clockForm.Widgets("alarmclapperright").Widget
+    Set chimeclapperleft = clockForm.Widgets("chimeclapperleft").Widget
+    Set chimeclapperright = clockForm.Widgets("chimeclapperright").Widget
+    
     Set labellayer = clockForm.Widgets("labellayer").Widget
     Set chain = clockForm.Widgets("chain").Widget
     Set crankup = clockForm.Widgets("crankup").Widget
@@ -594,12 +602,20 @@ Private Sub clockForm_BubblingEvent(ByRef sender As Object, ByRef EventName As S
                     .Alpha = 0
                     .Refresh
                 End With
-            Case "clapperleft"
-                If gblClockTooltips = "0" Then CreateToolTip clockForm.hWnd, "Chiming is currently enabled, click to mute the clock chimes.", _
+            Case "alarmclapperleft"
+                If gblClockTooltips = "0" Then CreateToolTip clockForm.hWnd, "Alarm ringing is currently enabled, click to mute the alarm chimes.", _
+                     TTIconInfo, gblWidgetName & " Alarm Mute Toggle Help", , , , True
+            Case "alarmclapperright"
+                If gblClockTooltips = "0" Then CreateToolTip clockForm.hWnd, "Alarm ringing is currently disabled, click to enable the alarm chimes..", _
+                     TTIconInfo, gblWidgetName & " Alarm Enable Toggle Help", , , , True
+            Case "chimeclapperleft"
+                If gblClockTooltips = "0" Then CreateToolTip clockForm.hWnd, "Chiming is currently disabled, click to enable the clock chimes.", _
                      TTIconInfo, gblWidgetName & " Chime Mute Toggle Help", , , , True
-            Case "clapperright"
-                If gblClockTooltips = "0" Then CreateToolTip clockForm.hWnd, "Chiming is currently disabled, click to enable the clock chimes..", _
+            Case "chimeclapperright"
+                If gblClockTooltips = "0" Then CreateToolTip clockForm.hWnd, "Chiming is currently enabled, click to mute the clock chimes.", _
                      TTIconInfo, gblWidgetName & " Chime Enable Toggle Help", , , , True
+            
+            
             Case "dropdown"
                 If gblClockTooltips = "0" Then CreateToolTip clockForm.hWnd, "Click me for information.", _
                      TTIconInfo, gblWidgetName & " Dropdown Toggle Help", , , , True
@@ -802,10 +818,14 @@ Private Sub clockForm_BubblingEvent(ByRef sender As Object, ByRef EventName As S
                 Call help3toggle_myMouseDown
             Case "helpbottom"
                 Call helpbottom_myMouseDown
-            Case "clapperleft"
-                Call clapperleft_myMouseDown
-            Case "clapperright"
-                Call clapperright_myMouseDown
+            Case "alarmclapperleft"
+                Call alarmclapperleft_myMouseDown
+            Case "alarmclapperright"
+                Call alarmclapperright_myMouseDown
+            Case "chimeclapperleft"
+                Call chimeclapperleft_myMouseDown
+            Case "chimeclapperright"
+                Call chimeclapperright_myMouseDown
             Case "chain"
                 Call chain_myMouseDown
             Case "crankup"
@@ -3146,22 +3166,22 @@ displayScreenToggleEnabledGet_Error:
 End Property
 
 '---------------------------------------------------------------------------------------
-' Procedure : clapperleft_myMouseDown
+' Procedure : alarmclapperleft_myMouseDown
 ' Author    : beededea
 ' Date      : 03/08/2023
-' Purpose   : The clapper in left position, clickable to 'move' or reveal the clapper to the right, disabling the alarms
+' Purpose   : The alarmclapper in left position, clickable to 'move' or reveal the alarmclapper to the right, disabling the alarms
 '             Note: - can't use a std MouseDown as
 '             declaring a widget as cWidgetBase 'WithEvents' does not provide a std MouseDown with a sender object
 '---------------------------------------------------------------------------------------
 '
-Private Sub clapperleft_myMouseDown()
+Private Sub alarmclapperleft_myMouseDown()
     Dim fileToPlay As String: fileToPlay = vbNullString
     
-    On Error GoTo clapperleft_myMouseDown_Error
+    On Error GoTo alarmclapperleft_myMouseDown_Error
 
     If gblWidgetFunctions = "0" Or gblIgnoreMouse = "1" Then Exit Sub
     
-    pvtMuteInitiatingControl = "clapper"
+    pvtMuteInitiatingControl = "alarmclapper"
 
     If gblVolumeBoost = "1" Then
         fileToPlay = "clunk.wav"
@@ -3173,10 +3193,10 @@ Private Sub clapperleft_myMouseDown()
         playSound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
     End If
         
-    If clapperEnabled = True Then
-        clapperEnabled = False
+    If alarmclapperEnabled = True Then
+        alarmclapperEnabled = False
     Else
-        clapperEnabled = True
+        alarmclapperEnabled = True
     End If
     
     clockForm.Refresh
@@ -3184,33 +3204,35 @@ Private Sub clapperleft_myMouseDown()
    On Error GoTo 0
    Exit Sub
 
-clapperleft_myMouseDown_Error:
+alarmclapperleft_myMouseDown_Error:
 
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure clapperleft_myMouseDown of Class Module cfClock"
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure alarmclapperleft_myMouseDown of Class Module cfClock"
 
 End Sub
 
+
+
 '---------------------------------------------------------------------------------------
-' Procedure : clapperright_myMouseDown
+' Procedure : alarmclapperright_myMouseDown
 ' Author    : beededea
 ' Date      : 03/08/2023
-' Purpose   : The clapper in right position, clickable to 'move' or reveal the clapper to the left, enabling the alarms
+' Purpose   : The alarmclapper in right position, clickable to 'move' or reveal the alarmclapper to the left, enabling the alarms
 '             - note: - can't use a std MouseDown as
 '             declaring a widget as cWidgetBase 'WithEvents' does not provide a std MouseDown with a sender object
 '---------------------------------------------------------------------------------------
 '
-Private Sub clapperright_myMouseDown()
+Private Sub alarmclapperright_myMouseDown()
 
-    On Error GoTo clapperright_myMouseDown_Error
+    On Error GoTo alarmclapperright_myMouseDown_Error
     
     If gblWidgetFunctions = "0" Or gblIgnoreMouse = "1" Then Exit Sub
     
-    pvtMuteInitiatingControl = "clapper"
+    pvtMuteInitiatingControl = "alarmclapper"
 
-    If clapperEnabled = True Then
-        clapperEnabled = False
+    If alarmclapperEnabled = True Then
+        alarmclapperEnabled = False
     Else
-        clapperEnabled = True
+        alarmclapperEnabled = True
     End If
     
     clockForm.Refresh
@@ -3218,34 +3240,191 @@ Private Sub clapperright_myMouseDown()
    On Error GoTo 0
    Exit Sub
 
-clapperright_myMouseDown_Error:
+alarmclapperright_myMouseDown_Error:
 
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure clapperright_myMouseDown of Class Module cfClock"
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure alarmclapperright_myMouseDown of Class Module cfClock"
 
 End Sub
 
 '---------------------------------------------------------------------------------------
-' Property  : clapperEnabled
+' Procedure : chimeclapperleft_myMouseDown
 ' Author    : beededea
-' Date      : 10/05/2023
-' Purpose   : a property determining the bell clapper state
+' Date      : 03/08/2023
+' Purpose   : The chimeclapper in left position, clickable to 'move' or reveal the chimeclapper to the right, disabling the chimes
+'             Note: - can't use a std MouseDown as
+'             declaring a widget as cWidgetBase 'WithEvents' does not provide a std MouseDown with a sender object
 '---------------------------------------------------------------------------------------
 '
-Public Property Let clapperEnabled(ByVal newValue As Boolean)
+Private Sub chimeclapperleft_myMouseDown()
+    
+    On Error GoTo chimeclapperleft_myMouseDown_Error
+
+    If gblWidgetFunctions = "0" Or gblIgnoreMouse = "1" Then Exit Sub
+    
+    pvtMuteInitiatingControl = "chimeclapper"
+
+    If chimeclapperEnabled = True Then
+        chimeclapperEnabled = False
+    Else
+        chimeclapperEnabled = True
+    End If
+    
+    clockForm.Refresh
+
+   On Error GoTo 0
+   Exit Sub
+
+chimeclapperleft_myMouseDown_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure chimeclapperleft_myMouseDown of Class Module cfClock"
+
+End Sub
+
+'---------------------------------------------------------------------------------------
+' Procedure : chimeclapperright_myMouseDown
+' Author    : beededea
+' Date      : 03/08/2023
+' Purpose   : The chimeclapper in right position, clickable to 'move' or reveal the chimeclapper to the left, enabling the chimes
+'             - note: - can't use a std MouseDown as
+'             declaring a widget as cWidgetBase 'WithEvents' does not provide a std MouseDown with a sender object
+'---------------------------------------------------------------------------------------
+'
+Private Sub chimeclapperright_myMouseDown()
+    Dim fileToPlay As String: fileToPlay = vbNullString
+
+    On Error GoTo chimeclapperright_myMouseDown_Error
+    
+    If gblWidgetFunctions = "0" Or gblIgnoreMouse = "1" Then Exit Sub
+    
+    pvtMuteInitiatingControl = "chimeclapper"
+
+    If gblVolumeBoost = "1" Then
+        fileToPlay = "clunk.wav"
+    Else
+        fileToPlay = "clunk-quiet.wav"
+    End If
+
+    If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
+        playSound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
+    End If
+        
+    If chimeclapperEnabled = True Then
+        chimeclapperEnabled = False
+    Else
+        chimeclapperEnabled = True
+    End If
+    
+    clockForm.Refresh
+
+   On Error GoTo 0
+   Exit Sub
+
+chimeclapperright_myMouseDown_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure chimeclapperright_myMouseDown of Class Module cfClock"
+
+End Sub
+
+'---------------------------------------------------------------------------------------
+' Property  : alarmclapperEnabled
+' Author    : beededea
+' Date      : 10/05/2023
+' Purpose   : a property determining the bell alarmclapper state
+'---------------------------------------------------------------------------------------
+'
+Public Property Let alarmclapperEnabled(ByVal newValue As Boolean)
     Dim fileToPlay As String: fileToPlay = vbNullString
     Dim alphaVal As Single: alphaVal = 0
 
-    On Error GoTo clapperEnabledLet_Error
+    On Error GoTo alarmclapperEnabledLet_Error
+    
+    alphaVal = Val(gblOpacity) / 100
+ 
+    If newValue = True Then
+        gblEnableAlarms = "1"
+        gblAlarmClapperEnabled = "True"
+        alarmclapperright.Alpha = 0
+        alarmclapperleft.Alpha = alphaVal
+        If widgetPrefs.IsLoaded = True Then widgetPrefs.chkEnableChimes.Value = 1
+        If pvtMuteInitiatingControl = "alarmclapper" Then
+                If gblVolumeBoost = "1" Then
+                    fileToPlay = "singleBell.wav"
+                Else
+                    fileToPlay = "singleBell-quiet.wav"
+                End If
+                If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
+                playSound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
+            End If
+        End If
+    Else
+        gblEnableAlarms = "1"
+        gblAlarmClapperEnabled = "False"
+        'If pvtMuteInitiatingControl = "alarmclapper" Then muteToggleEnabled = True
+        alarmclapperright.Alpha = alphaVal
+        alarmclapperleft.Alpha = 0
+        If widgetPrefs.IsLoaded = True Then widgetPrefs.chkEnableChimes.Value = 0
+    End If
+    
+    sPutINISetting "Software\SteampunkClockCalendar", "alarmclapperEnabled", gblAlarmClapperEnabled, gblSettingsFile
+
+    If mAlarmClapperEnabled <> newValue Then mAlarmClapperEnabled = newValue Else Exit Property
+    alarmclapperEnabled = mAlarmClapperEnabled
+    
+    Call screenWrite("Alarm chiming is set to " & mAlarmClapperEnabled)
+    'If mAlarmClapperEnabled = False Then Call screenWrite("All chimes and alarms will be disabled ")
+    
+    clockForm.Refresh
+     
+   On Error GoTo 0
+   Exit Property
+
+alarmclapperEnabledLet_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property alarmclapperEnabled of Class Module cfClock"
+End Property
+
+'---------------------------------------------------------------------------------------
+' Property  : alarmclapperEnabled
+' Author    : beededea
+' Date      : 17/05/2023
+' Purpose   : a property determining the bell alarmclapper state
+'---------------------------------------------------------------------------------------
+'
+Public Property Get alarmclapperEnabled() As Boolean
+   On Error GoTo alarmclapperEnabledGet_Error
+
+    alarmclapperEnabled = mAlarmClapperEnabled
+
+   On Error GoTo 0
+   Exit Property
+
+alarmclapperEnabledGet_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property alarmclapperEnabled of Class Module cfClock"
+End Property
+
+'---------------------------------------------------------------------------------------
+' Property  : chimeclapperEnabled
+' Author    : beededea
+' Date      : 10/05/2023
+' Purpose   : a property determining the bell chimeclapper state
+'---------------------------------------------------------------------------------------
+'
+Public Property Let chimeclapperEnabled(ByVal newValue As Boolean)
+    Dim fileToPlay As String: fileToPlay = vbNullString
+    Dim alphaVal As Single: alphaVal = 0
+
+    On Error GoTo chimeclapperEnabledLet_Error
     
     alphaVal = Val(gblOpacity) / 100
  
     If newValue = True Then
         gblEnableChimes = "1"
-        gblClapperEnabled = "True"
-        clapperright.Alpha = 0
-        clapperleft.Alpha = alphaVal
+        gblChimeClapperEnabled = "True"
+        chimeclapperleft.Alpha = 0
+        chimeclapperright.Alpha = alphaVal
         If widgetPrefs.IsLoaded = True Then widgetPrefs.chkEnableChimes.Value = 1
-        If pvtMuteInitiatingControl = "clapper" Then
+        If pvtMuteInitiatingControl = "chimeclapper" Then
                 If gblVolumeBoost = "1" Then
                     fileToPlay = "singleBell.wav"
                 Else
@@ -3257,49 +3436,49 @@ Public Property Let clapperEnabled(ByVal newValue As Boolean)
         End If
     Else
         gblEnableChimes = "1"
-        gblClapperEnabled = "False"
-        'If pvtMuteInitiatingControl = "clapper" Then muteToggleEnabled = True
-        clapperright.Alpha = alphaVal
-        clapperleft.Alpha = 0
+        gblChimeClapperEnabled = "False"
+        'If pvtMuteInitiatingControl = "chimeclapper" Then muteToggleEnabled = True
+        chimeclapperleft.Alpha = alphaVal
+        chimeclapperright.Alpha = 0
         If widgetPrefs.IsLoaded = True Then widgetPrefs.chkEnableChimes.Value = 0
     End If
     
-    sPutINISetting "Software\SteampunkClockCalendar", "clapperEnabled", gblClapperEnabled, gblSettingsFile
+    sPutINISetting "Software\SteampunkClockCalendar", "chimeclapperEnabled", gblChimeClapperEnabled, gblSettingsFile
 
-    If mClapperEnabled <> newValue Then mClapperEnabled = newValue Else Exit Property
-    clapperEnabled = mClapperEnabled
+    If mChimeClapperEnabled <> newValue Then mChimeClapperEnabled = newValue Else Exit Property
+    chimeclapperEnabled = mChimeClapperEnabled
     
-    Call screenWrite("Clock chime enabled is set to " & mClapperEnabled)
-    If mClapperEnabled = False Then Call screenWrite("All chimes and alarms will be disabled ")
+    Call screenWrite("Clock chiming is set to " & mChimeClapperEnabled)
+    'If mChimeClapperEnabled = False Then Call screenWrite("All chimes and chimes will be disabled ")
     
     clockForm.Refresh
      
    On Error GoTo 0
    Exit Property
 
-clapperEnabledLet_Error:
+chimeclapperEnabledLet_Error:
 
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property clapperEnabled of Class Module cfClock"
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property chimeclapperEnabled of Class Module cfClock"
 End Property
 
 '---------------------------------------------------------------------------------------
-' Property  : clapperEnabled
+' Property  : chimeclapperEnabled
 ' Author    : beededea
 ' Date      : 17/05/2023
-' Purpose   : a property determining the bell clapper state
+' Purpose   : a property determining the bell chimeclapper state
 '---------------------------------------------------------------------------------------
 '
-Public Property Get clapperEnabled() As Boolean
-   On Error GoTo clapperEnabledGet_Error
+Public Property Get chimeclapperEnabled() As Boolean
+   On Error GoTo chimeclapperEnabledGet_Error
 
-    clapperEnabled = mClapperEnabled
+    chimeclapperEnabled = mChimeClapperEnabled
 
    On Error GoTo 0
    Exit Property
 
-clapperEnabledGet_Error:
+chimeclapperEnabledGet_Error:
 
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property clapperEnabled of Class Module cfClock"
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property chimeclapperEnabled of Class Module cfClock"
 End Property
 
 '---------------------------------------------------------------------------------------
@@ -3754,9 +3933,9 @@ Public Property Let alarmtoggleEnabled(ByVal newValue As Boolean)
         End If
         
         If weekdayToggleEnabled = True Then
-            weekdayToggleEnabled = False ' makes a till sound
+            weekdayToggleEnabled = False
         Else
-            tmrTILLSound.Enabled = True ' does a little buzz after 9/10th of a second, not cutting off the preceding 'zzzz' prematurely
+            tmrTILLSound.Enabled = True
         End If
         
         gblShowAlarmDateTime = True ' causes the cache for the displayed time to the current alarm date/time selected
@@ -3985,19 +4164,14 @@ Public Property Let muteToggleEnabled(ByVal newValue As Boolean)
         gblEnableSounds = "0"
         If widgetPrefs.IsLoaded = True Then widgetPrefs.chkEnableSounds.Value = 0
         
-        ' stop MCI from playing
-        If gblVolumeBoost = "1" Then
-            fileToPlay = "ticktock.wav"
-        Else
-            fileToPlay = "ticktock-quiet.wav"
-        End If
+'        ' stop MCI from playing
+'        If gblVolumeBoost = "1" Then
+'            fileToPlay = "ticktock.wav"
+'        Else
+'            fileToPlay = "ticktock-quiet.wav"
+'        End If
         
-        If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
-            ' lngReturn = mciSendString("stop " & fileToPlay, "", 0, 0)
-            
-            'stopAsynchSound App.path & "\resources\sounds\" & fileToPlay
-            Call stopAllAsynchSounds
-        End If
+        Call stopAllAsynchSounds
     Else
         mutetoggle.Move muteToggleOut, muteToggleTop
         gblMuteToggleEnabled = "False"
@@ -4804,7 +4978,8 @@ End Sub
 
 ' ----------------------------------------------------------------
 ' Procedure Name: tmrTILLSound_Timer
-' Purpose: plays a till sound with a delay
+' Purpose:  Previously, played a till sound with a delay to avoid the synchronous playSound preventing other sounds being played.
+'           Now, it allows the asynchronous sounds to operate independently of the main thread, wherein the asynch sounds will not currently operate outside a timer,, do not know why...
 ' Procedure Kind: Sub
 ' Procedure Access: Private
 ' Author: beededea
@@ -4839,7 +5014,8 @@ End Sub
 
 ' ----------------------------------------------------------------
 ' Procedure Name: tmrZZZZSound_Timer
-' Purpose:  plays a till sound with a delay
+' Purpose:  Previously, played a ZZZZ sound with a delay to avoid the synchronous playSound preventing other sounds being played.
+'           Now, it allows the asynchronous sounds to operate independently of the main thread, wherein the asynch sounds will not currently operate outside a timer,, do not know why...
 ' Procedure Kind: Sub
 ' Procedure Access: Private
 ' Author: beededea
@@ -4872,7 +5048,9 @@ End Sub
 
 ' ----------------------------------------------------------------
 ' Procedure Name: tmrTickingSound_Timer
-' Purpose: timer to allow a sound sequence of ticks to be played, needs replacing with a timed tick that corresponds with pendulum movement
+' Purpose:  Previously, played a long ticking sound with a delay to avoid the synchronous playSound preventing other sounds being played.
+'           Now, it allows the asynchronous sounds to operate independently of the main thread, wherein the asynch sounds will not currently operate outside a timer,, do not know why...
+'           needs replacing with a timed tick that corresponds with pendulum movement
 ' Procedure Kind: Sub
 ' Procedure Access: Private
 ' Author: beededea

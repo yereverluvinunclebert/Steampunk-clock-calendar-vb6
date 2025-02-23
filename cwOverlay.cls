@@ -1877,9 +1877,9 @@ Private Sub tmrClock_TimerRoutine()
             gblTriggerDigitalClockPopulation = True
             pvtFirstRun = False
         End If
-            
-        ' now we check the quarters and play any chimes but only if the clapper is enabled (on the bell)
-        If fClock.clapperEnabled = True Then
+        
+        ' now we check the quarters and play any chimes but only if the alarmclapper is enabled (on the bell)
+        If fClock.chimeclapperEnabled = True Then
     
             If pvtThisMins = 14 And pvtThisSecs = 58 Then ' 2 seconds before
                 If gblVolumeBoost = "1" Then
@@ -1889,6 +1889,8 @@ Private Sub tmrClock_TimerRoutine()
                 End If
                 If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
                     'playSound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
+                    
+                    ' running this here allows the asynchronous sounds to operate independently of the main thread, wherein the asynch sounds will not currently operate outside a timer, do not know why...
                     playAsynchSound App.path & "\resources\sounds\" & fileToPlay
                 End If
     
@@ -1992,8 +1994,9 @@ Private Sub ShallWeRingAlarm()
 
     On Error GoTo ShallWeRingAlarm_Error
     
-    ' if the clapper has been moved aside then the alarms are silenced
-    If gblEnableChimes = "0" Then Exit Sub
+    ' if the alarmclapper has been moved aside then the alarms are silenced
+    'If gblEnableChimes = "0" Then Exit Sub
+    If gblEnableAlarms = "0" Then Exit Sub
 
     ' if an alarm is currently being raised then the function is immediately exited
     ' ie. don't raise a second alarm
