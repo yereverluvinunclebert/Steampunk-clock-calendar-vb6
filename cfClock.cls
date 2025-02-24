@@ -51,7 +51,7 @@ Public FZ As Single
 
 ' class private members for property assignment
 
-Private mMute As Integer
+'Private mMute As Integer
 Private mSliderFreed As Boolean
 Private mMuteToggleEnabled As Boolean
 Private mPendulumToggleEnabled As Boolean
@@ -62,7 +62,7 @@ Private mBackToggleEnabled As Boolean
 Private mAlarmClapperEnabled As Boolean
 Private mChimeClapperEnabled As Boolean
 Private mChainEnabled As Boolean
-Private mcrankRaised As Boolean
+Private mCrankRaised As Boolean
 Private mTicking As Boolean
 Private mPendulumEnabled As Boolean
 Private mAlarmtoggleEnabled As Boolean
@@ -71,7 +71,7 @@ Private mAlarmToggle2Enabled As Boolean
 Private mAlarmToggle3Enabled As Boolean
 Private mAlarmToggle4Enabled As Boolean
 Private mAlarmToggle5Enabled As Boolean
-Private mhelpToggleEnabled As Boolean
+Private mHelpToggleEnabled As Boolean
 Private mTimeShiftValue As Currency
 Private mRotateBusyTimer As Boolean
 Private mSetTogglePressed As Boolean
@@ -668,37 +668,37 @@ Private Sub clockForm_BubblingEvent(ByRef sender As Object, ByRef EventName As S
             ' monday - sunday ensuring the weekday till goes red even when hovering over the day text in=mages.
             Case "monday"
                 
-                If weekdayToggleEnabled = "true" Then
+                If mWeekdayToggleEnabled = True Then
                     weekdayred.Alpha = Val(gblOpacity) / 100
                     weekdayred.Refresh
                 End If
             Case "tuesday"
-                If weekdayToggleEnabled = "true" Then
+                If mWeekdayToggleEnabled = True Then
                     weekdayred.Alpha = Val(gblOpacity) / 100
                     weekdayred.Refresh
                 End If
             Case "wednesday"
-                If weekdayToggleEnabled = "true" Then
+                If mWeekdayToggleEnabled = True Then
                     weekdayred.Alpha = Val(gblOpacity) / 100
                     weekdayred.Refresh
                 End If
             Case "thursday"
-                If weekdayToggleEnabled = "true" Then
+                If mWeekdayToggleEnabled = True Then
                     weekdayred.Alpha = Val(gblOpacity) / 100
                     weekdayred.Refresh
                 End If
             Case "friday"
-                If weekdayToggleEnabled = "true" Then
+                If mWeekdayToggleEnabled = True Then
                     weekdayred.Alpha = Val(gblOpacity) / 100
                     weekdayred.Refresh
                 End If
             Case "saturday"
-                If weekdayToggleEnabled = "true" Then
+                If mWeekdayToggleEnabled = True Then
                     weekdayred.Alpha = Val(gblOpacity) / 100
                     weekdayred.Refresh
                 End If
             Case "sunday"
-                If weekdayToggleEnabled = "true" Then
+                If mWeekdayToggleEnabled = True Then
                     weekdayred.Alpha = Val(gblOpacity) / 100
                     weekdayred.Refresh
                 End If
@@ -708,11 +708,11 @@ Private Sub clockForm_BubblingEvent(ByRef sender As Object, ByRef EventName As S
                      TTIconInfo, gblWidgetName & " Alarm Indicator Help", , , , True
                  weekdayred.Alpha = 0
                  weekdayred.Refresh
-                If alarmtoggle1Enabled = True _
-                    Or alarmtoggle2Enabled = True _
-                    Or alarmtoggle3Enabled = True _
-                    Or alarmtoggle4Enabled = True _
-                    Or alarmtoggle5Enabled = True Then
+                If mAlarmToggle1Enabled = True _
+                    Or mAlarmToggle2Enabled = True _
+                    Or mAlarmToggle3Enabled = True _
+                    Or mAlarmToggle4Enabled = True _
+                    Or mAlarmToggle5Enabled = True Then
                     With clockForm.Widgets("redalarmcover").Widget
                         .Alpha = Val(gblOpacity) / 100
                         .Refresh
@@ -883,7 +883,7 @@ Private Sub clockForm_BubblingEvent(ByRef sender As Object, ByRef EventName As S
                 
                 overlayWidget.Locked = False
                 If mSliderFreed = True Then
-                    fClock.timeShiftValue = 0.5
+                    timeShiftValue = 0.5
                     overlayWidget.tmrTimeShift.Enabled = False
                 End If
                     
@@ -922,7 +922,7 @@ Private Sub clockset_myDblClick()
    ' if an alarm has been raised
    ' set the base date displayed to the current date/time
      
-    If alarmtoggleEnabled = False Then Exit Sub
+    If mAlarmtoggleEnabled = False Then Exit Sub
     
     overlayWidget.AlarmSetCurrentDate = True
             
@@ -1049,11 +1049,11 @@ Private Sub deleteRunningAlarms()
     ElseIf gblAlarmTogglePressed = 5 And gblAlarm5Date <> "Alarm not yet set" Then
         Call deleteAlarm5(anAlarmDeleted)
     Else
-        If alarmtoggle1Enabled = True Then alarmtoggle1Enabled = False
-        If alarmtoggle2Enabled = True Then alarmtoggle2Enabled = False
-        If alarmtoggle3Enabled = True Then alarmtoggle3Enabled = False
-        If alarmtoggle4Enabled = True Then alarmtoggle4Enabled = False
-        If alarmtoggle5Enabled = True Then alarmtoggle5Enabled = False
+        If mAlarmToggle1Enabled = True Then alarmtoggle1Enabled = False
+        If mAlarmToggle2Enabled = True Then alarmtoggle2Enabled = False
+        If mAlarmToggle3Enabled = True Then alarmtoggle3Enabled = False
+        If mAlarmToggle4Enabled = True Then alarmtoggle4Enabled = False
+        If mAlarmToggle5Enabled = True Then alarmtoggle5Enabled = False
     End If
         
     With clockForm.Widgets("redalarmcover").Widget
@@ -1079,8 +1079,7 @@ Private Sub deleteRunningAlarms()
         playSound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
     End If
     
-        
-    If alarmtoggleEnabled = True Then
+    If mAlarmtoggleEnabled = True Then
         alarmtoggleEnabled = False
     End If
      
@@ -1116,7 +1115,7 @@ Private Sub deleteAlarm1(ByRef anAlarmDeleted As Boolean)
 
     If answer = vbYes Then
         ' read the date and time variables for alarms
-        If alarmtoggle1Enabled = True And gblAlarm1Date <> "Alarm not yet set" Then
+        If mAlarmToggle1Enabled = True And gblAlarm1Date <> "Alarm not yet set" Then
             gblAlarm1Date = "Alarm not yet set"
             gblAlarm1Time = ""
             gblAlarm1 = ""
@@ -1168,7 +1167,7 @@ Private Sub deleteAlarm2(ByRef anAlarmDeleted As Boolean)
 
     If answer = vbYes Then
         ' read the date and time variables for alarms
-        If alarmtoggle2Enabled = True And gblAlarm2Date <> "Alarm not yet set" Then
+        If mAlarmToggle2Enabled = True And gblAlarm2Date <> "Alarm not yet set" Then
             gblAlarm2Date = "Alarm not yet set"
             gblAlarm2Time = ""
             gblAlarm2 = ""
@@ -1214,7 +1213,7 @@ Private Sub deleteAlarm3(ByRef anAlarmDeleted As Boolean)
 
     If answer = vbYes Then
         ' read the date and time variables for alarms
-        If alarmtoggle3Enabled = True And gblAlarm3Date <> "Alarm not yet set" Then
+        If mAlarmToggle3Enabled = True And gblAlarm3Date <> "Alarm not yet set" Then
             gblAlarm3Date = "Alarm not yet set"
             gblAlarm3Time = ""
             gblAlarm3 = ""
@@ -1260,7 +1259,7 @@ deleteAlarm3_Error:
 
     If answer = vbYes Then
         ' read the date and time variables for alarms
-        If alarmtoggle4Enabled = True And gblAlarm4Date <> "Alarm not yet set" Then
+        If mAlarmToggle4Enabled = True And gblAlarm4Date <> "Alarm not yet set" Then
             gblAlarm4Date = "Alarm not yet set"
             gblAlarm4Time = ""
             gblAlarm4 = ""
@@ -1306,7 +1305,7 @@ Private Sub deleteAlarm5(ByRef anAlarmDeleted As Boolean)
 
     If answer = vbYes Then
         ' read the date and time variables for alarms
-        If alarmtoggle5Enabled = True And gblAlarm5Date <> "Alarm not yet set" Then
+        If mAlarmToggle5Enabled = True And gblAlarm5Date <> "Alarm not yet set" Then
             gblAlarm5Date = "Alarm not yet set"
             gblAlarm5Time = ""
             gblAlarm5 = ""
@@ -1460,11 +1459,11 @@ Private Sub alarmtoggle1_myMouseDown()
         playSound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
     End If
     
-    If alarmtoggle1Enabled = False Then
+    If mAlarmToggle1Enabled = False Then
         alarmtoggle1Enabled = True
     Else
         alarmtoggle1Enabled = False
-        If alarmtoggleEnabled = True Then alarmtoggleEnabled = False
+        If mAlarmtoggleEnabled = True Then alarmtoggleEnabled = False
     End If
     
     clockForm.Refresh
@@ -1510,7 +1509,7 @@ Private Sub alarmtoggle2_myMouseDown()
         alarmtoggle2Enabled = True
     Else
         alarmtoggle2Enabled = False
-        If alarmtoggleEnabled = True Then alarmtoggleEnabled = False
+        If mAlarmtoggleEnabled = True Then alarmtoggleEnabled = False
     End If
     
     clockForm.Refresh
@@ -1551,11 +1550,11 @@ Private Sub alarmtoggle3_myMouseDown()
         playSound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
     End If
         
-    If alarmtoggle3Enabled = False Then
+    If mAlarmToggle3Enabled = False Then
         alarmtoggle3Enabled = True
     Else
         alarmtoggle3Enabled = False
-        If alarmtoggleEnabled = True Then alarmtoggleEnabled = False
+        If mAlarmtoggleEnabled = True Then alarmtoggleEnabled = False
    End If
     
     clockForm.Refresh
@@ -1597,11 +1596,11 @@ Private Sub alarmtoggle4_myMouseDown()
         playSound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
     End If
     
-    If alarmtoggle4Enabled = False Then
+    If mAlarmToggle4Enabled = False Then
         alarmtoggle4Enabled = True
     Else
         alarmtoggle4Enabled = False
-        If alarmtoggleEnabled = True Then alarmtoggleEnabled = False
+        If mAlarmtoggleEnabled = True Then alarmtoggleEnabled = False
     End If
     
     clockForm.Refresh
@@ -1642,11 +1641,11 @@ Private Sub alarmtoggle5_myMouseDown()
         playSound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
     End If
     
-    If alarmtoggle5Enabled = False Then
+    If mAlarmToggle5Enabled = False Then
         alarmtoggle5Enabled = True
     Else
         alarmtoggle5Enabled = False
-        If alarmtoggleEnabled = True Then alarmtoggleEnabled = False
+        If mAlarmtoggleEnabled = True Then alarmtoggleEnabled = False
     End If
     
     clockForm.Refresh
@@ -1838,7 +1837,7 @@ Private Sub alarmtoggle_myMouseDown()
         playSound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME
     End If
         
-    If alarmtoggleEnabled = False Then
+    If mAlarmtoggleEnabled = False Then
         gblShowAlarmDateTime = False
         alarmtoggleEnabled = True
     Else
@@ -1886,7 +1885,7 @@ Private Sub timeMachineToggle_myMouseDown()
     End If
     
     If gblTimeMachineToggleEnabled = "False" Then
-        timeMachineToggleEnabled = True
+       timeMachineToggleEnabled = True
     Else
        timeMachineToggleEnabled = False
     End If
@@ -2253,7 +2252,7 @@ Private Sub helptoggle_myMouseDown()
 
     If gblWidgetFunctions = "0" Or gblIgnoreMouse = "1" Then Exit Sub
     
-    If helpToggleEnabled = False Then
+    If mHelpToggleEnabled = False Then
         helpToggleEnabled = True
     Else
         helpToggleEnabled = False
@@ -2452,11 +2451,11 @@ Private Sub pendulumtransparent_myMouseDown()
     End If
 
     If overlayWidget.SwingPendulum = False Then
-        fClock.pendulumToggleEnabled = True
+        pendulumToggleEnabled = True
         overlayWidget.SwingPendulum = True
         gblTogglePendulum = "1"
     Else
-        fClock.pendulumToggleEnabled = False
+        pendulumToggleEnabled = False
         overlayWidget.SwingPendulum = False
         gblTogglePendulum = "0"
     End If
@@ -2597,10 +2596,8 @@ Private Sub helpbottom_myMouseDown()
      If gblWidgetFunctions = "0" Or gblIgnoreMouse = "1" Then Exit Sub
     
      If helpbottom.Alpha <> 0 Then ' cope with the click on the invisible helpbottom layer that is still clickable in RC
-        
         ShowHelp = False
-                
-    End If
+     End If
         
    On Error GoTo 0
    Exit Sub
@@ -3090,8 +3087,11 @@ Public Property Let displayScreenToggleEnabled(ByVal newValue As Boolean)
     displayScreenToggleIn = 397
     
     alphaVal = Val(gblOpacity) / 100
-
-    If newValue = True Then
+    
+    If mDisplayScreenToggleEnabled <> newValue Then mDisplayScreenToggleEnabled = newValue Else Exit Property
+    displayScreenToggleEnabled = mDisplayScreenToggleEnabled
+    
+     If mDisplayScreenToggleEnabled = True Then
     
         displayscreentoggle.Move displayScreenToggleIn, displayScreenToggleTop
         displayscreen.Alpha = alphaVal
@@ -3099,7 +3099,7 @@ Public Property Let displayScreenToggleEnabled(ByVal newValue As Boolean)
         timemachinetoggle.Alpha = alphaVal
         backtoggle.Alpha = alphaVal
         
-        If backToggleEnabled = True Then screenbackground.Alpha = alphaVal
+        If mBackToggleEnabled = True Then screenbackground.Alpha = alphaVal
         gblDisplayScreenToggleEnabled = "True"
         'fClock.clockForm.Widgets("lblTerminalText").Widget.Alpha = alphaVal
         'clockForm.Widgets("lblTerminalText").Widget.Alpha = alphaVal
@@ -3117,9 +3117,6 @@ Public Property Let displayScreenToggleEnabled(ByVal newValue As Boolean)
     End If
     
     sPutINISetting "Software\SteampunkClockCalendar", "displayScreenToggleEnabled", gblDisplayScreenToggleEnabled, gblSettingsFile
-
-    If mDisplayScreenToggleEnabled <> newValue Then mDisplayScreenToggleEnabled = newValue Else Exit Property
-    displayScreenToggleEnabled = mDisplayScreenToggleEnabled
     
     Call screenWrite("raised display screen = " & mDisplayScreenToggleEnabled)
     
@@ -3193,7 +3190,7 @@ Private Sub alarmclapperleft_myMouseDown()
         playSound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
     End If
         
-    If alarmclapperEnabled = True Then
+    If mAlarmClapperEnabled = True Then
         alarmclapperEnabled = False
     Else
         alarmclapperEnabled = True
@@ -3229,7 +3226,7 @@ Private Sub alarmclapperright_myMouseDown()
     
     pvtMuteInitiatingControl = "alarmclapper"
 
-    If alarmclapperEnabled = True Then
+    If mAlarmClapperEnabled = True Then
         alarmclapperEnabled = False
     Else
         alarmclapperEnabled = True
@@ -3263,7 +3260,7 @@ Private Sub chimeclapperleft_myMouseDown()
     
     pvtMuteInitiatingControl = "chimeclapper"
 
-    If chimeclapperEnabled = True Then
+    If mChimeClapperEnabled = True Then
         chimeclapperEnabled = False
     Else
         chimeclapperEnabled = True
@@ -3308,7 +3305,7 @@ Private Sub chimeclapperright_myMouseDown()
         playSound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
     End If
         
-    If chimeclapperEnabled = True Then
+    If mChimeClapperEnabled = True Then
         chimeclapperEnabled = False
     Else
         chimeclapperEnabled = True
@@ -3663,10 +3660,10 @@ Public Property Let crankRaised(ByVal newValue As Boolean)
        
     sPutINISetting "Software\SteampunkClockCalendar", "crankEnabled", gblCrankEnabled, gblSettingsFile
 
-    If mcrankRaised <> newValue Then mcrankRaised = newValue Else Exit Property
-    crankRaised = mcrankRaised
+    If mCrankRaised <> newValue Then mCrankRaised = newValue Else Exit Property
+    crankRaised = mCrankRaised
     
-    Call screenWrite("volume crank raised = " & mcrankRaised)
+    Call screenWrite("volume crank raised = " & mCrankRaised)
     
     clockForm.Refresh
      
@@ -3688,7 +3685,7 @@ End Property
 Public Property Get crankRaised() As Boolean
    On Error GoTo crankRaisedGet_Error
 
-    crankRaised = mcrankRaised
+    crankRaised = mCrankRaised
 
    On Error GoTo 0
    Exit Property
@@ -3882,6 +3879,7 @@ Public Property Let alarmtoggleEnabled(ByVal newValue As Boolean)
     alarmtoggleTop = alarmtoggle.Top
     alarmToggleOut = 359
     alarmToggleIn = 363
+        
     
     If newValue = True Then
         
@@ -3899,17 +3897,17 @@ Public Property Let alarmtoggleEnabled(ByVal newValue As Boolean)
         overlayWidget.GetFutureTime = vbNullString
 
         ' set the slider position to the start point
-        fClock.timeShiftValue = 0.5
+        timeShiftValue = 0.5
              
         ' if an alarm is not selected then choose the first available alarm
         '     raise the alarm till and alarm toggle
         ' if an alarm is already raised then we edit that
 
-        If alarmtoggle1Enabled = False _
-            And alarmtoggle2Enabled = False _
-            And alarmtoggle3Enabled = False _
-            And alarmtoggle4Enabled = False _
-            And alarmtoggle5Enabled = False Then
+        If mAlarmToggle1Enabled = False _
+            And mAlarmToggle2Enabled = False _
+            And mAlarmToggle3Enabled = False _
+            And mAlarmToggle4Enabled = False _
+            And mAlarmToggle5Enabled = False Then
                 Sleep 500
                 If gblAlarm1Date = "Alarm not yet set" Then
                     overlayWidget.BaseDate = Now()
@@ -3932,7 +3930,7 @@ Public Property Let alarmtoggleEnabled(ByVal newValue As Boolean)
                 End If
         End If
         
-        If weekdayToggleEnabled = True Then
+        If mWeekdayToggleEnabled = True Then
             weekdayToggleEnabled = False
         Else
             tmrTILLSound.Enabled = True
@@ -3954,7 +3952,7 @@ Public Property Let alarmtoggleEnabled(ByVal newValue As Boolean)
         alarmtoggle.Move alarmToggleOut, alarmtoggleTop
         mSliderFreed = False
         overlayWidget.SliderEnabled = False
-        fClock.timeShiftValue = 0
+        timeShiftValue = 0
         
         alarmtoggle1Enabled = False
         alarmtoggle2Enabled = False
@@ -3965,7 +3963,7 @@ Public Property Let alarmtoggleEnabled(ByVal newValue As Boolean)
         gblShowAlarmDateTime = False ' turns off the cache displaying the current alarm date/time selected
 
     End If
-        
+    
     If mAlarmtoggleEnabled <> newValue Then mAlarmtoggleEnabled = newValue Else Exit Property
     alarmtoggleEnabled = mAlarmtoggleEnabled
     
@@ -4176,7 +4174,7 @@ Public Property Let muteToggleEnabled(ByVal newValue As Boolean)
         mutetoggle.Move muteToggleOut, muteToggleTop
         gblMuteToggleEnabled = "False"
         gblEnableSounds = "1"
-        If ticking = True Then ticking = True
+        ticking = True
         If widgetPrefs.IsLoaded = True Then widgetPrefs.chkEnableSounds.Value = 1
     End If
     
@@ -4359,8 +4357,8 @@ Public Property Let helpToggleEnabled(ByVal newValue As Boolean)
         playSound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
     End If
     
-    If mhelpToggleEnabled <> newValue Then mhelpToggleEnabled = newValue Else Exit Property
-    helpToggleEnabled = mhelpToggleEnabled
+    If mHelpToggleEnabled <> newValue Then mHelpToggleEnabled = newValue Else Exit Property
+    helpToggleEnabled = mHelpToggleEnabled
     
     Call screenWrite("Help Dropdown canvas No. 1 visible " & helpToggleFlg)
     clockForm.Refresh
@@ -4383,7 +4381,7 @@ End Property
 Public Property Get helpToggleEnabled() As Boolean
    On Error GoTo helpToggleGet_Error
 
-    helpToggleEnabled = mhelpToggleEnabled
+    helpToggleEnabled = mHelpToggleEnabled
 
    On Error GoTo 0
    Exit Property
@@ -4961,11 +4959,11 @@ End Property
 Private Sub hideAlarmTills()
     On Error GoTo fDayOfWeek_Error
             
-    If pvtAlarmInitiatingControl <> "alarmtoggle1" And alarmtoggle1Enabled = True Then alarmtoggle1Enabled = False
-    If pvtAlarmInitiatingControl <> "alarmtoggle2" And alarmtoggle2Enabled = True Then alarmtoggle2Enabled = False
-    If pvtAlarmInitiatingControl <> "alarmtoggle3" And alarmtoggle3Enabled = True Then alarmtoggle3Enabled = False
-    If pvtAlarmInitiatingControl <> "alarmtoggle4" And alarmtoggle4Enabled = True Then alarmtoggle4Enabled = False
-    If pvtAlarmInitiatingControl <> "alarmtoggle5" And alarmtoggle5Enabled = True Then alarmtoggle5Enabled = False
+    If pvtAlarmInitiatingControl <> "alarmtoggle1" And mAlarmToggle1Enabled = True Then alarmtoggle1Enabled = False
+    If pvtAlarmInitiatingControl <> "alarmtoggle2" And mAlarmToggle2Enabled = True Then alarmtoggle2Enabled = False
+    If pvtAlarmInitiatingControl <> "alarmtoggle3" And mAlarmToggle3Enabled = True Then alarmtoggle3Enabled = False
+    If pvtAlarmInitiatingControl <> "alarmtoggle4" And mAlarmToggle4Enabled = True Then alarmtoggle4Enabled = False
+    If pvtAlarmInitiatingControl <> "alarmtoggle5" And mAlarmToggle5Enabled = True Then alarmtoggle5Enabled = False
     
     On Error GoTo 0
     Exit Sub
@@ -5103,7 +5101,10 @@ Public Property Let ticking(ByVal newValue As Boolean)
     
     alphaVal = Val(gblOpacity) / 100
     
-    If newValue = True Then
+    If mTicking <> newValue Then mTicking = newValue Else Exit Property
+    ticking = mTicking
+    
+    If mTicking = True Then
         tmrTickingSound.Interval = 300
         tmrTickingSound.Enabled = True
      Else
@@ -5120,9 +5121,6 @@ Public Property Let ticking(ByVal newValue As Boolean)
             stopAsynchSound App.path & "\resources\sounds\" & fileToPlay
         End If
     End If
-
-    If mTicking <> newValue Then mTicking = newValue Else Exit Property
-    ticking = mTicking
     
     clockForm.Refresh
      

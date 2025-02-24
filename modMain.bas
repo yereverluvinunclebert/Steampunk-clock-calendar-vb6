@@ -1423,7 +1423,6 @@ Public Sub readSettingsFile(ByVal Location As String, ByVal gblSettingsFile As S
         gblHidingTime = fGetINISetting(Location, "hidingTime", gblSettingsFile)
         gblIgnoreMouse = fGetINISetting(Location, "ignoreMouse", gblSettingsFile)
         gblMultiMonitorResize = fGetINISetting(Location, "multiMonitorResize", gblSettingsFile)
-        
          
         gblFirstTimeRun = fGetINISetting(Location, "firstTimeRun", gblSettingsFile)
         

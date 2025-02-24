@@ -6591,6 +6591,8 @@ Private Sub tweakPrefsControlPositions(ByVal thisForm As Form, ByVal m_FormWid A
 
     txtPrefsFontCurrentSize.Text = y_scale * txtPrefsFontCurrentSize.FontSize
     
+    lblAsterix.Top = btnSave.Top + 50
+    
    On Error GoTo 0
    Exit Sub
 

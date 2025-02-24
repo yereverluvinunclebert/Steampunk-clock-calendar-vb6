@@ -363,7 +363,7 @@ o added code when un-setting all alarms to specifically reverse the alarm functi
 ' descriptions on all routines in cfClock
 
 ' descriptions on all routines in cfMain - WIP
-' removed references to ' clockForm_BubblingEvent
+' removed references to clockForm_BubblingEvent
 ' removed licenceform _move event
 ' fixed all error messages incorrectly pointing to cfMain
 ' descriptions on all routines in cwAbout
@@ -416,23 +416,26 @@ o added code when un-setting all alarms to specifically reverse the alarm functi
 Tasks to do:
 ============
 
+' check correct use of all properties to minimise CPU usage, locally should always be using the Version of a variable rather than the property LET/SET itself
+
+' find and replace globals within overlay class with property GET/SETs - WIP
+' find and replace globals within fClock class with property GET/SETs - WIP
+' find and replace timers within overlay class with property GET/SETs - WIP
+' find and replace timers within fClock class with property GET/SETs - WIP
+
 ' when an alarm has been raised and an alarm toggle selected, if you move the slider forward to a future date/time, a double click does not revert the time to the current time.
 
 ' change and test the main clock form time slider values to make minute changes more practical
 
 ' 00xx issue on small slider movements just trying to change the time
 
- ' add time machine functionality
+' rationalise SliderFreed,  SliderEnabled, SliderInTransit
 
-
-
-' create diagram of the program flow.
+' add time machine functionality
 
 ' about text VB6 / Twinbasic wip, check if the PSD is on the G5.
 
 ' combine a new counter-rotating sound recording the current Konfabulator widget.
-
-' check correct use of all properties to minimise CPU usage, locally should always be using the Version of a variable rather than the property LET/SET itself
 
 ' clockform.refresh or overlaywidget.refresh?
 
@@ -440,25 +443,17 @@ Tasks to do:
 '     the weekday had not changed overnight and the previous transparent day indicator was left on screen, pressing the weekday toggle caused the new weekday
 '     to appear but the previous one persists
 
-' tmrTickingSound_Timer timer to allow a sound sequence of ticks to be played, needs replacing with a timed tick that corresponds with pendulum movement
-
-' rationalise SliderFreed,  SliderEnabled, SliderInTransit
-
 ' sliderSet movement should cause asynch. sounds rather than causing a timer to call the sound in the background.
 
 ' add another overlay that handles the animation of the pendulum alone that can run at a much higher frequency and reducing CPU usage overall.
 
+' tmrTickingSound_Timer timer, a sound sequence of ticks to be played, needs replacing with a timed tick that corresponds with pendulum movement
+
 ' match the numeric digit rotation to match the YWE version? Not sure...
 
-' find and replace globals within overlay class with property GET/SETs - WIP
-
-' find and replace globals within fClock class with property GET/SETs - WIP
-
-' find and replace timers within overlay class with property GET/SETs - WIP
-
-' find and replace timers within fClock class with property GET/SETs - WIP
-
 ' replace the dropdown comboxes for the date selection with Krool's date/time calendar
+
+' create diagram of the program flow.
 
 ' .VAlign on the label? not working, raised as a bug with Olaf? 0=Top, -1 and 1=Middle
 
@@ -473,7 +468,7 @@ Tasks to do:
 
 ' look at Olaf's pendulum code - if the pendulum swinging is still using too much CPU after the new overlay
 
-' the asynch sounds will not currently operate outside a timer
+' the asynch sounds will not currently operate outside a timer, confirmed - research as to why
 
 ' Test the help drop down, the weekday and alarm tills and other items that have other items below them to see how they react with this code in cwAlpha.cls:
 ' If W.Alpha = 0 Or W.Enabled = False Then Exit Sub

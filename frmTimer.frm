@@ -239,7 +239,6 @@ Private Sub sleepTimer_Timer()
     strTimeThen = Now()
 
     If lngSecondsGap > 60 Then
-        'MsgBox "system has just woken up from a sleep, updating... " & gblFClockAvailable
       
         gblFClockAvailable = True
         Call screenWrite("system has just woken up from a sleep at " & Now() & vbCrLf & "updating digital clocks... ")
