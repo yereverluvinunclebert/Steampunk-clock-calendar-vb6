@@ -410,13 +410,13 @@ o added code when un-setting all alarms to specifically reverse the alarm functi
 ' new VB6 control on the prefs for the chimes only - ready for new UI control
 ' new UI left hand clapper control on the clock for the chimes
 ' changes for saving and reading specifically only the chime state on the left hand clapper,
+' check correct use of all properties to minimise CPU usage, locally should always be using the Version of a variable rather than the property LET/SET itself
+' cfClock.cls references to fclock.clockform. to just clockform
 
 ' -oOo-
 
 Tasks to do:
 ============
-
-' check correct use of all properties to minimise CPU usage, locally should always be using the Version of a variable rather than the property LET/SET itself
 
 ' find and replace globals within overlay class with property GET/SETs - WIP
 ' find and replace globals within fClock class with property GET/SETs - WIP

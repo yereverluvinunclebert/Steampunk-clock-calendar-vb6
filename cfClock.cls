@@ -1026,7 +1026,7 @@ Private Sub deleteRunningAlarms()
     gblAlarmFlgRaised = False
     overlayWidget.tmrAlarmRinging.Enabled = False
        
-    If fClock.clockForm.Widgets("redalarmcover").Widget.Alpha = 0 Then Exit Sub ' transparent widgets still respond to click events
+    If clockForm.Widgets("redalarmcover").Widget.Alpha = 0 Then Exit Sub ' transparent widgets still respond to click events
     
     If gblVolumeBoost = "1" Then
         fileToPlay = "clunk.wav"
@@ -1124,7 +1124,7 @@ Private Sub deleteAlarm1(ByRef anAlarmDeleted As Boolean)
             alarmtoggle1Enabled = False
             
             ' change the alarm toggle to blank toggle
-            fClock.clockForm.Widgets("alarmtoggle1").Widget.ImageKey = "alarmtoggle1"
+            clockForm.Widgets("alarmtoggle1").Widget.ImageKey = "alarmtoggle1"
             If widgetPrefs.IsVisible = True Then
                 widgetPrefs.txtAlarm1Date.Text = gblAlarm1Date
                 widgetPrefs.txtAlarm1Time.Text = gblAlarm1Time
@@ -1174,7 +1174,7 @@ Private Sub deleteAlarm2(ByRef anAlarmDeleted As Boolean)
             sPutINISetting "Software\SteampunkClockCalendar", "alarm2Date", gblAlarm2Date, gblSettingsFile
             sPutINISetting "Software\SteampunkClockCalendar", "alarm2Time", gblAlarm2Time, gblSettingsFile
             alarmtoggle2Enabled = False
-            fClock.clockForm.Widgets("alarmtoggle2").Widget.ImageKey = "alarmtoggle2"
+            clockForm.Widgets("alarmtoggle2").Widget.ImageKey = "alarmtoggle2"
             If widgetPrefs.IsLoaded = True Then widgetPrefs.txtAlarm2Date.Text = gblAlarm2Date
             If widgetPrefs.IsLoaded = True Then widgetPrefs.txtAlarm2Time.Text = gblAlarm2Time
            
@@ -1220,7 +1220,7 @@ Private Sub deleteAlarm3(ByRef anAlarmDeleted As Boolean)
             sPutINISetting "Software\SteampunkClockCalendar", "alarm3Date", gblAlarm3Date, gblSettingsFile
             sPutINISetting "Software\SteampunkClockCalendar", "alarm3Time", gblAlarm3Time, gblSettingsFile
             alarmtoggle3Enabled = False
-            fClock.clockForm.Widgets("alarmtoggle3").Widget.ImageKey = "alarmtoggle3"
+            clockForm.Widgets("alarmtoggle3").Widget.ImageKey = "alarmtoggle3"
             If widgetPrefs.IsLoaded = True Then widgetPrefs.txtAlarm3Date.Text = gblAlarm3Date
             If widgetPrefs.IsLoaded = True Then widgetPrefs.txtAlarm3Time.Text = gblAlarm3Time
             
@@ -1266,7 +1266,7 @@ deleteAlarm3_Error:
             sPutINISetting "Software\SteampunkClockCalendar", "alarm4Date", gblAlarm4Date, gblSettingsFile
             sPutINISetting "Software\SteampunkClockCalendar", "alarm4Time", gblAlarm4Time, gblSettingsFile
             alarmtoggle4Enabled = False
-            fClock.clockForm.Widgets("alarmtoggle4").Widget.ImageKey = "alarmtoggle4"
+            clockForm.Widgets("alarmtoggle4").Widget.ImageKey = "alarmtoggle4"
             If widgetPrefs.IsLoaded = True Then widgetPrefs.txtAlarm4Date.Text = gblAlarm4Date
             If widgetPrefs.IsLoaded = True Then widgetPrefs.txtAlarm4Time.Text = gblAlarm4Time
             
@@ -1312,7 +1312,7 @@ Private Sub deleteAlarm5(ByRef anAlarmDeleted As Boolean)
             sPutINISetting "Software\SteampunkClockCalendar", "alarm5Date", gblAlarm5Date, gblSettingsFile
             sPutINISetting "Software\SteampunkClockCalendar", "alarm5Time", gblAlarm5Time, gblSettingsFile
             alarmtoggle5Enabled = False
-            fClock.clockForm.Widgets("alarmtoggle5").Widget.ImageKey = "alarmtoggle5"
+            clockForm.Widgets("alarmtoggle5").Widget.ImageKey = "alarmtoggle5"
             If widgetPrefs.IsLoaded = True Then widgetPrefs.txtAlarm5Date.Text = gblAlarm5Date
             If widgetPrefs.IsLoaded = True Then widgetPrefs.txtAlarm5Time.Text = gblAlarm5Time
 
@@ -1684,7 +1684,7 @@ Private Sub weekdayred_myMouseDown()
     
     If gblWidgetFunctions = "0" Or gblIgnoreMouse = "1" Then Exit Sub
     
-    If fClock.clockForm.Widgets("weekdayred").Widget.Alpha = 0 Then Exit Sub
+    If clockForm.Widgets("weekdayred").Widget.Alpha = 0 Then Exit Sub
     
     weekdayToggleTop = weekdaytoggle.Top
     weekdayToggleLeft = weekdaytoggle.Left
@@ -2020,7 +2020,7 @@ Private Sub settoggle_myMouseDown()
             sPutINISetting "Software\SteampunkClockCalendar", "alarm1Date", gblAlarm1Date, gblSettingsFile
             sPutINISetting "Software\SteampunkClockCalendar", "alarm1Time", gblAlarm1Time, gblSettingsFile
                       
-            fClock.clockForm.Widgets("alarmtoggle1").Widget.ImageKey = "alarmtoggle1armed"
+            clockForm.Widgets("alarmtoggle1").Widget.ImageKey = "alarmtoggle1armed"
 
         ElseIf mAlarmToggle2Enabled = True Then
             
@@ -2040,7 +2040,7 @@ Private Sub settoggle_myMouseDown()
             sPutINISetting "Software\SteampunkClockCalendar", "alarm2Date", gblAlarm2Date, gblSettingsFile
             sPutINISetting "Software\SteampunkClockCalendar", "alarm2Time", gblAlarm2Time, gblSettingsFile
           
-            fClock.clockForm.Widgets("alarmtoggle2").Widget.ImageKey = "alarmtoggle2armed"
+            clockForm.Widgets("alarmtoggle2").Widget.ImageKey = "alarmtoggle2armed"
        
        ElseIf mAlarmToggle3Enabled = True Then
             
@@ -2060,7 +2060,7 @@ Private Sub settoggle_myMouseDown()
             sPutINISetting "Software\SteampunkClockCalendar", "alarm3Date", gblAlarm3Date, gblSettingsFile
             sPutINISetting "Software\SteampunkClockCalendar", "alarm3Time", gblAlarm3Time, gblSettingsFile
           
-            fClock.clockForm.Widgets("alarmtoggle3").Widget.ImageKey = "alarmtoggle3armed"
+            clockForm.Widgets("alarmtoggle3").Widget.ImageKey = "alarmtoggle3armed"
        
        ElseIf mAlarmToggle4Enabled = True Then
             
@@ -2080,7 +2080,7 @@ Private Sub settoggle_myMouseDown()
             sPutINISetting "Software\SteampunkClockCalendar", "alarm4Date", gblAlarm4Date, gblSettingsFile
             sPutINISetting "Software\SteampunkClockCalendar", "alarm4Time", gblAlarm4Time, gblSettingsFile
           
-            fClock.clockForm.Widgets("alarmtoggle4").Widget.ImageKey = "alarmtoggle4armed"
+            clockForm.Widgets("alarmtoggle4").Widget.ImageKey = "alarmtoggle4armed"
         
         ElseIf mAlarmToggle5Enabled = True Then
             
@@ -2100,7 +2100,7 @@ Private Sub settoggle_myMouseDown()
             sPutINISetting "Software\SteampunkClockCalendar", "alarm5Date", gblAlarm5Date, gblSettingsFile
             sPutINISetting "Software\SteampunkClockCalendar", "alarm5Time", gblAlarm5Time, gblSettingsFile
           
-            fClock.clockForm.Widgets("alarmtoggle5").Widget.ImageKey = "alarmtoggle5armed"
+            clockForm.Widgets("alarmtoggle5").Widget.ImageKey = "alarmtoggle5armed"
         
         End If
         answerMsg = "Alarm has been successfully set."
@@ -2647,9 +2647,9 @@ Private Sub clockForm_DblClick()
     
     If gblSHIFT_1 = True Then
         gblSHIFT_1 = False
-        Call ShellExecute(fClock.clockForm.hWnd, "Open", gblOpenFile, vbNullString, App.path, 1)
+        Call ShellExecute(clockForm.hWnd, "Open", gblOpenFile, vbNullString, App.path, 1)
     Else
-        Call ShellExecute(fClock.clockForm.hWnd, "runas", thisCommand, vbNullString, App.path, 1)
+        Call ShellExecute(clockForm.hWnd, "runas", thisCommand, vbNullString, App.path, 1)
     End If
 
     On Error GoTo 0
@@ -3101,7 +3101,7 @@ Public Property Let displayScreenToggleEnabled(ByVal newValue As Boolean)
         
         If mBackToggleEnabled = True Then screenbackground.Alpha = alphaVal
         gblDisplayScreenToggleEnabled = "True"
-        'fClock.clockForm.Widgets("lblTerminalText").Widget.Alpha = alphaVal
+        'clockForm.Widgets("lblTerminalText").Widget.Alpha = alphaVal
         'clockForm.Widgets("lblTerminalText").Widget.Alpha = alphaVal
     Else
         
@@ -3113,7 +3113,7 @@ Public Property Let displayScreenToggleEnabled(ByVal newValue As Boolean)
         screenbackground.Alpha = 0
         gblDisplayScreenToggleEnabled = "False"
         'clockForm.Widgets("lblTerminalText").Widget.Alpha = alphaVal
-        'fClock.clockForm.Widgets("lblTerminalText").Widget.Alpha = 0
+        'clockForm.Widgets("lblTerminalText").Widget.Alpha = 0
     End If
     
     sPutINISetting "Software\SteampunkClockCalendar", "displayScreenToggleEnabled", gblDisplayScreenToggleEnabled, gblSettingsFile
@@ -4435,7 +4435,7 @@ Public Property Let alarmtoggle1Enabled(ByVal newValue As Boolean)
 
         alarmtoggle1.Move alarmtoggle1Out, alarmtoggle1Top
         Call hideAlarmTills
-        fClock.clockForm.Widgets("alarm1till").Widget.Alpha = alphaVal
+        clockForm.Widgets("alarm1till").Widget.Alpha = alphaVal
     Else
     
         If gblAlarmFlgRaised = True Then Call deleteRunningAlarms
@@ -4446,8 +4446,8 @@ Public Property Let alarmtoggle1Enabled(ByVal newValue As Boolean)
 
         alarmtoggle1.Move alarmtoggle1In, alarmtoggle1Top
         Call hideAlarmTills
-        fClock.clockForm.Widgets("alarm1till").Widget.Alpha = 0
-        fClock.clockForm.Widgets("redalarmcover").Widget.Alpha = 0
+        clockForm.Widgets("alarm1till").Widget.Alpha = 0
+        clockForm.Widgets("redalarmcover").Widget.Alpha = 0
         
         overlayWidget.BaseDate = Now()
         gblTriggerDigitalClockPopulation = True
@@ -4538,7 +4538,7 @@ Public Property Let alarmtoggle2Enabled(ByVal newValue As Boolean)
         
         alarmtoggle2.Move alarmtoggle2Out, alarmtoggle2Top
         Call hideAlarmTills
-        fClock.clockForm.Widgets("alarm2till").Widget.Alpha = alphaVal
+        clockForm.Widgets("alarm2till").Widget.Alpha = alphaVal
     Else
         
         If gblAlarmFlgRaised = True Then Call deleteRunningAlarms
@@ -4549,8 +4549,8 @@ Public Property Let alarmtoggle2Enabled(ByVal newValue As Boolean)
         
         alarmtoggle2.Move alarmtoggle2In, alarmtoggle2Top
         Call hideAlarmTills
-        fClock.clockForm.Widgets("alarm2till").Widget.Alpha = 0
-        fClock.clockForm.Widgets("redalarmcover").Widget.Alpha = 0
+        clockForm.Widgets("alarm2till").Widget.Alpha = 0
+        clockForm.Widgets("redalarmcover").Widget.Alpha = 0
         
         overlayWidget.BaseDate = Now()
         gblTriggerDigitalClockPopulation = True
@@ -4646,7 +4646,7 @@ Public Property Let alarmtoggle3Enabled(ByVal newValue As Boolean)
        
         alarmtoggle3.Move alarmtoggle3Out, alarmtoggle3Top
         Call hideAlarmTills
-        fClock.clockForm.Widgets("alarm3till").Widget.Alpha = alphaVal
+        clockForm.Widgets("alarm3till").Widget.Alpha = alphaVal
     Else
         
         If gblAlarmFlgRaised = True Then Call deleteRunningAlarms
@@ -4657,8 +4657,8 @@ Public Property Let alarmtoggle3Enabled(ByVal newValue As Boolean)
         
         alarmtoggle3.Move alarmtoggle3In, alarmtoggle3Top
         Call hideAlarmTills
-        fClock.clockForm.Widgets("alarm3till").Widget.Alpha = 0
-        fClock.clockForm.Widgets("redalarmcover").Widget.Alpha = 0
+        clockForm.Widgets("alarm3till").Widget.Alpha = 0
+        clockForm.Widgets("redalarmcover").Widget.Alpha = 0
                         
         overlayWidget.BaseDate = Now()
         gblTriggerDigitalClockPopulation = True
@@ -4748,7 +4748,7 @@ Public Property Let alarmtoggle4Enabled(ByVal newValue As Boolean)
         
         alarmtoggle4.Move alarmtoggle4Out, alarmtoggle4Top
         Call hideAlarmTills
-        fClock.clockForm.Widgets("alarm4till").Widget.Alpha = alphaVal
+        clockForm.Widgets("alarm4till").Widget.Alpha = alphaVal
     Else
         
         If gblAlarmFlgRaised = True Then Call deleteRunningAlarms
@@ -4759,8 +4759,8 @@ Public Property Let alarmtoggle4Enabled(ByVal newValue As Boolean)
         
         alarmtoggle4.Move alarmtoggle4In, alarmtoggle4Top
         Call hideAlarmTills
-        fClock.clockForm.Widgets("alarm4till").Widget.Alpha = 0
-        fClock.clockForm.Widgets("redalarmcover").Widget.Alpha = 0
+        clockForm.Widgets("alarm4till").Widget.Alpha = 0
+        clockForm.Widgets("redalarmcover").Widget.Alpha = 0
                 
         overlayWidget.BaseDate = Now()
         gblTriggerDigitalClockPopulation = True
@@ -4851,7 +4851,7 @@ Public Property Let alarmtoggle5Enabled(ByVal newValue As Boolean)
        
         alarmtoggle5.Move alarmtoggle5Out, alarmtoggle5Top
         Call hideAlarmTills
-        fClock.clockForm.Widgets("alarm5till").Widget.Alpha = alphaVal
+        clockForm.Widgets("alarm5till").Widget.Alpha = alphaVal
     Else
         
         If gblAlarmFlgRaised = True Then Call deleteRunningAlarms
@@ -4862,8 +4862,8 @@ Public Property Let alarmtoggle5Enabled(ByVal newValue As Boolean)
         
         alarmtoggle5.Move alarmtoggle5In, alarmtoggle5Top
         Call hideAlarmTills
-        fClock.clockForm.Widgets("alarm5till").Widget.Alpha = 0
-        fClock.clockForm.Widgets("redalarmcover").Widget.Alpha = 0
+        clockForm.Widgets("alarm5till").Widget.Alpha = 0
+        clockForm.Widgets("redalarmcover").Widget.Alpha = 0
                         
         overlayWidget.BaseDate = Now()
         gblTriggerDigitalClockPopulation = True
@@ -4929,12 +4929,12 @@ Public Property Let RotateBusyTimer(ByVal newValue As Boolean)
     
     If gblStartupFlg = False Then Exit Property
     
-    fClock.clockForm.Widgets("busy" & pvtBusyTimerRotateValue).Widget.Alpha = 0
+    clockForm.Widgets("busy" & pvtBusyTimerRotateValue).Widget.Alpha = 0
 
     pvtBusyTimerRotateValue = pvtBusyTimerRotateValue + 1
     If pvtBusyTimerRotateValue >= 6 Then pvtBusyTimerRotateValue = 1
 
-    With fClock.clockForm.Widgets("busy" & pvtBusyTimerRotateValue).Widget
+    With clockForm.Widgets("busy" & pvtBusyTimerRotateValue).Widget
         .Alpha = 1
         .Refresh
     End With
@@ -5201,7 +5201,7 @@ End Sub
 ''        CC.DrawText 423, 227, 200, 20, ".......", , , 2, True, , someOpacity
 '    End If
 '
-'    fClock.clockForm.Widgets("lblTerminalText").Caption = interimText
+'    clockForm.Widgets("lblTerminalText").Caption = interimText
 
 'End Sub
 
@@ -5219,8 +5219,8 @@ End Sub
 Public Property Get IsVisible() As Boolean
     On Error GoTo IsVisible_Error
 
-    If fClock.clockForm.WindowState = vbNormal Then
-        IsVisible = fClock.clockForm.Visible
+    If clockForm.WindowState = vbNormal Then
+        IsVisible = clockForm.Visible
     Else
         IsVisible = False
     End If
