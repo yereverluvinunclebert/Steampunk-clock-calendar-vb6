@@ -2485,3 +2485,54 @@ W_Paint_Error:
 
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure W_Paint of Class Module cwOverlay"
 End Sub
+
+
+'tmrClock
+'tmrPendulum
+'tmrTolling
+'tmrCountdownToToll
+'tmrTimeShift
+'tmrDigitRotator
+'tmrAlarmRinging
+
+
+' the following global variables are used in this class, I should replace each with a property and use that locally
+' but I don't think I can be bothered, there are too many of them. This is my code and the clock class is not going
+' to have multiple instances running so it does not really matter. If you want to convert each of these to property GET/LETs
+' then please feel free to work your way through these.
+
+'    gblNumericDisplayRotation
+'    gbl24HourClockMode
+'    gblShowAlarmDateTime
+'    gblAlarmToggle1Enabled
+'    gblAlarm1Date
+'    gblAlarm1Time
+
+'    gblAlarmToggle2Enabled
+'    gblAlarm2Date
+'    gblAlarm2Time
+
+'    gblAlarmToggle3Enabled
+'    gblAlarm3Date
+'    gblAlarm3Time
+
+'    gblAlarmToggle4Enabled
+'    gblAlarm4Date
+'    gblAlarm4Time
+
+'    gblAlarmToggle5Enabled
+'    gblAlarm5Date
+'    gblAlarm5Time
+
+'    gblTriggerDigitalClockPopulation
+'    gblAlarm1
+'    gblAlarm2
+'    gblAlarm3
+'    gblAlarm4
+'    gblAlarm5
+'    gblAlarm1FlgRaised
+'    gblAlarm2FlgRaised
+'    gblAlarm3FlgRaised
+'    gblAlarm4FlgRaised
+'    gblAlarm5FlgRaised
+       

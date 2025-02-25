@@ -2188,11 +2188,11 @@ Public Sub unloadAllForms(ByVal endItAll As Boolean)
     widgetPrefs.tmrPrefsScreenResolution.Enabled = False
     widgetPrefs.tmrWritePosition.Enabled = False
     
-    ' stop RC timers for playing sounds with delay, need to be replaced with asynchronous playing sounds
+    ' stop RC timers for playing sounds with delay
     
-    fClock.tmrZZZZSound.Enabled = False
-    fClock.tmrTILLSound.Enabled = False
-    fClock.tmrTickingSound.Enabled = False
+    fClock.TmrZZZZSoundTicking = False
+    fClock.TmrTILLSoundTicking = False
+    fClock.TmrTickingSoundTicking = False
     
     ' stop all RC6 timers (need to add let/get property controls for these currently public timers)
     

@@ -127,6 +127,8 @@ Public Sub mainRoutine(ByVal restart As Boolean)
     ' validate the inputs of any data from the input settings file
     Call validateInputs
     
+    fClock.Opacity = gblOpacity
+    
     ' write to the virtual screen
     Call writeVirtualScreen
     

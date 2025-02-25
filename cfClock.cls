@@ -34,9 +34,9 @@ Attribute clockForm.VB_VarHelpID = -1
 
 ' RC timers
 
-Public WithEvents tmrZZZZSound As cTimer ' need to be changed to private timers controlled by properties
+Private WithEvents tmrZZZZSound As cTimer ' need to be changed to private timers controlled by properties
 Attribute tmrZZZZSound.VB_VarHelpID = -1
-Public WithEvents tmrTILLSound As cTimer
+Private WithEvents tmrTILLSound As cTimer
 Attribute tmrTILLSound.VB_VarHelpID = -1
 Public WithEvents tmrTickingSound As cTimer
 Attribute tmrTickingSound.VB_VarHelpID = -1
@@ -51,7 +51,6 @@ Public FZ As Single
 
 ' class private members for property assignment
 
-'Private mMute As Integer
 Private mSliderFreed As Boolean
 Private mMuteToggleEnabled As Boolean
 Private mPendulumToggleEnabled As Boolean
@@ -76,6 +75,10 @@ Private mTimeShiftValue As Currency
 Private mRotateBusyTimer As Boolean
 Private mSetTogglePressed As Boolean
 Private mShowHelp As Boolean
+Private mOpacity As String
+Private mTmrTILLSoundTicking As Boolean
+Private mTmrZZZZSoundTicking As Boolean
+Private mTmrTickingSoundTicking As Boolean
 
 ' RC widgets
 
@@ -294,10 +297,10 @@ Public Property Let ShowHelp(ByVal newValue As Boolean)
              labellayer.Move 2, labellayerTop
              pvtHelpMoved = False
          End If
-         
-         helpbottom.Alpha = Val(gblOpacity) / 100
-         labellayer.Alpha = Val(gblOpacity) / 100
-         
+                  
+         helpbottom.Alpha = Val(mOpacity) / 100
+         labellayer.Alpha = Val(mOpacity) / 100
+        
     Else
 
         ' the next two lines are a complete hack compared to what I am used to in Konfabulator layers.
@@ -369,7 +372,7 @@ Public Sub InitFromPSD(ByRef PSD_FileNameOrByteArray As Variant)
 
     grey = RGB(18, 18, 18)
     
-    someOpacity = Val(gblOpacity) / 100
+    someOpacity = Val(mOpacity) / 100
 
     'create the Top-Level-Form
     Set clockForm = Cairo.WidgetForms.Create(IIf(App.LogMode, AlphaNoTaskbarEntry, AlphaWithTaskbarEntry), gblWidgetName, True, 1, 1)
@@ -661,7 +664,7 @@ Private Sub clockForm_BubblingEvent(ByRef sender As Object, ByRef EventName As S
                      TTIconInfo, gblWidgetName & " Weekday Indicator Help", , , , True
                 ' set the weekday red cover to solid
                 If clockForm.Widgets(fDayOfWeek).Widget.Alpha <> 0 Then
-                    weekdayred.Alpha = Val(gblOpacity) / 100
+                    weekdayred.Alpha = Val(mOpacity) / 100
                     weekdayred.Refresh
                 End If
 
@@ -669,37 +672,37 @@ Private Sub clockForm_BubblingEvent(ByRef sender As Object, ByRef EventName As S
             Case "monday"
                 
                 If mWeekdayToggleEnabled = True Then
-                    weekdayred.Alpha = Val(gblOpacity) / 100
+                    weekdayred.Alpha = Val(mOpacity) / 100
                     weekdayred.Refresh
                 End If
             Case "tuesday"
                 If mWeekdayToggleEnabled = True Then
-                    weekdayred.Alpha = Val(gblOpacity) / 100
+                    weekdayred.Alpha = Val(mOpacity) / 100
                     weekdayred.Refresh
                 End If
             Case "wednesday"
                 If mWeekdayToggleEnabled = True Then
-                    weekdayred.Alpha = Val(gblOpacity) / 100
+                    weekdayred.Alpha = Val(mOpacity) / 100
                     weekdayred.Refresh
                 End If
             Case "thursday"
                 If mWeekdayToggleEnabled = True Then
-                    weekdayred.Alpha = Val(gblOpacity) / 100
+                    weekdayred.Alpha = Val(mOpacity) / 100
                     weekdayred.Refresh
                 End If
             Case "friday"
                 If mWeekdayToggleEnabled = True Then
-                    weekdayred.Alpha = Val(gblOpacity) / 100
+                    weekdayred.Alpha = Val(mOpacity) / 100
                     weekdayred.Refresh
                 End If
             Case "saturday"
                 If mWeekdayToggleEnabled = True Then
-                    weekdayred.Alpha = Val(gblOpacity) / 100
+                    weekdayred.Alpha = Val(mOpacity) / 100
                     weekdayred.Refresh
                 End If
             Case "sunday"
                 If mWeekdayToggleEnabled = True Then
-                    weekdayred.Alpha = Val(gblOpacity) / 100
+                    weekdayred.Alpha = Val(mOpacity) / 100
                     weekdayred.Refresh
                 End If
                 
@@ -714,7 +717,7 @@ Private Sub clockForm_BubblingEvent(ByRef sender As Object, ByRef EventName As S
                     Or mAlarmToggle4Enabled = True _
                     Or mAlarmToggle5Enabled = True Then
                     With clockForm.Widgets("redalarmcover").Widget
-                        .Alpha = Val(gblOpacity) / 100
+                        .Alpha = Val(mOpacity) / 100
                         .Refresh
                     End With
                 End If
@@ -1391,7 +1394,7 @@ Private Sub dropdown_myMouseDown()
     dropdownTop = dropdown.Top
     dropdownLeft = dropdown.Left
             
-    alphaVal = Val(gblOpacity) / 100
+    alphaVal = Val(mOpacity) / 100
     
     If dropdownEnabled = False Then
         Call screenWrite("Dropdown information canvas rolling down")
@@ -1691,7 +1694,7 @@ Private Sub weekdayred_myMouseDown()
     
     thisDayOfWeek = fDayOfWeek
         
-    alphaVal = Val(gblOpacity) / 100
+    alphaVal = Val(mOpacity) / 100
     
     If gblVolumeBoost = "1" Then
         fileToPlay = "till.wav"
@@ -2205,7 +2208,7 @@ Private Sub displayScreenToggle_myMouseDown()
     
     displayScreenToggleTop = displayscreentoggle.Top
     displayScreenToggleLeft = displayscreentoggle.Left
-    alphaVal = Val(gblOpacity) / 100
+    alphaVal = Val(mOpacity) / 100
 
     If gblVolumeBoost = "1" Then
         fileToPlay = "clunk.wav"
@@ -2283,7 +2286,7 @@ End Sub
 '    Dim alphaVal As Single: alphaVal = 0
 '    Dim helpToggleFlg As Boolean: helpToggleFlg = False
 '
-'    alphaVal = Val(gblOpacity) / 100
+'    alphaVal = Val(mOpacity) / 100
 '
 '    If help1toggle.Alpha > 0 Then
 '        If gblVolumeBoost = "1" Then
@@ -2332,7 +2335,7 @@ End Sub
 '    Dim alphaVal As Single: alphaVal = 0
 '    Dim helpToggleFlg As Boolean: helpToggleFlg = False
 '
-'    alphaVal = Val(gblOpacity) / 100
+'    alphaVal = Val(mOpacity) / 100
 '
 '    If help2toggle.Alpha > 0 Then
 '        If gblVolumeBoost = "1" Then
@@ -2382,7 +2385,7 @@ Private Sub help3toggle_myMouseDown()
 
     If gblWidgetFunctions = "0" Or gblIgnoreMouse = "1" Then Exit Sub
     
-    alphaVal = Val(gblOpacity) / 100
+    alphaVal = Val(mOpacity) / 100
     
     If gblVolumeBoost = "1" Then
         fileToPlay = "rollerblinddown.wav"
@@ -2490,7 +2493,7 @@ Private Sub helpdropdown_myMouseDown()
         Call screenWrite("Dropdown canvas rolling up")
         helpdropdownTop = helpdropdown.Top
         helpdropdownLeft = helpdropdown.Left
-        alphaVal = Val(gblOpacity) / 100
+        alphaVal = Val(mOpacity) / 100
     
         If gblVolumeBoost = "1" Then
             fileToPlay = "rollerblindup.wav"
@@ -2534,8 +2537,8 @@ Private Sub lockit()
    On Error GoTo lockingpin_mouseDown_Error
      If gblWidgetFunctions = "0" Or gblIgnoreMouse = "1" Then Exit Sub
     
-    clockForm.Widgets("lockingpinlocked").Widget.Alpha = Val(gblOpacity) / 100
-    clockForm.Widgets("lockingpin").Widget.Alpha = Val(gblOpacity) / 100
+    clockForm.Widgets("lockingpinlocked").Widget.Alpha = Val(mOpacity) / 100
+    clockForm.Widgets("lockingpin").Widget.Alpha = Val(mOpacity) / 100
 
     clockForm.Widgets("lockingpinlocked").Widget.Visible = True
     clockForm.Widgets("lockingpin").Widget.Visible = False
@@ -2564,8 +2567,8 @@ Private Sub unlockit()
 
    On Error GoTo unlockit_Error
 
-    clockForm.Widgets("lockingpinlocked").Widget.Alpha = Val(gblOpacity) / 100
-    clockForm.Widgets("lockingpin").Widget.Alpha = Val(gblOpacity) / 100
+    clockForm.Widgets("lockingpinlocked").Widget.Alpha = Val(mOpacity) / 100
+    clockForm.Widgets("lockingpin").Widget.Alpha = Val(mOpacity) / 100
 
     clockForm.Widgets("lockingpinlocked").Widget.Visible = False
     clockForm.Widgets("lockingpin").Widget.Visible = True
@@ -2931,7 +2934,7 @@ Private Sub sliderset_Moving()
     pvtSldX = sliderset.Left
     If pvtSldX < pvtSldXMin Then pvtSldX = pvtSldXMin Else If pvtSldX > pvtSldXMax Then pvtSldX = pvtSldXMax 'keep pvtSldX "in range"
     
-    If tmrZZZZSound.Enabled = False And pvtSlidersetMousedown = True Then tmrZZZZSound.Enabled = True ' this makes a simultaneous sound - needs to be changed to an async. sound
+    If tmrZZZZSound.Enabled = False And pvtSlidersetMousedown = True Then tmrZZZZSound.Enabled = True ' this makes an async sound
     
     timeShiftValue = (pvtSldX - pvtSldXMin) / (pvtSldXMax - pvtSldXMin) 'assign the new Value to the Public Prop, to trigger all the necessary refreshs
     overlayWidget.timeShiftValueSecs = timeShiftValue
@@ -3086,7 +3089,7 @@ Public Property Let displayScreenToggleEnabled(ByVal newValue As Boolean)
     displayScreenToggleOut = 393
     displayScreenToggleIn = 397
     
-    alphaVal = Val(gblOpacity) / 100
+    alphaVal = Val(mOpacity) / 100
     
     If mDisplayScreenToggleEnabled <> newValue Then mDisplayScreenToggleEnabled = newValue Else Exit Property
     displayScreenToggleEnabled = mDisplayScreenToggleEnabled
@@ -3335,7 +3338,7 @@ Public Property Let alarmclapperEnabled(ByVal newValue As Boolean)
 
     On Error GoTo alarmclapperEnabledLet_Error
     
-    alphaVal = Val(gblOpacity) / 100
+    alphaVal = Val(mOpacity) / 100
  
     If newValue = True Then
         gblEnableAlarms = "1"
@@ -3413,7 +3416,7 @@ Public Property Let chimeclapperEnabled(ByVal newValue As Boolean)
 
     On Error GoTo chimeclapperEnabledLet_Error
     
-    alphaVal = Val(gblOpacity) / 100
+    alphaVal = Val(mOpacity) / 100
  
     If newValue = True Then
         gblEnableChimes = "1"
@@ -3500,7 +3503,7 @@ Public Property Let backToggleEnabled(ByVal newValue As Boolean)
     backToggleOut = 654
     backToggleIn = 650
     
-    alphaVal = Val(gblOpacity) / 100
+    alphaVal = Val(mOpacity) / 100
 
     If newValue = True Then
         backtoggle.Move backToggleIn, backToggleTop
@@ -3642,7 +3645,7 @@ Public Property Let crankRaised(ByVal newValue As Boolean)
   
     On Error GoTo crankRaisedLet_Error
     
-    alphaVal = Val(gblOpacity) / 100
+    alphaVal = Val(mOpacity) / 100
     
     If newValue = True Then
         crankup.Alpha = alphaVal
@@ -3789,7 +3792,7 @@ Public Property Let weekdayToggleEnabled(ByVal newValue As Boolean)
     
     weekdayToggleTop = weekdaytoggle.Top
     
-    alphaVal = Val(gblOpacity) / 100
+    alphaVal = Val(mOpacity) / 100
     thisDayOfWeek = fDayOfWeek
 
     If newValue = True Then
@@ -3886,7 +3889,7 @@ Public Property Let alarmtoggleEnabled(ByVal newValue As Boolean)
         Call screenWrite("Entering Alarm Mode")
         Call screenWrite("Slider Mechanism Released, click bell to set")
         
-        tmrZZZZSound.Enabled = True ' does a little buzz after 1/10th of a second, not cutting off the preceding 'clunk' prematurely
+        tmrZZZZSound.Enabled = True ' does a little asynch. buzz after 1/10th of a second, not cutting off the preceding 'clunk' prematurely
         
        
         alarmtoggle.Move alarmToggleIn, alarmtoggleTop
@@ -4318,7 +4321,7 @@ Public Property Let helpToggleEnabled(ByVal newValue As Boolean)
     
     On Error GoTo helpToggleEnabledLet_Error
     
-    alphaVal = Val(gblOpacity) / 100
+    alphaVal = Val(mOpacity) / 100
     
     If newValue = True Then
         If gblVolumeBoost = "1" Then
@@ -4420,7 +4423,7 @@ Public Property Let alarmtoggle1Enabled(ByVal newValue As Boolean)
     
     pvtAlarmInitiatingControl = "alarmtoggle1"
     
-    alphaVal = Val(gblOpacity) / 100
+    alphaVal = Val(mOpacity) / 100
  
     ' NOTE: the code for displaying the alarm value when alarmtoggle1Enabled = true, is contained within the
     '       subroutine populateDigitalClockCache, this checks the current state of the alarm toggle and shows the alarm.
@@ -4525,7 +4528,7 @@ Public Property Let alarmtoggle2Enabled(ByVal newValue As Boolean)
 
     pvtAlarmInitiatingControl = "alarmtoggle2"
         
-    alphaVal = Val(gblOpacity) / 100
+    alphaVal = Val(mOpacity) / 100
  
     ' NOTE: the code for displaying the alarm value when alarmtoggle1Enabled = true, is contained within the
     '       subroutine populateDigitalClockCache, this checks the current state if the alarm toggle and shows the alarm.
@@ -4633,7 +4636,7 @@ Public Property Let alarmtoggle3Enabled(ByVal newValue As Boolean)
         
     pvtAlarmInitiatingControl = "alarmtoggle3"
     
-    alphaVal = Val(gblOpacity) / 100
+    alphaVal = Val(mOpacity) / 100
  
     ' NOTE: the code for displaying the alarm value when alarmtoggle1Enabled = true, is contained within the
     '       subroutine populateDigitalClockCache, this checks the current state if the alarm toggle and shows the alarm.
@@ -4735,7 +4738,7 @@ Public Property Let alarmtoggle4Enabled(ByVal newValue As Boolean)
 
      pvtAlarmInitiatingControl = "alarmtoggle4"
     
-    alphaVal = Val(gblOpacity) / 100
+    alphaVal = Val(mOpacity) / 100
  
     ' NOTE: the code for displaying the alarm value when alarmtoggle1Enabled = true, is contained within the
     '       subroutine populateDigitalClockCache, this checks the current state if the alarm toggle and shows the alarm.
@@ -4838,7 +4841,7 @@ Public Property Let alarmtoggle5Enabled(ByVal newValue As Boolean)
     
     pvtAlarmInitiatingControl = "alarmtoggle5"
         
-    alphaVal = Val(gblOpacity) / 100
+    alphaVal = Val(mOpacity) / 100
  
     ' NOTE: the code for displaying the alarm value when alarmtoggle1Enabled = true, is contained within the
     '       subroutine populateDigitalClockCache, this checks the current state if the alarm toggle and shows the alarm.
@@ -5099,7 +5102,7 @@ Public Property Let ticking(ByVal newValue As Boolean)
     
     On Error GoTo tickingLet_Error
     
-    alphaVal = Val(gblOpacity) / 100
+    alphaVal = Val(mOpacity) / 100
     
     If mTicking <> newValue Then mTicking = newValue Else Exit Property
     ticking = mTicking
@@ -5232,8 +5235,223 @@ IsVisible_Error:
 
     With Err
          If .Number <> 0 Then
-            MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure IsVisible of Form widgetPrefs"
+            MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure IsVisible of Class Module cfClock"
             Resume Next
           End If
     End With
 End Property
+
+
+
+'---------------------------------------------------------------------------------------
+' Property  : Opacity
+' Author    : beededea
+' Date      : 17/05/2023
+' Purpose   : property to determine (by value) the opacity of the elements within this class
+'---------------------------------------------------------------------------------------
+'
+Public Property Get Opacity() As String
+   On Error GoTo OpacityGet_Error
+
+   Opacity = mOpacity
+
+   On Error GoTo 0
+   Exit Property
+
+OpacityGet_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property Opacity of Class Module cfClock"
+End Property
+'---------------------------------------------------------------------------------------
+' Property  : Opacity
+' Author    : beededea
+' Date      : 17/05/2023
+' Purpose   : property to determine (by value) the opacity of the elements within this class
+'---------------------------------------------------------------------------------------
+'
+Public Property Let Opacity(ByVal newValue As String)
+   On Error GoTo OpacityLet_Error
+
+   If mOpacity <> newValue Then mOpacity = newValue Else Exit Property
+
+   On Error GoTo 0
+   Exit Property
+
+OpacityLet_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property Opacity of Class Module cfClock"
+End Property
+
+
+
+
+
+'---------------------------------------------------------------------------------------
+' Property  : TmrTILLSoundTicking
+' Author    : beededea
+' Date      : 17/05/2023
+' Purpose   : property to determine (by value) externally the state of a private timer
+'---------------------------------------------------------------------------------------
+'
+Public Property Get TmrTILLSoundTicking() As Boolean
+   On Error GoTo TmrTILLSoundTickingGet_Error
+
+   TmrTILLSoundTicking = mTmrTILLSoundTicking
+
+   On Error GoTo 0
+   Exit Property
+
+TmrTILLSoundTickingGet_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property TmrTILLSoundTicking of Class Module cfClock"
+End Property
+'---------------------------------------------------------------------------------------
+' Property  : TmrTILLSoundTicking
+' Author    : beededea
+' Date      : 17/05/2023
+' Purpose   : property to determine (by value) externally the state of a private timer
+'---------------------------------------------------------------------------------------
+'
+Public Property Let TmrTILLSoundTicking(ByVal newValue As Boolean)
+   On Error GoTo TmrTILLSoundTickingLet_Error
+
+   If mTmrTILLSoundTicking <> newValue Then mTmrTILLSoundTicking = newValue Else Exit Property
+   
+   tmrTILLSound.Enabled = newValue
+
+   On Error GoTo 0
+   Exit Property
+
+TmrTILLSoundTickingLet_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property TmrTILLSoundTicking of Class Module cfClock"
+End Property
+
+
+
+
+
+
+
+
+'---------------------------------------------------------------------------------------
+' Property  : TmrZZZZSoundTicking
+' Author    : beededea
+' Date      : 17/05/2023
+' Purpose   : property to determine (by value) externally the state of a private timer
+'---------------------------------------------------------------------------------------
+'
+Public Property Get TmrZZZZSoundTicking() As Boolean
+   On Error GoTo TmrZZZZSoundTickingGet_Error
+
+   TmrZZZZSoundTicking = mTmrZZZZSoundTicking
+
+   On Error GoTo 0
+   Exit Property
+
+TmrZZZZSoundTickingGet_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property TmrZZZZSoundTicking of Class Module cfClock"
+End Property
+'---------------------------------------------------------------------------------------
+' Property  : TmrZZZZSoundTicking
+' Author    : beededea
+' Date      : 17/05/2023
+' Purpose   : property to determine (by value) externally the state of a private timer
+'---------------------------------------------------------------------------------------
+'
+Public Property Let TmrZZZZSoundTicking(ByVal newValue As Boolean)
+   On Error GoTo TmrZZZZSoundTickingLet_Error
+
+   If mTmrZZZZSoundTicking <> newValue Then mTmrZZZZSoundTicking = newValue Else Exit Property
+   
+   tmrZZZZSound.Enabled = newValue
+
+   On Error GoTo 0
+   Exit Property
+
+TmrZZZZSoundTickingLet_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property TmrZZZZSoundTicking of Class Module cfClock"
+End Property
+
+
+
+
+'---------------------------------------------------------------------------------------
+' Property  : TmrTickingSoundTicking
+' Author    : beededea
+' Date      : 17/05/2023
+' Purpose   : property to determine (by value) externally the state of a private timer
+'---------------------------------------------------------------------------------------
+'
+Public Property Get TmrTickingSoundTicking() As Boolean
+   On Error GoTo TmrTickingSoundTickingGet_Error
+
+   TmrTickingSoundTicking = mTmrTickingSoundTicking
+
+   On Error GoTo 0
+   Exit Property
+
+TmrTickingSoundTickingGet_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property TmrTickingSoundTicking of Class Module cfClock"
+End Property
+'---------------------------------------------------------------------------------------
+' Property  : TmrTickingSoundTicking
+' Author    : beededea
+' Date      : 17/05/2023
+' Purpose   : property to determine (by value) externally the state of a private timer
+'---------------------------------------------------------------------------------------
+'
+Public Property Let TmrTickingSoundTicking(ByVal newValue As Boolean)
+   On Error GoTo TmrTickingSoundTickingLet_Error
+
+   If mTmrTickingSoundTicking <> newValue Then mTmrTickingSoundTicking = newValue Else Exit Property
+   
+   tmrTickingSound.Enabled = newValue
+
+   On Error GoTo 0
+   Exit Property
+
+TmrTickingSoundTickingLet_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property TmrTickingSoundTicking of Class Module cfClock"
+End Property
+
+' the following global variables are used in this class, I should replace each with a property and use that locally
+' but I don't think I can be bothered, there are too many of them. This is my code and the clock class is not going
+' to have multiple instances running so it does not really matter. If you want to convert each of these to property GET/LETs
+' then please feel free to work your way through these.
+
+' gblVolumeBoost
+' gblEnableSounds
+' gblWidgetName
+' gblClockTooltips
+' gblDisplayScreenFontSize
+' gblDisplayScreenFont
+' gblFClockAvailable
+' gblIgnoreMouse
+' gblTriggerDigitalClockPopulation
+' gblWidgetFunctions
+' gblAlarmTogglePressed
+' gblAlarm1Date
+' gblAlarm1Time
+' gblAlarm1FlgRaised
+' gblAlarm1
+' gblAlarm2Date
+' gblAlarm2Time
+' gblAlarm2FlgRaised
+' gblAlarm2
+' gblAlarm3Date
+' gblAlarm3Time
+' gblAlarm3FlgRaised
+' gblAlarm3
+' gblAlarm4Date
+' gblAlarm4Time
+' gblAlarm4FlgRaised
+' gblAlarm4
+' gblAlarm5Date
+' gblAlarm5Time
+' gblAlarm5FlgRaised
+' gblAlarm5
