@@ -181,7 +181,8 @@ Public Sub mainRoutine(ByVal restart As Boolean)
     Call hideBusyTimer
     
     ' start the main clock timer
-    overlayWidget.tmrClock.Enabled = True
+    'overlayWidget.tmrClock.Enabled = True
+    overlayWidget.TmrClockTicking = True
     
     ' end the startup by un-setting the start global flag
     gblStartupFlg = False

@@ -38,7 +38,7 @@ Private WithEvents tmrZZZZSound As cTimer ' need to be changed to private timers
 Attribute tmrZZZZSound.VB_VarHelpID = -1
 Private WithEvents tmrTILLSound As cTimer
 Attribute tmrTILLSound.VB_VarHelpID = -1
-Public WithEvents tmrTickingSound As cTimer
+Private WithEvents tmrTickingSound As cTimer
 Attribute tmrTickingSound.VB_VarHelpID = -1
 
 ' public vars and objects
@@ -882,7 +882,8 @@ Private Sub clockForm_BubblingEvent(ByRef sender As Object, ByRef EventName As S
             Case "sliderset"
 
                 ' set the clock timer back to once per second
-                overlayWidget.tmrClock.Interval = 1000
+                'overlayWidget.tmrClock.Interval = 1000
+                overlayWidget.TmrClockInterval = 1000
                 
                 overlayWidget.Locked = False
                 If mSliderFreed = True Then
@@ -890,9 +891,8 @@ Private Sub clockForm_BubblingEvent(ByRef sender As Object, ByRef EventName As S
                     overlayWidget.tmrTimeShift.Enabled = False
                 End If
                     
-                
-                
-                tmrZZZZSound.Enabled = True
+                TmrZZZZSoundTicking = True
+                'tmrZZZZSound.Enabled = True
             Case "sliderset"
                 pvtSlidersetMousedown = False ' never called!
                 
@@ -2927,14 +2927,17 @@ Private Sub sliderset_Moving()
     On Error GoTo sliderset_Moving_Error
     
     ' set the clock timer to an even smaller interval to allow the clock hands to rotate rapidly as the slider moves to the extreme right/left
-    overlayWidget.tmrClock.Interval = 25
+    overlayWidget.TmrClockInterval = 25
     
     sliderSetCount = sliderSetCount + 1
          
     pvtSldX = sliderset.Left
     If pvtSldX < pvtSldXMin Then pvtSldX = pvtSldXMin Else If pvtSldX > pvtSldXMax Then pvtSldX = pvtSldXMax 'keep pvtSldX "in range"
     
-    If tmrZZZZSound.Enabled = False And pvtSlidersetMousedown = True Then tmrZZZZSound.Enabled = True ' this makes an async sound
+    If tmrZZZZSound.Enabled = False And pvtSlidersetMousedown = True Then
+        TmrZZZZSoundTicking = True
+        'tmrZZZZSound.Enabled = True ' this makes an async sound
+    End If
     
     timeShiftValue = (pvtSldX - pvtSldXMin) / (pvtSldXMax - pvtSldXMin) 'assign the new Value to the Public Prop, to trigger all the necessary refreshs
     overlayWidget.timeShiftValueSecs = timeShiftValue
@@ -3889,8 +3892,8 @@ Public Property Let alarmtoggleEnabled(ByVal newValue As Boolean)
         Call screenWrite("Entering Alarm Mode")
         Call screenWrite("Slider Mechanism Released, click bell to set")
         
-        tmrZZZZSound.Enabled = True ' does a little asynch. buzz after 1/10th of a second, not cutting off the preceding 'clunk' prematurely
-        
+        'tmrZZZZSound.Enabled = True ' does a little asynch. buzz after 1/10th of a second, not cutting off the preceding 'clunk' prematurely
+        TmrZZZZSoundTicking = True
        
         alarmtoggle.Move alarmToggleIn, alarmtoggleTop
         mSliderFreed = True
@@ -3936,14 +3939,15 @@ Public Property Let alarmtoggleEnabled(ByVal newValue As Boolean)
         If mWeekdayToggleEnabled = True Then
             weekdayToggleEnabled = False
         Else
-            tmrTILLSound.Enabled = True
+            TmrTILLSoundTicking = True
         End If
         
         gblShowAlarmDateTime = True ' causes the cache for the displayed time to the current alarm date/time selected
         
     Else
         
-        tmrZZZZSound.Enabled = True
+        'tmrZZZZSound.Enabled = True
+        TmrZZZZSoundTicking = True
         
         overlayWidget.SliderInTransit = False
         sliderset.Moveable = False
@@ -5001,7 +5005,8 @@ Private Sub tmrTILLSound_Timer()
         playAsynchSound App.path & "\resources\sounds\" & fileToPlay ', ByVal 0&, SND_FILENAME Or SND_ASYNC
     End If
     
-    tmrTILLSound.Enabled = False
+    TmrTILLSoundTicking = False
+    'tmrTILLSound.Enabled = False
     
    On Error GoTo 0
    Exit Sub
@@ -5063,8 +5068,9 @@ Private Sub tmrTickingSound_Timer()
     
     On Error GoTo tmrTickingSound_Timer_Error
     
-    tmrTickingSound.Enabled = False
-    tmrTickingSound.Interval = 30000 ' 30 secs
+    'tmrTickingSound.Enabled = False
+    TmrTickingSoundTicking = False
+    tmrTickingSound.Interval = 30000 ' 30 secs no need to convert this as a property as it is never called externally.
     
     If gblVolumeBoost = "1" Then
         fileToPlay = "ticktock.wav"
@@ -5076,7 +5082,8 @@ Private Sub tmrTickingSound_Timer()
         playAsynchSound App.path & "\resources\sounds\" & fileToPlay
     End If
         
-    tmrTickingSound.Enabled = True
+    'tmrTickingSound.Enabled = True
+    TmrTickingSoundTicking = True
     
    On Error GoTo 0
    Exit Sub
@@ -5109,9 +5116,12 @@ Public Property Let ticking(ByVal newValue As Boolean)
     
     If mTicking = True Then
         tmrTickingSound.Interval = 300
-        tmrTickingSound.Enabled = True
+        'tmrTickingSound.Enabled = True
+        TmrTickingSoundTicking = True
+        
      Else
         tmrTickingSound.Enabled = False
+        TmrTickingSoundTicking = False
         
         ' stop the sound from playing
         If gblVolumeBoost = "1" Then
@@ -5397,6 +5407,7 @@ TmrTickingSoundTickingGet_Error:
 
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property TmrTickingSoundTicking of Class Module cfClock"
 End Property
+
 '---------------------------------------------------------------------------------------
 ' Property  : TmrTickingSoundTicking
 ' Author    : beededea

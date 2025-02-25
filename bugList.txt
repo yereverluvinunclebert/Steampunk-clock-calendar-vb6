@@ -412,8 +412,6 @@ o added code when un-setting all alarms to specifically reverse the alarm functi
 ' changes for saving and reading specifically only the chime state on the left hand clapper,
 ' check correct use of all properties to minimise CPU usage, locally should always be using the Version of a variable rather than the property LET/SET itself
 ' cfClock.cls references to fclock.clockform. to just clockform
-' find and replace globals within overlay class with property GET/SETs - abandoned - too much work, will replace these one by one as I go
-' find and replace globals within fClock class with property GET/SETs - abandoned - too much work, ditto
 
 ' find and replace three timers within fClock class with property GET/LETs
 
@@ -423,6 +421,9 @@ Tasks to do:
 ============
 
 ' find and replace seven timers within overlay class with property GET/SETs - WIP
+
+' find and identify globals within about class with property GET/LETs
+' find and identify globals within licence class with property GET/LETs 
 
 ' when an alarm has been raised and an alarm toggle selected, if you move the slider forward to a future date/time, a double click does not revert the time to the current time.
 
@@ -530,3 +531,5 @@ Static Linking in TB only.
 
 
 
+' find and replace globals within overlay class with property GET/SETs - abandoned - too much work, will replace these one by one as I go
+' find and replace globals within fClock class with property GET/SETs - abandoned - too much work, ditto

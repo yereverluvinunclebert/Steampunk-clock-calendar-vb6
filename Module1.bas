@@ -2196,9 +2196,9 @@ Public Sub unloadAllForms(ByVal endItAll As Boolean)
     
     ' stop all RC6 timers (need to add let/get property controls for these currently public timers)
     
-    overlayWidget.tmrClock.Enabled = False
-    overlayWidget.tmrPendulum.Enabled = False
-    overlayWidget.tmrTolling.Enabled = False
+    overlayWidget.TmrClockTicking = False
+    overlayWidget.TmrPendulumTicking = False
+    overlayWidget.TmrTollingTicking = False
     overlayWidget.tmrCountdownToToll.Enabled = False
     overlayWidget.tmrTimeShift.Enabled = False
     overlayWidget.tmrDigitRotator.Enabled = False
@@ -2588,9 +2588,9 @@ Public Sub SwitchOff()
     
     ' need to add let/get to control all these public timers
     
-    overlayWidget.tmrClock.Enabled = False
-    overlayWidget.tmrPendulum.Enabled = False
-    overlayWidget.tmrTolling.Enabled = False
+    overlayWidget.TmrClockTicking = False
+    overlayWidget.TmrPendulumTicking = False
+    overlayWidget.TmrTollingTicking = False
     overlayWidget.tmrCountdownToToll.Enabled = False
     overlayWidget.tmrTimeShift.Enabled = False
     overlayWidget.tmrDigitRotator.Enabled = False
@@ -2624,7 +2624,7 @@ Public Sub TurnFunctionsOn()
        
     ' need to add let/get for this public timers
     
-    overlayWidget.tmrClock.Enabled = True
+    overlayWidget.TmrClockTicking = True
 
     If gblVolumeBoost = "1" Then
         fileToPlay = "tingting.wav"
