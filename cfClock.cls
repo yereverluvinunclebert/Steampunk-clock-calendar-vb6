@@ -922,9 +922,7 @@ Private Sub clockset_myDblClick()
 
     On Error GoTo clockset_myDblClick_Error
 
-   ' if an alarm has been raised
-   ' set the base date displayed to the current date/time
-     
+    ' play a mistake sound if the alarm toggle has not been enabled
     If mAlarmtoggleEnabled = False Then
         If gblVolumeBoost = "1" Then
             fileToPlay = "mistake.wav"
@@ -937,9 +935,7 @@ Private Sub clockset_myDblClick()
         End If
         Exit Sub
     End If
-    
-    overlayWidget.AlarmSetCurrentDate = True
-            
+                
     If gblVolumeBoost = "1" Then
         fileToPlay = "tingting.wav"
     Else
@@ -950,6 +946,7 @@ Private Sub clockset_myDblClick()
         playSound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
     End If
 
+    overlayWidget.AlarmSetCurrentDate = True
     overlayWidget.BaseDate = Now()
     gblTriggerDigitalClockPopulation = True
 

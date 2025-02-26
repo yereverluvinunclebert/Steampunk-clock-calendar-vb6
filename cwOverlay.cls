@@ -2531,9 +2531,9 @@ End Property
 Public Property Let TmrClockTicking(ByVal newValue As Boolean)
    On Error GoTo TmrClockTickingLet_Error
 
-   If mTmrClockTicking <> newValue Then mTmrClockTicking = newValue Else Exit Property
-
    tmrClock.Enabled = newValue
+
+   If mTmrClockTicking <> newValue Then mTmrClockTicking = newValue Else Exit Property
 
    On Error GoTo 0
    Exit Property
@@ -2573,7 +2573,7 @@ Public Property Let TmrClockInterval(ByVal newValue As Long)
    On Error GoTo TmrClockIntervalLet_Error
 
    If mTmrClockInterval <> newValue Then mTmrClockInterval = newValue Else Exit Property
-
+   
    tmrClock.Interval = newValue
 
    On Error GoTo 0
@@ -2614,9 +2614,9 @@ End Property
 Public Property Let TmrPendulumTicking(ByVal newValue As Boolean)
    On Error GoTo TmrPendulumTickingLet_Error
 
-   If mTmrPendulumTicking <> newValue Then mTmrPendulumTicking = newValue Else Exit Property
-
    tmrPendulum.Enabled = newValue
+   
+   If mTmrPendulumTicking <> newValue Then mTmrPendulumTicking = newValue Else Exit Property
 
    On Error GoTo 0
    Exit Property
@@ -2656,9 +2656,9 @@ End Property
 Public Property Let TmrTollingTicking(ByVal newValue As Boolean)
    On Error GoTo TmrTollingTickingLet_Error
 
-   If mTmrTollingTicking <> newValue Then mTmrTollingTicking = newValue Else Exit Property
-
    tmrTolling.Enabled = newValue
+
+   If mTmrTollingTicking <> newValue Then mTmrTollingTicking = newValue Else Exit Property
 
    On Error GoTo 0
    Exit Property
@@ -2698,9 +2698,9 @@ End Property
 Public Property Let TmrCountdownToTollTicking(ByVal newValue As Boolean)
    On Error GoTo TmrCountdownToTollTickingLet_Error
 
-   If mTmrCountdownToTollTicking <> newValue Then mTmrCountdownToTollTicking = newValue Else Exit Property
-
    tmrCountdownToToll.Enabled = newValue
+
+   If mTmrCountdownToTollTicking <> newValue Then mTmrCountdownToTollTicking = newValue Else Exit Property
 
    On Error GoTo 0
    Exit Property
@@ -2742,9 +2742,9 @@ End Property
 Public Property Let TmrTimeShiftTicking(ByVal newValue As Boolean)
    On Error GoTo TmrTimeShiftTickingLet_Error
 
-   If mTmrTimeShiftTicking <> newValue Then mTmrTimeShiftTicking = newValue Else Exit Property
-
    tmrTimeShift.Enabled = newValue
+   
+   If mTmrTimeShiftTicking <> newValue Then mTmrTimeShiftTicking = newValue Else Exit Property
 
    On Error GoTo 0
    Exit Property
@@ -2785,9 +2785,9 @@ End Property
 Public Property Let TmrDigitRotatorTicking(ByVal newValue As Boolean)
    On Error GoTo TmrDigitRotatorTickingLet_Error
 
-   If mTmrDigitRotatorTicking <> newValue Then mTmrDigitRotatorTicking = newValue Else Exit Property
-
    tmrDigitRotator.Enabled = newValue
+   
+   If mTmrDigitRotatorTicking <> newValue Then mTmrDigitRotatorTicking = newValue Else Exit Property
 
    On Error GoTo 0
    Exit Property
@@ -2827,9 +2827,9 @@ End Property
 Public Property Let TmrAlarmRingingTicking(ByVal newValue As Boolean)
    On Error GoTo TmrAlarmRingingTickingLet_Error
 
-   If mTmrAlarmRingingTicking <> newValue Then mTmrAlarmRingingTicking = newValue Else Exit Property
-
    TmrAlarmRingingTicking = newValue
+   
+   If mTmrAlarmRingingTicking <> newValue Then mTmrAlarmRingingTicking = newValue Else Exit Property
 
    On Error GoTo 0
    Exit Property

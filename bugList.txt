@@ -423,12 +423,16 @@ o added code when un-setting all alarms to specifically reverse the alarm functi
 ' find and identify globals within about class with property GET/LETs
 ' find and identify globals within licence class with property GET/LETs
 
+' fix timers not starting when uysing properties when values are the same as current.
+
 ' -oOo-
 
 Tasks to do:
 ============
 
 ' when an alarm has been raised and an alarm toggle selected, if you move the slider forward to a future date/time, a double click does not revert the time to the current time.
+- confirmed
+
 
 ' change and test the main clock form time slider values to make minute changes more practical
 
