@@ -34,7 +34,7 @@ Attribute clockForm.VB_VarHelpID = -1
 
 ' RC timers
 
-Private WithEvents tmrZZZZSound As cTimer ' need to be changed to private timers controlled by properties
+Private WithEvents tmrZZZZSound As cTimer
 Attribute tmrZZZZSound.VB_VarHelpID = -1
 Private WithEvents tmrTILLSound As cTimer
 Attribute tmrTILLSound.VB_VarHelpID = -1
@@ -888,7 +888,7 @@ Private Sub clockForm_BubblingEvent(ByRef sender As Object, ByRef EventName As S
                 overlayWidget.Locked = False
                 If mSliderFreed = True Then
                     timeShiftValue = 0.5
-                    overlayWidget.tmrTimeShift.Enabled = False
+                    overlayWidget.TmrTimeShiftTicking = False
                 End If
                     
                 TmrZZZZSoundTicking = True
@@ -1027,7 +1027,7 @@ Private Sub deleteRunningAlarms()
     
     ' first thing to do is to stop the alarm timer ringing the bell, if running
     gblAlarmFlgRaised = False
-    overlayWidget.tmrAlarmRinging.Enabled = False
+    overlayWidget.TmrAlarmRingingTicking = False
        
     If clockForm.Widgets("redalarmcover").Widget.Alpha = 0 Then Exit Sub ' transparent widgets still respond to click events
     
@@ -2946,14 +2946,14 @@ Private Sub sliderset_Moving()
     If mSliderFreed = True And timeShiftValue <> 0.5 Then
         overlayWidget.SliderEnabled = True
         overlayWidget.SliderInTransit = True ' the flag that when set allows a call to the routine that causes the 'rotation' of the numeric display when the slider is dragged by the user
-        overlayWidget.tmrTimeShift.Enabled = True ' the background timer that 'rotates' the numeric display when the slider is held still by the user
+        overlayWidget.TmrTimeShiftTicking = True ' the background timer that 'rotates' the numeric display when the slider is held still by the user
         
         If sliderSetCount Mod (2) = 0 Then overlayWidget.TriggerTimeShift = True
         If sliderSetCount > 1000 Then sliderSetCount = 0
 
     Else
         overlayWidget.SliderInTransit = False
-        overlayWidget.tmrTimeShift.Enabled = False
+        overlayWidget.TmrTimeShiftTicking = False
     End If
     
     On Error GoTo 0
@@ -4474,7 +4474,7 @@ Public Property Let alarmtoggle1Enabled(ByVal newValue As Boolean)
     
     If gblNumericDisplayRotation = "1" Then
         gblTriggerDigitalClockPopulation = True
-        overlayWidget.tmrDigitRotator.Enabled = True
+        overlayWidget.TmrDigitRotatorTicking = True
     End If
 
     
@@ -4583,7 +4583,7 @@ Public Property Let alarmtoggle2Enabled(ByVal newValue As Boolean)
   
     If gblNumericDisplayRotation = "1" Then
         gblTriggerDigitalClockPopulation = True
-        overlayWidget.tmrDigitRotator.Enabled = True
+        overlayWidget.TmrDigitRotatorTicking = True
     End If
     
     clockForm.Refresh
@@ -4685,7 +4685,7 @@ Public Property Let alarmtoggle3Enabled(ByVal newValue As Boolean)
     
     If gblNumericDisplayRotation = "1" Then
         gblTriggerDigitalClockPopulation = True
-        overlayWidget.tmrDigitRotator.Enabled = True
+        overlayWidget.TmrDigitRotatorTicking = True
     End If
     
     clockForm.Refresh
@@ -4787,7 +4787,7 @@ Public Property Let alarmtoggle4Enabled(ByVal newValue As Boolean)
     
     If gblNumericDisplayRotation = "1" Then
         gblTriggerDigitalClockPopulation = True
-        overlayWidget.tmrDigitRotator.Enabled = True
+        overlayWidget.TmrDigitRotatorTicking = True
     End If
     
     clockForm.Refresh
@@ -4890,7 +4890,7 @@ Public Property Let alarmtoggle5Enabled(ByVal newValue As Boolean)
     
     If gblNumericDisplayRotation = "1" Then
         gblTriggerDigitalClockPopulation = True
-        overlayWidget.tmrDigitRotator.Enabled = True
+        overlayWidget.TmrDigitRotatorTicking = True
     End If
     
     clockForm.Refresh
@@ -5068,9 +5068,8 @@ Private Sub tmrTickingSound_Timer()
     
     On Error GoTo tmrTickingSound_Timer_Error
     
-    'tmrTickingSound.Enabled = False
     TmrTickingSoundTicking = False
-    tmrTickingSound.Interval = 30000 ' 30 secs no need to convert this as a property as it is never called externally.
+    tmrTickingSound.Interval = 30000
     
     If gblVolumeBoost = "1" Then
         fileToPlay = "ticktock.wav"

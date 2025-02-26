@@ -3136,7 +3136,7 @@ Private Sub chk24HourClockMode_Click()
     
     If gblNumericDisplayRotation = "1" Then
         gblTriggerDigitalClockPopulation = True
-        overlayWidget.tmrDigitRotator.Enabled = True
+        overlayWidget.TmrDigitRotatorTicking = True
     End If
     
     sPutINISetting "Software\SteampunkClockCalendar", "24HourClockMode", gbl24HourClockMode, gblSettingsFile

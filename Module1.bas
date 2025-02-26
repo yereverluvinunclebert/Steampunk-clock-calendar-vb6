@@ -2194,15 +2194,15 @@ Public Sub unloadAllForms(ByVal endItAll As Boolean)
     fClock.TmrTILLSoundTicking = False
     fClock.TmrTickingSoundTicking = False
     
-    ' stop all RC6 timers (need to add let/get property controls for these currently public timers)
+    ' stop all RC6 timers using properties to access the private timers
     
     overlayWidget.TmrClockTicking = False
     overlayWidget.TmrPendulumTicking = False
     overlayWidget.TmrTollingTicking = False
-    overlayWidget.tmrCountdownToToll.Enabled = False
-    overlayWidget.tmrTimeShift.Enabled = False
-    overlayWidget.tmrDigitRotator.Enabled = False
-    overlayWidget.tmrAlarmRinging.Enabled = False
+    overlayWidget.TmrCountdownToTollTicking = False
+    overlayWidget.TmrTimeShiftTicking = False
+    overlayWidget.TmrDigitRotatorTicking = False
+    overlayWidget.TmrAlarmRingingTicking = False
 
     'unload the RC6 widgets on the RC6 forms first
     
@@ -2586,15 +2586,13 @@ Public Sub SwitchOff()
     menuForm.mnuSwitchOff.Checked = True
     menuForm.mnuTurnFunctionsOn.Checked = False
     
-    ' need to add let/get to control all these public timers
-    
     overlayWidget.TmrClockTicking = False
     overlayWidget.TmrPendulumTicking = False
     overlayWidget.TmrTollingTicking = False
-    overlayWidget.tmrCountdownToToll.Enabled = False
-    overlayWidget.tmrTimeShift.Enabled = False
-    overlayWidget.tmrDigitRotator.Enabled = False
-    overlayWidget.tmrAlarmRinging.Enabled = False
+    overlayWidget.TmrCountdownToTollTicking = False
+    overlayWidget.TmrTimeShiftTicking = False
+    overlayWidget.TmrDigitRotatorTicking = False
+    overlayWidget.TmrAlarmRingingTicking = False
 
     gblWidgetFunctions = "0"
     sPutINISetting "Software\SteampunkClockCalendar", "widgetFunctions", gblWidgetFunctions, gblSettingsFile
@@ -2621,8 +2619,6 @@ Public Sub TurnFunctionsOn()
     Dim fileToPlay As String: fileToPlay = vbNullString
 
     On Error GoTo TurnFunctionsOn_Error
-       
-    ' need to add let/get for this public timers
     
     overlayWidget.TmrClockTicking = True
 

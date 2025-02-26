@@ -37,20 +37,19 @@ Public cyPerc As Single       ' available externally, to allow the overlay to be
 
 ' RC timers
 
-Private WithEvents tmrClock As cTimer         ' all need to be changed to private timers controlled by properties
+Private WithEvents tmrClock As cTimer
 Attribute tmrClock.VB_VarHelpID = -1
 Private WithEvents tmrPendulum As cTimer
 Attribute tmrPendulum.VB_VarHelpID = -1
 Private WithEvents tmrTolling As cTimer
 Attribute tmrTolling.VB_VarHelpID = -1
-
-Public WithEvents tmrCountdownToToll As cTimer
+Private WithEvents tmrCountdownToToll As cTimer
 Attribute tmrCountdownToToll.VB_VarHelpID = -1
-Public WithEvents tmrTimeShift As cTimer    ' need to add set/get for these public timers
+Private WithEvents tmrTimeShift As cTimer
 Attribute tmrTimeShift.VB_VarHelpID = -1
-Public WithEvents tmrDigitRotator As cTimer ' need to add set/get for these
+Private WithEvents tmrDigitRotator As cTimer
 Attribute tmrDigitRotator.VB_VarHelpID = -1
-Public WithEvents tmrAlarmRinging As cTimer ' need to add set/get for these public timers
+Private WithEvents tmrAlarmRinging As cTimer
 Attribute tmrAlarmRinging.VB_VarHelpID = -1
 
 ' class private members for property assignment
@@ -185,39 +184,36 @@ Private Sub Class_Initialize()
     Set tmrClock = New_c.Timer(intervalValue, True)
     
     TmrClockTicking = False
-    'tmrClock.Enabled = False
     
     Set tmrPendulum = Nothing
     Set tmrPendulum = New_c.Timer(70, False)
     
     TmrPendulumTicking = False
-    'tmrPendulum.Enabled = False
     
     Set tmrTimeShift = Nothing
     Set tmrTimeShift = New_c.Timer(100, False)
     
-    tmrTimeShift.Enabled = False
+    TmrTimeShiftTicking = False
    
     Set tmrDigitRotator = Nothing
     Set tmrDigitRotator = New_c.Timer(14, False)
     
-    tmrDigitRotator.Enabled = False
+    TmrDigitRotatorTicking = False
     
     Set tmrCountdownToToll = Nothing
     Set tmrCountdownToToll = New_c.Timer(2000, False)
     
-    tmrCountdownToToll.Enabled = False
+    TmrCountdownToTollTicking = False
          
     Set tmrTolling = Nothing
     Set tmrTolling = New_c.Timer(2000, False)
     
-    'tmrTolling.Enabled = False
     TmrTollingTicking = False
        
     Set tmrAlarmRinging = Nothing
     Set tmrAlarmRinging = New_c.Timer(1000, False)
     
-    tmrAlarmRinging.Enabled = False
+    TmrAlarmRingingTicking = False
     
     On Error GoTo 0
    Exit Sub
@@ -1597,7 +1593,7 @@ Private Sub tmrDigitRotator_Timer()
         pvtMonthRotatorString = CStr(rotatorTimerCount)
 
     Else
-        tmrDigitRotator.Enabled = False
+        TmrDigitRotatorTicking = False
         rotatorTimerCount = 0
         
 '        pvtMinsRotatorString = "00"
@@ -1950,7 +1946,7 @@ Private Sub tmrClock_TimerRoutine()
                 
                 screenWrite ("chiming full hour ")
                 
-                tmrCountdownToToll.Enabled = True
+                TmrCountdownToTollTicking = True
                 
             End If
         
@@ -2049,7 +2045,7 @@ Private Sub ShallWeRingAlarm()
             End If
             
             ' start the alarm timer ringing the bell
-            tmrAlarmRinging.Enabled = True
+            TmrAlarmRingingTicking = True
           
             Exit Sub
         End If
@@ -2084,7 +2080,7 @@ Private Sub ShallWeRingAlarm()
             End If
           
             ' start the alarm timer ringing the bell
-            tmrAlarmRinging.Enabled = True
+            TmrAlarmRingingTicking = True
           
             Exit Sub
         End If
@@ -2120,7 +2116,7 @@ Private Sub ShallWeRingAlarm()
             End If
           
             ' start the alarm timer ringing the bell
-            tmrAlarmRinging.Enabled = True
+            TmrAlarmRingingTicking = True
             
             Exit Sub
         End If
@@ -2155,7 +2151,7 @@ Private Sub ShallWeRingAlarm()
             End If
           
             ' start the alarm timer ringing the bell
-            tmrAlarmRinging.Enabled = True
+            TmrAlarmRingingTicking = True
           
             Exit Sub
         End If
@@ -2190,7 +2186,7 @@ Private Sub ShallWeRingAlarm()
             End If
           
             ' start the alarm timer ringing the bell
-            tmrAlarmRinging.Enabled = True
+            TmrAlarmRingingTicking = True
           
             Exit Sub
         End If
@@ -2255,7 +2251,7 @@ Private Sub tmrCountdownToToll_Timer()
         screenWrite ("Countdown to tolling the hour =  " & 8 - countdownToToll)
     Else
         countdownToToll = 0
-        tmrCountdownToToll.Enabled = False
+        TmrCountdownToTollTicking = False
         'tmrTolling.Enabled = True
         TmrTollingTicking = True
     End If
@@ -2672,10 +2668,176 @@ TmrTollingTickingLet_Error:
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property TmrTollingTicking of Class Module cfClock"
 End Property
 
-'Private mTmrCountdownToTollTicking As Boolean
-'Private mTmrTimeShiftTicking As Boolean
-'Private mTmrDigitRotatorTicking As Boolean
-'Private mTmrAlarmRingingTicking As Boolean
+
+'---------------------------------------------------------------------------------------
+' Property  : TmrCountdownToTollTicking
+' Author    : beededea
+' Date      : 17/05/2023
+' Purpose   : property to determine (by value) externally the interval of a private timer
+'---------------------------------------------------------------------------------------
+'
+Public Property Get TmrCountdownToTollTicking() As Boolean
+   On Error GoTo TmrCountdownToTollTickingGet_Error
+
+   TmrCountdownToTollTicking = mTmrCountdownToTollTicking
+
+   On Error GoTo 0
+   Exit Property
+
+TmrCountdownToTollTickingGet_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property TmrCountdownToTollTicking of Class Module cfClock"
+End Property
+'---------------------------------------------------------------------------------------
+' Property  : TmrCountdownToTollTicking
+' Author    : beededea
+' Date      : 17/05/2023
+' Purpose   : property to determine (by value) externally the interval of a private timer
+'---------------------------------------------------------------------------------------
+'
+Public Property Let TmrCountdownToTollTicking(ByVal newValue As Boolean)
+   On Error GoTo TmrCountdownToTollTickingLet_Error
+
+   If mTmrCountdownToTollTicking <> newValue Then mTmrCountdownToTollTicking = newValue Else Exit Property
+
+   tmrCountdownToToll.Enabled = newValue
+
+   On Error GoTo 0
+   Exit Property
+
+TmrCountdownToTollTickingLet_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property TmrCountdownToTollTicking of Class Module cfClock"
+End Property
+
+
+
+
+'---------------------------------------------------------------------------------------
+' Property  : TmrTimeShiftTicking
+' Author    : beededea
+' Date      : 17/05/2023
+' Purpose   : property to determine (by value) externally the interval of a private timer
+'---------------------------------------------------------------------------------------
+'
+Public Property Get TmrTimeShiftTicking() As Boolean
+   On Error GoTo TmrTimeShiftTickingGet_Error
+
+   TmrTimeShiftTicking = mTmrTimeShiftTicking
+
+   On Error GoTo 0
+   Exit Property
+
+TmrTimeShiftTickingGet_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property TmrTimeShiftTicking of Class Module cfClock"
+End Property
+'---------------------------------------------------------------------------------------
+' Property  : TmrTimeShiftTicking
+' Author    : beededea
+' Date      : 17/05/2023
+' Purpose   : property to determine (by value) externally the interval of a private timer
+'---------------------------------------------------------------------------------------
+'
+Public Property Let TmrTimeShiftTicking(ByVal newValue As Boolean)
+   On Error GoTo TmrTimeShiftTickingLet_Error
+
+   If mTmrTimeShiftTicking <> newValue Then mTmrTimeShiftTicking = newValue Else Exit Property
+
+   tmrTimeShift.Enabled = newValue
+
+   On Error GoTo 0
+   Exit Property
+
+TmrTimeShiftTickingLet_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property TmrTimeShiftTicking of Class Module cfClock"
+End Property
+
+
+
+'---------------------------------------------------------------------------------------
+' Property  : TmrDigitRotatorTicking
+' Author    : beededea
+' Date      : 17/05/2023
+' Purpose   : property to determine (by value) externally the interval of a private timer
+'---------------------------------------------------------------------------------------
+'
+Public Property Get TmrDigitRotatorTicking() As Boolean
+   On Error GoTo TmrDigitRotatorTickingGet_Error
+
+   TmrDigitRotatorTicking = mTmrDigitRotatorTicking
+
+   On Error GoTo 0
+   Exit Property
+
+TmrDigitRotatorTickingGet_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property TmrDigitRotatorTicking of Class Module cfClock"
+End Property
+'---------------------------------------------------------------------------------------
+' Property  : TmrDigitRotatorTicking
+' Author    : beededea
+' Date      : 17/05/2023
+' Purpose   : property to determine (by value) externally the interval of a private timer
+'---------------------------------------------------------------------------------------
+'
+Public Property Let TmrDigitRotatorTicking(ByVal newValue As Boolean)
+   On Error GoTo TmrDigitRotatorTickingLet_Error
+
+   If mTmrDigitRotatorTicking <> newValue Then mTmrDigitRotatorTicking = newValue Else Exit Property
+
+   tmrDigitRotator.Enabled = newValue
+
+   On Error GoTo 0
+   Exit Property
+
+TmrDigitRotatorTickingLet_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property TmrDigitRotatorTicking of Class Module cfClock"
+End Property
+
+'---------------------------------------------------------------------------------------
+' Property  : TmrAlarmRingingTicking
+' Author    : beededea
+' Date      : 17/05/2023
+' Purpose   : property to determine (by value) externally the interval of a private timer
+'---------------------------------------------------------------------------------------
+'
+Public Property Get TmrAlarmRingingTicking() As Boolean
+   On Error GoTo TmrAlarmRingingTickingGet_Error
+
+   TmrAlarmRingingTicking = mTmrAlarmRingingTicking
+
+   On Error GoTo 0
+   Exit Property
+
+TmrAlarmRingingTickingGet_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property TmrAlarmRingingTicking of Class Module cfClock"
+End Property
+
+'---------------------------------------------------------------------------------------
+' Property  : TmrAlarmRingingTicking
+' Author    : beededea
+' Date      : 17/05/2023
+' Purpose   : property to determine (by value) externally the interval of a private timer
+'---------------------------------------------------------------------------------------
+'
+Public Property Let TmrAlarmRingingTicking(ByVal newValue As Boolean)
+   On Error GoTo TmrAlarmRingingTickingLet_Error
+
+   If mTmrAlarmRingingTicking <> newValue Then mTmrAlarmRingingTicking = newValue Else Exit Property
+
+   TmrAlarmRingingTicking = newValue
+
+   On Error GoTo 0
+   Exit Property
+
+TmrAlarmRingingTickingLet_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property TmrAlarmRingingTicking of Class Module cfClock"
+End Property
 
 
 ' the following global variables are used in this class, I should replace each with a property and use that locally
