@@ -418,14 +418,15 @@ o added code when un-setting all alarms to specifically reverse the alarm functi
 ' change the internal calling of the three timers within the fClock class to call the properties and not the timers themselves for enabling and disabling
 ' change the internal calling of the three timers within the overlay class to call the properties and not the timers themselves for enabling and disabling
 ' find and replace remaining four timers within overlay class with property GET/LETs
+' make all overlay timers private and convert all references to the timers to use the properties instead of directly accessing
+' make all cfClock timers private and convert all references to the timers to use the properties instead of directly accessing
+' find and identify globals within about class with property GET/LETs
+' find and identify globals within licence class with property GET/LETs
 
 ' -oOo-
 
 Tasks to do:
 ============
-
-' find and identify globals within about class with property GET/LETs
-' find and identify globals within licence class with property GET/LETs
 
 ' when an alarm has been raised and an alarm toggle selected, if you move the slider forward to a future date/time, a double click does not revert the time to the current time.
 
@@ -529,9 +530,3 @@ Tasks to do:
 Static Linking in TB only.
          In TwinBasic static library linking is possible allowing incorporation of DLLs into the misc section and compiling into the finished binary
 
-
-
-
-
-' find and replace globals within overlay class with property GET/SETs - abandoned - too much work, will replace these one by one as I go
-' find and replace globals within fClock class with property GET/SETs - abandoned - too much work, ditto

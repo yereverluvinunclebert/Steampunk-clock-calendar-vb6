@@ -925,7 +925,18 @@ Private Sub clockset_myDblClick()
    ' if an alarm has been raised
    ' set the base date displayed to the current date/time
      
-    If mAlarmtoggleEnabled = False Then Exit Sub
+    If mAlarmtoggleEnabled = False Then
+        If gblVolumeBoost = "1" Then
+            fileToPlay = "mistake.wav"
+        Else
+            fileToPlay = "mistake-quiet.wav"
+        End If
+    
+        If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
+            playSound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
+        End If
+        Exit Sub
+    End If
     
     overlayWidget.AlarmSetCurrentDate = True
             
@@ -3946,7 +3957,6 @@ Public Property Let alarmtoggleEnabled(ByVal newValue As Boolean)
         
     Else
         
-        'tmrZZZZSound.Enabled = True
         TmrZZZZSoundTicking = True
         
         overlayWidget.SliderInTransit = False
@@ -3966,7 +3976,9 @@ Public Property Let alarmtoggleEnabled(ByVal newValue As Boolean)
         alarmtoggle3Enabled = False
         alarmtoggle4Enabled = False
         alarmtoggle5Enabled = False
-        
+         
+        TmrTILLSoundTicking = True
+       
         gblShowAlarmDateTime = False ' turns off the cache displaying the current alarm date/time selected
 
     End If
@@ -5035,7 +5047,7 @@ Private Sub tmrZZZZSound_Timer()
     If gblVolumeBoost = "1" Then
         fileToPlay = "zzzz.wav"
     Else
-        fileToPlay = "zzzz.wav"
+        fileToPlay = "zzzz-quiet.wav"
     End If
     
     If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
@@ -5323,11 +5335,11 @@ End Property
 '
 Public Property Let TmrTILLSoundTicking(ByVal newValue As Boolean)
    On Error GoTo TmrTILLSoundTickingLet_Error
-
-   If mTmrTILLSoundTicking <> newValue Then mTmrTILLSoundTicking = newValue Else Exit Property
    
    tmrTILLSound.Enabled = newValue
-
+   
+   If mTmrTILLSoundTicking <> newValue Then mTmrTILLSoundTicking = newValue Else Exit Property
+   
    On Error GoTo 0
    Exit Property
 
@@ -5371,10 +5383,10 @@ End Property
 '
 Public Property Let TmrZZZZSoundTicking(ByVal newValue As Boolean)
    On Error GoTo TmrZZZZSoundTickingLet_Error
-
-   If mTmrZZZZSoundTicking <> newValue Then mTmrZZZZSoundTicking = newValue Else Exit Property
    
    tmrZZZZSound.Enabled = newValue
+
+   If mTmrZZZZSoundTicking <> newValue Then mTmrZZZZSoundTicking = newValue Else Exit Property
 
    On Error GoTo 0
    Exit Property
@@ -5417,10 +5429,10 @@ End Property
 Public Property Let TmrTickingSoundTicking(ByVal newValue As Boolean)
    On Error GoTo TmrTickingSoundTickingLet_Error
 
-   If mTmrTickingSoundTicking <> newValue Then mTmrTickingSoundTicking = newValue Else Exit Property
-   
    tmrTickingSound.Enabled = newValue
 
+   If mTmrTickingSoundTicking <> newValue Then mTmrTickingSoundTicking = newValue Else Exit Property
+   
    On Error GoTo 0
    Exit Property
 

@@ -390,3 +390,9 @@ Draw_Error:
 
 End Sub
 
+' the following global variables are used in this class, I should replace each with a property and use that locally
+' but I don't think I can be bothered, there are too many of them. This is my code and the clock class is not going
+' to have multiple instances running so it does not really matter. If you want to convert each of these to property GET/LETs
+' then please feel free to work your way through this list.
+
+' gblWidgetName
