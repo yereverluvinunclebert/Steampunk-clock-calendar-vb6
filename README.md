@@ -151,22 +151,21 @@ At the back-end there are more preferences that may be changed, all are document
  
  Links:
  
-	* Olaf Schmidt    - This tool was built using the RichClient RC6 Cairo wrapper for VB6. Specifically, the components using transparency. Thanks for the massive effort Olaf in creating Cairo counterparts for all VB6 native controls and giving us access to advanced features on controls such as transparency.
-
+	* Olaf Schmidt    - https://www.vbrichclient.com/#/en/About/
 	* Shuja Ali @ codeguru for his settings.ini code.
 	* ALLAPI.COM        For the registry reading code.
-	* Rxbagain on codeguru for his Open File common dialog code without a dependent OCX http://forums.codeguru.com/member.php?92278-rxbagain
-	* si_the_geek       for his special folder code* https://twinbasic.com/
-	* https://www.vbrichclient.com/#/en/About/
+	* Rxbagain Open File common dialog code - http://forums.codeguru.com/member.php?92278-rxbagain
+	* si_the_geek       for his special folder code* 
+	* https://twinbasic.com/
 	* MZ-TOOLS https://www.mztools.com/  
 	* CodeHelp http://www.planetsourcecode.com/vb/scripts/ShowCode.asp?txtCodeId=62468&lngWId=1  
 	* Rubberduck http://rubberduckvba.com/  
 	* Rocketdock https://punklabs.com/  
 	* Registry code ALLAPI.COM   
 	* Subclassing code & balloon tooltips - Elroy  
-	* grigri grigri@shinyhappypixels.com - playing sound files asynchronously
-	* Rod Stephens @ vb-helper.com for the resizing form code
-	* RobDog888 https://www.vbforums.com/member.php?17511-RobDog888 for the OpenFile method of testing file existence.
+	* grigri - playing sound files asynchronously  grigri@shinyhappypixels.com 
+	* Rod Stephens for the resizing form code @ vb-helper.com 
+	* RobDog888 for the OpenFile method of testing file existence - https://www.vbforums.com/member.php?17511-RobDog888 
 	* zeezee https://www.vbforums.com/member.php?90054-zeezee  for the PathFileExists method of testing folder existence.
 	* Zach_VB6  https://www.vbforums.com/member.php?95578-Zach_VB6 for loading a file to a textbox 
 	* Open File common dialog code without dependent OCX - http://forums.codeguru.com/member.php?92278-rxbagain  
