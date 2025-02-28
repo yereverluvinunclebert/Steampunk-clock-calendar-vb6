@@ -151,15 +151,18 @@ At the back-end there are more preferences that may be changed, all are document
  
  Links:
  
-	* https://twinbasic.com/
+	* Olaf Schmidt    - This tool was built using the RichClient RC6 Cairo wrapper for VB6. Specifically, the components using transparency. Thanks for the massive effort Olaf in creating Cairo counterparts for all VB6 native controls and giving us access to advanced features on controls such as transparency.
+
+	* Shuja Ali @ codeguru for his settings.ini code.
+	* ALLAPI.COM        For the registry reading code.
+	* Rxbagain on codeguru for his Open File common dialog code without a dependent OCX http://forums.codeguru.com/member.php?92278-rxbagain
+	* si_the_geek       for his special folder code* https://twinbasic.com/
 	* https://www.vbrichclient.com/#/en/About/
 	* MZ-TOOLS https://www.mztools.com/  
 	* CodeHelp http://www.planetsourcecode.com/vb/scripts/ShowCode.asp?txtCodeId=62468&lngWId=1  
 	* Rubberduck http://rubberduckvba.com/  
 	* Rocketdock https://punklabs.com/  
-	* Registry code ALLAPI.COM  
-	* La Volpe http://www.planet-source-code.com/vb/scripts/ShowCode.asp?txtCodeId=67466&lngWId=1  
-	* PrivateExtractIcons code http://www.activevb.de/rubriken/  
+	* Registry code ALLAPI.COM   
 	* Subclassing code & balloon tooltips - Elroy  
 	* grigri grigri@shinyhappypixels.com - playing sound files asynchronously
 	* Rod Stephens @ vb-helper.com for the resizing form code
