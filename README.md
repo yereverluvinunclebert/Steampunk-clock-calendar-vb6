@@ -151,24 +151,24 @@ At the back-end there are more preferences that may be changed, all are document
  
  Links:
  
-	https://twinbasic.com/
- 	https://www.vbrichclient.com/#/en/About/
-	MZ-TOOLS https://www.mztools.com/  
-	CodeHelp http://www.planetsourcecode.com/vb/scripts/ShowCode.asp?txtCodeId=62468&lngWId=1  
-	Rubberduck http://rubberduckvba.com/  
-	Rocketdock https://punklabs.com/  
-	Registry code ALLAPI.COM  
-	La Volpe http://www.planet-source-code.com/vb/scripts/ShowCode.asp?txtCodeId=67466&lngWId=1  
-	PrivateExtractIcons code http://www.activevb.de/rubriken/  
-	Subclassing code & balloon tooltips - Elroy  
-	grigri grigri@shinyhappypixels.com - playing sound files asynchronously
-	Rod Stephens @ vb-helper.com for the resizing form code
-	RobDog888 https://www.vbforums.com/member.php?17511-RobDog888 for the OpenFile method of testing file existence.
-	zeezee https://www.vbforums.com/member.php?90054-zeezee  for the PathFileExists method of testing folder existence.
-	Zach_VB6  https://www.vbforums.com/member.php?95578-Zach_VB6 for loading a file to a textbox 
-	Open File common dialog code without dependent OCX - http://forums.codeguru.com/member.php?92278-rxbagain  
-	Centre-ing dialogs code from Chris001 https://www.vbforums.com/member.php?65196-Chris001
-	VBAdvance  
+	* https://twinbasic.com/
+	* https://www.vbrichclient.com/#/en/About/
+	* MZ-TOOLS https://www.mztools.com/  
+	* CodeHelp http://www.planetsourcecode.com/vb/scripts/ShowCode.asp?txtCodeId=62468&lngWId=1  
+	* Rubberduck http://rubberduckvba.com/  
+	* Rocketdock https://punklabs.com/  
+	* Registry code ALLAPI.COM  
+	* La Volpe http://www.planet-source-code.com/vb/scripts/ShowCode.asp?txtCodeId=67466&lngWId=1  
+	* PrivateExtractIcons code http://www.activevb.de/rubriken/  
+	* Subclassing code & balloon tooltips - Elroy  
+	* grigri grigri@shinyhappypixels.com - playing sound files asynchronously
+	* Rod Stephens @ vb-helper.com for the resizing form code
+	* RobDog888 https://www.vbforums.com/member.php?17511-RobDog888 for the OpenFile method of testing file existence.
+	* zeezee https://www.vbforums.com/member.php?90054-zeezee  for the PathFileExists method of testing folder existence.
+	* Zach_VB6  https://www.vbforums.com/member.php?95578-Zach_VB6 for loading a file to a textbox 
+	* Open File common dialog code without dependent OCX - http://forums.codeguru.com/member.php?92278-rxbagain  
+	* Centre-ing dialogs code from Chris001 https://www.vbforums.com/member.php?65196-Chris001
+	* VBAdvance  
  
  Tested on :
  
