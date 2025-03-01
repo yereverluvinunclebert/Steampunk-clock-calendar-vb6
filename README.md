@@ -220,13 +220,13 @@ At the back-end there are more preferences that may be changed, all are document
 
  These Dependencies are for developing in VB6 only.
  
- o A windows-alike o/s such as Windows Vista 7-11 or Apple Mac OSX 11. 
+* A windows-alike o/s such as Windows Vista 7-11 or Apple Mac OSX 11. 
  
- o Microsoft VB6 IDE installed with its runtime components. The program runs 
+* Microsoft VB6 IDE installed with its runtime components. The program runs 
  without any additional Microsoft OCX components, just the basic controls that 
  ship with VB6.  
 
-  o Alternatively, the TwinBasic IDE installed from https://twinbasic.com/
+* Alternatively, the TwinBasic IDE installed from https://twinbasic.com/
   If you want to use TwinBasic then the dependencies are very different, see them here: https://github.com/yereverluvinunclebert/tbSteampunk-clock-calendar
  
  ![vb6-logo](https://github.com/yereverluvinunclebert/Panzer-JustClock-VB6/assets/2788342/861f1ce1-7058-4d09-af94-daab9206ca86)
@@ -249,7 +249,7 @@ At the back-end there are more preferences that may be changed, all are document
  The above will be created automatically by the compiled program when run for the 
  first time.
  
-o Krool's replacement for the Microsoft Windows Common Controls found in
+* Krool's replacement for the Microsoft Windows Common Controls found in
 mscomctl.ocx (slider) are replicated by the addition of one
 dedicated OCX file that are shipped with this package.
 
