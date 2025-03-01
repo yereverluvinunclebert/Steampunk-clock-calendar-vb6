@@ -151,7 +151,7 @@ At the back-end there are more preferences that may be changed, all are document
  
  Links:
  
-	* Olaf Schmidt    - https://www.vbrichclient.com/#/en/About/
+	* Olaf Schmidt    - (https://www.vbrichclient.com/#/en/About/)
 	* Shuja Ali @ codeguru for his settings.ini code.
 	* ALLAPI.COM        For the registry reading code.
 	* Rxbagain Open File common dialog code - http://forums.codeguru.com/member.php?92278-rxbagain
