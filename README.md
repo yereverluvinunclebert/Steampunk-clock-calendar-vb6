@@ -150,27 +150,26 @@ At the back-end there are more preferences that may be changed, all are document
  TwinBasic/RichClient 6 version can be found here: https://github.com/yereverluvinunclebert/tbSteampunk-clock-calendar
  
  Links:
- 
-* Olaf Schmidt -RC6 - [https://www.vbrichclient.com/#/en/About/](https://www.vbrichclient.com/#/en/About/)
-	* Shuja Ali @ codeguru for his settings.ini code - ShujaAli@codeguru.
-	* ALLAPI.COM - registry reading code.
-	* Rxbagain Open File common dialog code - http://forums.codeguru.com/member.php?92278-rxbagain
-	* si_the_geek       for his special folder code* 
-	* https://twinbasic.com/
-	* MZ-TOOLS https://www.mztools.com/  
-	* CodeHelp http://www.planetsourcecode.com/vb/scripts/ShowCode.asp?txtCodeId=62468&lngWId=1  
-	* Rubberduck http://rubberduckvba.com/  
-	* Rocketdock https://punklabs.com/  
-	* Registry code ALLAPI.COM   
-	* Subclassing code & balloon tooltips - Elroy  
-	* grigri - playing sound files asynchronously  grigri@shinyhappypixels.com 
-	* Rod Stephens for the resizing form code @ vb-helper.com 
-	* RobDog888 for the OpenFile method of testing file existence - https://www.vbforums.com/member.php?17511-RobDog888 
-	* zeezee https://www.vbforums.com/member.php?90054-zeezee  for the PathFileExists method of testing folder existence.
-	* Zach_VB6  https://www.vbforums.com/member.php?95578-Zach_VB6 for loading a file to a textbox 
-	* Open File common dialog code without dependent OCX - http://forums.codeguru.com/member.php?92278-rxbagain  
-	* Centre-ing dialogs code from Chris001 https://www.vbforums.com/member.php?65196-Chris001
-	* VBAdvance  
+* Olaf Schmidt -RC6 - [https://www.vbrichclient.com/#/en/About/](https://www.vbrichclient.com/#/en/About/) 
+* Shuja Ali @ codeguru for his settings.ini code - ShujaAli@codeguru.
+* ALLAPI.COM - registry reading code.
+* Rxbagain Open File common dialog code - http://forums.codeguru.com/member.php?92278-rxbagain
+* si_the_geek       for his special folder code* 
+* https://twinbasic.com/
+* MZ-TOOLS https://www.mztools.com/  
+* CodeHelp http://www.planetsourcecode.com/vb/scripts/ShowCode.asp?txtCodeId=62468&lngWId=1  
+* Rubberduck http://rubberduckvba.com/  
+* Rocketdock https://punklabs.com/  
+* Registry code ALLAPI.COM   
+* Subclassing code & balloon tooltips - Elroy  
+* grigri - playing sound files asynchronously  grigri@shinyhappypixels.com 
+* Rod Stephens for the resizing form code @ vb-helper.com 
+* RobDog888 for the OpenFile method of testing file existence - https://www.vbforums.com/member.php?17511-RobDog888 
+* zeezee https://www.vbforums.com/member.php?90054-zeezee  for the PathFileExists method of testing folder existence.
+* Zach_VB6  https://www.vbforums.com/member.php?95578-Zach_VB6 for loading a file to a textbox 
+* Open File common dialog code without dependent OCX - http://forums.codeguru.com/member.php?92278-rxbagain  
+* Centre-ing dialogs code from Chris001 https://www.vbforums.com/member.php?65196-Chris001
+* VBAdvance  
  
  Tested on :
  
