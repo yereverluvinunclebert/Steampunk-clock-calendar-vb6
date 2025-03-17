@@ -2827,8 +2827,6 @@ End Property
 Public Property Let TmrAlarmRingingTicking(ByVal newValue As Boolean)
    On Error GoTo TmrAlarmRingingTickingLet_Error
 
-   TmrAlarmRingingTicking = newValue
-   
    If mTmrAlarmRingingTicking <> newValue Then mTmrAlarmRingingTicking = newValue Else Exit Property
 
    On Error GoTo 0
@@ -2838,6 +2836,9 @@ TmrAlarmRingingTickingLet_Error:
 
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property TmrAlarmRingingTicking of Class Module cfClock"
 End Property
+
+
+
 
 
 ' the following global variables are used in this class, I should replace each with a property and use that locally

@@ -127,6 +127,7 @@ Public Sub mainRoutine(ByVal restart As Boolean)
     ' validate the inputs of any data from the input settings file
     Call validateInputs
     
+    ' Set the opacity of the clock, passing just this one global variable to a public property within the class
     fClock.Opacity = gblOpacity
     
     ' write to the virtual screen
@@ -180,8 +181,7 @@ Public Sub mainRoutine(ByVal restart As Boolean)
     ' make the busy sand timer invisible
     Call hideBusyTimer
     
-    ' start the main clock timer
-    'overlayWidget.tmrClock.Enabled = True
+    ' start the main clock timer passing the desired status to a public property within the class
     overlayWidget.TmrClockTicking = True
     
     ' end the startup by un-setting the start global flag
@@ -215,7 +215,7 @@ Private Sub loadPreferenceForm()
     If widgetPrefs.IsLoaded = False Then
         Load widgetPrefs
         gblPrefsFormResizedInCode = True
-        Call widgetPrefs.PrefsForm_resize
+        Call widgetPrefs.PrefsForm_Resize_Event
     End If
 
    On Error GoTo 0
@@ -267,8 +267,8 @@ Private Sub identifyPrimaryMonitor()
     clockMonitorStruct = cWidgetFormScreenProperties(fClock.clockForm, clockFormMonitorID)
     gblOldClockFormMonitorPrimary = clockMonitorStruct.IsPrimary
 
-   On Error GoTo 0
-   Exit Sub
+    On Error GoTo 0
+    Exit Sub
 
 identifyPrimaryMonitor_Error:
 
@@ -318,8 +318,6 @@ Private Sub checkFirstTime()
    On Error GoTo checkFirstTime_Error
 
     If gblFirstTimeRun = "true" Then
-        'MsgBox "checkFirstTime"
-
         Call makeProgramPreferencesAvailable
         gblFirstTimeRun = "false"
         sPutINISetting "Software\SteampunkClockCalendar", "firstTimeRun", gblFirstTimeRun, gblSettingsFile
@@ -407,7 +405,6 @@ Private Sub initialiseGlobalVars()
     gblDisplayScreenFontItalics = vbNullString
     gblDisplayScreenFontColour = vbNullString
     
-    
     ' window
     gblWindowLevel = vbNullString
     gblPreventDragging = vbNullString
@@ -417,7 +414,6 @@ Private Sub initialiseGlobalVars()
     gblIgnoreMouse = vbNullString
     gblFirstTimeRun = vbNullString
     gblMultiMonitorResize = vbNullString
-    
     
     ' general storage variables declared
     gblSettingsDir = vbNullString
@@ -508,9 +504,7 @@ Private Sub initialiseGlobalVars()
     gblDebugFlg = 0
     gblMinutesToHide = 0
     gblAspectRatio = vbNullString
-    'revealWidgetTimerCount = 0
     gblOldSettingsModificationTime = #1/1/2000 12:00:00 PM#
-    
     gblCodingEnvironment = vbNullString
 
    On Error GoTo 0
@@ -538,7 +532,6 @@ Private Sub addImagesToImageList()
 '    add Resources to the global ImageList that are not being pulled from the PSD directly
     
     Cairo.ImageList.AddImage "about", App.path & "\Resources\images\about.png"
-    'Cairo.ImageList.AddImage "help", App.path & "\Resources\images\diesel-volume-help.png"
     Cairo.ImageList.AddImage "licence", App.path & "\Resources\images\frame.png"
     Cairo.ImageList.AddImage "frmIcon", App.path & "\Resources\images\Icon.png"
     
@@ -616,8 +609,6 @@ Private Sub addImagesToImageList()
     
     Cairo.ImageList.AddImage "AM", App.path & "\Resources\images\AM.png"
     Cairo.ImageList.AddImage "PM", App.path & "\Resources\images\PM.png"
-    
-    'Cairo.ImageList.AddImage "month", App.path & "\Resources\images\jan.png"
     
     Cairo.ImageList.AddImage "hourCache1", App.path & "\Resources\images\small0.png"
     Cairo.ImageList.AddImage "hourCache2", App.path & "\Resources\images\small0.png"
@@ -704,7 +695,6 @@ Public Sub adjustMainControls(Optional ByVal licenceState As Integer)
     Else
         fClock.clockForm.ShowInTaskbar = True
     End If
-
     
     ' set the visibility and characteristics of the interactive areas
     ' the alpha is already set to zero for all layers found in the PSD, we now turn them back on as we require
@@ -736,7 +726,6 @@ Public Sub adjustMainControls(Optional ByVal licenceState As Integer)
 '        .Alpha = Val(gblOpacity) / 100
 '        .Tag = 0.01
 '    End With
-
 
     With fClock.clockForm.Widgets("heatercoil").Widget
         .HoverColor = 0
@@ -871,7 +860,6 @@ Public Sub adjustMainControls(Optional ByVal licenceState As Integer)
         .Tag = 0.01
     End With
     
-    
     With fClock.clockForm.Widgets("alarmtoggle").Widget
         .HoverColor = 0
         .MousePointer = IDC_HAND
@@ -886,7 +874,6 @@ Public Sub adjustMainControls(Optional ByVal licenceState As Integer)
         .Tag = 0.01
     End With
     
-
     With fClock.clockForm.Widgets("help1toggle").Widget
         .HoverColor = 0
         .MousePointer = IDC_HAND
@@ -900,8 +887,6 @@ Public Sub adjustMainControls(Optional ByVal licenceState As Integer)
         .Alpha = 0
         .Tag = 0.01
     End With
-    
-    
     
     With fClock.clockForm.Widgets("help3toggle").Widget
         .HoverColor = 0
@@ -945,7 +930,6 @@ Public Sub adjustMainControls(Optional ByVal licenceState As Integer)
         .Tag = 0.01
     End With
     
-
     With fClock.clockForm.Widgets("cablewheel").Widget
         .HoverColor = 0
         .MousePointer = IDC_ARROW
@@ -1099,12 +1083,14 @@ Public Sub adjustMainControls(Optional ByVal licenceState As Integer)
         .Alpha = Val(gblOpacity) / 100
         .Tag = 0.01
     End With
+    
     With fClock.clockForm.Widgets("yeardisplay").Widget
         .HoverColor = 0
         .MousePointer = IDC_HAND
         .Alpha = Val(gblOpacity) / 100
         .Tag = 0.01
     End With
+    
     With fClock.clockForm.Widgets("datedisplay").Widget
         .HoverColor = 0
         .MousePointer = IDC_HAND
@@ -1138,18 +1124,9 @@ Public Sub adjustMainControls(Optional ByVal licenceState As Integer)
     Else
         overlayWidget.SwingPendulum = True
     End If
-    
-'    If gbl24HourClockMode = "1" Then
-'
-'    End If
 
     ' set the slider position to the start point
     fClock.timeShiftValue = 0
-    
-    ' set the position of the various UI toggles at startup
-'    If gblSetToggleEnabled = "True" Then
-'        fClock.SetToggleEnabled = True
-'    End If
     
     If gblMuteToggleEnabled = "True" Then
         gblEnableSounds = "0"
@@ -1172,37 +1149,18 @@ Public Sub adjustMainControls(Optional ByVal licenceState As Integer)
     Else
         fClock.alarmclapperEnabled = False
     End If
-    
         
     If gblChimeClapperEnabled = "True" Then
         fClock.chimeclapperEnabled = True
     Else
         fClock.chimeclapperEnabled = False
     End If
-        
-'    If gblEnableChimes = "1" Then
-'        fClock.chimeclapperEnabled = True
-'    Else
-'        fClock.chimeclapperEnabled = False
-'    End If
-'
-'    If gblEnableAlarms = "1" Then
-'        fClock.alarmclapperEnabled = True
-'    Else
-'        fClock.alarmclapperEnabled = False
-'    End If
     
     If gblCrankEnabled = "True" Then
         fClock.crankRaised = True
     Else
         fClock.crankRaised = False
     End If
-     
-'    If gblVolumeBoost = "1" Then
-'        fClock.crankRaised = True
-'    Else
-'        fClock.crankRaised = False
-'    End If
       
     If gblPendulumToggleEnabled = "True" Then
         fClock.pendulumToggleEnabled = True
@@ -1356,10 +1314,7 @@ Public Sub readSettingsFile(ByVal Location As String, ByVal gblSettingsFile As S
         gblShowHelp = fGetINISetting(Location, "showHelp", gblSettingsFile)
         gblTogglePendulum = fGetINISetting(Location, "togglePendulum", gblSettingsFile)
         gbl24HourClockMode = fGetINISetting(Location, "24HourClockMode", gblSettingsFile)
-        
         gblDpiAwareness = fGetINISetting(Location, "dpiAwareness", gblSettingsFile)
-        
-        
         gblGaugeSize = fGetINISetting(Location, "gaugeSize", gblSettingsFile)
         gblScrollWheelDirection = fGetINISetting(Location, "scrollWheelDirection", gblSettingsFile)
         gblNumericDisplayRotation = fGetINISetting(Location, "numericDisplayRotation", gblSettingsFile)
@@ -1396,7 +1351,6 @@ Public Sub readSettingsFile(ByVal Location As String, ByVal gblSettingsFile As S
         gblEnableAlarms = fGetINISetting(Location, "enableAlarms", gblSettingsFile)
         gblVolumeBoost = fGetINISetting(Location, "volumeBoost", gblSettingsFile)
         
-        
         ' development
         gblDebug = fGetINISetting(Location, "debug", gblSettingsFile)
         gblDblClickCommand = fGetINISetting(Location, "dblClickCommand", gblSettingsFile)
@@ -1407,10 +1361,8 @@ Public Sub readSettingsFile(ByVal Location As String, ByVal gblSettingsFile As S
         ' other
         gblClockHighDpiXPos = fGetINISetting("Software\SteampunkClockCalendar", "clockHighDpiXPos", gblSettingsFile)
         gblClockHighDpiYPos = fGetINISetting("Software\SteampunkClockCalendar", "clockHighDpiYPos", gblSettingsFile)
-        
         gblClockLowDpiXPos = fGetINISetting("Software\SteampunkClockCalendar", "clockLowDpiXPos", gblSettingsFile)
         gblClockLowDpiYPos = fGetINISetting("Software\SteampunkClockCalendar", "clockLowDpiYPos", gblSettingsFile)
-        
         gblLastSelectedTab = fGetINISetting(Location, "lastSelectedTab", gblSettingsFile)
         gblSkinTheme = fGetINISetting(Location, "skinTheme", gblSettingsFile)
         
@@ -1420,16 +1372,12 @@ Public Sub readSettingsFile(ByVal Location As String, ByVal gblSettingsFile As S
         gblOpacity = fGetINISetting(Location, "opacity", gblSettingsFile)
         
         ' we do not want the widget to hide at startup
-        'gblWidgetHidden = fGetINISetting(location, "widgetHidden", gblSettingsFile)
         gblWidgetHidden = "0"
         
         gblHidingTime = fGetINISetting(Location, "hidingTime", gblSettingsFile)
         gblIgnoreMouse = fGetINISetting(Location, "ignoreMouse", gblSettingsFile)
         gblMultiMonitorResize = fGetINISetting(Location, "multiMonitorResize", gblSettingsFile)
-         
         gblFirstTimeRun = fGetINISetting(Location, "firstTimeRun", gblSettingsFile)
-        
-        'gblSetToggleEnabled = fGetINISetting(Location, "setToggleEnabled", gblSettingsFile)
         gblMuteToggleEnabled = fGetINISetting(Location, "muteToggleEnabled", gblSettingsFile)
         gblPendulumToggleEnabled = fGetINISetting(Location, "pendulumToggleEnabled", gblSettingsFile)
         gblPendulumEnabled = fGetINISetting(Location, "pendulumEnabled", gblSettingsFile)
@@ -1439,9 +1387,9 @@ Public Sub readSettingsFile(ByVal Location As String, ByVal gblSettingsFile As S
         gblBackToggleEnabled = fGetINISetting(Location, "backToggleEnabled", gblSettingsFile)
         gblAlarmClapperEnabled = fGetINISetting(Location, "alarmclapperEnabled", gblSettingsFile)
         gblChimeClapperEnabled = fGetINISetting(Location, "chimeclapperEnabled", gblSettingsFile)
-
         gblChainEnabled = fGetINISetting(Location, "chainEnabled", gblSettingsFile)
         gblCrankEnabled = fGetINISetting(Location, "crankEnabled", gblSettingsFile)
+       
         gblAlarmToggle1Enabled = fGetINISetting(Location, "alarmToggle1Enabled", gblSettingsFile)
         gblAlarmToggle2Enabled = fGetINISetting(Location, "alarmToggle2Enabled", gblSettingsFile)
         gblAlarmToggle3Enabled = fGetINISetting(Location, "alarmToggle3Enabled", gblSettingsFile)

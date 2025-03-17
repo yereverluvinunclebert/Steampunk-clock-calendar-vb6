@@ -494,6 +494,9 @@ Public gblPrefsFormResizedInCode As Boolean
 Public gblFClockAvailable As Boolean
 Public gblAlarmFlgRaised As Boolean
 Public gblCodingEnvironment As String
+
+Public widgetPrefsOldHeight As Long
+Public widgetPrefsOldWidth As Long
 '------------------------------------------------------ ENDS
 
 
@@ -2367,8 +2370,6 @@ Public Sub makeProgramPreferencesAvailable()
     
     If widgetPrefs.IsVisible = False Then
         ' set the current position of the utility according to previously stored positions
-        
-        Call readPrefsPosition
     
         widgetPrefs.Visible = True
         widgetPrefs.Show  ' show it again
@@ -2378,6 +2379,7 @@ Public Sub makeProgramPreferencesAvailable()
             widgetPrefs.WindowState = vbNormal
         End If
         
+        Call readPrefsPosition
         Call widgetPrefs.positionPrefsMonitor
         
     Else

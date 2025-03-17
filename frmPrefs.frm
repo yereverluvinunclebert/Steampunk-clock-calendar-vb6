@@ -2643,6 +2643,8 @@ Private pvtLastFormHeight As Long
 Private Const pvtcPrefsFormHeight As Long = 11055
 Private Const pvtcPrefsFormWidth  As Long = 9090
 
+Private pvtPrefsFormResizedByDrag As Boolean
+
 '    gblPrefsCurrentWidth = 9075
 '    gblPrefsCurrentHeight = 16450
 '------------------------------------------------------ ENDS
@@ -2666,7 +2668,7 @@ Private pCmbAlarmYearBalloonTooltip As String
 Private pCmbAlarmHoursBalloonTooltip As String
 Private pCmbAlarmMinutesBalloonTooltip As String
 
-Private pvtPrefsFormResizedByDrag As Boolean
+
 
 Private mIsLoaded As Boolean ' property
 Private mClockSize As Single   ' property
@@ -3477,6 +3479,7 @@ Private Sub Form_Load()
     gblWindowLevelWasChanged = False
     gblPrefsCurrentWidth = pvtcPrefsFormWidth
     gblPrefsCurrentHeight = pvtcPrefsFormHeight
+    pvtPrefsFormResizedByDrag = False
             
     ' Set the subclass hook for dialog forms to centre them in the middle of the monitor
     If Not InIDE Then SetHook
@@ -3537,6 +3540,9 @@ Private Sub Form_Load()
     ' start the timers
     Call startPrefsTimers
     
+    widgetPrefsOldHeight = widgetPrefs.Height
+    widgetPrefsOldWidth = widgetPrefs.Width
+    
     ' end the startup by un-setting the start global-ish flag
     pvtPrefsStartupFlg = False
     
@@ -3551,7 +3557,9 @@ Form_Load_Error:
 
 End Sub
 
-'---------------------------------------------------------------------------------------
+
+
+' ---------------------------------------------------------------------------------------
 ' Procedure : initialisePrefsVars
 ' Author    : beededea
 ' Date      : 20/02/2025
@@ -3621,6 +3629,9 @@ Private Sub setFormResizingVars()
         chkEnableResizing.Value = 1
         lblDragCorner.Visible = True
     End If
+    
+    widgetPrefsOldHeight = widgetPrefs.Height
+    widgetPrefsOldWidth = widgetPrefs.Width
 
    On Error GoTo 0
    Exit Sub
@@ -3812,7 +3823,7 @@ Private Sub subClassControls()
 
 subClassControls_Error:
 
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure subClassControls of Form rDIconConfigForm"
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure subClassControls of Form widgetPrefs"
 End Sub
 
 
@@ -3981,47 +3992,8 @@ Public Sub MouseMoveOnComboText(sComboName As String)
 
 MouseMoveOnComboText_Error:
 
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure MouseMoveOnComboText of Form rDIconConfigForm"
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure MouseMoveOnComboText of Form widgetPrefs"
 End Sub
-
-
-'---------------------------------------------------------------------------------------
-' Procedure : Form_Moved
-' Author    : beededea
-' Date      : 16/07/2024
-' Purpose   : Non VB6-standard event caught by subclassing and intercepting the WM_EXITSIZEMOVE (WM_MOVED) event
-'---------------------------------------------------------------------------------------
-'
-Public Sub Form_Moved(sForm As String)
-    Dim sTitle As String
-    Dim sText As String
-
-    On Error GoTo Form_Moved_Error
-        
-    'passing a form name as it allows us to potentially subclass another form's movement
-    Select Case sForm
-        Case "widgetPrefs"
-            ' call a resize of all controls only when the form resize (by dragging) has completed (mouseUP)
-            If pvtPrefsFormResizedByDrag = True Then
-                Call PrefsForm_resize
-                pvtPrefsFormResizedByDrag = False
-                
-            End If
-            
-            ' call the procedure to resize the form automatically if it now resides on a different sized monitor
-            Call positionPrefsByMonitorSize
-           
-        Case Else
-    End Select
-    
-   On Error GoTo 0
-   Exit Sub
-
-Form_Moved_Error:
-
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure Form_Moved of Form rDIconConfigForm"
-End Sub
-
 
 
 ' ---------------------------------------------------------------------------------------
@@ -5529,7 +5501,7 @@ Private Sub btnPrefsFont_Click()
     gblPrefsFontColour = CStr(fntColour)
     
     ' changes the displayed font to an adjusted base font size after a resize
-    Call PrefsForm_resize
+    Call PrefsForm_Resize_Event
 
     If fFExists(gblSettingsFile) Then ' does the tool's own settings.ini exist?
         sPutINISetting "Software\SteampunkClockCalendar", "prefsFont", gblPrefsFont, gblSettingsFile
@@ -6460,7 +6432,9 @@ Private Sub Form_Resize()
     ' do not call the resizing function when the form is resized by dragging the border
     ' only call this if the resize is done in code
         
-    If InIDE Or gblPrefsFormResizedInCode = True Then Call PrefsForm_resize
+    If InIDE Or gblPrefsFormResizedInCode = True Then
+        Call PrefsForm_Resize_Event
+    End If
             
     On Error GoTo 0
     Exit Sub
@@ -6476,18 +6450,18 @@ Form_Resize_Error:
 End Sub
 
 '---------------------------------------------------------------------------------------
-' Procedure : PrefsForm_resize
+' Procedure : PrefsForm_Resize_Event
 ' Author    : beededea
 ' Date      : 10/10/2024
 ' Purpose   : routine to resize the prefs called by subclassing on a mouseUp form event during a bottom-right corner-drag or in code as required.
 '---------------------------------------------------------------------------------------
 '
-Public Sub PrefsForm_resize()
+Public Sub PrefsForm_Resize_Event()
 
-    Dim ratio As Double: ratio = 0
+    Dim constraintRatio As Double: constraintRatio = 0
     Dim currentFontSize As Long: currentFontSize = 0
     
-    On Error GoTo PrefsForm_resize_Error
+    On Error GoTo PrefsForm_Resize_Event_Error
 
     ' When minimised and a resize is called then simply exit.
     If Me.WindowState = vbMinimized Then Exit Sub
@@ -6499,11 +6473,11 @@ Public Sub PrefsForm_resize()
                Me.ScaleTop + Me.ScaleHeight - (lblDragCorner.Height + 40)
 
     ' constrain the height/width ratio
-    ratio = pvtcPrefsFormHeight / pvtcPrefsFormWidth
+    constraintRatio = pvtcPrefsFormHeight / pvtcPrefsFormWidth
     
-    If pvtPrefsDynamicSizingFlg = True Then
+    If pvtPrefsDynamicSizingFlg = True And pvtPrefsFormResizedByDrag = True Then
     
-        widgetPrefs.Width = widgetPrefs.Height / ratio ' maintain the aspect ratio, note: this change calls this routine again...
+        widgetPrefs.Width = widgetPrefs.Height / constraintRatio ' maintain the aspect ratio, note: this change calls this routine again...
         
         If gblDpiAwareness = "1" Then
             currentFontSize = gblPrefsFontSizeHighDPI
@@ -6527,6 +6501,7 @@ Public Sub PrefsForm_resize()
     End If
     
     gblPrefsFormResizedInCode = False
+    pvtPrefsFormResizedByDrag = False
     
     Call writePrefsPosition
     
@@ -6535,12 +6510,56 @@ Public Sub PrefsForm_resize()
    On Error GoTo 0
    Exit Sub
 
-PrefsForm_resize_Error:
+PrefsForm_Resize_Event_Error:
 
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure PrefsForm_resize of Form widgetPrefs"
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure PrefsForm_Resize_Event of Form widgetPrefs"
 
 End Sub
 
+
+'---------------------------------------------------------------------------------------
+' Procedure : Form_Moved
+' Author    : beededea
+' Date      : 16/07/2024
+' Purpose   : Non VB6-standard event caught by subclassing and intercepting the WM_EXITSIZEMOVE (WM_MOVED) event
+'---------------------------------------------------------------------------------------
+'
+Public Sub Form_Moved(sForm As String)
+
+    On Error GoTo Form_Moved_Error
+        
+    'passing a form name as it allows us to potentially subclass another form's movement
+    Select Case sForm
+        Case "widgetPrefs"
+            ' call a resize of all controls only when the form resize (by dragging) has completed (mouseUP)
+            If pvtPrefsFormResizedByDrag = True Then
+            
+                ' test the current form height and width, if the same then it is a form_moved and not a form_resize.
+                If widgetPrefs.Height = widgetPrefsOldHeight And widgetPrefs.Width = widgetPrefsOldWidth Then
+                    Exit Sub
+                Else
+                    widgetPrefsOldHeight = widgetPrefs.Height
+                    widgetPrefsOldWidth = widgetPrefs.Width
+                    
+                    Call PrefsForm_Resize_Event
+                    pvtPrefsFormResizedByDrag = False
+                    
+                End If
+            End If
+            
+            ' call the procedure to resize the form automatically if it now resides on a different sized monitor
+            Call positionPrefsByMonitorSize
+           
+        Case Else
+    End Select
+    
+   On Error GoTo 0
+   Exit Sub
+
+Form_Moved_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure Form_Moved of Form widgetPrefs"
+End Sub
 
 '---------------------------------------------------------------------------------------
 ' Procedure : tweakPrefsControlPositions
@@ -7222,6 +7241,7 @@ Private Sub lblDragCorner_MouseDown(Button As Integer, Shift As Integer, x As Si
     On Error GoTo lblDragCorner_MouseDown_Error
     
     If Button = vbLeftButton Then
+        pvtPrefsFormResizedByDrag = True
         ReleaseCapture
         SendMessage Me.hWnd, WM_NCLBUTTONDOWN, HTBOTTOMRIGHT, 0
     End If
