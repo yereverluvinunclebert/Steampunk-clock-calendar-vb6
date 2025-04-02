@@ -497,6 +497,9 @@ Public gblCodingEnvironment As String
 
 Public widgetPrefsOldHeight As Long
 Public widgetPrefsOldWidth As Long
+
+Public gblTimeAdvanceDeviation As Double
+
 '------------------------------------------------------ ENDS
 
 

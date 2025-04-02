@@ -720,40 +720,12 @@ Public Sub adjustMainControls(Optional ByVal licenceState As Integer)
         .Tag = 0.01
     End With
 
-'    With fClock.clockForm.Widgets("pendulum").Widget
-'        .HoverColor = 0
-'        .MousePointer = IDC_HAND
-'        .Alpha = Val(gblOpacity) / 100
-'        .Tag = 0.01
-'    End With
-
     With fClock.clockForm.Widgets("heatercoil").Widget
         .HoverColor = 0
         .MousePointer = IDC_ARROW
         .Alpha = Val(gblOpacity) / 100
         .Tag = 0.01
     End With
-
-'    With fClock.clockForm.Widgets("orangeheaterglow").Widget
-'        .HoverColor = 0
-'        .MousePointer = IDC_ARROW
-'        .Alpha = Val(gblOpacity) / 100
-'        .Tag = 0.01
-'    End With
-    
-'    With fClock.clockForm.Widgets("meridien").Widget
-'        .HoverColor = 0
-'        .MousePointer = IDC_ARROW
-'        .Alpha = Val(gblOpacity) / 100
-'        .Tag = 0.01
-'    End With
-'
-'    With fClock.clockForm.Widgets("anti").Widget
-'        .HoverColor = 0
-'        .MousePointer = IDC_ARROW
-'        .Alpha = Val(gblOpacity) / 100
-'        .Tag = 0.01
-'    End With
 
     With fClock.clockForm.Widgets("backtoggle").Widget
         .HoverColor = 0
@@ -1034,27 +1006,6 @@ Public Sub adjustMainControls(Optional ByVal licenceState As Integer)
         .Alpha = 0
         .Tag = 0.01
     End With
-''
-'    With fClock.clockForm.Widgets("weekdayshadow").Widget
-'        .HoverColor = 0
-'        .MousePointer = IDC_ARROW
-'        .Alpha = 0
-'        .Tag = 0.01
-'    End With
-'
-'    With fClock.clockForm.Widgets("deletealarm").Widget
-'        .HoverColor = 0
-'        .MousePointer = IDC_ARROW
-'        .Alpha = 0
-'        .Tag = 0.01
-'    End With
-'
-'    With fClock.clockForm.Widgets("tickdeletealarm").Widget
-'        .HoverColor = 0
-'        .MousePointer = IDC_ARROW
-'        .Alpha = 0
-'        .Tag = 0.01
-'    End With
 
     With fClock.clockForm.Widgets("helpdropdown").Widget
         .HoverColor = 0

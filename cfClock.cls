@@ -1837,6 +1837,7 @@ Private Sub alarmtoggle_myMouseDown()
     If gblWidgetFunctions = "0" Or gblIgnoreMouse = "1" Then Exit Sub
     
     pvtSlidersetMousedown = False
+    gblTimeAdvanceDeviation = 0
 
     If gblVolumeBoost = "1" Then
         fileToPlay = "clunk.wav"
@@ -1856,6 +1857,7 @@ Private Sub alarmtoggle_myMouseDown()
         alarmtoggleEnabled = False
     End If
 
+    
 
     clockForm.Refresh
 

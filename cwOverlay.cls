@@ -1650,7 +1650,6 @@ End Sub
 Private Sub tmrTimeShiftRoutine()
 
     Dim perc As Integer: perc = 0
-    Static timeAdvanceDeviation As Double
     
     ' Calculate the percentage
     On Error GoTo tmrTimeShiftRoutine_Error
@@ -1667,14 +1666,10 @@ Private Sub tmrTimeShiftRoutine()
         perc = perc * 2
     End If
     
-    If perc = 0 Then
-        timeAdvanceDeviation = 0
-    Else
-        timeAdvanceDeviation = timeAdvanceDeviation + fLogSlider(perc)
-    End If
-    
+    gblTimeAdvanceDeviation = gblTimeAdvanceDeviation + fLogSlider(perc)
+
     'pass the time deviation to a property in cwOverlay, Given a percentage calculates the logarithmic value
-    mTimeDeviation = timeAdvanceDeviation
+    mTimeDeviation = gblTimeAdvanceDeviation
     
     Debug.Print ("%KON-I-INFO, perc before " & perc)
 
