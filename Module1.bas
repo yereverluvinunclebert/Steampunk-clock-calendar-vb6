@@ -499,6 +499,9 @@ Public widgetPrefsOldHeight As Long
 Public widgetPrefsOldWidth As Long
 
 Public gblTimeAdvanceDeviation As Double
+Public gblTimeAreaClicked As String
+
+
 
 '------------------------------------------------------ ENDS
 

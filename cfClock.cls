@@ -857,6 +857,12 @@ Private Sub clockForm_BubblingEvent(ByRef sender As Object, ByRef EventName As S
                 Call sliderset_myMouseDown
             Case "redalarmcover"
                 Call redalarmcover_myMouseDown
+            Case "timedisplay"
+                Call timedisplay_myMouseDown
+            Case "yeardisplay"
+                Call yeardisplay_myMouseDown
+            Case "datedisplay"
+                Call datedisplay_myMouseDown
             Case Else
                 Debug.Print sender.Widget.Key
         End Select
@@ -893,8 +899,8 @@ Private Sub clockForm_BubblingEvent(ByRef sender As Object, ByRef EventName As S
                     
                 TmrZZZZSoundTicking = True
                 'tmrZZZZSound.Enabled = True
-            Case "sliderset"
-                pvtSlidersetMousedown = False ' never called!
+
+'                pvtSlidersetMousedown = False ' never called!
                 
             Case Else
                 Debug.Print sender.Widget.Key
@@ -995,6 +1001,96 @@ displayscreen_myDblClick_Error:
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure displayscreen_myDblClick of Class Module cfClock"
                 
 End Sub
+
+
+
+
+'---------------------------------------------------------------------------------------
+' Procedure : timedisplay_myMouseDown
+' Author    : beededea
+' Date      : 03/08/2023
+' Purpose   :  - note: - can't use a std MouseDown as
+'             declaring a widget as cWidgetBase 'WithEvents' does not provide a std MouseDown with a sender object
+'---------------------------------------------------------------------------------------
+'
+Private Sub timedisplay_myMouseDown()
+   
+    On Error GoTo timedisplay_myMouseDown_Error
+    
+    gblTimeAreaClicked = "time"
+    
+    If mAlarmtoggleEnabled = True Then
+        Call screenWrite("time display selected")
+    End If
+    
+    On Error GoTo 0
+   Exit Sub
+
+timedisplay_myMouseDown_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure timedisplay_myMouseDown of Class Module cfClock"
+
+End Sub
+
+
+
+'---------------------------------------------------------------------------------------
+' Procedure : yeardisplay_myMouseDown
+' Author    : beededea
+' Date      : 03/08/2023
+' Purpose   :  - note: - can't use a std MouseDown as
+'             declaring a widget as cWidgetBase 'WithEvents' does not provide a std MouseDown with a sender object
+'---------------------------------------------------------------------------------------
+'
+Private Sub yeardisplay_myMouseDown()
+   
+    On Error GoTo yeardisplay_myMouseDown_Error
+    
+    gblTimeAreaClicked = "year"
+    
+    If mAlarmtoggleEnabled = True Then
+        Call screenWrite("year display selected")
+    End If
+    
+    On Error GoTo 0
+   Exit Sub
+
+yeardisplay_myMouseDown_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure yeardisplay_myMouseDown of Class Module cfClock"
+
+End Sub
+
+
+'---------------------------------------------------------------------------------------
+' Procedure : datedisplay_myMouseDown
+' Author    : beededea
+' Date      : 03/08/2023
+' Purpose   :  - note: - can't use a std MouseDown as
+'             declaring a widget as cWidgetBase 'WithEvents' does not provide a std MouseDown with a sender object
+'---------------------------------------------------------------------------------------
+'
+Private Sub datedisplay_myMouseDown()
+   
+    On Error GoTo datedisplay_myMouseDown_Error
+    
+    gblTimeAreaClicked = "date"
+    
+    If mAlarmtoggleEnabled = True Then
+        Call screenWrite("date display selected")
+    End If
+    
+    On Error GoTo 0
+   Exit Sub
+
+datedisplay_myMouseDown_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure datedisplay_myMouseDown of Class Module cfClock"
+
+End Sub
+
+
+
 '---------------------------------------------------------------------------------------
 ' Procedure : redalarmcover_myMouseDown
 ' Author    : beededea
@@ -1838,6 +1934,9 @@ Private Sub alarmtoggle_myMouseDown()
     
     pvtSlidersetMousedown = False
     gblTimeAdvanceDeviation = 0
+    
+    ' sets the min /max slider values back to default
+    gblTimeAreaClicked = "none"
 
     If gblVolumeBoost = "1" Then
         fileToPlay = "clunk.wav"
@@ -1856,8 +1955,6 @@ Private Sub alarmtoggle_myMouseDown()
         gblShowAlarmDateTime = True ' var that allows the stored alarm date/time to be displayed
         alarmtoggleEnabled = False
     End If
-
-    
 
     clockForm.Refresh
 

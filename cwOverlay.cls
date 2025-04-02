@@ -1712,9 +1712,22 @@ Function fLogSlider(thisPerc As Integer) As Currency
     End If
     
     maxp = 100
-    minv = Log(50)       ' minimum
-    maxv = Log(3000000#) ' maximum
-
+    
+    ' sets the min /max slider values dependent upon which digital time area selected
+    If gblTimeAreaClicked = "none" Then
+        minv = Log(50)       ' minimum
+        maxv = Log(3000000#) ' maximum
+    ElseIf gblTimeAreaClicked = "date" Then
+        minv = Log(5000)       ' minimum
+        maxv = Log(3000000#) ' maximum
+    ElseIf gblTimeAreaClicked = "year" Then
+        minv = Log(1000000)       ' minimum
+        maxv = Log(30000000#) ' maximum
+    ElseIf gblTimeAreaClicked = "time" Then
+        minv = Log(5)       ' minimum
+        maxv = Log(50000#) ' maximum
+    End If
+    
     ' calculate adjustment factor, thisPerc will be between 0 and 100
     logScale = (maxv - minv) / (maxp - minp)
     thisValue = Exp(minv + logScale * (thisPerc - minp))

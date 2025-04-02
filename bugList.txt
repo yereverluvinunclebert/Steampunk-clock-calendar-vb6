@@ -430,6 +430,8 @@ o added code when un-setting all alarms to specifically reverse the alarm functi
 Tasks to do:
 ============
 
+  
+
 ' when an alarm has been raised and an alarm toggle selected, if you move the slider forward to a future date/time, a double click does not revert the time to the current time.
 - confirmed
 

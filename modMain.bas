@@ -88,6 +88,7 @@ Public Sub mainRoutine(ByVal restart As Boolean)
     ' initialise global vars
     Call initialiseGlobalVars
     
+    gblTimeAreaClicked = "none"
     gblStartupFlg = True
     gblWidgetName = "Steampunk Clock Calendar"
     thisPSDFullPath = App.path & "\Res\Steampunk Clock Calendar.psd"
@@ -507,6 +508,8 @@ Private Sub initialiseGlobalVars()
     gblOldSettingsModificationTime = #1/1/2000 12:00:00 PM#
     gblCodingEnvironment = vbNullString
 
+    gblTimeAreaClicked = vbNullString
+    
    On Error GoTo 0
    Exit Sub
 

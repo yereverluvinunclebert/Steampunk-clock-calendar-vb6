@@ -58,8 +58,8 @@ Begin VB.Form widgetPrefs
    Begin VB.Timer tmrWritePosition 
       Enabled         =   0   'False
       Interval        =   5000
-      Left            =   285
-      Top             =   6990
+      Left            =   -180
+      Top             =   6975
    End
    Begin VB.CheckBox chkEnableResizing 
       Caption         =   "Enable Corner Resize"
