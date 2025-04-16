@@ -424,18 +424,20 @@ o added code when un-setting all alarms to specifically reverse the alarm functi
 ' find and identify globals within licence class with property GET/LETs
 
 ' fix class timers not starting within properties when values are the same as current
+' change the main clock form time slider values to make hour/minute/date/year changes more practical
 
 ' -oOo-
+
+NOTE:
+
+When the RC6.DLL and RC6widgets.dll are registered elsewhere within another widget, then this widget will compile but not run. 
+In this case, the two DLLs in the local BIN folder need to be registered using the two Olaf-supplied scripts.
 
 Tasks to do:
 ============
 
-  
-
 ' when an alarm has been raised and an alarm toggle selected, if you move the slider forward to a future date/time, a double click does not revert the time to the current time.
 - confirmed
-
-' change and test the main clock form time slider values to make minute changes more practical
 
 ' 00xx issue on small slider movements just trying to change the time
 

@@ -103,7 +103,7 @@ Public Sub mainRoutine(ByVal restart As Boolean)
     #End If
         
     menuForm.mnuAbout.Caption = "About Steampunk Clock Calendar Cairo " & gblCodingEnvironment & " widget"
-    
+       
     ' Load the sounds into numbered buffers ready for playing
     Call loadAsynchSoundFiles
     

@@ -3,7 +3,7 @@ Attribute VB_Name = "Subclasser"
 ' Module    : Subclasser
 ' Author    : Elroy
 ' Date      : 16/07/2024
-' Purpose   :
+' Purpose   : used to subclass specific named controls
 '---------------------------------------------------------------------------------------
 
 Option Explicit
@@ -185,6 +185,8 @@ ComboBox_Proc_Error:
 End Function
 
 
+
+
 '---------------------------------------------------------------------------------------
 ' Procedure : Form_Proc
 ' Author    : Elroy
@@ -214,6 +216,7 @@ Private Function Form_Proc(ByVal hWnd As Long, ByVal uMsg As Long, ByVal wParam 
         On Error GoTo 0
         Set frm = Nothing
     End If
+    
     '
     ' If we fell out, just proceed as normal.
     Form_Proc = NextSubclassProcOnChain(hWnd, uMsg, wParam, lParam)

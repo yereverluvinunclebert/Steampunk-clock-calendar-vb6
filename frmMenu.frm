@@ -17,56 +17,56 @@ Begin VB.Form menuForm
    Begin VB.Menu mnuMainMenu 
       Caption         =   "mainmenu"
       Begin VB.Menu mnuAbout 
-         Caption         =   "About Steampunk Clock Calendar Cairo widget"
+         Caption         =   "About Steampunk Clock Calendar Cairo widget ..."
       End
       Begin VB.Menu mnuBlank5 
          Caption         =   "-"
       End
       Begin VB.Menu mnuProgramPreferences 
-         Caption         =   "Widget Preferences"
+         Caption         =   "Widget Preferences ..."
       End
       Begin VB.Menu mnublank1 
          Caption         =   "-"
       End
       Begin VB.Menu mnuCoffee 
-         Caption         =   "Donate a coffee with KoFi"
+         Caption         =   "Donate a coffee with KoFi ..."
          Index           =   2
       End
       Begin VB.Menu blank7 
          Caption         =   ""
       End
       Begin VB.Menu mnuHelpSplash 
-         Caption         =   "Steampunk Clock Calendar Help"
+         Caption         =   "Steampunk Clock Calendar Help ..."
       End
       Begin VB.Menu mnuOnline 
-         Caption         =   "Online Help and other options"
+         Caption         =   "Online Help and other options ..."
          Begin VB.Menu mnuWidgets 
-            Caption         =   "See the other widgets"
+            Caption         =   "See the other widgets ..."
          End
          Begin VB.Menu mnuGithubHome 
-            Caption         =   "Github Home for this widget"
+            Caption         =   "Github Home for this widget ..."
          End
          Begin VB.Menu mnuLatest 
-            Caption         =   "Download Latest Version from Github"
+            Caption         =   "Download Latest Version from Github ..."
          End
          Begin VB.Menu mnuSupport 
-            Caption         =   "Contact Support"
+            Caption         =   "Contact Support ..."
          End
          Begin VB.Menu mnuFacebook 
-            Caption         =   "Chat about the widget on Facebook"
+            Caption         =   "Chat about the widget on Facebook ..."
          End
          Begin VB.Menu mnuHelpHTM 
-            Caption         =   "Open Help CHM"
+            Caption         =   "Open Help CHM ..."
          End
       End
       Begin VB.Menu mnuLicence 
-         Caption         =   "Display Licence Agreement"
+         Caption         =   "Display Licence Agreement ..."
       End
       Begin VB.Menu blank2 
          Caption         =   ""
       End
       Begin VB.Menu mnuAppFolder 
-         Caption         =   "Reveal Widget in Windows Explorer"
+         Caption         =   "Reveal Widget in Windows Explorer ..."
       End
       Begin VB.Menu blank4 
          Caption         =   ""
