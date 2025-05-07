@@ -255,7 +255,7 @@ End Sub
 '---------------------------------------------------------------------------------------
 '
 Public Property Get ShowHelp() As Boolean
-   On Error GoTo ShowHelpGet_Error
+    On Error GoTo ShowHelpGet_Error
 
    ShowHelp = mShowHelp
 
@@ -279,19 +279,43 @@ Public Property Let ShowHelp(ByVal newValue As Boolean)
     Static helpbottomLeft As Long
     Static labellayerTop As Long
     Static labellayerLeft As Long
+    Static weekdayToggleAlreadyRaised As Boolean
+    Static alarmToggleAlreadyRaised As Boolean
+    
     Dim fileToPlay As String: fileToPlay = vbNullString
 
     On Error GoTo ShowHelpLet_Error
 
-    
     helpbottomTop = helpbottom.Top ' 36
     helpbottomLeft = helpbottom.Left '220
     
     labellayerTop = labellayer.Top ' 10
     labellayerLeft = labellayer.Left '2
+    
+    If mShowHelp <> newValue Then mShowHelp = newValue Else Exit Property
         
     If mShowHelp = True Then
+        
+        ' if the weekday flag is already raised then no need to raise it.
+        If mWeekdayToggleEnabled = True Then
+            weekdayToggleAlreadyRaised = True ' store the state in a static var
+        Else
+            weekdayToggleAlreadyRaised = False ' it wasn't previously raised
+            ' raise the weekday flag temporarily
+            weekdayToggleEnabled = True ' it is now
+        End If
+        
+        ' if the alarm flag is already raised then no need to raise it
+        If mAlarmToggle1Enabled = True Then
+            alarmToggleAlreadyRaised = True ' store the state in a static var
+        Else
+            alarmToggleAlreadyRaised = False ' it wasn't previously raised
+            ' raise the alarm flag temporarily
+            alarmtoggle1Enabled = True ' it is now
+        End If
 
+        ' show the bottom help and the label layer, moving them into place
+         
          If pvtHelpMoved = True Then  ' now copes with f5 reloads
              helpbottom.Move 220, helpbottomTop
              labellayer.Move 2, labellayerTop
@@ -300,8 +324,24 @@ Public Property Let ShowHelp(ByVal newValue As Boolean)
                   
          helpbottom.Alpha = Val(mOpacity) / 100
          labellayer.Alpha = Val(mOpacity) / 100
-        
+         
+         mShowHelp = True
     Else
+
+        ' if the weekday flag is already raised then no need to raise it.
+        If weekdayToggleAlreadyRaised = False Then
+            ' lower the weekday flag
+            weekdayToggleEnabled = False
+        End If
+        
+        ' if the alarm flag is already raised then no need to raise it
+         If alarmToggleAlreadyRaised = False Then
+            ' lower the alarm flag
+            alarmtoggle1Enabled = False
+        End If
+        
+        alarmToggleAlreadyRaised = False
+        weekdayToggleAlreadyRaised = False
 
         ' the next two lines are a complete hack compared to what I am used to in Konfabulator layers.
         ' when RC widgets are made alpha = 0 they are still clickable, so we have to
@@ -319,11 +359,10 @@ Public Property Let ShowHelp(ByVal newValue As Boolean)
             labellayer.Move labellayerLeft + 400, labellayerTop ' the "400" is a magical number that moves the widget layer just out of the way without causing tearing
             pvtHelpMoved = True
         End If
+        
+        mShowHelp = False
     
     End If
-    
-    If mShowHelp <> newValue Then mShowHelp = newValue Else Exit Property
-    ShowHelp = mShowHelp
     
     clockForm.Refresh
        
@@ -336,6 +375,8 @@ Public Property Let ShowHelp(ByVal newValue As Boolean)
     If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
         playSound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
     End If
+    
+    ShowHelp = mShowHelp
 
    On Error GoTo 0
    Exit Property
@@ -4043,10 +4084,13 @@ Public Property Let alarmtoggleEnabled(ByVal newValue As Boolean)
                 End If
         End If
         
-        If mWeekdayToggleEnabled = True Then
-            weekdayToggleEnabled = False
-        Else
-            TmrTILLSoundTicking = True
+        ' now close the weekday toggle if it is displayed as long as the one page help is not being shown
+        If mShowHelp = False Then
+            If mWeekdayToggleEnabled = True Then
+                weekdayToggleEnabled = False
+            Else
+                TmrTILLSoundTicking = True
+            End If
         End If
         
         gblShowAlarmDateTime = True ' causes the cache for the displayed time to the current alarm date/time selected

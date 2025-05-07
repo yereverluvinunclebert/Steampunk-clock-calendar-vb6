@@ -312,6 +312,7 @@ Begin VB.Form widgetPrefs
          Appearance      =   0  'Flat
          Height          =   600
          Left            =   165
+         Picture         =   "frmPrefs.frx":53C2
          Stretch         =   -1  'True
          Top             =   225
          Width           =   600
@@ -378,7 +379,7 @@ Begin VB.Form widgetPrefs
                Height          =   345
                Index           =   5
                Left            =   2115
-               Picture         =   "frmPrefs.frx":53C2
+               Picture         =   "frmPrefs.frx":5D82
                Style           =   1  'Graphical
                TabIndex        =   230
                Top             =   2160
@@ -388,7 +389,7 @@ Begin VB.Form widgetPrefs
                Height          =   345
                Index           =   4
                Left            =   2115
-               Picture         =   "frmPrefs.frx":5608
+               Picture         =   "frmPrefs.frx":5FC8
                Style           =   1  'Graphical
                TabIndex        =   229
                Top             =   1665
@@ -398,7 +399,7 @@ Begin VB.Form widgetPrefs
                Height          =   345
                Index           =   3
                Left            =   2115
-               Picture         =   "frmPrefs.frx":584E
+               Picture         =   "frmPrefs.frx":620E
                Style           =   1  'Graphical
                TabIndex        =   228
                Top             =   1185
@@ -408,7 +409,7 @@ Begin VB.Form widgetPrefs
                Height          =   345
                Index           =   2
                Left            =   2115
-               Picture         =   "frmPrefs.frx":5A94
+               Picture         =   "frmPrefs.frx":6454
                Style           =   1  'Graphical
                TabIndex        =   227
                Top             =   705
@@ -468,7 +469,7 @@ Begin VB.Form widgetPrefs
                Height          =   345
                Index           =   1
                Left            =   2115
-               Picture         =   "frmPrefs.frx":5CDA
+               Picture         =   "frmPrefs.frx":669A
                Style           =   1  'Graphical
                TabIndex        =   221
                Top             =   210
@@ -476,9 +477,9 @@ Begin VB.Form widgetPrefs
             End
             Begin VB.ComboBox cmbAlarm5Minutes 
                Height          =   315
-               ItemData        =   "frmPrefs.frx":5F20
+               ItemData        =   "frmPrefs.frx":68E0
                Left            =   5340
-               List            =   "frmPrefs.frx":5FDB
+               List            =   "frmPrefs.frx":699B
                Style           =   2  'Dropdown List
                TabIndex        =   218
                Top             =   2160
@@ -486,9 +487,9 @@ Begin VB.Form widgetPrefs
             End
             Begin VB.ComboBox cmbAlarm4Minutes 
                Height          =   315
-               ItemData        =   "frmPrefs.frx":60D1
+               ItemData        =   "frmPrefs.frx":6A91
                Left            =   5340
-               List            =   "frmPrefs.frx":618C
+               List            =   "frmPrefs.frx":6B4C
                Style           =   2  'Dropdown List
                TabIndex        =   217
                Top             =   1680
@@ -496,9 +497,9 @@ Begin VB.Form widgetPrefs
             End
             Begin VB.ComboBox cmbAlarm3Minutes 
                Height          =   315
-               ItemData        =   "frmPrefs.frx":6282
+               ItemData        =   "frmPrefs.frx":6C42
                Left            =   5340
-               List            =   "frmPrefs.frx":633D
+               List            =   "frmPrefs.frx":6CFD
                Style           =   2  'Dropdown List
                TabIndex        =   216
                Top             =   1215
@@ -506,9 +507,9 @@ Begin VB.Form widgetPrefs
             End
             Begin VB.ComboBox cmbAlarm2Minutes 
                Height          =   315
-               ItemData        =   "frmPrefs.frx":6433
+               ItemData        =   "frmPrefs.frx":6DF3
                Left            =   5340
-               List            =   "frmPrefs.frx":64EE
+               List            =   "frmPrefs.frx":6EAE
                Style           =   2  'Dropdown List
                TabIndex        =   215
                Top             =   720
@@ -516,9 +517,9 @@ Begin VB.Form widgetPrefs
             End
             Begin VB.ComboBox cmbAlarm5Hours 
                Height          =   315
-               ItemData        =   "frmPrefs.frx":65E4
+               ItemData        =   "frmPrefs.frx":6FA4
                Left            =   4785
-               List            =   "frmPrefs.frx":6633
+               List            =   "frmPrefs.frx":6FF3
                Style           =   2  'Dropdown List
                TabIndex        =   214
                Top             =   2175
@@ -526,9 +527,9 @@ Begin VB.Form widgetPrefs
             End
             Begin VB.ComboBox cmbAlarm4Hours 
                Height          =   315
-               ItemData        =   "frmPrefs.frx":6699
+               ItemData        =   "frmPrefs.frx":7059
                Left            =   4785
-               List            =   "frmPrefs.frx":66E8
+               List            =   "frmPrefs.frx":70A8
                Style           =   2  'Dropdown List
                TabIndex        =   213
                Top             =   1680
@@ -536,9 +537,9 @@ Begin VB.Form widgetPrefs
             End
             Begin VB.ComboBox cmbAlarm3Hours 
                Height          =   315
-               ItemData        =   "frmPrefs.frx":674E
+               ItemData        =   "frmPrefs.frx":710E
                Left            =   4785
-               List            =   "frmPrefs.frx":679D
+               List            =   "frmPrefs.frx":715D
                Style           =   2  'Dropdown List
                TabIndex        =   212
                Top             =   1215
@@ -546,9 +547,9 @@ Begin VB.Form widgetPrefs
             End
             Begin VB.ComboBox cmbAlarm2Hours 
                Height          =   315
-               ItemData        =   "frmPrefs.frx":6803
+               ItemData        =   "frmPrefs.frx":71C3
                Left            =   4785
-               List            =   "frmPrefs.frx":6852
+               List            =   "frmPrefs.frx":7212
                Style           =   2  'Dropdown List
                TabIndex        =   211
                Top             =   720
@@ -556,9 +557,9 @@ Begin VB.Form widgetPrefs
             End
             Begin VB.ComboBox cmbAlarm5Year 
                Height          =   315
-               ItemData        =   "frmPrefs.frx":68B8
+               ItemData        =   "frmPrefs.frx":7278
                Left            =   3945
-               List            =   "frmPrefs.frx":6994
+               List            =   "frmPrefs.frx":7354
                Style           =   2  'Dropdown List
                TabIndex        =   210
                Top             =   2175
@@ -566,9 +567,9 @@ Begin VB.Form widgetPrefs
             End
             Begin VB.ComboBox cmbAlarm4Year 
                Height          =   315
-               ItemData        =   "frmPrefs.frx":6B44
+               ItemData        =   "frmPrefs.frx":7504
                Left            =   3945
-               List            =   "frmPrefs.frx":6C20
+               List            =   "frmPrefs.frx":75E0
                Style           =   2  'Dropdown List
                TabIndex        =   209
                Top             =   1680
@@ -576,9 +577,9 @@ Begin VB.Form widgetPrefs
             End
             Begin VB.ComboBox cmbAlarm3Year 
                Height          =   315
-               ItemData        =   "frmPrefs.frx":6DD0
+               ItemData        =   "frmPrefs.frx":7790
                Left            =   3945
-               List            =   "frmPrefs.frx":6EAC
+               List            =   "frmPrefs.frx":786C
                Style           =   2  'Dropdown List
                TabIndex        =   208
                Top             =   1215
@@ -586,9 +587,9 @@ Begin VB.Form widgetPrefs
             End
             Begin VB.ComboBox cmbAlarm2Year 
                Height          =   315
-               ItemData        =   "frmPrefs.frx":705C
+               ItemData        =   "frmPrefs.frx":7A1C
                Left            =   3945
-               List            =   "frmPrefs.frx":7138
+               List            =   "frmPrefs.frx":7AF8
                Style           =   2  'Dropdown List
                TabIndex        =   207
                Top             =   720
@@ -596,9 +597,9 @@ Begin VB.Form widgetPrefs
             End
             Begin VB.ComboBox cmbAlarm5Month 
                Height          =   315
-               ItemData        =   "frmPrefs.frx":72E8
+               ItemData        =   "frmPrefs.frx":7CA8
                Left            =   3060
-               List            =   "frmPrefs.frx":7316
+               List            =   "frmPrefs.frx":7CD6
                Style           =   2  'Dropdown List
                TabIndex        =   206
                Top             =   2175
@@ -606,9 +607,9 @@ Begin VB.Form widgetPrefs
             End
             Begin VB.ComboBox cmbAlarm4Month 
                Height          =   315
-               ItemData        =   "frmPrefs.frx":7358
+               ItemData        =   "frmPrefs.frx":7D18
                Left            =   3075
-               List            =   "frmPrefs.frx":7386
+               List            =   "frmPrefs.frx":7D46
                Style           =   2  'Dropdown List
                TabIndex        =   205
                Top             =   1680
@@ -616,9 +617,9 @@ Begin VB.Form widgetPrefs
             End
             Begin VB.ComboBox cmbAlarm3Month 
                Height          =   315
-               ItemData        =   "frmPrefs.frx":73C8
+               ItemData        =   "frmPrefs.frx":7D88
                Left            =   3060
-               List            =   "frmPrefs.frx":73F6
+               List            =   "frmPrefs.frx":7DB6
                Style           =   2  'Dropdown List
                TabIndex        =   204
                Top             =   1215
@@ -626,9 +627,9 @@ Begin VB.Form widgetPrefs
             End
             Begin VB.ComboBox cmbAlarm5Day 
                Height          =   315
-               ItemData        =   "frmPrefs.frx":7438
+               ItemData        =   "frmPrefs.frx":7DF8
                Left            =   2505
-               List            =   "frmPrefs.frx":74B5
+               List            =   "frmPrefs.frx":7E75
                Style           =   2  'Dropdown List
                TabIndex        =   203
                Top             =   2175
@@ -636,9 +637,9 @@ Begin VB.Form widgetPrefs
             End
             Begin VB.ComboBox cmbAlarm4Day 
                Height          =   315
-               ItemData        =   "frmPrefs.frx":753B
+               ItemData        =   "frmPrefs.frx":7EFB
                Left            =   2505
-               List            =   "frmPrefs.frx":75B8
+               List            =   "frmPrefs.frx":7F78
                Style           =   2  'Dropdown List
                TabIndex        =   202
                Top             =   1680
@@ -646,9 +647,9 @@ Begin VB.Form widgetPrefs
             End
             Begin VB.ComboBox cmbAlarm3Day 
                Height          =   315
-               ItemData        =   "frmPrefs.frx":763E
+               ItemData        =   "frmPrefs.frx":7FFE
                Left            =   2505
-               List            =   "frmPrefs.frx":76BB
+               List            =   "frmPrefs.frx":807B
                Style           =   2  'Dropdown List
                TabIndex        =   201
                Top             =   1215
@@ -656,9 +657,9 @@ Begin VB.Form widgetPrefs
             End
             Begin VB.ComboBox cmbAlarm1Year 
                Height          =   315
-               ItemData        =   "frmPrefs.frx":7741
+               ItemData        =   "frmPrefs.frx":8101
                Left            =   3945
-               List            =   "frmPrefs.frx":781D
+               List            =   "frmPrefs.frx":81DD
                Style           =   2  'Dropdown List
                TabIndex        =   200
                Top             =   210
@@ -666,9 +667,9 @@ Begin VB.Form widgetPrefs
             End
             Begin VB.ComboBox cmbAlarm1Minutes 
                Height          =   315
-               ItemData        =   "frmPrefs.frx":79CD
+               ItemData        =   "frmPrefs.frx":838D
                Left            =   5340
-               List            =   "frmPrefs.frx":7A88
+               List            =   "frmPrefs.frx":8448
                Style           =   2  'Dropdown List
                TabIndex        =   199
                Top             =   210
@@ -676,9 +677,9 @@ Begin VB.Form widgetPrefs
             End
             Begin VB.ComboBox cmbAlarm1Hours 
                Height          =   315
-               ItemData        =   "frmPrefs.frx":7B7E
+               ItemData        =   "frmPrefs.frx":853E
                Left            =   4785
-               List            =   "frmPrefs.frx":7BCD
+               List            =   "frmPrefs.frx":858D
                Style           =   2  'Dropdown List
                TabIndex        =   198
                Top             =   210
@@ -686,9 +687,9 @@ Begin VB.Form widgetPrefs
             End
             Begin VB.ComboBox cmbAlarm1Month 
                Height          =   315
-               ItemData        =   "frmPrefs.frx":7C33
+               ItemData        =   "frmPrefs.frx":85F3
                Left            =   3060
-               List            =   "frmPrefs.frx":7C61
+               List            =   "frmPrefs.frx":8621
                Style           =   2  'Dropdown List
                TabIndex        =   197
                Top             =   210
@@ -696,9 +697,9 @@ Begin VB.Form widgetPrefs
             End
             Begin VB.ComboBox cmbAlarm2Day 
                Height          =   315
-               ItemData        =   "frmPrefs.frx":7CA3
+               ItemData        =   "frmPrefs.frx":8663
                Left            =   2505
-               List            =   "frmPrefs.frx":7D20
+               List            =   "frmPrefs.frx":86E0
                Style           =   2  'Dropdown List
                TabIndex        =   196
                Top             =   720
@@ -706,9 +707,9 @@ Begin VB.Form widgetPrefs
             End
             Begin VB.ComboBox cmbAlarm2Month 
                Height          =   315
-               ItemData        =   "frmPrefs.frx":7DA6
+               ItemData        =   "frmPrefs.frx":8766
                Left            =   3060
-               List            =   "frmPrefs.frx":7DD4
+               List            =   "frmPrefs.frx":8794
                Style           =   2  'Dropdown List
                TabIndex        =   195
                Top             =   720
@@ -725,9 +726,9 @@ Begin VB.Form widgetPrefs
                   Strikethrough   =   0   'False
                EndProperty
                Height          =   330
-               ItemData        =   "frmPrefs.frx":7E16
+               ItemData        =   "frmPrefs.frx":87D6
                Left            =   2505
-               List            =   "frmPrefs.frx":7E93
+               List            =   "frmPrefs.frx":8853
                Style           =   2  'Dropdown List
                TabIndex        =   194
                Top             =   210
@@ -864,7 +865,7 @@ Begin VB.Form widgetPrefs
                Width           =   825
             End
             Begin VB.Label lblGeneral 
-               Caption         =   $"frmPrefs.frx":7F19
+               Caption         =   $"frmPrefs.frx":88D9
                Height          =   900
                Index           =   10
                Left            =   2115
@@ -1195,7 +1196,7 @@ Begin VB.Form widgetPrefs
          MultiLine       =   -1  'True
          ScrollBars      =   2  'Vertical
          TabIndex        =   107
-         Text            =   "frmPrefs.frx":7FBA
+         Text            =   "frmPrefs.frx":897A
          Top             =   2205
          Width           =   7935
       End
@@ -1625,7 +1626,7 @@ Begin VB.Form widgetPrefs
             Width           =   2490
          End
          Begin VB.Label lblConfiguration 
-            Caption         =   $"frmPrefs.frx":8F71
+            Caption         =   $"frmPrefs.frx":9931
             Height          =   915
             Index           =   0
             Left            =   1980
@@ -1796,7 +1797,7 @@ Begin VB.Form widgetPrefs
                Width           =   720
             End
             Begin VB.Label lblWindowLevel 
-               Caption         =   $"frmPrefs.frx":9025
+               Caption         =   $"frmPrefs.frx":99E5
                Height          =   975
                Index           =   1
                Left            =   855
@@ -1832,7 +1833,7 @@ Begin VB.Form widgetPrefs
             Width           =   1830
          End
          Begin VB.Label lblWindowLevel 
-            Caption         =   $"frmPrefs.frx":90C8
+            Caption         =   $"frmPrefs.frx":9A88
             Height          =   1140
             Index           =   10
             Left            =   2235
@@ -2141,7 +2142,7 @@ Begin VB.Form widgetPrefs
                Width           =   3660
             End
             Begin VB.Label lblGitHub 
-               Caption         =   $"frmPrefs.frx":91DF
+               Caption         =   $"frmPrefs.frx":9B9F
                ForeColor       =   &H8000000D&
                Height          =   915
                Left            =   1560
@@ -2151,7 +2152,7 @@ Begin VB.Form widgetPrefs
                Width           =   4935
             End
             Begin VB.Label lblDebug 
-               Caption         =   $"frmPrefs.frx":92A6
+               Caption         =   $"frmPrefs.frx":9C66
                Height          =   930
                Index           =   9
                Left            =   1545
@@ -2198,9 +2199,9 @@ Begin VB.Form widgetPrefs
          End
          Begin VB.ComboBox cmbDebug 
             Height          =   315
-            ItemData        =   "frmPrefs.frx":934A
+            ItemData        =   "frmPrefs.frx":9D0A
             Left            =   1530
-            List            =   "frmPrefs.frx":934C
+            List            =   "frmPrefs.frx":9D0C
             Style           =   2  'Dropdown List
             TabIndex        =   49
             ToolTipText     =   "Choose to set debug mode."
@@ -2459,7 +2460,7 @@ Begin VB.Form widgetPrefs
             Width           =   2115
          End
          Begin VB.Label lblPosition 
-            Caption         =   $"frmPrefs.frx":934E
+            Caption         =   $"frmPrefs.frx":9D0E
             Height          =   3435
             Index           =   12
             Left            =   5145
@@ -2479,7 +2480,7 @@ Begin VB.Form widgetPrefs
             Width           =   2040
          End
          Begin VB.Label lblPosition 
-            Caption         =   $"frmPrefs.frx":9520
+            Caption         =   $"frmPrefs.frx":9EE0
             Height          =   705
             Index           =   10
             Left            =   2250
@@ -2499,7 +2500,7 @@ Begin VB.Form widgetPrefs
             Width           =   2355
          End
          Begin VB.Label lblPosition 
-            Caption         =   $"frmPrefs.frx":95BF
+            Caption         =   $"frmPrefs.frx":9F7F
             Height          =   3045
             Index           =   6
             Left            =   2265

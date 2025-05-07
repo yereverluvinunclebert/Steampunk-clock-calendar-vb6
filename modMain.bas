@@ -1064,13 +1064,7 @@ Public Sub adjustMainControls(Optional ByVal licenceState As Integer)
         fClock.clockForm.Widgets("lockingpin").Widget.Alpha = 0
         fClock.clockForm.Widgets("lockingpinlocked").Widget.Alpha = Val(gblOpacity) / 100
     End If
-    
-    ' ensure the background help displays on startup
-    If gblShowHelp = "0" Then
-        fClock.ShowHelp = False
-    Else
-        fClock.ShowHelp = True
-    End If
+
     
     ' ensure the background help displays on startup
     If gblTogglePendulum = "0" Then
@@ -1189,6 +1183,13 @@ Public Sub adjustMainControls(Optional ByVal licenceState As Integer)
         fClock.clockForm.Widgets("alarmtoggle5").Widget.ImageKey = "alarmtoggle5armed"
     Else
         fClock.clockForm.Widgets("alarmtoggle5").Widget.ImageKey = "alarmtoggle5"
+    End If
+    
+    ' ensure the background help displays on startup
+    If gblShowHelp = "1" Then
+        fClock.ShowHelp = True
+'    Else
+'        fClock.ShowHelp = True
     End If
 
     overlayWidget.MyOpacity = Val(gblOpacity) / 100
