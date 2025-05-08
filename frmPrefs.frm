@@ -459,10 +459,10 @@ Begin VB.Form widgetPrefs
                Caption         =   "Clear"
                Height          =   345
                Index           =   1
-               Left            =   7695
+               Left            =   7680
                Style           =   1  'Graphical
                TabIndex        =   222
-               Top             =   180
+               Top             =   195
                Width           =   540
             End
             Begin VB.CommandButton btnNow 
@@ -472,7 +472,7 @@ Begin VB.Form widgetPrefs
                Picture         =   "frmPrefs.frx":669A
                Style           =   1  'Graphical
                TabIndex        =   221
-               Top             =   210
+               Top             =   195
                Width           =   330
             End
             Begin VB.ComboBox cmbAlarm5Minutes 
@@ -1011,128 +1011,6 @@ Begin VB.Form widgetPrefs
          End
       End
    End
-   Begin VB.Frame fraSounds 
-      Caption         =   "Sounds"
-      Height          =   3930
-      Left            =   855
-      TabIndex        =   13
-      Top             =   1230
-      Visible         =   0   'False
-      Width           =   7965
-      Begin VB.Frame fraSoundsInner 
-         BorderStyle     =   0  'None
-         Height          =   3315
-         Left            =   765
-         TabIndex        =   24
-         Top             =   285
-         Width           =   6420
-         Begin VB.CheckBox chkEnableAlarms 
-            Caption         =   "Decide whether the clock alarms will sound."
-            Height          =   225
-            Left            =   1485
-            TabIndex        =   238
-            ToolTipText     =   "Check this box to enable or disable all of the sounds used during any animation on the main screen."
-            Top             =   1680
-            Width           =   4365
-         End
-         Begin VB.CheckBox chkVolumeBoost 
-            Caption         =   "Decide whether the various sounds will be boosted."
-            Height          =   225
-            Left            =   1485
-            TabIndex        =   175
-            ToolTipText     =   "Check this box to enable or disable all of the sounds used during any animation on the main screen."
-            Top             =   2160
-            Width           =   4365
-         End
-         Begin VB.CheckBox chkEnableChimes 
-            Caption         =   "Decide whether the clock chimes will sound."
-            Height          =   225
-            Left            =   1485
-            TabIndex        =   173
-            ToolTipText     =   "Check this box to enable or disable all of the sounds used during any animation on the main screen."
-            Top             =   1215
-            Width           =   4365
-         End
-         Begin VB.CheckBox chkEnableTicks 
-            Caption         =   "Decide whether the clock has the tick sounds enabled."
-            Height          =   225
-            Left            =   1485
-            TabIndex        =   171
-            ToolTipText     =   "Check this box to enable or disable all of the sounds used during any animation on the main screen."
-            Top             =   765
-            Width           =   4365
-         End
-         Begin VB.CheckBox chkEnableSounds 
-            Caption         =   "Enable ALL sounds for the whole widget."
-            Height          =   225
-            Left            =   1485
-            TabIndex        =   34
-            ToolTipText     =   "Check this box to enable or disable all of the sounds used during any animation on the main screen."
-            Top             =   285
-            Width           =   4485
-         End
-         Begin VB.Label lblSoundsTab 
-            Caption         =   "Alarms :"
-            Height          =   255
-            Index           =   5
-            Left            =   765
-            TabIndex        =   239
-            Tag             =   "lblSharedInputFile"
-            Top             =   1680
-            Width           =   765
-         End
-         Begin VB.Label lblSoundsTab 
-            Caption         =   "Determine the sound of UI elements, clock tick and chiming volumes. Set the overall volume to loud or quiet."
-            Height          =   540
-            Index           =   4
-            Left            =   1470
-            TabIndex        =   177
-            Tag             =   "lblSharedInputFile"
-            Top             =   2580
-            Width           =   4680
-         End
-         Begin VB.Label lblSoundsTab 
-            Caption         =   "Volume Boost :"
-            Height          =   255
-            Index           =   2
-            Left            =   300
-            TabIndex        =   176
-            Tag             =   "lblSharedInputFile"
-            Top             =   2160
-            Width           =   1185
-         End
-         Begin VB.Label lblSoundsTab 
-            Caption         =   "Chimes :"
-            Height          =   255
-            Index           =   1
-            Left            =   765
-            TabIndex        =   174
-            Tag             =   "lblSharedInputFile"
-            Top             =   1215
-            Width           =   765
-         End
-         Begin VB.Label lblSoundsTab 
-            Caption         =   "Ticks :"
-            Height          =   255
-            Index           =   0
-            Left            =   885
-            TabIndex        =   172
-            Tag             =   "lblSharedInputFile"
-            Top             =   765
-            Width           =   765
-         End
-         Begin VB.Label lblSoundsTab 
-            Caption         =   "Audio :"
-            Height          =   255
-            Index           =   3
-            Left            =   885
-            TabIndex        =   91
-            Tag             =   "lblSharedInputFile"
-            Top             =   285
-            Width           =   765
-         End
-      End
-   End
    Begin VB.Frame fraAbout 
       Caption         =   "About"
       Height          =   8580
@@ -1472,6 +1350,128 @@ Begin VB.Form widgetPrefs
          TabIndex        =   99
          Top             =   510
          Width           =   2655
+      End
+   End
+   Begin VB.Frame fraSounds 
+      Caption         =   "Sounds"
+      Height          =   3930
+      Left            =   855
+      TabIndex        =   13
+      Top             =   1230
+      Visible         =   0   'False
+      Width           =   7965
+      Begin VB.Frame fraSoundsInner 
+         BorderStyle     =   0  'None
+         Height          =   3315
+         Left            =   765
+         TabIndex        =   24
+         Top             =   285
+         Width           =   6420
+         Begin VB.CheckBox chkEnableAlarms 
+            Caption         =   "Decide whether the clock alarms will sound."
+            Height          =   225
+            Left            =   1485
+            TabIndex        =   238
+            ToolTipText     =   "Check this box to enable or disable all of the sounds used during any animation on the main screen."
+            Top             =   1680
+            Width           =   4365
+         End
+         Begin VB.CheckBox chkVolumeBoost 
+            Caption         =   "Decide whether the various sounds will be boosted."
+            Height          =   225
+            Left            =   1485
+            TabIndex        =   175
+            ToolTipText     =   "Check this box to enable or disable all of the sounds used during any animation on the main screen."
+            Top             =   2160
+            Width           =   4365
+         End
+         Begin VB.CheckBox chkEnableChimes 
+            Caption         =   "Decide whether the clock chimes will sound."
+            Height          =   225
+            Left            =   1485
+            TabIndex        =   173
+            ToolTipText     =   "Check this box to enable or disable all of the sounds used during any animation on the main screen."
+            Top             =   1215
+            Width           =   4365
+         End
+         Begin VB.CheckBox chkEnableTicks 
+            Caption         =   "Decide whether the clock has the tick sounds enabled."
+            Height          =   225
+            Left            =   1485
+            TabIndex        =   171
+            ToolTipText     =   "Check this box to enable or disable all of the sounds used during any animation on the main screen."
+            Top             =   765
+            Width           =   4365
+         End
+         Begin VB.CheckBox chkEnableSounds 
+            Caption         =   "Enable ALL sounds for the whole widget."
+            Height          =   225
+            Left            =   1485
+            TabIndex        =   34
+            ToolTipText     =   "Check this box to enable or disable all of the sounds used during any animation on the main screen."
+            Top             =   285
+            Width           =   4485
+         End
+         Begin VB.Label lblSoundsTab 
+            Caption         =   "Alarms :"
+            Height          =   255
+            Index           =   5
+            Left            =   765
+            TabIndex        =   239
+            Tag             =   "lblSharedInputFile"
+            Top             =   1680
+            Width           =   765
+         End
+         Begin VB.Label lblSoundsTab 
+            Caption         =   "Determine the sound of UI elements, clock tick and chiming volumes. Set the overall volume to loud or quiet."
+            Height          =   540
+            Index           =   4
+            Left            =   1470
+            TabIndex        =   177
+            Tag             =   "lblSharedInputFile"
+            Top             =   2580
+            Width           =   4680
+         End
+         Begin VB.Label lblSoundsTab 
+            Caption         =   "Volume Boost :"
+            Height          =   255
+            Index           =   2
+            Left            =   300
+            TabIndex        =   176
+            Tag             =   "lblSharedInputFile"
+            Top             =   2160
+            Width           =   1185
+         End
+         Begin VB.Label lblSoundsTab 
+            Caption         =   "Chimes :"
+            Height          =   255
+            Index           =   1
+            Left            =   765
+            TabIndex        =   174
+            Tag             =   "lblSharedInputFile"
+            Top             =   1215
+            Width           =   765
+         End
+         Begin VB.Label lblSoundsTab 
+            Caption         =   "Ticks :"
+            Height          =   255
+            Index           =   0
+            Left            =   885
+            TabIndex        =   172
+            Tag             =   "lblSharedInputFile"
+            Top             =   765
+            Width           =   765
+         End
+         Begin VB.Label lblSoundsTab 
+            Caption         =   "Audio :"
+            Height          =   255
+            Index           =   3
+            Left            =   885
+            TabIndex        =   91
+            Tag             =   "lblSharedInputFile"
+            Top             =   285
+            Width           =   765
+         End
       End
    End
    Begin VB.Frame fraConfig 
@@ -6096,52 +6096,53 @@ Private Sub populatePrefsComboBoxes()
     fClock.RotateBusyTimer = True
 
     ' Originally I filled the alarm comboboxes using code.
-    ' Instead of filling the alarm combo boxes in code, this is now done using the IDE.
-    
+    ' Instead of filling the alarm combo boxes in code, this is now done using the IDE. The reason for this is
+    ' that we have so many comboboxes to fill and multiple values for each that the population takes a long time.
+    ' Filling the IDE in advance is much quicker.
+
     ' Note: When manually entering the and dates into the combox box list and item data areas
     ' the IDE keeps turning the numeric values < 10 into square boxes, to avoid this I
     ' have been copying and pasteing the numbers from cintanotes into both the itemdata and list array boxes
+
+    ' the code below filled the various alarm comboboxes with the correct values, however it is bloody slow so
+    ' commented out. Retained for history.
     
-    ' the code below filled the various alarm comboboxes with the correct values, however it is bloody slow!
-    
-    ' only populates using TB as the TB IDE is very difficult to populate with multiple values
-    
-    #If TWINBASIC Then
-        ' add the day options to the day combobox
-        Call fillComboAlarmDay(cmbAlarm1Day)
-        Call fillComboAlarmDay(cmbAlarm2Day)
-        Call fillComboAlarmDay(cmbAlarm3Day)
-        Call fillComboAlarmDay(cmbAlarm4Day)
-        Call fillComboAlarmDay(cmbAlarm5Day)
-    
-        ' add the month options to the month combobox
-        Call fillComboAlarmMonth(cmbAlarm1Month)
-        Call fillComboAlarmMonth(cmbAlarm2Month)
-        Call fillComboAlarmMonth(cmbAlarm3Month)
-        Call fillComboAlarmMonth(cmbAlarm4Month)
-        Call fillComboAlarmMonth(cmbAlarm5Month)
-    
-        ' add the next hundred year options to the year combobox
-        Call fillComboAlarmYear(cmbAlarm1Year)
-        Call fillComboAlarmYear(cmbAlarm2Year)
-        Call fillComboAlarmYear(cmbAlarm3Year)
-        Call fillComboAlarmYear(cmbAlarm4Year)
-        Call fillComboAlarmYear(cmbAlarm5Year)
-    
-        ' add the hour options to the hour combobox
-        Call fillComboAlarmHour(cmbAlarm1Hours)
-        Call fillComboAlarmHour(cmbAlarm2Hours)
-        Call fillComboAlarmHour(cmbAlarm3Hours)
-        Call fillComboAlarmHour(cmbAlarm4Hours)
-        Call fillComboAlarmHour(cmbAlarm5Hours)
-    
-        ' add the minute options to the minute combobox
-        Call fillComboAlarmMinute(cmbAlarm1Minutes)
-        Call fillComboAlarmMinute(cmbAlarm2Minutes)
-        Call fillComboAlarmMinute(cmbAlarm3Minutes)
-        Call fillComboAlarmMinute(cmbAlarm4Minutes)
-        Call fillComboAlarmMinute(cmbAlarm5Minutes)
-    #End If
+'    #If TWINBASIC Then
+'        ' add the day options to the day combobox
+'        Call fillComboAlarmDay(cmbAlarm1Day)
+'        Call fillComboAlarmDay(cmbAlarm2Day)
+'        Call fillComboAlarmDay(cmbAlarm3Day)
+'        Call fillComboAlarmDay(cmbAlarm4Day)
+'        Call fillComboAlarmDay(cmbAlarm5Day)
+'
+'        ' add the month options to the month combobox
+'        Call fillComboAlarmMonth(cmbAlarm1Month)
+'        Call fillComboAlarmMonth(cmbAlarm2Month)
+'        Call fillComboAlarmMonth(cmbAlarm3Month)
+'        Call fillComboAlarmMonth(cmbAlarm4Month)
+'        Call fillComboAlarmMonth(cmbAlarm5Month)
+'
+'        ' add the next hundred year options to the year combobox
+'        Call fillComboAlarmYear(cmbAlarm1Year)
+'        Call fillComboAlarmYear(cmbAlarm2Year)
+'        Call fillComboAlarmYear(cmbAlarm3Year)
+'        Call fillComboAlarmYear(cmbAlarm4Year)
+'        Call fillComboAlarmYear(cmbAlarm5Year)
+'
+'        ' add the hour options to the hour combobox
+'        Call fillComboAlarmHour(cmbAlarm1Hours)
+'        Call fillComboAlarmHour(cmbAlarm2Hours)
+'        Call fillComboAlarmHour(cmbAlarm3Hours)
+'        Call fillComboAlarmHour(cmbAlarm4Hours)
+'        Call fillComboAlarmHour(cmbAlarm5Hours)
+'
+'        ' add the minute options to the minute combobox
+'        Call fillComboAlarmMinute(cmbAlarm1Minutes)
+'        Call fillComboAlarmMinute(cmbAlarm2Minutes)
+'        Call fillComboAlarmMinute(cmbAlarm3Minutes)
+'        Call fillComboAlarmMinute(cmbAlarm4Minutes)
+'        Call fillComboAlarmMinute(cmbAlarm5Minutes)
+'    #End If
     
     On Error GoTo 0
     Exit Sub
