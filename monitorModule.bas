@@ -654,15 +654,15 @@ Public Sub positionClockByMonitorSize()
     On Error GoTo positionClockByMonitorSize_Error
   
     If gblMonitorCount > 1 And (LTrim$(gblMultiMonitorResize) = "1" Or LTrim$(gblMultiMonitorResize) = "2") Then
-    
-        If fClock.clockForm.Left = oldClockLeftPixels Then Exit Sub ' this can only work if the reposition is being performed by the timer
-        ' we are also calling it on a mouseUP event, so the comparison to original position is lost to us
-                
+                    
         ' note the monitor ID at clockForm form_load and store as the clockFormMonitorID
         clockMonitorStruct = cWidgetFormScreenProperties(fClock.clockForm, clockFormMonitorID)
         
         clockFormMonitorPrimary = clockMonitorStruct.IsPrimary
         
+        If fClock.clockForm.Left = oldClockLeftPixels Then Exit Sub ' this can only work if the reposition is being performed by the timer
+        ' we are also calling it on a mouseUP event, so the comparison to original position is lost to us
+    
         ' sample the physical monitor resolution
         monitorStructWidthTwips = clockMonitorStruct.Width
         monitorStructHeightTwips = clockMonitorStruct.Height

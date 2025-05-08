@@ -143,7 +143,7 @@ Public Sub mainRoutine(ByVal restart As Boolean)
     ' start the load of the PSD file using the RC6 PSD-Parser.instance
     Call fClock.InitFromPSD(thisPSDFullPath)  ' no optional close layer as 3rd param
             
-    ' initialise and create the three main RC forms on the current display
+    ' initialise and create the three main RC forms (clock, about and licence) on the current display
     Call createRCFormsOnCurrentDisplay
     
     ' place the form at the saved location and configure all the form elements
