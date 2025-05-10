@@ -2268,6 +2268,8 @@ Public Sub reloadProgram()
     
     On Error GoTo reloadProgram_Error
     
+    fClock.ShowHelp = False ' needs to be set to false for the reload to reshow it, if enabled
+    
     gblFClockAvailable = False ' tell the screenwrite util that the clockform is no longer available to write console events to
     
     Erase gblTerminalRows ' remove the old text stored in the display screen array
@@ -2904,6 +2906,33 @@ hideBusyTimer_Error:
 
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure hideBusyTimer of Form widgetPrefs"
     
+End Sub
+
+
+'---------------------------------------------------------------------------------------
+' Procedure : hideDayOfWeek
+' Author    : beededea
+' Date      : 07/12/2024
+' Purpose   : note: another routine exists called hideAlarmTills that closes each individually, setting values too
+'---------------------------------------------------------------------------------------
+'
+Public Sub hideDayOfWeek()
+   On Error GoTo hideDayOfWeek_Error
+
+        fClock.clockForm.Widgets("monday").Widget.Alpha = 0
+        fClock.clockForm.Widgets("tuesday").Widget.Alpha = 0
+        fClock.clockForm.Widgets("wednesday").Widget.Alpha = 0
+        fClock.clockForm.Widgets("thursday").Widget.Alpha = 0
+        fClock.clockForm.Widgets("friday").Widget.Alpha = 0
+        fClock.clockForm.Widgets("saturday").Widget.Alpha = 0
+        fClock.clockForm.Widgets("sunday").Widget.Alpha = 0
+
+   On Error GoTo 0
+   Exit Sub
+
+hideDayOfWeek_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure hideDayOfWeek of Class Module cwOverlay"
 End Sub
 
 

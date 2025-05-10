@@ -324,8 +324,6 @@ Public Property Let ShowHelp(ByVal newValue As Boolean)
                   
          helpbottom.Alpha = Val(mOpacity) / 100
          labellayer.Alpha = Val(mOpacity) / 100
-         
-         mShowHelp = True
     Else
 
         ' if the weekday flag is already raised then no need to raise it.
@@ -359,9 +357,7 @@ Public Property Let ShowHelp(ByVal newValue As Boolean)
             labellayer.Move labellayerLeft + 400, labellayerTop ' the "400" is a magical number that moves the widget layer just out of the way without causing tearing
             pvtHelpMoved = True
         End If
-        
-        mShowHelp = False
-    
+            
     End If
     
     clockForm.Refresh
@@ -711,7 +707,6 @@ Private Sub clockForm_BubblingEvent(ByRef sender As Object, ByRef EventName As S
 
             ' monday - sunday ensuring the weekday till goes red even when hovering over the day text in=mages.
             Case "monday"
-                
                 If mWeekdayToggleEnabled = True Then
                     weekdayred.Alpha = Val(mOpacity) / 100
                     weekdayred.Refresh
@@ -5116,7 +5111,7 @@ End Property
 ' Date: 17/06/2024
 ' ----------------------------------------------------------------
 Private Sub hideAlarmTills()
-    On Error GoTo fDayOfWeek_Error
+    On Error GoTo hideAlarmTills_Error
             
     If pvtAlarmInitiatingControl <> "alarmtoggle1" And mAlarmToggle1Enabled = True Then alarmtoggle1Enabled = False
     If pvtAlarmInitiatingControl <> "alarmtoggle2" And mAlarmToggle2Enabled = True Then alarmtoggle2Enabled = False
@@ -5127,7 +5122,7 @@ Private Sub hideAlarmTills()
     On Error GoTo 0
     Exit Sub
 
-fDayOfWeek_Error:
+hideAlarmTills_Error:
 
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure hideAlarmTills, line " & Erl & "."
 

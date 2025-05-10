@@ -252,6 +252,12 @@ Private Sub sleepTimer_Timer()
             overlayWidget.TmrDigitRotatorTicking = True
         End If
         
+        '  clear any existing weekday indicator after a wake from sleep
+        If fClock.weekdayToggleEnabled = True Then
+            Call hideDayOfWeek
+            fClock.clockForm.Widgets(fDayOfWeek).Widget.Alpha = 1
+        End If
+        
         overlayWidget.Widget.Parent.Refresh
         
     End If

@@ -37,7 +37,7 @@ Description="A FOSS Steampunk Clock Calendar Visual/TwinBasic Widget for Windows
 CompatibleMode="0"
 MajorVer=0
 MinorVer=0
-RevisionVer=2863
+RevisionVer=2871
 AutoIncrementVer=1
 ServerSupportFiles=0
 VersionComments="Alpha-release version. "
@@ -45,7 +45,7 @@ VersionCompanyName="Brick Moon Interplanetary Enterprises"
 VersionFileDescription="VB6/TwinBasic WoW64 Steampunk Clock Calendar Widget."
 VersionLegalCopyright="Usage according to the GPL licence"
 VersionProductName="Steampunk Clock Calendar Widget"
-CompilationType=0
+CompilationType=-1
 OptimizationType=0
 FavorPentiumPro(tm)=0
 CodeViewDebugInfo=0
@@ -80,3 +80,5 @@ ProjectId=79e9b044-786f-4d2a-abd2-5aecb28ec8a1
 
 [fastBuild]
 fullPath=%ap%\Steampunk Clock Calendar.exe
+
+
