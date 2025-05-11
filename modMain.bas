@@ -190,7 +190,11 @@ Public Sub mainRoutine(ByVal restart As Boolean)
         
     ' RC message pump will auto-exit when Cairo Forms > 0 so we run it only when 0, this prevents message interruption
     ' when running twice on reload. Do not move this line.
-    If restart = False Then Cairo.WidgetForms.EnterMessageLoop
+    #If TWINBASIC Then
+        Cairo.WidgetForms.EnterMessageLoop
+    #Else
+        If restart = False Then Cairo.WidgetForms.EnterMessageLoop
+    #End If
      
    On Error GoTo 0
    Exit Sub

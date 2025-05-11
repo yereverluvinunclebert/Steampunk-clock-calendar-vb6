@@ -4312,7 +4312,7 @@ Public Property Let muteToggleEnabled(ByVal newValue As Boolean)
     If newValue = True Then
         mutetoggle.Move muteToggleIn, muteToggleTop
         gblMuteToggleEnabled = "True"
-        ticking = False
+        If gblEnableTicks = "1" Then ticking = False
         gblEnableSounds = "0"
         If widgetPrefs.IsLoaded = True Then widgetPrefs.chkEnableSounds.Value = 0
         
@@ -4328,7 +4328,7 @@ Public Property Let muteToggleEnabled(ByVal newValue As Boolean)
         mutetoggle.Move muteToggleOut, muteToggleTop
         gblMuteToggleEnabled = "False"
         gblEnableSounds = "1"
-        ticking = True
+        If gblEnableTicks = "1" Then ticking = True
         If widgetPrefs.IsLoaded = True Then widgetPrefs.chkEnableSounds.Value = 1
     End If
     

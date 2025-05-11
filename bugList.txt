@@ -433,6 +433,12 @@ NOTE:
 When the RC6.DLL and RC6widgets.dll are registered elsewhere within another widget, then this widget will compile but not run. 
 In this case, the two DLLs in the local BIN folder need to be registered using the two Olaf-supplied scripts.
 
+' weekday till flag, the text 'only' sometimes doubles up, possibly after a refresh after midnight when the till has been showing - identify the scenario
+'     the weekday had not changed overnight and the previous transparent day indicator was left on screen, pressing the weekday toggle caused the new weekday
+'     to appear but the previous one persists
+
+TwinBasic crash after reload due to RC message pump
+
 Tasks to do:
 ============
 
@@ -451,17 +457,13 @@ Tasks to do:
 
 ' clockform.refresh or overlaywidget.refresh?
 
-' weekday till flag, the text 'only' sometimes doubles up, possibly after a refresh after midnight when the till has been showing - identify the scenario
-'     the weekday had not changed overnight and the previous transparent day indicator was left on screen, pressing the weekday toggle caused the new weekday
-'     to appear but the previous one persists
-
 ' sliderSet movement should cause asynch. sounds rather than causing a timer to call the sound in the background.
 
 ' add another overlay that handles the animation of the pendulum alone that can run at a much higher frequency and reducing CPU usage overall.
 
 ' tmrTickingSound_Timer timer, a sound sequence of ticks to be played, needs replacing with a timed tick that corresponds with pendulum movement
 
-' match the numeric digit rotation to match the YWE version? Not sure...
+' match the numeric digit rotation to match the YWE version? No
 
 ' replace the dropdown comboxes for the date selection with Krool's date/time calendar
 
