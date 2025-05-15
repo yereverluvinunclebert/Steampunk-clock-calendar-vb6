@@ -42,6 +42,7 @@ Public aboutWidget As cwAbout
 Public licenceWidget As cwLicence
 Public fClock As New cfClock
 Public overlayWidget As cwOverlay
+Public pendulumWidget As cwPendulum
 
 ' any other private vars
 Public gblWidgetName As String
@@ -1754,6 +1755,10 @@ Private Sub loadExcludePathCollection()
         .Add Empty, "pendulum"
     End With
     
+    With fClock.collPendulumElements ' the pendulum list
+        .Add Empty, "pendulum"
+    End With
+        
 
    On Error GoTo 0
    Exit Sub

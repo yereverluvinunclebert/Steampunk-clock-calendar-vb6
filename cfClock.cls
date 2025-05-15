@@ -44,6 +44,7 @@ Attribute tmrTickingSound.VB_VarHelpID = -1
 ' public vars and objects
 
 Public collPSDNonUIElements As cCollection
+Public collPendulumElements As cCollection
 
 Public FX As Long   ' available externally, to allow the clockForm to be moved, need to add set/let for these public vars
 Public FY As Long
@@ -228,6 +229,7 @@ Private Sub Class_Initialize()
     pvtBusyTimerRotateValue = 1
 
     Set collPSDNonUIElements = New_c.Collection(False)
+    Set collPendulumElements = New_c.Collection(False)
     
     Set tmrZZZZSound = Nothing
     Set tmrZZZZSound = New_c.Timer(100, False)
@@ -432,6 +434,11 @@ Public Sub InitFromPSD(ByRef PSD_FileNameOrByteArray As Variant)
                         'we add layer info. (used later in cwOverlay) to the excluded layers that will form the overlay.
                         collPSDNonUIElements(.LayerPath(I)) = Array(.LayerX(I), .LayerY(I), someOpacity)  'here we update the so far empty slots with the PSD-offsets
                 
+                    ElseIf collPendulumElements.Exists(.LayerPath(I)) Then
+                        
+                        'we add layer info. (used later in cwOverlay) to the excluded layers that will form the overlay.
+                        collPendulumElements(.LayerPath(I)) = Array(.LayerX(I), .LayerY(I), someOpacity)  'here we update the so far empty slots with the PSD-offsets
+                    
                     Else
                     
                         'create a widget instance for all layers in the PSD, excluding any layers entered into the exclude-list
@@ -455,13 +462,18 @@ Public Sub InitFromPSD(ByRef PSD_FileNameOrByteArray As Variant)
         Next I
     End With '<-- the Parser-instance will be destroyed here (freeing the Memory, the internal PSD-Layers have occupied)
         
+    ' create a overlay here just for a single custom widget that contains just the animated elements.
     Set overlayWidget = clockForm.Widgets.Add(New cwOverlay, "Overlay", 0, 0, pvtPSDWidth, pvtPSDHeight)
     Set overlayWidget.cCollOverlayImages = collPSDNonUIElements 'make the excluded PSD-Surface-Paths known to the Overlay-Widget
         overlayWidget.cxPerc = 0.645 'define the relative center (within cwOverlay, which has the same size as the Form and the PSD...) this is used for clock-hand-positioning
         overlayWidget.cyPerc = 0.334
         
-    ' need to create a second overlay here just for the pendulum animation.
-
+'    ' need to create a second overlay custom widget here just for the pendulum animation alone.
+'    Set pendulumWidget = clockForm.Widgets.Add(New cwPendulum, "Pendulum", 0, 0, pvtPSDWidth, pvtPSDHeight)
+'    Set pendulumWidget.cCollPendulumImages = collPendulumElements 'make the excluded PSD-Surface-Paths known to the Overlay-Widget
+'        pendulumWidget.cxPerc = 0.645 'define the relative center (within cwOverlay, which has the same size as the Form and the PSD...) this is used for clock-hand-positioning
+'        pendulumWidget.cyPerc = 0.334
+        
     thisZorder = clockForm.Widgets.GetOneBasedChildIndexByKey("displayScreen")
 
     'create a label widget, set some Font and ForeColor Properties
@@ -928,7 +940,7 @@ Private Sub clockForm_BubblingEvent(ByRef sender As Object, ByRef EventName As S
                 overlayWidget.TmrClockInterval = 1000
                 
                 overlayWidget.Locked = False
-                If mSliderFreed = True Then
+                If overlayWidget.SliderFreed = True Then
                     timeShiftValue = 0.5
                     overlayWidget.TmrTimeShiftTicking = False
                 End If
@@ -3028,7 +3040,7 @@ Private Sub sliderset_myMouseDown()
 
     pvtSlidersetMousedown = True
                 
-    If mSliderFreed = False Then
+    If overlayWidget.SliderFreed = False Then
         If gblVolumeBoost = "1" Then
             fileToPlay = "buzzer.wav"
         Else
@@ -3086,8 +3098,8 @@ Private Sub sliderset_Moving()
     overlayWidget.timeShiftValueSecs = timeShiftValue
             
     ' if the slider is enabled and the timeShiftValue <> 0.5 then start the timer that shifts the digital clocks forwards or backwards
-    If mSliderFreed = True And timeShiftValue <> 0.5 Then
-        overlayWidget.SliderEnabled = True
+    If overlayWidget.SliderFreed = True And timeShiftValue <> 0.5 Then
+        overlayWidget.SliderFreed = True
         overlayWidget.SliderInTransit = True ' the flag that when set allows a call to the routine that causes the 'rotation' of the numeric display when the slider is dragged by the user
         overlayWidget.TmrTimeShiftTicking = True ' the background timer that 'rotates' the numeric display when the slider is held still by the user
         
@@ -3109,47 +3121,47 @@ sliderset_Moving_Error:
 End Sub
 
 
-'---------------------------------------------------------------------------------------
-' Property  : SliderFreed
-' Author    : beededea
-' Date      : 10/05/2023
-' Purpose   :
-'---------------------------------------------------------------------------------------
+''---------------------------------------------------------------------------------------
+'' Property  : SliderFreed
+'' Author    : beededea
+'' Date      : 10/05/2023
+'' Purpose   :
+''---------------------------------------------------------------------------------------
+''
+'Public Property Let SliderFreed(ByVal newValue As Boolean)
+'   On Error GoTo SliderFreedLet_Error
 '
-Public Property Let SliderFreed(ByVal newValue As Boolean)
-   On Error GoTo SliderFreedLet_Error
-
-    If mSliderFreed <> newValue Then mSliderFreed = newValue Else Exit Property
-
-    SliderFreed = mSliderFreed
-   
-   On Error GoTo 0
-   Exit Property
-
-SliderFreedLet_Error:
-
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property SliderFreed of Class Module cfClock"
-End Property
-
-'---------------------------------------------------------------------------------------
-' Property  : SliderFreed
-' Author    : beededea
-' Date      : 17/05/2023
-' Purpose   :
-'---------------------------------------------------------------------------------------
+'    If mSliderFreed <> newValue Then mSliderFreed = newValue Else Exit Property
 '
-Public Property Get SliderFreed() As Boolean
-   On Error GoTo SliderFreedGet_Error
-
-    SliderFreed = mSliderFreed
-
-   On Error GoTo 0
-   Exit Property
-
-SliderFreedGet_Error:
-
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property SliderFreed of Class Module cfClock"
-End Property
+'    SliderFreed = mSliderFreed
+'
+'   On Error GoTo 0
+'   Exit Property
+'
+'SliderFreedLet_Error:
+'
+'    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property SliderFreed of Class Module cfClock"
+'End Property
+'
+''---------------------------------------------------------------------------------------
+'' Property  : SliderFreed
+'' Author    : beededea
+'' Date      : 17/05/2023
+'' Purpose   :
+''---------------------------------------------------------------------------------------
+''
+'Public Property Get SliderFreed() As Boolean
+'   On Error GoTo SliderFreedGet_Error
+'
+'    SliderFreed = mSliderFreed
+'
+'   On Error GoTo 0
+'   Exit Property
+'
+'SliderFreedGet_Error:
+'
+'    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property SliderFreed of Class Module cfClock"
+'End Property
 
 
 ' ----------------------------------------------------------------
@@ -4039,7 +4051,7 @@ Public Property Let alarmtoggleEnabled(ByVal newValue As Boolean)
         TmrZZZZSoundTicking = True
        
         alarmtoggle.Move alarmToggleIn, alarmtoggleTop
-        mSliderFreed = True
+        overlayWidget.SliderFreed = True
         sliderset.Moveable = True
         glow.Moveable = True
                                 
@@ -4102,8 +4114,7 @@ Public Property Let alarmtoggleEnabled(ByVal newValue As Boolean)
         Call screenWrite("Slider Mechanism Placed in Rest Position")
         
         alarmtoggle.Move alarmToggleOut, alarmtoggleTop
-        mSliderFreed = False
-        overlayWidget.SliderEnabled = False
+        overlayWidget.SliderFreed = False
         timeShiftValue = 0
         
         alarmtoggle1Enabled = False

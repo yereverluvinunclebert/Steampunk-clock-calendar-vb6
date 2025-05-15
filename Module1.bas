@@ -1993,12 +1993,12 @@ Public Sub getKeyPress(ByVal KeyCode As Integer, ByVal Shift As Integer)
         Case 37, 40 ' Left and down cursor key
             ' move the slider left
             ' if the slider is enabled and the timeShiftValue <> 0.5 then start the timer that shifts the digital clocks forwards or backwards
-            If fClock.SliderFreed = True Then
+            If overlayWidget.SliderFreed = True Then
                 fClock.timeShiftValue = fClock.timeShiftValue - 0.05
             End If
         Case 39, 38 ' Right and Up cursor key
             ' move the slider right
-            If fClock.SliderFreed = True Then
+            If overlayWidget.SliderFreed = True Then
                 fClock.timeShiftValue = fClock.timeShiftValue + 0.05
             End If
         Case 116 ' Performing a hard restart message box shift+F5

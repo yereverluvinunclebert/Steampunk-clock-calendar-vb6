@@ -438,6 +438,9 @@ In this case, the two DLLs in the local BIN folder need to be registered using t
 '     to appear but the previous one persists
 
 TwinBasic crash after reload due to RC message pump
+mute cancel causes ticking, no longer
+
+rationalise SliderFreed,  SliderEnabled, SliderInTransit
 
 Tasks to do:
 ============
@@ -446,8 +449,6 @@ Tasks to do:
 - confirmed
 
 ' 00xx issue on small slider movements just trying to change the time
-
-' rationalise SliderFreed,  SliderEnabled, SliderInTransit
 
 ' add time machine functionality
 
@@ -462,8 +463,6 @@ Tasks to do:
 ' add another overlay that handles the animation of the pendulum alone that can run at a much higher frequency and reducing CPU usage overall.
 
 ' tmrTickingSound_Timer timer, a sound sequence of ticks to be played, needs replacing with a timed tick that corresponds with pendulum movement
-
-' match the numeric digit rotation to match the YWE version? No
 
 ' replace the dropdown comboxes for the date selection with Krool's date/time calendar
 

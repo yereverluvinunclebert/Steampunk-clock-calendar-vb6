@@ -65,7 +65,7 @@ Private mSliderInTransit As Boolean
 Private mTimeShiftValueSecs As Currency
 Private mTriggerTimeShift As Boolean
 Private mGetFutureTime As String
-Private mSliderEnabled As Boolean
+Private mSliderFreed As Boolean
 Private mAlarmSetCurrentDate As Boolean
 
 Private mTmrClockTicking As Boolean
@@ -617,44 +617,44 @@ HiddenLet_Error:
 End Property
 
 '---------------------------------------------------------------------------------------
-' Property  : SliderEnabled
+' Property  : SliderFreed
 ' Author    : beededea
 ' Date      : 17/05/2023
 ' Purpose   : property to determine (by value)  the toggle the enabling of the time slider
 '---------------------------------------------------------------------------------------
 '
-Public Property Get SliderEnabled() As Boolean
-   On Error GoTo SliderEnabledGet_Error
+Public Property Get SliderFreed() As Boolean
+   On Error GoTo SliderFreedGet_Error
 
-   SliderEnabled = mSliderEnabled
+   SliderFreed = mSliderFreed
 
    On Error GoTo 0
    Exit Property
 
-SliderEnabledGet_Error:
+SliderFreedGet_Error:
 
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property SliderEnabled of Class Module cwoverlay"
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property SliderFreed of Class Module cwoverlay"
 End Property
 
 
 '---------------------------------------------------------------------------------------
-' Property  : SliderEnabled
+' Property  : SliderFreed
 ' Author    : beededea
 ' Date      : 10/05/2023
 ' Purpose   : property to determine (by value)  the toggle the enabling of the time slider
 '---------------------------------------------------------------------------------------
 '
-Public Property Let SliderEnabled(ByVal newValue As Boolean)
-   On Error GoTo SliderEnabledLet_Error
+Public Property Let SliderFreed(ByVal newValue As Boolean)
+   On Error GoTo SliderFreedLet_Error
 
-    If mSliderEnabled <> newValue Then mSliderEnabled = newValue Else Exit Property
+    If mSliderFreed <> newValue Then mSliderFreed = newValue Else Exit Property
 
    On Error GoTo 0
    Exit Property
 
-SliderEnabledLet_Error:
+SliderFreedLet_Error:
 
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property SliderEnabled of Class Module cwoverlay"
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property SliderFreed of Class Module cwoverlay"
 End Property
  
  '---------------------------------------------------------------------------------------
@@ -1530,7 +1530,7 @@ Private Sub populateDigitalClockCache(ByRef CC As cCairoContext)
         theMins = Mid$(alarmTimeString, 4, 2)
     End If
     
-    If mSliderInTransit = True Or mSliderEnabled = True Then
+    If mSliderInTransit = True Or mSliderFreed = True Then
 
         alarmDateString = Left$(pvtCurrentDateToDisplay, 10)
         alarmTimeString = Mid$(pvtCurrentDateToDisplay, 12, 5)
