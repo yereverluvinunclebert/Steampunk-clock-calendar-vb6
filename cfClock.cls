@@ -52,7 +52,7 @@ Public FZ As Single
 
 ' class private members for property assignment
 
-Private mSliderFreed As Boolean
+'Private mSliderFreed As Boolean
 Private mMuteToggleEnabled As Boolean
 Private mPendulumToggleEnabled As Boolean
 Private mWeekdayToggleEnabled As Boolean

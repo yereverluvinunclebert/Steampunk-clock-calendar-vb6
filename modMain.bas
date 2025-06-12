@@ -123,7 +123,7 @@ Public Sub mainRoutine(ByVal restart As Boolean)
     ' get the location of this tool's settings file (appdata)
     Call getToolSettingsFile
     
-    ' read the dock settings from the new configuration file
+    ' read the clock settings from the new configuration file
     Call readSettingsFile("Software\SteampunkClockCalendar", gblSettingsFile)
     
     ' validate the inputs of any data from the input settings file
@@ -196,6 +196,8 @@ Public Sub mainRoutine(ByVal restart As Boolean)
     #Else
         If restart = False Then Cairo.WidgetForms.EnterMessageLoop
     #End If
+        
+    ' note: the final act in startup is the form_resize_event that is triggered by the subclassed WM_EXITSIZEMOVE when the form is finally revealed
      
    On Error GoTo 0
    Exit Sub
@@ -1160,6 +1162,7 @@ Public Sub adjustMainControls(Optional ByVal licenceState As Integer)
         fClock.alarmtoggle5Enabled = True
     End If
     
+    ' replace the widget's default image to another image also in the PSD file and now in the individual widget collection
     If gblAlarm1Date <> "Alarm not yet set" Then
         fClock.clockForm.Widgets("alarmtoggle1").Widget.ImageKey = "alarmtoggle1armed"
     Else
