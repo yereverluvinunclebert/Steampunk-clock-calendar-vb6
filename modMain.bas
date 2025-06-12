@@ -420,6 +420,7 @@ Private Sub initialiseGlobalVars()
     gblWidgetHidden = vbNullString
     gblHidingTime = vbNullString
     gblIgnoreMouse = vbNullString
+    gblMenuOccurred = False ' bool
     gblFirstTimeRun = vbNullString
     gblMultiMonitorResize = vbNullString
     

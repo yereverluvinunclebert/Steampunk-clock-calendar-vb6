@@ -435,6 +435,10 @@ mute cancel causes ticking, no longer
 
 rationalise SliderFreed,  SliderEnabled, SliderInTransit
 
+upscale the images
+
+update XML documentation
+
 ' -oOo-
 
 NOTE:
@@ -512,7 +516,7 @@ Tasks to do:
 
 ' console, allow scroll up and down through the console messages
 
-' update XML documentation
+
 
 ' -oOo-
 
@@ -534,8 +538,5 @@ Tasks to do:
 
 ' recreate the clock imagery using a large scale version of the PSD
 
-
-
 Static Linking in TB only.
          In TwinBasic static library linking is possible allowing incorporation of DLLs into the misc section and compiling into the finished binary
-
