@@ -52,7 +52,7 @@ Public FZ As Single
 
 ' class private members for property assignment
 
-Private mSliderFreed As Boolean
+'Private mSliderFreed As Boolean
 Private mMuteToggleEnabled As Boolean
 Private mPendulumToggleEnabled As Boolean
 Private mWeekdayToggleEnabled As Boolean
@@ -2899,6 +2899,10 @@ Private Sub clockForm_MouseMove(ByRef Button As Integer, ByRef Shift As Integer,
     
     If overlayWidget.Locked = True Then Exit Sub
     If gblIgnoreMouse = "1" Then Exit Sub
+    If gblMenuOccurred = True Then
+        gblMenuOccurred = False
+        Exit Sub
+    End If
 
     If Button = vbLeftButton And Not clockForm.ActiveWidget Is Nothing Then 'Form-Dragging (under certain conditions)
 
@@ -3006,6 +3010,7 @@ Private Sub clockForm_MouseDown(ByRef Button As Integer, ByRef Shift As Integer,
     frmTimer.tmrScreenResolution.Enabled = True
     
     If Button = vbRightButton Then
+        gblMenuOccurred = True
         Call menuForm.PopupMenu(menuForm.mnuMainMenu)
     Else
         If gblIgnoreMouse = "1" Then Exit Sub

@@ -498,9 +498,9 @@ Public Sub positionPrefsByMonitorSize()
                 ' set the widget size according to saved values
                 gblPrefsFormResizedInCode = True
                 If prefsMonitorStruct.IsPrimary = True Then
-                    widgetPrefs.Height = Val(gblPrefsPrimaryHeightTwips)
+                    widgetPrefs.Height = CLng(gblPrefsPrimaryHeightTwips)
                 Else
-                    widgetPrefs.Height = Val(gblPrefsSecondaryHeightTwips)
+                    widgetPrefs.Height = CLng(gblPrefsSecondaryHeightTwips)
                 End If
             End If
             

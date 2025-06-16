@@ -364,6 +364,7 @@ Public gblOpacity  As String
 Public gblWidgetHidden  As String
 Public gblHidingTime  As String
 Public gblIgnoreMouse  As String
+Public gblMenuOccurred As Boolean ' bool
 Public gblFirstTimeRun  As String
 Public gblMultiMonitorResize  As String
 
@@ -2218,7 +2219,7 @@ Public Sub unloadAllForms(ByVal endItAll As Boolean)
     aboutWidget.Widgets.RemoveAll
     fClock.clockForm.Widgets.RemoveAll
     
-    ' unload the native VB6 and RC6 forms
+    ' unload the native VB6 forms
     
     Unload frmMessage
     Unload widgetPrefs
@@ -2475,23 +2476,23 @@ readPrefsPosition_Error:
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure readPrefsPosition of Module Module1"
 End Sub
 '---------------------------------------------------------------------------------------
-' Procedure : writePrefsPosition
+' Procedure : writePrefsPositionAndSize
 ' Author    : beededea
 ' Date      : 28/05/2023
 ' Purpose   : save the current X and y position of this form to allow repositioning when restarting
+'             also the height of the form on a per monitor basis
 '---------------------------------------------------------------------------------------
 '
-Public Sub writePrefsPosition()
+Public Sub writePrefsPositionAndSize()
      
-    'Dim prefsMonitorStruct As UDTMonitor
     Dim prefsFormMonitorID As Long: prefsFormMonitorID = 0
     
-    On Error GoTo writePrefsPosition_Error
+    On Error GoTo writePrefsPositionAndSize_Error
 
     If widgetPrefs.IsLoaded = True And widgetPrefs.WindowState = vbNormal Then ' when vbMinimised the value = -48000  !
         If gblDpiAwareness = "1" Then
-            gblPrefsHighDpiXPosTwips = Trim$(CStr(widgetPrefs.Left))
-            gblPrefsHighDpiYPosTwips = Trim$(CStr(widgetPrefs.Top))
+            gblPrefsHighDpiXPosTwips = CStr(widgetPrefs.Left)
+            gblPrefsHighDpiYPosTwips = CStr(widgetPrefs.Top)
             
             ' now write those params to the toolSettings.ini
             sPutINISetting "Software\SteampunkClockCalendar", "formHighDpiXPosTwips", gblPrefsHighDpiXPosTwips, gblSettingsFile
@@ -2506,7 +2507,6 @@ Public Sub writePrefsPosition()
             
         End If
 
-        'prefsMonitorStruct = formScreenProperties(widgetPrefs, prefsFormMonitorID)
         If prefsMonitorStruct.IsPrimary = True Then
             gblPrefsPrimaryHeightTwips = Trim$(CStr(widgetPrefs.Height))
             sPutINISetting "Software\SteampunkClockCalendar", "prefsPrimaryHeightTwips", gblPrefsPrimaryHeightTwips, gblSettingsFile
@@ -2519,15 +2519,10 @@ Public Sub writePrefsPosition()
     On Error GoTo 0
    Exit Sub
 
-writePrefsPosition_Error:
+writePrefsPositionAndSize_Error:
 
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure writePrefsPosition of Form widgetPrefs"
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure writePrefsPositionAndSize of Form widgetPrefs"
 End Sub
-
-
-
-
-
 
 
 

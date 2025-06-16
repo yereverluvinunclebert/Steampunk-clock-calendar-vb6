@@ -334,6 +334,258 @@ Begin VB.Form widgetPrefs
          Width           =   600
       End
    End
+   Begin VB.Frame fraPosition 
+      Caption         =   "Position"
+      Height          =   7440
+      Left            =   255
+      TabIndex        =   42
+      Top             =   1230
+      Visible         =   0   'False
+      Width           =   8520
+      Begin VB.Frame fraPositionInner 
+         BorderStyle     =   0  'None
+         Height          =   6960
+         Left            =   150
+         TabIndex        =   43
+         Top             =   300
+         Width           =   7680
+         Begin VB.TextBox txtLandscapeHoffset 
+            Height          =   315
+            Left            =   2250
+            TabIndex        =   70
+            Top             =   4425
+            Width           =   2130
+         End
+         Begin VB.CheckBox chkPreventDragging 
+            Caption         =   "Widget Position Locked. *"
+            Height          =   225
+            Left            =   2265
+            TabIndex        =   121
+            ToolTipText     =   "Checking this box turns off the ability to drag the program with the mouse, locking it in position."
+            Top             =   3465
+            Width           =   2505
+         End
+         Begin VB.TextBox txtPortraitYoffset 
+            Height          =   315
+            Left            =   2250
+            TabIndex        =   76
+            ToolTipText     =   "Enter a prefix/nickname for outgoing messages."
+            Top             =   6465
+            Width           =   2130
+         End
+         Begin VB.TextBox txtPortraitHoffset 
+            Height          =   315
+            Left            =   2250
+            TabIndex        =   74
+            ToolTipText     =   "Enter a prefix/nickname for outgoing messages."
+            Top             =   6000
+            Width           =   2130
+         End
+         Begin VB.TextBox txtLandscapeVoffset 
+            Height          =   315
+            Left            =   2250
+            TabIndex        =   72
+            ToolTipText     =   "Enter a prefix/nickname for outgoing messages."
+            Top             =   4875
+            Width           =   2130
+         End
+         Begin VB.ComboBox cmbWidgetLandscape 
+            Height          =   315
+            Left            =   2250
+            Style           =   2  'Dropdown List
+            TabIndex        =   68
+            Top             =   3930
+            Width           =   2160
+         End
+         Begin VB.ComboBox cmbWidgetPortrait 
+            Height          =   315
+            Left            =   2250
+            Style           =   2  'Dropdown List
+            TabIndex        =   65
+            ToolTipText     =   "Choose the alarm sound."
+            Top             =   5505
+            Width           =   2160
+         End
+         Begin VB.ComboBox cmbWidgetPosition 
+            Height          =   315
+            Left            =   2265
+            Style           =   2  'Dropdown List
+            TabIndex        =   62
+            ToolTipText     =   "Choose the alarm sound."
+            Top             =   2100
+            Width           =   2160
+         End
+         Begin VB.ComboBox cmbAspectHidden 
+            Height          =   315
+            Left            =   2265
+            Style           =   2  'Dropdown List
+            TabIndex        =   59
+            ToolTipText     =   "Choose the alarm sound."
+            Top             =   0
+            Width           =   2160
+         End
+         Begin VB.Label lblPosition 
+            Caption         =   "(px)"
+            Height          =   300
+            Index           =   7
+            Left            =   4530
+            TabIndex        =   138
+            Tag             =   "lblPrefixString"
+            Top             =   6495
+            Width           =   435
+         End
+         Begin VB.Label lblPosition 
+            Caption         =   "(px)"
+            Height          =   300
+            Index           =   5
+            Left            =   4530
+            TabIndex        =   137
+            Tag             =   "lblPrefixString"
+            Top             =   6045
+            Width           =   435
+         End
+         Begin VB.Label lblPosition 
+            Caption         =   "*"
+            Height          =   255
+            Index           =   1
+            Left            =   4545
+            TabIndex        =   124
+            Tag             =   "lblAlarmSound"
+            Top             =   45
+            Width           =   345
+         End
+         Begin VB.Label lblPosition 
+            Caption         =   "(px)"
+            Height          =   300
+            Index           =   4
+            Left            =   4530
+            TabIndex        =   120
+            Tag             =   "lblPrefixString"
+            Top             =   4905
+            Width           =   435
+         End
+         Begin VB.Label lblPosition 
+            Caption         =   "(px)"
+            Height          =   300
+            Index           =   2
+            Left            =   4530
+            TabIndex        =   119
+            Tag             =   "lblPrefixString"
+            Top             =   4500
+            Width           =   390
+         End
+         Begin VB.Label lblPosition 
+            Caption         =   "Portrait Top Y pos :"
+            Height          =   510
+            Index           =   17
+            Left            =   645
+            TabIndex        =   77
+            Tag             =   "lblPrefixString"
+            Top             =   6480
+            Width           =   2175
+         End
+         Begin VB.Label lblPosition 
+            Caption         =   "Portrait Left X pos :"
+            Height          =   510
+            Index           =   16
+            Left            =   660
+            TabIndex        =   75
+            Tag             =   "lblPrefixString"
+            Top             =   6015
+            Width           =   2175
+         End
+         Begin VB.Label lblPosition 
+            Caption         =   "Landscape Top Y pos :"
+            Height          =   510
+            Index           =   15
+            Left            =   420
+            TabIndex        =   73
+            Tag             =   "lblPrefixString"
+            Top             =   4905
+            Width           =   2175
+         End
+         Begin VB.Label lblPosition 
+            Caption         =   "Landscape Left X pos :"
+            Height          =   510
+            Index           =   14
+            Left            =   420
+            TabIndex        =   71
+            Tag             =   "lblPrefixString"
+            Top             =   4455
+            Width           =   2175
+         End
+         Begin VB.Label lblPosition 
+            Caption         =   "Locked in Landscape :"
+            Height          =   435
+            Index           =   13
+            Left            =   450
+            TabIndex        =   69
+            Tag             =   "lblAlarmSound"
+            Top             =   3975
+            Width           =   2115
+         End
+         Begin VB.Label lblPosition 
+            Caption         =   $"frmPrefs.frx":5D82
+            Height          =   3435
+            Index           =   12
+            Left            =   5145
+            TabIndex        =   67
+            Tag             =   "lblAlarmSoundDesc"
+            Top             =   3480
+            Width           =   2520
+         End
+         Begin VB.Label lblPosition 
+            Caption         =   "Locked in Portrait :"
+            Height          =   375
+            Index           =   11
+            Left            =   690
+            TabIndex        =   66
+            Tag             =   "lblAlarmSound"
+            Top             =   5550
+            Width           =   2040
+         End
+         Begin VB.Label lblPosition 
+            Caption         =   $"frmPrefs.frx":5F54
+            Height          =   705
+            Index           =   10
+            Left            =   2250
+            TabIndex        =   64
+            Tag             =   "lblAlarmSoundDesc"
+            Top             =   2550
+            Width           =   5325
+         End
+         Begin VB.Label lblPosition 
+            Caption         =   "Widget Position by Percent:"
+            Height          =   375
+            Index           =   8
+            Left            =   195
+            TabIndex        =   63
+            Tag             =   "lblAlarmSound"
+            Top             =   2145
+            Width           =   2355
+         End
+         Begin VB.Label lblPosition 
+            Caption         =   $"frmPrefs.frx":5FF3
+            Height          =   3045
+            Index           =   6
+            Left            =   2265
+            TabIndex        =   61
+            Tag             =   "lblAlarmSoundDesc"
+            Top             =   450
+            Width           =   5370
+         End
+         Begin VB.Label lblPosition 
+            Caption         =   "Aspect Ratio Hidden Mode :"
+            Height          =   375
+            Index           =   3
+            Left            =   120
+            TabIndex        =   60
+            Tag             =   "lblAlarmSound"
+            Top             =   45
+            Width           =   2145
+         End
+      End
+   End
    Begin VB.Frame fraGeneral 
       Caption         =   "General"
       ForeColor       =   &H80000008&
@@ -379,7 +631,7 @@ Begin VB.Form widgetPrefs
                Height          =   345
                Index           =   5
                Left            =   2115
-               Picture         =   "frmPrefs.frx":5D82
+               Picture         =   "frmPrefs.frx":618F
                Style           =   1  'Graphical
                TabIndex        =   230
                Top             =   2160
@@ -389,7 +641,7 @@ Begin VB.Form widgetPrefs
                Height          =   345
                Index           =   4
                Left            =   2115
-               Picture         =   "frmPrefs.frx":5FC8
+               Picture         =   "frmPrefs.frx":63D5
                Style           =   1  'Graphical
                TabIndex        =   229
                Top             =   1665
@@ -399,7 +651,7 @@ Begin VB.Form widgetPrefs
                Height          =   345
                Index           =   3
                Left            =   2115
-               Picture         =   "frmPrefs.frx":620E
+               Picture         =   "frmPrefs.frx":661B
                Style           =   1  'Graphical
                TabIndex        =   228
                Top             =   1185
@@ -409,7 +661,7 @@ Begin VB.Form widgetPrefs
                Height          =   345
                Index           =   2
                Left            =   2115
-               Picture         =   "frmPrefs.frx":6454
+               Picture         =   "frmPrefs.frx":6861
                Style           =   1  'Graphical
                TabIndex        =   227
                Top             =   705
@@ -469,7 +721,7 @@ Begin VB.Form widgetPrefs
                Height          =   345
                Index           =   1
                Left            =   2115
-               Picture         =   "frmPrefs.frx":669A
+               Picture         =   "frmPrefs.frx":6AA7
                Style           =   1  'Graphical
                TabIndex        =   221
                Top             =   195
@@ -477,9 +729,9 @@ Begin VB.Form widgetPrefs
             End
             Begin VB.ComboBox cmbAlarm5Minutes 
                Height          =   315
-               ItemData        =   "frmPrefs.frx":68E0
+               ItemData        =   "frmPrefs.frx":6CED
                Left            =   5340
-               List            =   "frmPrefs.frx":699B
+               List            =   "frmPrefs.frx":6DA8
                Style           =   2  'Dropdown List
                TabIndex        =   218
                Top             =   2160
@@ -487,9 +739,9 @@ Begin VB.Form widgetPrefs
             End
             Begin VB.ComboBox cmbAlarm4Minutes 
                Height          =   315
-               ItemData        =   "frmPrefs.frx":6A91
+               ItemData        =   "frmPrefs.frx":6E9E
                Left            =   5340
-               List            =   "frmPrefs.frx":6B4C
+               List            =   "frmPrefs.frx":6F59
                Style           =   2  'Dropdown List
                TabIndex        =   217
                Top             =   1680
@@ -497,9 +749,9 @@ Begin VB.Form widgetPrefs
             End
             Begin VB.ComboBox cmbAlarm3Minutes 
                Height          =   315
-               ItemData        =   "frmPrefs.frx":6C42
+               ItemData        =   "frmPrefs.frx":704F
                Left            =   5340
-               List            =   "frmPrefs.frx":6CFD
+               List            =   "frmPrefs.frx":710A
                Style           =   2  'Dropdown List
                TabIndex        =   216
                Top             =   1215
@@ -507,9 +759,9 @@ Begin VB.Form widgetPrefs
             End
             Begin VB.ComboBox cmbAlarm2Minutes 
                Height          =   315
-               ItemData        =   "frmPrefs.frx":6DF3
+               ItemData        =   "frmPrefs.frx":7200
                Left            =   5340
-               List            =   "frmPrefs.frx":6EAE
+               List            =   "frmPrefs.frx":72BB
                Style           =   2  'Dropdown List
                TabIndex        =   215
                Top             =   720
@@ -517,9 +769,9 @@ Begin VB.Form widgetPrefs
             End
             Begin VB.ComboBox cmbAlarm5Hours 
                Height          =   315
-               ItemData        =   "frmPrefs.frx":6FA4
+               ItemData        =   "frmPrefs.frx":73B1
                Left            =   4785
-               List            =   "frmPrefs.frx":6FF3
+               List            =   "frmPrefs.frx":7400
                Style           =   2  'Dropdown List
                TabIndex        =   214
                Top             =   2175
@@ -527,9 +779,9 @@ Begin VB.Form widgetPrefs
             End
             Begin VB.ComboBox cmbAlarm4Hours 
                Height          =   315
-               ItemData        =   "frmPrefs.frx":7059
+               ItemData        =   "frmPrefs.frx":7466
                Left            =   4785
-               List            =   "frmPrefs.frx":70A8
+               List            =   "frmPrefs.frx":74B5
                Style           =   2  'Dropdown List
                TabIndex        =   213
                Top             =   1680
@@ -537,9 +789,9 @@ Begin VB.Form widgetPrefs
             End
             Begin VB.ComboBox cmbAlarm3Hours 
                Height          =   315
-               ItemData        =   "frmPrefs.frx":710E
+               ItemData        =   "frmPrefs.frx":751B
                Left            =   4785
-               List            =   "frmPrefs.frx":715D
+               List            =   "frmPrefs.frx":756A
                Style           =   2  'Dropdown List
                TabIndex        =   212
                Top             =   1215
@@ -547,9 +799,9 @@ Begin VB.Form widgetPrefs
             End
             Begin VB.ComboBox cmbAlarm2Hours 
                Height          =   315
-               ItemData        =   "frmPrefs.frx":71C3
+               ItemData        =   "frmPrefs.frx":75D0
                Left            =   4785
-               List            =   "frmPrefs.frx":7212
+               List            =   "frmPrefs.frx":761F
                Style           =   2  'Dropdown List
                TabIndex        =   211
                Top             =   720
@@ -557,9 +809,9 @@ Begin VB.Form widgetPrefs
             End
             Begin VB.ComboBox cmbAlarm5Year 
                Height          =   315
-               ItemData        =   "frmPrefs.frx":7278
+               ItemData        =   "frmPrefs.frx":7685
                Left            =   3945
-               List            =   "frmPrefs.frx":7354
+               List            =   "frmPrefs.frx":7761
                Style           =   2  'Dropdown List
                TabIndex        =   210
                Top             =   2175
@@ -567,9 +819,9 @@ Begin VB.Form widgetPrefs
             End
             Begin VB.ComboBox cmbAlarm4Year 
                Height          =   315
-               ItemData        =   "frmPrefs.frx":7504
+               ItemData        =   "frmPrefs.frx":7911
                Left            =   3945
-               List            =   "frmPrefs.frx":75E0
+               List            =   "frmPrefs.frx":79ED
                Style           =   2  'Dropdown List
                TabIndex        =   209
                Top             =   1680
@@ -577,9 +829,9 @@ Begin VB.Form widgetPrefs
             End
             Begin VB.ComboBox cmbAlarm3Year 
                Height          =   315
-               ItemData        =   "frmPrefs.frx":7790
+               ItemData        =   "frmPrefs.frx":7B9D
                Left            =   3945
-               List            =   "frmPrefs.frx":786C
+               List            =   "frmPrefs.frx":7C79
                Style           =   2  'Dropdown List
                TabIndex        =   208
                Top             =   1215
@@ -587,9 +839,9 @@ Begin VB.Form widgetPrefs
             End
             Begin VB.ComboBox cmbAlarm2Year 
                Height          =   315
-               ItemData        =   "frmPrefs.frx":7A1C
+               ItemData        =   "frmPrefs.frx":7E29
                Left            =   3945
-               List            =   "frmPrefs.frx":7AF8
+               List            =   "frmPrefs.frx":7F05
                Style           =   2  'Dropdown List
                TabIndex        =   207
                Top             =   720
@@ -597,9 +849,9 @@ Begin VB.Form widgetPrefs
             End
             Begin VB.ComboBox cmbAlarm5Month 
                Height          =   315
-               ItemData        =   "frmPrefs.frx":7CA8
+               ItemData        =   "frmPrefs.frx":80B5
                Left            =   3060
-               List            =   "frmPrefs.frx":7CD6
+               List            =   "frmPrefs.frx":80E3
                Style           =   2  'Dropdown List
                TabIndex        =   206
                Top             =   2175
@@ -607,9 +859,9 @@ Begin VB.Form widgetPrefs
             End
             Begin VB.ComboBox cmbAlarm4Month 
                Height          =   315
-               ItemData        =   "frmPrefs.frx":7D18
+               ItemData        =   "frmPrefs.frx":8125
                Left            =   3075
-               List            =   "frmPrefs.frx":7D46
+               List            =   "frmPrefs.frx":8153
                Style           =   2  'Dropdown List
                TabIndex        =   205
                Top             =   1680
@@ -617,9 +869,9 @@ Begin VB.Form widgetPrefs
             End
             Begin VB.ComboBox cmbAlarm3Month 
                Height          =   315
-               ItemData        =   "frmPrefs.frx":7D88
+               ItemData        =   "frmPrefs.frx":8195
                Left            =   3060
-               List            =   "frmPrefs.frx":7DB6
+               List            =   "frmPrefs.frx":81C3
                Style           =   2  'Dropdown List
                TabIndex        =   204
                Top             =   1215
@@ -627,9 +879,9 @@ Begin VB.Form widgetPrefs
             End
             Begin VB.ComboBox cmbAlarm5Day 
                Height          =   315
-               ItemData        =   "frmPrefs.frx":7DF8
+               ItemData        =   "frmPrefs.frx":8205
                Left            =   2505
-               List            =   "frmPrefs.frx":7E75
+               List            =   "frmPrefs.frx":8282
                Style           =   2  'Dropdown List
                TabIndex        =   203
                Top             =   2175
@@ -637,9 +889,9 @@ Begin VB.Form widgetPrefs
             End
             Begin VB.ComboBox cmbAlarm4Day 
                Height          =   315
-               ItemData        =   "frmPrefs.frx":7EFB
+               ItemData        =   "frmPrefs.frx":8308
                Left            =   2505
-               List            =   "frmPrefs.frx":7F78
+               List            =   "frmPrefs.frx":8385
                Style           =   2  'Dropdown List
                TabIndex        =   202
                Top             =   1680
@@ -647,9 +899,9 @@ Begin VB.Form widgetPrefs
             End
             Begin VB.ComboBox cmbAlarm3Day 
                Height          =   315
-               ItemData        =   "frmPrefs.frx":7FFE
+               ItemData        =   "frmPrefs.frx":840B
                Left            =   2505
-               List            =   "frmPrefs.frx":807B
+               List            =   "frmPrefs.frx":8488
                Style           =   2  'Dropdown List
                TabIndex        =   201
                Top             =   1215
@@ -657,9 +909,9 @@ Begin VB.Form widgetPrefs
             End
             Begin VB.ComboBox cmbAlarm1Year 
                Height          =   315
-               ItemData        =   "frmPrefs.frx":8101
+               ItemData        =   "frmPrefs.frx":850E
                Left            =   3945
-               List            =   "frmPrefs.frx":81DD
+               List            =   "frmPrefs.frx":85EA
                Style           =   2  'Dropdown List
                TabIndex        =   200
                Top             =   210
@@ -667,9 +919,9 @@ Begin VB.Form widgetPrefs
             End
             Begin VB.ComboBox cmbAlarm1Minutes 
                Height          =   315
-               ItemData        =   "frmPrefs.frx":838D
+               ItemData        =   "frmPrefs.frx":879A
                Left            =   5340
-               List            =   "frmPrefs.frx":8448
+               List            =   "frmPrefs.frx":8855
                Style           =   2  'Dropdown List
                TabIndex        =   199
                Top             =   210
@@ -677,9 +929,9 @@ Begin VB.Form widgetPrefs
             End
             Begin VB.ComboBox cmbAlarm1Hours 
                Height          =   315
-               ItemData        =   "frmPrefs.frx":853E
+               ItemData        =   "frmPrefs.frx":894B
                Left            =   4785
-               List            =   "frmPrefs.frx":858D
+               List            =   "frmPrefs.frx":899A
                Style           =   2  'Dropdown List
                TabIndex        =   198
                Top             =   210
@@ -687,9 +939,9 @@ Begin VB.Form widgetPrefs
             End
             Begin VB.ComboBox cmbAlarm1Month 
                Height          =   315
-               ItemData        =   "frmPrefs.frx":85F3
+               ItemData        =   "frmPrefs.frx":8A00
                Left            =   3060
-               List            =   "frmPrefs.frx":8621
+               List            =   "frmPrefs.frx":8A2E
                Style           =   2  'Dropdown List
                TabIndex        =   197
                Top             =   210
@@ -697,9 +949,9 @@ Begin VB.Form widgetPrefs
             End
             Begin VB.ComboBox cmbAlarm2Day 
                Height          =   315
-               ItemData        =   "frmPrefs.frx":8663
+               ItemData        =   "frmPrefs.frx":8A70
                Left            =   2505
-               List            =   "frmPrefs.frx":86E0
+               List            =   "frmPrefs.frx":8AED
                Style           =   2  'Dropdown List
                TabIndex        =   196
                Top             =   720
@@ -707,9 +959,9 @@ Begin VB.Form widgetPrefs
             End
             Begin VB.ComboBox cmbAlarm2Month 
                Height          =   315
-               ItemData        =   "frmPrefs.frx":8766
+               ItemData        =   "frmPrefs.frx":8B73
                Left            =   3060
-               List            =   "frmPrefs.frx":8794
+               List            =   "frmPrefs.frx":8BA1
                Style           =   2  'Dropdown List
                TabIndex        =   195
                Top             =   720
@@ -726,9 +978,9 @@ Begin VB.Form widgetPrefs
                   Strikethrough   =   0   'False
                EndProperty
                Height          =   330
-               ItemData        =   "frmPrefs.frx":87D6
+               ItemData        =   "frmPrefs.frx":8BE3
                Left            =   2505
-               List            =   "frmPrefs.frx":8853
+               List            =   "frmPrefs.frx":8C60
                Style           =   2  'Dropdown List
                TabIndex        =   194
                Top             =   210
@@ -865,7 +1117,7 @@ Begin VB.Form widgetPrefs
                Width           =   825
             End
             Begin VB.Label lblGeneral 
-               Caption         =   $"frmPrefs.frx":88D9
+               Caption         =   $"frmPrefs.frx":8CE6
                Height          =   900
                Index           =   10
                Left            =   2115
@@ -1074,7 +1326,7 @@ Begin VB.Form widgetPrefs
          MultiLine       =   -1  'True
          ScrollBars      =   2  'Vertical
          TabIndex        =   107
-         Text            =   "frmPrefs.frx":897A
+         Text            =   "frmPrefs.frx":8D87
          Top             =   2205
          Width           =   7935
       End
@@ -1626,7 +1878,7 @@ Begin VB.Form widgetPrefs
             Width           =   2490
          End
          Begin VB.Label lblConfiguration 
-            Caption         =   $"frmPrefs.frx":9931
+            Caption         =   $"frmPrefs.frx":9D3E
             Height          =   915
             Index           =   0
             Left            =   1980
@@ -1797,7 +2049,7 @@ Begin VB.Form widgetPrefs
                Width           =   720
             End
             Begin VB.Label lblWindowLevel 
-               Caption         =   $"frmPrefs.frx":99E5
+               Caption         =   $"frmPrefs.frx":9DF2
                Height          =   975
                Index           =   1
                Left            =   855
@@ -1833,7 +2085,7 @@ Begin VB.Form widgetPrefs
             Width           =   1830
          End
          Begin VB.Label lblWindowLevel 
-            Caption         =   $"frmPrefs.frx":9A88
+            Caption         =   $"frmPrefs.frx":9E95
             Height          =   1140
             Index           =   10
             Left            =   2235
@@ -2142,7 +2394,7 @@ Begin VB.Form widgetPrefs
                Width           =   3660
             End
             Begin VB.Label lblGitHub 
-               Caption         =   $"frmPrefs.frx":9B9F
+               Caption         =   $"frmPrefs.frx":9FAC
                ForeColor       =   &H8000000D&
                Height          =   915
                Left            =   1560
@@ -2152,7 +2404,7 @@ Begin VB.Form widgetPrefs
                Width           =   4935
             End
             Begin VB.Label lblDebug 
-               Caption         =   $"frmPrefs.frx":9C66
+               Caption         =   $"frmPrefs.frx":A073
                Height          =   930
                Index           =   9
                Left            =   1545
@@ -2199,9 +2451,9 @@ Begin VB.Form widgetPrefs
          End
          Begin VB.ComboBox cmbDebug 
             Height          =   315
-            ItemData        =   "frmPrefs.frx":9D0A
+            ItemData        =   "frmPrefs.frx":A117
             Left            =   1530
-            List            =   "frmPrefs.frx":9D0C
+            List            =   "frmPrefs.frx":A119
             Style           =   2  'Dropdown List
             TabIndex        =   49
             ToolTipText     =   "Choose to set debug mode."
@@ -2266,258 +2518,6 @@ Begin VB.Form widgetPrefs
             Tag             =   "lblAlarmSound"
             Top             =   45
             Width           =   1740
-         End
-      End
-   End
-   Begin VB.Frame fraPosition 
-      Caption         =   "Position"
-      Height          =   7440
-      Left            =   255
-      TabIndex        =   42
-      Top             =   1230
-      Visible         =   0   'False
-      Width           =   8520
-      Begin VB.Frame fraPositionInner 
-         BorderStyle     =   0  'None
-         Height          =   6960
-         Left            =   150
-         TabIndex        =   43
-         Top             =   300
-         Width           =   7680
-         Begin VB.TextBox txtLandscapeHoffset 
-            Height          =   315
-            Left            =   2250
-            TabIndex        =   70
-            Top             =   4425
-            Width           =   2130
-         End
-         Begin VB.CheckBox chkPreventDragging 
-            Caption         =   "Widget Position Locked. *"
-            Height          =   225
-            Left            =   2265
-            TabIndex        =   121
-            ToolTipText     =   "Checking this box turns off the ability to drag the program with the mouse, locking it in position."
-            Top             =   3465
-            Width           =   2505
-         End
-         Begin VB.TextBox txtPortraitYoffset 
-            Height          =   315
-            Left            =   2250
-            TabIndex        =   76
-            ToolTipText     =   "Enter a prefix/nickname for outgoing messages."
-            Top             =   6465
-            Width           =   2130
-         End
-         Begin VB.TextBox txtPortraitHoffset 
-            Height          =   315
-            Left            =   2250
-            TabIndex        =   74
-            ToolTipText     =   "Enter a prefix/nickname for outgoing messages."
-            Top             =   6000
-            Width           =   2130
-         End
-         Begin VB.TextBox txtLandscapeVoffset 
-            Height          =   315
-            Left            =   2250
-            TabIndex        =   72
-            ToolTipText     =   "Enter a prefix/nickname for outgoing messages."
-            Top             =   4875
-            Width           =   2130
-         End
-         Begin VB.ComboBox cmbWidgetLandscape 
-            Height          =   315
-            Left            =   2250
-            Style           =   2  'Dropdown List
-            TabIndex        =   68
-            Top             =   3930
-            Width           =   2160
-         End
-         Begin VB.ComboBox cmbWidgetPortrait 
-            Height          =   315
-            Left            =   2250
-            Style           =   2  'Dropdown List
-            TabIndex        =   65
-            ToolTipText     =   "Choose the alarm sound."
-            Top             =   5505
-            Width           =   2160
-         End
-         Begin VB.ComboBox cmbWidgetPosition 
-            Height          =   315
-            Left            =   2265
-            Style           =   2  'Dropdown List
-            TabIndex        =   62
-            ToolTipText     =   "Choose the alarm sound."
-            Top             =   2100
-            Width           =   2160
-         End
-         Begin VB.ComboBox cmbAspectHidden 
-            Height          =   315
-            Left            =   2265
-            Style           =   2  'Dropdown List
-            TabIndex        =   59
-            ToolTipText     =   "Choose the alarm sound."
-            Top             =   0
-            Width           =   2160
-         End
-         Begin VB.Label lblPosition 
-            Caption         =   "(px)"
-            Height          =   300
-            Index           =   7
-            Left            =   4530
-            TabIndex        =   138
-            Tag             =   "lblPrefixString"
-            Top             =   6495
-            Width           =   435
-         End
-         Begin VB.Label lblPosition 
-            Caption         =   "(px)"
-            Height          =   300
-            Index           =   5
-            Left            =   4530
-            TabIndex        =   137
-            Tag             =   "lblPrefixString"
-            Top             =   6045
-            Width           =   435
-         End
-         Begin VB.Label lblPosition 
-            Caption         =   "*"
-            Height          =   255
-            Index           =   1
-            Left            =   4545
-            TabIndex        =   124
-            Tag             =   "lblAlarmSound"
-            Top             =   45
-            Width           =   345
-         End
-         Begin VB.Label lblPosition 
-            Caption         =   "(px)"
-            Height          =   300
-            Index           =   4
-            Left            =   4530
-            TabIndex        =   120
-            Tag             =   "lblPrefixString"
-            Top             =   4905
-            Width           =   435
-         End
-         Begin VB.Label lblPosition 
-            Caption         =   "(px)"
-            Height          =   300
-            Index           =   2
-            Left            =   4530
-            TabIndex        =   119
-            Tag             =   "lblPrefixString"
-            Top             =   4500
-            Width           =   390
-         End
-         Begin VB.Label lblPosition 
-            Caption         =   "Portrait Top Y pos :"
-            Height          =   510
-            Index           =   17
-            Left            =   645
-            TabIndex        =   77
-            Tag             =   "lblPrefixString"
-            Top             =   6480
-            Width           =   2175
-         End
-         Begin VB.Label lblPosition 
-            Caption         =   "Portrait Left X pos :"
-            Height          =   510
-            Index           =   16
-            Left            =   660
-            TabIndex        =   75
-            Tag             =   "lblPrefixString"
-            Top             =   6015
-            Width           =   2175
-         End
-         Begin VB.Label lblPosition 
-            Caption         =   "Landscape Top Y pos :"
-            Height          =   510
-            Index           =   15
-            Left            =   420
-            TabIndex        =   73
-            Tag             =   "lblPrefixString"
-            Top             =   4905
-            Width           =   2175
-         End
-         Begin VB.Label lblPosition 
-            Caption         =   "Landscape Left X pos :"
-            Height          =   510
-            Index           =   14
-            Left            =   420
-            TabIndex        =   71
-            Tag             =   "lblPrefixString"
-            Top             =   4455
-            Width           =   2175
-         End
-         Begin VB.Label lblPosition 
-            Caption         =   "Locked in Landscape :"
-            Height          =   435
-            Index           =   13
-            Left            =   450
-            TabIndex        =   69
-            Tag             =   "lblAlarmSound"
-            Top             =   3975
-            Width           =   2115
-         End
-         Begin VB.Label lblPosition 
-            Caption         =   $"frmPrefs.frx":9D0E
-            Height          =   3435
-            Index           =   12
-            Left            =   5145
-            TabIndex        =   67
-            Tag             =   "lblAlarmSoundDesc"
-            Top             =   3480
-            Width           =   2520
-         End
-         Begin VB.Label lblPosition 
-            Caption         =   "Locked in Portrait :"
-            Height          =   375
-            Index           =   11
-            Left            =   690
-            TabIndex        =   66
-            Tag             =   "lblAlarmSound"
-            Top             =   5550
-            Width           =   2040
-         End
-         Begin VB.Label lblPosition 
-            Caption         =   $"frmPrefs.frx":9EE0
-            Height          =   705
-            Index           =   10
-            Left            =   2250
-            TabIndex        =   64
-            Tag             =   "lblAlarmSoundDesc"
-            Top             =   2550
-            Width           =   5325
-         End
-         Begin VB.Label lblPosition 
-            Caption         =   "Widget Position by Percent:"
-            Height          =   375
-            Index           =   8
-            Left            =   195
-            TabIndex        =   63
-            Tag             =   "lblAlarmSound"
-            Top             =   2145
-            Width           =   2355
-         End
-         Begin VB.Label lblPosition 
-            Caption         =   $"frmPrefs.frx":9F7F
-            Height          =   3045
-            Index           =   6
-            Left            =   2265
-            TabIndex        =   61
-            Tag             =   "lblAlarmSoundDesc"
-            Top             =   450
-            Width           =   5370
-         End
-         Begin VB.Label lblPosition 
-            Caption         =   "Aspect Ratio Hidden Mode :"
-            Height          =   375
-            Index           =   3
-            Left            =   120
-            TabIndex        =   60
-            Tag             =   "lblAlarmSound"
-            Top             =   45
-            Width           =   2145
          End
       End
    End
@@ -2646,8 +2646,8 @@ Private Const pvtcPrefsFormWidth  As Long = 9090
 
 Private pvtPrefsFormResizedByDrag As Boolean
 
-'    gblPrefsCurrentWidth = 9075
-'    gblPrefsCurrentHeight = 16450
+'    gblPrefsStartWidth = 9075
+'    gblPrefsStartHeight = 16450
 '------------------------------------------------------ ENDS
 
 Private pvtPrefsStartupFlg As Boolean
@@ -2673,6 +2673,8 @@ Private pCmbAlarmMinutesBalloonTooltip As String
 
 Private mIsLoaded As Boolean ' property
 Private mClockSize As Single   ' property
+
+Private gblConstraintRatio As Double
 
 Private Sub btnGithubHome_Click()
     Call menuForm.mnuGithubHome_Click
@@ -3478,8 +3480,8 @@ Private Sub Form_Load()
     'pvtPrefsDynamicSizingFlg = False
     IsLoaded = True
     gblWindowLevelWasChanged = False
-    gblPrefsCurrentWidth = pvtcPrefsFormWidth
-    gblPrefsCurrentHeight = pvtcPrefsFormHeight
+    gblPrefsStartWidth = pvtcPrefsFormWidth
+    gblPrefsStartHeight = pvtcPrefsFormHeight
     pvtPrefsFormResizedByDrag = False
             
     ' subclass ALL forms created by intercepting WM_Create messages, identifying dialog forms to centre them in the middle of the monitor - specifically the font form.
@@ -3656,7 +3658,7 @@ Private Sub identifyPrefsPrimaryMonitor()
     
     On Error GoTo identifyPrefsPrimaryMonitor_Error
     
-    'prefsFormHeight = gblPrefsCurrentHeight
+    'prefsFormHeight = gblPrefsStartHeight
 
     prefsMonitorStruct = formScreenProperties(widgetPrefs, prefsFormMonitorID)
     gblOldPrefsFormMonitorPrimary = prefsMonitorStruct.IsPrimary ' -1 true
@@ -3679,6 +3681,9 @@ End Sub
 Private Sub setPrefsHeight()
 
    On Error GoTo setPrefsHeight_Error
+   
+    ' constrain the height/width ratio
+    gblConstraintRatio = pvtcPrefsFormHeight / pvtcPrefsFormWidth
 
     If gblDpiAwareness = "1" Then
         gblPrefsFormResizedInCode = True
@@ -4065,17 +4070,17 @@ Public Sub positionPrefsMonitor()
             gblPrefsFormResizedInCode = True
             gblPrefsPrimaryHeightTwips = fGetINISetting("Software\SteampunkClockCalendar", "prefsPrimaryHeightTwips", gblSettingsFile)
             If Val(gblPrefsPrimaryHeightTwips) <= 0 Then
-                widgetPrefs.Height = gblPrefsCurrentHeight
+                widgetPrefs.Height = gblPrefsStartHeight
             Else
-                widgetPrefs.Height = Val(gblPrefsPrimaryHeightTwips)
+                widgetPrefs.Height = CLng(gblPrefsPrimaryHeightTwips)
             End If
         Else
             gblPrefsSecondaryHeightTwips = fGetINISetting("Software\SteampunkClockCalendar", "prefsSecondaryHeightTwips", gblSettingsFile)
             gblPrefsFormResizedInCode = True
             If Val(gblPrefsSecondaryHeightTwips) <= 0 Then
-                widgetPrefs.Height = gblPrefsCurrentHeight
+                widgetPrefs.Height = gblPrefsStartHeight
             Else
-                widgetPrefs.Height = Val(gblPrefsSecondaryHeightTwips)
+                widgetPrefs.Height = CLng(gblPrefsSecondaryHeightTwips)
             End If
         End If
     End If
@@ -5013,7 +5018,7 @@ Private Sub btnClose_Click()
     Me.Hide
     Me.themeTimer.Enabled = False
     
-    Call writePrefsPosition
+    Call writePrefsPositionAndSize
     
     Call adjustPrefsControls(True)
 
@@ -5049,12 +5054,42 @@ btnHelp_Click_Error:
 
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure btnHelp_Click of Form widgetPrefs"
 End Sub
+
+'---------------------------------------------------------------------------------------
+' Procedure : BCStr
+' Author    : beededea
+' Date      : 31/05/2025
+' Purpose   : This replacement of CStr is ONLY for non-numeric boolean casts to a string.
+'             NOTE: boolean values can be locale-sensitive when converted by CStr returning a local language result
+'             It might be best to stick with LTrim$(Str$()) for the moment.
+'             It is OK to convert checkboxes using cstr() as the boolean values are stored as 0 and -1
+'---------------------------------------------------------------------------------------
+'
+Function BCStr(ByVal booleanValue As Boolean) As String
+   On Error GoTo BCStr_Error
+
+    If booleanValue Then
+        BCStr = "True"
+    Else
+        BCStr = "False"
+    End If
+    
+   On Error GoTo 0
+   Exit Function
+
+BCStr_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure BCStr of Form widgetPrefs"
+End Function
 '
 '---------------------------------------------------------------------------------------
 ' Procedure : btnSave_Click
 ' Author    : beededea
 ' Date      : 02/05/2023
 ' Purpose   : save the values from all the tabs
+'             NOTE: boolean values can be locale-sensitive when converted by CStr returning a local language result
+'             It might be best to stick with LTrim$(Str$()) for the moment.
+'             It is OK to convert checkboxes using cstr() as the boolean values are stored as 0 and -1
 '---------------------------------------------------------------------------------------
 '
 Private Sub btnSave_Click()
@@ -5617,7 +5652,7 @@ Private Sub adjustPrefsControls(Optional ByVal restartState As Boolean)
     ' note the monitor ID at PrefsForm form_load and store as the prefsFormMonitorID
     'prefsMonitorStruct = formScreenProperties(widgetPrefs, prefsFormMonitorID)
     
-    widgetPrefs.Height = CLng(gblPrefsPrimaryHeightTwips)
+    'widgetPrefs.Height = CLng(gblPrefsPrimaryHeightTwips)
             
     ' general tab
     chkWidgetFunctions.Value = Val(gblWidgetFunctions)
@@ -6459,12 +6494,15 @@ End Sub
 ' Procedure : PrefsForm_Resize_Event
 ' Author    : beededea
 ' Date      : 10/10/2024
-' Purpose   : routine to resize the prefs called by subclassing on a mouseUp form event during a bottom-right corner-drag or in code as required.
+' Purpose   : Called mostly by WM_EXITSIZEMOVE, the subclassed (intercepted) message that indicates that the window has just been moved.
+'             (and on a mouseUp during a bottom-right drag of the additional corner indicator). Also, in code as specifcally required with an indicator flag.
+'             This prevents a resize occurring during every twip movement and the controls resizing themselves continuously.
+'             They now only resize when the form resize has completed.
+'
 '---------------------------------------------------------------------------------------
 '
 Public Sub PrefsForm_Resize_Event()
 
-    Dim constraintRatio As Double: constraintRatio = 0
     Dim currentFontSize As Long: currentFontSize = 0
     
     On Error GoTo PrefsForm_Resize_Event_Error
@@ -6477,21 +6515,18 @@ Public Sub PrefsForm_Resize_Event()
     ' move the drag corner label along with the form's bottom right corner
     lblDragCorner.Move Me.ScaleLeft + Me.ScaleWidth - (lblDragCorner.Width + 40), _
                Me.ScaleTop + Me.ScaleHeight - (lblDragCorner.Height + 40)
-
-    ' constrain the height/width ratio
-    constraintRatio = pvtcPrefsFormHeight / pvtcPrefsFormWidth
     
     If pvtPrefsDynamicSizingFlg = True And pvtPrefsFormResizedByDrag = True Then
     
-        widgetPrefs.Width = widgetPrefs.Height / constraintRatio ' maintain the aspect ratio, note: this change calls this routine again...
+        widgetPrefs.Width = widgetPrefs.Height / gblConstraintRatio ' maintain the aspect ratio, note: this change calls this routine again...
         
         If gblDpiAwareness = "1" Then
             currentFontSize = gblPrefsFontSizeHighDPI
         Else
             currentFontSize = gblPrefsFontSizeLowDPI
         End If
-        Call resizeControls(Me, prefsControlPositions(), gblPrefsCurrentWidth, gblPrefsCurrentHeight, currentFontSize)
-        Call tweakPrefsControlPositions(Me, gblPrefsCurrentWidth, gblPrefsCurrentHeight)
+        Call resizeControls(Me, prefsControlPositions(), gblPrefsStartWidth, gblPrefsStartHeight, currentFontSize)
+        Call tweakPrefsControlPositions(Me, gblPrefsStartWidth, gblPrefsStartHeight)
         
         Call loadHigherResPrefsImages
 
@@ -6509,7 +6544,7 @@ Public Sub PrefsForm_Resize_Event()
     gblPrefsFormResizedInCode = False
     pvtPrefsFormResizedByDrag = False
     
-    Call writePrefsPosition
+    Call writePrefsPositionAndSize
     
     'lblSize.Caption = "topIconWidth = " & topIconWidth & " imgGeneral width = " & imgGeneral.Width
 
@@ -6646,7 +6681,7 @@ Private Sub Form_Unload(Cancel As Integer)
     
     IsLoaded = False
     
-    Call writePrefsPosition
+    Call writePrefsPositionAndSize
     
     Call DestroyToolTip
 
@@ -7930,7 +7965,7 @@ Public Sub setPrefsTooltips()
         pCmbWidgetPositionBalloonTooltip = "Tablets only. The widget can be positioned proportionally when switching between portrait/landscape. If you want to enable this, disable the options below."
         pCmbAspectHiddenBalloonTooltip = "Here you can choose whether the widget is hidden by default in either landscape or portrait mode or not at all. This allows you to have certain widgets that do not obscure the screen in one mode or another. If you accidentally set it so you can't find it on screen then change the setting here to none."
         
-        pCmbDebugBalloonTooltip = "Here you can set debug mode. This will enable the editor field and allow you to assign a VBP file for the " & gblCodingEnvironment & " IDE editor"
+        pCmbDebugBalloonTooltip = "Here you can set debug mode. This will enable the editor field and allow you to assign a VBP/TwinProj file for the " & gblCodingEnvironment & " IDE editor"
         
         pCmbAlarmDayBalloonTooltip = "Enter a valid day of the month here. When you have entered both a date here and a time in the adjacent field, then click the > key to validate."
         pCmbAlarmMonthBalloonTooltip = "Enter a valid month here. When you have entered both a date here and a time in the adjacent field, then click the > key to validate."
@@ -8392,7 +8427,7 @@ Private Sub picButtonMouseUpEvent(ByVal thisTabName As String, ByRef thisPicName
     #End If
 
     ' Get the form's current scale factors.
-    y_scale = Me.ScaleHeight / gblPrefsCurrentHeight
+    y_scale = Me.ScaleHeight / gblPrefsStartHeight
     
     If gblDpiAwareness = "1" Then
         btnHelp.Top = fraGeneral.Top + fraGeneral.Height + (100 * y_scale)
@@ -8886,7 +8921,7 @@ Private Sub tmrWritePosition_Timer()
     ' save the current X and y position of this form to allow repositioning when restarting
     On Error GoTo tmrWritePosition_Timer_Error
    
-    If widgetPrefs.IsVisible = True Then Call writePrefsPosition
+    If widgetPrefs.IsVisible = True Then Call writePrefsPositionAndSize
 
    On Error GoTo 0
    Exit Sub
@@ -8913,7 +8948,7 @@ Private Sub chkEnableResizing_Click()
         pvtPrefsDynamicSizingFlg = True
         txtPrefsFontCurrentSize.Visible = True
         'lblCurrentFontsTab.Visible = True
-        'Call writePrefsPosition
+        'Call writePrefsPositionAndSize
         chkEnableResizing.Caption = "Disable Corner Resizing"
     Else
         pvtPrefsDynamicSizingFlg = False
@@ -8970,7 +9005,7 @@ Private Sub setframeHeights()
     
         'If gblDpiAwareness = "1" Then
             ' save the initial positions of ALL the controls on the prefs form
-            Call SaveSizes(widgetPrefs, prefsControlPositions(), gblPrefsCurrentWidth, gblPrefsCurrentHeight)
+            Call SaveSizes(widgetPrefs, prefsControlPositions(), gblPrefsStartWidth, gblPrefsStartHeight)
         'End If
     Else
         fraGeneral.Height = 7737
