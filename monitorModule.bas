@@ -631,14 +631,14 @@ End Function
 
 
 '---------------------------------------------------------------------------------------
-' Procedure : positionClockByMonitorSize
+' Procedure : positionRCFormByMonitorSize
 ' Author    : beededea
 ' Date      : 20/08/2024
 ' Purpose   : at startup obtains monitor ID and characteristics
 '             in addition, if there is more than one screen, size the form by a ratio according to the form's physical monitor properties
 '---------------------------------------------------------------------------------------
 '
-Public Sub positionClockByMonitorSize()
+Public Sub positionRCFormByMonitorSize()
     
     Static oldMonitorStructWidthTwips As Long
     Static oldMonitorStructHeightTwips As Long
@@ -651,7 +651,7 @@ Public Sub positionClockByMonitorSize()
     Dim monitorStructHeightTwips As Long: monitorStructHeightTwips = 0
     Dim resizeProportion As Double: resizeProportion = 0
 
-    On Error GoTo positionClockByMonitorSize_Error
+    On Error GoTo positionRCFormByMonitorSize_Error
   
     If gblMonitorCount > 1 And (LTrim$(gblMultiMonitorResize) = "1" Or LTrim$(gblMultiMonitorResize) = "2") Then
                     
@@ -726,9 +726,9 @@ Public Sub positionClockByMonitorSize()
    On Error GoTo 0
    Exit Sub
 
-positionClockByMonitorSize_Error:
+positionRCFormByMonitorSize_Error:
 
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure positionClockByMonitorSize of Module Module1"
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure positionRCFormByMonitorSize of Module Module1"
 
 End Sub
 

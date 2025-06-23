@@ -359,7 +359,6 @@ Private Sub initialiseGlobalVars()
 
     ' config
     gblClockTooltips = vbNullString
-    
     gblPrefsTooltips = vbNullString
     'gblEnablePrefsTooltips = vbNullString
     
@@ -659,7 +658,7 @@ Public Sub adjustMainControls(Optional ByVal licenceState As Integer)
     Call validateInputs
     
     ' initial call just to obtain initial physical screen monitor ID
-    Call positionClockByMonitorSize
+    Call positionRCFormByMonitorSize
         
     ' if the licenstate is 0 then the program is running for the first time, so pre-size the form to fit larger screens
     If licenceState = 0 Then

@@ -482,14 +482,17 @@ Public Sub InitFromPSD(ByRef PSD_FileNameOrByteArray As Variant)
     With lblTerminalText
         .Widget.FontSize = gblDisplayScreenFontSize
         .Widget.FontName = gblDisplayScreenFont
-        .Widget.ForeColor = grey
+        .Widget.ForeColor = Gray
         .Widget.Alpha = someOpacity
         .Widget.FontBold = False
         .BorderWidth = 0
         .WordWrap = True
         .Alignment = 0
         .Widget.BackColor = -1
+        .Caption = "arseburgers!"
     End With
+    
+    
     
     gblFClockAvailable = True ' this sets a flag to stop text being written to the screen before it is created/rendered.
     
@@ -2376,9 +2379,10 @@ Private Sub displayScreenToggle_myMouseDown()
     End If
   
     If gblDisplayScreenToggleEnabled = "False" Then
+        gblDisplayScreenToggleEnabled = "True"
         displayScreenToggleEnabled = True
     Else
-        gblDisplayScreenToggleEnabled = "True"
+        gblDisplayScreenToggleEnabled = "False"
         displayScreenToggleEnabled = False
     End If
     
@@ -2866,7 +2870,7 @@ Private Sub clockForm_MouseUp(ByRef Button As Integer, ByRef Shift As Integer, B
     ' save the form x,y position whenever the globe/form is dragged
     Call saveMainRCFormPosition
 
-    Call positionClockByMonitorSize
+    Call positionRCFormByMonitorSize
     
     On Error GoTo 0
     Exit Sub

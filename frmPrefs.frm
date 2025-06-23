@@ -334,941 +334,12 @@ Begin VB.Form widgetPrefs
          Width           =   600
       End
    End
-   Begin VB.Frame fraPosition 
-      Caption         =   "Position"
-      Height          =   7440
-      Left            =   255
-      TabIndex        =   42
-      Top             =   1230
-      Visible         =   0   'False
-      Width           =   8520
-      Begin VB.Frame fraPositionInner 
-         BorderStyle     =   0  'None
-         Height          =   6960
-         Left            =   150
-         TabIndex        =   43
-         Top             =   300
-         Width           =   7680
-         Begin VB.TextBox txtLandscapeHoffset 
-            Height          =   315
-            Left            =   2250
-            TabIndex        =   70
-            Top             =   4425
-            Width           =   2130
-         End
-         Begin VB.CheckBox chkPreventDragging 
-            Caption         =   "Widget Position Locked. *"
-            Height          =   225
-            Left            =   2265
-            TabIndex        =   121
-            ToolTipText     =   "Checking this box turns off the ability to drag the program with the mouse, locking it in position."
-            Top             =   3465
-            Width           =   2505
-         End
-         Begin VB.TextBox txtPortraitYoffset 
-            Height          =   315
-            Left            =   2250
-            TabIndex        =   76
-            ToolTipText     =   "Enter a prefix/nickname for outgoing messages."
-            Top             =   6465
-            Width           =   2130
-         End
-         Begin VB.TextBox txtPortraitHoffset 
-            Height          =   315
-            Left            =   2250
-            TabIndex        =   74
-            ToolTipText     =   "Enter a prefix/nickname for outgoing messages."
-            Top             =   6000
-            Width           =   2130
-         End
-         Begin VB.TextBox txtLandscapeVoffset 
-            Height          =   315
-            Left            =   2250
-            TabIndex        =   72
-            ToolTipText     =   "Enter a prefix/nickname for outgoing messages."
-            Top             =   4875
-            Width           =   2130
-         End
-         Begin VB.ComboBox cmbWidgetLandscape 
-            Height          =   315
-            Left            =   2250
-            Style           =   2  'Dropdown List
-            TabIndex        =   68
-            Top             =   3930
-            Width           =   2160
-         End
-         Begin VB.ComboBox cmbWidgetPortrait 
-            Height          =   315
-            Left            =   2250
-            Style           =   2  'Dropdown List
-            TabIndex        =   65
-            ToolTipText     =   "Choose the alarm sound."
-            Top             =   5505
-            Width           =   2160
-         End
-         Begin VB.ComboBox cmbWidgetPosition 
-            Height          =   315
-            Left            =   2265
-            Style           =   2  'Dropdown List
-            TabIndex        =   62
-            ToolTipText     =   "Choose the alarm sound."
-            Top             =   2100
-            Width           =   2160
-         End
-         Begin VB.ComboBox cmbAspectHidden 
-            Height          =   315
-            Left            =   2265
-            Style           =   2  'Dropdown List
-            TabIndex        =   59
-            ToolTipText     =   "Choose the alarm sound."
-            Top             =   0
-            Width           =   2160
-         End
-         Begin VB.Label lblPosition 
-            Caption         =   "(px)"
-            Height          =   300
-            Index           =   7
-            Left            =   4530
-            TabIndex        =   138
-            Tag             =   "lblPrefixString"
-            Top             =   6495
-            Width           =   435
-         End
-         Begin VB.Label lblPosition 
-            Caption         =   "(px)"
-            Height          =   300
-            Index           =   5
-            Left            =   4530
-            TabIndex        =   137
-            Tag             =   "lblPrefixString"
-            Top             =   6045
-            Width           =   435
-         End
-         Begin VB.Label lblPosition 
-            Caption         =   "*"
-            Height          =   255
-            Index           =   1
-            Left            =   4545
-            TabIndex        =   124
-            Tag             =   "lblAlarmSound"
-            Top             =   45
-            Width           =   345
-         End
-         Begin VB.Label lblPosition 
-            Caption         =   "(px)"
-            Height          =   300
-            Index           =   4
-            Left            =   4530
-            TabIndex        =   120
-            Tag             =   "lblPrefixString"
-            Top             =   4905
-            Width           =   435
-         End
-         Begin VB.Label lblPosition 
-            Caption         =   "(px)"
-            Height          =   300
-            Index           =   2
-            Left            =   4530
-            TabIndex        =   119
-            Tag             =   "lblPrefixString"
-            Top             =   4500
-            Width           =   390
-         End
-         Begin VB.Label lblPosition 
-            Caption         =   "Portrait Top Y pos :"
-            Height          =   510
-            Index           =   17
-            Left            =   645
-            TabIndex        =   77
-            Tag             =   "lblPrefixString"
-            Top             =   6480
-            Width           =   2175
-         End
-         Begin VB.Label lblPosition 
-            Caption         =   "Portrait Left X pos :"
-            Height          =   510
-            Index           =   16
-            Left            =   660
-            TabIndex        =   75
-            Tag             =   "lblPrefixString"
-            Top             =   6015
-            Width           =   2175
-         End
-         Begin VB.Label lblPosition 
-            Caption         =   "Landscape Top Y pos :"
-            Height          =   510
-            Index           =   15
-            Left            =   420
-            TabIndex        =   73
-            Tag             =   "lblPrefixString"
-            Top             =   4905
-            Width           =   2175
-         End
-         Begin VB.Label lblPosition 
-            Caption         =   "Landscape Left X pos :"
-            Height          =   510
-            Index           =   14
-            Left            =   420
-            TabIndex        =   71
-            Tag             =   "lblPrefixString"
-            Top             =   4455
-            Width           =   2175
-         End
-         Begin VB.Label lblPosition 
-            Caption         =   "Locked in Landscape :"
-            Height          =   435
-            Index           =   13
-            Left            =   450
-            TabIndex        =   69
-            Tag             =   "lblAlarmSound"
-            Top             =   3975
-            Width           =   2115
-         End
-         Begin VB.Label lblPosition 
-            Caption         =   $"frmPrefs.frx":5D82
-            Height          =   3435
-            Index           =   12
-            Left            =   5145
-            TabIndex        =   67
-            Tag             =   "lblAlarmSoundDesc"
-            Top             =   3480
-            Width           =   2520
-         End
-         Begin VB.Label lblPosition 
-            Caption         =   "Locked in Portrait :"
-            Height          =   375
-            Index           =   11
-            Left            =   690
-            TabIndex        =   66
-            Tag             =   "lblAlarmSound"
-            Top             =   5550
-            Width           =   2040
-         End
-         Begin VB.Label lblPosition 
-            Caption         =   $"frmPrefs.frx":5F54
-            Height          =   705
-            Index           =   10
-            Left            =   2250
-            TabIndex        =   64
-            Tag             =   "lblAlarmSoundDesc"
-            Top             =   2550
-            Width           =   5325
-         End
-         Begin VB.Label lblPosition 
-            Caption         =   "Widget Position by Percent:"
-            Height          =   375
-            Index           =   8
-            Left            =   195
-            TabIndex        =   63
-            Tag             =   "lblAlarmSound"
-            Top             =   2145
-            Width           =   2355
-         End
-         Begin VB.Label lblPosition 
-            Caption         =   $"frmPrefs.frx":5FF3
-            Height          =   3045
-            Index           =   6
-            Left            =   2265
-            TabIndex        =   61
-            Tag             =   "lblAlarmSoundDesc"
-            Top             =   450
-            Width           =   5370
-         End
-         Begin VB.Label lblPosition 
-            Caption         =   "Aspect Ratio Hidden Mode :"
-            Height          =   375
-            Index           =   3
-            Left            =   120
-            TabIndex        =   60
-            Tag             =   "lblAlarmSound"
-            Top             =   45
-            Width           =   2145
-         End
-      End
-   End
-   Begin VB.Frame fraGeneral 
-      Caption         =   "General"
-      ForeColor       =   &H80000008&
-      Height          =   7485
-      Left            =   105
-      TabIndex        =   46
-      Top             =   1170
-      Visible         =   0   'False
-      Width           =   7995
-      Begin VB.Frame fraGeneralInner 
-         BorderStyle     =   0  'None
-         Height          =   7095
-         Left            =   435
-         TabIndex        =   47
-         Top             =   300
-         Width           =   7395
-         Begin VB.CheckBox chk24HourClockMode 
-            Caption         =   "Toggle 24hr clock mode ON *"
-            Height          =   465
-            Left            =   1995
-            TabIndex        =   181
-            ToolTipText     =   "Check this box to enable the automatic start of the program when Windows is started."
-            Top             =   2205
-            Width           =   4020
-         End
-         Begin VB.CheckBox chkTogglePendulum 
-            Caption         =   "Toggle the pendulum animation"
-            Height          =   465
-            Left            =   1980
-            TabIndex        =   169
-            ToolTipText     =   "Check this box to enable the automatic start of the program when Windows is started."
-            Top             =   1725
-            Width           =   4020
-         End
-         Begin VB.Frame Frame 
-            BorderStyle     =   0  'None
-            Height          =   3480
-            Left            =   -1005
-            TabIndex        =   146
-            Top             =   3285
-            Width           =   8325
-            Begin VB.CommandButton btnNow 
-               Height          =   345
-               Index           =   5
-               Left            =   2115
-               Picture         =   "frmPrefs.frx":618F
-               Style           =   1  'Graphical
-               TabIndex        =   230
-               Top             =   2160
-               Width           =   330
-            End
-            Begin VB.CommandButton btnNow 
-               Height          =   345
-               Index           =   4
-               Left            =   2115
-               Picture         =   "frmPrefs.frx":63D5
-               Style           =   1  'Graphical
-               TabIndex        =   229
-               Top             =   1665
-               Width           =   330
-            End
-            Begin VB.CommandButton btnNow 
-               Height          =   345
-               Index           =   3
-               Left            =   2115
-               Picture         =   "frmPrefs.frx":661B
-               Style           =   1  'Graphical
-               TabIndex        =   228
-               Top             =   1185
-               Width           =   330
-            End
-            Begin VB.CommandButton btnNow 
-               Height          =   345
-               Index           =   2
-               Left            =   2115
-               Picture         =   "frmPrefs.frx":6861
-               Style           =   1  'Graphical
-               TabIndex        =   227
-               Top             =   705
-               Width           =   330
-            End
-            Begin VB.CommandButton btnclearAlarm 
-               Caption         =   "Clear"
-               Height          =   345
-               Index           =   5
-               Left            =   7680
-               Style           =   1  'Graphical
-               TabIndex        =   226
-               Top             =   2145
-               Width           =   540
-            End
-            Begin VB.CommandButton btnclearAlarm 
-               Caption         =   "Clear"
-               Height          =   345
-               Index           =   4
-               Left            =   7680
-               Style           =   1  'Graphical
-               TabIndex        =   225
-               Top             =   1650
-               Width           =   540
-            End
-            Begin VB.CommandButton btnclearAlarm 
-               Caption         =   "Clear"
-               Height          =   345
-               Index           =   3
-               Left            =   7680
-               Style           =   1  'Graphical
-               TabIndex        =   224
-               Top             =   1170
-               Width           =   540
-            End
-            Begin VB.CommandButton btnclearAlarm 
-               Caption         =   "Clear"
-               Height          =   345
-               Index           =   2
-               Left            =   7680
-               Style           =   1  'Graphical
-               TabIndex        =   223
-               Top             =   690
-               Width           =   540
-            End
-            Begin VB.CommandButton btnclearAlarm 
-               Caption         =   "Clear"
-               Height          =   345
-               Index           =   1
-               Left            =   7680
-               Style           =   1  'Graphical
-               TabIndex        =   222
-               Top             =   195
-               Width           =   540
-            End
-            Begin VB.CommandButton btnNow 
-               Height          =   345
-               Index           =   1
-               Left            =   2115
-               Picture         =   "frmPrefs.frx":6AA7
-               Style           =   1  'Graphical
-               TabIndex        =   221
-               Top             =   195
-               Width           =   330
-            End
-            Begin VB.ComboBox cmbAlarm5Minutes 
-               Height          =   315
-               ItemData        =   "frmPrefs.frx":6CED
-               Left            =   5340
-               List            =   "frmPrefs.frx":6DA8
-               Style           =   2  'Dropdown List
-               TabIndex        =   218
-               Top             =   2160
-               Width           =   525
-            End
-            Begin VB.ComboBox cmbAlarm4Minutes 
-               Height          =   315
-               ItemData        =   "frmPrefs.frx":6E9E
-               Left            =   5340
-               List            =   "frmPrefs.frx":6F59
-               Style           =   2  'Dropdown List
-               TabIndex        =   217
-               Top             =   1680
-               Width           =   525
-            End
-            Begin VB.ComboBox cmbAlarm3Minutes 
-               Height          =   315
-               ItemData        =   "frmPrefs.frx":704F
-               Left            =   5340
-               List            =   "frmPrefs.frx":710A
-               Style           =   2  'Dropdown List
-               TabIndex        =   216
-               Top             =   1215
-               Width           =   525
-            End
-            Begin VB.ComboBox cmbAlarm2Minutes 
-               Height          =   315
-               ItemData        =   "frmPrefs.frx":7200
-               Left            =   5340
-               List            =   "frmPrefs.frx":72BB
-               Style           =   2  'Dropdown List
-               TabIndex        =   215
-               Top             =   720
-               Width           =   525
-            End
-            Begin VB.ComboBox cmbAlarm5Hours 
-               Height          =   315
-               ItemData        =   "frmPrefs.frx":73B1
-               Left            =   4785
-               List            =   "frmPrefs.frx":7400
-               Style           =   2  'Dropdown List
-               TabIndex        =   214
-               Top             =   2175
-               Width           =   525
-            End
-            Begin VB.ComboBox cmbAlarm4Hours 
-               Height          =   315
-               ItemData        =   "frmPrefs.frx":7466
-               Left            =   4785
-               List            =   "frmPrefs.frx":74B5
-               Style           =   2  'Dropdown List
-               TabIndex        =   213
-               Top             =   1680
-               Width           =   525
-            End
-            Begin VB.ComboBox cmbAlarm3Hours 
-               Height          =   315
-               ItemData        =   "frmPrefs.frx":751B
-               Left            =   4785
-               List            =   "frmPrefs.frx":756A
-               Style           =   2  'Dropdown List
-               TabIndex        =   212
-               Top             =   1215
-               Width           =   525
-            End
-            Begin VB.ComboBox cmbAlarm2Hours 
-               Height          =   315
-               ItemData        =   "frmPrefs.frx":75D0
-               Left            =   4785
-               List            =   "frmPrefs.frx":761F
-               Style           =   2  'Dropdown List
-               TabIndex        =   211
-               Top             =   720
-               Width           =   525
-            End
-            Begin VB.ComboBox cmbAlarm5Year 
-               Height          =   315
-               ItemData        =   "frmPrefs.frx":7685
-               Left            =   3945
-               List            =   "frmPrefs.frx":7761
-               Style           =   2  'Dropdown List
-               TabIndex        =   210
-               Top             =   2175
-               Width           =   750
-            End
-            Begin VB.ComboBox cmbAlarm4Year 
-               Height          =   315
-               ItemData        =   "frmPrefs.frx":7911
-               Left            =   3945
-               List            =   "frmPrefs.frx":79ED
-               Style           =   2  'Dropdown List
-               TabIndex        =   209
-               Top             =   1680
-               Width           =   750
-            End
-            Begin VB.ComboBox cmbAlarm3Year 
-               Height          =   315
-               ItemData        =   "frmPrefs.frx":7B9D
-               Left            =   3945
-               List            =   "frmPrefs.frx":7C79
-               Style           =   2  'Dropdown List
-               TabIndex        =   208
-               Top             =   1215
-               Width           =   750
-            End
-            Begin VB.ComboBox cmbAlarm2Year 
-               Height          =   315
-               ItemData        =   "frmPrefs.frx":7E29
-               Left            =   3945
-               List            =   "frmPrefs.frx":7F05
-               Style           =   2  'Dropdown List
-               TabIndex        =   207
-               Top             =   720
-               Width           =   750
-            End
-            Begin VB.ComboBox cmbAlarm5Month 
-               Height          =   315
-               ItemData        =   "frmPrefs.frx":80B5
-               Left            =   3060
-               List            =   "frmPrefs.frx":80E3
-               Style           =   2  'Dropdown List
-               TabIndex        =   206
-               Top             =   2175
-               Width           =   870
-            End
-            Begin VB.ComboBox cmbAlarm4Month 
-               Height          =   315
-               ItemData        =   "frmPrefs.frx":8125
-               Left            =   3075
-               List            =   "frmPrefs.frx":8153
-               Style           =   2  'Dropdown List
-               TabIndex        =   205
-               Top             =   1680
-               Width           =   870
-            End
-            Begin VB.ComboBox cmbAlarm3Month 
-               Height          =   315
-               ItemData        =   "frmPrefs.frx":8195
-               Left            =   3060
-               List            =   "frmPrefs.frx":81C3
-               Style           =   2  'Dropdown List
-               TabIndex        =   204
-               Top             =   1215
-               Width           =   870
-            End
-            Begin VB.ComboBox cmbAlarm5Day 
-               Height          =   315
-               ItemData        =   "frmPrefs.frx":8205
-               Left            =   2505
-               List            =   "frmPrefs.frx":8282
-               Style           =   2  'Dropdown List
-               TabIndex        =   203
-               Top             =   2175
-               Width           =   525
-            End
-            Begin VB.ComboBox cmbAlarm4Day 
-               Height          =   315
-               ItemData        =   "frmPrefs.frx":8308
-               Left            =   2505
-               List            =   "frmPrefs.frx":8385
-               Style           =   2  'Dropdown List
-               TabIndex        =   202
-               Top             =   1680
-               Width           =   525
-            End
-            Begin VB.ComboBox cmbAlarm3Day 
-               Height          =   315
-               ItemData        =   "frmPrefs.frx":840B
-               Left            =   2505
-               List            =   "frmPrefs.frx":8488
-               Style           =   2  'Dropdown List
-               TabIndex        =   201
-               Top             =   1215
-               Width           =   525
-            End
-            Begin VB.ComboBox cmbAlarm1Year 
-               Height          =   315
-               ItemData        =   "frmPrefs.frx":850E
-               Left            =   3945
-               List            =   "frmPrefs.frx":85EA
-               Style           =   2  'Dropdown List
-               TabIndex        =   200
-               Top             =   210
-               Width           =   750
-            End
-            Begin VB.ComboBox cmbAlarm1Minutes 
-               Height          =   315
-               ItemData        =   "frmPrefs.frx":879A
-               Left            =   5340
-               List            =   "frmPrefs.frx":8855
-               Style           =   2  'Dropdown List
-               TabIndex        =   199
-               Top             =   210
-               Width           =   525
-            End
-            Begin VB.ComboBox cmbAlarm1Hours 
-               Height          =   315
-               ItemData        =   "frmPrefs.frx":894B
-               Left            =   4785
-               List            =   "frmPrefs.frx":899A
-               Style           =   2  'Dropdown List
-               TabIndex        =   198
-               Top             =   210
-               Width           =   525
-            End
-            Begin VB.ComboBox cmbAlarm1Month 
-               Height          =   315
-               ItemData        =   "frmPrefs.frx":8A00
-               Left            =   3060
-               List            =   "frmPrefs.frx":8A2E
-               Style           =   2  'Dropdown List
-               TabIndex        =   197
-               Top             =   210
-               Width           =   870
-            End
-            Begin VB.ComboBox cmbAlarm2Day 
-               Height          =   315
-               ItemData        =   "frmPrefs.frx":8A70
-               Left            =   2505
-               List            =   "frmPrefs.frx":8AED
-               Style           =   2  'Dropdown List
-               TabIndex        =   196
-               Top             =   720
-               Width           =   525
-            End
-            Begin VB.ComboBox cmbAlarm2Month 
-               Height          =   315
-               ItemData        =   "frmPrefs.frx":8B73
-               Left            =   3060
-               List            =   "frmPrefs.frx":8BA1
-               Style           =   2  'Dropdown List
-               TabIndex        =   195
-               Top             =   720
-               Width           =   870
-            End
-            Begin VB.ComboBox cmbAlarm1Day 
-               BeginProperty Font 
-                  Name            =   "Arial"
-                  Size            =   8.25
-                  Charset         =   0
-                  Weight          =   400
-                  Underline       =   0   'False
-                  Italic          =   0   'False
-                  Strikethrough   =   0   'False
-               EndProperty
-               Height          =   330
-               ItemData        =   "frmPrefs.frx":8BE3
-               Left            =   2505
-               List            =   "frmPrefs.frx":8C60
-               Style           =   2  'Dropdown List
-               TabIndex        =   194
-               Top             =   210
-               Width           =   525
-            End
-            Begin VB.CommandButton btnVerifyDateTime5 
-               Caption         =   ">"
-               Height          =   315
-               Left            =   5895
-               Style           =   1  'Graphical
-               TabIndex        =   161
-               ToolTipText     =   "Verify Date Time for alarm number 1"
-               Top             =   2160
-               Width           =   300
-            End
-            Begin VB.TextBox txtAlarm5Time 
-               Height          =   315
-               Left            =   7140
-               Locked          =   -1  'True
-               TabIndex        =   160
-               Top             =   2160
-               Width           =   500
-            End
-            Begin VB.CommandButton btnVerifyDateTime4 
-               Caption         =   ">"
-               Height          =   315
-               Left            =   5895
-               Style           =   1  'Graphical
-               TabIndex        =   158
-               ToolTipText     =   "Verify Date Time for alarm number 1"
-               Top             =   1650
-               Width           =   300
-            End
-            Begin VB.TextBox txtAlarm4Time 
-               Height          =   315
-               Left            =   7140
-               Locked          =   -1  'True
-               TabIndex        =   157
-               Top             =   1665
-               Width           =   500
-            End
-            Begin VB.CommandButton btnVerifyDateTime3 
-               Caption         =   ">"
-               Height          =   315
-               Left            =   5895
-               Style           =   1  'Graphical
-               TabIndex        =   155
-               ToolTipText     =   "Verify Date Time for alarm number 1"
-               Top             =   1185
-               Width           =   300
-            End
-            Begin VB.TextBox txtAlarm3Time 
-               Height          =   315
-               Left            =   7140
-               Locked          =   -1  'True
-               TabIndex        =   154
-               Top             =   1185
-               Width           =   500
-            End
-            Begin VB.CommandButton btnVerifyDateTime2 
-               Caption         =   ">"
-               Height          =   315
-               Left            =   5895
-               Style           =   1  'Graphical
-               TabIndex        =   152
-               ToolTipText     =   "Verify Date Time for alarm number 1"
-               Top             =   705
-               Width           =   300
-            End
-            Begin VB.TextBox txtAlarm2Time 
-               Height          =   315
-               Left            =   7140
-               Locked          =   -1  'True
-               TabIndex        =   151
-               Top             =   705
-               Width           =   500
-            End
-            Begin VB.TextBox txtAlarm1Time 
-               Height          =   315
-               Left            =   7140
-               Locked          =   -1  'True
-               TabIndex        =   148
-               Top             =   210
-               Width           =   495
-            End
-            Begin VB.CommandButton btnVerifyDateTime1 
-               Caption         =   ">"
-               Height          =   300
-               Left            =   5895
-               Style           =   1  'Graphical
-               TabIndex        =   149
-               ToolTipText     =   "Verify Date Time for alarm number 1"
-               Top             =   225
-               Width           =   300
-            End
-            Begin VB.TextBox txtAlarm5Date 
-               Height          =   315
-               Left            =   6255
-               Locked          =   -1  'True
-               TabIndex        =   159
-               Top             =   2160
-               Width           =   825
-            End
-            Begin VB.TextBox txtAlarm4Date 
-               Height          =   315
-               Left            =   6255
-               Locked          =   -1  'True
-               TabIndex        =   156
-               Top             =   1665
-               Width           =   825
-            End
-            Begin VB.TextBox txtAlarm3Date 
-               Height          =   315
-               Left            =   6255
-               Locked          =   -1  'True
-               TabIndex        =   153
-               Top             =   1185
-               Width           =   825
-            End
-            Begin VB.TextBox txtAlarm2Date 
-               Height          =   315
-               Left            =   6255
-               Locked          =   -1  'True
-               TabIndex        =   150
-               Top             =   705
-               Width           =   825
-            End
-            Begin VB.TextBox txtAlarm1Date 
-               Height          =   315
-               Left            =   6255
-               Locked          =   -1  'True
-               TabIndex        =   147
-               Top             =   210
-               Width           =   825
-            End
-            Begin VB.Label lblGeneral 
-               Caption         =   $"frmPrefs.frx":8CE6
-               Height          =   900
-               Index           =   10
-               Left            =   2115
-               TabIndex        =   167
-               Top             =   2745
-               Width           =   4230
-            End
-            Begin VB.Label lblGeneral 
-               Caption         =   "Alarm No. 5 :"
-               Height          =   375
-               Index           =   9
-               Left            =   1005
-               TabIndex        =   166
-               Tag             =   "lblRefreshInterval"
-               Top             =   2220
-               Width           =   1095
-            End
-            Begin VB.Label lblGeneral 
-               Caption         =   "Alarm No. 4 :"
-               Height          =   375
-               Index           =   8
-               Left            =   1005
-               TabIndex        =   165
-               Tag             =   "lblRefreshInterval"
-               Top             =   1725
-               Width           =   1095
-            End
-            Begin VB.Label lblGeneral 
-               Caption         =   "Alarm No. 3 :"
-               Height          =   375
-               Index           =   7
-               Left            =   1005
-               TabIndex        =   164
-               Tag             =   "lblRefreshInterval"
-               Top             =   1245
-               Width           =   1095
-            End
-            Begin VB.Label lblGeneral 
-               Caption         =   "Alarm No. 2 :"
-               Height          =   375
-               Index           =   5
-               Left            =   1005
-               TabIndex        =   163
-               Tag             =   "lblRefreshInterval"
-               Top             =   765
-               Width           =   1095
-            End
-            Begin VB.Label lblGeneral 
-               Caption         =   "Alarm No. 1 :"
-               Height          =   375
-               Index           =   4
-               Left            =   1005
-               TabIndex        =   162
-               Tag             =   "lblRefreshInterval"
-               Top             =   270
-               Width           =   1095
-            End
-         End
-         Begin VB.CheckBox chkWidgetFunctions 
-            Caption         =   "Toggle to enable/disable"
-            Height          =   390
-            Left            =   1995
-            TabIndex        =   48
-            ToolTipText     =   "When checked this box enables the spinning earth functionality. That's it!"
-            Top             =   165
-            Width           =   3405
-         End
-         Begin VB.CheckBox chkGenStartup 
-            Caption         =   "Run the Steampunk Clock Calendar Widget at Windows Startup "
-            Height          =   465
-            Left            =   1995
-            TabIndex        =   88
-            ToolTipText     =   "Check this box to enable the automatic start of the program when Windows is started."
-            Top             =   1230
-            Width           =   4020
-         End
-         Begin VB.Label lblGeneral 
-            Caption         =   "day        month          year            hr        min                  alarm date/time"
-            Height          =   375
-            Index           =   13
-            Left            =   1575
-            TabIndex        =   231
-            Tag             =   "lblRefreshInterval"
-            Top             =   3075
-            Width           =   5565
-         End
-         Begin VB.Label lblGeneral 
-            Caption         =   "Digital Clock :"
-            Height          =   375
-            Index           =   12
-            Left            =   480
-            TabIndex        =   182
-            Tag             =   "lblRefreshInterval"
-            Top             =   2310
-            Width           =   1740
-         End
-         Begin VB.Label lblGeneral 
-            Caption         =   "Pendulum Swing :"
-            Height          =   375
-            Index           =   3
-            Left            =   480
-            TabIndex        =   170
-            Tag             =   "lblRefreshInterval"
-            Top             =   1845
-            Width           =   1740
-         End
-         Begin VB.Label lblGeneral 
-            Caption         =   "Alarm Dates and times shown below"
-            Height          =   435
-            Index           =   2
-            Left            =   2010
-            TabIndex        =   168
-            Top             =   2700
-            Width           =   4215
-         End
-         Begin VB.Label lblGeneral 
-            Caption         =   "When checked this box enables the functionality of this widget to control audio - That's it! *"
-            Height          =   465
-            Index           =   1
-            Left            =   1995
-            TabIndex        =   144
-            Top             =   675
-            Width           =   4020
-         End
-         Begin VB.Label lblGeneral 
-            Caption         =   "Widget Functions :"
-            Height          =   315
-            Index           =   6
-            Left            =   495
-            TabIndex        =   90
-            Top             =   255
-            Width           =   1395
-         End
-         Begin VB.Label lblGeneral 
-            Caption         =   "Auto Start :"
-            Height          =   375
-            Index           =   11
-            Left            =   975
-            TabIndex        =   89
-            Tag             =   "lblRefreshInterval"
-            Top             =   1350
-            Width           =   1740
-         End
-      End
-   End
    Begin VB.Frame fraAbout 
       Caption         =   "About"
       Height          =   8580
       Left            =   240
       TabIndex        =   94
-      Top             =   1170
+      Top             =   1155
       Visible         =   0   'False
       Width           =   8520
       Begin VB.CommandButton btnGithubHome 
@@ -1326,7 +397,7 @@ Begin VB.Form widgetPrefs
          MultiLine       =   -1  'True
          ScrollBars      =   2  'Vertical
          TabIndex        =   107
-         Text            =   "frmPrefs.frx":8D87
+         Text            =   "frmPrefs.frx":5D82
          Top             =   2205
          Width           =   7935
       End
@@ -1878,7 +949,7 @@ Begin VB.Form widgetPrefs
             Width           =   2490
          End
          Begin VB.Label lblConfiguration 
-            Caption         =   $"frmPrefs.frx":9D3E
+            Caption         =   $"frmPrefs.frx":6D39
             Height          =   915
             Index           =   0
             Left            =   1980
@@ -2049,7 +1120,7 @@ Begin VB.Form widgetPrefs
                Width           =   720
             End
             Begin VB.Label lblWindowLevel 
-               Caption         =   $"frmPrefs.frx":9DF2
+               Caption         =   $"frmPrefs.frx":6DED
                Height          =   975
                Index           =   1
                Left            =   855
@@ -2085,7 +1156,7 @@ Begin VB.Form widgetPrefs
             Width           =   1830
          End
          Begin VB.Label lblWindowLevel 
-            Caption         =   $"frmPrefs.frx":9E95
+            Caption         =   $"frmPrefs.frx":6E90
             Height          =   1140
             Index           =   10
             Left            =   2235
@@ -2394,7 +1465,7 @@ Begin VB.Form widgetPrefs
                Width           =   3660
             End
             Begin VB.Label lblGitHub 
-               Caption         =   $"frmPrefs.frx":9FAC
+               Caption         =   $"frmPrefs.frx":6FA7
                ForeColor       =   &H8000000D&
                Height          =   915
                Left            =   1560
@@ -2404,7 +1475,7 @@ Begin VB.Form widgetPrefs
                Width           =   4935
             End
             Begin VB.Label lblDebug 
-               Caption         =   $"frmPrefs.frx":A073
+               Caption         =   $"frmPrefs.frx":706E
                Height          =   930
                Index           =   9
                Left            =   1545
@@ -2451,9 +1522,9 @@ Begin VB.Form widgetPrefs
          End
          Begin VB.ComboBox cmbDebug 
             Height          =   315
-            ItemData        =   "frmPrefs.frx":A117
+            ItemData        =   "frmPrefs.frx":7112
             Left            =   1530
-            List            =   "frmPrefs.frx":A119
+            List            =   "frmPrefs.frx":7114
             Style           =   2  'Dropdown List
             TabIndex        =   49
             ToolTipText     =   "Choose to set debug mode."
@@ -2517,6 +1588,935 @@ Begin VB.Form widgetPrefs
             TabIndex        =   50
             Tag             =   "lblAlarmSound"
             Top             =   45
+            Width           =   1740
+         End
+      End
+   End
+   Begin VB.Frame fraPosition 
+      Caption         =   "Position"
+      Height          =   7440
+      Left            =   270
+      TabIndex        =   42
+      Top             =   1230
+      Visible         =   0   'False
+      Width           =   8520
+      Begin VB.Frame fraPositionInner 
+         BorderStyle     =   0  'None
+         Height          =   6960
+         Left            =   150
+         TabIndex        =   43
+         Top             =   300
+         Width           =   7680
+         Begin VB.TextBox txtLandscapeHoffset 
+            Height          =   315
+            Left            =   2250
+            TabIndex        =   70
+            Top             =   4425
+            Width           =   2130
+         End
+         Begin VB.CheckBox chkPreventDragging 
+            Caption         =   "Widget Position Locked. *"
+            Height          =   225
+            Left            =   2265
+            TabIndex        =   121
+            ToolTipText     =   "Checking this box turns off the ability to drag the program with the mouse, locking it in position."
+            Top             =   3465
+            Width           =   2505
+         End
+         Begin VB.TextBox txtPortraitYoffset 
+            Height          =   315
+            Left            =   2250
+            TabIndex        =   76
+            ToolTipText     =   "Enter a prefix/nickname for outgoing messages."
+            Top             =   6465
+            Width           =   2130
+         End
+         Begin VB.TextBox txtPortraitHoffset 
+            Height          =   315
+            Left            =   2250
+            TabIndex        =   74
+            ToolTipText     =   "Enter a prefix/nickname for outgoing messages."
+            Top             =   6000
+            Width           =   2130
+         End
+         Begin VB.TextBox txtLandscapeVoffset 
+            Height          =   315
+            Left            =   2250
+            TabIndex        =   72
+            ToolTipText     =   "Enter a prefix/nickname for outgoing messages."
+            Top             =   4875
+            Width           =   2130
+         End
+         Begin VB.ComboBox cmbWidgetLandscape 
+            Height          =   315
+            Left            =   2250
+            Style           =   2  'Dropdown List
+            TabIndex        =   68
+            Top             =   3930
+            Width           =   2160
+         End
+         Begin VB.ComboBox cmbWidgetPortrait 
+            Height          =   315
+            Left            =   2250
+            Style           =   2  'Dropdown List
+            TabIndex        =   65
+            ToolTipText     =   "Choose the alarm sound."
+            Top             =   5505
+            Width           =   2160
+         End
+         Begin VB.ComboBox cmbWidgetPosition 
+            Height          =   315
+            Left            =   2265
+            Style           =   2  'Dropdown List
+            TabIndex        =   62
+            ToolTipText     =   "Choose the alarm sound."
+            Top             =   2100
+            Width           =   2160
+         End
+         Begin VB.ComboBox cmbAspectHidden 
+            Height          =   315
+            Left            =   2265
+            Style           =   2  'Dropdown List
+            TabIndex        =   59
+            ToolTipText     =   "Choose the alarm sound."
+            Top             =   0
+            Width           =   2160
+         End
+         Begin VB.Label lblPosition 
+            Caption         =   "(px)"
+            Height          =   300
+            Index           =   7
+            Left            =   4530
+            TabIndex        =   138
+            Tag             =   "lblPrefixString"
+            Top             =   6495
+            Width           =   435
+         End
+         Begin VB.Label lblPosition 
+            Caption         =   "(px)"
+            Height          =   300
+            Index           =   5
+            Left            =   4530
+            TabIndex        =   137
+            Tag             =   "lblPrefixString"
+            Top             =   6045
+            Width           =   435
+         End
+         Begin VB.Label lblPosition 
+            Caption         =   "*"
+            Height          =   255
+            Index           =   1
+            Left            =   4545
+            TabIndex        =   124
+            Tag             =   "lblAlarmSound"
+            Top             =   45
+            Width           =   345
+         End
+         Begin VB.Label lblPosition 
+            Caption         =   "(px)"
+            Height          =   300
+            Index           =   4
+            Left            =   4530
+            TabIndex        =   120
+            Tag             =   "lblPrefixString"
+            Top             =   4905
+            Width           =   435
+         End
+         Begin VB.Label lblPosition 
+            Caption         =   "(px)"
+            Height          =   300
+            Index           =   2
+            Left            =   4530
+            TabIndex        =   119
+            Tag             =   "lblPrefixString"
+            Top             =   4500
+            Width           =   390
+         End
+         Begin VB.Label lblPosition 
+            Caption         =   "Portrait Top Y pos :"
+            Height          =   510
+            Index           =   17
+            Left            =   645
+            TabIndex        =   77
+            Tag             =   "lblPrefixString"
+            Top             =   6480
+            Width           =   2175
+         End
+         Begin VB.Label lblPosition 
+            Caption         =   "Portrait Left X pos :"
+            Height          =   510
+            Index           =   16
+            Left            =   660
+            TabIndex        =   75
+            Tag             =   "lblPrefixString"
+            Top             =   6015
+            Width           =   2175
+         End
+         Begin VB.Label lblPosition 
+            Caption         =   "Landscape Top Y pos :"
+            Height          =   510
+            Index           =   15
+            Left            =   420
+            TabIndex        =   73
+            Tag             =   "lblPrefixString"
+            Top             =   4905
+            Width           =   2175
+         End
+         Begin VB.Label lblPosition 
+            Caption         =   "Landscape Left X pos :"
+            Height          =   510
+            Index           =   14
+            Left            =   420
+            TabIndex        =   71
+            Tag             =   "lblPrefixString"
+            Top             =   4455
+            Width           =   2175
+         End
+         Begin VB.Label lblPosition 
+            Caption         =   "Locked in Landscape :"
+            Height          =   435
+            Index           =   13
+            Left            =   450
+            TabIndex        =   69
+            Tag             =   "lblAlarmSound"
+            Top             =   3975
+            Width           =   2115
+         End
+         Begin VB.Label lblPosition 
+            Caption         =   $"frmPrefs.frx":7116
+            Height          =   3435
+            Index           =   12
+            Left            =   5145
+            TabIndex        =   67
+            Tag             =   "lblAlarmSoundDesc"
+            Top             =   3480
+            Width           =   2520
+         End
+         Begin VB.Label lblPosition 
+            Caption         =   "Locked in Portrait :"
+            Height          =   375
+            Index           =   11
+            Left            =   690
+            TabIndex        =   66
+            Tag             =   "lblAlarmSound"
+            Top             =   5550
+            Width           =   2040
+         End
+         Begin VB.Label lblPosition 
+            Caption         =   $"frmPrefs.frx":72E8
+            Height          =   705
+            Index           =   10
+            Left            =   2250
+            TabIndex        =   64
+            Tag             =   "lblAlarmSoundDesc"
+            Top             =   2550
+            Width           =   5325
+         End
+         Begin VB.Label lblPosition 
+            Caption         =   "Widget Position by Percent:"
+            Height          =   375
+            Index           =   8
+            Left            =   195
+            TabIndex        =   63
+            Tag             =   "lblAlarmSound"
+            Top             =   2145
+            Width           =   2355
+         End
+         Begin VB.Label lblPosition 
+            Caption         =   $"frmPrefs.frx":7387
+            Height          =   3045
+            Index           =   6
+            Left            =   2265
+            TabIndex        =   61
+            Tag             =   "lblAlarmSoundDesc"
+            Top             =   450
+            Width           =   5370
+         End
+         Begin VB.Label lblPosition 
+            Caption         =   "Aspect Ratio Hidden Mode :"
+            Height          =   375
+            Index           =   3
+            Left            =   120
+            TabIndex        =   60
+            Tag             =   "lblAlarmSound"
+            Top             =   45
+            Width           =   2145
+         End
+      End
+   End
+   Begin VB.Frame fraGeneral 
+      Caption         =   "General"
+      ForeColor       =   &H80000008&
+      Height          =   7485
+      Left            =   105
+      TabIndex        =   46
+      Top             =   1170
+      Visible         =   0   'False
+      Width           =   7995
+      Begin VB.Frame fraGeneralInner 
+         BorderStyle     =   0  'None
+         Height          =   7095
+         Left            =   435
+         TabIndex        =   47
+         Top             =   300
+         Width           =   7395
+         Begin VB.CheckBox chk24HourClockMode 
+            Caption         =   "Toggle 24hr clock mode ON *"
+            Height          =   465
+            Left            =   1995
+            TabIndex        =   181
+            ToolTipText     =   "Check this box to enable the automatic start of the program when Windows is started."
+            Top             =   2205
+            Width           =   4020
+         End
+         Begin VB.CheckBox chkTogglePendulum 
+            Caption         =   "Toggle the pendulum animation"
+            Height          =   465
+            Left            =   1980
+            TabIndex        =   169
+            ToolTipText     =   "Check this box to enable the automatic start of the program when Windows is started."
+            Top             =   1725
+            Width           =   4020
+         End
+         Begin VB.Frame Frame 
+            BorderStyle     =   0  'None
+            Height          =   3480
+            Left            =   -1005
+            TabIndex        =   146
+            Top             =   3285
+            Width           =   8325
+            Begin VB.CommandButton btnNow 
+               Height          =   345
+               Index           =   5
+               Left            =   2115
+               Picture         =   "frmPrefs.frx":7523
+               Style           =   1  'Graphical
+               TabIndex        =   230
+               Top             =   2160
+               Width           =   330
+            End
+            Begin VB.CommandButton btnNow 
+               Height          =   345
+               Index           =   4
+               Left            =   2115
+               Picture         =   "frmPrefs.frx":7769
+               Style           =   1  'Graphical
+               TabIndex        =   229
+               Top             =   1665
+               Width           =   330
+            End
+            Begin VB.CommandButton btnNow 
+               Height          =   345
+               Index           =   3
+               Left            =   2115
+               Picture         =   "frmPrefs.frx":79AF
+               Style           =   1  'Graphical
+               TabIndex        =   228
+               Top             =   1185
+               Width           =   330
+            End
+            Begin VB.CommandButton btnNow 
+               Height          =   345
+               Index           =   2
+               Left            =   2115
+               Picture         =   "frmPrefs.frx":7BF5
+               Style           =   1  'Graphical
+               TabIndex        =   227
+               Top             =   705
+               Width           =   330
+            End
+            Begin VB.CommandButton btnclearAlarm 
+               Caption         =   "Clear"
+               Height          =   345
+               Index           =   5
+               Left            =   7680
+               Style           =   1  'Graphical
+               TabIndex        =   226
+               Top             =   2145
+               Width           =   540
+            End
+            Begin VB.CommandButton btnclearAlarm 
+               Caption         =   "Clear"
+               Height          =   345
+               Index           =   4
+               Left            =   7680
+               Style           =   1  'Graphical
+               TabIndex        =   225
+               Top             =   1650
+               Width           =   540
+            End
+            Begin VB.CommandButton btnclearAlarm 
+               Caption         =   "Clear"
+               Height          =   345
+               Index           =   3
+               Left            =   7680
+               Style           =   1  'Graphical
+               TabIndex        =   224
+               Top             =   1170
+               Width           =   540
+            End
+            Begin VB.CommandButton btnclearAlarm 
+               Caption         =   "Clear"
+               Height          =   345
+               Index           =   2
+               Left            =   7680
+               Style           =   1  'Graphical
+               TabIndex        =   223
+               Top             =   690
+               Width           =   540
+            End
+            Begin VB.CommandButton btnclearAlarm 
+               Caption         =   "Clear"
+               Height          =   345
+               Index           =   1
+               Left            =   7680
+               Style           =   1  'Graphical
+               TabIndex        =   222
+               Top             =   195
+               Width           =   540
+            End
+            Begin VB.CommandButton btnNow 
+               Height          =   345
+               Index           =   1
+               Left            =   2115
+               Picture         =   "frmPrefs.frx":7E3B
+               Style           =   1  'Graphical
+               TabIndex        =   221
+               Top             =   195
+               Width           =   330
+            End
+            Begin VB.ComboBox cmbAlarm5Minutes 
+               Height          =   315
+               ItemData        =   "frmPrefs.frx":8081
+               Left            =   5340
+               List            =   "frmPrefs.frx":813C
+               Style           =   2  'Dropdown List
+               TabIndex        =   218
+               Top             =   2160
+               Width           =   525
+            End
+            Begin VB.ComboBox cmbAlarm4Minutes 
+               Height          =   315
+               ItemData        =   "frmPrefs.frx":8232
+               Left            =   5340
+               List            =   "frmPrefs.frx":82ED
+               Style           =   2  'Dropdown List
+               TabIndex        =   217
+               Top             =   1680
+               Width           =   525
+            End
+            Begin VB.ComboBox cmbAlarm3Minutes 
+               Height          =   315
+               ItemData        =   "frmPrefs.frx":83E3
+               Left            =   5340
+               List            =   "frmPrefs.frx":849E
+               Style           =   2  'Dropdown List
+               TabIndex        =   216
+               Top             =   1215
+               Width           =   525
+            End
+            Begin VB.ComboBox cmbAlarm2Minutes 
+               Height          =   315
+               ItemData        =   "frmPrefs.frx":8594
+               Left            =   5340
+               List            =   "frmPrefs.frx":864F
+               Style           =   2  'Dropdown List
+               TabIndex        =   215
+               Top             =   720
+               Width           =   525
+            End
+            Begin VB.ComboBox cmbAlarm5Hours 
+               Height          =   315
+               ItemData        =   "frmPrefs.frx":8745
+               Left            =   4785
+               List            =   "frmPrefs.frx":8794
+               Style           =   2  'Dropdown List
+               TabIndex        =   214
+               Top             =   2175
+               Width           =   525
+            End
+            Begin VB.ComboBox cmbAlarm4Hours 
+               Height          =   315
+               ItemData        =   "frmPrefs.frx":87FA
+               Left            =   4785
+               List            =   "frmPrefs.frx":8849
+               Style           =   2  'Dropdown List
+               TabIndex        =   213
+               Top             =   1680
+               Width           =   525
+            End
+            Begin VB.ComboBox cmbAlarm3Hours 
+               Height          =   315
+               ItemData        =   "frmPrefs.frx":88AF
+               Left            =   4785
+               List            =   "frmPrefs.frx":88FE
+               Style           =   2  'Dropdown List
+               TabIndex        =   212
+               Top             =   1215
+               Width           =   525
+            End
+            Begin VB.ComboBox cmbAlarm2Hours 
+               Height          =   315
+               ItemData        =   "frmPrefs.frx":8964
+               Left            =   4785
+               List            =   "frmPrefs.frx":89B3
+               Style           =   2  'Dropdown List
+               TabIndex        =   211
+               Top             =   720
+               Width           =   525
+            End
+            Begin VB.ComboBox cmbAlarm5Year 
+               Height          =   315
+               ItemData        =   "frmPrefs.frx":8A19
+               Left            =   3945
+               List            =   "frmPrefs.frx":8AF5
+               Style           =   2  'Dropdown List
+               TabIndex        =   210
+               Top             =   2175
+               Width           =   750
+            End
+            Begin VB.ComboBox cmbAlarm4Year 
+               Height          =   315
+               ItemData        =   "frmPrefs.frx":8CA5
+               Left            =   3945
+               List            =   "frmPrefs.frx":8D81
+               Style           =   2  'Dropdown List
+               TabIndex        =   209
+               Top             =   1680
+               Width           =   750
+            End
+            Begin VB.ComboBox cmbAlarm3Year 
+               Height          =   315
+               ItemData        =   "frmPrefs.frx":8F31
+               Left            =   3945
+               List            =   "frmPrefs.frx":900D
+               Style           =   2  'Dropdown List
+               TabIndex        =   208
+               Top             =   1215
+               Width           =   750
+            End
+            Begin VB.ComboBox cmbAlarm2Year 
+               Height          =   315
+               ItemData        =   "frmPrefs.frx":91BD
+               Left            =   3945
+               List            =   "frmPrefs.frx":9299
+               Style           =   2  'Dropdown List
+               TabIndex        =   207
+               Top             =   720
+               Width           =   750
+            End
+            Begin VB.ComboBox cmbAlarm5Month 
+               Height          =   315
+               ItemData        =   "frmPrefs.frx":9449
+               Left            =   3060
+               List            =   "frmPrefs.frx":9477
+               Style           =   2  'Dropdown List
+               TabIndex        =   206
+               Top             =   2175
+               Width           =   870
+            End
+            Begin VB.ComboBox cmbAlarm4Month 
+               Height          =   315
+               ItemData        =   "frmPrefs.frx":94B9
+               Left            =   3075
+               List            =   "frmPrefs.frx":94E7
+               Style           =   2  'Dropdown List
+               TabIndex        =   205
+               Top             =   1680
+               Width           =   870
+            End
+            Begin VB.ComboBox cmbAlarm3Month 
+               Height          =   315
+               ItemData        =   "frmPrefs.frx":9529
+               Left            =   3060
+               List            =   "frmPrefs.frx":9557
+               Style           =   2  'Dropdown List
+               TabIndex        =   204
+               Top             =   1215
+               Width           =   870
+            End
+            Begin VB.ComboBox cmbAlarm5Day 
+               Height          =   315
+               ItemData        =   "frmPrefs.frx":9599
+               Left            =   2505
+               List            =   "frmPrefs.frx":9616
+               Style           =   2  'Dropdown List
+               TabIndex        =   203
+               Top             =   2175
+               Width           =   525
+            End
+            Begin VB.ComboBox cmbAlarm4Day 
+               Height          =   315
+               ItemData        =   "frmPrefs.frx":969C
+               Left            =   2505
+               List            =   "frmPrefs.frx":9719
+               Style           =   2  'Dropdown List
+               TabIndex        =   202
+               Top             =   1680
+               Width           =   525
+            End
+            Begin VB.ComboBox cmbAlarm3Day 
+               Height          =   315
+               ItemData        =   "frmPrefs.frx":979F
+               Left            =   2505
+               List            =   "frmPrefs.frx":981C
+               Style           =   2  'Dropdown List
+               TabIndex        =   201
+               Top             =   1215
+               Width           =   525
+            End
+            Begin VB.ComboBox cmbAlarm1Year 
+               Height          =   315
+               ItemData        =   "frmPrefs.frx":98A2
+               Left            =   3945
+               List            =   "frmPrefs.frx":997E
+               Style           =   2  'Dropdown List
+               TabIndex        =   200
+               Top             =   210
+               Width           =   750
+            End
+            Begin VB.ComboBox cmbAlarm1Minutes 
+               Height          =   315
+               ItemData        =   "frmPrefs.frx":9B2E
+               Left            =   5340
+               List            =   "frmPrefs.frx":9BE9
+               Style           =   2  'Dropdown List
+               TabIndex        =   199
+               Top             =   210
+               Width           =   525
+            End
+            Begin VB.ComboBox cmbAlarm1Hours 
+               Height          =   315
+               ItemData        =   "frmPrefs.frx":9CDF
+               Left            =   4785
+               List            =   "frmPrefs.frx":9D2E
+               Style           =   2  'Dropdown List
+               TabIndex        =   198
+               Top             =   210
+               Width           =   525
+            End
+            Begin VB.ComboBox cmbAlarm1Month 
+               Height          =   315
+               ItemData        =   "frmPrefs.frx":9D94
+               Left            =   3060
+               List            =   "frmPrefs.frx":9DC2
+               Style           =   2  'Dropdown List
+               TabIndex        =   197
+               Top             =   210
+               Width           =   870
+            End
+            Begin VB.ComboBox cmbAlarm2Day 
+               Height          =   315
+               ItemData        =   "frmPrefs.frx":9E04
+               Left            =   2505
+               List            =   "frmPrefs.frx":9E81
+               Style           =   2  'Dropdown List
+               TabIndex        =   196
+               Top             =   720
+               Width           =   525
+            End
+            Begin VB.ComboBox cmbAlarm2Month 
+               Height          =   315
+               ItemData        =   "frmPrefs.frx":9F07
+               Left            =   3060
+               List            =   "frmPrefs.frx":9F35
+               Style           =   2  'Dropdown List
+               TabIndex        =   195
+               Top             =   720
+               Width           =   870
+            End
+            Begin VB.ComboBox cmbAlarm1Day 
+               BeginProperty Font 
+                  Name            =   "Arial"
+                  Size            =   8.25
+                  Charset         =   0
+                  Weight          =   400
+                  Underline       =   0   'False
+                  Italic          =   0   'False
+                  Strikethrough   =   0   'False
+               EndProperty
+               Height          =   330
+               ItemData        =   "frmPrefs.frx":9F77
+               Left            =   2505
+               List            =   "frmPrefs.frx":9FF4
+               Style           =   2  'Dropdown List
+               TabIndex        =   194
+               Top             =   210
+               Width           =   525
+            End
+            Begin VB.CommandButton btnVerifyDateTime5 
+               Caption         =   ">"
+               Height          =   315
+               Left            =   5895
+               Style           =   1  'Graphical
+               TabIndex        =   161
+               ToolTipText     =   "Verify Date Time for alarm number 1"
+               Top             =   2160
+               Width           =   300
+            End
+            Begin VB.TextBox txtAlarm5Time 
+               Height          =   315
+               Left            =   7140
+               Locked          =   -1  'True
+               TabIndex        =   160
+               Top             =   2160
+               Width           =   500
+            End
+            Begin VB.CommandButton btnVerifyDateTime4 
+               Caption         =   ">"
+               Height          =   315
+               Left            =   5895
+               Style           =   1  'Graphical
+               TabIndex        =   158
+               ToolTipText     =   "Verify Date Time for alarm number 1"
+               Top             =   1650
+               Width           =   300
+            End
+            Begin VB.TextBox txtAlarm4Time 
+               Height          =   315
+               Left            =   7140
+               Locked          =   -1  'True
+               TabIndex        =   157
+               Top             =   1665
+               Width           =   500
+            End
+            Begin VB.CommandButton btnVerifyDateTime3 
+               Caption         =   ">"
+               Height          =   315
+               Left            =   5895
+               Style           =   1  'Graphical
+               TabIndex        =   155
+               ToolTipText     =   "Verify Date Time for alarm number 1"
+               Top             =   1185
+               Width           =   300
+            End
+            Begin VB.TextBox txtAlarm3Time 
+               Height          =   315
+               Left            =   7140
+               Locked          =   -1  'True
+               TabIndex        =   154
+               Top             =   1185
+               Width           =   500
+            End
+            Begin VB.CommandButton btnVerifyDateTime2 
+               Caption         =   ">"
+               Height          =   315
+               Left            =   5895
+               Style           =   1  'Graphical
+               TabIndex        =   152
+               ToolTipText     =   "Verify Date Time for alarm number 1"
+               Top             =   705
+               Width           =   300
+            End
+            Begin VB.TextBox txtAlarm2Time 
+               Height          =   315
+               Left            =   7140
+               Locked          =   -1  'True
+               TabIndex        =   151
+               Top             =   705
+               Width           =   500
+            End
+            Begin VB.TextBox txtAlarm1Time 
+               Height          =   315
+               Left            =   7140
+               Locked          =   -1  'True
+               TabIndex        =   148
+               Top             =   210
+               Width           =   495
+            End
+            Begin VB.CommandButton btnVerifyDateTime1 
+               Caption         =   ">"
+               Height          =   300
+               Left            =   5895
+               Style           =   1  'Graphical
+               TabIndex        =   149
+               ToolTipText     =   "Verify Date Time for alarm number 1"
+               Top             =   225
+               Width           =   300
+            End
+            Begin VB.TextBox txtAlarm5Date 
+               Height          =   315
+               Left            =   6255
+               Locked          =   -1  'True
+               TabIndex        =   159
+               Top             =   2160
+               Width           =   825
+            End
+            Begin VB.TextBox txtAlarm4Date 
+               Height          =   315
+               Left            =   6255
+               Locked          =   -1  'True
+               TabIndex        =   156
+               Top             =   1665
+               Width           =   825
+            End
+            Begin VB.TextBox txtAlarm3Date 
+               Height          =   315
+               Left            =   6255
+               Locked          =   -1  'True
+               TabIndex        =   153
+               Top             =   1185
+               Width           =   825
+            End
+            Begin VB.TextBox txtAlarm2Date 
+               Height          =   315
+               Left            =   6255
+               Locked          =   -1  'True
+               TabIndex        =   150
+               Top             =   705
+               Width           =   825
+            End
+            Begin VB.TextBox txtAlarm1Date 
+               Height          =   315
+               Left            =   6255
+               Locked          =   -1  'True
+               TabIndex        =   147
+               Top             =   210
+               Width           =   825
+            End
+            Begin VB.Label lblGeneral 
+               Caption         =   $"frmPrefs.frx":A07A
+               Height          =   900
+               Index           =   10
+               Left            =   2115
+               TabIndex        =   167
+               Top             =   2745
+               Width           =   4230
+            End
+            Begin VB.Label lblGeneral 
+               Caption         =   "Alarm No. 5 :"
+               Height          =   375
+               Index           =   9
+               Left            =   1005
+               TabIndex        =   166
+               Tag             =   "lblRefreshInterval"
+               Top             =   2220
+               Width           =   1095
+            End
+            Begin VB.Label lblGeneral 
+               Caption         =   "Alarm No. 4 :"
+               Height          =   375
+               Index           =   8
+               Left            =   1005
+               TabIndex        =   165
+               Tag             =   "lblRefreshInterval"
+               Top             =   1725
+               Width           =   1095
+            End
+            Begin VB.Label lblGeneral 
+               Caption         =   "Alarm No. 3 :"
+               Height          =   375
+               Index           =   7
+               Left            =   1005
+               TabIndex        =   164
+               Tag             =   "lblRefreshInterval"
+               Top             =   1245
+               Width           =   1095
+            End
+            Begin VB.Label lblGeneral 
+               Caption         =   "Alarm No. 2 :"
+               Height          =   375
+               Index           =   5
+               Left            =   1005
+               TabIndex        =   163
+               Tag             =   "lblRefreshInterval"
+               Top             =   765
+               Width           =   1095
+            End
+            Begin VB.Label lblGeneral 
+               Caption         =   "Alarm No. 1 :"
+               Height          =   375
+               Index           =   4
+               Left            =   1005
+               TabIndex        =   162
+               Tag             =   "lblRefreshInterval"
+               Top             =   270
+               Width           =   1095
+            End
+         End
+         Begin VB.CheckBox chkWidgetFunctions 
+            Caption         =   "Toggle to enable/disable"
+            Height          =   390
+            Left            =   1995
+            TabIndex        =   48
+            ToolTipText     =   "When checked this box enables the spinning earth functionality. That's it!"
+            Top             =   165
+            Width           =   3405
+         End
+         Begin VB.CheckBox chkGenStartup 
+            Caption         =   "Run the Steampunk Clock Calendar Widget at Windows Startup "
+            Height          =   465
+            Left            =   1995
+            TabIndex        =   88
+            ToolTipText     =   "Check this box to enable the automatic start of the program when Windows is started."
+            Top             =   1230
+            Width           =   4020
+         End
+         Begin VB.Label lblGeneral 
+            Caption         =   "day        month          year            hr        min                  alarm date/time"
+            Height          =   375
+            Index           =   13
+            Left            =   1575
+            TabIndex        =   231
+            Tag             =   "lblRefreshInterval"
+            Top             =   3075
+            Width           =   5565
+         End
+         Begin VB.Label lblGeneral 
+            Caption         =   "Digital Clock :"
+            Height          =   375
+            Index           =   12
+            Left            =   480
+            TabIndex        =   182
+            Tag             =   "lblRefreshInterval"
+            Top             =   2310
+            Width           =   1740
+         End
+         Begin VB.Label lblGeneral 
+            Caption         =   "Pendulum Swing :"
+            Height          =   375
+            Index           =   3
+            Left            =   480
+            TabIndex        =   170
+            Tag             =   "lblRefreshInterval"
+            Top             =   1845
+            Width           =   1740
+         End
+         Begin VB.Label lblGeneral 
+            Caption         =   "Alarm Dates and times shown below"
+            Height          =   435
+            Index           =   2
+            Left            =   2010
+            TabIndex        =   168
+            Top             =   2700
+            Width           =   4215
+         End
+         Begin VB.Label lblGeneral 
+            Caption         =   "When checked this box enables the functionality of this widget to control audio - That's it! *"
+            Height          =   465
+            Index           =   1
+            Left            =   1995
+            TabIndex        =   144
+            Top             =   675
+            Width           =   4020
+         End
+         Begin VB.Label lblGeneral 
+            Caption         =   "Widget Functions :"
+            Height          =   315
+            Index           =   6
+            Left            =   495
+            TabIndex        =   90
+            Top             =   255
+            Width           =   1395
+         End
+         Begin VB.Label lblGeneral 
+            Caption         =   "Auto Start :"
+            Height          =   375
+            Index           =   11
+            Left            =   975
+            TabIndex        =   89
+            Tag             =   "lblRefreshInterval"
+            Top             =   1350
             Width           =   1740
          End
       End
@@ -2676,8 +2676,31 @@ Private mClockSize As Single   ' property
 
 Private gblConstraintRatio As Double
 
+
+
+Private Sub btnDefaultEditor_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
+    If gblPrefsTooltips = "0" Then CreateToolTip btnDefaultEditor.hWnd, "Field to hold the path to a Visual Basic Project (VBP) file you would like to execute on a right click menu, edit option, if you select the adjacent button a file explorer will appear allowing you to select the VBP file, this field is automatically filled with the chosen file.", _
+                  TTIconInfo, "Help on the Default Editor Field", , , , True
+End Sub
+
+'---------------------------------------------------------------------------------------
+' Procedure : btnGithubHome_Click
+' Author    : beededea
+' Date      : 22/06/2025
+' Purpose   :
+'---------------------------------------------------------------------------------------
+'
 Private Sub btnGithubHome_Click()
+   On Error GoTo btnGithubHome_Click_Error
+
     Call menuForm.mnuGithubHome_Click
+
+   On Error GoTo 0
+   Exit Sub
+
+btnGithubHome_Click_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure btnGithubHome_Click of Form widgetPrefs"
 End Sub
 
 
@@ -6525,11 +6548,15 @@ Public Sub PrefsForm_Resize_Event()
         Else
             currentFontSize = gblPrefsFontSizeLowDPI
         End If
-        Call resizeControls(Me, prefsControlPositions(), gblPrefsStartWidth, gblPrefsStartHeight, currentFontSize)
-        Call tweakPrefsControlPositions(Me, gblPrefsStartWidth, gblPrefsStartHeight)
-        
-        Call loadHigherResPrefsImages
 
+        'make tab frames invisible
+        Call makeFramesInvisible
+        Call resizeControls(Me, prefsControlPositions(), gblPrefsStartWidth, gblPrefsStartHeight, currentFontSize)
+
+        Call tweakPrefsControlPositions(Me, gblPrefsStartWidth, gblPrefsStartHeight)
+        Call loadHigherResPrefsImages
+        Call makeFramesVisible
+        
     Else
         If Me.WindowState = 0 Then ' normal
             If widgetPrefs.Width > 9090 Then widgetPrefs.Width = 9090
@@ -6557,7 +6584,119 @@ PrefsForm_Resize_Event_Error:
 
 End Sub
 
+'---------------------------------------------------------------------------------------
+' Procedure : makeFramesInvisible
+' Author    : beededea
+' Date      : 23/06/2025
+' Purpose   :
+'---------------------------------------------------------------------------------------
+'
+Private Sub makeFramesInvisible()
+    
+   On Error GoTo makeFramesInvisible_Error
 
+            If gblLastSelectedTab = "general" Then
+                fraGeneral.Visible = False
+                fraGeneralButton.Visible = False
+            End If
+            If gblLastSelectedTab = "config" Then
+                fraConfig.Visible = False
+                fraConfigButton.Visible = False
+            End If
+            If gblLastSelectedTab = "position" Then
+                fraPosition.Visible = False
+                fraPositionButton.Visible = False
+            End If
+                
+            If gblLastSelectedTab = "development" Then
+                fraDevelopment.Visible = False
+                fraDevelopmentButton.Visible = False
+            End If
+
+            If gblLastSelectedTab = "fonts" Then
+                fraFonts.Visible = False
+                fraFontsButton.Visible = False
+            End If
+
+            If gblLastSelectedTab = "sounds" Then
+                fraSounds.Visible = False
+                fraSoundsButton.Visible = False
+            End If
+
+            If gblLastSelectedTab = "window" Then
+                fraWindow.Visible = False
+                fraWindowButton.Visible = False
+            End If
+
+            If gblLastSelectedTab = "about" Then
+                fraAbout.Visible = False
+                fraAboutButton.Visible = False
+            End If
+
+   On Error GoTo 0
+   Exit Sub
+
+makeFramesInvisible_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure makeFramesInvisible of Form widgetPrefs"
+End Sub
+
+'---------------------------------------------------------------------------------------
+' Procedure : makeFramesVisible
+' Author    : beededea
+' Date      : 23/06/2025
+' Purpose   :
+'---------------------------------------------------------------------------------------
+'
+Private Sub makeFramesVisible()
+    
+   On Error GoTo makeFramesVisible_Error
+
+            If gblLastSelectedTab = "general" Then
+                fraGeneral.Visible = True
+                fraGeneralButton.Visible = True
+            End If
+            If gblLastSelectedTab = "config" Then
+                fraConfig.Visible = True
+                fraConfigButton.Visible = True
+            End If
+            If gblLastSelectedTab = "position" Then
+                fraPosition.Visible = True
+                fraPositionButton.Visible = True
+            End If
+                
+            If gblLastSelectedTab = "development" Then
+                fraDevelopment.Visible = True
+                fraDevelopmentButton.Visible = True
+            End If
+
+            If gblLastSelectedTab = "fonts" Then
+                fraFonts.Visible = True
+                fraFontsButton.Visible = True
+            End If
+
+            If gblLastSelectedTab = "sounds" Then
+                fraSounds.Visible = True
+                fraSoundsButton.Visible = True
+            End If
+
+            If gblLastSelectedTab = "window" Then
+                fraWindow.Visible = True
+                fraWindowButton.Visible = True
+            End If
+
+            If gblLastSelectedTab = "about" Then
+                fraAbout.Visible = True
+                fraAboutButton.Visible = True
+            End If
+
+   On Error GoTo 0
+   Exit Sub
+
+makeFramesVisible_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure makeFramesVisible of Form widgetPrefs"
+End Sub
 '---------------------------------------------------------------------------------------
 ' Procedure : Form_Moved
 ' Author    : beededea
@@ -7111,7 +7250,7 @@ Private Sub optPrefsTooltips_MouseMove(Index As Integer, Button As Integer, Shif
         ElseIf Index = 1 Then
             thisToolTip = "This setting enables the standard Windows-style square tooltips for elements within the Steampunk GUI. These tooltips are single-line and the font size is limited to the Windows font size."
             CreateToolTip optPrefsTooltips(Index).hWnd, thisToolTip, _
-                  TTIconInfo, "Help on RichClient Tooltips on the Preference Utility", , , , True
+                  TTIconInfo, "Help on  VB6 Native Tooltips on the Preference Utility", , , , True
         ElseIf Index = 2 Then
             thisToolTip = "This setting disables the balloon tooltips for elements within the Steampunk GUI."
             CreateToolTip optPrefsTooltips(Index).hWnd, thisToolTip, _
@@ -7949,7 +8088,9 @@ End Sub
 Public Sub setPrefsTooltips()
 
    On Error GoTo setPrefsTooltips_Error
-
+    
+    ' here we set the variables used for the comboboxes, each combobox has to be sub classed and these variables are used during that process
+    
     If optPrefsTooltips(0).Value = True Then
         ' module level balloon tooltip variables for subclassed comboBoxes ONLY.
         pCmbMultiMonitorResizeBalloonTooltip = "This option will only appear on multi-monitor systems. This dropdown has three choices that affect the automatic sizing of both the main clock and the preference utility. " & vbCrLf & vbCrLf & _
@@ -8001,7 +8142,9 @@ Public Sub setPrefsTooltips()
                   TTIconInfo, "Help", , , , True
                   
     End If
-     
+    
+    
+    ' next we just do the native VB6 tooltips
      If optPrefsTooltips(1).Value = True Then
        
        imgConfig.ToolTipText = "Opens the configuration tab"

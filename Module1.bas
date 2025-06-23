@@ -561,6 +561,7 @@ Private Sub writeCaption(ByVal interimText As String)
    On Error GoTo writeCaption_Error
 
     fClock.clockForm.Widgets("lblTerminalText").Caption = interimText
+    'fClock.clockForm.Widgets("lblTerminalText").Caption = "arseburgers!"
     
    On Error GoTo 0
    Exit Sub
@@ -718,7 +719,7 @@ End Sub
 ' Procedure : testDPIAndSetInitialAwareness
 ' Author    : beededea
 ' Date      : 29/10/2023
-' Purpose   : if screen width in pixels is greater than 2160 then set high DPI by default
+' Purpose   : if screen width in pixels is greater than 1960 then set high DPI by default
 '---------------------------------------------------------------------------------------
 '
 Public Sub testDPIAndSetInitialAwareness()
@@ -905,6 +906,8 @@ Public Sub addTargetFile(ByVal fieldValue As String, ByRef retFileName As String
     ''If gblDebugFlg = 1  Then Debug.Print "%" & "addTargetfile"
     
     On Error Resume Next
+    
+    dialogInitDir = App.path
     
     ' set the default folder to the existing reference
     If Not fieldValue = vbNullString Then
