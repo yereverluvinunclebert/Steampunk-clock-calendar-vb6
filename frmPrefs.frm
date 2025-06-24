@@ -235,7 +235,7 @@ Begin VB.Form widgetPrefs
       Style           =   1  'Graphical
       TabIndex        =   7
       ToolTipText     =   "Close the utility"
-      Top             =   10020
+      Top             =   10035
       Width           =   1320
    End
    Begin VB.Frame fraWindowButton 
@@ -6532,13 +6532,7 @@ Public Sub PrefsForm_Resize_Event()
 
     ' When minimised and a resize is called then simply exit.
     If Me.WindowState = vbMinimized Then Exit Sub
-    
-    btnSave.Enabled = True ' enable the save button
-    
-    ' move the drag corner label along with the form's bottom right corner
-    lblDragCorner.Move Me.ScaleLeft + Me.ScaleWidth - (lblDragCorner.Width + 40), _
-               Me.ScaleTop + Me.ScaleHeight - (lblDragCorner.Height + 40)
-    
+        
     If pvtPrefsDynamicSizingFlg = True And pvtPrefsFormResizedByDrag = True Then
     
         widgetPrefs.Width = widgetPrefs.Height / gblConstraintRatio ' maintain the aspect ratio, note: this change calls this routine again...
@@ -6549,12 +6543,12 @@ Public Sub PrefsForm_Resize_Event()
             currentFontSize = gblPrefsFontSizeLowDPI
         End If
 
-        'make tab frames invisible
+        'make tab frames invisible so that the control resizing is not apparent to the user
         Call makeFramesInvisible
         Call resizeControls(Me, prefsControlPositions(), gblPrefsStartWidth, gblPrefsStartHeight, currentFontSize)
 
-        Call tweakPrefsControlPositions(Me, gblPrefsStartWidth, gblPrefsStartHeight)
-        Call loadHigherResPrefsImages
+        'Call tweakPrefsControlPositions(Me, gblPrefsStartWidth, gblPrefsStartHeight)
+        'Call loadHigherResPrefsImages ' if you want higher res icons then load them here, current max. is 1010 twips or 67 pixels
         Call makeFramesVisible
         
     Else
@@ -6570,10 +6564,6 @@ Public Sub PrefsForm_Resize_Event()
     
     gblPrefsFormResizedInCode = False
     pvtPrefsFormResizedByDrag = False
-    
-    Call writePrefsPositionAndSize
-    
-    'lblSize.Caption = "topIconWidth = " & topIconWidth & " imgGeneral width = " & imgGeneral.Width
 
    On Error GoTo 0
    Exit Sub
@@ -9034,6 +9024,31 @@ Private Sub loadHigherResPrefsImages()
     On Error GoTo loadHigherResPrefsImages_Error
       
     If Me.WindowState = vbMinimized Then Exit Sub
+    
+'
+'    If dynamicSizingFlg = False Then
+'        Exit Sub
+'    End If
+'
+'    If Me.Width < 10500 Then
+'        topIconWidth = 600
+'    End If
+'
+'    If Me.Width >= 10500 And Me.Width < 12000 Then 'Me.Height / ratio ' maintain the aspect ratio
+'        topIconWidth = 730
+'    End If
+'
+'    If Me.Width >= 12000 And Me.Width < 13500 Then 'Me.Height / ratio ' maintain the aspect ratio
+'        topIconWidth = 834
+'    End If
+'
+'    If Me.Width >= 13500 And Me.Width < 15000 Then 'Me.Height / ratio ' maintain the aspect ratio
+'        topIconWidth = 940
+'    End If
+'
+'    If Me.Width >= 15000 Then 'Me.Height / ratio ' maintain the aspect ratio
+'        topIconWidth = 1010
+'    End If
         
     If mnuDark.Checked = True Then
         Call setPrefsIconImagesDark
