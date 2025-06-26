@@ -183,12 +183,12 @@ Private Sub W_MouseDown(Button As Integer, Shift As Integer, ByVal x As Single, 
    On Error GoTo W_MouseDown_Error
     
     ' works better here
-    If gblVolumeBoost = "1" Then
-        fileToPlay = "till.wav"
-    Else
-        fileToPlay = "till-quiet.wav"
-    End If
-    
+'    If gblVolumeBoost = "1" Then
+'        fileToPlay = "till.wav"
+'    Else
+'        fileToPlay = "till-quiet.wav"
+'    End If
+'
     If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
         playSound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
     End If
@@ -383,7 +383,7 @@ Private Sub Draw(ByRef CC As cCairoContext, ByVal dx As Single, ByVal dy As Sing
         
     'set some Font- and ForeColor-Properties and draw some Text on the Widget
     W.FontItalic = False
-    W.FontName = gblClockFont
+    W.FontName = gblGaugeFont
     W.ForeColor = vbBlack
     W.FontBold = True
     W.FontSize = 11
@@ -391,7 +391,7 @@ Private Sub Draw(ByRef CC As cCairoContext, ByVal dx As Single, ByVal dy As Sing
     W.SelectFontSettingsInto CC
     
     If gblDpiAwareness = "0" Then
-        CC.DrawText 250, 0, dx, dy, "version " & App.Major & "." & App.Minor & "." & App.Revision & " Alpha", , , 2, True, , mMyOpacity
+        CC.DrawText 350, 0, dx, dy - 275, "version " & App.Major & "." & App.Minor & "." & App.Revision & " Alpha", , , 2, True, , mMyOpacity
     Else
         
         #If TWINBASIC Then
@@ -399,7 +399,7 @@ Private Sub Draw(ByRef CC As cCairoContext, ByVal dx As Single, ByVal dy As Sing
         #Else
             CC.DrawText 168, -202, dx, dy, "VB6", , , 2, True, , mMyOpacity
         #End If
-        CC.DrawText 200, -175, dx, dy, "version " & App.Major & "." & App.Minor & "." & App.Revision & " Alpha", , , 2, True, , mMyOpacity
+        CC.DrawText 350, 0, dx, dy - 1020, "version " & App.Major & "." & App.Minor & "." & App.Revision & " Alpha", , , 2, True, , mMyOpacity
         
     End If
     W.Refresh
@@ -417,7 +417,7 @@ End Sub
 
 
 ' the following global variables are used in this class, I should replace each with a property and use that locally
-' but I don't think I can be bothered, there are too many of them. This is my code and the clock class is not going
+' but I don't think I can be bothered, there are too many of them. This is my code and the gauge class is not going
 ' to have multiple instances running so it does not really matter. If you want to convert each of these to property GET/LETs
 ' then please feel free to work your way through this list.
 

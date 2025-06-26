@@ -17,7 +17,7 @@ Attribute VB_Exposed = False
 ' Author    : beededea
 ' Date      : 31/07/2023
 ' Purpose   : create a single fully click-through Widget, which allows for all kind of
-'             things to render on top of the PSD-generated Widgets created in cfClock
+'             things to render on top of the PSD-generated Widgets created in cfGauge
 '---------------------------------------------------------------------------------------
 
 Option Explicit
@@ -174,7 +174,7 @@ Public Property Get SwingPendulum() As Boolean
 
 SwingPendulumGet_Error:
 
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property SwingPendulum of Class Module cfClock"
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property SwingPendulum of Class Module cfGauge"
 End Property
 '---------------------------------------------------------------------------------------
 ' Property  : SwingPendulum
@@ -205,7 +205,7 @@ Public Property Let SwingPendulum(ByVal newValue As Boolean)
 
 SwingPendulumLet_Error:
 
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property SwingPendulum of Class Module cfClock"
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property SwingPendulum of Class Module cfGauge"
 End Property
 
 
@@ -279,7 +279,7 @@ Private Sub W_Paint(ByRef CC As cCairoContext, ByVal xAbs As Single, ByVal yAbs 
     
     On Error GoTo W_Paint_Error
   
-    For I = 0 To cCollPendulumImages.Count - 1 ' this is the ExcludedPaths collection populated in cfClock by duplicating collPendulumElements.
+    For I = 0 To cCollPendulumImages.Count - 1 ' this is the ExcludedPaths collection populated in cfGauge by duplicating collPendulumElements.
       Arr = cCollPendulumImages.ItemByIndex(I)
       Key = cCollPendulumImages.KeyByIndex(I)
       
@@ -297,7 +297,7 @@ Private Sub W_Paint(ByRef CC As cCairoContext, ByVal xAbs As Single, ByVal yAbs 
                     Set Pat.Matrix = Pat.Matrix.TranslateCoords(21, 0) 'shift to the "rotation-point" within the Pattern
                     CC.TranslateDrawings 624, 325
 
-                    CC.RotateDrawingsDeg pvtPendulumAngle 'now we can rotate (the leading negative degrees are the rotation-offsets for 12 o'clock)
+                    CC.RotateDrawingsDeg pvtPendulumAngle 'now we can rotate (the leading negative degrees are the rotation-offsets for 12 o'gauge)
                 
              End Select
     
@@ -332,7 +332,7 @@ Public Property Get TmrPendulumTicking() As Boolean
 
 TmrPendulumTickingGet_Error:
 
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property TmrPendulumTicking of Class Module cfClock"
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property TmrPendulumTicking of Class Module cfGauge"
 End Property
 '---------------------------------------------------------------------------------------
 ' Property  : TmrPendulumTicking
@@ -353,6 +353,6 @@ Public Property Let TmrPendulumTicking(ByVal newValue As Boolean)
 
 TmrPendulumTickingLet_Error:
 
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property TmrPendulumTicking of Class Module cfClock"
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property TmrPendulumTicking of Class Module cfGauge"
 End Property
 

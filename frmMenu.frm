@@ -221,8 +221,8 @@ Private Sub mnuAppFolder_Click()
         execStatus = ShellExecute(Me.hWnd, "open", folderPath, vbNullString, vbNullString, 1)
         If execStatus <= 32 Then MsgBox "Attempt to open folder failed."
     Else
-        MsgBox "Having a bit of a problem opening a folder for this widget - " & folderPath & " It doesn't seem to have a valid working directory set.", "Steampunk Clock Calendar Confirmation Message", vbOKOnly + vbExclamation
-        'MessageBox Me.hWnd, "Having a bit of a problem opening a folder for that command - " & sCommand & " It doesn't seem to have a valid working directory set.", "Steampunk Clock Calendar Confirmation Message", vbOKOnly + vbExclamation
+        MsgBox "Having a bit of a problem opening a folder for this widget - " & folderPath & " It doesn't seem to have a valid working directory set.", "UBoat StopWatch Confirmation Message", vbOKOnly + vbExclamation
+        'MessageBox Me.hWnd, "Having a bit of a problem opening a folder for that command - " & sCommand & " It doesn't seem to have a valid working directory set.", "UBoat StopWatch Confirmation Message", vbOKOnly + vbExclamation
     End If
 
    On Error GoTo 0
@@ -263,7 +263,7 @@ Private Sub mnuEditWidget_Click()
         If execStatus <= 32 Then MsgBox "Attempt to open the IDE for this widget failed."
     Else
         MsgBox "Having a bit of a problem opening an IDE for this widget - " & editorPath & " It doesn't seem to have a valid working directory set."
-        'MessageBox Me.hWnd, "Having a bit of a problem opening a folder for that command - " & sCommand & " It doesn't seem to have a valid working directory set.", "Steampunk Clock Calendar Confirmation Message", vbOKOnly + vbExclamation
+        'MessageBox Me.hWnd, "Having a bit of a problem opening a folder for that command - " & sCommand & " It doesn't seem to have a valid working directory set.", "UBoat StopWatch Confirmation Message", vbOKOnly + vbExclamation
     End If
 
    On Error GoTo 0
@@ -297,7 +297,7 @@ Public Sub mnuGithubHome_Click()
     answer = msgBoxA(answerMsg, vbExclamation + vbYesNo, "Request to Upgrade", True, "mnuGithubHomeClick")
 
     If answer = vbYes Then
-        Call ShellExecute(Me.hWnd, "Open", "https://github.com/yereverluvinunclebert/Steampunk-clock-calendar-" & gblCodingEnvironment, vbNullString, App.path, 1)
+        Call ShellExecute(Me.hWnd, "Open", "https://github.com/yereverluvinunclebert/UBoat-StopWatch-" & gblCodingEnvironment, vbNullString, App.path, 1)
     End If
 
    On Error GoTo 0
@@ -334,6 +334,8 @@ End Sub
 
 
 
+
+
 '---------------------------------------------------------------------------------------
 ' Procedure : mnuHelpSplash_Click
 ' Author    : beededea
@@ -343,8 +345,8 @@ End Sub
 '
 Private Sub mnuHelpSplash_Click()
    On Error GoTo mnuHelpSplash_Click_Error
-   
-   fClock.ShowHelp = True
+
+    Call helpSplash
 
    On Error GoTo 0
    Exit Sub
@@ -364,18 +366,18 @@ End Sub
 ' Procedure : mnuHideWidget_Click
 ' Author    : beededea
 ' Date      : 14/05/2023
-' Purpose   : menu item to hide the main clock form
+' Purpose   : menu item to hide the main gauge form
 '---------------------------------------------------------------------------------------
 '
 Private Sub mnuHideWidget_Click()
     On Error GoTo mnuHideWidget_Click_Error
        
     'overlayWidget.Hidden = True
-    fClock.clockForm.Visible = False
+    fGauge.gaugeForm.Visible = False
     frmTimer.revealWidgetTimer.Enabled = True
     gblWidgetHidden = "1"
     ' we have to save the value here
-    sPutINISetting "Software\SteampunkClockCalendar", "widgetHidden", gblWidgetHidden, gblSettingsFile
+    sPutINISetting "Software\UBoatStopWatch", "widgetHidden", gblWidgetHidden, gblSettingsFile
 
    On Error GoTo 0
    Exit Sub
@@ -389,7 +391,7 @@ End Sub
 ' Procedure : mnuLockWidget_Click
 ' Author    : beededea
 ' Date      : 05/05/2023
-' Purpose   : menu item to lock the clockform in place
+' Purpose   : menu item to lock the gaugeForm in place
 '---------------------------------------------------------------------------------------
 '
 Private Sub mnuLockWidget_Click()
@@ -414,7 +416,7 @@ End Sub
 ' Procedure : mnuProgramPreferences_Click
 ' Author    : beededea
 ' Date      : 07/05/2023
-' Purpose   : menu item to lock the clockform in place on the desktop
+' Purpose   : menu item to lock the gaugeForm in place on the desktop
 '---------------------------------------------------------------------------------------
 '
 Private Sub mnuProgramPreferences_Click()
@@ -532,7 +534,7 @@ Public Sub mnuLatest_Click()
     answer = msgBoxA(answerMsg, vbExclamation + vbYesNo, "Request to Upgrade", True, "mnuLatestClick")
 
     If answer = vbYes Then
-        Call ShellExecute(Me.hWnd, "Open", "https://github.com/yereverluvinunclebert/Steampunk-clock-calendar-" & gblCodingEnvironment & "/releases", vbNullString, App.path, 1)
+        Call ShellExecute(Me.hWnd, "Open", "https://github.com/yereverluvinunclebert/UBoat-StopWatch-" & gblCodingEnvironment & "/releases", vbNullString, App.path, 1)
     End If
 
 

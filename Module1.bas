@@ -298,20 +298,27 @@ Private Declare Function PathIsDirectory Lib "shlwapi" Alias "PathIsDirectoryA" 
 ' general
  
 Public gblStartup As String
-Public gblWidgetFunctions As String
+Public gblGaugeFunctions As String
+Public gblSmoothSecondHand As String
+
+
+Public gblClockFaceSwitchPref As String
+Public gblMainGaugeTimeZone As String
+Public gblMainDaylightSaving As String
+Public gblSecondaryGaugeTimeZone As String
+Public gblSecondaryDaylightSaving As String
 
 ' config
 
-Public gblClockTooltips As String
+Public gblGaugeTooltips As String
 Public gblPrefsTooltips As String
 Public gblShowTaskbar As String
 Public gblShowHelp As String
-Public gblTogglePendulum As String
-Public gbl24HourClockMode As String
+
 Public gblDpiAwareness As String
 Public gblGaugeSize As String
 Public gblScrollWheelDirection As String
-Public gblNumericDisplayRotation As String
+
 
 ' position
 
@@ -329,10 +336,10 @@ Public gblhLocationPercPrefValue As String
 ' sounds
 
 Public gblEnableSounds  As String
-Public gblEnableTicks  As String
-Public gblEnableChimes  As String
-Public gblEnableAlarms  As String
-Public gblVolumeBoost  As String
+'Public gblEnableTicks  As String
+'Public gblEnableChimes  As String
+'Public gblEnableAlarms  As String
+'Public gblVolumeBoost  As String
 
 ' development
 
@@ -345,6 +352,7 @@ Public gblDefaultTBEditor As String
 ' font
 
 Public gblClockFont As String
+Public gblGaugeFont As String
 Public gblPrefsFont As String
 Public gblPrefsFontSizeHighDPI As String
 Public gblPrefsFontSizeLowDPI As String
@@ -376,69 +384,34 @@ Public gblSettingsFile As String
 Public gblTrinketsDir      As String
 Public gblTrinketsFile      As String
 
-Public gblClockHighDpiXPos As String
-Public gblClockHighDpiYPos As String
-Public gblClockLowDpiXPos As String
-Public gblClockLowDpiYPos As String
+Public gblGaugeHighDpiXPos As String
+Public gblGaugeHighDpiYPos As String
+Public gblGaugeLowDpiXPos As String
+Public gblGaugeLowDpiYPos As String
 Public gblLastSelectedTab As String
 Public gblSkinTheme As String
 Public gblUnhide As String
-Public gblMuteToggleEnabled As String
-Public gblPendulumToggleEnabled As String
-Public gblPendulumEnabled As String
+
 
 ' global properties for the state of each UI element, read at startup
 
-Public gblWeekdayToggleEnabled As String
-Public gblDisplayScreenToggleEnabled As String
-Public gblTimeMachineToggleEnabled As String
-Public gblBackToggleEnabled As String
-Public gblAlarmClapperEnabled As String
-Public gblChimeClapperEnabled As String
-Public gblChainEnabled As String
-Public gblCrankEnabled As String
-Public gblShowAlarmDateTime As Boolean
-Public gblAlarmToggle1Enabled As String
-Public gblAlarmToggle2Enabled As String
-Public gblAlarmToggle3Enabled As String
-Public gblAlarmToggle4Enabled As String
-Public gblAlarmToggle5Enabled As String
-Public gblAlarmTogglePressed As Integer
 
 ' vars stored for positioning the prefs form
 
 Public gblPrefsHighDpiXPosTwips As String
 Public gblPrefsHighDpiYPosTwips As String
+
 Public gblPrefsLowDpiXPosTwips As String
 Public gblPrefsLowDpiYPosTwips As String
+
 Public gblPrefsPrimaryHeightTwips As String
 Public gblPrefsSecondaryHeightTwips As String
-Public gblClockPrimaryHeightRatio As String
-Public gblClockSecondaryHeightRatio As String
+Public gblGaugePrimaryHeightRatio As String
+Public gblGaugeSecondaryHeightRatio As String
 
 Public gblMessageAHeightTwips  As String
 Public gblMessageAWidthTwips   As String
 
-Public gblAlarm1Date As String
-Public gblAlarm2Date As String
-Public gblAlarm3Date As String
-Public gblAlarm4Date As String
-Public gblAlarm5Date As String
-Public gblAlarm1Time As String
-Public gblAlarm2Time As String
-Public gblAlarm3Time As String
-Public gblAlarm4Time As String
-Public gblAlarm5Time As String
-Public gblAlarm1 As String
-Public gblAlarm2 As String
-Public gblAlarm3 As String
-Public gblAlarm4 As String
-Public gblAlarm5 As String
-Public gblAlarm1FlgRaised As Boolean
-Public gblAlarm2FlgRaised As Boolean
-Public gblAlarm3FlgRaised As Boolean
-Public gblAlarm4FlgRaised As Boolean
-Public gblAlarm5FlgRaised As Boolean
 '------------------------------------------------------ ENDS
 
 
@@ -485,92 +458,35 @@ Public gblDebugFlg As Integer
 Public gblStartupFlg As Boolean
 Public gblMsgBoxADynamicSizingFlg As Boolean
 Public gblMonitorCount As Long
-Public gblTerminalRows(15) As String
-Public gblTriggerDigitalClockPopulation As Boolean
+
 
 Public gblOldPrefsFormMonitorPrimary As Long
-Public gblOldClockFormMonitorPrimary As Long
+Public gblOldgaugeFormMonitorPrimary As Long
 Public gblPrefsFormResizedInCode As Boolean
 
-Public gblFClockAvailable As Boolean
-Public gblAlarmFlgRaised As Boolean
+Public gblFGaugeAvailable As Boolean
+
 Public gblCodingEnvironment As String
 
 Public widgetPrefsOldHeight As Long
 Public widgetPrefsOldWidth As Long
 
-Public gblTimeAdvanceDeviation As Double
-Public gblTimeAreaClicked As String
+Public tzDelta As Long
+Public tzDelta1 As Long
+
+Public msgBoxADynamicSizingFlg As Boolean
+
+Public gblStopWatchStartTime As Date ' these to be changed to properties
+Public gblStopWatchState As Integer
+Public gblStopWatchZeroed As Boolean
 
 
 
 '------------------------------------------------------ ENDS
 
 
-'---------------------------------------------------------------------------------------
-' Procedure : ScreenWrite
-' Author    : beededea
-' Date      : 29/08/2024
-' Purpose   : subroutine to write a line of new text to an array, then on to an RC label widget, writing text to the display console
-'---------------------------------------------------------------------------------------
-'
-Sub screenWrite(screentext As String)
-    
-    Dim interimText As String
-    Dim a As Integer: a = 0
-    
-    On Error GoTo ScreenWrite_Error
 
-    ' move the existing screen text up one row in the array to make space for the new text coming in below
-    For a = 0 To 14
-         gblTerminalRows(15 - a) = gblTerminalRows(15 - a - 1)
-    Next
 
-    ' stick in the new text at the bottom row.
-    gblTerminalRows(0) = screentext
-    
-    ' build a chunk of interim text line by line from the array to write to the screen label widget, each line ended with a CR
-    If gblDisplayScreenToggleEnabled = "True" Then
-        For a = 14 To 0 Step -1
-            interimText = interimText & gblTerminalRows(a) & vbCrLf
-        Next a
-    End If
-    
-     ' Test the flag to see whether the clockform is available before we attempt to write console events to it.
-     If gblFClockAvailable = True Then Call writeCaption(interimText)
-
-   On Error GoTo 0
-   Exit Sub
-
-ScreenWrite_Error:
-
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure ScreenWrite of Class Module cwOverlay"
-End Sub
-
-'---------------------------------------------------------------------------------------
-' Procedure : writeCaption
-' Author    : beededea
-' Date      : 16/10/2024
-' Purpose   : Cannot 'even' reference clockForm directly in ScreenWrite above as the clockform may not yet have been instantiated, so we use a global flag instead
-'             to see if the clockForm is available for sending messages to the label widget that sits upon it.
-'             The offending call is kept here in a separate routine that can be called by ScreenWrite without generating a runtime error.
-'---------------------------------------------------------------------------------------
-'
-Private Sub writeCaption(ByVal interimText As String)
-
-   On Error GoTo writeCaption_Error
-
-    fClock.clockForm.Widgets("lblTerminalText").Caption = interimText
-    'fClock.clockForm.Widgets("lblTerminalText").Caption = "arseburgers!"
-    
-   On Error GoTo 0
-   Exit Sub
-
-writeCaption_Error:
-
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure writeCaption of Module Module1"
-
-End Sub
 
 
 '---------------------------------------------------------------------------------------
@@ -643,7 +559,7 @@ Public Function fLicenceState() As Integer
     fLicenceState = 0
     ' read the tool's own settings file
     If fFExists(gblSettingsFile) Then ' does the tool's own settings.ini exist?
-        slicence = fGetINISetting("Software\SteampunkClockCalendar", "licence", gblSettingsFile)
+        slicence = fGetINISetting("Software\UBoatStopWatch", "licence", gblSettingsFile)
         ' if the licence state is not already accepted then display the licence form
         If slicence = "1" Then fLicenceState = 1
     End If
@@ -1513,11 +1429,11 @@ Public Sub aboutClickEvent()
     Dim fileToPlay As String: fileToPlay = vbNullString
 
     On Error GoTo aboutClickEvent_Error
-    If gblVolumeBoost = "1" Then
-        fileToPlay = "till.wav"
-    Else
-        fileToPlay = "till-quiet.wav"
-    End If
+'    If gblVolumeBoost = "1" Then
+'        fileToPlay = "till.wav"
+'    Else
+'        fileToPlay = "till-quiet.wav"
+'    End If
     
 
     If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
@@ -1552,6 +1468,46 @@ aboutClickEvent_Error:
 End Sub
 
 '---------------------------------------------------------------------------------------
+' Procedure : helpSplash
+' Author    : beededea
+' Date      : 03/08/2023
+' Purpose   :
+'---------------------------------------------------------------------------------------
+'
+Public Sub helpSplash()
+
+    Dim fileToPlay As String: fileToPlay = vbNullString
+
+    On Error GoTo helpSplash_Error
+
+    fileToPlay = "till.wav"
+    If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
+        playSound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
+    End If
+
+    fMain.helpForm.Top = (gblPhysicalScreenHeightPixels / 2) - (fMain.helpForm.Height / 2)
+    fMain.helpForm.Left = (gblPhysicalScreenWidthPixels / 2) - (fMain.helpForm.Width / 2)
+     
+    'helpWidget.MyOpacity = 0
+    helpWidget.ShowMe = True
+    helpWidget.Widget.Refresh
+    
+    fMain.helpForm.Load
+    fMain.helpForm.Show
+    
+     If (fMain.helpForm.WindowState = 1) Then
+         fMain.helpForm.WindowState = 0
+     End If
+
+   On Error GoTo 0
+   Exit Sub
+
+helpSplash_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure helpSplash of Form menuForm"
+     
+End Sub
+'---------------------------------------------------------------------------------------
 ' Procedure : licenceSplash
 ' Author    : beededea
 ' Date      : 03/08/2023
@@ -1564,11 +1520,11 @@ Public Sub licenceSplash()
 
     On Error GoTo licenceSplash_Error
 
-    If gblVolumeBoost = "1" Then
+'    If gblVolumeBoost = "1" Then
         fileToPlay = "till.wav"
-    Else
-        fileToPlay = "till-quiet.wav"
-    End If
+'    Else
+'        fileToPlay = "till-quiet.wav"
+'    End If
     
     If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
         playSound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
@@ -1649,7 +1605,7 @@ Public Sub mnuSupport_ClickEvent()
     answer = msgBoxA(answerMsg, vbExclamation + vbYesNo, "Request to Contact Support", True, "mnuSupportClickEvent")
 
     If answer = vbYes Then
-        Call ShellExecute(menuForm.hWnd, "Open", "https://github.com/yereverluvinunclebert/Steampunk-clock-calendar-" & gblCodingEnvironment & "/issues", vbNullString, App.path, 1)
+        Call ShellExecute(menuForm.hWnd, "Open", "https://github.com/yereverluvinunclebert/UBoat-StopWatch-" & gblCodingEnvironment & "/issues", vbNullString, App.path, 1)
     End If
 
    On Error GoTo 0
@@ -1692,108 +1648,32 @@ End Sub
 Public Sub setRichClientTooltips()
    On Error GoTo setRichClientTooltips_Error
 
-    If gblClockTooltips = "1" Then
+    If gblGaugeTooltips = "1" Then
 
         overlayWidget.Widget.ToolTip = "Use CTRL+mouse scrollwheel up/down to resize."
         aboutWidget.Widget.ToolTip = "Click on me to make me go away."
         
-        fClock.clockForm.Widgets("helpbottom").Widget.ToolTip = "This is the Widget Help. Click on me to make me go away."
-        fClock.clockForm.Widgets("sliderset").Widget.ToolTip = "This is the Time Slider. Click and drag me left/right to alter time."
-        fClock.clockForm.Widgets("screentop").Widget.ToolTip = "Press to do something, not figured out what yet"
-        fClock.clockForm.Widgets("displayscreen").Widget.ToolTip = "To lower kinematoscope press S toggle. Scroll up the display screen text by double-clicking on it - each time sending a carriage return to the screen."
-        fClock.clockForm.Widgets("screenbackground").Widget.ToolTip = "To lower kinematoscope press S toggle. Scroll up the display screen text by double-clicking on it - each time sending a carriage return to the screen."
-        fClock.clockForm.Widgets("lblTerminalText").Widget.ToolTip = "To lower kinematoscope press S toggle. Scroll up the display screen text by double-clicking on it - each time sending a carriage return to the screen."
-        fClock.clockForm.Widgets("displayscreentoggle").Widget.ToolTip = "Toggle back screen."
-        fClock.clockForm.Widgets("weekdaytoggle").Widget.ToolTip = "Toggle weekday indicator. "
-        fClock.clockForm.Widgets("helptoggle").Widget.ToolTip = "Click me to show the help dropdown canvas."
-
-'        fClock.clockForm.Widgets("help1toggle").Widget.ToolTip = "Click me to show help dropdown canvas number 2."
-
-'        fClock.clockForm.Widgets("help2toggle").Widget.ToolTip = "Click me to show help dropdown canvas number 3."
-        fClock.clockForm.Widgets("help3toggle").Widget.ToolTip = "Click me to show the next help dropdown canvas."
-        
-        fClock.clockForm.Widgets("pendulumtoggle").Widget.ToolTip = "Stop/start the pendulum by clicking on it."
-        fClock.clockForm.Widgets("mutetoggle").Widget.ToolTip = "Mute chimes and ALL sounds on/off."
-        fClock.clockForm.Widgets("alarmtoggle").Widget.ToolTip = "Press to Click here to enter alarm mode"
-        fClock.clockForm.Widgets("settoggle").Widget.ToolTip = "In alarm mode, when you are editing an alarm, press this toggle (or the bell) to save the alarm."
-        fClock.clockForm.Widgets("timemachinetoggle").Widget.ToolTip = "Toggle the time machine images."
-        fClock.clockForm.Widgets("backtoggle").Widget.ToolTip = "Toggle the Back Screen to make the text easier to read."
-        fClock.clockForm.Widgets("alarmtoggle1").Widget.ToolTip = "Click to set or view alarm number one."
-        fClock.clockForm.Widgets("alarmtoggle2").Widget.ToolTip = "Click to set or view alarm number two."
-        fClock.clockForm.Widgets("alarmtoggle3").Widget.ToolTip = "Click to set or view alarm number three."
-        fClock.clockForm.Widgets("alarmtoggle4").Widget.ToolTip = "Click to set or view alarm number four. "
-        fClock.clockForm.Widgets("alarmtoggle5").Widget.ToolTip = "Click to set or view alarm number five. "
-        fClock.clockForm.Widgets("alarmclapperleft").Widget.ToolTip = "Alarm ringing is currently enabled, click to mute the alarm chimes."
-        fClock.clockForm.Widgets("alarmclapperright").Widget.ToolTip = "Alarm ringing is currently disabled, click to enable the alarm chimes. "
-        fClock.clockForm.Widgets("chimeclapperleft").Widget.ToolTip = "Chiming is currently disabled, click to enable the clock chimes."
-        fClock.clockForm.Widgets("chimeclapperright").Widget.ToolTip = "Chiming is currently enabled, click to mute the clock chimes. "
-        fClock.clockForm.Widgets("labellayer").Widget.ToolTip = "This is the Widget Help. Click on me to make me go away."
-        fClock.clockForm.Widgets("chain").Widget.ToolTip = "Pulling the chain will silence the ticks."
-        fClock.clockForm.Widgets("crankup").Widget.ToolTip = "Crank me down to quieten the whole clock."
-        fClock.clockForm.Widgets("crankdown").Widget.ToolTip = "Crank up the sound! Crank me up to make more sound throughout the whole clock."
-        fClock.clockForm.Widgets("weekdayred").Widget.ToolTip = "Click here to lower the weekday flag."
-        fClock.clockForm.Widgets("weekdaytill").Widget.ToolTip = "Click here to lower the weekday flag."
-        fClock.clockForm.Widgets("dropdown").Widget.ToolTip = "Click me for information."
-        fClock.clockForm.Widgets("bellset").Widget.ToolTip = "Press to do something, not figured out what yet"
-        fClock.clockForm.Widgets("helpdropdown").Widget.ToolTip = "Click here to lock the clock in place on the desktop."
-        fClock.clockForm.Widgets("pendulumtransparent").Widget.ToolTip = "Stop/start the pendulum."
-        fClock.clockForm.Widgets("glow").Widget.ToolTip = "This is the Time Slider. Click and drag me left/right to alter time."
-        fClock.clockForm.Widgets("lockingpinlocked").Widget.ToolTip = "Click here to unlock the clock and make it moveable using mouse. "
-        fClock.clockForm.Widgets("lockingpin").Widget.ToolTip = "Click here to lock the clock in place on the desktop."
-        fClock.clockForm.Widgets("redalarmcover").Widget.ToolTip = "Click this alarm flag to delete this alarm."
-        fClock.clockForm.Widgets("clockset").Widget.ToolTip = "This is just the analogue clock face, if an alarm is open for editing, double-clicking here resets the current alarm to the current time."
-
-        fClock.clockForm.Widgets("timedisplay").Widget.ToolTip = "This will display the year in digital alphanumeric form, either the current time or a future alarm time as you require."
-        fClock.clockForm.Widgets("yeardisplay").Widget.ToolTip = "This will display the year in digital alphanumeric form, either the current year or a future alarm year as you require."
-        fClock.clockForm.Widgets("datedisplay").Widget.ToolTip = "This will display the date in digital alphanumeric form, either the current date or a future alarm date as you require."
+        fGauge.gaugeForm.Widgets("housing/tickbutton").Widget.ToolTip = "Choose smooth movement or regular ticks"
+        fGauge.gaugeForm.Widgets("housing/helpbutton").Widget.ToolTip = "Press for a little help"
+        fGauge.gaugeForm.Widgets("housing/startbutton").Widget.ToolTip = "Press to restart (when stopped)"
+        fGauge.gaugeForm.Widgets("housing/stopbutton").Widget.ToolTip = "Press to stop clock operation."
+        fGauge.gaugeForm.Widgets("housing/switchfacesbutton").Widget.ToolTip = "Press to do nothing at all."
+        fGauge.gaugeForm.Widgets("housing/lockbutton").Widget.ToolTip = "Press to lock the widget in place"
+        fGauge.gaugeForm.Widgets("housing/prefsbutton").Widget.ToolTip = "Press to open the widget preferences"
+        fGauge.gaugeForm.Widgets("housing/surround").Widget.ToolTip = "Ctrl + mouse scrollwheel up/down to resize, you can also drag me to a new position."
         
     Else
         overlayWidget.Widget.ToolTip = vbNullString
         aboutWidget.Widget.ToolTip = vbNullString
         
-        fClock.clockForm.Widgets("helpbottom").Widget.ToolTip = vbNullString
-        fClock.clockForm.Widgets("sliderset").Widget.ToolTip = vbNullString
-        fClock.clockForm.Widgets("screentop").Widget.ToolTip = vbNullString
-        fClock.clockForm.Widgets("displayscreen").Widget.ToolTip = vbNullString
-        fClock.clockForm.Widgets("screenbackground").Widget.ToolTip = vbNullString
-        fClock.clockForm.Widgets("displayscreentoggle").Widget.ToolTip = vbNullString
-        fClock.clockForm.Widgets("weekdaytoggle").Widget.ToolTip = vbNullString
-        fClock.clockForm.Widgets("helptoggle").Widget.ToolTip = vbNullString
-'        fClock.clockForm.Widgets("help1toggle").Widget.ToolTip = vbNullString
-'        fClock.clockForm.Widgets("help2toggle").Widget.ToolTip = vbNullString
-        fClock.clockForm.Widgets("help3toggle").Widget.ToolTip = vbNullString
-        
-        fClock.clockForm.Widgets("pendulumtoggle").Widget.ToolTip = vbNullString
-        fClock.clockForm.Widgets("mutetoggle").Widget.ToolTip = vbNullString
-        fClock.clockForm.Widgets("alarmtoggle").Widget.ToolTip = vbNullString
-        fClock.clockForm.Widgets("settoggle").Widget.ToolTip = vbNullString
-        fClock.clockForm.Widgets("timemachinetoggle").Widget.ToolTip = vbNullString
-        fClock.clockForm.Widgets("backtoggle").Widget.ToolTip = vbNullString
-        fClock.clockForm.Widgets("alarmtoggle1").Widget.ToolTip = vbNullString
-        fClock.clockForm.Widgets("alarmtoggle2").Widget.ToolTip = vbNullString
-        fClock.clockForm.Widgets("alarmtoggle3").Widget.ToolTip = vbNullString
-        fClock.clockForm.Widgets("alarmtoggle4").Widget.ToolTip = vbNullString
-        fClock.clockForm.Widgets("alarmtoggle5").Widget.ToolTip = vbNullString
-        fClock.clockForm.Widgets("alarmclapperleft").Widget.ToolTip = vbNullString
-        fClock.clockForm.Widgets("alarmclapperright").Widget.ToolTip = vbNullString
-        fClock.clockForm.Widgets("chimeclapperleft").Widget.ToolTip = vbNullString
-        fClock.clockForm.Widgets("chimeclapperright").Widget.ToolTip = vbNullString
-        fClock.clockForm.Widgets("labellayer").Widget.ToolTip = vbNullString
-        fClock.clockForm.Widgets("chain").Widget.ToolTip = vbNullString
-        fClock.clockForm.Widgets("crankup").Widget.ToolTip = vbNullString
-        fClock.clockForm.Widgets("crankdown").Widget.ToolTip = vbNullString
-        fClock.clockForm.Widgets("weekdayred").Widget.ToolTip = vbNullString
-        fClock.clockForm.Widgets("weekdaytill").Widget.ToolTip = vbNullString
-        fClock.clockForm.Widgets("dropdown").Widget.ToolTip = vbNullString
-        fClock.clockForm.Widgets("bellset").Widget.ToolTip = vbNullString
-        fClock.clockForm.Widgets("helpdropdown").Widget.ToolTip = vbNullString
-        fClock.clockForm.Widgets("pendulumtransparent").Widget.ToolTip = vbNullString
-        fClock.clockForm.Widgets("glow").Widget.ToolTip = vbNullString
-        fClock.clockForm.Widgets("clockset").Widget.ToolTip = vbNullString
-        
-        fClock.clockForm.Widgets("timedisplay").Widget.ToolTip = vbNullString
-        fClock.clockForm.Widgets("yeardisplay").Widget.ToolTip = vbNullString
-        fClock.clockForm.Widgets("datedisplay").Widget.ToolTip = vbNullString
+        fGauge.gaugeForm.Widgets("housing/tickbutton").Widget.ToolTip = vbNullString
+        fGauge.gaugeForm.Widgets("housing/helpbutton").Widget.ToolTip = vbNullString
+        fGauge.gaugeForm.Widgets("housing/startbutton").Widget.ToolTip = vbNullString
+        fGauge.gaugeForm.Widgets("housing/stopbutton").Widget.ToolTip = vbNullString
+        fGauge.gaugeForm.Widgets("housing/switchfacesbutton").Widget.ToolTip = vbNullString
+        fGauge.gaugeForm.Widgets("housing/lockbutton").Widget.ToolTip = vbNullString
+        fGauge.gaugeForm.Widgets("housing/prefsbutton").Widget.ToolTip = vbNullString
+        fGauge.gaugeForm.Widgets("housing/surround").Widget.ToolTip = vbNullString
    
    End If
     
@@ -1819,7 +1699,7 @@ Public Sub ChangeToolTipWidgetDefaultSettings(ByRef My_Widget As cWidgetBase)
 
     With My_Widget
     
-        .FontName = gblClockFont
+        .FontName = gblGaugeFont
         .FontSize = Val(gblPrefsFontSizeLowDPI)
     
     End With
@@ -1850,24 +1730,24 @@ Public Sub makeVisibleFormElements()
     'NOTE that when you position a widget you are positioning the form it is drawn upon.
 
     If gblDpiAwareness = "1" Then
-        formLeftPixels = Val(gblClockHighDpiXPos)
-        formTopPixels = Val(gblClockHighDpiYPos)
+        formLeftPixels = Val(gblGaugeHighDpiXPos)
+        formTopPixels = Val(gblGaugeHighDpiYPos)
     Else
-        formLeftPixels = Val(gblClockLowDpiXPos)
-        formTopPixels = Val(gblClockLowDpiYPos)
+        formLeftPixels = Val(gblGaugeLowDpiXPos)
+        formTopPixels = Val(gblGaugeLowDpiYPos)
     End If
     
     ' The RC forms are measured in pixels, whereas the native forms are in twips, do remember that...
 
     gblMonitorCount = fGetMonitorCount
     If gblMonitorCount > 1 Then
-        Call SetFormOnMonitor(fClock.clockForm.hWnd, formLeftPixels, formTopPixels)
+        Call SetFormOnMonitor(fGauge.gaugeForm.hWnd, formLeftPixels, formTopPixels)
     Else
-        fClock.clockForm.Left = formLeftPixels
-        fClock.clockForm.Top = formTopPixels
+        fGauge.gaugeForm.Left = formLeftPixels
+        fGauge.gaugeForm.Top = formTopPixels
     End If
     
-    fClock.clockForm.Show
+    fGauge.gaugeForm.Show
 
     On Error GoTo 0
     Exit Sub
@@ -1911,100 +1791,9 @@ Public Sub getKeyPress(ByVal KeyCode As Integer, ByVal Shift As Integer)
             gblCTRL_1 = True
         Case vbKeyShift
             gblSHIFT_1 = True
-            
-        Case vbKeyA ' a key alarmtoggle
-            If fClock.alarmtoggleEnabled = True Then
-                fClock.alarmtoggleEnabled = False
-            Else
-                fClock.alarmtoggleEnabled = True
-            End If
-        Case vbKeyB ' b key helptoggle
-            If fClock.backToggleEnabled = True Then
-                fClock.backToggleEnabled = False
-            Else
-                fClock.backToggleEnabled = True
-            End If
-        Case vbKeyH ' H key helptoggle
-            If fClock.helpToggleEnabled = False Then
-                fClock.helpToggleEnabled = True
-            Else
-                fClock.helpToggleEnabled = False
-            End If
-        Case vbKeyM ' m key helptoggle
-            If fClock.muteToggleEnabled = True Then
-                fClock.muteToggleEnabled = False
-            Else
-                fClock.muteToggleEnabled = True
-            End If
-        Case vbKeyP ' p key helptoggle
-            If fClock.pendulumToggleEnabled = True Then
-                fClock.pendulumToggleEnabled = False
-            Else
-                fClock.pendulumToggleEnabled = True
-            End If
-        Case vbKeyD ' Display screen toggle
-            If fClock.displayScreenToggleEnabled = True Then
-                fClock.displayScreenToggleEnabled = False
-            Else
-                fClock.displayScreenToggleEnabled = True
-            End If
-        Case vbKeyS 'set alarm toggle
-            fClock.SetTogglePressed = True
-        Case vbKeyT ' t key helptoggle
-            If fClock.timeMachineToggleEnabled = True Then
-                fClock.timeMachineToggleEnabled = False
-            Else
-                fClock.timeMachineToggleEnabled = True
-            End If
-        Case vbKeyW ' w key weekdayToggleEnabled
-            If fClock.weekdayToggleEnabled = True Then
-                fClock.weekdayToggleEnabled = False
-            Else
-                fClock.weekdayToggleEnabled = True
-            End If
-            
-        Case vbKey1 ' 0 key helptoggle
-            If fClock.alarmtoggle1Enabled = True Then
-                fClock.alarmtoggle1Enabled = False
-            Else
-                fClock.alarmtoggle1Enabled = True
-            End If
-       
-        Case vbKey2 ' 2 key helptoggle
-            If fClock.alarmtoggle2Enabled = True Then
-                fClock.alarmtoggle2Enabled = False
-            Else
-                fClock.alarmtoggle2Enabled = True
-            End If
-        Case vbKey3 ' 3 key helptoggle
-            If fClock.alarmtoggle3Enabled = True Then
-                fClock.alarmtoggle3Enabled = False
-            Else
-                fClock.alarmtoggle3Enabled = True
-            End If
-        Case vbKey4 ' 4 key helptoggle
-            If fClock.alarmtoggle4Enabled = True Then
-                fClock.alarmtoggle4Enabled = False
-            Else
-                fClock.alarmtoggle4Enabled = True
-            End If
-        Case vbKey5 ' 5 key helptoggle
-            If fClock.alarmtoggle5Enabled = True Then
-                fClock.alarmtoggle5Enabled = False
-            Else
-                fClock.alarmtoggle5Enabled = True
-            End If
-        Case 37, 40 ' Left and down cursor key
-            ' move the slider left
-            ' if the slider is enabled and the timeShiftValue <> 0.5 then start the timer that shifts the digital clocks forwards or backwards
-            If overlayWidget.SliderFreed = True Then
-                fClock.timeShiftValue = fClock.timeShiftValue - 0.05
-            End If
-        Case 39, 38 ' Right and Up cursor key
-            ' move the slider right
-            If overlayWidget.SliderFreed = True Then
-                fClock.timeShiftValue = fClock.timeShiftValue + 0.05
-            End If
+        Case 82 ' R
+            If Shift = 1 Then Call hardRestart
+
         Case 116 ' Performing a hard restart message box shift+F5
             If Shift = 1 Then
                 answer = vbYes
@@ -2092,49 +1881,49 @@ Public Sub mainScreen()
     If gblAspectRatio = "landscape" Then
         If gblWidgetLandscape = "1" Then
             If gblLandscapeFormHoffset <> vbNullString Then
-                fClock.clockForm.Left = Val(gblLandscapeFormHoffset)
-                fClock.clockForm.Top = Val(gblLandscapeFormVoffset)
+                fGauge.gaugeForm.Left = Val(gblLandscapeFormHoffset)
+                fGauge.gaugeForm.Top = Val(gblLandscapeFormVoffset)
             End If
         End If
         If gblAspectHidden = "2" Then
             Debug.Print "Hiding the widget for landscape mode"
-            fClock.clockForm.Visible = False
+            fGauge.gaugeForm.Visible = False
         End If
     End If
     
     ' check if the widget has a lock for the screen type.
     If gblAspectRatio = "portrait" Then
         If gblWidgetPortrait = "1" Then
-            fClock.clockForm.Left = Val(gblPortraitHoffset)
-            fClock.clockForm.Top = Val(gblPortraitYoffset)
+            fGauge.gaugeForm.Left = Val(gblPortraitHoffset)
+            fGauge.gaugeForm.Top = Val(gblPortraitYoffset)
         End If
         If gblAspectHidden = "1" Then
             Debug.Print "Hiding the widget for portrait mode"
-            fClock.clockForm.Visible = False
+            fGauge.gaugeForm.Visible = False
         End If
     End If
 
     ' calculate the on screen widget position
-    If fClock.clockForm.Left < 0 Then
-        fClock.clockForm.Left = 10
+    If fGauge.gaugeForm.Left < 0 Then
+        fGauge.gaugeForm.Left = 10
     End If
-    If fClock.clockForm.Top < 0 Then
-        fClock.clockForm.Top = 0
+    If fGauge.gaugeForm.Top < 0 Then
+        fGauge.gaugeForm.Top = 0
     End If
     
     
-    If fClock.clockForm.Left > gblVirtualScreenWidthPixels - 50 Then
-        fClock.clockForm.Left = gblVirtualScreenWidthPixels - 150
+    If fGauge.gaugeForm.Left > gblVirtualScreenWidthPixels - 50 Then
+        fGauge.gaugeForm.Left = gblVirtualScreenWidthPixels - 150
     End If
-    If fClock.clockForm.Top > gblVirtualScreenHeightPixels - 50 Then
-        fClock.clockForm.Top = gblVirtualScreenHeightPixels - 150
+    If fGauge.gaugeForm.Top > gblVirtualScreenHeightPixels - 50 Then
+        fGauge.gaugeForm.Top = gblVirtualScreenHeightPixels - 150
     End If
 '
     ' calculate the current hlocation in % of the screen
     ' store the current hlocation in % of the screen
     If gblWidgetPosition = "1" Then
-        gblhLocationPercPrefValue = CStr(fClock.clockForm.Left / gblVirtualScreenWidthPixels * 100)
-        gblvLocationPercPrefValue = CStr(fClock.clockForm.Top / gblVirtualScreenHeightPixels * 100)
+        gblhLocationPercPrefValue = CStr(fGauge.gaugeForm.Left / gblVirtualScreenWidthPixels * 100)
+        gblvLocationPercPrefValue = CStr(fGauge.gaugeForm.Top / gblVirtualScreenHeightPixels * 100)
     End If
 
    On Error GoTo 0
@@ -2186,7 +1975,7 @@ Public Sub unloadAllForms(ByVal endItAll As Boolean)
    On Error GoTo unloadAllForms_Error
    
     ' empty all asynchronous sound buffers and release
-    Call FreeSound(ALL_SOUND_BUFFERS)
+    'Call FreeSound(ALL_SOUND_BUFFERS)
    
     ' stop all VB6 timers in the timer form
     frmTimer.revealWidgetTimer.Enabled = False
@@ -2201,26 +1990,18 @@ Public Sub unloadAllForms(ByVal endItAll As Boolean)
     widgetPrefs.tmrPrefsScreenResolution.Enabled = False
     widgetPrefs.tmrWritePosition.Enabled = False
     
-    ' stop RC timers for playing sounds with delay
-    
-    fClock.TmrZZZZSoundTicking = False
-    fClock.TmrTILLSoundTicking = False
-    fClock.TmrTickingSoundTicking = False
-    
     ' stop all RC6 timers using properties to access the private timers
     
-    overlayWidget.TmrClockTicking = False
-    overlayWidget.TmrPendulumTicking = False
-    overlayWidget.TmrTollingTicking = False
-    overlayWidget.TmrCountdownToTollTicking = False
-    overlayWidget.TmrTimeShiftTicking = False
-    overlayWidget.TmrDigitRotatorTicking = False
-    overlayWidget.TmrAlarmRingingTicking = False
+    overlayWidget.tmrClock.Enabled = False
+    overlayWidget.tmrStopWatch.Enabled = False
+    overlayWidget.tmrSWRotation.Enabled = False
+    overlayWidget.tmrHandsRotation.Enabled = False
 
     'unload the RC6 widgets on the RC6 forms first
     
     aboutWidget.Widgets.RemoveAll
-    fClock.clockForm.Widgets.RemoveAll
+    helpWidget.Widgets.RemoveAll
+    fGauge.gaugeForm.Widgets.RemoveAll
     
     ' unload the native VB6 forms
     
@@ -2232,13 +2013,15 @@ Public Sub unloadAllForms(ByVal endItAll As Boolean)
     ' RC6's own method for killing forms
     
     fMain.aboutForm.Unload
-    fClock.clockForm.Unload
+    fMain.helpForm.Unload
+    fGauge.gaugeForm.Unload
     fMain.licenceForm.Unload
     
     ' remove all variable references to each RC form in turn
     
     Set fMain.aboutForm = Nothing
-    Set fClock.clockForm = Nothing
+    Set fMain.helpForm = Nothing
+    Set fGauge.gaugeForm = Nothing
     Set fMain.licenceForm = Nothing
     
     ' remove all variable references to each VB6 form in turn
@@ -2272,11 +2055,11 @@ Public Sub reloadProgram()
     
     On Error GoTo reloadProgram_Error
     
-    fClock.ShowHelp = False ' needs to be set to false for the reload to reshow it, if enabled
+    'fGauge.ShowHelp = False ' needs to be set to false for the reload to reshow it, if enabled
     
-    gblFClockAvailable = False ' tell the screenwrite util that the clockform is no longer available to write console events to
+    gblFGaugeAvailable = False ' tell the ' screenWrite util that the gaugeForm is no longer available to write console events to
     
-    Erase gblTerminalRows ' remove the old text stored in the display screen array
+    'Erase gblTerminalRows ' remove the old text stored in the display screen array
     
     Call saveMainRCFormPosition
     
@@ -2303,7 +2086,7 @@ End Sub
 ' Procedure : saveMainRCFormPosition
 ' Author    : beededea
 ' Date      : 04/08/2023
-' Purpose   : called from several locations saves the clock X,Y positions in high or low DPI forms as well as the current size
+' Purpose   : called from several locations saves the gauge X,Y positions in high or low DPI forms as well as the current size
 '---------------------------------------------------------------------------------------
 '
 Public Sub saveMainRCFormPosition()
@@ -2311,22 +2094,22 @@ Public Sub saveMainRCFormPosition()
    On Error GoTo saveMainRCFormPosition_Error
 
     If gblDpiAwareness = "1" Then
-        gblClockHighDpiXPos = CStr(fClock.clockForm.Left) ' saving in pixels
-        gblClockHighDpiYPos = CStr(fClock.clockForm.Top)
-        sPutINISetting "Software\SteampunkClockCalendar", "clockHighDpiXPos", gblClockHighDpiXPos, gblSettingsFile
-        sPutINISetting "Software\SteampunkClockCalendar", "clockHighDpiYPos", gblClockHighDpiYPos, gblSettingsFile
+        gblGaugeHighDpiXPos = CStr(fGauge.gaugeForm.Left) ' saving in pixels
+        gblGaugeHighDpiYPos = CStr(fGauge.gaugeForm.Top)
+        sPutINISetting "Software\UBoatStopWatch", "gaugeHighDpiXPos", gblGaugeHighDpiXPos, gblSettingsFile
+        sPutINISetting "Software\UBoatStopWatch", "gaugeHighDpiYPos", gblGaugeHighDpiYPos, gblSettingsFile
 
     Else
-        gblClockLowDpiXPos = CStr(fClock.clockForm.Left) ' saving in pixels
-        gblClockLowDpiYPos = CStr(fClock.clockForm.Top)
-        sPutINISetting "Software\SteampunkClockCalendar", "clockLowDpiXPos", gblClockLowDpiXPos, gblSettingsFile
-        sPutINISetting "Software\SteampunkClockCalendar", "clockLowDpiYPos", gblClockLowDpiYPos, gblSettingsFile
+        gblGaugeLowDpiXPos = CStr(fGauge.gaugeForm.Left) ' saving in pixels
+        gblGaugeLowDpiYPos = CStr(fGauge.gaugeForm.Top)
+        sPutINISetting "Software\UBoatStopWatch", "gaugeLowDpiXPos", gblGaugeLowDpiXPos, gblSettingsFile
+        sPutINISetting "Software\UBoatStopWatch", "gaugeLowDpiYPos", gblGaugeLowDpiYPos, gblSettingsFile
     End If
     
-    sPutINISetting "Software\SteampunkClockCalendar", "clockPrimaryHeightRatio", gblClockPrimaryHeightRatio, gblSettingsFile
-    sPutINISetting "Software\SteampunkClockCalendar", "clockSecondaryHeightRatio", gblClockSecondaryHeightRatio, gblSettingsFile
-    gblGaugeSize = CStr(fClock.clockForm.WidgetRoot.Zoom * 100)
-    sPutINISetting "Software\SteampunkClockCalendar", "gaugeSize", gblGaugeSize, gblSettingsFile
+    sPutINISetting "Software\UBoatStopWatch", "gaugePrimaryHeightRatio", gblGaugePrimaryHeightRatio, gblSettingsFile
+    sPutINISetting "Software\UBoatStopWatch", "gaugeSecondaryHeightRatio", gblGaugeSecondaryHeightRatio, gblSettingsFile
+    gblGaugeSize = CStr(fGauge.gaugeForm.WidgetRoot.Zoom * 100)
+    sPutINISetting "Software\UBoatStopWatch", "gaugeSize", gblGaugeSize, gblSettingsFile
 
    On Error GoTo 0
    Exit Sub
@@ -2341,17 +2124,17 @@ End Sub
 ' Procedure : saveMainRCFormSize
 ' Author    : beededea
 ' Date      : 04/08/2023
-' Purpose   : called from several locations saves the clock X,Y positions in high or low DPI forms as well as the current size
+' Purpose   : called from several locations saves the gauge X,Y positions in high or low DPI forms as well as the current size
 '---------------------------------------------------------------------------------------
 '
 Public Sub saveMainRCFormSize()
 
    On Error GoTo saveMainRCFormSize_Error
 
-    sPutINISetting "Software\SteampunkClockCalendar", "clockPrimaryHeightRatio", gblClockPrimaryHeightRatio, gblSettingsFile
-    sPutINISetting "Software\SteampunkClockCalendar", "clockSecondaryHeightRatio", gblClockSecondaryHeightRatio, gblSettingsFile
-    gblGaugeSize = CStr(fClock.clockForm.WidgetRoot.Zoom * 100)
-    sPutINISetting "Software\SteampunkClockCalendar", "gaugeSize", gblGaugeSize, gblSettingsFile
+    sPutINISetting "Software\UBoatStopWatch", "gaugePrimaryHeightRatio", gblGaugePrimaryHeightRatio, gblSettingsFile
+    sPutINISetting "Software\UBoatStopWatch", "gaugeSecondaryHeightRatio", gblGaugeSecondaryHeightRatio, gblSettingsFile
+    gblGaugeSize = CStr(fGauge.gaugeForm.WidgetRoot.Zoom * 100)
+    sPutINISetting "Software\UBoatStopWatch", "gaugeSize", gblGaugeSize, gblSettingsFile
 
    On Error GoTo 0
    Exit Sub
@@ -2422,8 +2205,8 @@ Public Sub readPrefsPosition()
     On Error GoTo readPrefsPosition_Error
 
     If gblDpiAwareness = "1" Then
-        gblPrefsHighDpiXPosTwips = fGetINISetting("Software\SteampunkClockCalendar", "formHighDpiXPosTwips", gblSettingsFile)
-        gblPrefsHighDpiYPosTwips = fGetINISetting("Software\SteampunkClockCalendar", "formHighDpiYPosTwips", gblSettingsFile)
+        gblPrefsHighDpiXPosTwips = fGetINISetting("Software\UBoatStopWatch", "formHighDpiXPosTwips", gblSettingsFile)
+        gblPrefsHighDpiYPosTwips = fGetINISetting("Software\UBoatStopWatch", "formHighDpiYPosTwips", gblSettingsFile)
         
         ' if a current location not stored then position to the middle of the screen
         If gblPrefsHighDpiXPosTwips <> "" Then
@@ -2443,8 +2226,8 @@ Public Sub readPrefsPosition()
         gblPrefsHighDpiYPosTwips = widgetPrefs.Top
         
     Else
-        gblPrefsLowDpiXPosTwips = fGetINISetting("Software\SteampunkClockCalendar", "formLowDpiXPosTwips", gblSettingsFile)
-        gblPrefsLowDpiYPosTwips = fGetINISetting("Software\SteampunkClockCalendar", "formLowDpiYPosTwips", gblSettingsFile)
+        gblPrefsLowDpiXPosTwips = fGetINISetting("Software\UBoatStopWatch", "formLowDpiXPosTwips", gblSettingsFile)
+        gblPrefsLowDpiYPosTwips = fGetINISetting("Software\UBoatStopWatch", "formLowDpiYPosTwips", gblSettingsFile)
               
         ' if a current location not stored then position to the middle of the screen
         If gblPrefsLowDpiXPosTwips <> "" Then
@@ -2464,8 +2247,8 @@ Public Sub readPrefsPosition()
         gblPrefsLowDpiYPosTwips = widgetPrefs.Top
     End If
         
-    gblPrefsPrimaryHeightTwips = fGetINISetting("Software\SteampunkClockCalendar", "prefsPrimaryHeightTwips", gblSettingsFile)
-    gblPrefsSecondaryHeightTwips = fGetINISetting("Software\SteampunkClockCalendar", "prefsSecondaryHeightTwips", gblSettingsFile)
+    gblPrefsPrimaryHeightTwips = fGetINISetting("Software\UBoatStopWatch", "prefsPrimaryHeightTwips", gblSettingsFile)
+    gblPrefsSecondaryHeightTwips = fGetINISetting("Software\UBoatStopWatch", "prefsSecondaryHeightTwips", gblSettingsFile)
         
    ' on very first install this will be zero, then size of the prefs as a proportion of the screen size
     If gblPrefsPrimaryHeightTwips = "" Then gblPrefsPrimaryHeightTwips = CStr(1000 * gblScreenTwipsPerPixelY)
@@ -2498,24 +2281,24 @@ Public Sub writePrefsPositionAndSize()
             gblPrefsHighDpiYPosTwips = CStr(widgetPrefs.Top)
             
             ' now write those params to the toolSettings.ini
-            sPutINISetting "Software\SteampunkClockCalendar", "formHighDpiXPosTwips", gblPrefsHighDpiXPosTwips, gblSettingsFile
-            sPutINISetting "Software\SteampunkClockCalendar", "formHighDpiYPosTwips", gblPrefsHighDpiYPosTwips, gblSettingsFile
+            sPutINISetting "Software\UBoatStopWatch", "formHighDpiXPosTwips", gblPrefsHighDpiXPosTwips, gblSettingsFile
+            sPutINISetting "Software\UBoatStopWatch", "formHighDpiYPosTwips", gblPrefsHighDpiYPosTwips, gblSettingsFile
         Else
             gblPrefsLowDpiXPosTwips = CStr(widgetPrefs.Left)
             gblPrefsLowDpiYPosTwips = CStr(widgetPrefs.Top)
             
             ' now write those params to the toolSettings.ini
-            sPutINISetting "Software\SteampunkClockCalendar", "formLowDpiXPosTwips", gblPrefsLowDpiXPosTwips, gblSettingsFile
-            sPutINISetting "Software\SteampunkClockCalendar", "formLowDpiYPosTwips", gblPrefsLowDpiYPosTwips, gblSettingsFile
+            sPutINISetting "Software\UBoatStopWatch", "formLowDpiXPosTwips", gblPrefsLowDpiXPosTwips, gblSettingsFile
+            sPutINISetting "Software\UBoatStopWatch", "formLowDpiYPosTwips", gblPrefsLowDpiYPosTwips, gblSettingsFile
             
         End If
 
         If prefsMonitorStruct.IsPrimary = True Then
             gblPrefsPrimaryHeightTwips = Trim$(CStr(widgetPrefs.Height))
-            sPutINISetting "Software\SteampunkClockCalendar", "prefsPrimaryHeightTwips", gblPrefsPrimaryHeightTwips, gblSettingsFile
+            sPutINISetting "Software\UBoatStopWatch", "prefsPrimaryHeightTwips", gblPrefsPrimaryHeightTwips, gblSettingsFile
         Else
             gblPrefsSecondaryHeightTwips = Trim$(CStr(widgetPrefs.Height))
-            sPutINISetting "Software\SteampunkClockCalendar", "prefsSecondaryHeightTwips", gblPrefsSecondaryHeightTwips, gblSettingsFile
+            sPutINISetting "Software\UBoatStopWatch", "prefsSecondaryHeightTwips", gblPrefsSecondaryHeightTwips, gblSettingsFile
         End If
     End If
     
@@ -2526,6 +2309,53 @@ writePrefsPositionAndSize_Error:
 
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure writePrefsPositionAndSize of Form widgetPrefs"
 End Sub
+
+
+'---------------------------------------------------------------------------------------
+' Procedure : settingsTimer_Timer
+' Author    : beededea
+' Date      : 03/03/2023
+' Purpose   : Checking the date/time of the settings.ini file meaning that another tool has edited the settings
+'---------------------------------------------------------------------------------------
+' this has to be in a shared module and not in the prefs form as it will be running in the normal context woithout prefs showing.
+
+Private Sub settingsTimer_Timer()
+
+    Dim timeDifferenceInSecs As Long: timeDifferenceInSecs = 0 ' max 86 years as a LONG in secs
+    Dim settingsModificationTime As Date: settingsModificationTime = #1/1/2000 12:00:00 PM#
+    
+    On Error GoTo settingsTimer_Timer_Error
+
+    If Not fFExists(gblSettingsFile) Then
+        MsgBox ("%Err-I-ErrorNumber 13 - FCW was unable to access the dock settings ini file. " & vbCrLf & gblSettingsFile)
+        Exit Sub
+    End If
+    
+    ' check the settings.ini file date/time
+    settingsModificationTime = FileDateTime(gblSettingsFile)
+    timeDifferenceInSecs = Int(DateDiff("s", gblOldSettingsModificationTime, settingsModificationTime))
+
+    ' if the settings.ini has been modified then reload the map
+    If timeDifferenceInSecs > 1 Then
+
+        gblOldSettingsModificationTime = settingsModificationTime
+        
+    End If
+    
+    On Error GoTo 0
+    Exit Sub
+
+settingsTimer_Timer_Error:
+
+    With Err
+         If .Number <> 0 Then
+            MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure settingsTimer_Timer of Form module1.bas"
+            Resume Next
+          End If
+    End With
+End Sub
+
+
 
 
 
@@ -2545,24 +2375,24 @@ Public Sub toggleWidgetLock()
     fileToPlay = "lock.wav"
     
     If gblPreventDragging = "1" Then
-        Call screenWrite("Widget lock released")
+        ' Call ' screenWrite("Widget lock released")
         menuForm.mnuLockWidget.Checked = False
         If widgetPrefs.IsLoaded = True Then widgetPrefs.chkPreventDragging.Value = 0
         gblPreventDragging = "0"
         overlayWidget.Locked = False
-        fClock.clockForm.Widgets("lockingpin").Widget.Alpha = Val(gblOpacity) / 100
+        fGauge.gaugeForm.Widgets("housing/lockbutton").Widget.Alpha = Val(gblOpacity) / 100
     Else
-        Call screenWrite("Widget locked in place")
+        ' Call ' screenWrite("Widget locked in place")
         menuForm.mnuLockWidget.Checked = True
         If widgetPrefs.IsLoaded = True Then widgetPrefs.chkPreventDragging.Value = 1
         overlayWidget.Locked = True
         gblPreventDragging = "1"
-        fClock.clockForm.Widgets("lockingpin").Widget.Alpha = 0
+        fGauge.gaugeForm.Widgets("housing/lockbutton").Widget.Alpha = 0
     End If
     
-    fClock.clockForm.Refresh
+    fGauge.gaugeForm.Refresh
     
-    sPutINISetting "Software\SteampunkClockCalendar", "preventDragging", gblPreventDragging, gblSettingsFile
+    sPutINISetting "Software\UBoatStopWatch", "preventDragging", gblPreventDragging, gblSettingsFile
    
     If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
         playSound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
@@ -2591,19 +2421,12 @@ Public Sub SwitchOff()
 
    On Error GoTo SwitchOff_Error
 
+    overlayWidget.Ticking = False
     menuForm.mnuSwitchOff.Checked = True
     menuForm.mnuTurnFunctionsOn.Checked = False
     
-    overlayWidget.TmrClockTicking = False
-    overlayWidget.TmrPendulumTicking = False
-    overlayWidget.TmrTollingTicking = False
-    overlayWidget.TmrCountdownToTollTicking = False
-    overlayWidget.TmrTimeShiftTicking = False
-    overlayWidget.TmrDigitRotatorTicking = False
-    overlayWidget.TmrAlarmRingingTicking = False
-
-    gblWidgetFunctions = "0"
-    sPutINISetting "Software\SteampunkClockCalendar", "widgetFunctions", gblWidgetFunctions, gblSettingsFile
+    gblGaugeFunctions = "0"
+    sPutINISetting "Software\UBoatStopWatch", "widgetFunctions", gblGaugeFunctions, gblSettingsFile
 
    On Error GoTo 0
    Exit Sub
@@ -2628,13 +2451,9 @@ Public Sub TurnFunctionsOn()
 
     On Error GoTo TurnFunctionsOn_Error
     
-    overlayWidget.TmrClockTicking = True
+    overlayWidget.Ticking = True
 
-    If gblVolumeBoost = "1" Then
-        fileToPlay = "tingting.wav"
-    Else
-        fileToPlay = "tingting-quiet.wav"
-    End If
+    fileToPlay = "ting.wav"
 
     If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
         playSound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
@@ -2643,8 +2462,8 @@ Public Sub TurnFunctionsOn()
     menuForm.mnuSwitchOff.Checked = False
     menuForm.mnuTurnFunctionsOn.Checked = True
     
-    gblWidgetFunctions = "1"
-    sPutINISetting "Software\SteampunkClockCalendar", "widgetFunctions", gblWidgetFunctions, gblSettingsFile
+    gblGaugeFunctions = "1"
+    sPutINISetting "Software\UBoatStopWatch", "widgetFunctions", gblGaugeFunctions, gblSettingsFile
 
    On Error GoTo 0
    Exit Sub
@@ -2674,7 +2493,7 @@ Public Sub hardRestart()
     If fFExists(thisCommand) Then
         
         ' run the selected program
-        Call ShellExecute(widgetPrefs.hWnd, "open", thisCommand, "Steampunk Clock Calendar.exe prefs", "", 1)
+        Call ShellExecute(widgetPrefs.hWnd, "open", thisCommand, "UBoat-StopWatch-VB6.exe prefs", "", 1)
     Else
         'answer = MsgBox(thisCommand & " is missing", vbOKOnly + vbExclamation)
         answerMsg = thisCommand & " is missing"
@@ -2758,7 +2577,7 @@ Public Sub clearAllMessageBoxRegistryEntries()
     SaveSetting App.EXEName, "Options", "Show message" & "mnuSupportClickEvent", 0
     SaveSetting App.EXEName, "Options", "Show message" & "chkDpiAwarenessRestart", 0
     SaveSetting App.EXEName, "Options", "Show message" & "chkDpiAwarenessAbnormal", 0
-    SaveSetting App.EXEName, "Options", "Show message" & "optClockTooltipsClick", 0
+    SaveSetting App.EXEName, "Options", "Show message" & "chkEnableTooltipsClick", 0
     SaveSetting App.EXEName, "Options", "Show message" & "lblGitHubDblClick", 0
     SaveSetting App.EXEName, "Options", "Show message" & "sliOpacityClick", 0
     SaveSetting App.EXEName, "Options", "Show message" & " ", 0
@@ -2826,6 +2645,33 @@ End Sub
 '
 'End Function
 
+'---------------------------------------------------------------------------------------
+' Procedure : ArrayString
+' Author    : beededea
+' Date      : 09/10/2023
+' Purpose   : allows population of a string array from a comma separated string
+'             VB6 normally creates a variant when assigning a comma separated string to a var with an undeclared type
+'             this avoids that scenario.
+'---------------------------------------------------------------------------------------
+'
+Public Function ArrayString(ParamArray tokens()) As String()
+    On Error GoTo ArrayString_Error
+
+    ReDim Arr(UBound(tokens)) As String
+    Dim I As Long
+    For I = 0 To UBound(tokens)
+        Arr(I) = tokens(I)
+    Next
+    ArrayString = Arr
+
+    On Error GoTo 0
+    Exit Function
+
+ArrayString_Error:
+
+     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure ArrayString of Module Module1"
+End Function
+
 
 
 
@@ -2883,19 +2729,19 @@ Public Sub hideBusyTimer()
 
    On Error GoTo hideBusyTimer_Error
 
-    fClock.clockForm.Widgets("busy1").Widget.Alpha = 0
-    fClock.clockForm.Widgets("busy2").Widget.Alpha = 0
-    fClock.clockForm.Widgets("busy3").Widget.Alpha = 0
-    fClock.clockForm.Widgets("busy4").Widget.Alpha = 0
-    fClock.clockForm.Widgets("busy5").Widget.Alpha = 0
-    fClock.clockForm.Widgets("busy6").Widget.Alpha = 0
-    
-    fClock.clockForm.Widgets("busy1").Widget.Refresh
-    fClock.clockForm.Widgets("busy2").Widget.Refresh
-    fClock.clockForm.Widgets("busy3").Widget.Refresh
-    fClock.clockForm.Widgets("busy4").Widget.Refresh
-    fClock.clockForm.Widgets("busy5").Widget.Refresh
-    fClock.clockForm.Widgets("busy6").Widget.Refresh
+'    fGauge.gaugeForm.Widgets("busy1").Widget.Alpha = 0
+'    fGauge.gaugeForm.Widgets("busy2").Widget.Alpha = 0
+'    fGauge.gaugeForm.Widgets("busy3").Widget.Alpha = 0
+'    fGauge.gaugeForm.Widgets("busy4").Widget.Alpha = 0
+'    fGauge.gaugeForm.Widgets("busy5").Widget.Alpha = 0
+'    fGauge.gaugeForm.Widgets("busy6").Widget.Alpha = 0
+'
+'    fGauge.gaugeForm.Widgets("busy1").Widget.Refresh
+'    fGauge.gaugeForm.Widgets("busy2").Widget.Refresh
+'    fGauge.gaugeForm.Widgets("busy3").Widget.Refresh
+'    fGauge.gaugeForm.Widgets("busy4").Widget.Refresh
+'    fGauge.gaugeForm.Widgets("busy5").Widget.Refresh
+'    fGauge.gaugeForm.Widgets("busy6").Widget.Refresh
 
    On Error GoTo 0
    Exit Sub
@@ -2907,30 +2753,5 @@ hideBusyTimer_Error:
 End Sub
 
 
-'---------------------------------------------------------------------------------------
-' Procedure : hideDayOfWeek
-' Author    : beededea
-' Date      : 07/12/2024
-' Purpose   : note: another routine exists called hideAlarmTills that closes each individually, setting values too
-'---------------------------------------------------------------------------------------
-'
-Public Sub hideDayOfWeek()
-   On Error GoTo hideDayOfWeek_Error
-
-        fClock.clockForm.Widgets("monday").Widget.Alpha = 0
-        fClock.clockForm.Widgets("tuesday").Widget.Alpha = 0
-        fClock.clockForm.Widgets("wednesday").Widget.Alpha = 0
-        fClock.clockForm.Widgets("thursday").Widget.Alpha = 0
-        fClock.clockForm.Widgets("friday").Widget.Alpha = 0
-        fClock.clockForm.Widgets("saturday").Widget.Alpha = 0
-        fClock.clockForm.Widgets("sunday").Widget.Alpha = 0
-
-   On Error GoTo 0
-   Exit Sub
-
-hideDayOfWeek_Error:
-
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure hideDayOfWeek of Class Module cwOverlay"
-End Sub
 
 
