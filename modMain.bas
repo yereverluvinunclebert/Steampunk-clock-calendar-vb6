@@ -39,10 +39,10 @@ Private Const LWA_ALPHA  As Long = &H2          'to semi transparent
 ' class objects instantiated
 Public fMain As New cfMain
 Public aboutWidget As cwAbout
+Public helpWidget As cwHelp
 Public licenceWidget As cwLicence
-Public fClock As New cfClock
+Public fGauge As New cfGauge
 Public overlayWidget As cwOverlay
-Public pendulumWidget As cwPendulum
 
 ' any other private vars
 Public gblWidgetName As String
@@ -89,10 +89,10 @@ Public Sub mainRoutine(ByVal restart As Boolean)
     ' initialise global vars
     Call initialiseGlobalVars
     
-    gblTimeAreaClicked = "none"
+    ' = "none"
     gblStartupFlg = True
-    gblWidgetName = "Steampunk Clock Calendar"
-    thisPSDFullPath = App.path & "\Res\Steampunk Clock Calendar.psd"
+    gblWidgetName = "UBoat StopWatch"
+    thisPSDFullPath = App.path & "\Res\UBoat-StopWatch-VB6.psd"
     
     extractCommand = Command$ ' capture any parameter passed, remove if a soft reload
     If restart = True Then extractCommand = vbNullString
@@ -103,7 +103,7 @@ Public Sub mainRoutine(ByVal restart As Boolean)
         gblCodingEnvironment = "VB6"
     #End If
         
-    menuForm.mnuAbout.Caption = "About Steampunk Clock Calendar Cairo " & gblCodingEnvironment & " widget"
+    menuForm.mnuAbout.Caption = "About UBoat StopWatch Cairo " & gblCodingEnvironment & " widget"
        
     ' Load the sounds into numbered buffers ready for playing
     Call loadAsynchSoundFiles
@@ -123,17 +123,14 @@ Public Sub mainRoutine(ByVal restart As Boolean)
     ' get the location of this tool's settings file (appdata)
     Call getToolSettingsFile
     
-    ' read the clock settings from the new configuration file
-    Call readSettingsFile("Software\SteampunkClockCalendar", gblSettingsFile)
+    ' read the gauge settings from the new configuration file
+    Call readSettingsFile("Software\UBoatStopWatch", gblSettingsFile)
     
     ' validate the inputs of any data from the input settings file
     Call validateInputs
     
-    ' Set the opacity of the clock, passing just this one global variable to a public property within the class
-    fClock.Opacity = gblOpacity
-    
-    ' write to the virtual screen
-    Call writeVirtualScreen
+    ' Set the opacity of the gauge, passing just this one global variable to a public property within the class
+    fGauge.Opacity = gblOpacity
     
     ' check first usage via licence acceptance value and then set initial DPI awareness
     Call setAutomaticDPIState(licenceState)
@@ -142,9 +139,9 @@ Public Sub mainRoutine(ByVal restart As Boolean)
     If restart = False Then Call loadExcludePathCollection ' no need to reload the collPSDNonUIElements layer name keys on a reload
     
     ' start the load of the PSD file using the RC6 PSD-Parser.instance
-    Call fClock.InitFromPSD(thisPSDFullPath)  ' no optional close layer as 3rd param
+    Call fGauge.InitFromPSD(thisPSDFullPath)  ' no optional close layer as 3rd param
             
-    ' initialise and create the three main RC forms (clock, about and licence) on the current display
+    ' initialise and create the three main RC forms (gauge, about and licence) on the current display
     Call createRCFormsOnCurrentDisplay
     
     ' place the form at the saved location and configure all the form elements
@@ -177,14 +174,14 @@ Public Sub mainRoutine(ByVal restart As Boolean)
     ' configure any global timers here
     Call configureTimers
     
-    ' note the monitor primary at the preferences form_load and store as gblOldClockFormMonitorPrimary
+    ' note the monitor primary at the preferences form_load and store as gblOldgaugeFormMonitorPrimary
     Call identifyPrimaryMonitor
     
     ' make the busy sand timer invisible
     Call hideBusyTimer
     
-    ' start the main clock timer passing the desired status to a public property within the class
-    overlayWidget.TmrClockTicking = True
+    ' start the main gauge timer passing the desired status to a public property within the class
+    'overlayWidget.TmrGaugeTicking = True
     
     ' end the startup by un-setting the start global flag
     gblStartupFlg = False
@@ -264,16 +261,16 @@ End Sub
 ' Procedure : identifyPrimaryMonitor
 ' Author    : beededea
 ' Date      : 20/02/2025
-' Purpose   : note the monitor primary at the main form_load and store as gblOldClockFormMonitorPrimary - will be resampled regularly later and compared
+' Purpose   : note the monitor primary at the main form_load and store as gblOldgaugeFormMonitorPrimary - will be resampled regularly later and compared
 '---------------------------------------------------------------------------------------
 '
 Private Sub identifyPrimaryMonitor()
-    Dim clockFormMonitorID As Long: clockFormMonitorID = 0
+    Dim gaugeFormMonitorID As Long: gaugeFormMonitorID = 0
     
     On Error GoTo identifyPrimaryMonitor_Error
 
-    clockMonitorStruct = cWidgetFormScreenProperties(fClock.clockForm, clockFormMonitorID)
-    gblOldClockFormMonitorPrimary = clockMonitorStruct.IsPrimary
+    gaugeMonitorStruct = cWidgetFormScreenProperties(fGauge.gaugeForm, gaugeFormMonitorID)
+    gblOldgaugeFormMonitorPrimary = gaugeMonitorStruct.IsPrimary
 
     On Error GoTo 0
     Exit Sub
@@ -283,34 +280,7 @@ identifyPrimaryMonitor_Error:
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure identifyPrimaryMonitor of Module modMain"
 End Sub
  
-'---------------------------------------------------------------------------------------
-' Procedure : writeVirtualScreen
-' Author    : beededea
-' Date      : 06/01/2025
-' Purpose   : writes some startup stuff to the virtual screen
-'---------------------------------------------------------------------------------------
-'
- Private Sub writeVirtualScreen()
-    
-   On Error GoTo writeVirtualScreen_Error
 
-    Call screenWrite("Steampunk O/S ver 1.0 (clockwork 0.1 hz)")
-    Call screenWrite("A " & gblCodingEnvironment & " (WoW64) and RC6 creation")
-    Call screenWrite("Copyright 2024, BrickMoon Interplanetary Enterprises")
-   
-    If gbl24HourClockMode = "1" Then
-        Call screenWrite("Running startup " & "24hr mode")
-    Else
-        Call screenWrite("Running startup " & "12hr mode")
-    End If
-
-   On Error GoTo 0
-   Exit Sub
-
-writeVirtualScreen_Error:
-
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure writeVirtualScreen of Module modMain"
-End Sub
  
 
 
@@ -328,7 +298,7 @@ Private Sub checkFirstTime()
     If gblFirstTimeRun = "true" Then
         Call makeProgramPreferencesAvailable
         gblFirstTimeRun = "false"
-        sPutINISetting "Software\SteampunkClockCalendar", "firstTimeRun", gblFirstTimeRun, gblSettingsFile
+        sPutINISetting "Software\UBoatStopWatch", "firstTimeRun", gblFirstTimeRun, gblSettingsFile
     End If
 
    On Error GoTo 0
@@ -355,23 +325,31 @@ Private Sub initialiseGlobalVars()
 
     ' general
     gblStartup = vbNullString
-    gblWidgetFunctions = vbNullString
+    gblGaugeFunctions = vbNullString
+    gblGaugeFunctions = vbNullString
+
+    gblSmoothSecondHand = vbNullString
+    gblClockFaceSwitchPref = vbNullString
+    gblMainGaugeTimeZone = vbNullString
+    gblMainDaylightSaving = vbNullString
+    gblSecondaryGaugeTimeZone = vbNullString
+    gblSecondaryDaylightSaving = vbNullString
 
     ' config
-    gblClockTooltips = vbNullString
+    gblGaugeTooltips = vbNullString
     gblPrefsTooltips = vbNullString
     'gblEnablePrefsTooltips = vbNullString
     
     gblShowTaskbar = vbNullString
     gblShowHelp = vbNullString
-    gblTogglePendulum = vbNullString
-    gbl24HourClockMode = vbNullString
+'    gblTogglePendulum = vbNullString
+'    gbl24HourGaugeMode = vbNullString
     
     gblDpiAwareness = vbNullString
     
     gblGaugeSize = vbNullString
     gblScrollWheelDirection = vbNullString
-    gblNumericDisplayRotation = vbNullString
+'    gblNumericDisplayRotation = vbNullString
     
     ' position
     gblAspectHidden = vbNullString
@@ -387,10 +365,10 @@ Private Sub initialiseGlobalVars()
     
     ' sounds
     gblEnableSounds = vbNullString
-    gblEnableTicks = vbNullString
-    gblEnableChimes = vbNullString
-    gblEnableAlarms = vbNullString
-    gblVolumeBoost = vbNullString
+'    gblEnableTicks = vbNullString
+'    gblEnableChimes = vbNullString
+'    gblEnableAlarms = vbNullString
+'    gblVolumeBoost = vbNullString
     
     ' development
     gblDebug = vbNullString
@@ -401,6 +379,7 @@ Private Sub initialiseGlobalVars()
          
     ' font
     gblClockFont = vbNullString
+    gblGaugeFont = vbNullString
     gblPrefsFont = vbNullString
     gblPrefsFontSizeHighDPI = vbNullString
     gblPrefsFontSizeLowDPI = vbNullString
@@ -430,51 +409,14 @@ Private Sub initialiseGlobalVars()
     gblTrinketsDir = vbNullString
     gblTrinketsFile = vbNullString
     
-    gblClockHighDpiXPos = vbNullString
-    gblClockHighDpiYPos = vbNullString
+    gblGaugeHighDpiXPos = vbNullString
+    gblGaugeHighDpiYPos = vbNullString
     
-    gblClockLowDpiXPos = vbNullString
-    gblClockLowDpiYPos = vbNullString
+    gblGaugeLowDpiXPos = vbNullString
+    gblGaugeLowDpiYPos = vbNullString
     
     gblLastSelectedTab = vbNullString
     gblSkinTheme = vbNullString
-    
-    'gblSetToggleEnabled = vbNullString
-    gblMuteToggleEnabled = vbNullString
-    gblPendulumToggleEnabled = vbNullString
-    gblPendulumEnabled = vbNullString
-    gblWeekdayToggleEnabled = vbNullString
-    gblDisplayScreenToggleEnabled = vbNullString
-    gblTimeMachineToggleEnabled = vbNullString
-    gblBackToggleEnabled = vbNullString
-    gblAlarmClapperEnabled = vbNullString
-    gblChimeClapperEnabled = vbNullString
-
-    gblChainEnabled = vbNullString
-    gblCrankEnabled = vbNullString
-    gblAlarmToggle1Enabled = vbNullString
-    gblAlarmToggle2Enabled = vbNullString
-    gblAlarmToggle3Enabled = vbNullString
-    gblAlarmToggle4Enabled = vbNullString
-    gblAlarmToggle5Enabled = vbNullString
-    
-    gblAlarm1 = vbNullString
-    gblAlarm2 = vbNullString
-    gblAlarm3 = vbNullString
-    gblAlarm4 = vbNullString
-    gblAlarm5 = vbNullString
-    
-    gblAlarm1Date = vbNullString
-    gblAlarm2Date = vbNullString
-    gblAlarm3Date = vbNullString
-    gblAlarm4Date = vbNullString
-    gblAlarm5Date = vbNullString
-    
-    gblAlarm1Time = vbNullString
-    gblAlarm2Time = vbNullString
-    gblAlarm3Time = vbNullString
-    gblAlarm4Time = vbNullString
-    gblAlarm5Time = vbNullString
     
     ' general variables declared
     'toolSettingsFile = vbNullString
@@ -498,8 +440,8 @@ Private Sub initialiseGlobalVars()
     
     gblPrefsPrimaryHeightTwips = vbNullString
     gblPrefsSecondaryHeightTwips = vbNullString
-    gblClockPrimaryHeightRatio = vbNullString
-    gblClockSecondaryHeightRatio = vbNullString
+    gblGaugePrimaryHeightRatio = vbNullString
+    gblGaugeSecondaryHeightRatio = vbNullString
     
     gblMessageAHeightTwips = vbNullString
     gblMessageAWidthTwips = vbNullString
@@ -515,7 +457,7 @@ Private Sub initialiseGlobalVars()
     gblOldSettingsModificationTime = #1/1/2000 12:00:00 PM#
     gblCodingEnvironment = vbNullString
 
-    gblTimeAreaClicked = vbNullString
+    'gblTimeAreaClicked = vbNullString
     
    On Error GoTo 0
    Exit Sub
@@ -543,6 +485,7 @@ Private Sub addImagesToImageList()
     
     Cairo.ImageList.AddImage "about", App.path & "\Resources\images\about.png"
     Cairo.ImageList.AddImage "licence", App.path & "\Resources\images\frame.png"
+    Cairo.ImageList.AddImage "help", App.path & "\Resources\images\panzergauge-help.png"
     Cairo.ImageList.AddImage "frmIcon", App.path & "\Resources\images\Icon.png"
     
     ' prefs icons
@@ -582,57 +525,7 @@ Private Sub addImagesToImageList()
     Cairo.ImageList.AddImage "windows-icon-light-clicked", App.path & "\Resources\images\windows-icon-light-600-clicked.jpg"
     Cairo.ImageList.AddImage "about-icon-light-clicked", App.path & "\Resources\images\about-icon-light-600-clicked.jpg"
     
-    Cairo.ImageList.AddImage "num0large", App.path & "\Resources\images\num0large.png"
-    Cairo.ImageList.AddImage "num1large", App.path & "\Resources\images\num1large.png"
-    Cairo.ImageList.AddImage "num2large", App.path & "\Resources\images\num2large.png"
-    Cairo.ImageList.AddImage "num3large", App.path & "\Resources\images\num3large.png"
-    Cairo.ImageList.AddImage "num4large", App.path & "\Resources\images\num4large.png"
-    Cairo.ImageList.AddImage "num5large", App.path & "\Resources\images\num5large.png"
-    Cairo.ImageList.AddImage "num6large", App.path & "\Resources\images\num6large.png"
-    Cairo.ImageList.AddImage "num7large", App.path & "\Resources\images\num7large.png"
-    Cairo.ImageList.AddImage "num8large", App.path & "\Resources\images\num8large.png"
-    Cairo.ImageList.AddImage "num9large", App.path & "\Resources\images\num9large.png"
-    
-    Cairo.ImageList.AddImage "jan", App.path & "\Resources\images\jan.png"
-    Cairo.ImageList.AddImage "feb", App.path & "\Resources\images\feb.png"
-    Cairo.ImageList.AddImage "mar", App.path & "\Resources\images\mar.png"
-    Cairo.ImageList.AddImage "apr", App.path & "\Resources\images\apr.png"
-    Cairo.ImageList.AddImage "may", App.path & "\Resources\images\may.png"
-    Cairo.ImageList.AddImage "jun", App.path & "\Resources\images\jun.png"
-    Cairo.ImageList.AddImage "jul", App.path & "\Resources\images\jul.png"
-    Cairo.ImageList.AddImage "aug", App.path & "\Resources\images\aug.png"
-    Cairo.ImageList.AddImage "sep", App.path & "\Resources\images\sep.png"
-    Cairo.ImageList.AddImage "oct", App.path & "\Resources\images\oct.png"
-    Cairo.ImageList.AddImage "nov", App.path & "\Resources\images\nov.png"
-    Cairo.ImageList.AddImage "dec", App.path & "\Resources\images\dec.png"
-    
-    Cairo.ImageList.AddImage "small0", App.path & "\Resources\images\small0.png"
-    Cairo.ImageList.AddImage "small1", App.path & "\Resources\images\small1.png"
-    Cairo.ImageList.AddImage "small2", App.path & "\Resources\images\small2.png"
-    Cairo.ImageList.AddImage "small3", App.path & "\Resources\images\small3.png"
-    Cairo.ImageList.AddImage "small4", App.path & "\Resources\images\small4.png"
-    Cairo.ImageList.AddImage "small5", App.path & "\Resources\images\small5.png"
-    Cairo.ImageList.AddImage "small6", App.path & "\Resources\images\small6.png"
-    Cairo.ImageList.AddImage "small7", App.path & "\Resources\images\small7.png"
-    Cairo.ImageList.AddImage "small8", App.path & "\Resources\images\small8.png"
-    Cairo.ImageList.AddImage "small9", App.path & "\Resources\images\small9.png"
-    
-    Cairo.ImageList.AddImage "AM", App.path & "\Resources\images\AM.png"
-    Cairo.ImageList.AddImage "PM", App.path & "\Resources\images\PM.png"
-    
-    Cairo.ImageList.AddImage "hourCache1", App.path & "\Resources\images\small0.png"
-    Cairo.ImageList.AddImage "hourCache2", App.path & "\Resources\images\small0.png"
-    Cairo.ImageList.AddImage "minuteCache1", App.path & "\Resources\images\small0.png"
-    Cairo.ImageList.AddImage "minuteCache2", App.path & "\Resources\images\small0.png"
-    Cairo.ImageList.AddImage "dayCache1", App.path & "\Resources\images\num0large.png"
-    Cairo.ImageList.AddImage "dayCache2", App.path & "\Resources\images\num1large.png"
-    Cairo.ImageList.AddImage "monthCache", App.path & "\Resources\images\jan.png"
-    Cairo.ImageList.AddImage "yearCache1", App.path & "\Resources\images\num1large.png"
-    Cairo.ImageList.AddImage "yearCache2", App.path & "\Resources\images\num9large.png"
-    Cairo.ImageList.AddImage "yearCache3", App.path & "\Resources\images\num7large.png"
-    Cairo.ImageList.AddImage "yearCache4", App.path & "\Resources\images\num0large.png"
-    Cairo.ImageList.AddImage "AMPMCache", App.path & "\Resources\images\AM.png"
-    
+ 
    On Error GoTo 0
    Exit Sub
 
@@ -670,16 +563,16 @@ Public Sub adjustMainControls(Optional ByVal licenceState As Integer)
     
     ' set the initial size
     If gblMonitorCount > 1 And (LTrim$(gblMultiMonitorResize) = "1" Or LTrim$(gblMultiMonitorResize) = "2") Then
-        If clockMonitorStruct.IsPrimary = True Then
-            Call fClock.AdjustZoom(Val(gblClockPrimaryHeightRatio))
+        If gaugeMonitorStruct.IsPrimary = True Then
+            Call fGauge.AdjustZoom(Val(gblGaugePrimaryHeightRatio))
         Else
-            Call fClock.AdjustZoom(Val(gblClockSecondaryHeightRatio))
+            Call fGauge.AdjustZoom(Val(gblGaugeSecondaryHeightRatio))
         End If
     Else
-        fClock.AdjustZoom Val(gblGaugeSize) / 100
+        fGauge.AdjustZoom Val(gblGaugeSize) / 100
     End If
     
-    If gblWidgetFunctions = "1" Then
+    If gblGaugeFunctions = "1" Then
         menuForm.mnuSwitchOff.Checked = False
         menuForm.mnuTurnFunctionsOn.Checked = True
     Else
@@ -701,503 +594,136 @@ Public Sub adjustMainControls(Optional ByVal licenceState As Integer)
     End If
     
     If gblShowTaskbar = "0" Then
-        fClock.clockForm.ShowInTaskbar = False
+        fGauge.gaugeForm.ShowInTaskbar = False
     Else
-        fClock.clockForm.ShowInTaskbar = True
+        fGauge.gaugeForm.ShowInTaskbar = True
     End If
     
     ' set the visibility and characteristics of the interactive areas
     ' the alpha is already set to zero for all layers found in the PSD, we now turn them back on as we require
     
-    With fClock.clockForm.Widgets("helpbottom").Widget
-        .HoverColor = 0
+    gblStopWatchState = 0
+    If gblClockFaceSwitchPref = "0" Then
+        overlayWidget.FaceMode = "0"
+        fGauge.gaugeForm.Widgets("clockface").Widget.Alpha = 0
+        fGauge.gaugeForm.Widgets("stopwatchface").Widget.Alpha = Val(gblOpacity) / 100
+        fGauge.gaugeForm.Widgets("stopwatchface").Widget.Refresh
+    Else
+        overlayWidget.FaceMode = "1"
+        fGauge.gaugeForm.Widgets("stopwatchface").Widget.Alpha = 0
+        fGauge.gaugeForm.Widgets("clockface").Widget.Alpha = Val(gblOpacity) / 100
+        fGauge.gaugeForm.Widgets("clockface").Widget.Refresh
+        'gblStopWatchState = 0
+    End If
+        
+    If gblGaugeFunctions = "1" Then
+        overlayWidget.Ticking = True
+        menuForm.mnuSwitchOff.Checked = False
+        menuForm.mnuTurnFunctionsOn.Checked = True
+    Else
+        overlayWidget.Ticking = False
+        menuForm.mnuSwitchOff.Checked = True
+        menuForm.mnuTurnFunctionsOn.Checked = False
+    End If
+    
+    If gblDebug = "1" Then
+        #If TWINBASIC Then
+            If gblDefaultTBEditor <> vbNullString Then thisEditor = gblDefaultTBEditor
+        #Else
+            If gblDefaultVB6Editor <> vbNullString Then thisEditor = gblDefaultVB6Editor
+        #End If
+        
+        menuForm.mnuEditWidget.Caption = "Edit Widget using " & thisEditor
+        menuForm.mnuEditWidget.Visible = True
+    Else
+        menuForm.mnuEditWidget.Visible = False
+    End If
+    
+    If gblShowTaskbar = "0" Then
+        fGauge.gaugeForm.ShowInTaskbar = False
+    Else
+        fGauge.gaugeForm.ShowInTaskbar = True
+    End If
+    
+    ' set the characteristics of the interactive areas
+    ' Note: set the Hover colour close to the original layer to avoid too much intrusion, 0 being grey
+    With fGauge.gaugeForm.Widgets("housing/helpbutton").Widget
+        .HoverColor = 0 ' set the hover colour to grey - this may change later with new RC6
         .MousePointer = IDC_HAND
-        .Alpha = 0
-        .Tag = 0.01
+        .Alpha = Val(gblOpacity) / 100
+    End With
+     
+    With fGauge.gaugeForm.Widgets("housing/startbutton").Widget
+        .HoverColor = 0 ' set the hover colour to grey - this may change later with new RC6
+        .MousePointer = IDC_HAND
+        .Alpha = Val(gblOpacity) / 100
+        .Tag = 0.25
+    End With
+      
+    With fGauge.gaugeForm.Widgets("housing/stopbutton").Widget
+        .HoverColor = 0 ' set the hover colour to grey - this may change later with new RC6
+        .MousePointer = IDC_HAND
+        .Alpha = Val(gblOpacity) / 100
+        .Tag = 0.25
+    End With
+      
+    With fGauge.gaugeForm.Widgets("housing/switchfacesbutton").Widget
+        .HoverColor = 0 ' set the hover colour to grey - this may change later with new RC6
+        .MousePointer = IDC_HAND
+        .Alpha = Val(gblOpacity) / 100
+    End With
+          
+    With fGauge.gaugeForm.Widgets("housing/lockbutton").Widget
+        .HoverColor = 0 ' set the hover colour to grey - this may change later with new RC6
+        .MousePointer = IDC_HAND
+    End With
+          
+    With fGauge.gaugeForm.Widgets("housing/prefsbutton").Widget
+        .HoverColor = 0 ' set the hover colour to grey - this may change later with new RC6
+        .MousePointer = IDC_HAND
+        .Alpha = Val(gblOpacity) / 100
+    End With
+          
+    With fGauge.gaugeForm.Widgets("housing/tickbutton").Widget
+        .HoverColor = 0 ' set the hover colour to grey - this may change later with new RC6
+        .MousePointer = IDC_HAND
     End With
     
-    With fClock.clockForm.Widgets("dropdown").Widget
-        .HoverColor = 0
-        .MousePointer = IDC_HAND
-        .Alpha = Val(gblOpacity) / 100
-        .Tag = 0.01
-    End With
-
-    With fClock.clockForm.Widgets("bottombox").Widget
-        .HoverColor = 0
-        .MousePointer = IDC_ARROW
-        .Alpha = Val(gblOpacity) / 100
-        .Tag = 0.01
-    End With
-
-    With fClock.clockForm.Widgets("heatercoil").Widget
-        .HoverColor = 0
-        .MousePointer = IDC_ARROW
-        .Alpha = Val(gblOpacity) / 100
-        .Tag = 0.01
-    End With
-
-    With fClock.clockForm.Widgets("backtoggle").Widget
-        .HoverColor = 0
-        .MousePointer = IDC_HAND
-        .Alpha = Val(gblOpacity) / 100
-        .Tag = 0.01
-    End With
-
-    With fClock.clockForm.Widgets("alarmtoggle3").Widget
-        .HoverColor = 0
-        .MousePointer = IDC_HAND
-        .Alpha = Val(gblOpacity) / 100
-        .Tag = 0.01
-    End With
-
-    With fClock.clockForm.Widgets("alarmtoggle2").Widget
-        .HoverColor = 0
-        .MousePointer = IDC_HAND
-        .Alpha = Val(gblOpacity) / 100
-        .Tag = 0.01
-    End With
-
-    With fClock.clockForm.Widgets("alarmtoggle1").Widget
-        .HoverColor = 0
-        .MousePointer = IDC_HAND
-        .Alpha = Val(gblOpacity) / 100
-        .Tag = 0.01
-    End With
-
-    With fClock.clockForm.Widgets("alarmtoggle4").Widget
-        .HoverColor = 0
-        .MousePointer = IDC_HAND
-        .Alpha = Val(gblOpacity) / 100
-        .Tag = 0.01
-    End With
-    
-    With fClock.clockForm.Widgets("alarmtoggle5").Widget
-        .HoverColor = 0
-        .MousePointer = IDC_HAND
-        .Alpha = Val(gblOpacity) / 100
-        .Tag = 0.01
-    End With
-
-    With fClock.clockForm.Widgets("maincasingsurround").Widget
-        .HoverColor = 0
-        .MousePointer = IDC_ARROW
-        .Alpha = Val(gblOpacity) / 100
-        .Tag = 0.01
-    End With
-
-    With fClock.clockForm.Widgets("crankdown").Widget
-        .HoverColor = 0
-        .MousePointer = IDC_HAND
-        .Alpha = Val(gblOpacity) / 100
-        .Tag = 0.01
-    End With
-
-    With fClock.clockForm.Widgets("crankup").Widget
-        .HoverColor = 0
-        .MousePointer = IDC_HAND
-        .Alpha = 0
-        .Tag = 0.01
-    End With
-
-    With fClock.clockForm.Widgets("displayscreen").Widget
-        .HoverColor = 0
-        .MousePointer = IDC_HAND
-        .Alpha = Val(gblOpacity) / 100
-        .Tag = 0.01
-    End With
-
-    With fClock.clockForm.Widgets("alarm1till").Widget
-        .HoverColor = 0
-        .MousePointer = IDC_HAND
-        .Alpha = 0
-        .Tag = 0.01
-    End With
-    
-    With fClock.clockForm.Widgets("redalarmcover").Widget
-        .HoverColor = 0
-        .MousePointer = IDC_HAND
-        .Alpha = 0
-        .Tag = 0.01
-    End With
-
-    With fClock.clockForm.Widgets("displayscreentoggle").Widget
-        .HoverColor = 0
-        .MousePointer = IDC_HAND
-        .Alpha = Val(gblOpacity) / 100
-        .Tag = 0.01
-    End With
-
-    With fClock.clockForm.Widgets("timemachinetoggle").Widget
-        .HoverColor = 0
-        .MousePointer = IDC_HAND
-        .Alpha = Val(gblOpacity) / 100
-        .Tag = 0.01
-    End With
-    
-    With fClock.clockForm.Widgets("weekdaytoggle").Widget
-        .HoverColor = 0
-        .MousePointer = IDC_HAND
-        .Alpha = Val(gblOpacity) / 100
-        .Tag = 0.01
-    End With
-    
-    With fClock.clockForm.Widgets("alarmtoggle").Widget
-        .HoverColor = 0
-        .MousePointer = IDC_HAND
-        .Alpha = Val(gblOpacity) / 100
-        .Tag = 0.01
-    End With
-
-    With fClock.clockForm.Widgets("helptoggle").Widget
-        .HoverColor = 0
-        .MousePointer = IDC_HAND
-        .Alpha = Val(gblOpacity) / 100
-        .Tag = 0.01
-    End With
-    
-    With fClock.clockForm.Widgets("help1toggle").Widget
-        .HoverColor = 0
-        .MousePointer = IDC_HAND
-        .Alpha = 0
-        .Tag = 0.01
-    End With
-    
-    With fClock.clockForm.Widgets("help2toggle").Widget
-        .HoverColor = 0
-        .MousePointer = IDC_HAND
-        .Alpha = 0
-        .Tag = 0.01
-    End With
-    
-    With fClock.clockForm.Widgets("help3toggle").Widget
-        .HoverColor = 0
-        .MousePointer = IDC_HAND
-        .Alpha = 0
-        .Tag = 0.01
-    End With
-    
-    With fClock.clockForm.Widgets("settoggle").Widget
-        .HoverColor = 0
-        .MousePointer = IDC_HAND
-        .Alpha = Val(gblOpacity) / 100
-        .Tag = 0.01
-    End With
-    
-    With fClock.clockForm.Widgets("mutetoggle").Widget
-        .HoverColor = 0
-        .MousePointer = IDC_HAND
-        .Alpha = Val(gblOpacity) / 100
-        .Tag = 0.01
-    End With
-    
-    With fClock.clockForm.Widgets("pendulumtoggle").Widget
-        .HoverColor = 0
-        .MousePointer = IDC_HAND
-        .Alpha = Val(gblOpacity) / 100
-        .Tag = 0.01
-    End With
-
-    With fClock.clockForm.Widgets("monday").Widget
-        .HoverColor = 0
-        .MousePointer = IDC_HAND
-        .Alpha = 0
-        .Tag = 0.01
-    End With
-
-    With fClock.clockForm.Widgets("topdigitalclock").Widget
-        .HoverColor = 0
-        .MousePointer = IDC_ARROW
-        .Alpha = Val(gblOpacity) / 100
-        .Tag = 0.01
-    End With
-    
-    With fClock.clockForm.Widgets("cablewheel").Widget
-        .HoverColor = 0
-        .MousePointer = IDC_ARROW
-        .Alpha = Val(gblOpacity) / 100
-        .Tag = 0.01
-    End With
-
-    With fClock.clockForm.Widgets("alarmclapperleft").Widget
-        .HoverColor = 0
-        .MousePointer = IDC_HAND
-        .Alpha = Val(gblOpacity) / 100
-        .Tag = 0.01
-    End With
-
-    With fClock.clockForm.Widgets("alarmclapperright").Widget
-        .HoverColor = 0
-        .MousePointer = IDC_HAND
-        .Alpha = 0
-        .Tag = 0.01
-    End With
-
-    With fClock.clockForm.Widgets("chimeclapperleft").Widget
-        .HoverColor = 0
-        .MousePointer = IDC_HAND
-        .Alpha = Val(gblOpacity) / 100
-        .Tag = 0.01
-    End With
-
-    With fClock.clockForm.Widgets("chimeclapperright").Widget
-        .HoverColor = 0
-        .MousePointer = IDC_HAND
-        .Alpha = 0
-        .Tag = 0.01
-    End With
-    
-    With fClock.clockForm.Widgets("bar").Widget
-        .HoverColor = 0
-        .MousePointer = IDC_ARROW
-        .Alpha = Val(gblOpacity) / 100
-        .Tag = 0.01
-    End With
-
-    With fClock.clockForm.Widgets("glow").Widget
-        .HoverColor = 0
-        .MousePointer = IDC_ARROW
-        .Alpha = Val(gblOpacity) / 100
-        .Tag = 0.01
-    End With
-
-    With fClock.clockForm.Widgets("sliderset").Widget
-        .HoverColor = 0
+    With fGauge.gaugeForm.Widgets("housing/surround").Widget
+        .HoverColor = 0 ' set the hover colour to grey - this may change later with new RC6
         .MousePointer = IDC_SIZEALL
         .Alpha = Val(gblOpacity) / 100
-        .Tag = 0.01
-    End With
-
-    With fClock.clockForm.Widgets("chain").Widget
-        .HoverColor = 0
-        .MousePointer = IDC_HAND
-        .Alpha = Val(gblOpacity) / 100
-        .Tag = 0.01
-    End With
-
-    With fClock.clockForm.Widgets("clockset").Widget
-        .HoverColor = 0
-        .MousePointer = IDC_ARROW
-        .Alpha = Val(gblOpacity) / 100
-        .Tag = 0.01
-    End With
-
-    With fClock.clockForm.Widgets("bellset").Widget
-        .HoverColor = 0
-        .MousePointer = IDC_ARROW
-        .Alpha = Val(gblOpacity) / 100
-        .Tag = 0.01
-    End With
-
-    With fClock.clockForm.Widgets("labellayer").Widget
-        .HoverColor = 0
-        .MousePointer = IDC_ARROW
-        .Alpha = 0
-        .Tag = 0.01
-    End With
-
-    With fClock.clockForm.Widgets("lockingpin").Widget
-        .HoverColor = 0
-        .MousePointer = IDC_ARROW
-        .Alpha = Val(gblOpacity) / 100 '
-        .Tag = 0.01
-    End With
-
-    With fClock.clockForm.Widgets("grommet").Widget
-        .HoverColor = 0
-        .MousePointer = IDC_ARROW
-        .Alpha = Val(gblOpacity) / 100
-        .Tag = 0.01
-    End With
-
-    With fClock.clockForm.Widgets("weekdaytill").Widget
-        .HoverColor = 0
-        .MousePointer = IDC_ARROW
-        .Alpha = 0
-        .Tag = 0.01
-    End With
-
-    With fClock.clockForm.Widgets("helpdropdown").Widget
-        .HoverColor = 0
-        .MousePointer = IDC_ARROW
-        .Alpha = 0
-        .Tag = 0.01
-    End With
-
-    With fClock.clockForm.Widgets("pendulumtransparent").Widget
-        .HoverColor = 0
-        .MousePointer = IDC_ARROW
-        .Alpha = 0.01
-        .Tag = 0.01
     End With
     
-    With fClock.clockForm.Widgets("busy1").Widget
-        .HoverColor = 0
-        .MousePointer = IDC_ARROW
-        .Alpha = 0
-        .Tag = 0.01
-    End With
-    
-    With fClock.clockForm.Widgets("timedisplay").Widget
-        .HoverColor = 0
-        .MousePointer = IDC_HAND
-        .Alpha = Val(gblOpacity) / 100
-        .Tag = 0.01
-    End With
-    
-    With fClock.clockForm.Widgets("yeardisplay").Widget
-        .HoverColor = 0
-        .MousePointer = IDC_HAND
-        .Alpha = Val(gblOpacity) / 100
-        .Tag = 0.01
-    End With
-    
-    With fClock.clockForm.Widgets("datedisplay").Widget
-        .HoverColor = 0
-        .MousePointer = IDC_HAND
-        .Alpha = Val(gblOpacity) / 100
-        .Tag = 0.01
-    End With
-    
-    ' set the lock state of the clock
-    If gblPreventDragging = "0" Then
+    If gblSmoothSecondHand = "0" Then
+        overlayWidget.SmoothSecondHand = False
+        fGauge.gaugeForm.Widgets("housing/tickbutton").Widget.Alpha = Val(gblOpacity) / 100
+    Else
+        overlayWidget.SmoothSecondHand = True
+        fGauge.gaugeForm.Widgets("housing/tickbutton").Widget.Alpha = 0
+    End If
+        
+   ' set the lock state of the gauge
+   If gblPreventDragging = "0" Then
         menuForm.mnuLockWidget.Checked = False
         overlayWidget.Locked = False
-        fClock.clockForm.Widgets("lockingpin").Widget.Alpha = Val(gblOpacity) / 100
-        fClock.clockForm.Widgets("lockingpinlocked").Widget.Alpha = 0
+        fGauge.gaugeForm.Widgets("housing/lockbutton").Widget.Alpha = Val(gblOpacity) / 100
     Else
         menuForm.mnuLockWidget.Checked = True
         overlayWidget.Locked = True ' this is just here for continuity's sake, it is also set at the time the control is selected
-        fClock.clockForm.Widgets("lockingpin").Widget.Alpha = 0
-        fClock.clockForm.Widgets("lockingpinlocked").Widget.Alpha = Val(gblOpacity) / 100
-    End If
-
-    
-    ' ensure the background help displays on startup
-    If gblTogglePendulum = "0" Then
-        overlayWidget.SwingPendulum = False
-    Else
-        overlayWidget.SwingPendulum = True
-    End If
-
-    ' set the slider position to the start point
-    fClock.timeShiftValue = 0
-    
-    If gblMuteToggleEnabled = "True" Then
-        gblEnableSounds = "0"
-        fClock.muteToggleEnabled = True
-    Else
-        gblEnableSounds = "False"
-        fClock.muteToggleEnabled = False
+        fGauge.gaugeForm.Widgets("housing/lockbutton").Widget.Alpha = 0
     End If
     
-    If gblEnableTicks = "1" Then
-        fClock.chainEnabled = True
-        fClock.ticking = True
-    Else
-        fClock.chainEnabled = False
-        fClock.ticking = False
+    ' determine the time bias
+    If gblMainDaylightSaving <> "0" Then
+        tzDelta = fObtainDaylightSavings("Main")
+        widgetPrefs.txtMainBias = tzDelta
     End If
     
-    If gblAlarmClapperEnabled = "True" Then
-        fClock.alarmclapperEnabled = True
-    Else
-        fClock.alarmclapperEnabled = False
-    End If
-        
-    If gblChimeClapperEnabled = "True" Then
-        fClock.chimeclapperEnabled = True
-    Else
-        fClock.chimeclapperEnabled = False
-    End If
-    
-    If gblCrankEnabled = "True" Then
-        fClock.crankRaised = True
-    Else
-        fClock.crankRaised = False
-    End If
-      
-    If gblPendulumToggleEnabled = "True" Then
-        fClock.pendulumToggleEnabled = True
-    End If
-    
-    If gblWeekdayToggleEnabled = "True" Then
-        fClock.weekdayToggleEnabled = True
-    End If
-    
-    If gblDisplayScreenToggleEnabled = "True" Then
-        fClock.displayScreenToggleEnabled = True
-    End If
-    
-    If gblTimeMachineToggleEnabled = "True" Then
-        fClock.timeMachineToggleEnabled = True
-    End If
-    
-    If gblBackToggleEnabled = "True" Then
-        fClock.backToggleEnabled = True
-    End If
-     
-    fClock.alarmclapperEnabled = CBool(gblAlarmClapperEnabled)
-    fClock.chimeclapperEnabled = CBool(gblChimeClapperEnabled)
-
-    fClock.alarmtoggleEnabled = False
-    
-    If gblAlarmToggle1Enabled = "True" Then
-        fClock.alarmtoggle1Enabled = True
-    End If
-    
-    If gblAlarmToggle2Enabled = "True" Then
-        fClock.alarmtoggle2Enabled = True
-    End If
-    
-    If gblAlarmToggle3Enabled = "True" Then
-        fClock.alarmtoggle3Enabled = True
-    End If
-    
-    If gblAlarmToggle4Enabled = "True" Then
-        fClock.alarmtoggle4Enabled = True
-    End If
-    
-    If gblAlarmToggle5Enabled = "True" Then
-        fClock.alarmtoggle5Enabled = True
-    End If
-    
-    ' replace the widget's default image to another image also in the PSD file and now in the individual widget collection
-    If gblAlarm1Date <> "Alarm not yet set" Then
-        fClock.clockForm.Widgets("alarmtoggle1").Widget.ImageKey = "alarmtoggle1armed"
-    Else
-        fClock.clockForm.Widgets("alarmtoggle1").Widget.ImageKey = "alarmtoggle1"
-    End If
-
-    If gblAlarm2Date <> "Alarm not yet set" Then
-        fClock.clockForm.Widgets("alarmtoggle2").Widget.ImageKey = "alarmtoggle2armed"
-    Else
-        fClock.clockForm.Widgets("alarmtoggle2").Widget.ImageKey = "alarmtoggle2"
-    End If
-    
-    If gblAlarm3Date <> "Alarm not yet set" Then
-        fClock.clockForm.Widgets("alarmtoggle3").Widget.ImageKey = "alarmtoggle3armed"
-    Else
-        fClock.clockForm.Widgets("alarmtoggle3").Widget.ImageKey = "alarmtoggle3"
-    End If
-    
-    If gblAlarm4Date <> "Alarm not yet set" Then
-        fClock.clockForm.Widgets("alarmtoggle4").Widget.ImageKey = "alarmtoggle4armed"
-    Else
-        fClock.clockForm.Widgets("alarmtoggle4").Widget.ImageKey = "alarmtoggle4"
-    End If
-
-    If gblAlarm5Date <> "Alarm not yet set" Then
-        fClock.clockForm.Widgets("alarmtoggle5").Widget.ImageKey = "alarmtoggle5armed"
-    Else
-        fClock.clockForm.Widgets("alarmtoggle5").Widget.ImageKey = "alarmtoggle5"
-    End If
-    
-    ' ensure the background help displays on startup
-    If gblShowHelp = "1" Then
-        fClock.ShowHelp = True
-'    Else
-'        fClock.ShowHelp = True
+    ' determine the time bias, secondary gauge
+    If gblSecondaryDaylightSaving <> "0" Then
+        tzDelta1 = fObtainDaylightSavings("Secondary")
+        widgetPrefs.txtSecondaryBias = tzDelta1
     End If
 
     overlayWidget.MyOpacity = Val(gblOpacity) / 100
@@ -1214,7 +740,7 @@ Public Sub adjustMainControls(Optional ByVal licenceState As Integer)
     If gblMinutesToHide > 0 Then menuForm.mnuHideWidget.Caption = "Hide Widget for " & gblMinutesToHide & " min."
     
     ' refresh the form in order to show the above changes immediately
-    fClock.clockForm.Refresh
+    fGauge.gaugeForm.Refresh
 
    On Error GoTo 0
    Exit Sub
@@ -1238,11 +764,11 @@ Public Sub setAlphaFormZordering()
    On Error GoTo setAlphaFormZordering_Error
 
     If Val(gblWindowLevel) = 0 Then
-        Call SetWindowPos(fClock.clockForm.hWnd, HWND_BOTTOM, 0&, 0&, 0&, 0&, OnTopFlags)
+        Call SetWindowPos(fGauge.gaugeForm.hWnd, HWND_BOTTOM, 0&, 0&, 0&, 0&, OnTopFlags)
     ElseIf Val(gblWindowLevel) = 1 Then
-        Call SetWindowPos(fClock.clockForm.hWnd, HWND_TOP, 0&, 0&, 0&, 0&, OnTopFlags)
+        Call SetWindowPos(fGauge.gaugeForm.hWnd, HWND_TOP, 0&, 0&, 0&, 0&, OnTopFlags)
     ElseIf Val(gblWindowLevel) = 2 Then
-        Call SetWindowPos(fClock.clockForm.hWnd, HWND_TOPMOST, 0&, 0&, 0&, 0&, OnTopFlags)
+        Call SetWindowPos(fGauge.gaugeForm.hWnd, HWND_TOPMOST, 0&, 0&, 0&, 0&, OnTopFlags)
     End If
 
    On Error GoTo 0
@@ -1267,20 +793,28 @@ Public Sub readSettingsFile(ByVal Location As String, ByVal gblSettingsFile As S
         
         ' general
         gblStartup = fGetINISetting(Location, "startup", gblSettingsFile)
-        gblWidgetFunctions = fGetINISetting(Location, "widgetFunctions", gblSettingsFile)
+        gblGaugeFunctions = fGetINISetting(Location, "widgetFunctions", gblSettingsFile)
+        gblSmoothSecondHand = fGetINISetting(Location, "smoothSecondHand", gblSettingsFile)
         
+ 
+        gblClockFaceSwitchPref = fGetINISetting(Location, "clockFaceSwitchPref", gblSettingsFile)
+        gblMainGaugeTimeZone = fGetINISetting(Location, "mainGaugeTimeZone", gblSettingsFile)
+        gblMainDaylightSaving = fGetINISetting(Location, "mainDaylightSaving", gblSettingsFile)
+        gblSecondaryGaugeTimeZone = fGetINISetting(Location, "secondaryGaugeTimeZone", gblSettingsFile)
+        gblSecondaryDaylightSaving = fGetINISetting(Location, "secondaryDaylightSaving", gblSettingsFile)
+       
         ' configuration
-        gblClockTooltips = fGetINISetting(Location, "clockTooltips", gblSettingsFile)
+        gblGaugeTooltips = fGetINISetting(Location, "gaugeTooltips", gblSettingsFile)
         gblPrefsTooltips = fGetINISetting(Location, "prefsTooltips", gblSettingsFile)
         
         gblShowTaskbar = fGetINISetting(Location, "showTaskbar", gblSettingsFile)
         gblShowHelp = fGetINISetting(Location, "showHelp", gblSettingsFile)
-        gblTogglePendulum = fGetINISetting(Location, "togglePendulum", gblSettingsFile)
-        gbl24HourClockMode = fGetINISetting(Location, "24HourClockMode", gblSettingsFile)
+'        gblTogglePendulum = fGetINISetting(Location, "togglePendulum", gblSettingsFile)
+'        gbl24HourGaugeMode = fGetINISetting(Location, "24HourGaugeMode", gblSettingsFile)
         gblDpiAwareness = fGetINISetting(Location, "dpiAwareness", gblSettingsFile)
         gblGaugeSize = fGetINISetting(Location, "gaugeSize", gblSettingsFile)
         gblScrollWheelDirection = fGetINISetting(Location, "scrollWheelDirection", gblSettingsFile)
-        gblNumericDisplayRotation = fGetINISetting(Location, "numericDisplayRotation", gblSettingsFile)
+'        gblNumericDisplayRotation = fGetINISetting(Location, "numericDisplayRotation", gblSettingsFile)
         
         ' position
         gblAspectHidden = fGetINISetting(Location, "aspectHidden", gblSettingsFile)
@@ -1296,6 +830,7 @@ Public Sub readSettingsFile(ByVal Location As String, ByVal gblSettingsFile As S
 
         ' font
         gblClockFont = fGetINISetting(Location, "clockFont", gblSettingsFile)
+        gblGaugeFont = fGetINISetting(Location, "gaugeFont", gblSettingsFile)
         gblPrefsFont = fGetINISetting(Location, "prefsFont", gblSettingsFile)
         gblPrefsFontSizeHighDPI = fGetINISetting(Location, "prefsFontSizeHighDPI", gblSettingsFile)
         gblPrefsFontSizeLowDPI = fGetINISetting(Location, "prefsFontSizeLowDPI", gblSettingsFile)
@@ -1308,11 +843,11 @@ Public Sub readSettingsFile(ByVal Location As String, ByVal gblSettingsFile As S
         gblDisplayScreenFontColour = fGetINISetting(Location, "displayScreenFontColour", gblSettingsFile)
        
         ' sound
-        gblEnableSounds = fGetINISetting(Location, "enableSounds", gblSettingsFile)
-        gblEnableTicks = fGetINISetting(Location, "enableTicks", gblSettingsFile)
-        gblEnableChimes = fGetINISetting(Location, "enableChimes", gblSettingsFile)
-        gblEnableAlarms = fGetINISetting(Location, "enableAlarms", gblSettingsFile)
-        gblVolumeBoost = fGetINISetting(Location, "volumeBoost", gblSettingsFile)
+'        gblEnableSounds = fGetINISetting(Location, "enableSounds", gblSettingsFile)
+'        gblEnableTicks = fGetINISetting(Location, "enableTicks", gblSettingsFile)
+'        gblEnableChimes = fGetINISetting(Location, "enableChimes", gblSettingsFile)
+'        gblEnableAlarms = fGetINISetting(Location, "enableAlarms", gblSettingsFile)
+'        gblVolumeBoost = fGetINISetting(Location, "volumeBoost", gblSettingsFile)
         
         ' development
         gblDebug = fGetINISetting(Location, "debug", gblSettingsFile)
@@ -1322,10 +857,10 @@ Public Sub readSettingsFile(ByVal Location As String, ByVal gblSettingsFile As S
         gblDefaultTBEditor = fGetINISetting(Location, "defaultTBEditor", gblSettingsFile)
         
         ' other
-        gblClockHighDpiXPos = fGetINISetting("Software\SteampunkClockCalendar", "clockHighDpiXPos", gblSettingsFile)
-        gblClockHighDpiYPos = fGetINISetting("Software\SteampunkClockCalendar", "clockHighDpiYPos", gblSettingsFile)
-        gblClockLowDpiXPos = fGetINISetting("Software\SteampunkClockCalendar", "clockLowDpiXPos", gblSettingsFile)
-        gblClockLowDpiYPos = fGetINISetting("Software\SteampunkClockCalendar", "clockLowDpiYPos", gblSettingsFile)
+        gblGaugeHighDpiXPos = fGetINISetting("Software\UBoatStopWatch", "gaugeHighDpiXPos", gblSettingsFile)
+        gblGaugeHighDpiYPos = fGetINISetting("Software\UBoatStopWatch", "gaugeHighDpiYPos", gblSettingsFile)
+        gblGaugeLowDpiXPos = fGetINISetting("Software\UBoatStopWatch", "gaugeLowDpiXPos", gblSettingsFile)
+        gblGaugeLowDpiYPos = fGetINISetting("Software\UBoatStopWatch", "gaugeLowDpiYPos", gblSettingsFile)
         gblLastSelectedTab = fGetINISetting(Location, "lastSelectedTab", gblSettingsFile)
         gblSkinTheme = fGetINISetting(Location, "skinTheme", gblSettingsFile)
         
@@ -1341,48 +876,15 @@ Public Sub readSettingsFile(ByVal Location As String, ByVal gblSettingsFile As S
         gblIgnoreMouse = fGetINISetting(Location, "ignoreMouse", gblSettingsFile)
         gblMultiMonitorResize = fGetINISetting(Location, "multiMonitorResize", gblSettingsFile)
         gblFirstTimeRun = fGetINISetting(Location, "firstTimeRun", gblSettingsFile)
-        gblMuteToggleEnabled = fGetINISetting(Location, "muteToggleEnabled", gblSettingsFile)
-        gblPendulumToggleEnabled = fGetINISetting(Location, "pendulumToggleEnabled", gblSettingsFile)
-        gblPendulumEnabled = fGetINISetting(Location, "pendulumEnabled", gblSettingsFile)
-        gblWeekdayToggleEnabled = fGetINISetting(Location, "weekdayToggleEnabled", gblSettingsFile)
-        gblDisplayScreenToggleEnabled = fGetINISetting(Location, "displayScreenToggleEnabled", gblSettingsFile)
-        gblTimeMachineToggleEnabled = fGetINISetting(Location, "timeMachineToggleEnabled", gblSettingsFile)
-        gblBackToggleEnabled = fGetINISetting(Location, "backToggleEnabled", gblSettingsFile)
-        gblAlarmClapperEnabled = fGetINISetting(Location, "alarmclapperEnabled", gblSettingsFile)
-        gblChimeClapperEnabled = fGetINISetting(Location, "chimeclapperEnabled", gblSettingsFile)
-        gblChainEnabled = fGetINISetting(Location, "chainEnabled", gblSettingsFile)
-        gblCrankEnabled = fGetINISetting(Location, "crankEnabled", gblSettingsFile)
-       
-        gblAlarmToggle1Enabled = fGetINISetting(Location, "alarmToggle1Enabled", gblSettingsFile)
-        gblAlarmToggle2Enabled = fGetINISetting(Location, "alarmToggle2Enabled", gblSettingsFile)
-        gblAlarmToggle3Enabled = fGetINISetting(Location, "alarmToggle3Enabled", gblSettingsFile)
-        gblAlarmToggle4Enabled = fGetINISetting(Location, "alarmToggle4Enabled", gblSettingsFile)
-        gblAlarmToggle5Enabled = fGetINISetting(Location, "alarmToggle5Enabled", gblSettingsFile)
-        gblAlarm1Date = fGetINISetting(Location, "alarm1Date", gblSettingsFile)
-        gblAlarm2Date = fGetINISetting(Location, "alarm2Date", gblSettingsFile)
-        gblAlarm3Date = fGetINISetting(Location, "alarm3Date", gblSettingsFile)
-        gblAlarm4Date = fGetINISetting(Location, "alarm4Date", gblSettingsFile)
-        gblAlarm5Date = fGetINISetting(Location, "alarm5Date", gblSettingsFile)
-        
-        gblAlarm1Time = fGetINISetting(Location, "alarm1Time", gblSettingsFile)
-        gblAlarm2Time = fGetINISetting(Location, "alarm2Time", gblSettingsFile)
-        gblAlarm3Time = fGetINISetting(Location, "alarm3Time", gblSettingsFile)
-        gblAlarm4Time = fGetINISetting(Location, "alarm4Time", gblSettingsFile)
-        gblAlarm5Time = fGetINISetting(Location, "alarm5Time", gblSettingsFile)
+
                            
-        gblClockSecondaryHeightRatio = fGetINISetting(Location, "clockSecondaryHeightRatio", gblSettingsFile)
-        gblClockPrimaryHeightRatio = fGetINISetting(Location, "clockPrimaryHeightRatio", gblSettingsFile)
+        gblGaugeSecondaryHeightRatio = fGetINISetting(Location, "gaugeSecondaryHeightRatio", gblSettingsFile)
+        gblGaugePrimaryHeightRatio = fGetINISetting(Location, "gaugePrimaryHeightRatio", gblSettingsFile)
         
         gblMessageAHeightTwips = fGetINISetting(Location, "messageAHeightTwips", gblSettingsFile)
         gblMessageAWidthTwips = fGetINISetting(Location, "messageAWidthTwips ", gblSettingsFile)
         
     End If
-        
-    gblAlarm1 = gblAlarm1Date & " " & gblAlarm1Time
-    gblAlarm2 = gblAlarm2Date & " " & gblAlarm2Time
-    gblAlarm3 = gblAlarm3Date & " " & gblAlarm3Time
-    gblAlarm4 = gblAlarm4Date & " " & gblAlarm4Time
-    gblAlarm5 = gblAlarm5Date & " " & gblAlarm5Time
 
    On Error GoTo 0
    Exit Sub
@@ -1407,13 +909,21 @@ Public Sub validateInputs()
    On Error GoTo validateInputs_Error
             
         ' general
-        If gblWidgetFunctions = vbNullString Then gblWidgetFunctions = "1" ' always turn
+        If gblGaugeFunctions = vbNullString Then gblGaugeFunctions = "1" ' always turn
 '        If gblAnimationInterval = vbNullString Then gblAnimationInterval = "130"
         If gblStartup = vbNullString Then gblStartup = "1"
         
+        If gblSmoothSecondHand = vbNullString Then gblSmoothSecondHand = "0"
+        If gblClockFaceSwitchPref = vbNullString Then gblClockFaceSwitchPref = "0"
+        If gblMainGaugeTimeZone = vbNullString Then gblMainGaugeTimeZone = "0"
+        If gblMainDaylightSaving = vbNullString Then gblMainDaylightSaving = "0"
+
+        If gblSecondaryGaugeTimeZone = vbNullString Then gblSecondaryGaugeTimeZone = "0"
+        If gblSecondaryDaylightSaving = vbNullString Then gblSecondaryDaylightSaving = "0"
+
         ' Configuration
-        If gblClockTooltips = "False" Then gblClockTooltips = "0"
-        If gblClockTooltips = vbNullString Then gblClockTooltips = "0"
+        If gblGaugeTooltips = "False" Then gblGaugeTooltips = "0"
+        If gblGaugeTooltips = vbNullString Then gblGaugeTooltips = "0"
         
         'If gblEnablePrefsTooltips = vbNullString Then gblEnablePrefsTooltips = "false"
         If gblPrefsTooltips = "False" Then gblPrefsTooltips = "0"
@@ -1421,22 +931,23 @@ Public Sub validateInputs()
         
         If gblShowTaskbar = vbNullString Then gblShowTaskbar = "0"
         If gblShowHelp = vbNullString Then gblShowHelp = "1"
-        If gblTogglePendulum = vbNullString Then gblTogglePendulum = "0"
-        If gbl24HourClockMode = vbNullString Then gbl24HourClockMode = "1"
-        
+'        If gblTogglePendulum = vbNullString Then gblTogglePendulum = "0"
+'        If gbl24HourGaugeMode = vbNullString Then gbl24HourGaugeMode = "1"
+'
         If gblDpiAwareness = vbNullString Then gblDpiAwareness = "0"
         If gblGaugeSize = vbNullString Then gblGaugeSize = "100"
         If gblScrollWheelDirection = vbNullString Then gblScrollWheelDirection = "1"
-        If gblNumericDisplayRotation = vbNullString Then gblNumericDisplayRotation = "1"
+'        If gblNumericDisplayRotation = vbNullString Then gblNumericDisplayRotation = "1"
                
         ' fonts
         If gblPrefsFont = vbNullString Then gblPrefsFont = "times new roman"
+        If gblClockFont = vbNullString Then gblClockFont = gblPrefsFont
         If gblPrefsFontSizeHighDPI = vbNullString Then gblPrefsFontSizeHighDPI = "8"
         If gblPrefsFontSizeLowDPI = vbNullString Then gblPrefsFontSizeLowDPI = "8"
         If gblPrefsFontItalics = vbNullString Then gblPrefsFontItalics = "false"
         If gblPrefsFontColour = vbNullString Then gblPrefsFontColour = "0"
 
-        If gblClockFont = vbNullString Then gblClockFont = gblPrefsFont
+        If gblGaugeFont = vbNullString Then gblGaugeFont = gblPrefsFont
 
         If gblDisplayScreenFont = vbNullString Then gblDisplayScreenFont = "courier new"
         If gblDisplayScreenFont = "Courier  New" Then gblDisplayScreenFont = "courier new"
@@ -1447,10 +958,10 @@ Public Sub validateInputs()
         ' sounds
         
         If gblEnableSounds = vbNullString Then gblEnableSounds = "1"
-        If gblEnableTicks = vbNullString Then gblEnableTicks = "0"
-        If gblEnableChimes = vbNullString Then gblEnableChimes = "0"
-        If gblEnableAlarms = vbNullString Then gblEnableAlarms = "0"
-        If gblVolumeBoost = vbNullString Then gblVolumeBoost = "0"
+'        If gblEnableTicks = vbNullString Then gblEnableTicks = "0"
+'        If gblEnableChimes = vbNullString Then gblEnableChimes = "0"
+'        If gblEnableAlarms = vbNullString Then gblEnableAlarms = "0"
+'        If gblVolumeBoost = vbNullString Then gblVolumeBoost = "0"
         
         
         ' position
@@ -1488,35 +999,35 @@ Public Sub validateInputs()
         If gblSkinTheme = vbNullString Then gblSkinTheme = "dark"
         
         
-        ' clock UI element state
+        ' gauge UI element state
         'If gblSetToggleEnabled = vbNullString Then gblSetToggleEnabled = "False"
-        If gblMuteToggleEnabled = vbNullString Then gblMuteToggleEnabled = "False"
-        If gblPendulumToggleEnabled = vbNullString Then gblPendulumToggleEnabled = "False"
-        If gblPendulumEnabled = vbNullString Then gblPendulumEnabled = "False"
+'        If gblMuteToggleEnabled = vbNullString Then gblMuteToggleEnabled = "False"
+'        If gblPendulumToggleEnabled = vbNullString Then gblPendulumToggleEnabled = "False"
+'        If gblPendulumEnabled = vbNullString Then gblPendulumEnabled = "False"
         
         
-        If gblWeekdayToggleEnabled = vbNullString Then gblWeekdayToggleEnabled = "True"
-        If gblDisplayScreenToggleEnabled = vbNullString Then gblDisplayScreenToggleEnabled = "True"
-        If gblTimeMachineToggleEnabled = vbNullString Then gblTimeMachineToggleEnabled = "False"
-        If gblBackToggleEnabled = vbNullString Then gblBackToggleEnabled = "True"
-        If gblAlarmClapperEnabled = vbNullString Then gblAlarmClapperEnabled = "True"
-        If gblChimeClapperEnabled = vbNullString Then gblChimeClapperEnabled = "True"
-        If gblChainEnabled = vbNullString Then gblChainEnabled = "True"
-        If gblCrankEnabled = vbNullString Then gblCrankEnabled = "False"
-        If gblAlarmToggle1Enabled = vbNullString Then gblAlarmToggle1Enabled = "False"
-        If gblAlarmToggle2Enabled = vbNullString Then gblAlarmToggle2Enabled = "False"
-        If gblAlarmToggle3Enabled = vbNullString Then gblAlarmToggle3Enabled = "False"
-        If gblAlarmToggle4Enabled = vbNullString Then gblAlarmToggle4Enabled = "False"
-        If gblAlarmToggle5Enabled = vbNullString Then gblAlarmToggle5Enabled = "False"
+'        If gblWeekdayToggleEnabled = vbNullString Then gblWeekdayToggleEnabled = "True"
+'        If gblDisplayScreenToggleEnabled = vbNullString Then gblDisplayScreenToggleEnabled = "True"
+'        If gblTimeMachineToggleEnabled = vbNullString Then gblTimeMachineToggleEnabled = "False"
+'        If gblBackToggleEnabled = vbNullString Then gblBackToggleEnabled = "True"
+'        If gblAlarmClapperEnabled = vbNullString Then gblAlarmClapperEnabled = "True"
+'        If gblChimeClapperEnabled = vbNullString Then gblChimeClapperEnabled = "True"
+'        If gblChainEnabled = vbNullString Then gblChainEnabled = "True"
+'        If gblCrankEnabled = vbNullString Then gblCrankEnabled = "False"
+'        If gblAlarmToggle1Enabled = vbNullString Then gblAlarmToggle1Enabled = "False"
+'        If gblAlarmToggle2Enabled = vbNullString Then gblAlarmToggle2Enabled = "False"
+'        If gblAlarmToggle3Enabled = vbNullString Then gblAlarmToggle3Enabled = "False"
+'        If gblAlarmToggle4Enabled = vbNullString Then gblAlarmToggle4Enabled = "False"
+'        If gblAlarmToggle5Enabled = vbNullString Then gblAlarmToggle5Enabled = "False"
+'
+'        If gblAlarm1Date = vbNullString Then gblAlarm1Date = "Alarm not yet set"
+'        If gblAlarm2Date = vbNullString Then gblAlarm2Date = "Alarm not yet set"
+'        If gblAlarm3Date = vbNullString Then gblAlarm3Date = "Alarm not yet set"
+'        If gblAlarm4Date = vbNullString Then gblAlarm4Date = "Alarm not yet set"
+'        If gblAlarm5Date = vbNullString Then gblAlarm5Date = "Alarm not yet set"
         
-        If gblAlarm1Date = vbNullString Then gblAlarm1Date = "Alarm not yet set"
-        If gblAlarm2Date = vbNullString Then gblAlarm2Date = "Alarm not yet set"
-        If gblAlarm3Date = vbNullString Then gblAlarm3Date = "Alarm not yet set"
-        If gblAlarm4Date = vbNullString Then gblAlarm4Date = "Alarm not yet set"
-        If gblAlarm5Date = vbNullString Then gblAlarm5Date = "Alarm not yet set"
-        
-        If gblClockPrimaryHeightRatio = "" Then gblClockPrimaryHeightRatio = "1"
-        If gblClockSecondaryHeightRatio = "" Then gblClockSecondaryHeightRatio = "1"
+        If gblGaugePrimaryHeightRatio = "" Then gblGaugePrimaryHeightRatio = "1"
+        If gblGaugeSecondaryHeightRatio = "" Then gblGaugeSecondaryHeightRatio = "1"
         
         
    On Error GoTo 0
@@ -1579,7 +1090,7 @@ Private Sub getToolSettingsFile()
     
     Dim iFileNo As Integer: iFileNo = 0
     
-    gblSettingsDir = fSpecialFolder(feUserAppData) & "\SteampunkClockCalendar" ' just for this user alone
+    gblSettingsDir = fSpecialFolder(feUserAppData) & "\UBoatStopWatch" ' just for this user alone
     gblSettingsFile = gblSettingsDir & "\settings.ini"
         
     'if the folder does not exist then create the folder
@@ -1684,6 +1195,10 @@ Private Sub createRCFormsOnCurrentDisplay()
     With New_c.Displays(1) 'get the current Display
       Call fMain.initAndCreateAboutForm(.WorkLeft, .WorkTop, 1000, 1000, gblWidgetName)
     End With
+    
+    With New_c.Displays(1) 'get the current Display
+      Call fMain.initAndCreateHelpForm(.WorkLeft, .WorkTop, 1000, 1000, gblWidgetName)
+    End With
 
     With New_c.Displays(1) 'get the current Display
       Call fMain.initAndCreateLicenceForm(.WorkLeft, .WorkTop, 1000, 1000, gblWidgetName)
@@ -1717,7 +1232,7 @@ Private Sub handleUnhideMode(ByVal thisUnhideMode As String)
 
     If thisUnhideMode = "unhide" Then     'parse the command line
         gblUnhide = "true"
-        sPutINISetting "Software\SteampunkClockCalendar", "unhide", gblUnhide, gblSettingsFile
+        sPutINISetting "Software\UBoatStopWatch", "unhide", gblUnhide, gblSettingsFile
         Call thisForm_Unload
         End
     End If
@@ -1748,18 +1263,26 @@ Private Sub loadExcludePathCollection()
     'all of these will be rendered in cwOverlay in the same order as below
     On Error GoTo loadExcludePathCollection_Error
 
-    With fClock.collPSDNonUIElements ' the exclude list
+    With fGauge.collPSDNonUIElements ' the exclude list
 
-        .Add Empty, "secondhand"
-        .Add Empty, "hourhand"
-        .Add Empty, "minutehand"
-        .Add Empty, "hole"
-        .Add Empty, "cable"
-        .Add Empty, "pendulum"
-    End With
-    
-    With fClock.collPendulumElements ' the pendulum list
-        .Add Empty, "pendulum"
+        .Add Empty, "swsecondhand" 'arrow-hand-top
+        .Add Empty, "swhourhand"   'arrow-hand-bottom
+        .Add Empty, "swminutehand" 'arrow-hand-right
+        
+        .Add Empty, "hourshadow"   'clock-hand-hours-shadow
+        .Add Empty, "hourhand"     'clock-hand-hours
+        
+        .Add Empty, "minuteshadow" 'clock-hand-minutes-shadow
+        .Add Empty, "minutehand"   'clock-hand-minutes
+        
+        .Add Empty, "secondshadow" 'clock-hand-seconds-shadow
+        .Add Empty, "secondhand"   'clock-hand-seconds
+
+        .Add Empty, "bigreflectioncopy"     'all reflections
+        .Add Empty, "bigreflection"     'all reflections
+        .Add Empty, "windowreflection"
+        '.Add Empty, "tickbutton"
+        
     End With
         
 
@@ -1823,25 +1346,25 @@ End Function
 Private Sub loadAsynchSoundFiles()
 
    On Error GoTo loadAsynchSoundFiles_Error
-
-    LoadSoundFile 1, App.path & "\resources\sounds\belltoll-quiet.wav"
-    LoadSoundFile 2, App.path & "\resources\sounds\belltoll.wav"
-    LoadSoundFile 3, App.path & "\resources\sounds\belltollLong-quiet.wav"
-    LoadSoundFile 4, App.path & "\resources\sounds\belltollLong.wav"
-    LoadSoundFile 5, App.path & "\resources\sounds\fullchime-quiet.wav"
-    LoadSoundFile 6, App.path & "\resources\sounds\fullchime.wav"
-    LoadSoundFile 7, App.path & "\resources\sounds\halfchime-quiet.wav"
-    LoadSoundFile 8, App.path & "\resources\sounds\halfchime.wav"
-    LoadSoundFile 9, App.path & "\resources\sounds\quarterchime-quiet.wav"
-    LoadSoundFile 10, App.path & "\resources\sounds\quarterchime.wav"
-    LoadSoundFile 11, App.path & "\resources\sounds\threequarterchime-quiet.wav"
-    LoadSoundFile 12, App.path & "\resources\sounds\threequarterchime.wav"
-    LoadSoundFile 13, App.path & "\resources\sounds\ticktock-quiet.wav"
-    LoadSoundFile 14, App.path & "\resources\sounds\ticktock.wav"
-    LoadSoundFile 15, App.path & "\resources\sounds\zzzz-quiet.wav"
-    LoadSoundFile 16, App.path & "\resources\sounds\zzzz.wav"
-    LoadSoundFile 17, App.path & "\resources\sounds\till-quiet.wav"
-    LoadSoundFile 18, App.path & "\resources\sounds\till.wav"
+'
+'    LoadSoundFile 1, App.path & "\resources\sounds\belltoll-quiet.wav"
+'    LoadSoundFile 2, App.path & "\resources\sounds\belltoll.wav"
+'    LoadSoundFile 3, App.path & "\resources\sounds\belltollLong-quiet.wav"
+'    LoadSoundFile 4, App.path & "\resources\sounds\belltollLong.wav"
+'    LoadSoundFile 5, App.path & "\resources\sounds\fullchime-quiet.wav"
+'    LoadSoundFile 6, App.path & "\resources\sounds\fullchime.wav"
+'    LoadSoundFile 7, App.path & "\resources\sounds\halfchime-quiet.wav"
+'    LoadSoundFile 8, App.path & "\resources\sounds\halfchime.wav"
+'    LoadSoundFile 9, App.path & "\resources\sounds\quarterchime-quiet.wav"
+'    LoadSoundFile 10, App.path & "\resources\sounds\quarterchime.wav"
+'    LoadSoundFile 11, App.path & "\resources\sounds\threequarterchime-quiet.wav"
+'    LoadSoundFile 12, App.path & "\resources\sounds\threequarterchime.wav"
+'    LoadSoundFile 13, App.path & "\resources\sounds\ticktock-quiet.wav"
+'    LoadSoundFile 14, App.path & "\resources\sounds\ticktock.wav"
+'    LoadSoundFile 15, App.path & "\resources\sounds\zzzz-quiet.wav"
+'    LoadSoundFile 16, App.path & "\resources\sounds\zzzz.wav"
+'    LoadSoundFile 17, App.path & "\resources\sounds\till-quiet.wav"
+'    LoadSoundFile 18, App.path & "\resources\sounds\till.wav"
 
    On Error GoTo 0
    Exit Sub
@@ -1866,24 +1389,24 @@ Public Sub playAsynchSound(ByVal SoundFile As String)
 
      On Error GoTo playAsynchSound_Error
 
-     If SoundFile = App.path & "\resources\sounds\belltoll-quiet.wav" Then soundindex = 1
-     If SoundFile = App.path & "\resources\sounds\belltoll.wav" Then soundindex = 2
-     If SoundFile = App.path & "\resources\sounds\belltollLong-quiet.wav" Then soundindex = 3
-     If SoundFile = App.path & "\resources\sounds\belltollLong.wav" Then soundindex = 4
-     If SoundFile = App.path & "\resources\sounds\fullchime-quiet.wav" Then soundindex = 5
-     If SoundFile = App.path & "\resources\sounds\fullchime.wav" Then soundindex = 6
-     If SoundFile = App.path & "\resources\sounds\halfchime-quiet.wav" Then soundindex = 7
-     If SoundFile = App.path & "\resources\sounds\halfchime.wav" Then soundindex = 8
-     If SoundFile = App.path & "\resources\sounds\quarterchime-quiet.wav" Then soundindex = 9
-     If SoundFile = App.path & "\resources\sounds\quarterchime.wav" Then soundindex = 10
-     If SoundFile = App.path & "\resources\sounds\threequarterchime-quiet.wav" Then soundindex = 11
-     If SoundFile = App.path & "\resources\sounds\threequarterchime.wav" Then soundindex = 12
-     If SoundFile = App.path & "\resources\sounds\ticktock-quiet.wav" Then soundindex = 13
-     If SoundFile = App.path & "\resources\sounds\ticktock.wav" Then soundindex = 14
-     If SoundFile = App.path & "\resources\sounds\zzzz-quiet.wav" Then soundindex = 15
-     If SoundFile = App.path & "\resources\sounds\zzzz.wav" Then soundindex = 16
-     If SoundFile = App.path & "\resources\sounds\till-quiet.wav" Then soundindex = 17
-     If SoundFile = App.path & "\resources\sounds\till.wav" Then soundindex = 18
+'     If SoundFile = App.path & "\resources\sounds\belltoll-quiet.wav" Then soundindex = 1
+'     If SoundFile = App.path & "\resources\sounds\belltoll.wav" Then soundindex = 2
+'     If SoundFile = App.path & "\resources\sounds\belltollLong-quiet.wav" Then soundindex = 3
+'     If SoundFile = App.path & "\resources\sounds\belltollLong.wav" Then soundindex = 4
+'     If SoundFile = App.path & "\resources\sounds\fullchime-quiet.wav" Then soundindex = 5
+'     If SoundFile = App.path & "\resources\sounds\fullchime.wav" Then soundindex = 6
+'     If SoundFile = App.path & "\resources\sounds\halfchime-quiet.wav" Then soundindex = 7
+'     If SoundFile = App.path & "\resources\sounds\halfchime.wav" Then soundindex = 8
+'     If SoundFile = App.path & "\resources\sounds\quarterchime-quiet.wav" Then soundindex = 9
+'     If SoundFile = App.path & "\resources\sounds\quarterchime.wav" Then soundindex = 10
+'     If SoundFile = App.path & "\resources\sounds\threequarterchime-quiet.wav" Then soundindex = 11
+'     If SoundFile = App.path & "\resources\sounds\threequarterchime.wav" Then soundindex = 12
+'     If SoundFile = App.path & "\resources\sounds\ticktock-quiet.wav" Then soundindex = 13
+'     If SoundFile = App.path & "\resources\sounds\ticktock.wav" Then soundindex = 14
+'     If SoundFile = App.path & "\resources\sounds\zzzz-quiet.wav" Then soundindex = 15
+'     If SoundFile = App.path & "\resources\sounds\zzzz.wav" Then soundindex = 16
+'     If SoundFile = App.path & "\resources\sounds\till-quiet.wav" Then soundindex = 17
+'     If SoundFile = App.path & "\resources\sounds\till.wav" Then soundindex = 18
 
      Call playSounds(soundindex) ' writes the wav files (previously stored in a memory buffer) and feeds that buffer to the waveOutWrite API
 
@@ -1911,24 +1434,24 @@ Public Sub stopAsynchSound(ByVal SoundFile As String)
 
      On Error GoTo stopAsynchSound_Error
 
-     If SoundFile = App.path & "\resources\sounds\belltoll-quiet.wav" Then soundindex = 1
-     If SoundFile = App.path & "\resources\sounds\belltoll.wav" Then soundindex = 2
-     If SoundFile = App.path & "\resources\sounds\belltollLong-quiet.wav" Then soundindex = 3
-     If SoundFile = App.path & "\resources\sounds\belltollLong.wav" Then soundindex = 4
-     If SoundFile = App.path & "\resources\sounds\fullchime-quiet.wav" Then soundindex = 5
-     If SoundFile = App.path & "\resources\sounds\fullchime.wav" Then soundindex = 6
-     If SoundFile = App.path & "\resources\sounds\halfchime-quiet.wav" Then soundindex = 7
-     If SoundFile = App.path & "\resources\sounds\halfchime.wav" Then soundindex = 8
-     If SoundFile = App.path & "\resources\sounds\quarterchime-quiet.wav" Then soundindex = 9
-     If SoundFile = App.path & "\resources\sounds\quarterchime.wav" Then soundindex = 10
-     If SoundFile = App.path & "\resources\sounds\threequarterchime-quiet.wav" Then soundindex = 11
-     If SoundFile = App.path & "\resources\sounds\threequarterchime.wav" Then soundindex = 12
-     If SoundFile = App.path & "\resources\sounds\ticktock-quiet.wav" Then soundindex = 13
-     If SoundFile = App.path & "\resources\sounds\ticktock.wav" Then soundindex = 14
-     If SoundFile = App.path & "\resources\sounds\zzzz-quiet.wav" Then soundindex = 15
-     If SoundFile = App.path & "\resources\sounds\zzzz.wav" Then soundindex = 16
-     If SoundFile = App.path & "\resources\sounds\till-quiet.wav" Then soundindex = 17
-     If SoundFile = App.path & "\resources\sounds\till.wav" Then soundindex = 18
+'     If SoundFile = App.path & "\resources\sounds\belltoll-quiet.wav" Then soundindex = 1
+'     If SoundFile = App.path & "\resources\sounds\belltoll.wav" Then soundindex = 2
+'     If SoundFile = App.path & "\resources\sounds\belltollLong-quiet.wav" Then soundindex = 3
+'     If SoundFile = App.path & "\resources\sounds\belltollLong.wav" Then soundindex = 4
+'     If SoundFile = App.path & "\resources\sounds\fullchime-quiet.wav" Then soundindex = 5
+'     If SoundFile = App.path & "\resources\sounds\fullchime.wav" Then soundindex = 6
+'     If SoundFile = App.path & "\resources\sounds\halfchime-quiet.wav" Then soundindex = 7
+'     If SoundFile = App.path & "\resources\sounds\halfchime.wav" Then soundindex = 8
+'     If SoundFile = App.path & "\resources\sounds\quarterchime-quiet.wav" Then soundindex = 9
+'     If SoundFile = App.path & "\resources\sounds\quarterchime.wav" Then soundindex = 10
+'     If SoundFile = App.path & "\resources\sounds\threequarterchime-quiet.wav" Then soundindex = 11
+'     If SoundFile = App.path & "\resources\sounds\threequarterchime.wav" Then soundindex = 12
+'     If SoundFile = App.path & "\resources\sounds\ticktock-quiet.wav" Then soundindex = 13
+'     If SoundFile = App.path & "\resources\sounds\ticktock.wav" Then soundindex = 14
+'     If SoundFile = App.path & "\resources\sounds\zzzz-quiet.wav" Then soundindex = 15
+'     If SoundFile = App.path & "\resources\sounds\zzzz.wav" Then soundindex = 16
+'     If SoundFile = App.path & "\resources\sounds\till-quiet.wav" Then soundindex = 17
+'     If SoundFile = App.path & "\resources\sounds\till.wav" Then soundindex = 18
      
      Call StopSound(soundindex)
 
@@ -1953,23 +1476,23 @@ Public Sub stopAllAsynchSounds()
             
    On Error GoTo stopAllAsynchSounds_Error
 
-    Call StopSound(1)
-    Call StopSound(2)
-    Call StopSound(3)
-    Call StopSound(4)
-    Call StopSound(5)
-    Call StopSound(6)
-    Call StopSound(7)
-    Call StopSound(8)
-    Call StopSound(9)
-    Call StopSound(10)
-    Call StopSound(12)
-    Call StopSound(13)
-    Call StopSound(14)
-    Call StopSound(15)
-    Call StopSound(16)
-    Call StopSound(17)
-    Call StopSound(18)
+'    Call StopSound(1)
+'    Call StopSound(2)
+'    Call StopSound(3)
+'    Call StopSound(4)
+'    Call StopSound(5)
+'    Call StopSound(6)
+'    Call StopSound(7)
+'    Call StopSound(8)
+'    Call StopSound(9)
+'    Call StopSound(10)
+'    Call StopSound(12)
+'    Call StopSound(13)
+'    Call StopSound(14)
+'    Call StopSound(15)
+'    Call StopSound(16)
+'    Call StopSound(17)
+'    Call StopSound(18)
 
    On Error GoTo 0
    Exit Sub

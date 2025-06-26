@@ -16,92 +16,84 @@ Attribute VB_Exposed = False
 ' Module    : cwOverlay
 ' Author    : beededea
 ' Date      : 31/07/2023
-' Purpose   : create a single fully click-through Widget, which allows for all kind of
-'             things to render on top of the PSD-generated Widgets created in cfClock
+' Purpose   : create a fully click-through Widget, which allows for all kind of
+'             things to render on top of the PSD-generated Widgets created in cfGauge
 '---------------------------------------------------------------------------------------
 
 Option Explicit
 
-' public vars
-
-Public cCollOverlayImages As cCollection 'collection made available publically, can't easily pass collections via property get/set
+'these Public Properties are set in the Parent (here, cfGauge)
+Public cCollOverlayImages As cCollection
+Public cxPerc As Single
+Public cyPerc As Single
 
 Private WithEvents W As cWidgetBase
 Attribute W.VB_VarHelpID = -1
-
-' public vars external usage
-
-Public sldCurWidth As Double ' need to add set/get for these public vars
-Public cxPerc As Single      ' need to add set/get for these public vars
-Public cyPerc As Single       ' available externally, to allow the overlay to be centered on the form, need to add set/let for these public vars
-
-' RC timers
-
-Private WithEvents tmrClock As cTimer
+Public WithEvents tmrClock As cTimer
 Attribute tmrClock.VB_VarHelpID = -1
-Private WithEvents tmrPendulum As cTimer
-Attribute tmrPendulum.VB_VarHelpID = -1
-Private WithEvents tmrTolling As cTimer
-Attribute tmrTolling.VB_VarHelpID = -1
-Private WithEvents tmrCountdownToToll As cTimer
-Attribute tmrCountdownToToll.VB_VarHelpID = -1
-Private WithEvents tmrTimeShift As cTimer
-Attribute tmrTimeShift.VB_VarHelpID = -1
-Private WithEvents tmrDigitRotator As cTimer
-Attribute tmrDigitRotator.VB_VarHelpID = -1
-Private WithEvents tmrAlarmRinging As cTimer
-Attribute tmrAlarmRinging.VB_VarHelpID = -1
+Public WithEvents tmrStopWatch As cTimer
+Attribute tmrStopWatch.VB_VarHelpID = -1
+Public WithEvents tmrSWRotation As cTimer
+Attribute tmrSWRotation.VB_VarHelpID = -1
+Public WithEvents tmrHandsRotation As cTimer
+Attribute tmrHandsRotation.VB_VarHelpID = -1
 
-' class private members for property assignment
+Private HDeg As Double
+Private MDeg As Double
+Private HDeg1 As Double
+Private MDeg1 As Double
+Private SDeg As Double
+Private Sec As Integer
+Private MsDeg As Double
 
-Private mLocked As Boolean
+Private SWHDeg As Double
+Private SWMDeg As Double
+Private SWSDeg As Double
+Private SWSec As Integer
+
+'------------------------------------------------------ STARTS
+Private Type SYSTEMTIME
+   wYear As Integer
+   wMonth As Integer
+   wDayOfWeek As Integer
+   wDay As Integer
+   wHour As Integer
+   wMinute As Integer
+   wSecond As Integer
+   wMilliseconds As Integer
+End Type
+
+Private Type TIME_ZONE_INFORMATION
+    bias                    As Long
+    StandardName(0 To 63)   As Byte
+    StandardDate            As SYSTEMTIME
+    StandardBias            As Long
+    DaylightName(0 To 63)   As Byte
+    DaylightDate            As SYSTEMTIME
+    DaylightBias            As Long
+End Type
+
+Private Declare Sub GetSystemTime Lib "kernel32" (lpSystemTime As SYSTEMTIME)
+'------------------------------------------------------ ENDS
+
+Private mTicking As Boolean ' property Ticking
+Private mStopWatchTicking As Boolean ' property StopWatchTicking
+Private mSmoothSecondHand As Boolean ' property SmoothSecondHand
+Private mLocked As Boolean ' property Locked
+Private mHidden As Boolean ' property Hidden
+Private mFaceMode As String ' property FaceMode
+Private storeTxtDayNumber As String
+
 Private mMyOpacity As Single
-Private mTimeMachine As Boolean
-Private mHidden As Boolean
-Private mSwingPendulum As Boolean
-Private mTimeDeviation As Currency
-Private mBaseDate As String
-Private mSliderInTransit As Boolean
-Private mTimeShiftValueSecs As Currency
-Private mTriggerTimeShift As Boolean
-Private mGetFutureTime As String
-Private mSliderFreed As Boolean
-Private mAlarmSetCurrentDate As Boolean
 
-Private mTmrClockTicking As Boolean
-Private mTmrClockInterval As Long
-Private mTmrPendulumTicking As Boolean
-Private mTmrTollingTicking As Boolean
-Private mTmrCountdownToTollTicking As Boolean
-Private mTmrTimeShiftTicking As Boolean
-Private mTmrDigitRotatorTicking As Boolean
-Private mTmrAlarmRingingTicking As Boolean
 
-' private vars general usage
+Private mstartSWRotation As Boolean
+Private mstartSWDegrees As Long
+Private mSWRotationDegrees As Long
+Private mrotationSWInterval As Long
 
-Private pvtHourDegrees As Double
-Private pvtMinsDegrees As Double
-Private pvtSecsDegrees As Double
-Private pvtSeconds As Integer
+Private rotationTimerCount As Integer ' rotationTimerCount = 0
 
-Private pvtFirstRun As Boolean
-Private pvtThisHour As Integer
-Private pvtThisMins As Integer
-Private pvtThisSecs As Integer
-
-Private pvtPendulumAcceleration As Double
-Private pvtGravity As Double
-Private pvtPendulumAngle As Double
-Private pvtPendulumVelocity As Double
-
-Private pvtRotatorLimit As Integer
-Private pvtMinsRotatorString As String
-Private pvtHoursRotatorString As String
-Private pvtDaysRotatorString As String
-Private pvtMonthRotatorString As String
-Private pvtYearRotatorString As String
-
-Private pvtCurrentDateToDisplay As String
 
 '---------------------------------------------------------------------------------------
 ' Procedure : initialisePrivateVars
@@ -114,29 +106,8 @@ Private Sub initialisePrivateVars()
 
    On Error GoTo initialisePrivateVars_Error
 
-    pvtHourDegrees = 0
-    pvtMinsDegrees = 0
-    pvtSecsDegrees = 0
-    pvtSeconds = 0
-    
-    pvtFirstRun = False
-    pvtThisHour = 0
-    pvtThisMins = 0
-    pvtThisSecs = 0
-    
-    pvtPendulumAcceleration = 0
-    pvtGravity = 0
-    pvtPendulumAngle = 0
-    pvtPendulumVelocity = 0
-    
-    pvtRotatorLimit = 0
-    pvtMinsRotatorString = vbNullString
-    pvtHoursRotatorString = vbNullString
-    pvtDaysRotatorString = vbNullString
-    pvtMonthRotatorString = vbNullString
-    pvtYearRotatorString = vbNullString
-    
-    pvtCurrentDateToDisplay = vbNullString
+
+   ' pvtCurrentDateToDisplay = vbNullString
 
    On Error GoTo 0
    Exit Sub
@@ -161,59 +132,27 @@ Private Sub Class_Initialize()
     Call initialisePrivateVars
 
     Set W = Cairo.WidgetBase
-        W.BackColor = -1            ' we don't use any BackColor here, transparent
-        W.ImplementsHitTest = True  ' essential
-
-    intervalValue = 1000
-    pvtFirstRun = True
-    
-    ' variables set for the pendulum
-    ' g = -0.1, a = 0.6, v = 2.5 uses 3% of cpu with a 40ms timer
-
-    pvtGravity = -0.2
-    pvtPendulumAcceleration = 0.6
-    pvtPendulumVelocity = 3.5
-    
-    pvtMinsRotatorString = "00"
-    pvtHoursRotatorString = "00"
-    pvtDaysRotatorString = "00"
-    pvtMonthRotatorString = "0"
-    pvtYearRotatorString = "0000"
+        W.BackColor = -1  'we don't use any BackColor here, transparent
+        W.ImplementsHitTest = True 'when at False, no HitTest-Event would be triggered
+                    
+    intervalValue = 500
+'
+' SWHDeg = 0
+' SWMDeg = 0
+' SWSDeg = 0
+' SWSec = 0
 
     Set tmrClock = Nothing
-    Set tmrClock = New_c.Timer(intervalValue, True)
-    
-    TmrClockTicking = False
-    
-    Set tmrPendulum = Nothing
-    Set tmrPendulum = New_c.Timer(70, False)
-    
-    TmrPendulumTicking = False
-    
-    Set tmrTimeShift = Nothing
-    Set tmrTimeShift = New_c.Timer(100, False)
-    
-    TmrTimeShiftTicking = False
-   
-    Set tmrDigitRotator = Nothing
-    Set tmrDigitRotator = New_c.Timer(14, False)
-    
-    TmrDigitRotatorTicking = False
-    
-    Set tmrCountdownToToll = Nothing
-    Set tmrCountdownToToll = New_c.Timer(2000, False)
-    
-    TmrCountdownToTollTicking = False
-         
-    Set tmrTolling = Nothing
-    Set tmrTolling = New_c.Timer(2000, False)
-    
-    TmrTollingTicking = False
-       
-    Set tmrAlarmRinging = Nothing
-    Set tmrAlarmRinging = New_c.Timer(1000, False)
-    
-    TmrAlarmRingingTicking = False
+    Set tmrClock = New_c.Timer(intervalValue, mTicking)
+
+    Set tmrStopWatch = Nothing
+    Set tmrStopWatch = New_c.Timer(intervalValue, False)
+
+    Set tmrSWRotation = Nothing
+    Set tmrSWRotation = New_c.Timer(20, False)
+
+    Set tmrHandsRotation = Nothing
+    Set tmrHandsRotation = New_c.Timer(20, False)
     
     On Error GoTo 0
    Exit Sub
@@ -263,6 +202,336 @@ Widgets_Error:
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure Widgets of Class Module cwOverlay"
 End Property
 
+
+'---------------------------------------------------------------------------------------
+' Property : Ticking
+' Author    : beededea
+' Date      : 17/05/2023
+' Purpose   :
+'---------------------------------------------------------------------------------------
+'
+Public Property Get Ticking() As Boolean
+   On Error GoTo TickingGet_Error
+
+  Ticking = mTicking
+
+   On Error GoTo 0
+   Exit Property
+
+TickingGet_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property Ticking of Class Module cwOverlay"
+End Property
+'---------------------------------------------------------------------------------------
+' Property  : Ticking
+' Author    :
+' Date      : 09/05/2023
+' Purpose   :
+'---------------------------------------------------------------------------------------
+'
+Public Property Let Ticking(ByVal newValue As Boolean)
+    On Error GoTo TickingLet_Error
+
+    If mTicking <> newValue Then mTicking = newValue Else Exit Property
+    
+    If mTicking Then
+        tmrClock.Enabled = True
+    Else
+        tmrClock.Enabled = False
+    End If
+
+   On Error GoTo 0
+   Exit Property
+
+TickingLet_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property Ticking of Class Module cwOverlay"
+End Property
+'---------------------------------------------------------------------------------------
+' Property  : getSWSDeg
+' Author    : beededea
+' Date      : 17/05/2023
+' Purpose   :
+'---------------------------------------------------------------------------------------
+'
+Public Property Get getSWSDeg() As Integer
+   On Error GoTo getSWSDegGet_Error
+
+   getSWSDeg = SWSDeg
+
+   On Error GoTo 0
+   Exit Property
+
+getSWSDegGet_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property getSWSDeg of Class Module cwOverlay"
+End Property
+'---------------------------------------------------------------------------------------
+' Property : StopWatchTicking
+' Author    : beededea
+' Date      : 17/05/2023
+' Purpose   :
+'---------------------------------------------------------------------------------------
+'
+Public Property Get StopWatchTicking() As Boolean
+   On Error GoTo StopWatchTickingGet_Error
+
+   StopWatchTicking = mStopWatchTicking
+
+   On Error GoTo 0
+   Exit Property
+
+StopWatchTickingGet_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property StopWatchTicking of Class Module cwOverlay"
+End Property
+'---------------------------------------------------------------------------------------
+' Property  : StopWatchTicking
+' Author    :
+' Date      : 09/05/2023
+' Purpose   :
+'---------------------------------------------------------------------------------------
+'
+Public Property Let StopWatchTicking(ByVal newValue As Boolean)
+    On Error GoTo StopWatchTickingLet_Error
+
+    If mStopWatchTicking <> newValue Then mStopWatchTicking = newValue Else Exit Property
+    
+    If mStopWatchTicking Then
+        tmrStopWatch.Enabled = True
+    Else
+        tmrStopWatch.Enabled = False
+        SWHDeg = 0
+        SWMDeg = 0
+        SWSDeg = 0
+        SWSec = 0
+    End If
+
+   On Error GoTo 0
+   Exit Property
+
+StopWatchTickingLet_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property StopWatchTicking of Class Module cwOverlay"
+End Property
+
+'---------------------------------------------------------------------------------------
+' Property : startSWRotation
+' Author    : beededea
+' Date      : 17/05/2023
+' Purpose   :
+'---------------------------------------------------------------------------------------
+'
+Public Property Get startSWRotation() As Boolean
+   On Error GoTo startSWRotationGet_Error
+
+   startSWRotation = mstartSWRotation
+
+   On Error GoTo 0
+   Exit Property
+
+startSWRotationGet_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property startSWRotation of Class Module cwOverlay"
+End Property
+'---------------------------------------------------------------------------------------
+' Property  : startSWRotation
+' Author    :
+' Date      : 09/05/2023
+' Purpose   :
+'---------------------------------------------------------------------------------------
+'
+Public Property Let startSWRotation(ByVal newValue As Boolean)
+    On Error GoTo startSWRotationLet_Error
+
+    If mstartSWRotation <> newValue Then mstartSWRotation = newValue Else Exit Property
+    
+    If mstartSWRotation = 0 Then
+        tmrStopWatch.Enabled = True
+        tmrSWRotation.Enabled = False
+    Else
+        tmrStopWatch.Enabled = False
+        tmrSWRotation.Interval = 50 ' mstartSWRotation
+        tmrSWRotation.Enabled = True
+    End If
+
+   On Error GoTo 0
+   Exit Property
+
+startSWRotationLet_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property startSWRotation of Class Module cwOverlay"
+End Property
+'---------------------------------------------------------------------------------------
+' Property : startSWDegrees
+' Author    : beededea
+' Date      : 17/05/2023
+' Purpose   :
+'---------------------------------------------------------------------------------------
+'
+Public Property Get startSWDegrees() As Long
+   On Error GoTo startSWDegreesGet_Error
+
+   startSWDegrees = mstartSWDegrees
+
+   On Error GoTo 0
+   Exit Property
+
+startSWDegreesGet_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property startSWDegrees of Class Module cwOverlay"
+End Property
+'---------------------------------------------------------------------------------------
+' Property  : startSWDegrees
+' Author    :
+' Date      : 09/05/2023
+' Purpose   :
+'---------------------------------------------------------------------------------------
+'
+Public Property Let startSWDegrees(ByVal newValue As Long)
+    On Error GoTo startSWDegreesLet_Error
+'
+'    If mstartSWDegrees = 0 Then
+'        mstartSWDegrees = SWSDeg
+'        Exit Property
+'    End If
+    If mstartSWDegrees <> newValue Then mstartSWDegrees = newValue Else Exit Property
+
+   On Error GoTo 0
+   Exit Property
+
+startSWDegreesLet_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property startSWDegrees of Class Module cwOverlay"
+End Property
+'---------------------------------------------------------------------------------------
+' Property : rotationSWInterval
+' Author    : beededea
+' Date      : 17/05/2023
+' Purpose   :
+'---------------------------------------------------------------------------------------
+'
+Public Property Get rotationSWInterval() As Long
+   On Error GoTo rotationSWIntervalGet_Error
+
+   rotationSWInterval = mrotationSWInterval
+
+   On Error GoTo 0
+   Exit Property
+
+rotationSWIntervalGet_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property rotationSWInterval of Class Module cwOverlay"
+End Property
+'---------------------------------------------------------------------------------------
+' Property  : rotationSWInterval
+' Author    :
+' Date      : 09/05/2023
+' Purpose   :
+'---------------------------------------------------------------------------------------
+'
+Public Property Let rotationSWInterval(ByVal newValue As Long)
+    On Error GoTo rotationSWIntervalLet_Error
+
+    If mrotationSWInterval <> newValue Then mrotationSWInterval = newValue Else Exit Property
+
+   On Error GoTo 0
+   Exit Property
+
+rotationSWIntervalLet_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property rotationSWInterval of Class Module cwOverlay"
+End Property
+
+'---------------------------------------------------------------------------------------
+' Property : SWRotationDegrees
+' Author    : beededea
+' Date      : 17/05/2023
+' Purpose   :
+'---------------------------------------------------------------------------------------
+'
+Public Property Get SWRotationDegrees() As Long
+   On Error GoTo SWRotationDegreesGet_Error
+
+   SWRotationDegrees = mSWRotationDegrees
+
+   On Error GoTo 0
+   Exit Property
+
+SWRotationDegreesGet_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property SWRotationDegrees of Class Module cwOverlay"
+End Property
+'---------------------------------------------------------------------------------------
+' Property  : SWRotationDegrees
+' Author    :
+' Date      : 09/05/2023
+' Purpose   :
+'---------------------------------------------------------------------------------------
+'
+Public Property Let SWRotationDegrees(ByVal newValue As Long)
+    On Error GoTo SWRotationDegreesLet_Error
+
+    If mSWRotationDegrees <> newValue Then mSWRotationDegrees = newValue Else Exit Property
+
+   On Error GoTo 0
+   Exit Property
+
+SWRotationDegreesLet_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property SWRotationDegrees of Class Module cwOverlay"
+End Property
+
+'---------------------------------------------------------------------------------------
+' Property : SmoothSecondHand
+' Author    : beededea
+' Date      : 17/05/2023
+' Purpose   :
+'---------------------------------------------------------------------------------------
+'
+Public Property Get SmoothSecondHand() As Boolean
+   On Error GoTo SmoothSecondHandGet_Error
+
+    SmoothSecondHand = mSmoothSecondHand
+
+   On Error GoTo 0
+   Exit Property
+
+SmoothSecondHandGet_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property SmoothSecondHand of Class Module cwOverlay"
+End Property
+'---------------------------------------------------------------------------------------
+' Property  : SmoothSecondHand
+' Author    :
+' Date      : 09/05/2023
+' Purpose   :
+'---------------------------------------------------------------------------------------
+'
+Public Property Let SmoothSecondHand(ByVal newValue As Boolean)
+    Dim intervalValue As Integer: intervalValue = 0
+    On Error GoTo SmoothSecondHandLet_Error
+
+    If mSmoothSecondHand <> newValue Then mSmoothSecondHand = newValue Else Exit Property
+    
+    If mSmoothSecondHand Then
+        intervalValue = 100
+    Else
+        intervalValue = 500
+    End If
+            
+    tmrClock.Interval = intervalValue
+    
+   On Error GoTo 0
+   Exit Property
+
+SmoothSecondHandLet_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property SmoothSecondHand of Class Module cwOverlay"
+End Property ' the earth SmoothSecondHand flag
+
+
+
 '---------------------------------------------------------------------------------------
 ' Property  : Locked
 ' Author    : beededea
@@ -303,90 +572,7 @@ LockedLet_Error:
 End Property
 
 
-'---------------------------------------------------------------------------------------
-' Property : SliderInTransit
-' Author    : beededea
-' Date      : 17/05/2023
-' Purpose   : property to determine (by value) that allows a call to the routine that causes the 'rotation' of the numeric display when the slider is dragged by the user
-'---------------------------------------------------------------------------------------
-'
-Public Property Get SliderInTransit() As Boolean
-   On Error GoTo SliderInTransitGet_Error
 
-   SliderInTransit = mSliderInTransit
-
-   On Error GoTo 0
-   Exit Property
-
-SliderInTransitGet_Error:
-
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property SliderInTransit of Class Module cwoverlay"
-End Property
-'---------------------------------------------------------------------------------------
-' Property  : SliderInTransit
-' Author    : beededea
-' Date      : 17/05/2023
-' Purpose   : property to determine (by value) that allows a call to the routine that causes the 'rotation' of the numeric display when the slider is dragged by the user
-'---------------------------------------------------------------------------------------
-'
-Public Property Let SliderInTransit(ByVal newValue As Boolean)
-   On Error GoTo SliderInTransitLet_Error
-
-   If mSliderInTransit <> newValue Then mSliderInTransit = newValue Else Exit Property
-   Debug.Print mSliderInTransit
-
-   On Error GoTo 0
-   Exit Property
-
-SliderInTransitLet_Error:
-
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property SliderInTransit of Class Module cwoverlay"
-End Property
-
-'---------------------------------------------------------------------------------------
-' Property : BaseDate
-' Author    : beededea
-' Date      : 17/05/2023
-' Purpose   : Property (by value) that sets the base date for the clock to determine the deviation from...
-'---------------------------------------------------------------------------------------
-'
-Public Property Get BaseDate() As String
-   On Error GoTo BaseDateGet_Error
-
-   BaseDate = mBaseDate
-
-   On Error GoTo 0
-   Exit Property
-
-BaseDateGet_Error:
-
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property BaseDate of Class Module cwoverlay"
-End Property
-'---------------------------------------------------------------------------------------
-' Property  : BaseDate
-' Author    : beededea
-' Date      : 17/05/2023
-' Purpose   : Property (by value) that sets the base date for the clock to determine the deviation from...
-'---------------------------------------------------------------------------------------
-'
-Public Property Let BaseDate(ByVal newValue As String)
-   On Error GoTo BaseDateLet_Error
-
-   If mBaseDate <> newValue Then mBaseDate = newValue Else Exit Property
-   Debug.Print mBaseDate
-   
-    ' normal time displayed,
-    pvtThisHour = CInt(Hour(mBaseDate))
-    pvtThisMins = CInt(Minute(mBaseDate))
-    pvtThisSecs = CInt(Second(mBaseDate))
-
-   On Error GoTo 0
-   Exit Property
-
-BaseDateLet_Error:
-
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property BaseDate of Class Module cwoverlay"
-End Property
 
 '---------------------------------------------------------------------------------------
 ' Procedure : MyOpacity
@@ -407,6 +593,7 @@ MyOpacityLet_Error:
 
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure MyOpacity of Class Module cwAbout"
 End Property
+
 '---------------------------------------------------------------------------------------
 ' Procedure : MyOpacity
 ' Author    : beededea
@@ -427,142 +614,7 @@ MyOpacityGet_Error:
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure MyOpacity of Class Module cwAbout"
 End Property
 
-'---------------------------------------------------------------------------------------
-' Property : SwingPendulum
-' Author    : beededea
-' Date      : 17/05/2023
-' Purpose   : property (by value) used to toggle the swinging pendulum animation
-'---------------------------------------------------------------------------------------
-'
-Public Property Get SwingPendulum() As Boolean
-   On Error GoTo SwingPendulumGet_Error
 
-   SwingPendulum = mSwingPendulum
-
-   On Error GoTo 0
-   Exit Property
-
-SwingPendulumGet_Error:
-
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property SwingPendulum of Class Module cfClock"
-End Property
-'---------------------------------------------------------------------------------------
-' Property  : SwingPendulum
-' Author    : beededea
-' Date      : 17/05/2023
-' Purpose   : property (by value) used to toggle the swinging pendulum animation
-'---------------------------------------------------------------------------------------
-'
-Public Property Let SwingPendulum(ByVal newValue As Boolean)
-
-    On Error GoTo SwingPendulumLet_Error
-        
-    If mSwingPendulum = True Then
-        'tmrPendulum.Enabled = True
-        TmrPendulumTicking = True
-    Else
-        TmrPendulumTicking = False
-        'tmrPendulum.Enabled = False
-    End If
-    
-    If mSwingPendulum <> newValue Then mSwingPendulum = newValue Else Exit Property
-    SwingPendulum = mSwingPendulum
-    
-    W.Refresh
-
-   On Error GoTo 0
-   Exit Property
-
-SwingPendulumLet_Error:
-
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property SwingPendulum of Class Module cfClock"
-End Property
-
-
-' ----------------------------------------------------------------
-' Procedure Name: timeShiftValueSecs
-' Purpose: property (by value) containing the timeshift value in seconds
-' Procedure Kind: Property (Get)
-' Procedure Access: Public
-' Return Type: Currency
-' Author: beededea
-' Date: 26/05/2024
-' ----------------------------------------------------------------
-Public Property Get timeShiftValueSecs() As Currency
-    
-    On Error GoTo timeShiftValueSecs_Error
-    
-    timeShiftValueSecs = mTimeShiftValueSecs
-    
-    On Error GoTo 0
-    Exit Property
-
-timeShiftValueSecs_Error:
-
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure timeShiftValueSecs, line " & Erl & "."
-
-End Property
-
-' ----------------------------------------------------------------
-' Procedure Name: timeShiftValueSecs
-' Purpose: property (by value) containing the timeshift value in seconds
-' Procedure Kind: Property (Let)
-' Procedure Access: Public
-' Parameter RHS (Currency):
-' Author: beededea
-' Date: 26/05/2024
-' ----------------------------------------------------------------
-Public Property Let timeShiftValueSecs(ByVal newValue As Currency)
-    On Error GoTo timeShiftValueSecs_Error
-    
-    If mTimeShiftValueSecs <> newValue Then mTimeShiftValueSecs = newValue Else Exit Property
-    
-    On Error GoTo 0
-    Exit Property
-
-timeShiftValueSecs_Error:
-
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure timeShiftValueSecs, line " & Erl & "."
-
-End Property
-'---------------------------------------------------------------------------------------
-' Property  : TimeMachine
-' Author    : beededea
-' Date      : 17/05/2023
-' Purpose   : property to determine (by value)  the toggle the time machine on/off
-'---------------------------------------------------------------------------------------
-'
-Public Property Get TimeMachine() As Boolean
-   On Error GoTo TimeMachineGet_Error
-
-   TimeMachine = mTimeMachine
-
-   On Error GoTo 0
-   Exit Property
-
-TimeMachineGet_Error:
-
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property TimeMachine of Class Module cwoverlay"
-End Property
-'---------------------------------------------------------------------------------------
-' Property  : TimeMachine
-' Author    : beededea
-' Date      : 17/05/2023
-' Purpose   : property to determine (by value)  the toggle the time machine on/off
-'---------------------------------------------------------------------------------------
-'
-Public Property Let TimeMachine(ByVal newValue As Boolean)
-   On Error GoTo TimeMachineLet_Error
-
-   If mTimeMachine <> newValue Then mTimeMachine = newValue Else Exit Property
-
-   On Error GoTo 0
-   Exit Property
-
-TimeMachineLet_Error:
-
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property TimeMachine of Class Module cwoverlay"
-End Property
 
 '---------------------------------------------------------------------------------------
 ' Property  : Hidden
@@ -617,1731 +669,44 @@ HiddenLet_Error:
 End Property
 
 '---------------------------------------------------------------------------------------
-' Property  : SliderFreed
-' Author    : beededea
-' Date      : 17/05/2023
-' Purpose   : property to determine (by value)  the toggle the enabling of the time slider
-'---------------------------------------------------------------------------------------
-'
-Public Property Get SliderFreed() As Boolean
-   On Error GoTo SliderFreedGet_Error
-
-   SliderFreed = mSliderFreed
-
-   On Error GoTo 0
-   Exit Property
-
-SliderFreedGet_Error:
-
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property SliderFreed of Class Module cwoverlay"
-End Property
-
-
-'---------------------------------------------------------------------------------------
-' Property  : SliderFreed
-' Author    : beededea
-' Date      : 10/05/2023
-' Purpose   : property to determine (by value)  the toggle the enabling of the time slider
-'---------------------------------------------------------------------------------------
-'
-Public Property Let SliderFreed(ByVal newValue As Boolean)
-   On Error GoTo SliderFreedLet_Error
-
-    If mSliderFreed <> newValue Then mSliderFreed = newValue Else Exit Property
-
-   On Error GoTo 0
-   Exit Property
-
-SliderFreedLet_Error:
-
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property SliderFreed of Class Module cwoverlay"
-End Property
- 
- '---------------------------------------------------------------------------------------
-' Property  : GetFutureTime
-' Author    : beededea
-' Date      : 17/05/2023
-' Purpose   : a property (by value) that contains the future date/time currently selected by the timeSlider
-'---------------------------------------------------------------------------------------
-'
-Public Property Get GetFutureTime() As String
-   On Error GoTo GetFutureTimeGet_Error
-   
-    GetFutureTime = mGetFutureTime
-
-   On Error GoTo 0
-   Exit Property
-
-GetFutureTimeGet_Error:
-
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property GetFutureTime of Class Module cwoverlay"
-End Property
-
-
-'---------------------------------------------------------------------------------------
-' Property  : GetFutureTime
-' Author    : beededea
-' Date      : 10/05/2023
-' Purpose   : a property (by value) that contains the future date/time currently selected by the timeSlider
-'---------------------------------------------------------------------------------------
-'
-Public Property Let GetFutureTime(ByVal newValue As String)
-   On Error GoTo GetFutureTimeLet_Error
-
-    If mGetFutureTime <> newValue Then mGetFutureTime = newValue Else Exit Property
-
-   On Error GoTo 0
-   Exit Property
-
-GetFutureTimeLet_Error:
-
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property GetFutureTime of Class Module cwoverlay"
-End Property
-
- 
- '---------------------------------------------------------------------------------------
-' Property  : TriggerTimeShift
-' Author    : beededea
-' Date      : 17/05/2023
-' Purpose   : property (by value) that lets user-triggered slider movement call the same routines in the advance/retard timer
-'
-'             A timer runs in the background to advance/retard time when the slider is being held still.
-'             this property calls the same routines in the foreground task.
-'
-'             This has to be done this way as VB6 timers run at reduced CPU time/priority.
-'---------------------------------------------------------------------------------------
-'
-Public Property Get TriggerTimeShift() As Boolean
-   On Error GoTo TriggerTimeShiftGet_Error
-
-   TriggerTimeShift = mTriggerTimeShift
-
-   On Error GoTo 0
-   Exit Property
-
-TriggerTimeShiftGet_Error:
-
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property TriggerTimeShift of Class Module cwoverlay"
-End Property
-
-'---------------------------------------------------------------------------------------
-' Property  : TriggerTimeShift
-' Author    : beededea
-' Date      : 10/05/2023
-' Purpose   : property (by value) that lets user-triggered slider movement call the same routines in the advance/retard timer
-'
-'             A timer runs in the background to advance/retard time when the slider is being held still.
-'             this property calls the same routines in the foreground task.
-'
-'             This has to be done this way as VB6 timers run at reduced CPU time/priority.
-'---------------------------------------------------------------------------------------
-'
-Public Property Let TriggerTimeShift(ByVal newValue As Boolean)
-   On Error GoTo TriggerTimeShiftLet_Error
-   
-   mTriggerTimeShift = newValue
-
-    If mTriggerTimeShift = True Then
-        Call tmrTimeShiftRoutine
-        Call tmrClock_TimerRoutine
-     End If
-
-   On Error GoTo 0
-   Exit Property
-
-TriggerTimeShiftLet_Error:
-
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property TriggerTimeShift of Class Module cwoverlay"
-End Property
- 
- 
- 
-  
- '---------------------------------------------------------------------------------------
-' Property  : AlarmSetCurrentDate
-' Author    : beededea
-' Date      : 17/05/2023
-' Purpose   : property (by value) to set the alarm date for the timeshift routines
-'---------------------------------------------------------------------------------------
-'
-Public Property Get AlarmSetCurrentDate() As Boolean
-   On Error GoTo AlarmSetCurrentDateGet_Error
-
-   AlarmSetCurrentDate = mAlarmSetCurrentDate
-
-   On Error GoTo 0
-   Exit Property
-
-AlarmSetCurrentDateGet_Error:
-
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property AlarmSetCurrentDate of Class Module cwoverlay"
-End Property
-
-'---------------------------------------------------------------------------------------
-' Property  : AlarmSetCurrentDate
-' Author    : beededea
-' Date      : 10/05/2023
-' Purpose   : property (by value) to set the alarm date for the timeshift routines
-'---------------------------------------------------------------------------------------
-'
-Public Property Let AlarmSetCurrentDate(ByVal newValue As Boolean)
-   On Error GoTo AlarmSetCurrentDateLet_Error
-   
-   mAlarmSetCurrentDate = newValue
-
-    If mAlarmSetCurrentDate = True Then
-        Call tmrTimeShiftRoutine
-        Call tmrClock_TimerRoutine
-     End If
-
-   On Error GoTo 0
-   Exit Property
-
-AlarmSetCurrentDateLet_Error:
-
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property AlarmSetCurrentDate of Class Module cwoverlay"
-End Property
-
-'---------------------------------------------------------------------------------------
-' Procedure : drawTimeMachineImages
+' Property  : FaceMode
 ' Author    : beededea
 ' Date      : 17/05/2023
 ' Purpose   :
 '---------------------------------------------------------------------------------------
-'ByRef CC As cCairoContext
-Private Sub drawTimeMachineImages(ByRef CC As cCairoContext)
-    
-    
+'
+Public Property Get FaceMode() As String
+   On Error GoTo FaceModeGet_Error
 
+   FaceMode = mFaceMode
 
+   On Error GoTo 0
+   Exit Property
 
-End Sub
+FaceModeGet_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property FaceMode of Class Module cwOverlay"
+End Property
+'---------------------------------------------------------------------------------------
+' Property  : FaceMode
+' Author    : beededea
+' Date      : 10/05/2023
+' Purpose   :
+'---------------------------------------------------------------------------------------
+'
+Public Property Let FaceMode(ByVal newValue As String)
+   On Error GoTo FaceModeLet_Error
+
+    If mFaceMode <> newValue Then mFaceMode = newValue Else Exit Property
+
+   On Error GoTo 0
+   Exit Property
+
+FaceModeLet_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property FaceMode of Class Module cwOverlay"
+End Property
  
-
-
-'---------------------------------------------------------------------------------------
-' Procedure : DrawDigitalClocks
-' Author    : beededea
-' Date      : 06/09/2024
-' Purpose   : display the hours and mins from the cache
-'---------------------------------------------------------------------------------------
-'
-Sub DrawDigitalClocks(ByRef CC As cCairoContext)
-   On Error GoTo DrawDigitalClocks_Error
-      
-      
-    CC.RenderSurfaceContent "hourCache1", 453, 266, , , , MyOpacity
-    CC.RenderSurfaceContent "hourCache2", 474, 266, , , , MyOpacity
-              
-    CC.RenderSurfaceContent "minuteCache1", 502, 266, , , , MyOpacity
-    CC.RenderSurfaceContent "minuteCache2", 523, 266, , , , MyOpacity
-'
-'    ' display the day, month and years
-    CC.RenderSurfaceContent "dayCache1", 404, 312, , , , MyOpacity
-    CC.RenderSurfaceContent "dayCache2", 423, 312, , , , MyOpacity
-'
-    CC.RenderSurfaceContent "monthCache", 442, 312, , , , MyOpacity
-
-    CC.RenderSurfaceContent "yearCache1", 510, 312, , , , MyOpacity
-    CC.RenderSurfaceContent "yearCache2", 529, 312, , , , MyOpacity
-    CC.RenderSurfaceContent "yearCache3", 548, 312, , , , MyOpacity
-    CC.RenderSurfaceContent "yearCache4", 567, 312, , , , MyOpacity
-    
-    CC.RenderSurfaceContent "AMPMCache", 621, 387, , , , MyOpacity
-
-   On Error GoTo 0
-   Exit Sub
-
-DrawDigitalClocks_Error:
-
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure DrawDigitalClocks of Class Module cwOverlay"
-End Sub
-    
-
-
-' ----------------------------------------------------------------
-' Procedure Name: populateDigitalHoursCache
-' Purpose: add the digital hour images to the hours cache
-' Procedure Kind: Sub
-' Procedure ACCess: Private
-' Parameter CC (CCCContext):
-' Author: beededea
-' Date: 24/06/2024
-' ----------------------------------------------------------------
-
-Private Sub populateDigitalHoursCache(ByRef CC As cCairoContext, Optional ByVal alarmHour As String)
-
-    Dim hourString As String: hourString = vbNullString
-    Dim localHour As Integer: localHour = 0
-
-    On Error GoTo populateDigitalHoursCache_Error
-       
-    ' if the rotator is functioning then display the contents from that...
-    If gblNumericDisplayRotation = "1" And tmrDigitRotator.Enabled = True Then
-        localHour = CInt(pvtHoursRotatorString)
-        hourString = pvtHoursRotatorString
-    Else
-        If alarmHour <> vbNullString Then
-            localHour = CInt(alarmHour)
-            hourString = CStr(localHour)
-        Else
-            localHour = CInt(pvtThisHour)
-            hourString = CStr(pvtThisHour)
-        End If
-        
-        ' if 24hr mode then convert
-        If gbl24HourClockMode = "0" Then
-            If localHour > 12 Then localHour = (localHour - 12)
-        
-            hourString = CStr(localHour)
-       End If
-    End If
-        
-    ' add a preceding zero to the time string
-    If localHour < 10 Then ' uses vb6 coerce a string to a numeric without calling a cast function, quicker?
-        hourString = "0" & localHour '
-    End If
-        
-    ' hour digits for digital display
-    Select Case Left$(hourString, 1)
-        Case 0
-            Cairo.ImageList.AddSurface "hourCache1", Cairo.ImageList("small0")
-        Case 1
-            Cairo.ImageList.AddSurface "hourCache1", Cairo.ImageList("small1")
-        Case 2
-            Cairo.ImageList.AddSurface "hourCache1", Cairo.ImageList("small2")
-        Case 3
-            Cairo.ImageList.AddSurface "hourCache1", Cairo.ImageList("small3")
-        Case 4
-            Cairo.ImageList.AddSurface "hourCache1", Cairo.ImageList("small4")
-        Case 5
-            Cairo.ImageList.AddSurface "hourCache1", Cairo.ImageList("small5")
-        Case 6
-            Cairo.ImageList.AddSurface "hourCache1", Cairo.ImageList("small6")
-        Case 7
-            Cairo.ImageList.AddSurface "hourCache1", Cairo.ImageList("small7")
-        Case 8
-            Cairo.ImageList.AddSurface "hourCache1", Cairo.ImageList("small8")
-        Case 9
-            Cairo.ImageList.AddSurface "hourCache1", Cairo.ImageList("small9")
-    End Select
-
-    Select Case Mid$(hourString, 2, 1)
-        Case 0
-            Cairo.ImageList.AddSurface "hourCache2", Cairo.ImageList("small0")
-        Case 1
-            Cairo.ImageList.AddSurface "hourCache2", Cairo.ImageList("small1")
-        Case 2
-            Cairo.ImageList.AddSurface "hourCache2", Cairo.ImageList("small2")
-        Case 3
-            Cairo.ImageList.AddSurface "hourCache2", Cairo.ImageList("small3")
-        Case 4
-            Cairo.ImageList.AddSurface "hourCache2", Cairo.ImageList("small4")
-        Case 5
-            Cairo.ImageList.AddSurface "hourCache2", Cairo.ImageList("small5")
-        Case 6
-            Cairo.ImageList.AddSurface "hourCache2", Cairo.ImageList("small6")
-        Case 7
-            Cairo.ImageList.AddSurface "hourCache2", Cairo.ImageList("small7")
-        Case 8
-            Cairo.ImageList.AddSurface "hourCache2", Cairo.ImageList("small8")
-        Case 9
-            Cairo.ImageList.AddSurface "hourCache2", Cairo.ImageList("small9")
-    End Select
-
-
-   On Error GoTo 0
-   Exit Sub
-
-populateDigitalHoursCache_Error:
-
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure populateDigitalHoursCache of Class Module cwOverlay"
-
-End Sub
-
-' ----------------------------------------------------------------
-' Procedure Name: populateDigitalMinsCache
-' Purpose: add the digital minutes images to the minutes cache
-' Procedure Kind: Sub
-' Procedure Access: Private
-' Parameter CC (cCairoContext):
-' Author: beededea
-' Date: 24/06/2024
-' ----------------------------------------------------------------
-
-Private Sub populateDigitalMinsCache(ByRef CC As cCairoContext, Optional ByVal alarmMins As String)
-
-    Dim minString As String: minString = vbNullString
-    Dim localMins As Integer: localMins = 0
-       
-    On Error GoTo populateDigitalMinsCache_Error
-
-
-    ' if the rotator is functioning then display the contents from that...
-    If gblNumericDisplayRotation = "1" And tmrDigitRotator.Enabled = True Then
-        localMins = CInt(pvtMinsRotatorString)
-        minString = pvtHoursRotatorString
-    Else
-        If alarmMins <> vbNullString Then
-            localMins = CInt(alarmMins)
-            minString = CStr(localMins)
-        Else
-            localMins = CInt(pvtThisMins)
-            minString = CStr(pvtThisMins)
-        End If
-    End If
-    
-    If localMins < 10 Then ' uses vb6 coerce a string to a numeric without calling a cast function, quicker?
-        minString = "0" & localMins '
-    End If
-
-    ' Min digits for digital display
-        
-    Select Case Left$(minString, 1)
-        Case 0
-            Cairo.ImageList.AddSurface "minuteCache1", Cairo.ImageList("small0")
-        Case 1
-            Cairo.ImageList.AddSurface "minuteCache1", Cairo.ImageList("small1")
-        Case 2
-            Cairo.ImageList.AddSurface "minuteCache1", Cairo.ImageList("small2")
-        Case 3
-            Cairo.ImageList.AddSurface "minuteCache1", Cairo.ImageList("small3")
-        Case 4
-            Cairo.ImageList.AddSurface "minuteCache1", Cairo.ImageList("small4")
-        Case 5
-            Cairo.ImageList.AddSurface "minuteCache1", Cairo.ImageList("small5")
-        Case 6
-            Cairo.ImageList.AddSurface "minuteCache1", Cairo.ImageList("small6")
-        Case 7
-            Cairo.ImageList.AddSurface "minuteCache1", Cairo.ImageList("small7")
-        Case 8
-            Cairo.ImageList.AddSurface "minuteCache1", Cairo.ImageList("small8")
-        Case 9
-            Cairo.ImageList.AddSurface "minuteCache1", Cairo.ImageList("small9")
-    End Select
-        
-    Select Case Mid$(minString, 2, 1)
-        Case 0
-            Cairo.ImageList.AddSurface "minuteCache2", Cairo.ImageList("small0")
-        Case 1
-            Cairo.ImageList.AddSurface "minuteCache2", Cairo.ImageList("small1")
-        Case 2
-            Cairo.ImageList.AddSurface "minuteCache2", Cairo.ImageList("small2")
-        Case 3
-            Cairo.ImageList.AddSurface "minuteCache2", Cairo.ImageList("small3")
-        Case 4
-            Cairo.ImageList.AddSurface "minuteCache2", Cairo.ImageList("small4")
-        Case 5
-            Cairo.ImageList.AddSurface "minuteCache2", Cairo.ImageList("small5")
-        Case 6
-            Cairo.ImageList.AddSurface "minuteCache2", Cairo.ImageList("small6")
-        Case 7
-            Cairo.ImageList.AddSurface "minuteCache2", Cairo.ImageList("small7")
-        Case 8
-            Cairo.ImageList.AddSurface "minuteCache2", Cairo.ImageList("small8")
-        Case 9
-            Cairo.ImageList.AddSurface "minuteCache2", Cairo.ImageList("small9")
-    End Select
-    
-
-   On Error GoTo 0
-   Exit Sub
-
-populateDigitalMinsCache_Error:
-
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure populateDigitalMinsCache of Class Module cwOverlay"
-
-End Sub
-
-
-
-' ----------------------------------------------------------------
-' Procedure Name: populateDigitalYearCache
-' Purpose: add the year digits for digital display to the cache
-' Procedure Kind: Sub
-' Procedure Access: Private
-' Parameter CC (cCairoContext):
-' Author: beededea
-' Date: 24/06/2024
-' ----------------------------------------------------------------
-
-Private Sub populateDigitalYearCache(ByRef CC As cCairoContext, Optional ByVal alarmYear As String)
-
-    Dim yearString As String: yearString = vbNullString
-           
-    On Error GoTo populateDigitalYearCache_Error
-
-    ' if the rotator is functioning then display the contents from that...
-    If gblNumericDisplayRotation = "1" And tmrDigitRotator.Enabled = True Then
-        yearString = pvtYearRotatorString
-    Else
-        If alarmYear <> vbNullString Then
-            yearString = alarmYear
-        Else
-            yearString = Year(Now) ' coerce date variant to integer
-        End If
-    End If
-    
-'    If Len(yearString) = 3 Then
-'        MsgBox "hmmmm"
-'    End If
-
-    Select Case Left$(yearString, 1)
-        Case 0
-            Cairo.ImageList.AddSurface "yearCache1", Cairo.ImageList("num0large")
-        Case 1
-            Cairo.ImageList.AddSurface "yearCache1", Cairo.ImageList("num1large")
-        Case 2
-            Cairo.ImageList.AddSurface "yearCache1", Cairo.ImageList("num2large")
-        Case 3
-            Cairo.ImageList.AddSurface "yearCache1", Cairo.ImageList("num3large")
-        Case 4
-            Cairo.ImageList.AddSurface "yearCache1", Cairo.ImageList("num4large")
-        Case 5
-            Cairo.ImageList.AddSurface "yearCache1", Cairo.ImageList("num5large")
-        Case 6
-            Cairo.ImageList.AddSurface "yearCache1", Cairo.ImageList("num6large")
-        Case 7
-            Cairo.ImageList.AddSurface "yearCache1", Cairo.ImageList("num7large")
-        Case 8
-            Cairo.ImageList.AddSurface "yearCache1", Cairo.ImageList("num8large")
-        Case 9
-            Cairo.ImageList.AddSurface "yearCache1", Cairo.ImageList("num9large")
-    End Select
-    
-    Select Case Mid$(yearString, 2, 1)
-        Case 0
-            Cairo.ImageList.AddSurface "yearCache2", Cairo.ImageList("num0large")
-        Case 1
-            Cairo.ImageList.AddSurface "yearCache2", Cairo.ImageList("num1large")
-        Case 2
-            Cairo.ImageList.AddSurface "yearCache2", Cairo.ImageList("num2large")
-        Case 3
-            Cairo.ImageList.AddSurface "yearCache2", Cairo.ImageList("num3large")
-        Case 4
-            Cairo.ImageList.AddSurface "yearCache2", Cairo.ImageList("num4large")
-        Case 5
-            Cairo.ImageList.AddSurface "yearCache2", Cairo.ImageList("num5large")
-        Case 6
-            Cairo.ImageList.AddSurface "yearCache2", Cairo.ImageList("num6large")
-        Case 7
-            Cairo.ImageList.AddSurface "yearCache2", Cairo.ImageList("num7large")
-        Case 8
-            Cairo.ImageList.AddSurface "yearCache2", Cairo.ImageList("num8large")
-        Case 9
-            Cairo.ImageList.AddSurface "yearCache2", Cairo.ImageList("num9large")
-    End Select
-        
-    Select Case Mid$(yearString, 3, 1)
-        Case 0
-            Cairo.ImageList.AddSurface "yearCache3", Cairo.ImageList("num0large")
-        Case 1
-            Cairo.ImageList.AddSurface "yearCache3", Cairo.ImageList("num1large")
-        Case 2
-            Cairo.ImageList.AddSurface "yearCache3", Cairo.ImageList("num2large")
-        Case 3
-            Cairo.ImageList.AddSurface "yearCache3", Cairo.ImageList("num3large")
-        Case 4
-            Cairo.ImageList.AddSurface "yearCache3", Cairo.ImageList("num4large")
-        Case 5
-            Cairo.ImageList.AddSurface "yearCache3", Cairo.ImageList("num5large")
-        Case 6
-            Cairo.ImageList.AddSurface "yearCache3", Cairo.ImageList("num6large")
-        Case 7
-            Cairo.ImageList.AddSurface "yearCache3", Cairo.ImageList("num7large")
-        Case 8
-            Cairo.ImageList.AddSurface "yearCache3", Cairo.ImageList("num8large")
-        Case 9
-            Cairo.ImageList.AddSurface "yearCache3", Cairo.ImageList("num9large")
-    End Select
-    
-    Select Case Mid$(yearString, 4, 1)
-        Case 0
-            Cairo.ImageList.AddSurface "yearCache4", Cairo.ImageList("num0large")
-        Case 1
-            Cairo.ImageList.AddSurface "yearCache4", Cairo.ImageList("num1large")
-        Case 2
-            Cairo.ImageList.AddSurface "yearCache4", Cairo.ImageList("num2large")
-        Case 3
-            Cairo.ImageList.AddSurface "yearCache4", Cairo.ImageList("num3large")
-        Case 4
-            Cairo.ImageList.AddSurface "yearCache4", Cairo.ImageList("num4large")
-        Case 5
-            Cairo.ImageList.AddSurface "yearCache4", Cairo.ImageList("num5large")
-        Case 6
-            Cairo.ImageList.AddSurface "yearCache4", Cairo.ImageList("num6large")
-        Case 7
-            Cairo.ImageList.AddSurface "yearCache4", Cairo.ImageList("num7large")
-        Case 8
-            Cairo.ImageList.AddSurface "yearCache4", Cairo.ImageList("num8large")
-        Case 9
-            Cairo.ImageList.AddSurface "yearCache4", Cairo.ImageList("num9large")
-    End Select
-
-   On Error GoTo 0
-   Exit Sub
-
-populateDigitalYearCache_Error:
-
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure populateDigitalYearCache of Class Module cwOverlay"
-End Sub
-
-' ----------------------------------------------------------------
-' Procedure Name: populateDigitalMonthCache
-' Purpose: month digits for digital display to the month cache
-' Procedure Kind: Sub
-' Procedure Access: Private
-' Parameter CC (cCairoContext):
-' Author: beededea
-' Date: 24/06/2024
-' ----------------------------------------------------------------
-
-Private Sub populateDigitalMonthCache(ByRef CC As cCairoContext, Optional ByVal alarmMonth As String)
-
-    Dim thisMonth As Integer: thisMonth = 0
-
-    On Error GoTo populateDigitalMonthCache_Error
-    
-    ' if the rotator is functioning then display the contents from that...
-    If gblNumericDisplayRotation = "1" And tmrDigitRotator.Enabled = True Then
-        thisMonth = CInt(pvtMonthRotatorString)
-    Else
-        thisMonth = Month(Now) ' coerce date variant to integer
-           
-        If alarmMonth <> vbNullString Then
-            thisMonth = CInt(alarmMonth)
-        Else
-            thisMonth = Month(Now) ' coerce date variant to integer
-        End If
-    End If
-
-    Select Case thisMonth
-        Case 1
-            Cairo.ImageList.AddSurface "monthCache", Cairo.ImageList("jan")
-        Case 2
-            Cairo.ImageList.AddSurface "monthCache", Cairo.ImageList("feb")
-        Case 3
-            Cairo.ImageList.AddSurface "monthCache", Cairo.ImageList("mar")
-        Case 4
-            Cairo.ImageList.AddSurface "monthCache", Cairo.ImageList("apr")
-        Case 5
-            Cairo.ImageList.AddSurface "monthCache", Cairo.ImageList("may")
-        Case 6
-            Cairo.ImageList.AddSurface "monthCache", Cairo.ImageList("jun")
-        Case 7
-            Cairo.ImageList.AddSurface "monthCache", Cairo.ImageList("jul")
-        Case 8
-            Cairo.ImageList.AddSurface "monthCache", Cairo.ImageList("aug")
-        Case 9
-            Cairo.ImageList.AddSurface "monthCache", Cairo.ImageList("sep")
-        Case 10
-            Cairo.ImageList.AddSurface "monthCache", Cairo.ImageList("oct")
-        Case 11
-            Cairo.ImageList.AddSurface "monthCache", Cairo.ImageList("nov")
-        Case 12
-            Cairo.ImageList.AddSurface "monthCache", Cairo.ImageList("dec")
-    End Select
-    
-   On Error GoTo 0
-   Exit Sub
-
-populateDigitalMonthCache_Error:
-
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure populateDigitalMonthCache of Class Module cwOverlay"
-
-End Sub
-
-
-
-' ----------------------------------------------------------------
-' Procedure Name: populateDigitalDayofMonthCache
-' Purpose: ' day digits for digital display  to the day of the month cache
-' Procedure Kind: Sub
-' Procedure Access: Private
-' Parameter CC (cCairoContext):
-' Author: beededea
-' Date: 24/06/2024
-' ----------------------------------------------------------------
-
-Private Sub populateDigitalDayofMonthCache(ByRef CC As cCairoContext, Optional ByVal alarmDay As String)
-    
-    Dim dayString As String: dayString = vbNullString
-    Dim localDay As Integer: localDay = 0
-    Dim thisDay As Integer: thisDay = 0
-
-   On Error GoTo populateDigitalDayofMonthCache_Error
-   
-    ' if the rotator is functioning then display the contents from that...
-    If gblNumericDisplayRotation = "1" And tmrDigitRotator.Enabled = True Then
-        localDay = CInt(pvtDaysRotatorString)
-        dayString = pvtDaysRotatorString
-    Else
-        thisDay = Day(Now)
-           
-        If alarmDay <> vbNullString Then
-            localDay = CInt(alarmDay)
-            dayString = CStr(localDay)
-        Else
-            localDay = CInt(thisDay)
-            dayString = CStr(thisDay)
-        End If
-    End If
-    
-    If localDay < 10 Then ' uses vb6 coerce a string to a numeric without calling a cast function, quicker?
-        dayString = "0" & localDay '
-    End If
-        
-    Select Case Left$(dayString, 1)
-        Case 0
-           Cairo.ImageList.AddSurface "dayCache1", Cairo.ImageList("num0large")
-        Case 1
-           Cairo.ImageList.AddSurface "dayCache1", Cairo.ImageList("num1large")
-        Case 2
-           Cairo.ImageList.AddSurface "dayCache1", Cairo.ImageList("num2large")
-        Case 3
-           Cairo.ImageList.AddSurface "dayCache1", Cairo.ImageList("num3large")
-        Case 4
-           Cairo.ImageList.AddSurface "dayCache1", Cairo.ImageList("num4large")
-        Case 5
-           Cairo.ImageList.AddSurface "dayCache1", Cairo.ImageList("num5large")
-        Case 6
-           Cairo.ImageList.AddSurface "dayCache1", Cairo.ImageList("num6large")
-        Case 7
-           Cairo.ImageList.AddSurface "dayCache1", Cairo.ImageList("num7large")
-        Case 8
-           Cairo.ImageList.AddSurface "dayCache1", Cairo.ImageList("num8large")
-        Case 9
-           Cairo.ImageList.AddSurface "dayCache1", Cairo.ImageList("num9large")
-    End Select
-    
-    Select Case Mid$(dayString, 2, 1)
-        Case 0
-           Cairo.ImageList.AddSurface "dayCache2", Cairo.ImageList("num0large")
-        Case 1
-           Cairo.ImageList.AddSurface "dayCache2", Cairo.ImageList("num1large")
-        Case 2
-           Cairo.ImageList.AddSurface "dayCache2", Cairo.ImageList("num2large")
-        Case 3
-           Cairo.ImageList.AddSurface "dayCache2", Cairo.ImageList("num3large")
-        Case 4
-           Cairo.ImageList.AddSurface "dayCache2", Cairo.ImageList("num4large")
-        Case 5
-           Cairo.ImageList.AddSurface "dayCache2", Cairo.ImageList("num5large")
-        Case 6
-           Cairo.ImageList.AddSurface "dayCache2", Cairo.ImageList("num6large")
-        Case 7
-           Cairo.ImageList.AddSurface "dayCache2", Cairo.ImageList("num7large")
-        Case 8
-           Cairo.ImageList.AddSurface "dayCache2", Cairo.ImageList("num8large")
-        Case 9
-           Cairo.ImageList.AddSurface "dayCache2", Cairo.ImageList("num9large")
-    End Select
-
-   On Error GoTo 0
-   Exit Sub
-
-populateDigitalDayofMonthCache_Error:
-
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure populateDigitalDayofMonthCache of Class Module cwOverlay"
-End Sub
-
-
-'---------------------------------------------------------------------------------------
-' Procedure : populateAMPMDigitalDayCache
-' Author    : beededea
-' Date      : 17/05/2023
-' Purpose   : AM/PM digits for digital display to the day of the AM/PM cache
-'---------------------------------------------------------------------------------------
-
-Private Sub populateAMPMDigitalDayCache(ByRef CC As cCairoContext, Optional ByVal alarmHour As String)
-
-    Dim localHour As Integer: localHour = 0
-    
-    On Error GoTo populateAMPMDigitalDayCache_Error
-
-    If alarmHour <> vbNullString Then
-        localHour = CInt(alarmHour)
-    Else
-        localHour = pvtThisHour
-    End If
-    
-    If localHour < 12 Then ' uses vb6 coerce a string to a numeric without calling a cast function, quicker?
-         Cairo.ImageList.AddSurface "AMPMCache", Cairo.ImageList("AM")
-    Else
-         Cairo.ImageList.AddSurface "AMPMCache", Cairo.ImageList("PM")
-    End If
-
-   On Error GoTo 0
-   Exit Sub
-
-populateAMPMDigitalDayCache_Error:
-
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure populateAMPMDigitalDayCache of Class Module cwOverlay"
-
-End Sub
-
-
-'---------------------------------------------------------------------------------------
-' Procedure : populateDigitalClockCache
-' Author    : beededea
-' Date      : 17/05/2023
-' Purpose   : determine what needs to be inserted into the cache and add resulting images to the various caches
-'---------------------------------------------------------------------------------------
-Private Sub populateDigitalClockCache(ByRef CC As cCairoContext)
-    Dim theDay As String: theDay = vbNullString
-    Dim theMonth As String: theMonth = vbNullString
-    Dim theYear As String: theYear = vbNullString
-    Dim theHours As String: theHours = vbNullString
-    Dim theMins As String: theMins = vbNullString
-    
-    Dim dateAndTime As String: dateAndTime = vbNullString
-    Dim alarmDateString As String: alarmDateString = vbNullString
-    Dim alarmTimeString As String: alarmTimeString = vbNullString
-    
-    On Error GoTo populateDigitalClockCache_Error
-    
-    If gblShowAlarmDateTime = True Then ' don't always want the stored dates/times to show when setting a new alarm ' replace with a property get/set?
-        If gblAlarmToggle1Enabled = "True" Then
-            ' read the date and time variables for alarmtoggle1
-            If gblAlarm1Date = "Alarm not yet set" Or mAlarmSetCurrentDate = True Then
-            
-                dateAndTime = Now()
-
-                alarmDateString = Left$(dateAndTime, 10)
-                alarmTimeString = Mid$(dateAndTime, 12, 5)
-
-                theDay = Left$(alarmDateString, 2)
-                theMonth = Mid$(alarmDateString, 4, 2)
-                theYear = Mid$(alarmDateString, 7, 4)
-                theHours = Left$(alarmTimeString, 2)
-                theMins = Mid$(alarmTimeString, 4, 2)
-                
-            Else
-                theDay = Left$(gblAlarm1Date, 2)
-                theMonth = Mid$(gblAlarm1Date, 4, 2)
-                theYear = Mid$(gblAlarm1Date, 7, 4)
-                theHours = Left$(gblAlarm1Time, 2)
-                theMins = Mid$(gblAlarm1Time, 4, 2)
-            End If
-        End If
-            
-        If gblAlarmToggle2Enabled = "True" Then
-            ' read the date and time variables for alarmtoggle2
-            If gblAlarm2Date = "Alarm not yet set" Or mAlarmSetCurrentDate = True Then
-            
-                dateAndTime = Now()
-                
-                alarmDateString = Left$(dateAndTime, 10)
-                alarmTimeString = Mid$(dateAndTime, 12, 5)
-                
-                theDay = Left$(alarmDateString, 2)
-                theMonth = Mid$(alarmDateString, 4, 2)
-                theYear = Mid$(alarmDateString, 7, 4)
-                theHours = Left$(alarmTimeString, 2)
-                theMins = Mid$(alarmTimeString, 4, 2)
-            Else
-                theDay = Left$(gblAlarm2Date, 2)
-                theMonth = Mid$(gblAlarm2Date, 4, 2)
-                theYear = Mid$(gblAlarm2Date, 7, 4)
-                theHours = Left$(gblAlarm2Time, 2)
-                theMins = Mid$(gblAlarm2Time, 4, 2)
-            End If
-        End If
-        
-        If gblAlarmToggle3Enabled = "True" Then
-            ' read the date and time variables for alarmtoggle3
-            If gblAlarm3Date = "Alarm not yet set" Or mAlarmSetCurrentDate = True Then
-            
-                dateAndTime = Now()
-                
-                alarmDateString = Left$(dateAndTime, 10)
-                alarmTimeString = Mid$(dateAndTime, 12, 5)
-                
-                theDay = Left$(alarmDateString, 2)
-                theMonth = Mid$(alarmDateString, 4, 2)
-                theYear = Mid$(alarmDateString, 7, 4)
-                theHours = Left$(alarmTimeString, 2)
-                theMins = Mid$(alarmTimeString, 4, 2)
-            Else
-                theDay = Left$(gblAlarm3Date, 2)
-                theMonth = Mid$(gblAlarm3Date, 4, 2)
-                theYear = Mid$(gblAlarm3Date, 7, 4)
-                theHours = Left$(gblAlarm3Time, 2)
-                theMins = Mid$(gblAlarm3Time, 4, 2)
-            End If
-        End If
-        
-        If gblAlarmToggle4Enabled = "True" Then
-            ' read the date and time variables for alarmtoggle4
-            If gblAlarm4Date = "Alarm not yet set" Or mAlarmSetCurrentDate = True Then
-            
-                dateAndTime = Now()
-                
-                alarmDateString = Left$(dateAndTime, 10)
-                alarmTimeString = Mid$(dateAndTime, 12, 5)
-                
-                theDay = Left$(alarmDateString, 2)
-                theMonth = Mid$(alarmDateString, 4, 2)
-                theYear = Mid$(alarmDateString, 7, 4)
-                theHours = Left$(alarmTimeString, 2)
-                theMins = Mid$(alarmTimeString, 4, 2)
-            Else
-                theDay = Left$(gblAlarm4Date, 2)
-                theMonth = Mid$(gblAlarm4Date, 4, 2)
-                theYear = Mid$(gblAlarm4Date, 7, 4)
-                theHours = Left$(gblAlarm4Time, 2)
-                theMins = Mid$(gblAlarm4Time, 4, 2)
-            End If
-        End If
-        
-        If gblAlarmToggle5Enabled = "True" Then
-            ' read the date and time variables for alarmtoggle5
-             If gblAlarm5Date = "Alarm not yet set" Or mAlarmSetCurrentDate = True Then
-            
-                dateAndTime = Now()
-                
-                alarmDateString = Left$(dateAndTime, 10)
-                alarmTimeString = Mid$(dateAndTime, 12, 5)
-                
-                theDay = Left$(alarmDateString, 2)
-                theMonth = Mid$(alarmDateString, 4, 2)
-                theYear = Mid$(alarmDateString, 7, 4)
-                theHours = Left$(alarmTimeString, 2)
-                theMins = Mid$(alarmTimeString, 4, 2)
-            Else
-                
-                theDay = Left$(gblAlarm5Date, 2)
-                theMonth = Mid$(gblAlarm5Date, 4, 2)
-                theYear = Mid$(gblAlarm5Date, 7, 4)
-                theHours = Left$(gblAlarm5Time, 2)
-                theMins = Mid$(gblAlarm5Time, 4, 2)
-            End If
-        End If
-    Else
-        dateAndTime = Now()
-
-        alarmDateString = Left$(dateAndTime, 10)
-        alarmTimeString = Mid$(dateAndTime, 12, 5)
-    
-        theDay = Left$(alarmDateString, 2)
-        theMonth = Mid$(alarmDateString, 4, 2)
-        theYear = Mid$(alarmDateString, 7, 4)
-        theHours = Left$(alarmTimeString, 2)
-        theMins = Mid$(alarmTimeString, 4, 2)
-    End If
-    
-    If mSliderInTransit = True Or mSliderFreed = True Then
-
-        alarmDateString = Left$(pvtCurrentDateToDisplay, 10)
-        alarmTimeString = Mid$(pvtCurrentDateToDisplay, 12, 5)
-    
-        theDay = Left$(alarmDateString, 2)
-        theMonth = Mid$(alarmDateString, 4, 2)
-        theYear = Mid$(alarmDateString, 7, 4)
-        theHours = Mid$(alarmTimeString, 12, 2)
-        theMins = Mid$(alarmTimeString, 4, 2)
-        
-    End If
-
-    Call populateDigitalDayofMonthCache(CC, theDay)
-    Call populateDigitalMonthCache(CC, theMonth)
-    Call populateDigitalYearCache(CC, theYear)
-    Call populateDigitalHoursCache(CC, theHours)
-    Call populateDigitalMinsCache(CC, theMins)
-    Call populateAMPMDigitalDayCache(CC, theHours)
-    
-    W.Refresh
-
-   On Error GoTo 0
-   Exit Sub
-
-populateDigitalClockCache_Error:
-
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure populateDigitalClockCache of Class Module cwOverlay"
-End Sub
-'---------------------------------------------------------------------------------------
-' Procedure : tmrDigitRotator_Timer
-' Author    : beededea
-' Date      : 13/09/2024
-' Purpose   : 'rotates' the digital numeric displays
-'---------------------------------------------------------------------------------------
-'
-Private Sub tmrDigitRotator_Timer()
-    Static rotatorTimerCount As Integer
-    
-    On Error GoTo tmrDigitRotator_Timer_Error
-    
-    pvtRotatorLimit = 24
-
-    rotatorTimerCount = rotatorTimerCount + 1
-    
-    ' start at zero and increment a counter to current value
-    ' if the value is equal to the counter, stop the timer
-    
-    If rotatorTimerCount <= pvtRotatorLimit Then
-        ' set the current displayed digit in the cache
-        ' we can use populateDigitalMinsCache passing a value as a param to alarmMins
-        
-        pvtMinsRotatorString = CStr(rotatorTimerCount)
-        pvtHoursRotatorString = CStr(rotatorTimerCount)
-        pvtDaysRotatorString = CStr(rotatorTimerCount)
-        If rotatorTimerCount <= 9 Then
-            pvtYearRotatorString = "190" & CStr(rotatorTimerCount)
-        Else
-            pvtYearRotatorString = "19" & CStr(rotatorTimerCount)
-        End If
-        pvtMonthRotatorString = CStr(rotatorTimerCount)
-
-    Else
-        TmrDigitRotatorTicking = False
-        rotatorTimerCount = 0
-        
-'        pvtMinsRotatorString = "00"
-'        pvtHoursRotatorString = "00"
-'        pvtDaysRotatorString = "00"
-'        pvtYearRotatorString = "0000"
-        
-    End If
-         
-    ' trigger a paint event
-        
-    gblTriggerDigitalClockPopulation = True
-    overlayWidget.Widget.Parent.Refresh
-   
-   On Error GoTo 0
-   Exit Sub
-
-tmrDigitRotator_Timer_Error:
-
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure tmrDigitRotator_Timer of Class Module cwOverlay"
-End Sub
-
-
-' ----------------------------------------------------------------
-' Procedure Name: tmrTimeShift_Timer
-' Purpose:  timer controlling the date & time advance/retard according to slider position
-' Procedure Kind: Sub
-' Procedure Access: Private
-' Author: beededea
-' Date: 21/06/2024
-' ----------------------------------------------------------------
-Private Sub tmrTimeShift_Timer()
-
-    On Error GoTo tmrTimeShift_Timer_Error
-    
-    Call tmrTimeShiftRoutine
-    
-   On Error GoTo 0
-   Exit Sub
-
-tmrTimeShift_Timer_Error:
-
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure tmrTimeShift_Timer of Class Module cwOverlay"
-End Sub
-
-
-'---------------------------------------------------------------------------------------
-' Procedure : tmrTimeShiftRoutine
-' Author    : beededea
-' Date      : 28/12/2024
-' Purpose   : called by tmrTimeShift and by a TimeShift property call
-'---------------------------------------------------------------------------------------
-'
-Private Sub tmrTimeShiftRoutine()
-
-    Dim perc As Integer: perc = 0
-    
-    ' Calculate the percentage
-    On Error GoTo tmrTimeShiftRoutine_Error
-
-    perc = mTimeShiftValueSecs * 100
-
-    ' Determine the percentage from the middle of the slider
-    If perc <= 50 Then ' Negative value
-        perc = perc - 50 ' results in a negative number
-        perc = perc * 2  ' double it for a percentage from the mid point
-
-    ElseIf perc > 50 Then ' Positive
-        perc = perc - 50
-        perc = perc * 2
-    End If
-    
-    gblTimeAdvanceDeviation = gblTimeAdvanceDeviation + fLogSlider(perc)
-
-    'pass the time deviation to a property in cwOverlay, Given a percentage calculates the logarithmic value
-    mTimeDeviation = gblTimeAdvanceDeviation
-    
-    Debug.Print ("%KON-I-INFO, perc before " & perc)
-
-    W.Parent.Refresh ' causes a paint event to fire
-
-   On Error GoTo 0
-   Exit Sub
-
-tmrTimeShiftRoutine_Error:
-
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure tmrTimeShiftRoutine of Class Module cwOverlay"
-
-End Sub
-
-
-
-
-'---------------------------------------------------------------------------------------
-' Procedure : fLogSlider
-' Author    : beededea
-' Date      : 14/11/2024
-' Purpose   : this function determines the logarithmic value of the time slider
-'---------------------------------------------------------------------------------------
-'
-Function fLogSlider(thisPerc As Integer) As Currency
-
-    Dim minp As Double: minp = 0
-    Dim maxp As Double: maxp = 0
-    Dim minv As Double: minv = 0
-    Dim maxv As Double: maxv = 0
-    Dim logScale As Double: logScale = 0
-    Dim thisValue As Double: thisValue = 0
-    Dim negFlag As Boolean: negFlag = False
-    
-    On Error GoTo LogSlider_Error
-    
-    If thisPerc <= 0 Then ' convert to positive to calculate adjustment factor
-        negFlag = True
-        thisPerc = Abs(thisPerc)
-    End If
-    
-    maxp = 100
-    
-    ' sets the min /max slider values dependent upon which digital time area selected
-    If gblTimeAreaClicked = "none" Then
-        minv = Log(50)       ' minimum
-        maxv = Log(3000000#) ' maximum
-    ElseIf gblTimeAreaClicked = "date" Then
-        minv = Log(5000)       ' minimum
-        maxv = Log(3000000#) ' maximum
-    ElseIf gblTimeAreaClicked = "year" Then
-        minv = Log(1000000)       ' minimum
-        maxv = Log(30000000#) ' maximum
-    ElseIf gblTimeAreaClicked = "time" Then
-        minv = Log(5)       ' minimum
-        maxv = Log(50000#) ' maximum
-    End If
-    
-    ' calculate adjustment factor, thisPerc will be between 0 and 100
-    logScale = (maxv - minv) / (maxp - minp)
-    thisValue = Exp(minv + logScale * (thisPerc - minp))
-    
-    Debug.Print ("%KON-I-INFO, thisValue " & thisValue)
-
-    If negFlag = True Then thisValue = thisValue * -1 ' convert to negative again
-    fLogSlider = thisValue  ' return
-
-   On Error GoTo 0
-   Exit Function
-
-LogSlider_Error:
-
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure fLogSlider of Class Module cfClock"
-End Function
-' ----------------------------------------------------------------
-' Procedure Name: tmrPendulum_Timer
-' Purpose:  timer controlling the pendulum only
-' Procedure Kind: Sub
-' Procedure Access: Private
-' Author: beededea
-' Date: 21/06/2024
-' ----------------------------------------------------------------
-Private Sub tmrPendulum_Timer()
-    
-    On Error GoTo tmrPendulum_Timer_Error
-
-    pvtPendulumAcceleration = pvtGravity * pvtPendulumAngle
-    pvtPendulumVelocity = pvtPendulumVelocity + pvtPendulumAcceleration
-    pvtPendulumAngle = pvtPendulumAngle + pvtPendulumVelocity
-
-    W.Parent.Refresh ' causes a paint event to fire
-    
-   On Error GoTo 0
-   Exit Sub
-
-tmrPendulum_Timer_Error:
-
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure tmrPendulum_Timer of Class Module cwOverlay"
-End Sub
-
-
-' ----------------------------------------------------------------
-' Procedure Name: tmrClock_Timer
-' Purpose: main timer controlling the analogue clock only,
-' only a few routines are called from this timer but instead the subsequent refresh will trigger a PAINT event, stuff also happens there
-' Procedure Kind: Sub
-' Procedure Access: Private
-' Author: beededea
-' Date: 21/06/2024
-' ----------------------------------------------------------------
-Private Sub tmrClock_Timer()
-
-    On Error GoTo tmrClock_Timer_Error
-     
-    Call tmrClock_TimerRoutine
-    
-   On Error GoTo 0
-   Exit Sub
-
-tmrClock_Timer_Error:
-
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure tmrClock_Timer of Class Module cwOverlay"
-End Sub
-
-
-'---------------------------------------------------------------------------------------
-' Procedure : tmrClock_TimerRoutine
-' Author    : beededea
-' Date      : 31/12/2024
-' Purpose   : main timer controlling the analogue clock only
-'---------------------------------------------------------------------------------------
-'
-Private Sub tmrClock_TimerRoutine()
-
-    Dim fileToPlay As String: fileToPlay = vbNullString
-    
-    ' slider is activated and the clock is in alarm SET mode, we display the time chosen by the user dragging the slider
-    On Error GoTo tmrClock_TimerRoutine_Error
-
-    If mSliderInTransit = True Then
-    
-        ' take the current date at the point the the alarm slider was activated
-        ' add the time deviation to the base date
-        
-        If mBaseDate = vbNullString Then
-            'MsgBox "mBaseDate has a problem"
-            mBaseDate = Now()
-        End If
-
-        If mTimeDeviation = 0 Then
-            'MsgBox "mTimeDeviation has a problem"
-            mTimeDeviation = 0
-        End If
-        
-        pvtCurrentDateToDisplay = DateAdd("s", mTimeDeviation, mBaseDate)
-        'Debug.Print mBaseDate
-        mGetFutureTime = pvtCurrentDateToDisplay
-         
-        pvtThisHour = CInt(Hour(pvtCurrentDateToDisplay))
-        pvtThisMins = CInt(Minute(pvtCurrentDateToDisplay))
-        pvtThisSecs = CInt(Second(pvtCurrentDateToDisplay))
-        
-        ' calculate angles of hour and second hand for the analogue clock
-        pvtHourDegrees = 30 * (pvtThisHour Mod 12 + (pvtThisMins) / 60) ' global vars used in the paint event
-        pvtMinsDegrees = 6 * ((pvtThisMins) + (pvtThisSecs / 60))
-        pvtSeconds = pvtThisSecs
-        
-    Else ' normal time displayed, quarterly chimes played along with any alarms, test for alarm being displayed manually
-        
-        '  test for alarms 1-5 being displayed manually by the user, pressing alarm 1-5 toggles
-        If gblAlarmToggle1Enabled = "True" Then
-            If gblAlarm1Time = vbNullString Then gblAlarm1Time = "00:00"
-            pvtThisHour = CInt(Hour(gblAlarm1Time))
-            pvtThisMins = CInt(Minute(gblAlarm1Time))
-            pvtThisSecs = CInt(Second(gblAlarm1Time))
-        ElseIf gblAlarmToggle2Enabled = "True" Then
-            If gblAlarm2Time = vbNullString Then gblAlarm2Time = "00:00"
-            pvtThisHour = CInt(Hour(gblAlarm2Time))
-            pvtThisMins = CInt(Minute(gblAlarm2Time))
-            pvtThisSecs = CInt(Second(gblAlarm2Time))
-        ElseIf gblAlarmToggle3Enabled = "True" Then
-             If gblAlarm3Time = vbNullString Then gblAlarm3Time = "00:00"
-            pvtThisHour = CInt(Hour(gblAlarm3Time))
-            pvtThisMins = CInt(Minute(gblAlarm3Time))
-            pvtThisSecs = CInt(Second(gblAlarm3Time))
-        ElseIf gblAlarmToggle4Enabled = "True" Then
-            If gblAlarm4Time = vbNullString Then gblAlarm4Time = "00:00"
-            pvtThisHour = CInt(Hour(gblAlarm4Time))
-            pvtThisMins = CInt(Minute(gblAlarm4Time))
-            pvtThisSecs = CInt(Second(gblAlarm4Time))
-        ElseIf gblAlarmToggle5Enabled = "True" Then
-            If gblAlarm5Time = vbNullString Then gblAlarm5Time = "00:00"
-            pvtThisHour = Hour(gblAlarm5Time)
-            pvtThisMins = Minute(gblAlarm5Time)
-            pvtThisSecs = Second(gblAlarm5Time)
-        Else
-            ' normal time displayed,
-            pvtThisHour = CInt(Hour(Now))
-            pvtThisMins = CInt(Minute(Now))
-            pvtThisSecs = CInt(Second(Now))
-        End If
-    
-        ' calculate angles of hour and second hand for the analogue clock
-        pvtHourDegrees = 30 * (pvtThisHour Mod 12 + (pvtThisMins) / 60) ' global vars used in the paint event
-        pvtMinsDegrees = 6 * ((pvtThisMins) + (pvtThisSecs / 60))
-        pvtSeconds = pvtThisSecs
-    
-        If pvtSecsDegrees <> 6 * pvtSeconds Then
-            pvtSecsDegrees = 6 * pvtSeconds
-        Else
-            Exit Sub  'only refresh when pvtSecsDegrees has changed to a new value
-        End If
-
-        '  clear any existing weekday indicator only in the first three seconds of the day
-        If fClock.weekdayToggleEnabled = True Then
-            If pvtThisHour <= 1 And pvtThisMins = 1 And pvtThisSecs < 3 Then
-                Call hideDayOfWeek
-                fClock.clockForm.Widgets(fDayOfWeek).Widget.Alpha = 1
-            End If
-        End If
-        
-        ' this should be called once only at first run after startup to populate the digital clock cache
-        If pvtFirstRun = True Then
-            gblTriggerDigitalClockPopulation = True
-            pvtFirstRun = False
-        End If
-        
-        ' now we check the quarters and play any chimes but only if the alarmclapper is enabled (on the bell)
-        If fClock.chimeclapperEnabled = True Then
-    
-            If pvtThisMins = 14 And pvtThisSecs = 58 Then ' 2 seconds before
-                If gblVolumeBoost = "1" Then
-                    fileToPlay = "quarterchime.wav"
-                Else
-                    fileToPlay = "quarterchime-quiet.wav"
-                End If
-                If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
-                    'playSound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
-                    
-                    ' running this here allows the asynchronous sounds to operate independently of the main thread, wherein the asynch sounds will not currently operate outside a timer, do not know why...
-                    playAsynchSound App.path & "\resources\sounds\" & fileToPlay
-                End If
-    
-               screenWrite ("chiming quarter past the hour at " & CStr(pvtThisHour) & ":15")
-    
-            ElseIf pvtThisMins = 29 And (pvtThisSecs = 54) Then ' 6 seconds before
-        
-                If gblVolumeBoost = "1" Then
-                    fileToPlay = "halfchime.wav"
-                Else
-                    fileToPlay = "halfchime-quiet.wav"
-                End If
-                If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
-                    playAsynchSound App.path & "\resources\sounds\" & fileToPlay
-                End If
-    
-                screenWrite ("chiming half past the hour at " & CStr(pvtThisHour) & ":30")
-    
-            ElseIf pvtThisMins = 44 And (pvtThisSecs = 51) Then '9 seconds before
-    
-                If gblVolumeBoost = "1" Then
-                    fileToPlay = "threequarterchime.wav"
-                Else
-                    fileToPlay = "threequarterchime-quiet.wav"
-                End If
-                If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
-                    playAsynchSound App.path & "\resources\sounds\" & fileToPlay
-                End If
-    
-                screenWrite ("chiming quarter to the hour at " & CStr(pvtThisHour) & ":45")
-    
-            ElseIf pvtThisMins = 59 And (pvtThisSecs = 42) Then       ' 18 seconds before the o'clock
-    
-                If gblVolumeBoost = "1" Then
-                    fileToPlay = "fullchime.wav"
-                Else
-                    fileToPlay = "fullchime-quiet.wav"
-                End If
-                If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
-                    playAsynchSound App.path & "\resources\sounds\" & fileToPlay
-                End If
-                
-                screenWrite ("chiming full hour ")
-                
-                TmrCountdownToTollTicking = True
-                
-            End If
-        
-            Call ShallWeRingAlarm
-        End If
-    End If
-    
-    ' only a few routines are called from this timer but instead this subsequent refresh will trigger a PAINT event
-    W.Parent.Refresh ' causes a paint event to fire - lots happens in the paint event
-
-   On Error GoTo 0
-   Exit Sub
-
-tmrClock_TimerRoutine_Error:
-
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure tmrClock_TimerRoutine of Class Module cwOverlay"
-    
-End Sub
-
-
-
-'---------------------------------------------------------------------------------------
-' Procedure : ShallWeRingAlarm
-' Author    : beededea
-' Date      : 19/10/2024
-' Purpose   : check the alarms and raise a flag
-'---------------------------------------------------------------------------------------
-'
-Private Sub ShallWeRingAlarm()
-    
-    Dim lngSecondsGap As Double: lngSecondsGap = 0
-
-    On Error GoTo ShallWeRingAlarm_Error
-    
-    ' if the alarmclapper has been moved aside then the alarms are silenced
-    'If gblEnableChimes = "0" Then Exit Sub
-    If gblEnableAlarms = "0" Then Exit Sub
-
-    ' if an alarm is currently being raised then the function is immediately exited
-    ' ie. don't raise a second alarm
-    If gblAlarmFlgRaised = True Then Exit Sub
-    
-    ' no alarms even entered in the prefs so exit
-    If gblAlarm1 = "" And gblAlarm2 = "" And gblAlarm3 = "" And gblAlarm4 = "" And gblAlarm5 = "" Then Exit Sub
-    
-    If IsDate(gblAlarm1) And gblAlarm1 <> "00:00:00" And gblAlarm1FlgRaised = False Then
-       
-       'if current time is beyond the alarm time
-       lngSecondsGap = DateDiff("s", Now(), gblAlarm1)
-       
-       If lngSecondsGap <= 0 Then
-       
-          ' prevent another alarm being raised
-            gblAlarmFlgRaised = True
-            gblAlarm1FlgRaised = True
-            
-            If fClock.ShowHelp = True Then fClock.ShowHelp = False
-            
-            ' raise the alarm till
-            fClock.alarmtoggle1Enabled = True
-            
-            screenWrite ("Alarm 1 Raised! " & CStr(gblAlarm1))
-            screenWrite ("Press alarm till to cancel raised alarm ")
-            
-            ' the alarm entries are removed here from the prefs, the nulling of the alarms is written to the config is done from within deleteRunningAlarms
-            
-            If widgetPrefs.IsLoaded = True Then widgetPrefs.txtAlarm1Date.Text = "Alarm not yet set"
-            If widgetPrefs.IsLoaded = True Then widgetPrefs.txtAlarm1Time.Text = ""
-            If widgetPrefs.IsVisible = True Then
-                widgetPrefs.txtAlarm1Date.Refresh
-                widgetPrefs.txtAlarm1Time.Refresh
-            End If
-            
-            ' start the alarm timer ringing the bell
-            TmrAlarmRingingTicking = True
-          
-            Exit Sub
-        End If
-    End If
-    
-    If IsDate(gblAlarm2) And gblAlarm2 <> "00:00:00" And gblAlarm2FlgRaised = False Then
-       
-       'if current time is beyond the alarm time
-       lngSecondsGap = DateDiff("s", Now(), gblAlarm2)
-       
-       If lngSecondsGap <= 0 Then
-       
-          ' prevent another alarm being raised
-            gblAlarmFlgRaised = True
-            gblAlarm2FlgRaised = True
-            
-            If fClock.ShowHelp = True Then fClock.ShowHelp = False
-            
-            ' raise the alarm till
-            fClock.alarmtoggle2Enabled = True
-            
-            screenWrite ("Alarm 2 Raised! " & CStr(gblAlarm2))
-            screenWrite ("Press alarm till to cancel raised alarm ")
-            
-            ' the alarm entries are removed here from the prefs, the nulling of the alarms is written to the config is done from within deleteRunningAlarms
-            
-            If widgetPrefs.IsLoaded = True Then widgetPrefs.txtAlarm2Date.Text = "Alarm not yet set"
-            If widgetPrefs.IsLoaded = True Then widgetPrefs.txtAlarm2Time.Text = ""
-            If widgetPrefs.IsVisible = True Then
-                widgetPrefs.txtAlarm2Date.Refresh
-                widgetPrefs.txtAlarm2Time.Refresh
-            End If
-          
-            ' start the alarm timer ringing the bell
-            TmrAlarmRingingTicking = True
-          
-            Exit Sub
-        End If
-    End If
-    
-        
-    If IsDate(gblAlarm3) And gblAlarm3 <> "00:00:00" And gblAlarm3FlgRaised = False Then
-       
-       'if current time is beyond the alarm time
-       lngSecondsGap = DateDiff("s", Now(), gblAlarm3)
-       
-       If lngSecondsGap <= 0 Then
-       
-          ' prevent another alarm being raised
-            gblAlarmFlgRaised = True
-            gblAlarm3FlgRaised = True
-            
-            If fClock.ShowHelp = True Then fClock.ShowHelp = False
-            
-            ' raise the alarm till
-            fClock.alarmtoggle3Enabled = True
-            
-            screenWrite ("Alarm 3 Raised! " & CStr(gblAlarm3))
-            screenWrite ("Press alarm till to cancel raised alarm ")
-            
-            ' the alarm entries are removed here from the prefs, the nulling of the alarms is written to the config is done from within deleteRunningAlarms
-            
-            If widgetPrefs.IsLoaded = True Then widgetPrefs.txtAlarm3Date.Text = "Alarm not yet set"
-            If widgetPrefs.IsLoaded = True Then widgetPrefs.txtAlarm3Time.Text = ""
-            If widgetPrefs.IsVisible = True Then
-                widgetPrefs.txtAlarm3Date.Refresh
-                widgetPrefs.txtAlarm3Time.Refresh
-            End If
-          
-            ' start the alarm timer ringing the bell
-            TmrAlarmRingingTicking = True
-            
-            Exit Sub
-        End If
-    End If
-    
-    If IsDate(gblAlarm4) And gblAlarm4 <> "00:00:00" And gblAlarm4FlgRaised = False Then
-       
-       'if current time is beyond the alarm time
-       lngSecondsGap = DateDiff("s", Now(), gblAlarm4)
-       
-       If lngSecondsGap <= 0 Then
-       
-          ' prevent another alarm being raised
-            gblAlarmFlgRaised = True
-            gblAlarm4FlgRaised = True
-            
-            If fClock.ShowHelp = True Then fClock.ShowHelp = False
-            
-            ' raise the alarm till
-            fClock.alarmtoggle4Enabled = True
-            
-            screenWrite ("Alarm 4 Raised! " & CStr(gblAlarm4))
-            screenWrite ("Press alarm till to cancel raised alarm ")
-            
-            ' the alarm entries are removed here from the prefs, the nulling of the alarms is written to the config is done from within deleteRunningAlarms
-            
-            If widgetPrefs.IsLoaded = True Then widgetPrefs.txtAlarm4Date.Text = "Alarm not yet set"
-            If widgetPrefs.IsLoaded = True Then widgetPrefs.txtAlarm4Time.Text = ""
-            If widgetPrefs.IsVisible = True Then
-                widgetPrefs.txtAlarm4Date.Refresh
-                widgetPrefs.txtAlarm4Time.Refresh
-            End If
-          
-            ' start the alarm timer ringing the bell
-            TmrAlarmRingingTicking = True
-          
-            Exit Sub
-        End If
-    End If
-        
-    If IsDate(gblAlarm5) And gblAlarm5 <> "00:00:00" And gblAlarm5FlgRaised = False Then
-       
-       'if current time is beyond the alarm time
-       lngSecondsGap = DateDiff("s", Now(), gblAlarm5)
-       
-       If lngSecondsGap <= 0 Then
-       
-          ' prevent another alarm being raised
-            gblAlarmFlgRaised = True
-            gblAlarm5FlgRaised = True
-            
-            If fClock.ShowHelp = True Then fClock.ShowHelp = False
-            
-            ' raise the alarm till
-            fClock.alarmtoggle5Enabled = True
-            
-            screenWrite ("Alarm 5 Raised! " & CStr(gblAlarm5))
-            screenWrite ("Press alarm till to cancel raised alarm ")
-            
-            ' the alarm entries are removed here from the prefs, the nulling of the alarms is written to the config is done from within deleteRunningAlarms
-            
-            If widgetPrefs.IsLoaded = True Then widgetPrefs.txtAlarm5Date.Text = "Alarm not yet set"
-            If widgetPrefs.IsLoaded = True Then widgetPrefs.txtAlarm5Time.Text = ""
-            If widgetPrefs.IsVisible = True Then
-                widgetPrefs.txtAlarm5Date.Refresh
-                widgetPrefs.txtAlarm5Time.Refresh
-            End If
-          
-            ' start the alarm timer ringing the bell
-            TmrAlarmRingingTicking = True
-          
-            Exit Sub
-        End If
-    End If
-                
-   On Error GoTo 0
-   Exit Sub
-
-ShallWeRingAlarm_Error:
-
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure ShallWeRingAlarm of Class Module cwOverlay"
- End Sub
-
-
-'---------------------------------------------------------------------------------------
-' Procedure : tmrAlarmRinging_Timer
-' Author    : beededea
-' Date      : 18/10/2024
-' Purpose   : timer that rings the alarm sound
-'---------------------------------------------------------------------------------------
-'
-Public Sub tmrAlarmRinging_Timer()
-
-   On Error GoTo tmrAlarmRinging_Timer_Error
-   
-    Dim fileToPlay As String: fileToPlay = vbNullString
-
-       If gblVolumeBoost = "1" Then
-           fileToPlay = "alarmbells.wav"
-       Else
-           fileToPlay = "alarmbells-quiet.wav"
-       End If
-       If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
-           playSound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
-       End If
-
-   On Error GoTo 0
-   Exit Sub
-
-tmrAlarmRinging_Timer_Error:
-
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure tmrAlarmRinging_Timer of Class Module cwOverlay"
-
-End Sub
-
-
-   
-'---------------------------------------------------------------------------------------
-' Procedure : tmrCountdownToToll_Timer
-' Author    : beededea
-' Date      : 18/10/2024
-' Purpose   : counts and displays the final few seconds between the final full hourly chime and the tolling of the bells that count the hour
-'---------------------------------------------------------------------------------------
-'
-Private Sub tmrCountdownToToll_Timer()
-    Static countdownToToll As Integer
-
-    On Error GoTo tmrCountdownToToll_Timer_Error
-
-    If (countdownToToll <= 6) Then
-        countdownToToll = countdownToToll + 1
-        screenWrite ("Countdown to tolling the hour =  " & 8 - countdownToToll)
-    Else
-        countdownToToll = 0
-        TmrCountdownToTollTicking = False
-        'tmrTolling.Enabled = True
-        TmrTollingTicking = True
-    End If
-
-   On Error GoTo 0
-   Exit Sub
-
-tmrCountdownToToll_Timer_Error:
-
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure tmrCountdownToToll_Timer of Class Module cwOverlay"
-
-End Sub
-
-'---------------------------------------------------------------------------------------
-' Procedure : tmrTolling_Timer
-' Author    : beededea
-' Date      : 18/10/2024
-' Purpose   : the timer for the tolling of the bells that counts the hour
-'---------------------------------------------------------------------------------------
-'
-Private Sub tmrTolling_Timer()
-
-    On Error GoTo tmrTolling_Timer_Error
-
-     Call tollbell
-
-   On Error GoTo 0
-   Exit Sub
-
-tmrTolling_Timer_Error:
-
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure tmrTolling_Timer of Class Module cwOverlay"
-
-End Sub
-
-
-'---------------------------------------------------------------------------------------
-' Procedure : tollbell
-' Author    : beededea
-' Date      : 18/10/2024
-' Purpose   : function to toll the bell x no. of times, called by the tmrTolling
-'---------------------------------------------------------------------------------------
-'
-Private Sub tollbell()
-    Dim fileToPlay As String: fileToPlay = vbNullString
-    Dim tollhours As Integer: tollhours = 0
-    Dim timeString As String: timeString = vbNullString
-    
-    Static tollCount As Integer
-    
-    On Error GoTo tollbell_Error
-
-    tollhours = Hour(Now)
-    
-    If tollhours = 0 Then
-        tollhours = 12
-        timeString = " midnight"
-    Else
-        timeString = " o'clock"
-    End If
-    
-    'stop it striking more than 12 times even when on a 24hr clock
-    If tollhours > 12 Then tollhours = tollhours - 12
-     
-    ' do not ask for whom the bell tolls, it tolls for thee...when the counter reaches 8
-    tollCount = tollCount + 1
-
-    'play the longer bell on the last toll
-    If (tollCount < tollhours) Then
-        If gblVolumeBoost = "1" Then
-            fileToPlay = "belltoll.wav"
-        Else
-            fileToPlay = "belltoll-quiet.wav"
-        End If
-    Else
-        If gblVolumeBoost = "1" Then
-            fileToPlay = "belltollLong.wav"
-        Else
-            fileToPlay = "belltollLong-quiet.wav"
-        End If
-    End If
-    
-    If tollCount = 1 Then screenWrite ("Chiming using " & fileToPlay & " at " & Now())
-    
-    If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
-        playSound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
-    End If
-    
-    screenWrite ("Tolling bell for " & tollhours & " o'clock, chime no." & tollCount)
-             
-    ' turn off the belltimer to stop the bell from tolling
-    If (tollCount >= tollhours) Then
-        'tmrTolling.Enabled = False
-        TmrTollingTicking = False
-        tollCount = 0
-        screenWrite ("Just struck " & tollhours & timeString)
-     End If
-
-   On Error GoTo 0
-   Exit Sub
-
-tollbell_Error:
-
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure tollbell of Class Module cwOverlay"
-End Sub
-
 
 
 '
@@ -2371,109 +736,150 @@ End Sub
 ' Procedure : W_Paint
 ' Author    : olaf schmidt
 ' Date      : 01/08/2023
-' Purpose   : this is run when the graphics are initially placed on the screen, refreshing and when a mouse cursor is interacting
+' Purpose   :
 '---------------------------------------------------------------------------------------
 '
-
-Private Sub W_Paint(ByRef CC As cCairoContext, ByVal xAbs As Single, ByVal yAbs As Single, ByVal dx_Aligned As Single, ByVal dy_Aligned As Single, UserObj As Object)
+Private Sub W_Paint(CC As RC6.cCairoContext, ByVal xAbs As Single, ByVal yAbs As Single, ByVal dx_Aligned As Single, ByVal dy_Aligned As Single, UserObj As Object)
     Dim I As Long: I = 0
     Dim Arr As Variant
     Dim Key As String: Key = vbNullString
     Dim Pat As cCairoPattern
-
-    W.Refresh
+    Dim txtDayNumber As String: txtDayNumber = vbNullString
+    Dim txtMonthNumber As String: txtMonthNumber = vbNullString
+    Dim textDrawn As Boolean: textDrawn = False
+    Dim thisOpacity As Double: thisOpacity = 0
+    Dim cream As String: cream = vbNullString
     
+    cream = RGB(235, 217, 179) ' cannot create a constant from an RGB value
+   
     On Error GoTo W_Paint_Error
-  
-    For I = 0 To cCollOverlayImages.Count - 1 ' this is the ExcludedPaths collection populated in cfClock by duplicating collPSDNonUIElements.
+    
+    'set some Font- and ForeColor-Properties and draw some Text on the Widget
+    W.FontName = "arial"
+    W.ForeColor = cream
+    W.FontSize = 18
+    W.FontBold = True
+    W.SelectFontSettingsInto CC
+    W.Refresh
+    thisOpacity = (Val(gblOpacity) / 100) * 0.75
+    
+    storeTxtDayNumber = txtDayNumber
+    txtDayNumber = Day(DateAdd("m", tzDelta, Now))
+    If storeTxtDayNumber <> txtDayNumber Then textDrawn = False ' trigger a redraw of the day and month within the boxes
+    
+    txtMonthNumber = Month(DateAdd("m", tzDelta, Now))
+
+    For I = 0 To cCollOverlayImages.Count - 1 ' this is the ExcludedPaths collection populated in cfGauge by duplicating collPSDNonUIElements.
       Arr = cCollOverlayImages.ItemByIndex(I)
       Key = cCollOverlayImages.KeyByIndex(I)
       
+      ' derive a Pattern-Obj from each retrieved ImageList-Surface-reference
       If IsArray(Arr) Then
              CC.Save
-             'derive a Pattern-Obj from each retrieved ImageList-Surface-reference
-             Set Pat = Cairo.ImageList(Key).CreateSurfacePattern
-            
-            ' for specific keys, perform actions &c
+             
+             ' for specific keys perform rotation actions, clock hands &c
              Select Case Key
-                 Case "hourhand"
-                    Set Pat = Cairo.ImageList(Key).CreateSurfacePattern
-                    Set Pat.Matrix = Pat.Matrix.TranslateCoords(4, 30) 'shift to the "rotation-point" within the Pattern
-                    CC.TranslateDrawings 645, 333.5 'shift to the center-point of the Overlay-Widget-area
-
-                    CC.RotateDrawingsDeg pvtHourDegrees   'now we can rotate (the leading negative degrees are the rotation-offsets for 12 o'clock)
-
-                 Case "minutehand"  'minutes-shadow- and minutes-hand
-                    Set Pat = Cairo.ImageList(Key).CreateSurfacePattern
-                    Set Pat.Matrix = Pat.Matrix.TranslateCoords(3, 41) 'shift to the "rotation-point" within the Pattern
-                    CC.TranslateDrawings 645, 333.5 'shift to the center-point of the Overlay-Widget-area
-
-                    CC.RotateDrawingsDeg pvtMinsDegrees 'now we can rotate (the leading negative degrees are the rotation-offsets for 12 o'clock)
-
-                 Case "secondhand" 'seconds-shadow- and seconds-hand
-                    Set Pat = Cairo.ImageList(Key).CreateSurfacePattern
-                    Set Pat.Matrix = Pat.Matrix.TranslateCoords(3, 42) 'shift to the "rotation-point" within the Pattern
-                    CC.TranslateDrawings 645, 333.5 'shift to the center-point of the Overlay-Widget-area
-
-                    CC.RotateDrawingsDeg pvtSecsDegrees 'now we can rotate (the leading negative degrees are the rotation-offsets for 12 o'clock)
-
-                 Case "hole"
-                    Set Pat = Cairo.ImageList(Key).CreateSurfacePattern
-                    Set Pat.Matrix = Pat.Matrix.TranslateCoords(4, 4) 'shift to the "rotation-point" within the Pattern
-
-                    CC.TranslateDrawings 645, 333.5 'shift to the center-point of the Overlay-Widget-area
-
-                Case "cable"
-                    Set Pat = Cairo.ImageList(Key).CropSurface(0, 0, 200, 27).CreateSurfacePattern 'cut-out a nice (repeatable) part of the original "cable"-image (via CropSurface)
+                 Case "hourshadow", "hourhand" 'hours-shadow- and hour-hand
+                 
+                    ' the DrawText code MUST be here, before the graphical elements, in order to appear underneath the hands
+                    ' if you move this section out of the loop it causes graphical problems
+                    If FaceMode = "0" Then  'stopwatch mode
+                       If gblStopWatchState = 1 Or gblStopWatchState = 2 Then
+                           CC.DrawText 187, 212, 200, 200, Str$(SWSec), , , 2, True, , thisOpacity
+                       Else
+                           CC.DrawText 187, 212, 200, 200, Str$(Sec), , , 2, True, , thisOpacity
+                       End If
+                    Else ' clock mode
+                        If textDrawn = False Then ' draw the date and day in the windows just once to retain opacity
+                            CC.DrawText 260, 103, 200, 200, txtDayNumber, , , 2, True, , thisOpacity
+                            CC.DrawText 458, 307, 200, 200, txtMonthNumber, , , 2, True, , thisOpacity
+                            textDrawn = True
+                        End If
+                    End If
                     
-                    Set Pat.Matrix = Pat.Matrix.TranslateCoords(sldCurWidth, -Arr(1)) 'sldCurWidth in the x-Coord will ensure that nice "spooling-effect"
-                        Pat.Extend = CAIRO_EXTEND_REPEAT
-
-                    'since we've set CAIRO_EXTEND_REPEAT, we now have to clip the range it is "allowed to extend to"
-                    CC.ClipExplicit Arr(0) - sldCurWidth, Arr(1), sldCurWidth + 15, 27
-                
-                Case "pendulum"
                     Set Pat = Cairo.ImageList(Key).CreateSurfacePattern
-                    Set Pat.Matrix = Pat.Matrix.TranslateCoords(21, 0) 'shift to the "rotation-point" within the Pattern
-                    CC.TranslateDrawings 624, 325
+                    Set Pat.Matrix = Pat.Matrix.TranslateCoords(19, 160) 'shift to the "rotation-point" within the Pattern
+                    CC.TranslateDrawings W.Width * cxPerc, W.Height * cyPerc 'shift to the center-point of the Overlay-Widget-area
+                    
+                    If gblStopWatchState = 1 Or gblStopWatchState = 2 Then
+                        CC.RotateDrawingsDeg 250 'place the hour hand out of the way of the stopwatch mini-faces
+                    Else
+                        CC.RotateDrawingsDeg -7 + HDeg 'now we can rotate (the leading negative degrees are the rotation-offsets for 12 o'clock)
+                    End If
+                 
+                 Case "minuteshadow", "minutehand" 'minutes-shadow- and minutes-hand
+                    Set Pat = Cairo.ImageList(Key).CreateSurfacePattern
+                    Set Pat.Matrix = Pat.Matrix.TranslateCoords(44, 105) 'shift to the "rotation-point" within the Pattern
+                    CC.TranslateDrawings W.Width * cxPerc, W.Height * cyPerc 'shift to the center-point of the Overlay-Widget-area
+                    
+                    If gblStopWatchState = 1 Or gblStopWatchState = 2 Then
+                        CC.RotateDrawingsDeg 185        'place the minute hand out of the way of the stopwatch mini-faces
+                    Else
+                        CC.RotateDrawingsDeg -61 + MDeg 'now we can rotate (the leading negative degrees are the rotation-offsets for 12 o'clock)
+                    End If
+                    
+                 Case "secondshadow", "secondhand" 'seconds-shadow- and seconds-hand
+                    Set Pat = Cairo.ImageList(Key).CreateSurfacePattern
+                    Set Pat.Matrix = Pat.Matrix.TranslateCoords(60, 160) 'shift to the "rotation-point" within the Pattern
+                    CC.TranslateDrawings W.Width * cxPerc, W.Height * cyPerc 'shift to the center-point of the Overlay-Widget-area
 
-                    CC.RotateDrawingsDeg pvtPendulumAngle 'now we can rotate (the leading negative degrees are the rotation-offsets for 12 o'clock)
-                
-                Case Else 'plain output for everything else
-                       
+                    If gblStopWatchState = 1 Or gblStopWatchState = 2 Then
+                        CC.RotateDrawingsDeg 185 'place the minute hand out of the way of the stopwatch mini-faces
+                    Else
+                        CC.RotateDrawingsDeg -50 + SDeg + MsDeg 'now we can rotate (the leading negative degrees are the rotation-offsets for 12 o'clock)
+                    End If
+
+                 Case "swhourhand"
+                     If FaceMode = "0" Then  'stopwatch mode
+                        Set Pat = Cairo.ImageList(Key).CreateSurfacePattern
+                        Set Pat.Matrix = Pat.Matrix.TranslateCoords(15, 61) 'shift to the "rotation-point" within the Pattern
+                        CC.TranslateDrawings 352, 418  'shift to the rotation-point
+                        CC.RotateDrawingsDeg SWHDeg 'now we can rotate (the leading negative degrees are the rotation-offsets for 12 o'clock)
+                     Else ' clock mode
+                        Set Pat = Cairo.ImageList(Key).CreateSurfacePattern
+                        Set Pat.Matrix = Pat.Matrix.TranslateCoords(15, 61) 'shift to the "rotation-point" within the Pattern
+                        CC.TranslateDrawings 432, 240  'shift to the rotation-point
+                        CC.RotateDrawingsDeg HDeg1 'now we can rotate (the leading negative degrees are the rotation-offsets for 12 o'clock)
+                     End If
+                 Case "swminutehand"
+                     If FaceMode = "0" Then  'stopwatch mode
+                         Set Pat = Cairo.ImageList(Key).CreateSurfacePattern
+                         Set Pat.Matrix = Pat.Matrix.TranslateCoords(12, 57) 'shift to the "rotation-point" within the Pattern
+                         CC.TranslateDrawings 353, 203  'shift to the rotation-point
+                         CC.RotateDrawingsDeg SWMDeg
+                     Else ' clock mode
+                         Set Pat = Cairo.ImageList(Key).CreateSurfacePattern
+                         Set Pat.Matrix = Pat.Matrix.TranslateCoords(12, 57) 'shift to the "rotation-point" within the Pattern
+                         CC.TranslateDrawings 286, 380  'shift to the rotation-point for the clock
+                         CC.RotateDrawingsDeg MDeg1
+                     End If
+                 Case "swsecondhand"
+                     If FaceMode = "0" Then  'stopwatch mode
+                         ' just show the respective hand static and unmoving
+                        If gblStopWatchState = 0 Then
+                            Set Pat = Cairo.ImageList(Key).CreateSurfacePattern
+                            Set Pat.Matrix = Pat.Matrix.TranslateCoords(12, 57) 'shift to the "rotation-point" within the Pattern
+                            CC.TranslateDrawings 460, 312  'shift to the rotation-point
+                            CC.RotateDrawingsDeg 0
+                        End If
+                         ' only rotate the stopwatch hands if the top button has been pressed at least once
+                        If gblStopWatchState = 1 Or gblStopWatchState = 2 Then
+                            Set Pat = Cairo.ImageList(Key).CreateSurfacePattern
+                            Set Pat.Matrix = Pat.Matrix.TranslateCoords(12, 57) 'shift to the "rotation-point" within the Pattern
+                            CC.TranslateDrawings 460, 312  'shift to the rotation-point
+                            CC.RotateDrawingsDeg SWSDeg
+                        End If
+                     End If
+                 Case "bigreflectioncopy", "bigreflection", "windowreflection", "helpbutton" 'plain output for everything else ... this includes the reflection-layers,
+                    Set Pat = Cairo.ImageList(Key).CreateSurfacePattern
                     Set Pat.Matrix = Pat.Matrix.TranslateCoords(-Arr(0), -Arr(1)) 'here we only shift the Pattern via the original PSD-Offsets (stored in Arr(0) and Arr(1))
-                    
+                 Case Else
              End Select
-    
-            CC.Paint W.AlphaInherited * Arr(2), Pat  'finally we render the Pattern with the current PSD-LayerAlpha, present in Arr(2)
-            CC.Restore
+             CC.Paint Arr(2), Pat 'finally we render the Pattern with the current PSD-LayerAlpha, present in Arr(2)
+             
+             CC.Restore
       End If
-    Next
-    
-    ' if first time running then populate the digital clocks.
-    If gblTriggerDigitalClockPopulation = True Or mSliderInTransit = True Then
-        Call populateDigitalClockCache(CC)
-        gblTriggerDigitalClockPopulation = False
-    Else ' update the correct digital display when a time change occurs
-        If pvtThisSecs <= 1 Then
-            Call populateDigitalMinsCache(CC)
-            If pvtThisMins = 0 Then
-                Call populateDigitalHoursCache(CC)
-                If pvtThisHour = 0 Then
-                    Call populateDigitalClockCache(CC)
-                End If
-            End If
-        End If
-    End If
-        
-    ' if one of the alarms is currently being viewed then populate the clocks with the alarm digits
-    ' test for alarms, using globals to reduce the cpu cycles, if found, then populate the cache images
-    If gblAlarmToggle1Enabled = "True" Or gblAlarmToggle2Enabled = "True" Or gblAlarmToggle3Enabled = "True" Or gblAlarmToggle4Enabled = "True" Or gblAlarmToggle5Enabled = "True" Then Call populateDigitalClockCache(CC)
-    
-    ' the above routines populate the digital clock cache, this routine shows the digital clocks
-    Call DrawDigitalClocks(CC)
-     
-    If mTimeMachine = True Then Call drawTimeMachineImages(CC)
+     Next
 
    On Error GoTo 0
    Exit Sub
@@ -2485,383 +891,293 @@ End Sub
 
 
 
-
 '---------------------------------------------------------------------------------------
-' Property  : TmrClockTicking
-' Author    : beededea
-' Date      : 17/05/2023
-' Purpose   : property to determine (by value) externally the state of a private timer
-'---------------------------------------------------------------------------------------
-'
-Public Property Get TmrClockTicking() As Boolean
-   On Error GoTo TmrClockTickingGet_Error
-
-   TmrClockTicking = mTmrClockTicking
-
-   On Error GoTo 0
-   Exit Property
-
-TmrClockTickingGet_Error:
-
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property TmrClockTicking of Class Module cfClock"
-End Property
-'---------------------------------------------------------------------------------------
-' Property  : TmrClockTicking
-' Author    : beededea
-' Date      : 17/05/2023
-' Purpose   : property to determine (by value) externally the state of a private timer
+' Procedure : tmrClock_Timer
+' Author    : olaf schmidt
+' Date      : 30/07/2023
+' Purpose   : update the degree-Variables for the clock Hour, Minute and Second Hands
 '---------------------------------------------------------------------------------------
 '
-Public Property Let TmrClockTicking(ByVal newValue As Boolean)
-   On Error GoTo TmrClockTickingLet_Error
+Private Sub tmrClock_Timer()
+ 
+    Dim currentLocaltime As SYSTEMTIME
+    Static T As Date: T = Time
+    
+    On Error GoTo tmrClock_Timer_Error
+    
+    GetSystemTime currentLocaltime ' API
+    
+    ' every 15 mins approx. update DaylightSavings and determine the time bias
+    If gblMainDaylightSaving <> "0" Then
+        If (Minute(T) Mod 15 = 0) And (Second(T) = 0) And (currentLocaltime.wMilliseconds < 100) Then
+            If gblMainDaylightSaving <> "0" Then
+                 tzDelta = fObtainDaylightSavings("Main") ' determine the time bias
+            End If
+            If gblSecondaryDaylightSaving <> "0" Then
+                 tzDelta1 = fObtainDaylightSavings("Secondary") ' determine the time bias
+            End If
+        End If
+    End If
+        
+    ' Debug.Print ("%updateTime-I tzDelta " & tzDelta)
 
-   tmrClock.Enabled = newValue
+    ' time calc for main gauge
+    HDeg = 30 * (Hour(T) Mod 12 + (Minute(T) + tzDelta) / 60)
+    MDeg = 6 * ((Minute(T) + tzDelta) + (Second(T) / 60))
+    
+    ' time calc for secondary gauge
+    HDeg1 = 30 * (Hour(T) Mod 12 + (Minute(T) + tzDelta1) / 60)
+    MDeg1 = 6 * ((Minute(T) + tzDelta1) + (Second(T) / 60))
+    
+    Sec = Second(T)
 
-   If mTmrClockTicking <> newValue Then mTmrClockTicking = newValue Else Exit Property
+    If mSmoothSecondHand = True Then
+
+        SDeg = 6 * Sec
+
+        With currentLocaltime
+            MsDeg = 6 * (.wMilliseconds / 1000)
+        End With
+        
+        ' always refresh
+    Else
+        If SDeg <> 6 * Sec Then
+            SDeg = 6 * Sec
+            
+            MsDeg = 0
+        Else
+            Exit Sub  'only refresh when SDeg has changed to a new value
+        End If
+    End If
+    
+    W.Parent.Refresh ' causes a paint event to fire
 
    On Error GoTo 0
-   Exit Property
+   Exit Sub
 
-TmrClockTickingLet_Error:
+tmrClock_Timer_Error:
 
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property TmrClockTicking of Class Module cfClock"
-End Property
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure tmrClock_Timer of Class Module cwOverlay"
+End Sub
 
+
+    
 '---------------------------------------------------------------------------------------
-' Property  : TmrClockInterval
-' Author    : beededea
-' Date      : 17/05/2023
-' Purpose   : property to determine (by value) externally the interval of a private timer
+' Procedure : tmrStopWatch_Timer
+' Author    :
+' Date      : 30/07/2023
+' Purpose   : update the degree-Variables for the stopwatch Hour, Minute and Second Hands
 '---------------------------------------------------------------------------------------
 '
-Public Property Get TmrClockInterval() As Long
-   On Error GoTo TmrClockIntervalGet_Error
+Private Sub tmrStopWatch_Timer()
+    Dim theTime As Date:  theTime = #1/1/2000 12:00:00 PM#
+    Dim elapsedTimeSecs As Long ' long means a max of 2,147,483,647 seconds, 24,855 days or 68 years
+    
+    On Error GoTo tmrStopWatch_Timer_Error
+        
+    theTime = Now()
+    elapsedTimeSecs = DateDiff("s", gblStopWatchStartTime, theTime)
 
-   TmrClockInterval = mTmrClockInterval
+    ' time degree calculation for main gauge
+    If gblStopWatchState = 2 Then ' pause
+        SWHDeg = SWHDeg
+        SWMDeg = SWMDeg
+        SWSDeg = SWSDeg
+        SWSec = elapsedTimeSecs Mod 60 ' the digital display keeps running
+    Else ' stopwatch running
+        SWHDeg = (elapsedTimeSecs * 0.001667) Mod 360
+        SWMDeg = (elapsedTimeSecs * 0.1) Mod 360
+        SWSDeg = (elapsedTimeSecs * 6) Mod 360
+        SWSec = elapsedTimeSecs Mod 60
+    End If
+
+    W.Parent.Refresh ' no need to refresh as this is done by the main timer
 
    On Error GoTo 0
-   Exit Property
+   Exit Sub
 
-TmrClockIntervalGet_Error:
+tmrStopWatch_Timer_Error:
 
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property TmrClockInterval of Class Module cfClock"
-End Property
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure tmrStopWatch_Timer of Class Module cwOverlay"
+End Sub
+
+    
 '---------------------------------------------------------------------------------------
-' Property  : TmrClockInterval
-' Author    : beededea
-' Date      : 17/05/2023
-' Purpose   : property to determine (by value) externally the interval of a private timer
+' Procedure : tmrSWRotation_Timer
+' Author    :
+' Date      : 30/07/2023
+' Purpose   : update the degree-Variables for the stopwatch Second Hand only
+'             allowing the gauge Second hand to rotate to new position
 '---------------------------------------------------------------------------------------
 '
-Public Property Let TmrClockInterval(ByVal newValue As Long)
-   On Error GoTo TmrClockIntervalLet_Error
-
-   If mTmrClockInterval <> newValue Then mTmrClockInterval = newValue Else Exit Property
-   
-   tmrClock.Interval = newValue
-
-   On Error GoTo 0
-   Exit Property
-
-TmrClockIntervalLet_Error:
-
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property TmrClockInterval of Class Module cfClock"
-End Property
-
-
-'---------------------------------------------------------------------------------------
-' Property  : TmrPendulumTicking
-' Author    : beededea
-' Date      : 17/05/2023
-' Purpose   : property to determine (by value) externally the interval of a private timer
-'---------------------------------------------------------------------------------------
-'
-Public Property Get TmrPendulumTicking() As Boolean
-   On Error GoTo TmrPendulumTickingGet_Error
-
-   TmrPendulumTicking = mTmrPendulumTicking
-
-   On Error GoTo 0
-   Exit Property
-
-TmrPendulumTickingGet_Error:
-
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property TmrPendulumTicking of Class Module cfClock"
-End Property
-'---------------------------------------------------------------------------------------
-' Property  : TmrPendulumTicking
-' Author    : beededea
-' Date      : 17/05/2023
-' Purpose   : property to determine (by value) externally the interval of a private timer
-'---------------------------------------------------------------------------------------
-'
-Public Property Let TmrPendulumTicking(ByVal newValue As Boolean)
-   On Error GoTo TmrPendulumTickingLet_Error
-
-   tmrPendulum.Enabled = newValue
-   
-   If mTmrPendulumTicking <> newValue Then mTmrPendulumTicking = newValue Else Exit Property
-
-   On Error GoTo 0
-   Exit Property
-
-TmrPendulumTickingLet_Error:
-
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property TmrPendulumTicking of Class Module cfClock"
-End Property
-
-
-'---------------------------------------------------------------------------------------
-' Property  : TmrTollingTicking
-' Author    : beededea
-' Date      : 17/05/2023
-' Purpose   : property to determine (by value) externally the interval of a private timer
-'---------------------------------------------------------------------------------------
-'
-Public Property Get TmrTollingTicking() As Boolean
-   On Error GoTo TmrTollingTickingGet_Error
-
-   TmrTollingTicking = mTmrTollingTicking
-
-   On Error GoTo 0
-   Exit Property
-
-TmrTollingTickingGet_Error:
-
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property TmrTollingTicking of Class Module cfClock"
-End Property
-'---------------------------------------------------------------------------------------
-' Property  : TmrTollingTicking
-' Author    : beededea
-' Date      : 17/05/2023
-' Purpose   : property to determine (by value) externally the interval of a private timer
-'---------------------------------------------------------------------------------------
-'
-Public Property Let TmrTollingTicking(ByVal newValue As Boolean)
-   On Error GoTo TmrTollingTickingLet_Error
-
-   tmrTolling.Enabled = newValue
-
-   If mTmrTollingTicking <> newValue Then mTmrTollingTicking = newValue Else Exit Property
-
-   On Error GoTo 0
-   Exit Property
-
-TmrTollingTickingLet_Error:
-
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property TmrTollingTicking of Class Module cfClock"
-End Property
-
-
-'---------------------------------------------------------------------------------------
-' Property  : TmrCountdownToTollTicking
-' Author    : beededea
-' Date      : 17/05/2023
-' Purpose   : property to determine (by value) externally the interval of a private timer
-'---------------------------------------------------------------------------------------
-'
-Public Property Get TmrCountdownToTollTicking() As Boolean
-   On Error GoTo TmrCountdownToTollTickingGet_Error
-
-   TmrCountdownToTollTicking = mTmrCountdownToTollTicking
-
-   On Error GoTo 0
-   Exit Property
-
-TmrCountdownToTollTickingGet_Error:
-
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property TmrCountdownToTollTicking of Class Module cfClock"
-End Property
-'---------------------------------------------------------------------------------------
-' Property  : TmrCountdownToTollTicking
-' Author    : beededea
-' Date      : 17/05/2023
-' Purpose   : property to determine (by value) externally the interval of a private timer
-'---------------------------------------------------------------------------------------
-'
-Public Property Let TmrCountdownToTollTicking(ByVal newValue As Boolean)
-   On Error GoTo TmrCountdownToTollTickingLet_Error
-
-   tmrCountdownToToll.Enabled = newValue
-
-   If mTmrCountdownToTollTicking <> newValue Then mTmrCountdownToTollTicking = newValue Else Exit Property
-
-   On Error GoTo 0
-   Exit Property
-
-TmrCountdownToTollTickingLet_Error:
-
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property TmrCountdownToTollTicking of Class Module cfClock"
-End Property
-
-
-
-
-'---------------------------------------------------------------------------------------
-' Property  : TmrTimeShiftTicking
-' Author    : beededea
-' Date      : 17/05/2023
-' Purpose   : property to determine (by value) externally the interval of a private timer
-'---------------------------------------------------------------------------------------
-'
-Public Property Get TmrTimeShiftTicking() As Boolean
-   On Error GoTo TmrTimeShiftTickingGet_Error
-
-   TmrTimeShiftTicking = mTmrTimeShiftTicking
-
-   On Error GoTo 0
-   Exit Property
-
-TmrTimeShiftTickingGet_Error:
-
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property TmrTimeShiftTicking of Class Module cfClock"
-End Property
-'---------------------------------------------------------------------------------------
-' Property  : TmrTimeShiftTicking
-' Author    : beededea
-' Date      : 17/05/2023
-' Purpose   : property to determine (by value) externally the interval of a private timer
-'---------------------------------------------------------------------------------------
-'
-Public Property Let TmrTimeShiftTicking(ByVal newValue As Boolean)
-   On Error GoTo TmrTimeShiftTickingLet_Error
-
-   tmrTimeShift.Enabled = newValue
-   
-   If mTmrTimeShiftTicking <> newValue Then mTmrTimeShiftTicking = newValue Else Exit Property
-
-   On Error GoTo 0
-   Exit Property
-
-TmrTimeShiftTickingLet_Error:
-
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property TmrTimeShiftTicking of Class Module cfClock"
-End Property
-
-
-
-'---------------------------------------------------------------------------------------
-' Property  : TmrDigitRotatorTicking
-' Author    : beededea
-' Date      : 17/05/2023
-' Purpose   : property to determine (by value) externally the interval of a private timer
-'---------------------------------------------------------------------------------------
-'
-Public Property Get TmrDigitRotatorTicking() As Boolean
-   On Error GoTo TmrDigitRotatorTickingGet_Error
-
-   TmrDigitRotatorTicking = mTmrDigitRotatorTicking
-
-   On Error GoTo 0
-   Exit Property
-
-TmrDigitRotatorTickingGet_Error:
-
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property TmrDigitRotatorTicking of Class Module cfClock"
-End Property
-'---------------------------------------------------------------------------------------
-' Property  : TmrDigitRotatorTicking
-' Author    : beededea
-' Date      : 17/05/2023
-' Purpose   : property to determine (by value) externally the interval of a private timer
-'---------------------------------------------------------------------------------------
-'
-Public Property Let TmrDigitRotatorTicking(ByVal newValue As Boolean)
-   On Error GoTo TmrDigitRotatorTickingLet_Error
-
-   tmrDigitRotator.Enabled = newValue
-   
-   If mTmrDigitRotatorTicking <> newValue Then mTmrDigitRotatorTicking = newValue Else Exit Property
-
-   On Error GoTo 0
-   Exit Property
-
-TmrDigitRotatorTickingLet_Error:
-
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property TmrDigitRotatorTicking of Class Module cfClock"
-End Property
-
-'---------------------------------------------------------------------------------------
-' Property  : TmrAlarmRingingTicking
-' Author    : beededea
-' Date      : 17/05/2023
-' Purpose   : property to determine (by value) externally the interval of a private timer
-'---------------------------------------------------------------------------------------
-'
-Public Property Get TmrAlarmRingingTicking() As Boolean
-   On Error GoTo TmrAlarmRingingTickingGet_Error
-
-   TmrAlarmRingingTicking = mTmrAlarmRingingTicking
-
-   On Error GoTo 0
-   Exit Property
-
-TmrAlarmRingingTickingGet_Error:
-
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property TmrAlarmRingingTicking of Class Module cfClock"
-End Property
-
-'---------------------------------------------------------------------------------------
-' Property  : TmrAlarmRingingTicking
-' Author    : beededea
-' Date      : 17/05/2023
-' Purpose   : property to determine (by value) externally the interval of a private timer
-'---------------------------------------------------------------------------------------
-'
-Public Property Let TmrAlarmRingingTicking(ByVal newValue As Boolean)
-   On Error GoTo TmrAlarmRingingTickingLet_Error
-
-   If mTmrAlarmRingingTicking <> newValue Then mTmrAlarmRingingTicking = newValue Else Exit Property
-
-   On Error GoTo 0
-   Exit Property
-
-TmrAlarmRingingTickingLet_Error:
-
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property TmrAlarmRingingTicking of Class Module cfClock"
-End Property
-
-
-
-
-
-' the following global variables are used in this class, I should replace each with a property and use that locally
-' but I don't think I can be bothered, there are too many of them. This is my code and the clock class is not going
-' to have multiple instances running so it does not really matter. If you want to convert each of these to property GET/LETs
-' then please feel free to work your way through this list.
-
-'    gblNumericDisplayRotation
-'    gbl24HourClockMode
-'    gblShowAlarmDateTime
-'    gblAlarmToggle1Enabled
-'    gblAlarm1Date
-'    gblAlarm1Time
-
-'    gblAlarmToggle2Enabled
-'    gblAlarm2Date
-'    gblAlarm2Time
-
-'    gblAlarmToggle3Enabled
-'    gblAlarm3Date
-'    gblAlarm3Time
-
-'    gblAlarmToggle4Enabled
-'    gblAlarm4Date
-'    gblAlarm4Time
-
-'    gblAlarmToggle5Enabled
-'    gblAlarm5Date
-'    gblAlarm5Time
-
-'    gblTriggerDigitalClockPopulation
-'    gblAlarm1
-'    gblAlarm2
-'    gblAlarm3
-'    gblAlarm4
-'    gblAlarm5
-'    gblAlarm1FlgRaised
-'    gblAlarm2FlgRaised
-'    gblAlarm3FlgRaised
-'    gblAlarm4FlgRaised
-'    gblAlarm5FlgRaised
+Private Sub tmrSWRotation_Timer()
+    Dim degrees As Integer: degrees = 0
+    
+    On Error GoTo tmrSWRotation_Timer_Error
+           
+    If rotationTimerCount < mSWRotationDegrees Then
+        rotationTimerCount = rotationTimerCount + mrotationSWInterval
+        If rotationTimerCount > mSWRotationDegrees Then rotationTimerCount = mSWRotationDegrees
+        degrees = mstartSWDegrees + rotationTimerCount
        
+        'Case "swsecondhand"
+        SWSDeg = degrees
+    Else
+        tmrStopWatch.Enabled = True
+        
+        rotationTimerCount = 0
+        If gblStopWatchState = 0 Or gblStopWatchState = 2 Then
+            gblStopWatchState = 1
+        Else
+            gblStopWatchState = 0
+        End If
+        
+        startSWRotation = False
+        tmrSWRotation.Enabled = False
+    End If
+                
+    W.Parent.Refresh
+
+   On Error GoTo 0
+   Exit Sub
+
+tmrSWRotation_Timer_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure tmrSWRotation_Timer of Class Module cwOverlay"
+End Sub
+
+'from set location to current time
+    
+'---------------------------------------------------------------------------------------
+' Procedure : tmrHandsRotation_Timer
+' Author    :
+' Date      : 30/07/2023
+' Purpose   : update the degree-Variables for the stopwatch Second Hand only
+'             allowing the gauge Second hand to rotate to new position
+'---------------------------------------------------------------------------------------
+'
+Private Sub tmrHandsRotation_Timer()
+    Dim degrees As Integer: degrees = 0
+    
+    On Error GoTo tmrHandsRotation_Timer_Error
+           
+    If rotationTimerCount < mSWRotationDegrees Then
+        rotationTimerCount = rotationTimerCount + mrotationSWInterval
+        If rotationTimerCount > mSWRotationDegrees Then rotationTimerCount = mSWRotationDegrees
+        degrees = mstartSWDegrees + rotationTimerCount
+       
+        'Case "swsecondhand"
+        SWSDeg = degrees
+        HDeg = degrees
+        MDeg = degrees
+        SDeg = degrees
+    Else
+        tmrStopWatch.Enabled = True
+        
+        rotationTimerCount = 0
+        If gblStopWatchState = 0 Or gblStopWatchState = 2 Then
+            gblStopWatchState = 1
+        Else
+            gblStopWatchState = 0
+        End If
+        
+        startSWRotation = False
+        tmrHandsRotation.Enabled = False
+    End If
+                
+    W.Parent.Refresh
+
+   On Error GoTo 0
+   Exit Sub
+
+tmrHandsRotation_Timer_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure tmrHandsRotation_Timer of Class Module cwOverlay"
+End Sub
+
+
+
+''---------------------------------------------------------------------------------------
+'' Property  : TmrGaugeTicking
+'' Author    : beededea
+'' Date      : 17/05/2023
+'' Purpose   : property to determine (by value) externally the state of a private timer
+''---------------------------------------------------------------------------------------
+''
+'Public Property Get TmrGaugeTicking() As Boolean
+'   On Error GoTo TmrGaugeTickingGet_Error
+'
+'   TmrGaugeTicking = mTmrGaugeTicking
+'
+'   On Error GoTo 0
+'   Exit Property
+'
+'TmrGaugeTickingGet_Error:
+'
+'    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property TmrGaugeTicking of Class Module cfGauge"
+'End Property
+''---------------------------------------------------------------------------------------
+'' Property  : TmrGaugeTicking
+'' Author    : beededea
+'' Date      : 17/05/2023
+'' Purpose   : property to determine (by value) externally the state of a private timer
+''---------------------------------------------------------------------------------------
+''
+'Public Property Let TmrGaugeTicking(ByVal newValue As Boolean)
+'   On Error GoTo TmrGaugeTickingLet_Error
+'
+'   tmrGauge.Enabled = newValue
+'
+'   If mTmrGaugeTicking <> newValue Then mTmrGaugeTicking = newValue Else Exit Property
+'
+'   On Error GoTo 0
+'   Exit Property
+'
+'TmrGaugeTickingLet_Error:
+'
+'    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property TmrGaugeTicking of Class Module cfGauge"
+'End Property
+'
+''---------------------------------------------------------------------------------------
+'' Property  : TmrGaugeInterval
+'' Author    : beededea
+'' Date      : 17/05/2023
+'' Purpose   : property to determine (by value) externally the interval of a private timer
+''---------------------------------------------------------------------------------------
+''
+'Public Property Get TmrGaugeInterval() As Long
+'   On Error GoTo TmrGaugeIntervalGet_Error
+'
+'   TmrGaugeInterval = mTmrGaugeInterval
+'
+'   On Error GoTo 0
+'   Exit Property
+'
+'TmrGaugeIntervalGet_Error:
+'
+'    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property TmrGaugeInterval of Class Module cfGauge"
+'End Property
+''---------------------------------------------------------------------------------------
+'' Property  : TmrGaugeInterval
+'' Author    : beededea
+'' Date      : 17/05/2023
+'' Purpose   : property to determine (by value) externally the interval of a private timer
+''---------------------------------------------------------------------------------------
+''
+'Public Property Let TmrGaugeInterval(ByVal newValue As Long)
+'   On Error GoTo TmrGaugeIntervalLet_Error
+'
+'   If mTmrGaugeInterval <> newValue Then mTmrGaugeInterval = newValue Else Exit Property
+'
+'   tmrGauge.Interval = newValue
+'
+'   On Error GoTo 0
+'   Exit Property
+'
+'TmrGaugeIntervalLet_Error:
+'
+'    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property TmrGaugeInterval of Class Module cfGauge"
+'End Property
+'
+
+

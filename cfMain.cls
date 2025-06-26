@@ -16,25 +16,21 @@ Attribute VB_Exposed = False
 ' Module    : cfMain
 ' Author    : beededea
 ' Date      : 28/05/2023
-' Purpose   : The parent class for both the licence and about us forms
+' Purpose   :
 '---------------------------------------------------------------------------------------
 
 Option Explicit
 
-' Declare both RC forms to be available throughout by calling cfMain parent
-' ie. scope is project-wide but must be referenced with instantiated object's name.
-
 Public WithEvents aboutForm As cWidgetForm
 Attribute aboutForm.VB_VarHelpID = -1
+Public WithEvents helpForm As cWidgetForm
+Attribute helpForm.VB_VarHelpID = -1
 Public WithEvents licenceForm As cWidgetForm
 Attribute licenceForm.VB_VarHelpID = -1
 
-'public vars (unused) for positioning the licence form externally
-
-'Public licenceFormX As Long
-'Public licenceFormY As Long
-
-' RC widgets
+Public licenceFormX As Long
+Public licenceFormY As Long
+' Public licenceFormZ As Single
 
 Private WithEvents btnAccept As cwButton
 Attribute btnAccept.VB_VarHelpID = -1
@@ -43,7 +39,6 @@ Attribute btnDecline.VB_VarHelpID = -1
 Private WithEvents textBox As cwTextBox
 Attribute textBox.VB_VarHelpID = -1
 Private lblDeclineOrNot As cwLabel
-Attribute lblDeclineOrNot.VB_VarHelpID = -1
  
 
 '---------------------------------------------------------------------------------------
@@ -66,24 +61,24 @@ Public Sub initAndCreateAboutForm(ByVal x As Long, ByVal y As Long, Optional ByV
     On Error GoTo initAndCreateAboutForm_Error
     
     If gblDpiAwareness = "0" Then
-        aboutFormWidth = 650
-        aboutFormHeight = 650
+        aboutFormWidth = 900
+        aboutFormHeight = 850
         If aboutFormWidth > gblVirtualScreenWidthPixels Then aboutFormWidth = gblVirtualScreenWidthPixels
         If aboutFormHeight > gblVirtualScreenHeightPixels Then aboutFormHeight = gblVirtualScreenHeightPixels
     Else
-        aboutFormWidth = 1000
-        aboutFormHeight = 1000
+        aboutFormWidth = 1800
+        aboutFormHeight = 1600
         If aboutFormWidth > gblVirtualScreenWidthPixels Then
             aboutFormWidth = gblVirtualScreenWidthPixels
-            aboutWidgetZoomValue = 1.5
+            aboutWidgetZoomValue = 1
         Else
-            aboutWidgetZoomValue = 1.5
+            aboutWidgetZoomValue = 1.6
         End If
         If aboutFormHeight > gblVirtualScreenHeightPixels Then
             aboutFormHeight = gblVirtualScreenHeightPixels
-            aboutWidgetZoomValue = 1.5
+            aboutWidgetZoomValue = 1
         Else
-            aboutWidgetZoomValue = 1.5
+            aboutWidgetZoomValue = 1.6
         End If
     End If
     aboutWidgetWidth = aboutFormWidth - 100
@@ -112,6 +107,76 @@ initAndCreateAboutForm_Error:
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure initAndCreateAboutForm of Class Module cfMain"
     
 End Sub
+
+'---------------------------------------------------------------------------------------
+' Procedure : initAndCreateHelpForm
+' Author    :
+' Date      : 27/04/2023
+' Purpose   : Initialise and create the Help form only, add the Help widget based on the Help class, to the form
+'---------------------------------------------------------------------------------------
+'
+Public Sub initAndCreateHelpForm(ByVal x As Long, ByVal y As Long, Optional ByVal dx As Long, Optional ByVal dy As Long, Optional ByVal Caption As String)
+    
+    Dim helpFormWidth As Long: helpFormWidth = 0
+    Dim helpFormHeight As Long: helpFormHeight = 0
+    Dim helpWidgetWidth As Long: helpWidgetWidth = 0
+    Dim helpWidgetHeight As Long: helpWidgetHeight = 0
+    Dim helpWidgetZoomValue As Double: helpWidgetZoomValue = 1
+    
+    Const WFFStyleTool As Integer = 7 ' additional styles above the normal five  WFFStyleTool = 7 makes the taskbar button go away
+    
+    On Error GoTo initAndCreateHelpForm_Error
+    
+    If gblDpiAwareness = "0" Then
+        helpFormWidth = 1000
+        helpFormHeight = 800
+        If helpFormWidth > gblVirtualScreenWidthPixels Then helpFormWidth = gblVirtualScreenWidthPixels
+        If helpFormHeight > gblVirtualScreenHeightPixels Then helpFormHeight = gblVirtualScreenHeightPixels
+        helpWidgetZoomValue = 0.8
+    Else
+        helpFormWidth = 1600
+        helpFormHeight = 1300
+        If helpFormWidth > gblVirtualScreenWidthPixels Then
+            helpFormWidth = gblVirtualScreenWidthPixels
+            helpWidgetZoomValue = 1
+        Else
+            helpWidgetZoomValue = 1.4
+        End If
+        If helpFormHeight > gblVirtualScreenHeightPixels Then
+            helpFormHeight = gblVirtualScreenHeightPixels
+            helpWidgetZoomValue = 1
+        Else
+            helpWidgetZoomValue = 1.4
+        End If
+    End If
+    helpWidgetWidth = helpFormWidth - 100
+    helpWidgetHeight = helpFormHeight - 100
+    
+    ' create an invisible form using a Cairo Widget Form with the predefined caption and sizing
+    Set helpForm = Cairo.WidgetForms.Create(WFFStyleTool, "Help the " & Caption & " Widget", True, helpFormWidth, helpFormHeight)
+    
+    ' make the help form transparent
+    helpForm.WidgetRoot.BackColor = -1
+    
+    ' create a new help widget with a name, position and size, first step of that is to run Class_Initialize
+    Set helpWidget = helpForm.Widgets.Add(New cwHelp, "help", 1, 1, helpWidgetWidth, helpWidgetHeight)
+    
+    If gblDpiAwareness = "0" Then
+        helpWidget.Zoom = helpWidgetZoomValue
+    Else
+        helpWidget.Zoom = helpWidgetZoomValue
+    End If
+    
+   On Error GoTo 0
+   Exit Sub
+
+initAndCreateHelpForm_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure initAndCreateHelpForm of Class Module cfMain"
+    
+End Sub
+
+
 
 '---------------------------------------------------------------------------------------
 ' Procedure : initAndCreateLicenceForm
@@ -253,11 +318,7 @@ Private Sub btnAccept_Click()
     
     On Error GoTo btnAccept_Click_Error
     
-    If gblVolumeBoost = "1" Then
-        fileToPlay = "tingting.wav"
-    Else
-        fileToPlay = "tingting-quiet.wav"
-    End If
+    fileToPlay = "ting.wav"
     
     If gblEnableSounds = "1" And fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
         playSound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
@@ -266,7 +327,7 @@ Private Sub btnAccept_Click()
     answer = msgBoxA("User accepted licence, thankyou.", vbOKOnly + vbExclamation, "Licence Acceptance", True, "btnAcceptClick")
     
     slicence = "1"
-    sPutINISetting "Software\SteampunkClockCalendar", "licence", slicence, gblSettingsFile
+    sPutINISetting "Software\UBoatStopWatch", "licence", slicence, gblSettingsFile
     
     licenceWidget.ShowMe = False
     licenceWidget.MyOpacity = 0
@@ -299,7 +360,7 @@ Private Sub btnDecline_Click()
     'answer = MsgBox("Licence declined, please destroy your copy of this widget and its documentation.", vbYes)
     answer = msgBoxA("Licence declined, please destroy your copy of this widget and its documentation. This widget will now unload.", vbOKOnly + vbExclamation, "Licence Declined", False)
     slicence = "0"
-    sPutINISetting "Software\SteampunkClockCalendar", "licence", slicence, gblSettingsFile
+    sPutINISetting "Software\UBoatStopWatch", "licence", slicence, gblSettingsFile
 
     Call thisForm_Unload
 
@@ -342,22 +403,9 @@ End Sub
 '
 'licenceForm_MouseMove_Error:
 '
-'    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure licenceForm_MouseMove of Class Module cfClock"
+'    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure licenceForm_MouseMove of Class Module cfGauge"
 'End Sub
 
 
 
 
-' the following global variables are used in this class, I should replace each with a property and use that locally
-' but I don't think I can be bothered, there are too many of them. This is my code and the clock class is not going
-' to have multiple instances running so it does not really matter. If you want to convert each of these to property GET/LETs
-' then please feel free to work your way through these.
-
-'gblDpiAwareness
-'gblVirtualScreenWidthPixels
-'gblVirtualScreenHeightPixels
-'gblWidgetName
-'gblVolumeBoost
-'gblEnableSounds
-'gblSettingsFile
-'gblIgnoreMouse
