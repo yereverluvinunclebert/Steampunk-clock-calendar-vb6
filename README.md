@@ -1,6 +1,6 @@
 # Steampunk Clock Calendar-VB6
  
-A FOSS Desktop Utility VB6 WoW64 Widget for Windows Vista, Win7, 8 and 10/11+. Project in beta phase of development.
+A FOSS Desktop Utility VB6 WoW64 Widget for Windows Vista, Win7, 8 and 10/11+. Project in beta phase of development. (Forgive the revert feckups above, I copied a folder to a new project and forgot to delete the .git folders!) 
 
 ![steampunk_clock_calendar_mkii__2_9__rc_by_yereverluvinuncleber-d4l5xny](https://github.com/yereverluvinunclebert/Steampunk-clock-calendar-version-2.9/assets/2788342/f2dc5337-0c98-418c-9b68-2374ae7c4222)
 
