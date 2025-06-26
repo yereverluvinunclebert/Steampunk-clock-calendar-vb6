@@ -140,8 +140,8 @@ Private Sub Form_Activate()
 
    On Error GoTo Form_Activate_Error
 
-    gblMessageAHeightTwips = fGetINISetting("Software\UBoatStopWatch", "messageAHeightTwips", gblSettingsFile)
-    gblMessageAWidthTwips = fGetINISetting("Software\UBoatStopWatch", "messageAWidthTwips ", gblSettingsFile)
+    gblMessageAHeightTwips = fGetINISetting("Software\SteampunkClockCalendar", "messageAHeightTwips", gblSettingsFile)
+    gblMessageAWidthTwips = fGetINISetting("Software\SteampunkClockCalendar", "messageAWidthTwips ", gblSettingsFile)
     
     frmMessage.Height = Val(gblMessageAHeightTwips)
     frmMessage.Width = Val(gblMessageAWidthTwips)
@@ -229,8 +229,8 @@ Private Sub Form_Resize()
     
     gblMessageAHeightTwips = Trim$(CStr(frmMessage.Height))
     gblMessageAWidthTwips = Trim$(CStr(frmMessage.Width))
-    sPutINISetting "Software\UBoatStopWatch", "messageAHeightTwips", gblMessageAHeightTwips, gblSettingsFile
-    sPutINISetting "Software\UBoatStopWatch", "messageAWidthTwips", gblMessageAWidthTwips, gblSettingsFile
+    sPutINISetting "Software\SteampunkClockCalendar", "messageAHeightTwips", gblMessageAHeightTwips, gblSettingsFile
+    sPutINISetting "Software\SteampunkClockCalendar", "messageAWidthTwips", gblMessageAWidthTwips, gblSettingsFile
     
    On Error GoTo 0
    Exit Sub
@@ -390,7 +390,7 @@ Public Property Let propTitle(ByVal newValue As String)
     If mPropTitle <> newValue Then mPropTitle = newValue Else Exit Property
 
     If mPropTitle = "" Then
-        Me.Caption = "UBoat-StopWatch-" & gblCodingEnvironment & " Message."
+        Me.Caption = "Steampunk-Clock-Calendar-" & gblCodingEnvironment & " Message."
     Else
         Me.Caption = mPropTitle
     End If
@@ -577,7 +577,11 @@ Public Property Let propButtonVal(ByVal newValue As Integer)
         picVBExclamation.Visible = True
         
         ' .86 DAEB 06/06/2022 rDIConConfig.frm Add a sound to the msgbox for critical and exclamations? ting and belltoll.wav files
-        fileToPlay = "ting.wav"
+        If gblVolumeBoost = "1" Then
+            fileToPlay = "ting.wav"
+        Else
+            fileToPlay = "ting-quiet.wav"
+        End If
         If fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
             playSound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
         End If
@@ -590,12 +594,11 @@ Public Property Let propButtonVal(ByVal newValue As Integer)
         
         ' .86 DAEB 06/06/2022 rDIConConfig.frm Add a sound to the msgbox for critical and exclamations? ting and belltoll.wav files
         
-        
-'        If gblVolumeBoost = "1" Then
-'            fileToPlay = "belltoll01.wav"
-'        Else
-'            fileToPlay = "belltoll01-quiet.wav"
-'        End If
+        If gblVolumeBoost = "1" Then
+            fileToPlay = "belltoll01.wav"
+        Else
+            fileToPlay = "belltoll01-quiet.wav"
+        End If
         
         If fFExists(App.path & "\resources\sounds\" & fileToPlay) Then
             playSound App.path & "\resources\sounds\" & fileToPlay, ByVal 0&, SND_FILENAME Or SND_ASYNC
@@ -712,7 +715,7 @@ IsVisible_Error:
 
     With Err
          If .Number <> 0 Then
-            MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure IsVisible of Form widgetPrefs"
+            MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure IsVisible of Form panzerPrefs"
             Resume Next
           End If
     End With

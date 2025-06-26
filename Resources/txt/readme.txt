@@ -1,1 +1,0 @@
-The DLS*.txt files must be DOS CRLF delineated

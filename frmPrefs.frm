@@ -65,7 +65,7 @@ Begin VB.Form widgetPrefs
       Caption         =   "Enable Corner Resize"
       Height          =   210
       Left            =   3240
-      TabIndex        =   119
+      TabIndex        =   125
       Top             =   10125
       Visible         =   0   'False
       Width           =   2250
@@ -74,7 +74,7 @@ Begin VB.Form widgetPrefs
       BorderStyle     =   0  'None
       Height          =   1140
       Left            =   7695
-      TabIndex        =   86
+      TabIndex        =   92
       Top             =   0
       Width           =   975
       Begin VB.Label lblAbout 
@@ -82,7 +82,7 @@ Begin VB.Form widgetPrefs
          Height          =   240
          Index           =   0
          Left            =   255
-         TabIndex        =   87
+         TabIndex        =   93
          Top             =   855
          Width           =   615
       End
@@ -334,256 +334,11 @@ Begin VB.Form widgetPrefs
          Width           =   600
       End
    End
-   Begin VB.Frame fraGeneral 
-      Caption         =   "General"
-      ForeColor       =   &H80000008&
-      Height          =   7875
-      Left            =   195
-      TabIndex        =   161
-      Top             =   1275
-      Visible         =   0   'False
-      Width           =   7245
-      Begin VB.Frame fraGeneralInner 
-         BorderStyle     =   0  'None
-         Height          =   7350
-         Left            =   465
-         TabIndex        =   162
-         Top             =   300
-         Width           =   6750
-         Begin VB.CheckBox chkGenStartup 
-            Caption         =   "Run the Stop Watch Widget at Windows Startup "
-            Height          =   465
-            Left            =   1995
-            TabIndex        =   172
-            ToolTipText     =   "Check this box to enable the automatic start of the program when Windows is started."
-            Top             =   5625
-            Width           =   4020
-         End
-         Begin VB.ComboBox cmbMainGaugeTimeZone 
-            Height          =   315
-            ItemData        =   "frmPrefs.frx":6A0C
-            Left            =   1995
-            List            =   "frmPrefs.frx":6A0E
-            Style           =   2  'Dropdown List
-            TabIndex        =   171
-            Top             =   2040
-            Width           =   3720
-         End
-         Begin VB.ComboBox cmbMainDaylightSaving 
-            Height          =   315
-            Left            =   2025
-            Style           =   2  'Dropdown List
-            TabIndex        =   170
-            Top             =   3090
-            Width           =   3720
-         End
-         Begin VB.TextBox txtMainBias 
-            Height          =   285
-            Left            =   5895
-            Locked          =   -1  'True
-            TabIndex        =   169
-            Text            =   "0"
-            Top             =   3090
-            Width           =   720
-         End
-         Begin VB.ComboBox cmbTickSwitchPref 
-            Height          =   315
-            ItemData        =   "frmPrefs.frx":6A10
-            Left            =   2010
-            List            =   "frmPrefs.frx":6A12
-            Style           =   2  'Dropdown List
-            TabIndex        =   168
-            Top             =   6165
-            Width           =   3720
-         End
-         Begin VB.CheckBox chkGaugeFunctions 
-            Caption         =   "Ticking toggle *"
-            Height          =   225
-            Left            =   1995
-            TabIndex        =   167
-            ToolTipText     =   "When checked this box enables the spinning earth functionality. That's it!"
-            Top             =   180
-            Width           =   3405
-         End
-         Begin VB.ComboBox cmbClockFaceSwitchPref 
-            Height          =   315
-            ItemData        =   "frmPrefs.frx":6A14
-            Left            =   2010
-            List            =   "frmPrefs.frx":6A16
-            Style           =   2  'Dropdown List
-            TabIndex        =   166
-            Top             =   1080
-            Width           =   3720
-         End
-         Begin VB.ComboBox cmbSecondaryDaylightSaving 
-            Height          =   315
-            Left            =   2010
-            Style           =   2  'Dropdown List
-            TabIndex        =   165
-            Top             =   4950
-            Width           =   3720
-         End
-         Begin VB.ComboBox cmbSecondaryGaugeTimeZone 
-            Height          =   315
-            Left            =   2010
-            Style           =   2  'Dropdown List
-            TabIndex        =   164
-            Top             =   4395
-            Width           =   3720
-         End
-         Begin VB.TextBox txtSecondaryBias 
-            Height          =   285
-            Left            =   5895
-            Locked          =   -1  'True
-            TabIndex        =   163
-            Text            =   "0"
-            Top             =   4950
-            Width           =   720
-         End
-         Begin VB.Label lblGeneral 
-            Caption         =   "When checked this box enables the clock hands - That's it! *"
-            Height          =   660
-            Index           =   2
-            Left            =   2025
-            TabIndex        =   187
-            Tag             =   "lblEnableSoundsDesc"
-            Top             =   540
-            Width           =   3615
-         End
-         Begin VB.Label lblGeneral 
-            Caption         =   "Auto Start :"
-            Height          =   375
-            Index           =   11
-            Left            =   960
-            TabIndex        =   186
-            Tag             =   "lblRefreshInterval"
-            Top             =   5745
-            Width           =   1740
-         End
-         Begin VB.Label lblGeneral 
-            Caption         =   "Gauge Functions :"
-            Height          =   315
-            Index           =   6
-            Left            =   510
-            TabIndex        =   185
-            Top             =   165
-            Width           =   1320
-         End
-         Begin VB.Label lblGeneral 
-            Caption         =   "Choose the timezone for the main clock. Defaults to the system time. *"
-            Height          =   660
-            Index           =   4
-            Left            =   2025
-            TabIndex        =   184
-            Top             =   2520
-            Width           =   3810
-         End
-         Begin VB.Label lblGeneral 
-            Caption         =   "Main Gauge Time Zone :"
-            Height          =   480
-            Index           =   5
-            Left            =   15
-            TabIndex        =   183
-            Top             =   2115
-            Width           =   1950
-         End
-         Begin VB.Label lblGeneral 
-            Caption         =   "If Daylight Saving is used in your region, choose the appropriate region from the drop down list above. *"
-            Height          =   540
-            Index           =   7
-            Left            =   2025
-            TabIndex        =   182
-            Top             =   3570
-            Width           =   3660
-         End
-         Begin VB.Label lblGeneral 
-            Caption         =   "Daylight Saving :"
-            Height          =   345
-            Index           =   8
-            Left            =   600
-            TabIndex        =   181
-            Top             =   3165
-            Width           =   1365
-         End
-         Begin VB.Label lblGeneral 
-            Caption         =   "Bias (mins)"
-            Height          =   345
-            Index           =   1
-            Left            =   5910
-            TabIndex        =   180
-            Top             =   2775
-            Width           =   1740
-         End
-         Begin VB.Label lblGeneral 
-            Caption         =   "Secondhand Movement :"
-            Height          =   480
-            Index           =   3
-            Left            =   0
-            TabIndex        =   179
-            Top             =   6225
-            Width           =   1950
-         End
-         Begin VB.Label lblGeneral 
-            Caption         =   "The movement of the hand can be set to smooth or one-second ticks, the smooth movement uses more CPU."
-            Height          =   660
-            Index           =   9
-            Left            =   2025
-            TabIndex        =   178
-            Top             =   6600
-            Width           =   3810
-         End
-         Begin VB.Label lblGeneral 
-            Caption         =   "Clock Face to Show :"
-            Height          =   345
-            Index           =   10
-            Left            =   390
-            TabIndex        =   177
-            Top             =   1140
-            Width           =   1740
-         End
-         Begin VB.Label lblGeneral 
-            Caption         =   "Choose the default clock face to show when the widget starts."
-            Height          =   660
-            Index           =   12
-            Left            =   2025
-            TabIndex        =   176
-            Top             =   1515
-            Width           =   3810
-         End
-         Begin VB.Label lblGeneral 
-            Caption         =   "Minor Gauge Daylight Savings Time:"
-            Height          =   540
-            Index           =   13
-            Left            =   285
-            TabIndex        =   175
-            Top             =   4980
-            Width           =   1740
-         End
-         Begin VB.Label lblGeneral 
-            Caption         =   "Minor Gauge Zone :"
-            Height          =   330
-            Index           =   14
-            Left            =   360
-            TabIndex        =   174
-            Top             =   4425
-            Width           =   1995
-         End
-         Begin VB.Label lblGeneral 
-            Caption         =   "Bias (mins)"
-            Height          =   345
-            Index           =   15
-            Left            =   5910
-            TabIndex        =   173
-            Top             =   4635
-            Width           =   1740
-         End
-      End
-   End
    Begin VB.Frame fraAbout 
       Caption         =   "About"
       Height          =   8580
       Left            =   240
-      TabIndex        =   88
+      TabIndex        =   94
       Top             =   1155
       Visible         =   0   'False
       Width           =   8520
@@ -601,7 +356,7 @@ Begin VB.Form widgetPrefs
          Height          =   360
          Left            =   6765
          Style           =   1  'Graphical
-         TabIndex        =   153
+         TabIndex        =   193
          ToolTipText     =   "Here you can visit the update location where you can download new versions of the programs."
          Top             =   300
          Width           =   1470
@@ -620,7 +375,7 @@ Begin VB.Form widgetPrefs
          Height          =   360
          Left            =   6765
          Style           =   1  'Graphical
-         TabIndex        =   89
+         TabIndex        =   95
          ToolTipText     =   "Opens a browser window and sends you to our donate page on Amazon"
          Top             =   1800
          Width           =   1470
@@ -629,7 +384,7 @@ Begin VB.Form widgetPrefs
          BorderStyle     =   0  'None
          Height          =   6225
          Left            =   7980
-         TabIndex        =   102
+         TabIndex        =   108
          Top             =   2205
          Width           =   420
       End
@@ -641,8 +396,8 @@ Begin VB.Form widgetPrefs
          Left            =   300
          MultiLine       =   -1  'True
          ScrollBars      =   2  'Vertical
-         TabIndex        =   101
-         Text            =   "frmPrefs.frx":6A18
+         TabIndex        =   107
+         Text            =   "frmPrefs.frx":5D82
          Top             =   2205
          Width           =   7935
       End
@@ -660,7 +415,7 @@ Begin VB.Form widgetPrefs
          Height          =   360
          Left            =   6765
          Style           =   1  'Graphical
-         TabIndex        =   92
+         TabIndex        =   98
          ToolTipText     =   "This gives access to the debugging tool"
          Top             =   1425
          Width           =   1470
@@ -679,7 +434,7 @@ Begin VB.Form widgetPrefs
          Height          =   360
          Left            =   6765
          Style           =   1  'Graphical
-         TabIndex        =   91
+         TabIndex        =   97
          ToolTipText     =   "This will link you to the Rocket/Steamy dock users Group"
          Top             =   1050
          Width           =   1470
@@ -698,7 +453,7 @@ Begin VB.Form widgetPrefs
          Height          =   360
          Left            =   6765
          Style           =   1  'Graphical
-         TabIndex        =   90
+         TabIndex        =   96
          ToolTipText     =   "Here you can visit the update location where you can download new versions of the programs."
          Top             =   675
          Width           =   1470
@@ -717,7 +472,7 @@ Begin VB.Form widgetPrefs
          EndProperty
          Height          =   225
          Left            =   2940
-         TabIndex        =   106
+         TabIndex        =   112
          Top             =   510
          Width           =   495
       End
@@ -735,7 +490,7 @@ Begin VB.Form widgetPrefs
          EndProperty
          Height          =   240
          Left            =   3450
-         TabIndex        =   105
+         TabIndex        =   111
          Top             =   510
          Width           =   525
       End
@@ -753,7 +508,7 @@ Begin VB.Form widgetPrefs
          EndProperty
          Height          =   240
          Left            =   2730
-         TabIndex        =   104
+         TabIndex        =   110
          Top             =   510
          Width           =   225
       End
@@ -771,7 +526,7 @@ Begin VB.Form widgetPrefs
          EndProperty
          Height          =   240
          Left            =   3090
-         TabIndex        =   103
+         TabIndex        =   109
          Top             =   510
          Width           =   225
       End
@@ -789,7 +544,7 @@ Begin VB.Form widgetPrefs
          Height          =   225
          Index           =   8
          Left            =   2715
-         TabIndex        =   100
+         TabIndex        =   106
          Top             =   855
          Width           =   2175
       End
@@ -807,7 +562,7 @@ Begin VB.Form widgetPrefs
          Height          =   225
          Index           =   7
          Left            =   1050
-         TabIndex        =   99
+         TabIndex        =   105
          Top             =   855
          Width           =   795
       End
@@ -825,7 +580,7 @@ Begin VB.Form widgetPrefs
          Height          =   225
          Index           =   6
          Left            =   1065
-         TabIndex        =   98
+         TabIndex        =   104
          Top             =   495
          Width           =   795
       End
@@ -843,7 +598,7 @@ Begin VB.Form widgetPrefs
          Height          =   225
          Index           =   5
          Left            =   2715
-         TabIndex        =   97
+         TabIndex        =   103
          Top             =   1215
          Width           =   2175
       End
@@ -861,7 +616,7 @@ Begin VB.Form widgetPrefs
          Height          =   225
          Index           =   4
          Left            =   1050
-         TabIndex        =   96
+         TabIndex        =   102
          Top             =   1215
          Width           =   1470
       End
@@ -879,7 +634,7 @@ Begin VB.Form widgetPrefs
          Height          =   225
          Index           =   3
          Left            =   1050
-         TabIndex        =   95
+         TabIndex        =   101
          Top             =   1560
          Width           =   1470
       End
@@ -897,7 +652,7 @@ Begin VB.Form widgetPrefs
          Height          =   225
          Index           =   2
          Left            =   2715
-         TabIndex        =   94
+         TabIndex        =   100
          Top             =   1560
          Width           =   3735
       End
@@ -915,14 +670,14 @@ Begin VB.Form widgetPrefs
          Height          =   225
          Index           =   1
          Left            =   3900
-         TabIndex        =   93
+         TabIndex        =   99
          Top             =   510
          Width           =   2655
       End
    End
    Begin VB.Frame fraSounds 
       Caption         =   "Sounds"
-      Height          =   2280
+      Height          =   3930
       Left            =   855
       TabIndex        =   13
       Top             =   1230
@@ -930,11 +685,47 @@ Begin VB.Form widgetPrefs
       Width           =   7965
       Begin VB.Frame fraSoundsInner 
          BorderStyle     =   0  'None
-         Height          =   1875
+         Height          =   3315
          Left            =   765
          TabIndex        =   24
          Top             =   285
          Width           =   6420
+         Begin VB.CheckBox chkEnableAlarms 
+            Caption         =   "Decide whether the clock alarms will sound."
+            Height          =   225
+            Left            =   1485
+            TabIndex        =   238
+            ToolTipText     =   "Check this box to enable or disable all of the sounds used during any animation on the main screen."
+            Top             =   1680
+            Width           =   4365
+         End
+         Begin VB.CheckBox chkVolumeBoost 
+            Caption         =   "Decide whether the various sounds will be boosted."
+            Height          =   225
+            Left            =   1485
+            TabIndex        =   175
+            ToolTipText     =   "Check this box to enable or disable all of the sounds used during any animation on the main screen."
+            Top             =   2160
+            Width           =   4365
+         End
+         Begin VB.CheckBox chkEnableChimes 
+            Caption         =   "Decide whether the clock chimes will sound."
+            Height          =   225
+            Left            =   1485
+            TabIndex        =   173
+            ToolTipText     =   "Check this box to enable or disable all of the sounds used during any animation on the main screen."
+            Top             =   1215
+            Width           =   4365
+         End
+         Begin VB.CheckBox chkEnableTicks 
+            Caption         =   "Decide whether the clock has the tick sounds enabled."
+            Height          =   225
+            Left            =   1485
+            TabIndex        =   171
+            ToolTipText     =   "Check this box to enable or disable all of the sounds used during any animation on the main screen."
+            Top             =   765
+            Width           =   4365
+         End
          Begin VB.CheckBox chkEnableSounds 
             Caption         =   "Enable ALL sounds for the whole widget."
             Height          =   225
@@ -945,21 +736,61 @@ Begin VB.Form widgetPrefs
             Width           =   4485
          End
          Begin VB.Label lblSoundsTab 
+            Caption         =   "Alarms :"
+            Height          =   255
+            Index           =   5
+            Left            =   765
+            TabIndex        =   239
+            Tag             =   "lblSharedInputFile"
+            Top             =   1680
+            Width           =   765
+         End
+         Begin VB.Label lblSoundsTab 
             Caption         =   "Determine the sound of UI elements, clock tick and chiming volumes. Set the overall volume to loud or quiet."
             Height          =   540
             Index           =   4
-            Left            =   885
-            TabIndex        =   139
+            Left            =   1470
+            TabIndex        =   177
             Tag             =   "lblSharedInputFile"
-            Top             =   750
+            Top             =   2580
             Width           =   4680
+         End
+         Begin VB.Label lblSoundsTab 
+            Caption         =   "Volume Boost :"
+            Height          =   255
+            Index           =   2
+            Left            =   300
+            TabIndex        =   176
+            Tag             =   "lblSharedInputFile"
+            Top             =   2160
+            Width           =   1185
+         End
+         Begin VB.Label lblSoundsTab 
+            Caption         =   "Chimes :"
+            Height          =   255
+            Index           =   1
+            Left            =   765
+            TabIndex        =   174
+            Tag             =   "lblSharedInputFile"
+            Top             =   1215
+            Width           =   765
+         End
+         Begin VB.Label lblSoundsTab 
+            Caption         =   "Ticks :"
+            Height          =   255
+            Index           =   0
+            Left            =   885
+            TabIndex        =   172
+            Tag             =   "lblSharedInputFile"
+            Top             =   765
+            Width           =   765
          End
          Begin VB.Label lblSoundsTab 
             Caption         =   "Audio :"
             Height          =   255
             Index           =   3
             Left            =   885
-            TabIndex        =   85
+            TabIndex        =   91
             Tag             =   "lblSharedInputFile"
             Top             =   285
             Width           =   765
@@ -980,37 +811,45 @@ Begin VB.Form widgetPrefs
          TabIndex        =   33
          Top             =   435
          Width           =   6450
+         Begin VB.CheckBox chkNumericDisplayRotation 
+            Caption         =   "Numeric Display Rotation"
+            Height          =   225
+            Left            =   2010
+            TabIndex        =   237
+            Top             =   5025
+            Width           =   3405
+         End
          Begin VB.Frame fraClockTooltips 
             BorderStyle     =   0  'None
             Height          =   1110
             Left            =   1785
-            TabIndex        =   157
+            TabIndex        =   233
             Top             =   2685
             Width           =   3345
-            Begin VB.OptionButton optGaugeTooltips 
+            Begin VB.OptionButton optClockTooltips 
                Caption         =   "Disable Clock Tooltips *"
                Height          =   300
                Index           =   2
                Left            =   225
-               TabIndex        =   160
+               TabIndex        =   236
                Top             =   780
                Width           =   2790
             End
-            Begin VB.OptionButton optGaugeTooltips 
+            Begin VB.OptionButton optClockTooltips 
                Caption         =   "Clock - Enable Square Tooltips"
                Height          =   300
                Index           =   1
                Left            =   225
-               TabIndex        =   159
+               TabIndex        =   235
                Top             =   450
                Width           =   2790
             End
-            Begin VB.OptionButton optGaugeTooltips 
+            Begin VB.OptionButton optClockTooltips 
                Caption         =   "Clock - Enable Balloon Tooltips *"
                Height          =   315
                Index           =   0
                Left            =   225
-               TabIndex        =   158
+               TabIndex        =   234
                Top             =   120
                Width           =   3060
             End
@@ -1018,7 +857,7 @@ Begin VB.Form widgetPrefs
          Begin vb6projectCCRSlider.Slider sliGaugeSize 
             Height          =   390
             Left            =   1920
-            TabIndex        =   154
+            TabIndex        =   219
             Top             =   30
             Width           =   3870
             _ExtentX        =   6826
@@ -1034,7 +873,7 @@ Begin VB.Form widgetPrefs
             Height          =   1125
             Index           =   0
             Left            =   1860
-            TabIndex        =   144
+            TabIndex        =   184
             Top             =   3810
             Width           =   3150
             Begin VB.OptionButton optPrefsTooltips 
@@ -1042,7 +881,7 @@ Begin VB.Form widgetPrefs
                Height          =   195
                Index           =   2
                Left            =   135
-               TabIndex        =   156
+               TabIndex        =   232
                Top             =   780
                Width           =   2970
             End
@@ -1051,7 +890,7 @@ Begin VB.Form widgetPrefs
                Height          =   195
                Index           =   0
                Left            =   135
-               TabIndex        =   146
+               TabIndex        =   186
                Top             =   120
                Width           =   2760
             End
@@ -1060,7 +899,7 @@ Begin VB.Form widgetPrefs
                Height          =   195
                Index           =   1
                Left            =   135
-               TabIndex        =   145
+               TabIndex        =   185
                Top             =   450
                Width           =   2970
             End
@@ -1069,7 +908,7 @@ Begin VB.Form widgetPrefs
             BorderStyle     =   0  'None
             Height          =   645
             Left            =   1995
-            TabIndex        =   143
+            TabIndex        =   183
             Top             =   2775
             Width           =   4095
          End
@@ -1077,45 +916,45 @@ Begin VB.Form widgetPrefs
             Caption         =   "Show Help on Widget Start"
             Height          =   225
             Left            =   2010
-            TabIndex        =   138
+            TabIndex        =   145
             ToolTipText     =   "Check the box to show the widget in the taskbar"
-            Top             =   5535
+            Top             =   5745
             Width           =   3405
          End
          Begin VB.CheckBox chkDpiAwareness 
             Caption         =   "DPI Awareness Enable *"
             Height          =   285
             Left            =   2010
-            TabIndex        =   129
+            TabIndex        =   135
             ToolTipText     =   "Check the box to make the program DPI aware. RESTART required."
-            Top             =   5880
+            Top             =   6090
             Width           =   3405
          End
          Begin VB.CheckBox chkShowTaskbar 
             Caption         =   "Show Widget in Taskbar"
             Height          =   225
             Left            =   2010
-            TabIndex        =   127
+            TabIndex        =   133
             ToolTipText     =   "Check the box to show the widget in the taskbar"
-            Top             =   5160
+            Top             =   5370
             Width           =   3405
          End
          Begin VB.ComboBox cmbScrollWheelDirection 
             Height          =   315
             Left            =   1995
             Style           =   2  'Dropdown List
-            TabIndex        =   80
+            TabIndex        =   83
             ToolTipText     =   "To change the direction of the mouse scroll wheel when resiziing the globe gauge."
             Top             =   1695
             Width           =   2490
          End
          Begin VB.Label lblConfiguration 
-            Caption         =   $"frmPrefs.frx":79CF
+            Caption         =   $"frmPrefs.frx":6D39
             Height          =   915
             Index           =   0
             Left            =   1980
-            TabIndex        =   130
-            Top             =   6240
+            TabIndex        =   136
+            Top             =   6450
             Width           =   4335
          End
          Begin VB.Label lblConfiguration 
@@ -1123,7 +962,7 @@ Begin VB.Form widgetPrefs
             Height          =   675
             Index           =   6
             Left            =   2025
-            TabIndex        =   107
+            TabIndex        =   113
             Top             =   2115
             Width           =   3990
          End
@@ -1132,7 +971,7 @@ Begin VB.Form widgetPrefs
             Height          =   315
             Index           =   4
             Left            =   4740
-            TabIndex        =   84
+            TabIndex        =   87
             Top             =   555
             Width           =   345
          End
@@ -1141,7 +980,7 @@ Begin VB.Form widgetPrefs
             Height          =   315
             Index           =   3
             Left            =   3990
-            TabIndex        =   83
+            TabIndex        =   86
             Top             =   555
             Width           =   345
          End
@@ -1150,7 +989,7 @@ Begin VB.Form widgetPrefs
             Height          =   315
             Index           =   1
             Left            =   2790
-            TabIndex        =   82
+            TabIndex        =   85
             Top             =   555
             Width           =   345
          End
@@ -1159,7 +998,7 @@ Begin VB.Form widgetPrefs
             Height          =   345
             Index           =   3
             Left            =   255
-            TabIndex        =   81
+            TabIndex        =   84
             ToolTipText     =   "To change the direction of the mouse scroll wheel when resiziing the globe gauge."
             Top             =   1740
             Width           =   2055
@@ -1169,7 +1008,7 @@ Begin VB.Form widgetPrefs
             Height          =   555
             Index           =   2
             Left            =   2070
-            TabIndex        =   79
+            TabIndex        =   82
             ToolTipText     =   "Adjust to a percentage of the original size. You can also use Ctrl+Mousewheel."
             Top             =   870
             Width           =   3810
@@ -1179,7 +1018,7 @@ Begin VB.Form widgetPrefs
             Height          =   315
             Index           =   1
             Left            =   885
-            TabIndex        =   78
+            TabIndex        =   81
             Top             =   105
             Width           =   975
          End
@@ -1188,7 +1027,7 @@ Begin VB.Form widgetPrefs
             Height          =   315
             Index           =   2
             Left            =   3360
-            TabIndex        =   77
+            TabIndex        =   80
             Top             =   555
             Width           =   360
          End
@@ -1197,7 +1036,7 @@ Begin VB.Form widgetPrefs
             Height          =   315
             Index           =   5
             Left            =   5385
-            TabIndex        =   76
+            TabIndex        =   79
             Top             =   555
             Width           =   735
          End
@@ -1206,205 +1045,9 @@ Begin VB.Form widgetPrefs
             Height          =   315
             Index           =   0
             Left            =   2085
-            TabIndex        =   75
+            TabIndex        =   78
             Top             =   555
             Width           =   345
-         End
-      End
-   End
-   Begin VB.Frame fraFonts 
-      Caption         =   "Fonts"
-      Height          =   6195
-      Left            =   255
-      TabIndex        =   9
-      Top             =   1230
-      Width           =   8280
-      Begin VB.Frame fraFontsInner 
-         BorderStyle     =   0  'None
-         Height          =   5400
-         Left            =   690
-         TabIndex        =   25
-         Top             =   360
-         Width           =   6105
-         Begin VB.TextBox txtDisplayScreenFont 
-            Height          =   315
-            Left            =   1695
-            Locked          =   -1  'True
-            TabIndex        =   149
-            Text            =   "Courier  New"
-            Top             =   3255
-            Width           =   3285
-         End
-         Begin VB.CommandButton btnDisplayScreenFont 
-            Caption         =   "Font"
-            Height          =   300
-            Left            =   5010
-            Style           =   1  'Graphical
-            TabIndex        =   148
-            Top             =   3255
-            Width           =   585
-         End
-         Begin VB.TextBox txtDisplayScreenFontSize 
-            Height          =   315
-            Left            =   1695
-            Locked          =   -1  'True
-            TabIndex        =   147
-            Text            =   "8"
-            Top             =   3795
-            Width           =   510
-         End
-         Begin VB.CommandButton btnResetMessages 
-            Caption         =   "Reset"
-            Height          =   300
-            Left            =   1680
-            Style           =   1  'Graphical
-            TabIndex        =   135
-            Top             =   4695
-            Width           =   885
-         End
-         Begin VB.TextBox txtPrefsFontCurrentSize 
-            Height          =   315
-            Left            =   4200
-            Locked          =   -1  'True
-            TabIndex        =   120
-            ToolTipText     =   "Disabled for manual input. Shows the current font size when form resizing is enabled."
-            Top             =   1065
-            Visible         =   0   'False
-            Width           =   600
-         End
-         Begin VB.TextBox txtPrefsFontSize 
-            Height          =   315
-            Left            =   1710
-            Locked          =   -1  'True
-            TabIndex        =   28
-            Text            =   "8"
-            ToolTipText     =   "Disabled for manual input. Choose a font size using the font selector to be used within this preferences window only"
-            Top             =   1065
-            Width           =   510
-         End
-         Begin VB.CommandButton btnPrefsFont 
-            Caption         =   "Font"
-            Height          =   300
-            Left            =   5025
-            Style           =   1  'Graphical
-            TabIndex        =   27
-            Top             =   90
-            Width           =   585
-         End
-         Begin VB.TextBox txtPrefsFont 
-            Height          =   315
-            Left            =   1710
-            Locked          =   -1  'True
-            TabIndex        =   26
-            Text            =   "Times New Roman"
-            Top             =   90
-            Width           =   3285
-         End
-         Begin VB.Label lblFontsTab 
-            Caption         =   $"frmPrefs.frx":7A83
-            Height          =   1710
-            Index           =   0
-            Left            =   1680
-            TabIndex        =   188
-            ToolTipText     =   "We suggest Centurion Light SF at 8pt - which you will find in the FCW program folder"
-            Top             =   1545
-            Width           =   4455
-         End
-         Begin VB.Label lblFontsTab 
-            Caption         =   "Choose a font to be used for the text in the console display screen on the main clock *"
-            Height          =   480
-            Index           =   9
-            Left            =   2415
-            TabIndex        =   152
-            Top             =   3780
-            Width           =   4035
-         End
-         Begin VB.Label lblFontsTab 
-            Caption         =   "Display Console Font :"
-            Height          =   300
-            Index           =   8
-            Left            =   0
-            TabIndex        =   151
-            Tag             =   "lblPrefsFont"
-            Top             =   3270
-            Width           =   1665
-         End
-         Begin VB.Label lblFontsTab 
-            Caption         =   "Console  Font Size :"
-            Height          =   330
-            Index           =   5
-            Left            =   165
-            TabIndex        =   150
-            Tag             =   "lblPrefsFontSize"
-            Top             =   3825
-            Width           =   1590
-         End
-         Begin VB.Label lblFontsTab 
-            Caption         =   "Hidden message boxes can be reactivated by pressing this reset button."
-            Height          =   480
-            Index           =   4
-            Left            =   2670
-            TabIndex        =   136
-            Top             =   4635
-            Width           =   3360
-         End
-         Begin VB.Label lblFontsTab 
-            Caption         =   "Reset Pop ups :"
-            Height          =   300
-            Index           =   1
-            Left            =   405
-            TabIndex        =   134
-            Tag             =   "lblPrefsFont"
-            Top             =   4740
-            Width           =   1470
-         End
-         Begin VB.Label lblFontsTab 
-            Caption         =   "Resized Font"
-            Height          =   315
-            Index           =   10
-            Left            =   4920
-            TabIndex        =   121
-            Top             =   1110
-            Visible         =   0   'False
-            Width           =   2400
-         End
-         Begin VB.Label lblFontsTab 
-            Caption         =   "The chosen font size *"
-            Height          =   480
-            Index           =   7
-            Left            =   2310
-            TabIndex        =   32
-            Top             =   1095
-            Width           =   2400
-         End
-         Begin VB.Label lblFontsTab 
-            Caption         =   "Base Font Size :"
-            Height          =   330
-            Index           =   3
-            Left            =   435
-            TabIndex        =   31
-            Tag             =   "lblPrefsFontSize"
-            Top             =   1095
-            Width           =   1230
-         End
-         Begin VB.Label lblFontsTab 
-            Caption         =   "Prefs Utility Font :"
-            Height          =   300
-            Index           =   2
-            Left            =   360
-            TabIndex        =   30
-            Tag             =   "lblPrefsFont"
-            Top             =   120
-            Width           =   1665
-         End
-         Begin VB.Label lblFontsTab 
-            Caption         =   "Choose a font to be used for the text in this preferences window, gauge tooltips and message boxes *"
-            Height          =   480
-            Index           =   6
-            Left            =   1695
-            TabIndex        =   29
-            Top             =   480
-            Width           =   4035
          End
       End
    End
@@ -1425,7 +1068,7 @@ Begin VB.Form widgetPrefs
          Begin vb6projectCCRSlider.Slider sliOpacity 
             Height          =   390
             Left            =   2115
-            TabIndex        =   155
+            TabIndex        =   220
             Top             =   4575
             Width           =   3870
             _ExtentX        =   6826
@@ -1440,7 +1083,7 @@ Begin VB.Form widgetPrefs
             Height          =   315
             Left            =   2220
             Style           =   2  'Dropdown List
-            TabIndex        =   142
+            TabIndex        =   180
             Top             =   5805
             Width           =   3720
          End
@@ -1448,14 +1091,14 @@ Begin VB.Form widgetPrefs
             BorderStyle     =   0  'None
             Height          =   2010
             Left            =   1395
-            TabIndex        =   108
+            TabIndex        =   114
             Top             =   2325
             Width           =   5130
             Begin VB.ComboBox cmbHidingTime 
                Height          =   315
                Left            =   825
                Style           =   2  'Dropdown List
-               TabIndex        =   111
+               TabIndex        =   117
                Top             =   1605
                Width           =   3720
             End
@@ -1463,7 +1106,7 @@ Begin VB.Form widgetPrefs
                Caption         =   "Hiding Widget *"
                Height          =   225
                Left            =   855
-               TabIndex        =   109
+               TabIndex        =   115
                Top             =   210
                Width           =   2955
             End
@@ -1472,16 +1115,16 @@ Begin VB.Form widgetPrefs
                Height          =   345
                Index           =   2
                Left            =   90
-               TabIndex        =   112
+               TabIndex        =   118
                Top             =   210
                Width           =   720
             End
             Begin VB.Label lblWindowLevel 
-               Caption         =   $"frmPrefs.frx":7BC1
+               Caption         =   $"frmPrefs.frx":6DED
                Height          =   975
                Index           =   1
                Left            =   855
-               TabIndex        =   110
+               TabIndex        =   116
                Top             =   600
                Width           =   3900
             End
@@ -1508,16 +1151,16 @@ Begin VB.Form widgetPrefs
             Height          =   255
             Index           =   11
             Left            =   375
-            TabIndex        =   141
+            TabIndex        =   179
             Top             =   5835
             Width           =   1830
          End
          Begin VB.Label lblWindowLevel 
-            Caption         =   $"frmPrefs.frx":7C64
+            Caption         =   $"frmPrefs.frx":6E90
             Height          =   1140
             Index           =   10
             Left            =   2235
-            TabIndex        =   140
+            TabIndex        =   178
             Top             =   6255
             Width           =   4050
          End
@@ -1526,7 +1169,7 @@ Begin VB.Form widgetPrefs
             Height          =   660
             Index           =   3
             Left            =   2235
-            TabIndex        =   117
+            TabIndex        =   123
             Top             =   570
             Width           =   3810
          End
@@ -1595,6 +1238,192 @@ Begin VB.Form widgetPrefs
          End
       End
    End
+   Begin VB.Frame fraFonts 
+      Caption         =   "Fonts"
+      Height          =   4470
+      Left            =   255
+      TabIndex        =   9
+      Top             =   1230
+      Width           =   8280
+      Begin VB.Frame fraFontsInner 
+         BorderStyle     =   0  'None
+         Height          =   3810
+         Left            =   690
+         TabIndex        =   25
+         Top             =   360
+         Width           =   6105
+         Begin VB.TextBox txtDisplayScreenFont 
+            Height          =   315
+            Left            =   1695
+            Locked          =   -1  'True
+            TabIndex        =   189
+            Text            =   "Courier  New"
+            Top             =   1830
+            Width           =   3285
+         End
+         Begin VB.CommandButton btnDisplayScreenFont 
+            Caption         =   "Font"
+            Height          =   300
+            Left            =   5010
+            Style           =   1  'Graphical
+            TabIndex        =   188
+            Top             =   1830
+            Width           =   585
+         End
+         Begin VB.TextBox txtDisplayScreenFontSize 
+            Height          =   315
+            Left            =   1695
+            Locked          =   -1  'True
+            TabIndex        =   187
+            Text            =   "8"
+            Top             =   2370
+            Width           =   510
+         End
+         Begin VB.CommandButton btnResetMessages 
+            Caption         =   "Reset"
+            Height          =   300
+            Left            =   1680
+            Style           =   1  'Graphical
+            TabIndex        =   141
+            Top             =   3270
+            Width           =   885
+         End
+         Begin VB.TextBox txtPrefsFontCurrentSize 
+            Height          =   315
+            Left            =   4200
+            Locked          =   -1  'True
+            TabIndex        =   126
+            ToolTipText     =   "Disabled for manual input. Shows the current font size when form resizing is enabled."
+            Top             =   1065
+            Visible         =   0   'False
+            Width           =   600
+         End
+         Begin VB.TextBox txtPrefsFontSize 
+            Height          =   315
+            Left            =   1710
+            Locked          =   -1  'True
+            TabIndex        =   28
+            Text            =   "8"
+            ToolTipText     =   "Disabled for manual input. Choose a font size using the font selector to be used within this preferences window only"
+            Top             =   1065
+            Width           =   510
+         End
+         Begin VB.CommandButton btnPrefsFont 
+            Caption         =   "Font"
+            Height          =   300
+            Left            =   5025
+            Style           =   1  'Graphical
+            TabIndex        =   27
+            Top             =   90
+            Width           =   585
+         End
+         Begin VB.TextBox txtPrefsFont 
+            Height          =   315
+            Left            =   1710
+            Locked          =   -1  'True
+            TabIndex        =   26
+            Text            =   "Times New Roman"
+            Top             =   90
+            Width           =   3285
+         End
+         Begin VB.Label lblFontsTab 
+            Caption         =   "Choose a font to be used for the text in the console display screen on the main clock *"
+            Height          =   480
+            Index           =   9
+            Left            =   2415
+            TabIndex        =   192
+            Top             =   2355
+            Width           =   4035
+         End
+         Begin VB.Label lblFontsTab 
+            Caption         =   "Display Console Font :"
+            Height          =   300
+            Index           =   8
+            Left            =   0
+            TabIndex        =   191
+            Tag             =   "lblPrefsFont"
+            Top             =   1890
+            Width           =   1665
+         End
+         Begin VB.Label lblFontsTab 
+            Caption         =   "Console  Font Size :"
+            Height          =   330
+            Index           =   5
+            Left            =   165
+            TabIndex        =   190
+            Tag             =   "lblPrefsFontSize"
+            Top             =   2400
+            Width           =   1590
+         End
+         Begin VB.Label lblFontsTab 
+            Caption         =   "Hidden message boxes can be reactivated by pressing this reset button."
+            Height          =   480
+            Index           =   4
+            Left            =   2670
+            TabIndex        =   142
+            Top             =   3210
+            Width           =   3360
+         End
+         Begin VB.Label lblFontsTab 
+            Caption         =   "Reset Pop ups :"
+            Height          =   300
+            Index           =   1
+            Left            =   405
+            TabIndex        =   140
+            Tag             =   "lblPrefsFont"
+            Top             =   3315
+            Width           =   1470
+         End
+         Begin VB.Label lblFontsTab 
+            Caption         =   "Resized Font"
+            Height          =   315
+            Index           =   10
+            Left            =   4920
+            TabIndex        =   127
+            Top             =   1110
+            Visible         =   0   'False
+            Width           =   2400
+         End
+         Begin VB.Label lblFontsTab 
+            Caption         =   "The chosen font size *"
+            Height          =   480
+            Index           =   7
+            Left            =   2310
+            TabIndex        =   32
+            Top             =   1095
+            Width           =   2400
+         End
+         Begin VB.Label lblFontsTab 
+            Caption         =   "Base Font Size :"
+            Height          =   330
+            Index           =   3
+            Left            =   435
+            TabIndex        =   31
+            Tag             =   "lblPrefsFontSize"
+            Top             =   1095
+            Width           =   1230
+         End
+         Begin VB.Label lblFontsTab 
+            Caption         =   "Prefs Utility Font :"
+            Height          =   300
+            Index           =   2
+            Left            =   360
+            TabIndex        =   30
+            Tag             =   "lblPrefsFont"
+            Top             =   120
+            Width           =   1665
+         End
+         Begin VB.Label lblFontsTab 
+            Caption         =   "Choose a font to be used for the text in this preferences window, gauge tooltips and message boxes *"
+            Height          =   480
+            Index           =   6
+            Left            =   1695
+            TabIndex        =   29
+            Top             =   480
+            Width           =   4035
+         End
+      End
+   End
    Begin VB.Frame fraDevelopment 
       Caption         =   "Development"
       Height          =   6210
@@ -1614,7 +1443,7 @@ Begin VB.Form widgetPrefs
             BorderStyle     =   0  'None
             Height          =   2370
             Left            =   75
-            TabIndex        =   122
+            TabIndex        =   128
             Top             =   3165
             Width           =   7290
             Begin VB.CommandButton btnDefaultEditor 
@@ -1622,7 +1451,7 @@ Begin VB.Form widgetPrefs
                Height          =   300
                Left            =   5115
                Style           =   1  'Graphical
-               TabIndex        =   124
+               TabIndex        =   130
                ToolTipText     =   "Click to select the .vbp file to edit the program - You need to have access to the source!"
                Top             =   210
                Width           =   315
@@ -1630,27 +1459,27 @@ Begin VB.Form widgetPrefs
             Begin VB.TextBox txtDefaultEditor 
                Height          =   315
                Left            =   1440
-               TabIndex        =   123
+               TabIndex        =   129
                Text            =   " eg. E:\vb6\fire call\FireCallWin.vbp"
                Top             =   195
                Width           =   3660
             End
             Begin VB.Label lblGitHub 
-               Caption         =   $"frmPrefs.frx":7D7B
+               Caption         =   $"frmPrefs.frx":6FA7
                ForeColor       =   &H8000000D&
                Height          =   915
                Left            =   1560
-               TabIndex        =   128
+               TabIndex        =   134
                ToolTipText     =   "Double Click to visit github"
                Top             =   1440
                Width           =   4935
             End
             Begin VB.Label lblDebug 
-               Caption         =   $"frmPrefs.frx":7E42
+               Caption         =   $"frmPrefs.frx":706E
                Height          =   930
                Index           =   9
                Left            =   1545
-               TabIndex        =   126
+               TabIndex        =   132
                Top             =   690
                Width           =   4785
             End
@@ -1659,7 +1488,7 @@ Begin VB.Form widgetPrefs
                Height          =   255
                Index           =   7
                Left            =   285
-               TabIndex        =   125
+               TabIndex        =   131
                Tag             =   "lblSharedInputFile"
                Top             =   225
                Width           =   1350
@@ -1668,7 +1497,7 @@ Begin VB.Form widgetPrefs
          Begin VB.TextBox txtDblClickCommand 
             Height          =   315
             Left            =   1515
-            TabIndex        =   53
+            TabIndex        =   56
             ToolTipText     =   "Enter a Windows command for the gauge to operate when double-clicked."
             Top             =   1095
             Width           =   3660
@@ -1678,7 +1507,7 @@ Begin VB.Form widgetPrefs
             Height          =   300
             Left            =   5175
             Style           =   1  'Graphical
-            TabIndex        =   50
+            TabIndex        =   53
             ToolTipText     =   "Click to select a particular file for the gauge to run or open when double-clicked."
             Top             =   2250
             Width           =   315
@@ -1686,18 +1515,18 @@ Begin VB.Form widgetPrefs
          Begin VB.TextBox txtOpenFile 
             Height          =   315
             Left            =   1515
-            TabIndex        =   49
+            TabIndex        =   52
             ToolTipText     =   "Enter a particular file for the gauge to run or open when double-clicked."
             Top             =   2235
             Width           =   3660
          End
          Begin VB.ComboBox cmbDebug 
             Height          =   315
-            ItemData        =   "frmPrefs.frx":7EE6
+            ItemData        =   "frmPrefs.frx":7112
             Left            =   1530
-            List            =   "frmPrefs.frx":7EE8
+            List            =   "frmPrefs.frx":7114
             Style           =   2  'Dropdown List
-            TabIndex        =   46
+            TabIndex        =   49
             ToolTipText     =   "Choose to set debug mode."
             Top             =   -15
             Width           =   2160
@@ -1707,7 +1536,7 @@ Begin VB.Form widgetPrefs
             Height          =   510
             Index           =   1
             Left            =   -15
-            TabIndex        =   55
+            TabIndex        =   58
             Tag             =   "lblPrefixString"
             Top             =   1155
             Width           =   1545
@@ -1717,7 +1546,7 @@ Begin VB.Form widgetPrefs
             Height          =   375
             Index           =   6
             Left            =   1560
-            TabIndex        =   54
+            TabIndex        =   57
             Top             =   2730
             Width           =   3705
          End
@@ -1726,7 +1555,7 @@ Begin VB.Form widgetPrefs
             Height          =   570
             Index           =   5
             Left            =   1590
-            TabIndex        =   52
+            TabIndex        =   55
             Tag             =   "lblSharedInputFileDesc"
             Top             =   1605
             Width           =   4410
@@ -1736,7 +1565,7 @@ Begin VB.Form widgetPrefs
             Height          =   255
             Index           =   4
             Left            =   645
-            TabIndex        =   51
+            TabIndex        =   54
             Tag             =   "lblSharedInputFile"
             Top             =   2280
             Width           =   1350
@@ -1746,7 +1575,7 @@ Begin VB.Form widgetPrefs
             Height          =   495
             Index           =   2
             Left            =   1545
-            TabIndex        =   48
+            TabIndex        =   51
             Tag             =   "lblAlarmSoundDesc"
             Top             =   450
             Width           =   4455
@@ -1756,7 +1585,7 @@ Begin VB.Form widgetPrefs
             Height          =   375
             Index           =   0
             Left            =   855
-            TabIndex        =   47
+            TabIndex        =   50
             Tag             =   "lblAlarmSound"
             Top             =   45
             Width           =   1740
@@ -1781,7 +1610,7 @@ Begin VB.Form widgetPrefs
          Begin VB.TextBox txtLandscapeHoffset 
             Height          =   315
             Left            =   2250
-            TabIndex        =   67
+            TabIndex        =   70
             Top             =   4425
             Width           =   2130
          End
@@ -1789,7 +1618,7 @@ Begin VB.Form widgetPrefs
             Caption         =   "Widget Position Locked. *"
             Height          =   225
             Left            =   2265
-            TabIndex        =   115
+            TabIndex        =   121
             ToolTipText     =   "Checking this box turns off the ability to drag the program with the mouse, locking it in position."
             Top             =   3465
             Width           =   2505
@@ -1797,7 +1626,7 @@ Begin VB.Form widgetPrefs
          Begin VB.TextBox txtPortraitYoffset 
             Height          =   315
             Left            =   2250
-            TabIndex        =   73
+            TabIndex        =   76
             ToolTipText     =   "Enter a prefix/nickname for outgoing messages."
             Top             =   6465
             Width           =   2130
@@ -1805,7 +1634,7 @@ Begin VB.Form widgetPrefs
          Begin VB.TextBox txtPortraitHoffset 
             Height          =   315
             Left            =   2250
-            TabIndex        =   71
+            TabIndex        =   74
             ToolTipText     =   "Enter a prefix/nickname for outgoing messages."
             Top             =   6000
             Width           =   2130
@@ -1813,7 +1642,7 @@ Begin VB.Form widgetPrefs
          Begin VB.TextBox txtLandscapeVoffset 
             Height          =   315
             Left            =   2250
-            TabIndex        =   69
+            TabIndex        =   72
             ToolTipText     =   "Enter a prefix/nickname for outgoing messages."
             Top             =   4875
             Width           =   2130
@@ -1822,7 +1651,7 @@ Begin VB.Form widgetPrefs
             Height          =   315
             Left            =   2250
             Style           =   2  'Dropdown List
-            TabIndex        =   65
+            TabIndex        =   68
             Top             =   3930
             Width           =   2160
          End
@@ -1830,7 +1659,7 @@ Begin VB.Form widgetPrefs
             Height          =   315
             Left            =   2250
             Style           =   2  'Dropdown List
-            TabIndex        =   62
+            TabIndex        =   65
             ToolTipText     =   "Choose the alarm sound."
             Top             =   5505
             Width           =   2160
@@ -1839,7 +1668,7 @@ Begin VB.Form widgetPrefs
             Height          =   315
             Left            =   2265
             Style           =   2  'Dropdown List
-            TabIndex        =   59
+            TabIndex        =   62
             ToolTipText     =   "Choose the alarm sound."
             Top             =   2100
             Width           =   2160
@@ -1848,7 +1677,7 @@ Begin VB.Form widgetPrefs
             Height          =   315
             Left            =   2265
             Style           =   2  'Dropdown List
-            TabIndex        =   56
+            TabIndex        =   59
             ToolTipText     =   "Choose the alarm sound."
             Top             =   0
             Width           =   2160
@@ -1858,7 +1687,7 @@ Begin VB.Form widgetPrefs
             Height          =   300
             Index           =   7
             Left            =   4530
-            TabIndex        =   132
+            TabIndex        =   138
             Tag             =   "lblPrefixString"
             Top             =   6495
             Width           =   435
@@ -1868,7 +1697,7 @@ Begin VB.Form widgetPrefs
             Height          =   300
             Index           =   5
             Left            =   4530
-            TabIndex        =   131
+            TabIndex        =   137
             Tag             =   "lblPrefixString"
             Top             =   6045
             Width           =   435
@@ -1878,7 +1707,7 @@ Begin VB.Form widgetPrefs
             Height          =   255
             Index           =   1
             Left            =   4545
-            TabIndex        =   118
+            TabIndex        =   124
             Tag             =   "lblAlarmSound"
             Top             =   45
             Width           =   345
@@ -1888,7 +1717,7 @@ Begin VB.Form widgetPrefs
             Height          =   300
             Index           =   4
             Left            =   4530
-            TabIndex        =   114
+            TabIndex        =   120
             Tag             =   "lblPrefixString"
             Top             =   4905
             Width           =   435
@@ -1898,7 +1727,7 @@ Begin VB.Form widgetPrefs
             Height          =   300
             Index           =   2
             Left            =   4530
-            TabIndex        =   113
+            TabIndex        =   119
             Tag             =   "lblPrefixString"
             Top             =   4500
             Width           =   390
@@ -1908,7 +1737,7 @@ Begin VB.Form widgetPrefs
             Height          =   510
             Index           =   17
             Left            =   645
-            TabIndex        =   74
+            TabIndex        =   77
             Tag             =   "lblPrefixString"
             Top             =   6480
             Width           =   2175
@@ -1918,7 +1747,7 @@ Begin VB.Form widgetPrefs
             Height          =   510
             Index           =   16
             Left            =   660
-            TabIndex        =   72
+            TabIndex        =   75
             Tag             =   "lblPrefixString"
             Top             =   6015
             Width           =   2175
@@ -1928,7 +1757,7 @@ Begin VB.Form widgetPrefs
             Height          =   510
             Index           =   15
             Left            =   420
-            TabIndex        =   70
+            TabIndex        =   73
             Tag             =   "lblPrefixString"
             Top             =   4905
             Width           =   2175
@@ -1938,7 +1767,7 @@ Begin VB.Form widgetPrefs
             Height          =   510
             Index           =   14
             Left            =   420
-            TabIndex        =   68
+            TabIndex        =   71
             Tag             =   "lblPrefixString"
             Top             =   4455
             Width           =   2175
@@ -1948,17 +1777,17 @@ Begin VB.Form widgetPrefs
             Height          =   435
             Index           =   13
             Left            =   450
-            TabIndex        =   66
+            TabIndex        =   69
             Tag             =   "lblAlarmSound"
             Top             =   3975
             Width           =   2115
          End
          Begin VB.Label lblPosition 
-            Caption         =   $"frmPrefs.frx":7EEA
+            Caption         =   $"frmPrefs.frx":7116
             Height          =   3435
             Index           =   12
             Left            =   5145
-            TabIndex        =   64
+            TabIndex        =   67
             Tag             =   "lblAlarmSoundDesc"
             Top             =   3480
             Width           =   2520
@@ -1968,17 +1797,17 @@ Begin VB.Form widgetPrefs
             Height          =   375
             Index           =   11
             Left            =   690
-            TabIndex        =   63
+            TabIndex        =   66
             Tag             =   "lblAlarmSound"
             Top             =   5550
             Width           =   2040
          End
          Begin VB.Label lblPosition 
-            Caption         =   $"frmPrefs.frx":80BC
+            Caption         =   $"frmPrefs.frx":72E8
             Height          =   705
             Index           =   10
             Left            =   2250
-            TabIndex        =   61
+            TabIndex        =   64
             Tag             =   "lblAlarmSoundDesc"
             Top             =   2550
             Width           =   5325
@@ -1988,17 +1817,17 @@ Begin VB.Form widgetPrefs
             Height          =   375
             Index           =   8
             Left            =   195
-            TabIndex        =   60
+            TabIndex        =   63
             Tag             =   "lblAlarmSound"
             Top             =   2145
             Width           =   2355
          End
          Begin VB.Label lblPosition 
-            Caption         =   $"frmPrefs.frx":815B
+            Caption         =   $"frmPrefs.frx":7387
             Height          =   3045
             Index           =   6
             Left            =   2265
-            TabIndex        =   58
+            TabIndex        =   61
             Tag             =   "lblAlarmSoundDesc"
             Top             =   450
             Width           =   5370
@@ -2008,10 +1837,687 @@ Begin VB.Form widgetPrefs
             Height          =   375
             Index           =   3
             Left            =   120
-            TabIndex        =   57
+            TabIndex        =   60
             Tag             =   "lblAlarmSound"
             Top             =   45
             Width           =   2145
+         End
+      End
+   End
+   Begin VB.Frame fraGeneral 
+      Caption         =   "General"
+      ForeColor       =   &H80000008&
+      Height          =   7485
+      Left            =   105
+      TabIndex        =   46
+      Top             =   1170
+      Visible         =   0   'False
+      Width           =   7995
+      Begin VB.Frame fraGeneralInner 
+         BorderStyle     =   0  'None
+         Height          =   7095
+         Left            =   435
+         TabIndex        =   47
+         Top             =   300
+         Width           =   7395
+         Begin VB.CheckBox chk24HourClockMode 
+            Caption         =   "Toggle 24hr clock mode ON *"
+            Height          =   465
+            Left            =   1995
+            TabIndex        =   181
+            ToolTipText     =   "Check this box to enable the automatic start of the program when Windows is started."
+            Top             =   2205
+            Width           =   4020
+         End
+         Begin VB.CheckBox chkTogglePendulum 
+            Caption         =   "Toggle the pendulum animation"
+            Height          =   465
+            Left            =   1980
+            TabIndex        =   169
+            ToolTipText     =   "Check this box to enable the automatic start of the program when Windows is started."
+            Top             =   1725
+            Width           =   4020
+         End
+         Begin VB.Frame Frame 
+            BorderStyle     =   0  'None
+            Height          =   3480
+            Left            =   -1005
+            TabIndex        =   146
+            Top             =   3285
+            Width           =   8325
+            Begin VB.CommandButton btnNow 
+               Height          =   345
+               Index           =   5
+               Left            =   2115
+               Picture         =   "frmPrefs.frx":7523
+               Style           =   1  'Graphical
+               TabIndex        =   230
+               Top             =   2160
+               Width           =   330
+            End
+            Begin VB.CommandButton btnNow 
+               Height          =   345
+               Index           =   4
+               Left            =   2115
+               Picture         =   "frmPrefs.frx":7769
+               Style           =   1  'Graphical
+               TabIndex        =   229
+               Top             =   1665
+               Width           =   330
+            End
+            Begin VB.CommandButton btnNow 
+               Height          =   345
+               Index           =   3
+               Left            =   2115
+               Picture         =   "frmPrefs.frx":79AF
+               Style           =   1  'Graphical
+               TabIndex        =   228
+               Top             =   1185
+               Width           =   330
+            End
+            Begin VB.CommandButton btnNow 
+               Height          =   345
+               Index           =   2
+               Left            =   2115
+               Picture         =   "frmPrefs.frx":7BF5
+               Style           =   1  'Graphical
+               TabIndex        =   227
+               Top             =   705
+               Width           =   330
+            End
+            Begin VB.CommandButton btnclearAlarm 
+               Caption         =   "Clear"
+               Height          =   345
+               Index           =   5
+               Left            =   7680
+               Style           =   1  'Graphical
+               TabIndex        =   226
+               Top             =   2145
+               Width           =   540
+            End
+            Begin VB.CommandButton btnclearAlarm 
+               Caption         =   "Clear"
+               Height          =   345
+               Index           =   4
+               Left            =   7680
+               Style           =   1  'Graphical
+               TabIndex        =   225
+               Top             =   1650
+               Width           =   540
+            End
+            Begin VB.CommandButton btnclearAlarm 
+               Caption         =   "Clear"
+               Height          =   345
+               Index           =   3
+               Left            =   7680
+               Style           =   1  'Graphical
+               TabIndex        =   224
+               Top             =   1170
+               Width           =   540
+            End
+            Begin VB.CommandButton btnclearAlarm 
+               Caption         =   "Clear"
+               Height          =   345
+               Index           =   2
+               Left            =   7680
+               Style           =   1  'Graphical
+               TabIndex        =   223
+               Top             =   690
+               Width           =   540
+            End
+            Begin VB.CommandButton btnclearAlarm 
+               Caption         =   "Clear"
+               Height          =   345
+               Index           =   1
+               Left            =   7680
+               Style           =   1  'Graphical
+               TabIndex        =   222
+               Top             =   195
+               Width           =   540
+            End
+            Begin VB.CommandButton btnNow 
+               Height          =   345
+               Index           =   1
+               Left            =   2115
+               Picture         =   "frmPrefs.frx":7E3B
+               Style           =   1  'Graphical
+               TabIndex        =   221
+               Top             =   195
+               Width           =   330
+            End
+            Begin VB.ComboBox cmbAlarm5Minutes 
+               Height          =   315
+               ItemData        =   "frmPrefs.frx":8081
+               Left            =   5340
+               List            =   "frmPrefs.frx":813C
+               Style           =   2  'Dropdown List
+               TabIndex        =   218
+               Top             =   2160
+               Width           =   525
+            End
+            Begin VB.ComboBox cmbAlarm4Minutes 
+               Height          =   315
+               ItemData        =   "frmPrefs.frx":8232
+               Left            =   5340
+               List            =   "frmPrefs.frx":82ED
+               Style           =   2  'Dropdown List
+               TabIndex        =   217
+               Top             =   1680
+               Width           =   525
+            End
+            Begin VB.ComboBox cmbAlarm3Minutes 
+               Height          =   315
+               ItemData        =   "frmPrefs.frx":83E3
+               Left            =   5340
+               List            =   "frmPrefs.frx":849E
+               Style           =   2  'Dropdown List
+               TabIndex        =   216
+               Top             =   1215
+               Width           =   525
+            End
+            Begin VB.ComboBox cmbAlarm2Minutes 
+               Height          =   315
+               ItemData        =   "frmPrefs.frx":8594
+               Left            =   5340
+               List            =   "frmPrefs.frx":864F
+               Style           =   2  'Dropdown List
+               TabIndex        =   215
+               Top             =   720
+               Width           =   525
+            End
+            Begin VB.ComboBox cmbAlarm5Hours 
+               Height          =   315
+               ItemData        =   "frmPrefs.frx":8745
+               Left            =   4785
+               List            =   "frmPrefs.frx":8794
+               Style           =   2  'Dropdown List
+               TabIndex        =   214
+               Top             =   2175
+               Width           =   525
+            End
+            Begin VB.ComboBox cmbAlarm4Hours 
+               Height          =   315
+               ItemData        =   "frmPrefs.frx":87FA
+               Left            =   4785
+               List            =   "frmPrefs.frx":8849
+               Style           =   2  'Dropdown List
+               TabIndex        =   213
+               Top             =   1680
+               Width           =   525
+            End
+            Begin VB.ComboBox cmbAlarm3Hours 
+               Height          =   315
+               ItemData        =   "frmPrefs.frx":88AF
+               Left            =   4785
+               List            =   "frmPrefs.frx":88FE
+               Style           =   2  'Dropdown List
+               TabIndex        =   212
+               Top             =   1215
+               Width           =   525
+            End
+            Begin VB.ComboBox cmbAlarm2Hours 
+               Height          =   315
+               ItemData        =   "frmPrefs.frx":8964
+               Left            =   4785
+               List            =   "frmPrefs.frx":89B3
+               Style           =   2  'Dropdown List
+               TabIndex        =   211
+               Top             =   720
+               Width           =   525
+            End
+            Begin VB.ComboBox cmbAlarm5Year 
+               Height          =   315
+               ItemData        =   "frmPrefs.frx":8A19
+               Left            =   3945
+               List            =   "frmPrefs.frx":8AF5
+               Style           =   2  'Dropdown List
+               TabIndex        =   210
+               Top             =   2175
+               Width           =   750
+            End
+            Begin VB.ComboBox cmbAlarm4Year 
+               Height          =   315
+               ItemData        =   "frmPrefs.frx":8CA5
+               Left            =   3945
+               List            =   "frmPrefs.frx":8D81
+               Style           =   2  'Dropdown List
+               TabIndex        =   209
+               Top             =   1680
+               Width           =   750
+            End
+            Begin VB.ComboBox cmbAlarm3Year 
+               Height          =   315
+               ItemData        =   "frmPrefs.frx":8F31
+               Left            =   3945
+               List            =   "frmPrefs.frx":900D
+               Style           =   2  'Dropdown List
+               TabIndex        =   208
+               Top             =   1215
+               Width           =   750
+            End
+            Begin VB.ComboBox cmbAlarm2Year 
+               Height          =   315
+               ItemData        =   "frmPrefs.frx":91BD
+               Left            =   3945
+               List            =   "frmPrefs.frx":9299
+               Style           =   2  'Dropdown List
+               TabIndex        =   207
+               Top             =   720
+               Width           =   750
+            End
+            Begin VB.ComboBox cmbAlarm5Month 
+               Height          =   315
+               ItemData        =   "frmPrefs.frx":9449
+               Left            =   3060
+               List            =   "frmPrefs.frx":9477
+               Style           =   2  'Dropdown List
+               TabIndex        =   206
+               Top             =   2175
+               Width           =   870
+            End
+            Begin VB.ComboBox cmbAlarm4Month 
+               Height          =   315
+               ItemData        =   "frmPrefs.frx":94B9
+               Left            =   3075
+               List            =   "frmPrefs.frx":94E7
+               Style           =   2  'Dropdown List
+               TabIndex        =   205
+               Top             =   1680
+               Width           =   870
+            End
+            Begin VB.ComboBox cmbAlarm3Month 
+               Height          =   315
+               ItemData        =   "frmPrefs.frx":9529
+               Left            =   3060
+               List            =   "frmPrefs.frx":9557
+               Style           =   2  'Dropdown List
+               TabIndex        =   204
+               Top             =   1215
+               Width           =   870
+            End
+            Begin VB.ComboBox cmbAlarm5Day 
+               Height          =   315
+               ItemData        =   "frmPrefs.frx":9599
+               Left            =   2505
+               List            =   "frmPrefs.frx":9616
+               Style           =   2  'Dropdown List
+               TabIndex        =   203
+               Top             =   2175
+               Width           =   525
+            End
+            Begin VB.ComboBox cmbAlarm4Day 
+               Height          =   315
+               ItemData        =   "frmPrefs.frx":969C
+               Left            =   2505
+               List            =   "frmPrefs.frx":9719
+               Style           =   2  'Dropdown List
+               TabIndex        =   202
+               Top             =   1680
+               Width           =   525
+            End
+            Begin VB.ComboBox cmbAlarm3Day 
+               Height          =   315
+               ItemData        =   "frmPrefs.frx":979F
+               Left            =   2505
+               List            =   "frmPrefs.frx":981C
+               Style           =   2  'Dropdown List
+               TabIndex        =   201
+               Top             =   1215
+               Width           =   525
+            End
+            Begin VB.ComboBox cmbAlarm1Year 
+               Height          =   315
+               ItemData        =   "frmPrefs.frx":98A2
+               Left            =   3945
+               List            =   "frmPrefs.frx":997E
+               Style           =   2  'Dropdown List
+               TabIndex        =   200
+               Top             =   210
+               Width           =   750
+            End
+            Begin VB.ComboBox cmbAlarm1Minutes 
+               Height          =   315
+               ItemData        =   "frmPrefs.frx":9B2E
+               Left            =   5340
+               List            =   "frmPrefs.frx":9BE9
+               Style           =   2  'Dropdown List
+               TabIndex        =   199
+               Top             =   210
+               Width           =   525
+            End
+            Begin VB.ComboBox cmbAlarm1Hours 
+               Height          =   315
+               ItemData        =   "frmPrefs.frx":9CDF
+               Left            =   4785
+               List            =   "frmPrefs.frx":9D2E
+               Style           =   2  'Dropdown List
+               TabIndex        =   198
+               Top             =   210
+               Width           =   525
+            End
+            Begin VB.ComboBox cmbAlarm1Month 
+               Height          =   315
+               ItemData        =   "frmPrefs.frx":9D94
+               Left            =   3060
+               List            =   "frmPrefs.frx":9DC2
+               Style           =   2  'Dropdown List
+               TabIndex        =   197
+               Top             =   210
+               Width           =   870
+            End
+            Begin VB.ComboBox cmbAlarm2Day 
+               Height          =   315
+               ItemData        =   "frmPrefs.frx":9E04
+               Left            =   2505
+               List            =   "frmPrefs.frx":9E81
+               Style           =   2  'Dropdown List
+               TabIndex        =   196
+               Top             =   720
+               Width           =   525
+            End
+            Begin VB.ComboBox cmbAlarm2Month 
+               Height          =   315
+               ItemData        =   "frmPrefs.frx":9F07
+               Left            =   3060
+               List            =   "frmPrefs.frx":9F35
+               Style           =   2  'Dropdown List
+               TabIndex        =   195
+               Top             =   720
+               Width           =   870
+            End
+            Begin VB.ComboBox cmbAlarm1Day 
+               BeginProperty Font 
+                  Name            =   "Arial"
+                  Size            =   8.25
+                  Charset         =   0
+                  Weight          =   400
+                  Underline       =   0   'False
+                  Italic          =   0   'False
+                  Strikethrough   =   0   'False
+               EndProperty
+               Height          =   330
+               ItemData        =   "frmPrefs.frx":9F77
+               Left            =   2505
+               List            =   "frmPrefs.frx":9FF4
+               Style           =   2  'Dropdown List
+               TabIndex        =   194
+               Top             =   210
+               Width           =   525
+            End
+            Begin VB.CommandButton btnVerifyDateTime5 
+               Caption         =   ">"
+               Height          =   315
+               Left            =   5895
+               Style           =   1  'Graphical
+               TabIndex        =   161
+               ToolTipText     =   "Verify Date Time for alarm number 1"
+               Top             =   2160
+               Width           =   300
+            End
+            Begin VB.TextBox txtAlarm5Time 
+               Height          =   315
+               Left            =   7140
+               Locked          =   -1  'True
+               TabIndex        =   160
+               Top             =   2160
+               Width           =   500
+            End
+            Begin VB.CommandButton btnVerifyDateTime4 
+               Caption         =   ">"
+               Height          =   315
+               Left            =   5895
+               Style           =   1  'Graphical
+               TabIndex        =   158
+               ToolTipText     =   "Verify Date Time for alarm number 1"
+               Top             =   1650
+               Width           =   300
+            End
+            Begin VB.TextBox txtAlarm4Time 
+               Height          =   315
+               Left            =   7140
+               Locked          =   -1  'True
+               TabIndex        =   157
+               Top             =   1665
+               Width           =   500
+            End
+            Begin VB.CommandButton btnVerifyDateTime3 
+               Caption         =   ">"
+               Height          =   315
+               Left            =   5895
+               Style           =   1  'Graphical
+               TabIndex        =   155
+               ToolTipText     =   "Verify Date Time for alarm number 1"
+               Top             =   1185
+               Width           =   300
+            End
+            Begin VB.TextBox txtAlarm3Time 
+               Height          =   315
+               Left            =   7140
+               Locked          =   -1  'True
+               TabIndex        =   154
+               Top             =   1185
+               Width           =   500
+            End
+            Begin VB.CommandButton btnVerifyDateTime2 
+               Caption         =   ">"
+               Height          =   315
+               Left            =   5895
+               Style           =   1  'Graphical
+               TabIndex        =   152
+               ToolTipText     =   "Verify Date Time for alarm number 1"
+               Top             =   705
+               Width           =   300
+            End
+            Begin VB.TextBox txtAlarm2Time 
+               Height          =   315
+               Left            =   7140
+               Locked          =   -1  'True
+               TabIndex        =   151
+               Top             =   705
+               Width           =   500
+            End
+            Begin VB.TextBox txtAlarm1Time 
+               Height          =   315
+               Left            =   7140
+               Locked          =   -1  'True
+               TabIndex        =   148
+               Top             =   210
+               Width           =   495
+            End
+            Begin VB.CommandButton btnVerifyDateTime1 
+               Caption         =   ">"
+               Height          =   300
+               Left            =   5895
+               Style           =   1  'Graphical
+               TabIndex        =   149
+               ToolTipText     =   "Verify Date Time for alarm number 1"
+               Top             =   225
+               Width           =   300
+            End
+            Begin VB.TextBox txtAlarm5Date 
+               Height          =   315
+               Left            =   6255
+               Locked          =   -1  'True
+               TabIndex        =   159
+               Top             =   2160
+               Width           =   825
+            End
+            Begin VB.TextBox txtAlarm4Date 
+               Height          =   315
+               Left            =   6255
+               Locked          =   -1  'True
+               TabIndex        =   156
+               Top             =   1665
+               Width           =   825
+            End
+            Begin VB.TextBox txtAlarm3Date 
+               Height          =   315
+               Left            =   6255
+               Locked          =   -1  'True
+               TabIndex        =   153
+               Top             =   1185
+               Width           =   825
+            End
+            Begin VB.TextBox txtAlarm2Date 
+               Height          =   315
+               Left            =   6255
+               Locked          =   -1  'True
+               TabIndex        =   150
+               Top             =   705
+               Width           =   825
+            End
+            Begin VB.TextBox txtAlarm1Date 
+               Height          =   315
+               Left            =   6255
+               Locked          =   -1  'True
+               TabIndex        =   147
+               Top             =   210
+               Width           =   825
+            End
+            Begin VB.Label lblGeneral 
+               Caption         =   $"frmPrefs.frx":A07A
+               Height          =   900
+               Index           =   10
+               Left            =   2115
+               TabIndex        =   167
+               Top             =   2745
+               Width           =   4230
+            End
+            Begin VB.Label lblGeneral 
+               Caption         =   "Alarm No. 5 :"
+               Height          =   375
+               Index           =   9
+               Left            =   1005
+               TabIndex        =   166
+               Tag             =   "lblRefreshInterval"
+               Top             =   2220
+               Width           =   1095
+            End
+            Begin VB.Label lblGeneral 
+               Caption         =   "Alarm No. 4 :"
+               Height          =   375
+               Index           =   8
+               Left            =   1005
+               TabIndex        =   165
+               Tag             =   "lblRefreshInterval"
+               Top             =   1725
+               Width           =   1095
+            End
+            Begin VB.Label lblGeneral 
+               Caption         =   "Alarm No. 3 :"
+               Height          =   375
+               Index           =   7
+               Left            =   1005
+               TabIndex        =   164
+               Tag             =   "lblRefreshInterval"
+               Top             =   1245
+               Width           =   1095
+            End
+            Begin VB.Label lblGeneral 
+               Caption         =   "Alarm No. 2 :"
+               Height          =   375
+               Index           =   5
+               Left            =   1005
+               TabIndex        =   163
+               Tag             =   "lblRefreshInterval"
+               Top             =   765
+               Width           =   1095
+            End
+            Begin VB.Label lblGeneral 
+               Caption         =   "Alarm No. 1 :"
+               Height          =   375
+               Index           =   4
+               Left            =   1005
+               TabIndex        =   162
+               Tag             =   "lblRefreshInterval"
+               Top             =   270
+               Width           =   1095
+            End
+         End
+         Begin VB.CheckBox chkWidgetFunctions 
+            Caption         =   "Toggle to enable/disable"
+            Height          =   390
+            Left            =   1995
+            TabIndex        =   48
+            ToolTipText     =   "When checked this box enables the spinning earth functionality. That's it!"
+            Top             =   165
+            Width           =   3405
+         End
+         Begin VB.CheckBox chkGenStartup 
+            Caption         =   "Run the Steampunk Clock Calendar Widget at Windows Startup "
+            Height          =   465
+            Left            =   1995
+            TabIndex        =   88
+            ToolTipText     =   "Check this box to enable the automatic start of the program when Windows is started."
+            Top             =   1230
+            Width           =   4020
+         End
+         Begin VB.Label lblGeneral 
+            Caption         =   "day        month          year            hr        min                  alarm date/time"
+            Height          =   375
+            Index           =   13
+            Left            =   1575
+            TabIndex        =   231
+            Tag             =   "lblRefreshInterval"
+            Top             =   3075
+            Width           =   5565
+         End
+         Begin VB.Label lblGeneral 
+            Caption         =   "Digital Clock :"
+            Height          =   375
+            Index           =   12
+            Left            =   480
+            TabIndex        =   182
+            Tag             =   "lblRefreshInterval"
+            Top             =   2310
+            Width           =   1740
+         End
+         Begin VB.Label lblGeneral 
+            Caption         =   "Pendulum Swing :"
+            Height          =   375
+            Index           =   3
+            Left            =   480
+            TabIndex        =   170
+            Tag             =   "lblRefreshInterval"
+            Top             =   1845
+            Width           =   1740
+         End
+         Begin VB.Label lblGeneral 
+            Caption         =   "Alarm Dates and times shown below"
+            Height          =   435
+            Index           =   2
+            Left            =   2010
+            TabIndex        =   168
+            Top             =   2700
+            Width           =   4215
+         End
+         Begin VB.Label lblGeneral 
+            Caption         =   "When checked this box enables the functionality of this widget to control audio - That's it! *"
+            Height          =   465
+            Index           =   1
+            Left            =   1995
+            TabIndex        =   144
+            Top             =   675
+            Width           =   4020
+         End
+         Begin VB.Label lblGeneral 
+            Caption         =   "Widget Functions :"
+            Height          =   315
+            Index           =   6
+            Left            =   495
+            TabIndex        =   90
+            Top             =   255
+            Width           =   1395
+         End
+         Begin VB.Label lblGeneral 
+            Caption         =   "Auto Start :"
+            Height          =   375
+            Index           =   11
+            Left            =   975
+            TabIndex        =   89
+            Tag             =   "lblRefreshInterval"
+            Top             =   1350
+            Width           =   1740
          End
       End
    End
@@ -2028,7 +2534,7 @@ Begin VB.Form widgetPrefs
       EndProperty
       Height          =   165
       Left            =   8700
-      TabIndex        =   137
+      TabIndex        =   143
       ToolTipText     =   "drag me"
       Top             =   10350
       Visible         =   0   'False
@@ -2038,7 +2544,7 @@ Begin VB.Form widgetPrefs
       Caption         =   "Size in twips"
       Height          =   285
       Left            =   1875
-      TabIndex        =   133
+      TabIndex        =   139
       Top             =   9780
       Visible         =   0   'False
       Width           =   4170
@@ -2047,7 +2553,7 @@ Begin VB.Form widgetPrefs
       Caption         =   "All controls marked with a * take effect immediately."
       Height          =   300
       Left            =   1920
-      TabIndex        =   116
+      TabIndex        =   122
       Top             =   10155
       Width           =   3870
    End
@@ -2157,12 +2663,16 @@ Private pCmbWidgetPositionBalloonTooltip As String
 Private pCmbWidgetLandscapeBalloonTooltip As String
 Private pCmbWidgetPortraitBalloonTooltip As String
 Private pCmbDebugBalloonTooltip As String
-
+Private pCmbAlarmDayBalloonTooltip As String
+Private pCmbAlarmMonthBalloonTooltip As String
+Private pCmbAlarmYearBalloonTooltip As String
+Private pCmbAlarmHoursBalloonTooltip As String
+Private pCmbAlarmMinutesBalloonTooltip As String
 
 
 
 Private mIsLoaded As Boolean ' property
-Private mGaugeSize As Single   ' property
+Private mClockSize As Single   ' property
 
 Private gblConstraintRatio As Double
 
@@ -2195,37 +2705,508 @@ End Sub
 
 
 
-
-
-
-
-
 '---------------------------------------------------------------------------------------
-' Procedure : optGaugeTooltips_Click
+' Procedure : btnVerifyDateTime1_Click
 ' Author    : beededea
-' Date      : 19/08/2023
-' Purpose   : three options radio buttons for selecting the gauge/cal tooltip style
+' Date      : 24/07/2024
+' Purpose   : some code for each date/time button to verify good /dates/times, ie. in the future
 '---------------------------------------------------------------------------------------
 '
-Private Sub optGaugeTooltips_Click(Index As Integer)
+Private Sub btnVerifyDateTime1_Click()
+    Dim alarmTimeStatus As Boolean: alarmTimeStatus = False
     Dim answer As VbMsgBoxResult: answer = vbNo
     Dim answerMsg As String: answerMsg = vbNullString
-    On Error GoTo optGaugeTooltips_Click_Error
+    
+    Dim dayNo As Integer: dayNo = 0
+    Dim dayString As String: dayString = vbNullString
+    Dim monthNo As Integer: monthNo = 0
+    Dim monthString As String: monthString = vbNullString
+    Dim yearNo As Integer: yearNo = 0
+    Dim yearString As String: yearString = vbNullString
+    
+    On Error GoTo btnVerifyDateTime1_Click_Error
+    
+    If cmbAlarm1Day.ListIndex <= 0 Or cmbAlarm1Month.ListIndex <= 0 Or cmbAlarm1Year.ListIndex <= 0 Or cmbAlarm1Hours.ListIndex <= 0 Or cmbAlarm1Minutes.ListIndex <= 0 Then Exit Sub
+
+    dayNo = cmbAlarm1Day.List(cmbAlarm1Day.ListIndex)
+    If dayNo <= 9 Then
+        dayString = "0" & CStr(dayNo)
+    Else
+        dayString = CStr(dayNo)
+    End If
+
+    monthNo = cmbAlarm1Month.ListIndex
+    If monthNo <= 9 Then
+        monthString = "0" & CStr(monthNo)
+    Else
+        monthString = CStr(monthNo)
+    End If
+
+    yearNo = cmbAlarm1Year.List(cmbAlarm1Year.ListIndex)
+    yearString = CStr(yearNo)
+    
+    txtAlarm1Date.Text = dayString & "/" & monthString & "/" & yearString
+    txtAlarm1Time.Text = cmbAlarm1Hours.List(cmbAlarm1Hours.ListIndex) & ":" & cmbAlarm1Minutes.List(cmbAlarm1Minutes.ListIndex)
+   
+    If txtAlarm1Date.Text = "Alarm not yet set" Or txtAlarm1Time.Text = vbNullString Then
+        answerMsg = "Alarm not yet set!"
+        answer = msgBoxA(answerMsg, vbExclamation + vbOK, "Alarm Message", False, "btnVerifyDateTime1_Click1")
+        Exit Sub
+    End If
+    
+    If txtAlarm1Date.Text <> vbNullString Then
+        alarmTimeStatus = fVerifyAlarmDateTime(txtAlarm1Date.Text, txtAlarm1Time.Text)
+    End If
+    
+    If alarmTimeStatus = True Then
+        txtAlarm1Date.BackColor = vbWhite
+        txtAlarm1Time.BackColor = vbWhite
+        answerMsg = "Alarm date and time formats both valid and in the future"
+        answer = msgBoxA(answerMsg, vbExclamation + vbOK, "Alarm Information", False, "btnVerifyDateTime1_Click4")
+    Else
+        txtAlarm1Date.BackColor = vbRed
+        txtAlarm1Time.BackColor = vbRed
+        
+        answerMsg = "Alarm time format invalid"
+        answer = msgBoxA(answerMsg, vbExclamation + vbOK, "Alarm Message", False, "btnVerifyDateTime1_Click3")
+    End If
+    
+   On Error GoTo 0
+   Exit Sub
+
+btnVerifyDateTime1_Click_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure btnVerifyDateTime1_Click of Form widgetPrefs"
+    
+End Sub
+
+
+'---------------------------------------------------------------------------------------
+' Procedure : btnVerifyDateTime2_Click
+' Author    : beededea
+' Date      : 24/07/2024
+' Purpose   : some code for each date/time button to verify good /dates/times, ie. in the future
+'---------------------------------------------------------------------------------------
+'
+Private Sub btnVerifyDateTime2_Click()
+    Dim alarmTimeStatus As Boolean: alarmTimeStatus = False
+    Dim answer As VbMsgBoxResult: answer = vbNo
+    Dim answerMsg As String: answerMsg = vbNullString
+    
+    Dim dayNo As Integer: dayNo = 0
+    Dim dayString As String: dayString = vbNullString
+    Dim monthNo As Integer: monthNo = 0
+    Dim monthString As String: monthString = vbNullString
+    Dim yearNo As Integer: yearNo = 0
+    Dim yearString As String: yearString = vbNullString
+    
+    On Error GoTo btnVerifyDateTime2_Click_Error
+
+    If cmbAlarm2Day.ListIndex <= 0 Or cmbAlarm2Month.ListIndex <= 0 Or cmbAlarm2Year.ListIndex <= 0 Or cmbAlarm2Hours.ListIndex <= 0 Or cmbAlarm2Minutes.ListIndex <= 0 Then Exit Sub
+    
+    dayNo = cmbAlarm2Day.List(cmbAlarm2Day.ListIndex)
+    If dayNo <= 9 Then
+        dayString = "0" & CStr(dayNo)
+    Else
+        dayString = CStr(dayNo)
+    End If
+
+    monthNo = cmbAlarm2Month.ListIndex
+    If monthNo <= 9 Then
+        monthString = "0" & CStr(monthNo)
+    Else
+        monthString = CStr(monthNo)
+    End If
+
+    yearNo = cmbAlarm2Year.List(cmbAlarm2Year.ListIndex)
+    yearString = CStr(yearNo)
+    
+    txtAlarm2Date.Text = dayString & "/" & monthString & "/" & yearString
+    txtAlarm2Time.Text = cmbAlarm2Hours.List(cmbAlarm2Hours.ListIndex) & ":" & cmbAlarm2Minutes.List(cmbAlarm2Minutes.ListIndex)
+   
+    If txtAlarm2Date.Text = "Alarm not yet set" Or txtAlarm2Time.Text = vbNullString Then
+        answerMsg = "Alarm not yet set!"
+        answer = msgBoxA(answerMsg, vbExclamation + vbOK, "Alarm Message", False, "btnVerifyDateTime2_Click1")
+        Exit Sub
+    End If
+    
+    If txtAlarm2Date.Text <> vbNullString Then
+        alarmTimeStatus = fVerifyAlarmDateTime(txtAlarm2Date.Text, txtAlarm2Time.Text)
+    End If
+    
+    If alarmTimeStatus = True Then
+        txtAlarm2Date.BackColor = vbWhite
+        txtAlarm2Time.BackColor = vbWhite
+        answerMsg = "Alarm date and time formats both valid and in the future"
+        answer = msgBoxA(answerMsg, vbExclamation + vbOK, "Alarm Information", False, "btnVerifyDateTime2_Click4")
+    Else
+        txtAlarm2Date.BackColor = vbRed
+        txtAlarm2Time.BackColor = vbRed
+        
+        answerMsg = "Alarm time format invalid"
+        answer = msgBoxA(answerMsg, vbExclamation + vbOK, "Alarm Message", False, "btnVerifyDateTime2_Click3")
+    End If
+    
+   On Error GoTo 0
+   Exit Sub
+
+btnVerifyDateTime2_Click_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure btnVerifyDateTime2_Click of Form widgetPrefs"
+    
+End Sub
+'---------------------------------------------------------------------------------------
+' Procedure : fVerifyAlarmDate
+' Author    : beededea
+' Date      : 24/07/2024
+' Purpose   : verify an alarm date supplied
+'---------------------------------------------------------------------------------------
+'
+Function fVerifyAlarmDate(ByVal datefield As String) As Boolean
+    Dim goodDate As Boolean: goodDate = False
+    Dim futureDate As Double: futureDate = 0
+    
+   On Error GoTo fVerifyAlarmDate_Error
+
+    goodDate = IsDate(datefield)
+    If goodDate = False Then Exit Function
+    
+    futureDate = DateDiff("s", Now(), datefield)
+    If futureDate < 0 Then Exit Function
+    
+    fVerifyAlarmDate = True
+
+   On Error GoTo 0
+   Exit Function
+
+fVerifyAlarmDate_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure fVerifyAlarmDate of Form widgetPrefs"
+
+End Function
+'---------------------------------------------------------------------------------------
+' Procedure : fVerifyAlarmDateTime
+' Author    : beededea
+' Date      : 24/07/2024
+' Purpose   : verify an alarm time supplied
+'---------------------------------------------------------------------------------------
+'
+Function fVerifyAlarmDateTime(ByVal datefield As String, ByVal timefield As String) As Boolean
+    Dim goodTime As Boolean: goodTime = False
+    Dim futureTime As Double: futureTime = 0
+    
+    On Error GoTo fVerifyAlarmDateTime_Error
+
+    goodTime = IsDate(timefield)
+    If goodTime = False Then Exit Function
+    
+    futureTime = DateDiff("s", Now(), datefield & " " & timefield)
+    If futureTime < 0 Then Exit Function
+    
+    fVerifyAlarmDateTime = True
+
+   On Error GoTo 0
+   Exit Function
+
+fVerifyAlarmDateTime_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure fVerifyAlarmDateTime of Form widgetPrefs"
+
+End Function
+
+
+'---------------------------------------------------------------------------------------
+' Procedure : btnVerifyDateTime3_Click
+' Author    : beededea
+' Date      : 24/07/2024
+' Purpose   : some code for each date/time button to verify good /dates/times, ie. in the future
+'---------------------------------------------------------------------------------------
+'
+Private Sub btnVerifyDateTime3_Click()
+    Dim alarmTimeStatus As Boolean: alarmTimeStatus = False
+    Dim answer As VbMsgBoxResult: answer = vbNo
+    Dim answerMsg As String: answerMsg = vbNullString
+    
+    Dim dayNo As Integer: dayNo = 0
+    Dim dayString As String: dayString = vbNullString
+    Dim monthNo As Integer: monthNo = 0
+    Dim monthString As String: monthString = vbNullString
+    Dim yearNo As Integer: yearNo = 0
+    Dim yearString As String: yearString = vbNullString
+    
+    On Error GoTo btnVerifyDateTime3_Click_Error
+
+    If cmbAlarm3Day.ListIndex <= 0 Or cmbAlarm3Month.ListIndex <= 0 Or cmbAlarm3Year.ListIndex <= 0 Or cmbAlarm3Hours.ListIndex <= 0 Or cmbAlarm3Minutes.ListIndex <= 0 Then Exit Sub
+    
+    dayNo = cmbAlarm3Day.List(cmbAlarm3Day.ListIndex)
+    If dayNo <= 9 Then
+        dayString = "0" & CStr(dayNo)
+    Else
+        dayString = CStr(dayNo)
+    End If
+
+    monthNo = cmbAlarm3Month.ListIndex
+    If monthNo <= 9 Then
+        monthString = "0" & CStr(monthNo)
+    Else
+        monthString = CStr(monthNo)
+    End If
+
+    yearNo = cmbAlarm3Year.List(cmbAlarm3Year.ListIndex)
+    yearString = CStr(yearNo)
+    
+    txtAlarm3Date.Text = dayString & "/" & monthString & "/" & yearString
+    txtAlarm3Time.Text = cmbAlarm3Hours.List(cmbAlarm3Hours.ListIndex) & ":" & cmbAlarm3Minutes.List(cmbAlarm3Minutes.ListIndex)
+   
+    If txtAlarm3Date.Text = "Alarm not yet set" Or txtAlarm3Time.Text = vbNullString Then
+        answerMsg = "Alarm not yet set!"
+        answer = msgBoxA(answerMsg, vbExclamation + vbOK, "Alarm Message", False, "btnVerifyDateTime3_Click1")
+        Exit Sub
+    End If
+    
+    If txtAlarm3Date.Text <> vbNullString Then
+        alarmTimeStatus = fVerifyAlarmDateTime(txtAlarm3Date.Text, txtAlarm3Time.Text)
+    End If
+    
+    If alarmTimeStatus = True Then
+        txtAlarm3Date.BackColor = vbWhite
+        txtAlarm3Time.BackColor = vbWhite
+        answerMsg = "Alarm date and time formats both valid and in the future"
+        answer = msgBoxA(answerMsg, vbExclamation + vbOK, "Alarm Information", False, "btnVerifyDateTime3_Click4")
+    Else
+        txtAlarm3Date.BackColor = vbRed
+        txtAlarm3Time.BackColor = vbRed
+        
+        answerMsg = "Alarm time format invalid"
+        answer = msgBoxA(answerMsg, vbExclamation + vbOK, "Alarm Message", False, "btnVerifyDateTime3_Click3")
+    End If
+    
+   On Error GoTo 0
+   Exit Sub
+
+btnVerifyDateTime3_Click_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure btnVerifyDateTime3_Click of Form widgetPrefs"
+    
+End Sub
+
+
+'---------------------------------------------------------------------------------------
+' Procedure : btnVerifyDateTime4_Click
+' Author    : beededea
+' Date      : 24/07/2024
+' Purpose   : some code for each date/time button to verify good /dates/times, ie. in the future
+'---------------------------------------------------------------------------------------
+'
+Private Sub btnVerifyDateTime4_Click()
+    Dim alarmTimeStatus As Boolean: alarmTimeStatus = False
+    Dim answer As VbMsgBoxResult: answer = vbNo
+    Dim answerMsg As String: answerMsg = vbNullString
+    
+    Dim dayNo As Integer: dayNo = 0
+    Dim dayString As String: dayString = vbNullString
+    Dim monthNo As Integer: monthNo = 0
+    Dim monthString As String: monthString = vbNullString
+    Dim yearNo As Integer: yearNo = 0
+    Dim yearString As String: yearString = vbNullString
+    
+    On Error GoTo btnVerifyDateTime4_Click_Error
+   
+    If cmbAlarm4Day.ListIndex <= 0 Or cmbAlarm4Month.ListIndex <= 0 Or cmbAlarm4Year.ListIndex <= 0 Or cmbAlarm4Hours.ListIndex <= 0 Or cmbAlarm4Minutes.ListIndex <= 0 Then Exit Sub
+    
+    dayNo = cmbAlarm4Day.List(cmbAlarm4Day.ListIndex)
+    If dayNo <= 9 Then
+        dayString = "0" & CStr(dayNo)
+    Else
+        dayString = CStr(dayNo)
+    End If
+
+    monthNo = cmbAlarm4Month.ListIndex
+    If monthNo <= 9 Then
+        monthString = "0" & CStr(monthNo)
+    Else
+        monthString = CStr(monthNo)
+    End If
+
+    yearNo = cmbAlarm4Year.List(cmbAlarm4Year.ListIndex)
+    yearString = CStr(yearNo)
+    
+    txtAlarm4Date.Text = dayString & "/" & monthString & "/" & yearString
+    txtAlarm4Time.Text = cmbAlarm4Hours.List(cmbAlarm4Hours.ListIndex) & ":" & cmbAlarm4Minutes.List(cmbAlarm4Minutes.ListIndex)
+   
+    If txtAlarm4Date.Text = "Alarm not yet set" Or txtAlarm4Time.Text = vbNullString Then
+        answerMsg = "Alarm not yet set!"
+        answer = msgBoxA(answerMsg, vbExclamation + vbOK, "Alarm Message", False, "btnVerifyDateTime4_Click1")
+        Exit Sub
+    End If
+    
+    If txtAlarm4Date.Text <> vbNullString Then
+        alarmTimeStatus = fVerifyAlarmDateTime(txtAlarm4Date.Text, txtAlarm4Time.Text)
+    End If
+    
+    If alarmTimeStatus = True Then
+        txtAlarm4Date.BackColor = vbWhite
+        txtAlarm4Time.BackColor = vbWhite
+        answerMsg = "Alarm date and time formats both valid and in the future"
+        answer = msgBoxA(answerMsg, vbExclamation + vbOK, "Alarm Information", False, "btnVerifyDateTime4_Click4")
+    Else
+        txtAlarm4Date.BackColor = vbRed
+        txtAlarm4Time.BackColor = vbRed
+        
+        answerMsg = "Alarm time format invalid"
+        answer = msgBoxA(answerMsg, vbExclamation + vbOK, "Alarm Message", False, "btnVerifyDateTime4_Click3")
+    End If
+    
+   On Error GoTo 0
+   Exit Sub
+
+btnVerifyDateTime4_Click_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure btnVerifyDateTime4_Click of Form widgetPrefs"
+    
+End Sub
+
+
+'---------------------------------------------------------------------------------------
+' Procedure : btnVerifyDateTime5_Click
+' Author    : beededea
+' Date      : 24/07/2024
+' Purpose   : some code for each date/time button to verify good /dates/times, ie. in the future
+'---------------------------------------------------------------------------------------
+'
+Private Sub btnVerifyDateTime5_Click()
+    Dim alarmTimeStatus As Boolean: alarmTimeStatus = False
+    Dim answer As VbMsgBoxResult: answer = vbNo
+    Dim answerMsg As String: answerMsg = vbNullString
+      
+    Dim dayNo As Integer: dayNo = 0
+    Dim dayString As String: dayString = vbNullString
+    Dim monthNo As Integer: monthNo = 0
+    Dim monthString As String: monthString = vbNullString
+    Dim yearNo As Integer: yearNo = 0
+    Dim yearString As String: yearString = vbNullString
+    
+    On Error GoTo btnVerifyDateTime5_Click_Error
+   
+    If cmbAlarm5Day.ListIndex <= 0 Or cmbAlarm5Month.ListIndex <= 0 Or cmbAlarm5Year.ListIndex <= 0 Or cmbAlarm5Hours.ListIndex <= 0 Or cmbAlarm5Minutes.ListIndex <= 0 Then Exit Sub
+    
+    dayNo = cmbAlarm5Day.List(cmbAlarm5Day.ListIndex)
+    If dayNo <= 9 Then
+        dayString = "0" & CStr(dayNo)
+    Else
+        dayString = CStr(dayNo)
+    End If
+
+    monthNo = cmbAlarm5Month.ListIndex
+    If monthNo <= 9 Then
+        monthString = "0" & CStr(monthNo)
+    Else
+        monthString = CStr(monthNo)
+    End If
+
+    yearNo = cmbAlarm5Year.List(cmbAlarm5Year.ListIndex)
+    yearString = CStr(yearNo)
+    
+    txtAlarm5Date.Text = dayString & "/" & monthString & "/" & yearString
+    txtAlarm5Time.Text = cmbAlarm5Hours.List(cmbAlarm5Hours.ListIndex) & ":" & cmbAlarm5Minutes.List(cmbAlarm5Minutes.ListIndex)
+    
+    If txtAlarm5Date.Text = "Alarm not yet set" Or txtAlarm5Time.Text = vbNullString Then
+        answerMsg = "Alarm not yet set!"
+        answer = msgBoxA(answerMsg, vbExclamation + vbOK, "Alarm Message", False, "btnVerifyDateTime5_Click1")
+        Exit Sub
+    End If
+    
+    If txtAlarm5Date.Text <> vbNullString Then
+        alarmTimeStatus = fVerifyAlarmDateTime(txtAlarm5Date.Text, txtAlarm5Time.Text)
+    End If
+    
+    If alarmTimeStatus = True Then
+        txtAlarm5Date.BackColor = vbWhite
+        txtAlarm5Time.BackColor = vbWhite
+        answerMsg = "Alarm date and time formats both valid and in the future"
+        answer = msgBoxA(answerMsg, vbExclamation + vbOK, "Alarm Information", False, "btnVerifyDateTime5_Click4")
+    Else
+        txtAlarm5Date.BackColor = vbRed
+        txtAlarm5Time.BackColor = vbRed
+        
+        answerMsg = "Alarm time format invalid"
+        answer = msgBoxA(answerMsg, vbExclamation + vbOK, "Alarm Message", False, "btnVerifyDateTime5_Click3")
+    End If
+    
+   On Error GoTo 0
+   Exit Sub
+
+btnVerifyDateTime5_Click_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure btnVerifyDateTime5_Click of Form widgetPrefs"
+    
+End Sub
+
+'---------------------------------------------------------------------------------------
+' Procedure : chk24HourClockMode_Click
+' Author    : beededea
+' Date      : 15/10/2024
+' Purpose   : toggle switch for 12/24hr mode display
+'---------------------------------------------------------------------------------------
+'
+Private Sub chk24HourClockMode_Click()
+    
+   On Error GoTo chk24HourClockMode_Click_Error
+
+    btnSave.Enabled = True ' enable the save button
+    
+    If chk24HourClockMode.Value = 1 Then
+        gbl24HourClockMode = "1"
+    Else
+        gbl24HourClockMode = "0"
+
+    End If
+    
+    If gblNumericDisplayRotation = "1" Then
+        gblTriggerDigitalClockPopulation = True
+        overlayWidget.TmrDigitRotatorTicking = True
+    End If
+    
+    sPutINISetting "Software\SteampunkClockCalendar", "24HourClockMode", gbl24HourClockMode, gblSettingsFile
+
+   On Error GoTo 0
+   Exit Sub
+
+chk24HourClockMode_Click_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure chk24HourClockMode_Click of Form widgetPrefs"
+
+End Sub
+
+
+
+
+'---------------------------------------------------------------------------------------
+' Procedure : optClockTooltips_Click
+' Author    : beededea
+' Date      : 19/08/2023
+' Purpose   : three options radio buttons for selecting the clock/cal tooltip style
+'---------------------------------------------------------------------------------------
+'
+Private Sub optClockTooltips_Click(Index As Integer)
+    Dim answer As VbMsgBoxResult: answer = vbNo
+    Dim answerMsg As String: answerMsg = vbNullString
+    On Error GoTo optClockTooltips_Click_Error
 
     btnSave.Enabled = True ' enable the save button
 
     If pvtPrefsStartupFlg = False Then
-        gblGaugeTooltips = CStr(Index)
+        gblClockTooltips = CStr(Index)
     
-        optGaugeTooltips(0).Tag = CStr(Index)
-        optGaugeTooltips(1).Tag = CStr(Index)
-        optGaugeTooltips(2).Tag = CStr(Index)
+        optClockTooltips(0).Tag = CStr(Index)
+        optClockTooltips(1).Tag = CStr(Index)
+        optClockTooltips(2).Tag = CStr(Index)
         
-        sPutINISetting "Software\UBoatStopWatch", "gaugeTooltips", gblGaugeTooltips, gblSettingsFile
+        sPutINISetting "Software\SteampunkClockCalendar", "clockTooltips", gblClockTooltips, gblSettingsFile
 
         answer = vbYes
         answerMsg = "You must soft reload this widget, in order to change the tooltip setting, do you want me to reload this widget? I can do it now for you."
-        answer = msgBoxA(answerMsg, vbYesNo, "Request to Enable Tooltips", True, "optGaugeTooltipsClick")
+        answer = msgBoxA(answerMsg, vbYesNo, "Request to Enable Tooltips", True, "optClockTooltipsClick")
         If answer = vbNo Then
             Exit Sub
         Else
@@ -2237,163 +3218,13 @@ Private Sub optGaugeTooltips_Click(Index As Integer)
    On Error GoTo 0
    Exit Sub
 
-optGaugeTooltips_Click_Error:
+optClockTooltips_Click_Error:
 
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure optGaugeTooltips_Click of Form widgetPrefs"
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure optClockTooltips_Click of Form widgetPrefs"
 
 End Sub
 
 
-
-'---------------------------------------------------------------------------------------
-' Procedure : chkGaugeFunctions_Click
-' Author    : beededea
-' Date      : 30/09/2023
-' Purpose   :
-'---------------------------------------------------------------------------------------
-'
-Private Sub chkGaugeFunctions_Click()
-    On Error GoTo chkGaugeFunctions_Click_Error
-
-    btnSave.Enabled = True ' enable the save button
-    overlayWidget.Ticking = chkGaugeFunctions.Value
-
-    On Error GoTo 0
-    Exit Sub
-
-chkGaugeFunctions_Click_Error:
-
-     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure chkGaugeFunctions_Click of Form widgetPrefs"
-End Sub
-
-' Procedure : cmbClockFaceSwitchPref_Click
-' Author    : beededea
-' Date      : 08/12/2023
-' Purpose   :
-'---------------------------------------------------------------------------------------
-'
-Private Sub cmbClockFaceSwitchPref_Click()
-    On Error GoTo cmbClockFaceSwitchPref_Click_Error
-
-    If pvtPrefsStartupFlg = False Then ' don't run this on startup
-        btnSave.Enabled = True ' enable the save button
-    End If
-
-    On Error GoTo 0
-    Exit Sub
-
-cmbClockFaceSwitchPref_Click_Error:
-
-     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure cmbClockFaceSwitchPref_Click of Form widgetPrefs"
-End Sub
-
-'---------------------------------------------------------------------------------------
-' Procedure : cmbMainDaylightSaving_Click
-' Author    : beededea
-' Date      : 13/08/2023
-' Purpose   :
-'---------------------------------------------------------------------------------------
-'
-Private Sub cmbMainDaylightSaving_Click()
-    
-   On Error GoTo cmbMainDaylightSaving_Click_Error
-
-    If pvtPrefsStartupFlg = False Then ' don't run this on startup
-        btnSave.Enabled = True ' enable the save button
-        If cmbMainDaylightSaving.ListIndex <> 0 Then
-            tzDelta = fObtainDaylightSavings("Main") ' determine the time bias
-        End If
-    End If
-   
-   On Error GoTo 0
-   Exit Sub
-
-cmbMainDaylightSaving_Click_Error:
-
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure cmbMainDaylightSaving_Click of Form widgetPrefs"
-   
-End Sub
-
-'---------------------------------------------------------------------------------------
-' Procedure : cmbMainGaugeTimeZone_Click
-' Author    : beededea
-' Date      : 29/10/2023
-' Purpose   :
-'---------------------------------------------------------------------------------------
-'
-Private Sub cmbMainGaugeTimeZone_Click()
-    
-    
-   On Error GoTo cmbMainGaugeTimeZone_Click_Error
-
-    If pvtPrefsStartupFlg = False Then ' don't run this on startup
-        btnSave.Enabled = True ' enable the save button
-        tzDelta = fObtainDaylightSavings("Main") ' determine the time bias
-    End If
-
-    On Error GoTo 0
-    Exit Sub
-
-cmbMainGaugeTimeZone_Click_Error:
-
-     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure cmbMainGaugeTimeZone_Click of Form widgetPrefs"
-End Sub
-
-'---------------------------------------------------------------------------------------
-' Procedure : cmbSecondaryDaylightSaving_Click
-' Author    : beededea
-' Date      : 08/12/2023
-' Purpose   :
-'---------------------------------------------------------------------------------------
-'
-Private Sub cmbSecondaryDaylightSaving_Click()
-    
-    
-    On Error GoTo cmbSecondaryDaylightSaving_Click_Error
-
-    If pvtPrefsStartupFlg = False Then ' don't run this on startup
-        btnSave.Enabled = True ' enable the save button
-        If cmbSecondaryDaylightSaving.ListIndex <> 0 Then
-            tzDelta1 = fObtainDaylightSavings("Secondary") ' determine the time bias to display on the scondary gauge when in clock mode
-        End If
-    End If
-
-    On Error GoTo 0
-    Exit Sub
-
-cmbSecondaryDaylightSaving_Click_Error:
-
-     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure cmbSecondaryDaylightSaving_Click of Form widgetPrefs"
-End Sub
-
-'---------------------------------------------------------------------------------------
-' Procedure : cmbSecondaryGaugeTimeZone_Click
-' Author    : beededea
-' Date      : 08/12/2023
-' Purpose   :
-'---------------------------------------------------------------------------------------
-'
-Private Sub cmbSecondaryGaugeTimeZone_Click()
-    
-    
-    On Error GoTo cmbSecondaryGaugeTimeZone_Click_Error
-
-    If pvtPrefsStartupFlg = False Then ' don't run this on startup
-        btnSave.Enabled = True ' enable the save button
-        tzDelta1 = fObtainDaylightSavings("Secondary") ' determine the time bias
-    End If
-
-    On Error GoTo 0
-    Exit Sub
-
-cmbSecondaryGaugeTimeZone_Click_Error:
-
-     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure cmbSecondaryGaugeTimeZone_Click of Form widgetPrefs"
-End Sub
-
-Private Sub cmbTickSwitchPref_Click()
-   btnSave.Enabled = True ' enable the save button
-End Sub
 
 '---------------------------------------------------------------------------------------
 ' Procedure : optPrefsTooltips_Click
@@ -2414,7 +3245,7 @@ Private Sub optPrefsTooltips_Click(Index As Integer)
         optPrefsTooltips(1).Tag = CStr(Index)
         optPrefsTooltips(2).Tag = CStr(Index)
         
-        sPutINISetting "Software\UBoatStopWatch", "prefsTooltips", gblPrefsTooltips, gblSettingsFile
+        sPutINISetting "Software\SteampunkClockCalendar", "prefsTooltips", gblPrefsTooltips, gblSettingsFile
         
         ' set the tooltips on the prefs screen
         Call setPrefsTooltips
@@ -2449,7 +3280,25 @@ chkEnableChimes_Click_Error:
 
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure chkEnableChimes_Click of Form widgetPrefs"
 End Sub
+'---------------------------------------------------------------------------------------
+' Procedure : chkEnableAlarms_Click
+' Author    : beededea
+' Date      : 18/02/2025
+' Purpose   :
+'---------------------------------------------------------------------------------------
+'
+Private Sub chkEnableAlarms_Click()
+   On Error GoTo chkEnableAlarms_Click_Error
 
+    btnSave.Enabled = True ' enable the save button
+
+   On Error GoTo 0
+   Exit Sub
+
+chkEnableAlarms_Click_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure chkEnableAlarms_Click of Form widgetPrefs"
+End Sub
 '---------------------------------------------------------------------------------------
 ' Procedure : chkNumericDisplayRotation_Click
 ' Author    : beededea
@@ -2488,17 +3337,17 @@ Private Sub cmbMultiMonitorResize_Click()
     
     If cmbMultiMonitorResize.ListIndex = 2 Then
         If prefsMonitorStruct.IsPrimary = True Then
-            gblGaugePrimaryHeightRatio = fGauge.gaugeForm.WidgetRoot.Zoom
-            sPutINISetting "Software\UBoatStopWatch", "gaugePrimaryHeightRatio", gblGaugePrimaryHeightRatio, gblSettingsFile
+            gblClockPrimaryHeightRatio = fClock.clockForm.WidgetRoot.Zoom
+            sPutINISetting "Software\SteampunkClockCalendar", "clockPrimaryHeightRatio", gblClockPrimaryHeightRatio, gblSettingsFile
             
             'gblPrefsPrimaryHeightTwips = Trim$(cstr(widgetPrefs.Height))
-            sPutINISetting "Software\UBoatStopWatch", "prefsPrimaryHeightTwips", gblPrefsPrimaryHeightTwips, gblSettingsFile
+            sPutINISetting "Software\SteampunkClockCalendar", "prefsPrimaryHeightTwips", gblPrefsPrimaryHeightTwips, gblSettingsFile
         Else
-            gblGaugeSecondaryHeightRatio = fGauge.gaugeForm.WidgetRoot.Zoom
-            sPutINISetting "Software\UBoatStopWatch", "gaugeSecondaryHeightRatio", gblGaugeSecondaryHeightRatio, gblSettingsFile
+            gblClockSecondaryHeightRatio = fClock.clockForm.WidgetRoot.Zoom
+            sPutINISetting "Software\SteampunkClockCalendar", "clockSecondaryHeightRatio", gblClockSecondaryHeightRatio, gblSettingsFile
             
             'gblPrefsSecondaryHeightTwips = Trim$(cstr(widgetPrefs.Height))
-            sPutINISetting "Software\UBoatStopWatch", "prefsSecondaryHeightTwips", gblPrefsSecondaryHeightTwips, gblSettingsFile
+            sPutINISetting "Software\SteampunkClockCalendar", "prefsSecondaryHeightTwips", gblPrefsSecondaryHeightTwips, gblSettingsFile
         End If
     End If
 
@@ -2577,7 +3426,38 @@ End Sub
 
 
 
+'---------------------------------------------------------------------------------------
+' Procedure : chkTogglePendulum_Click
+' Author    : beededea
+' Date      : 29/07/2024
+' Purpose   : toggle for the pendulum swing
+'---------------------------------------------------------------------------------------
+'
+Private Sub chkTogglePendulum_Click()
+    
+    btnSave.Enabled = True ' enable the save button
+    
+    If chkTogglePendulum.Value = 1 Then
+        'fClock.pendulumToggleEnabled = True
+        'overlayWidget.SwingPendulum = True
+        gblTogglePendulum = "1"
+    Else
+        'fClock.pendulumToggleEnabled = False
+        'overlayWidget.SwingPendulum = False
+        gblTogglePendulum = "0"
+    End If
+    
+    sPutINISetting "Software\SteampunkClockCalendar", "togglePendulum", gblTogglePendulum, gblSettingsFile
 
+
+   On Error GoTo 0
+   Exit Sub
+
+chkTogglePendulum_Click_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure chkTogglePendulum_Click of Form widgetPrefs"
+
+End Sub
 
 ' ----------------------------------------------------------------
 ' Procedure Name: Form_Initialize
@@ -2617,7 +3497,7 @@ Private Sub Form_Load()
     
     Me.Visible = False
     btnSave.Enabled = False ' disable the save button
-    Me.mnuAbout.Caption = "About UBoat StopWatch Cairo " & gblCodingEnvironment & " widget"
+    Me.mnuAbout.Caption = "About Steampunk Clock Calendar Cairo " & gblCodingEnvironment & " widget"
 
     pvtPrefsStartupFlg = True ' this is used to prevent some control initialisations from running code at startup
     'pvtPrefsDynamicSizingFlg = False
@@ -2636,7 +3516,7 @@ Private Sub Form_Load()
     ' set form resizing
     Call setFormResizingVars
     
-    ' note the monitor primary at the preferences form_load and store as gblOldgaugeFormMonitorPrimary
+    ' note the monitor primary at the preferences form_load and store as gblOldClockFormMonitorPrimary
     Call identifyPrefsPrimaryMonitor
     
     ' reverts TwinBasic form themeing to that of the earlier classic look and feel
@@ -2729,6 +3609,11 @@ Private Sub initialisePrefsVars()
     pCmbWidgetLandscapeBalloonTooltip = vbNullString
     pCmbWidgetPortraitBalloonTooltip = vbNullString
     pCmbDebugBalloonTooltip = vbNullString
+    pCmbAlarmDayBalloonTooltip = vbNullString
+    pCmbAlarmMonthBalloonTooltip = vbNullString
+    pCmbAlarmYearBalloonTooltip = vbNullString
+    pCmbAlarmHoursBalloonTooltip = vbNullString
+    pCmbAlarmMinutesBalloonTooltip = vbNullString
     pvtPrefsFormResizedByDrag = False
     mIsLoaded = False ' property
 
@@ -2930,6 +3815,35 @@ Private Sub subClassControls()
         Call SubclassComboBox(cmbAspectHidden.hWnd, ObjPtr(cmbAspectHidden))
         Call SubclassComboBox(cmbDebug.hWnd, ObjPtr(cmbDebug))
         
+        Call SubclassComboBox(cmbAlarm1Day.hWnd, ObjPtr(cmbAlarm1Day))
+        Call SubclassComboBox(cmbAlarm2Day.hWnd, ObjPtr(cmbAlarm2Day))
+        Call SubclassComboBox(cmbAlarm3Day.hWnd, ObjPtr(cmbAlarm3Day))
+        Call SubclassComboBox(cmbAlarm4Day.hWnd, ObjPtr(cmbAlarm4Day))
+        Call SubclassComboBox(cmbAlarm5Day.hWnd, ObjPtr(cmbAlarm5Day))
+        
+        Call SubclassComboBox(cmbAlarm1Month.hWnd, ObjPtr(cmbAlarm1Month))
+        Call SubclassComboBox(cmbAlarm2Month.hWnd, ObjPtr(cmbAlarm2Month))
+        Call SubclassComboBox(cmbAlarm3Month.hWnd, ObjPtr(cmbAlarm3Month))
+        Call SubclassComboBox(cmbAlarm4Month.hWnd, ObjPtr(cmbAlarm4Month))
+        Call SubclassComboBox(cmbAlarm5Month.hWnd, ObjPtr(cmbAlarm5Month))
+        
+        Call SubclassComboBox(cmbAlarm1Year.hWnd, ObjPtr(cmbAlarm1Year))
+        Call SubclassComboBox(cmbAlarm2Year.hWnd, ObjPtr(cmbAlarm2Year))
+        Call SubclassComboBox(cmbAlarm3Year.hWnd, ObjPtr(cmbAlarm3Year))
+        Call SubclassComboBox(cmbAlarm4Year.hWnd, ObjPtr(cmbAlarm4Year))
+        Call SubclassComboBox(cmbAlarm5Year.hWnd, ObjPtr(cmbAlarm5Year))
+        
+        Call SubclassComboBox(cmbAlarm1Hours.hWnd, ObjPtr(cmbAlarm1Hours))
+        Call SubclassComboBox(cmbAlarm2Hours.hWnd, ObjPtr(cmbAlarm2Hours))
+        Call SubclassComboBox(cmbAlarm3Hours.hWnd, ObjPtr(cmbAlarm3Hours))
+        Call SubclassComboBox(cmbAlarm4Hours.hWnd, ObjPtr(cmbAlarm4Hours))
+        Call SubclassComboBox(cmbAlarm5Hours.hWnd, ObjPtr(cmbAlarm5Hours))
+        
+        Call SubclassComboBox(cmbAlarm1Minutes.hWnd, ObjPtr(cmbAlarm1Minutes))
+        Call SubclassComboBox(cmbAlarm2Minutes.hWnd, ObjPtr(cmbAlarm2Minutes))
+        Call SubclassComboBox(cmbAlarm3Minutes.hWnd, ObjPtr(cmbAlarm3Minutes))
+        Call SubclassComboBox(cmbAlarm4Minutes.hWnd, ObjPtr(cmbAlarm4Minutes))
+        Call SubclassComboBox(cmbAlarm5Minutes.hWnd, ObjPtr(cmbAlarm5Minutes))
         
     End If
 
@@ -2996,6 +3910,110 @@ Public Sub MouseMoveOnComboText(sComboName As String)
             sText = pCmbDebugBalloonTooltip
             If gblPrefsTooltips = "0" Then CreateToolTip cmbDebug.hWnd, sText, , sTitle, , , , True
         
+        Case "cmbAlarm1Day"
+            sTitle = "Help on Alarm Number One Day"
+            sText = pCmbAlarmDayBalloonTooltip
+            If gblPrefsTooltips = "0" Then CreateToolTip cmbAlarm1Day.hWnd, sText, , sTitle, , , , True
+        Case "cmbAlarm2Day"
+            sTitle = "Help on Alarm Number Two Day"
+            sText = pCmbAlarmDayBalloonTooltip
+            If gblPrefsTooltips = "0" Then CreateToolTip cmbAlarm2Day.hWnd, sText, , sTitle, , , , True
+        Case "cmbAlarm3Day"
+            sTitle = "Help on Alarm Number Three Day"
+            sText = pCmbAlarmDayBalloonTooltip
+            If gblPrefsTooltips = "0" Then CreateToolTip cmbAlarm3Day.hWnd, sText, , sTitle, , , , True
+        Case "cmbAlarm4Day"
+            sTitle = "Help on Alarm Number Four Day"
+            sText = pCmbAlarmDayBalloonTooltip
+            If gblPrefsTooltips = "0" Then CreateToolTip cmbAlarm4Day.hWnd, sText, , sTitle, , , , True
+        Case "cmbAlarm5Day"
+            sTitle = "Help on Alarm Number Five Day"
+            sText = pCmbAlarmDayBalloonTooltip
+            If gblPrefsTooltips = "0" Then CreateToolTip cmbAlarm5Day.hWnd, sText, , sTitle, , , , True
+        
+        Case "cmbAlarm1Month"
+            sTitle = "Help on Alarm Number One Month"
+            sText = pCmbAlarmMonthBalloonTooltip
+            If gblPrefsTooltips = "0" Then CreateToolTip cmbAlarm1Month.hWnd, sText, , sTitle, , , , True
+        Case "cmbAlarm2Month"
+            sTitle = "Help on Alarm Number Two Month"
+            sText = pCmbAlarmMonthBalloonTooltip
+            If gblPrefsTooltips = "0" Then CreateToolTip cmbAlarm2Month.hWnd, sText, , sTitle, , , , True
+        Case "cmbAlarm3Month"
+            sTitle = "Help on Alarm Number Three Month"
+            sText = pCmbAlarmMonthBalloonTooltip
+            If gblPrefsTooltips = "0" Then CreateToolTip cmbAlarm3Month.hWnd, sText, , sTitle, , , , True
+        Case "cmbAlarm4Month"
+            sTitle = "Help on Alarm Number Four Month"
+            sText = pCmbAlarmMonthBalloonTooltip
+            If gblPrefsTooltips = "0" Then CreateToolTip cmbAlarm4Month.hWnd, sText, , sTitle, , , , True
+        Case "cmbAlarm5Month"
+            sTitle = "Help on Alarm Number Five Month"
+            sText = pCmbAlarmMonthBalloonTooltip
+            If gblPrefsTooltips = "0" Then CreateToolTip cmbAlarm5Month.hWnd, sText, , sTitle, , , , True
+        
+        Case "cmbAlarm1Year"
+            sTitle = "Help on Alarm Number One Year"
+            sText = pCmbAlarmYearBalloonTooltip
+            If gblPrefsTooltips = "0" Then CreateToolTip cmbAlarm1Year.hWnd, sText, , sTitle, , , , True
+        Case "cmbAlarm2Year"
+            sTitle = "Help on Alarm Number Two Year"
+            sText = pCmbAlarmYearBalloonTooltip
+            If gblPrefsTooltips = "0" Then CreateToolTip cmbAlarm2Year.hWnd, sText, , sTitle, , , , True
+        Case "cmbAlarm3Year"
+            sTitle = "Help on Alarm Number Three Year"
+            sText = pCmbAlarmYearBalloonTooltip
+            If gblPrefsTooltips = "0" Then CreateToolTip cmbAlarm3Year.hWnd, sText, , sTitle, , , , True
+        Case "cmbAlarm4Year"
+            sTitle = "Help on Alarm Number Four Year"
+            sText = pCmbAlarmYearBalloonTooltip
+            If gblPrefsTooltips = "0" Then CreateToolTip cmbAlarm4Year.hWnd, sText, , sTitle, , , , True
+        Case "cmbAlarm5Year"
+            sTitle = "Help on Alarm Number Five Year"
+            sText = pCmbAlarmYearBalloonTooltip
+            If gblPrefsTooltips = "0" Then CreateToolTip cmbAlarm5Year.hWnd, sText, , sTitle, , , , True
+        
+        Case "cmbAlarm1Hours"
+            sTitle = "Help on Alarm Number One Hour"
+            sText = pCmbAlarmHoursBalloonTooltip
+            If gblPrefsTooltips = "0" Then CreateToolTip cmbAlarm1Hours.hWnd, sText, , sTitle, , , , True
+        Case "cmbAlarm2Hours"
+            sTitle = "Help on Alarm Number Two Hour"
+            sText = pCmbAlarmHoursBalloonTooltip
+            If gblPrefsTooltips = "0" Then CreateToolTip cmbAlarm2Hours.hWnd, sText, , sTitle, , , , True
+        Case "cmbAlarm3Hours"
+            sTitle = "Help on Alarm Number Three Hour"
+            sText = pCmbAlarmHoursBalloonTooltip
+            If gblPrefsTooltips = "0" Then CreateToolTip cmbAlarm3Hours.hWnd, sText, , sTitle, , , , True
+        Case "cmbAlarm4Hours"
+            sTitle = "Help on Alarm Number Four Hour"
+            sText = pCmbAlarmHoursBalloonTooltip
+            If gblPrefsTooltips = "0" Then CreateToolTip cmbAlarm4Hours.hWnd, sText, , sTitle, , , , True
+        Case "cmbAlarm5Hours"
+            sTitle = "Help on Alarm Number Five Hour"
+            sText = pCmbAlarmHoursBalloonTooltip
+            If gblPrefsTooltips = "0" Then CreateToolTip cmbAlarm5Hours.hWnd, sText, , sTitle, , , , True
+        
+        Case "cmbAlarm1Minutes"
+            sTitle = "Help on Alarm Number One Minute"
+            sText = pCmbAlarmMinutesBalloonTooltip
+            If gblPrefsTooltips = "0" Then CreateToolTip cmbAlarm1Minutes.hWnd, sText, , sTitle, , , , True
+        Case "cmbAlarm2Minutes"
+            sTitle = "Help on Alarm Number Two Minute"
+            sText = pCmbAlarmMinutesBalloonTooltip
+            If gblPrefsTooltips = "0" Then CreateToolTip cmbAlarm2Minutes.hWnd, sText, , sTitle, , , , True
+        Case "cmbAlarm3Minutes"
+            sTitle = "Help on Alarm Number Three Minute"
+            sText = pCmbAlarmMinutesBalloonTooltip
+            If gblPrefsTooltips = "0" Then CreateToolTip cmbAlarm3Minutes.hWnd, sText, , sTitle, , , , True
+        Case "cmbAlarm4Minutes"
+            sTitle = "Help on Alarm Number Four Minute"
+            sText = pCmbAlarmMinutesBalloonTooltip
+            If gblPrefsTooltips = "0" Then CreateToolTip cmbAlarm4Minutes.hWnd, sText, , sTitle, , , , True
+        Case "cmbAlarm5Minutes"
+            sTitle = "Help on Alarm Number Five Minute"
+            sText = pCmbAlarmMinutesBalloonTooltip
+            If gblPrefsTooltips = "0" Then CreateToolTip cmbAlarm5Minutes.hWnd, sText, , sTitle, , , , True
     End Select
     
    On Error GoTo 0
@@ -3031,8 +4049,8 @@ Public Sub positionPrefsMonitor()
     End If
     
     If formLeftTwips = 0 Then
-        If ((fGauge.gaugeForm.Left + fGauge.gaugeForm.Width) * gblScreenTwipsPerPixelX) + 200 + widgetPrefs.Width > gblPhysicalScreenWidthTwips Then
-            widgetPrefs.Left = (fGauge.gaugeForm.Left * gblScreenTwipsPerPixelX) - (widgetPrefs.Width + 200)
+        If ((fClock.clockForm.Left + fClock.clockForm.Width) * gblScreenTwipsPerPixelX) + 200 + widgetPrefs.Width > gblPhysicalScreenWidthTwips Then
+            widgetPrefs.Left = (fClock.clockForm.Left * gblScreenTwipsPerPixelX) - (widgetPrefs.Width + 200)
         End If
     End If
 
@@ -3073,14 +4091,14 @@ Public Sub positionPrefsMonitor()
 
         If prefsMonitorStruct.IsPrimary = True Then
             gblPrefsFormResizedInCode = True
-            gblPrefsPrimaryHeightTwips = fGetINISetting("Software\UBoatStopWatch", "prefsPrimaryHeightTwips", gblSettingsFile)
+            gblPrefsPrimaryHeightTwips = fGetINISetting("Software\SteampunkClockCalendar", "prefsPrimaryHeightTwips", gblSettingsFile)
             If Val(gblPrefsPrimaryHeightTwips) <= 0 Then
                 widgetPrefs.Height = gblPrefsStartHeight
             Else
                 widgetPrefs.Height = CLng(gblPrefsPrimaryHeightTwips)
             End If
         Else
-            gblPrefsSecondaryHeightTwips = fGetINISetting("Software\UBoatStopWatch", "prefsSecondaryHeightTwips", gblSettingsFile)
+            gblPrefsSecondaryHeightTwips = fGetINISetting("Software\SteampunkClockCalendar", "prefsSecondaryHeightTwips", gblSettingsFile)
             gblPrefsFormResizedInCode = True
             If Val(gblPrefsSecondaryHeightTwips) <= 0 Then
                 widgetPrefs.Height = gblPrefsStartHeight
@@ -3090,7 +4108,7 @@ Public Sub positionPrefsMonitor()
         End If
     End If
 
-    '' fGauge.RotateBusyTimer = True
+    fClock.RotateBusyTimer = True
     
     On Error GoTo 0
     Exit Sub
@@ -3129,7 +4147,7 @@ Private Sub chkDpiAwareness_Click()
             gblDpiAwareness = "1"
         End If
 
-        sPutINISetting "Software\UBoatStopWatch", "dpiAwareness", gblDpiAwareness, gblSettingsFile
+        sPutINISetting "Software\SteampunkClockCalendar", "dpiAwareness", gblDpiAwareness, gblSettingsFile
         
         If answer = vbNo Then
             answer = vbYes
@@ -3139,7 +4157,7 @@ Private Sub chkDpiAwareness_Click()
             Exit Sub
         Else
 
-            sPutINISetting "Software\UBoatStopWatch", "dpiAwareness", gblDpiAwareness, gblSettingsFile
+            sPutINISetting "Software\SteampunkClockCalendar", "dpiAwareness", gblDpiAwareness, gblSettingsFile
             'Call reloadProgram ' this is insufficient, image controls still fail to resize and autoscale correctly
             Call hardRestart
         End If
@@ -3354,7 +4372,27 @@ btnUpdate_Click_Error:
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure btnUpdate_Click of Form widgetPrefs"
 End Sub
 
+'---------------------------------------------------------------------------------------
+' Procedure : chkWidgetFunctions_Click
+' Author    : beededea
+' Date      : 30/09/2023
+' Purpose   : toggle for enabling the whole program's functions on save
+'---------------------------------------------------------------------------------------
+'
+Private Sub chkWidgetFunctions_Click()
+    On Error GoTo chkWidgetFunctions_Click_Error
 
+    btnSave.Enabled = True ' enable the save button
+    
+       ' If resizeProportionTimed > 0 Then widgetPrefs.Height = resizeProportionTimed
+
+    On Error GoTo 0
+    Exit Sub
+
+chkWidgetFunctions_Click_Error:
+
+     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure chkWidgetFunctions_Click of Form widgetPrefs"
+End Sub
 
 
 
@@ -3486,11 +4524,11 @@ Private Sub chkPreventDragging_Click()
         gblPreventDragging = "1"
         menuForm.mnuLockWidget.Checked = True
         If gblAspectRatio = "landscape" Then
-            txtLandscapeHoffset.Text = fGauge.gaugeForm.Left
-            txtLandscapeVoffset.Text = fGauge.gaugeForm.Top
+            txtLandscapeHoffset.Text = fClock.clockForm.Left
+            txtLandscapeVoffset.Text = fClock.clockForm.Top
         Else
-            txtPortraitHoffset.Text = fGauge.gaugeForm.Left
-            txtPortraitYoffset.Text = fGauge.gaugeForm.Top
+            txtPortraitHoffset.Text = fClock.clockForm.Left
+            txtPortraitYoffset.Text = fClock.clockForm.Top
         End If
     End If
 
@@ -3522,20 +4560,20 @@ Private Sub chkWidgetHidden_Click()
 
     If chkWidgetHidden.Value = 0 Then
         'overlayWidget.Hidden = False
-        fGauge.gaugeForm.Visible = True
+        fClock.clockForm.Visible = True
 
         frmTimer.revealWidgetTimer.Enabled = False
         gblWidgetHidden = "0"
     Else
         'overlayWidget.Hidden = True
-        fGauge.gaugeForm.Visible = False
+        fClock.clockForm.Visible = False
 
 
         frmTimer.revealWidgetTimer.Enabled = True
         gblWidgetHidden = "1"
     End If
     
-    sPutINISetting "Software\UBoatStopWatch", "widgetHidden", gblWidgetHidden, gblSettingsFile
+    sPutINISetting "Software\SteampunkClockCalendar", "widgetHidden", gblWidgetHidden, gblSettingsFile
     
     btnSave.Enabled = True ' enable the save button
 
@@ -3561,13 +4599,13 @@ Private Sub cmbAspectHidden_Click()
 
     If cmbAspectHidden.ListIndex = 1 And gblAspectRatio = "portrait" Then
         'overlayWidget.Hidden = True
-        fGauge.gaugeForm.Visible = False
+        fClock.clockForm.Visible = False
     ElseIf cmbAspectHidden.ListIndex = 2 And gblAspectRatio = "landscape" Then
         'overlayWidget.Hidden = True
-        fGauge.gaugeForm.Visible = False
+        fClock.clockForm.Visible = False
     Else
         'overlayWidget.Hidden = False
-        fGauge.gaugeForm.Visible = True
+        fClock.clockForm.Visible = True
     End If
 
     btnSave.Enabled = True ' enable the save button
@@ -3592,7 +4630,7 @@ Private Sub cmbDebug_Click()
 
     btnSave.Enabled = True ' enable the save button
     If cmbDebug.ListIndex = 0 Then
-        txtDefaultEditor.Text = "eg. E:\vb6\UBoat-StopWatch-VB6MkII\UBoat-StopWatch-VB6.vbp"
+        txtDefaultEditor.Text = "eg. E:\vb6\Steampunk Clock Calendar\Steampunk Clock Calendar.vbp"
         txtDefaultEditor.Enabled = False
         lblDebug(7).Enabled = False
         btnDefaultEditor.Enabled = False
@@ -3875,7 +4913,7 @@ Private Sub showLastTab()
     If gblLastSelectedTab = "window" Then Call picButtonMouseUpEvent("window", imgWindow, imgWindowClicked, fraWindow, fraWindowButton)
     If gblLastSelectedTab = "about" Then Call picButtonMouseUpEvent("about", imgAbout, imgAboutClicked, fraAbout, fraAboutButton)
 
-    '' fGauge.RotateBusyTimer = True
+    fClock.RotateBusyTimer = True
     
   On Error GoTo 0
    Exit Sub
@@ -3976,7 +5014,7 @@ Private Sub positionPrefsFramesButtons()
     btnSave.Left = btnClose.Left - btnSave.Width - 50
     btnHelp.Left = frameLeft
     
-    '' fGauge.RotateBusyTimer = True
+    fClock.RotateBusyTimer = True
 
    On Error GoTo 0
    Exit Sub
@@ -4079,44 +5117,46 @@ End Function
 '
 Private Sub btnSave_Click()
 
+    Dim alarmTest As Boolean: alarmTest = False
     
     On Error GoTo btnSave_Click_Error
 
     ' configuration
-    gblGaugeTooltips = CStr(optGaugeTooltips(0).Tag)
+    gblClockTooltips = CStr(optClockTooltips(0).Tag)
     gblPrefsTooltips = CStr(optPrefsTooltips(0).Tag)
     
     gblShowTaskbar = CStr(chkShowTaskbar.Value)
     gblShowHelp = CStr(chkShowHelp.Value)
     
-'    gblTogglePendulum = CStr(chkTogglePendulum.Value)
-'    gbl24HourGaugeMode = CStr(chk24HourGaugeMode.Value)
+    gblTogglePendulum = CStr(chkTogglePendulum.Value)
+    gbl24HourClockMode = CStr(chk24HourClockMode.Value)
     
     gblDpiAwareness = CStr(chkDpiAwareness.Value)
     gblGaugeSize = CStr(sliGaugeSize.Value)
     gblScrollWheelDirection = CStr(cmbScrollWheelDirection.ListIndex)
-        
+    
+    gblNumericDisplayRotation = CStr(chkNumericDisplayRotation.Value)
+    
     ' general
-    gblGaugeFunctions = CStr(chkGaugeFunctions.Value)
+    gblWidgetFunctions = CStr(chkWidgetFunctions.Value)
     gblStartup = CStr(chkGenStartup.Value)
     
-    gblClockFaceSwitchPref = cmbClockFaceSwitchPref.ListIndex
+    ' Validate all the alarm variables
+    alarmTest = validateAlarmVars
+    If alarmTest = False Then Exit Sub ' END the save if the alarms are malformed
     
-    gblMainGaugeTimeZone = cmbMainGaugeTimeZone.ListIndex
-    gblMainDaylightSaving = cmbMainDaylightSaving.ListIndex
+    gblAlarm1 = gblAlarm1Date & " " & gblAlarm1Time
+    gblAlarm2 = gblAlarm2Date & " " & gblAlarm2Time
+    gblAlarm3 = gblAlarm3Date & " " & gblAlarm3Time
+    gblAlarm4 = gblAlarm4Date & " " & gblAlarm4Time
+    gblAlarm5 = gblAlarm5Date & " " & gblAlarm5Time
     
-    gblSmoothSecondHand = cmbTickSwitchPref.ListIndex
-    
-    gblSecondaryGaugeTimeZone = cmbSecondaryGaugeTimeZone.ListIndex
-    gblSecondaryDaylightSaving = cmbSecondaryDaylightSaving.ListIndex
-    
-'
     ' sounds
     gblEnableSounds = CStr(chkEnableSounds.Value)
-'    gblEnableTicks = CStr(chkEnableTicks.Value)
-'    gblEnableChimes = CStr(chkEnableChimes.Value)
-'    gblEnableAlarms = CStr(chkEnableAlarms.Value)
-'    gblVolumeBoost = CStr(chkVolumeBoost.Value)
+    gblEnableTicks = CStr(chkEnableTicks.Value)
+    gblEnableChimes = CStr(chkEnableChimes.Value)
+    gblEnableAlarms = CStr(chkEnableAlarms.Value)
+    gblVolumeBoost = CStr(chkVolumeBoost.Value)
     
     'development
     gblDebug = CStr(cmbDebug.ListIndex)
@@ -4143,7 +5183,7 @@ Private Sub btnSave_Click()
 
     ' fonts
     gblPrefsFont = txtPrefsFont.Text
-    gblGaugeFont = gblPrefsFont
+    gblClockFont = gblPrefsFont
     
     gblDisplayScreenFont = txtDisplayScreenFont.Text
     gblDisplayScreenFontSize = txtDisplayScreenFontSize.Text
@@ -4173,87 +5213,112 @@ Private Sub btnSave_Click()
      
             
     If gblStartup = "1" Then
-        Call writeRegistry(HKEY_CURRENT_USER, "SOFTWARE\Microsoft\Windows\CurrentVersion\Run", "UBoatStopWatch", """" & App.path & "\" & "UBoat-StopWatch-VB6.exe""")
+        Call writeRegistry(HKEY_CURRENT_USER, "SOFTWARE\Microsoft\Windows\CurrentVersion\Run", "SteampunkClockCalendar", """" & App.path & "\" & "Steampunk Clock Calendar.exe""")
     Else
-        Call writeRegistry(HKEY_CURRENT_USER, "SOFTWARE\Microsoft\Windows\CurrentVersion\Run", "UBoatStopWatch", vbNullString)
+        Call writeRegistry(HKEY_CURRENT_USER, "SOFTWARE\Microsoft\Windows\CurrentVersion\Run", "SteampunkClockCalendar", vbNullString)
     End If
 
     ' save the values from the general tab
     If fFExists(gblSettingsFile) Then
-        sPutINISetting "Software\UBoatStopWatch", "gaugeTooltips", gblGaugeTooltips, gblSettingsFile
-        sPutINISetting "Software\UBoatStopWatch", "prefsTooltips", gblPrefsTooltips, gblSettingsFile
+        sPutINISetting "Software\SteampunkClockCalendar", "clockTooltips", gblClockTooltips, gblSettingsFile
+        sPutINISetting "Software\SteampunkClockCalendar", "prefsTooltips", gblPrefsTooltips, gblSettingsFile
 
-        sPutINISetting "Software\UBoatStopWatch", "showTaskbar", gblShowTaskbar, gblSettingsFile
-        sPutINISetting "Software\UBoatStopWatch", "showHelp", gblShowHelp, gblSettingsFile
+        sPutINISetting "Software\SteampunkClockCalendar", "showTaskbar", gblShowTaskbar, gblSettingsFile
+        sPutINISetting "Software\SteampunkClockCalendar", "showHelp", gblShowHelp, gblSettingsFile
+        sPutINISetting "Software\SteampunkClockCalendar", "togglePendulum", gblTogglePendulum, gblSettingsFile
+        sPutINISetting "Software\SteampunkClockCalendar", "24HourClockMode", gbl24HourClockMode, gblSettingsFile
         
-        sPutINISetting "Software\UBoatStopWatch", "dpiAwareness", gblDpiAwareness, gblSettingsFile
+        sPutINISetting "Software\SteampunkClockCalendar", "dpiAwareness", gblDpiAwareness, gblSettingsFile
         
         
-        sPutINISetting "Software\UBoatStopWatch", "gaugeSize", gblGaugeSize, gblSettingsFile
-        sPutINISetting "Software\UBoatStopWatch", "scrollWheelDirection", gblScrollWheelDirection, gblSettingsFile
+        sPutINISetting "Software\SteampunkClockCalendar", "gaugeSize", gblGaugeSize, gblSettingsFile
+        sPutINISetting "Software\SteampunkClockCalendar", "scrollWheelDirection", gblScrollWheelDirection, gblSettingsFile
+        sPutINISetting "Software\SteampunkClockCalendar", "numericDisplayRotation", gblNumericDisplayRotation, gblSettingsFile
                 
-        sPutINISetting "Software\UBoatStopWatch", "widgetFunctions", gblGaugeFunctions, gblSettingsFile
-        
-        sPutINISetting "Software\UBoatStopWatch", "smoothSecondHand", gblSmoothSecondHand, gblSettingsFile
-        
-        sPutINISetting "Software\UBoatStopWatch", "clockFaceSwitchPref", gblClockFaceSwitchPref, gblSettingsFile
-        sPutINISetting "Software\UBoatStopWatch", "mainGaugeTimeZone", gblMainGaugeTimeZone, gblSettingsFile
-        sPutINISetting "Software\UBoatStopWatch", "mainDaylightSaving", gblMainDaylightSaving, gblSettingsFile
-        sPutINISetting "Software\UBoatStopWatch", "secondaryGaugeTimeZone", gblSecondaryGaugeTimeZone, gblSettingsFile
-        sPutINISetting "Software\UBoatStopWatch", "secondaryDaylightSaving", gblSecondaryDaylightSaving, gblSettingsFile
-        
+        sPutINISetting "Software\SteampunkClockCalendar", "widgetFunctions", gblWidgetFunctions, gblSettingsFile
               
-        sPutINISetting "Software\UBoatStopWatch", "aspectHidden", gblAspectHidden, gblSettingsFile
-        sPutINISetting "Software\UBoatStopWatch", "widgetPosition", gblWidgetPosition, gblSettingsFile
-        sPutINISetting "Software\UBoatStopWatch", "widgetLandscape", gblWidgetLandscape, gblSettingsFile
-        sPutINISetting "Software\UBoatStopWatch", "widgetPortrait", gblWidgetPortrait, gblSettingsFile
+        sPutINISetting "Software\SteampunkClockCalendar", "aspectHidden", gblAspectHidden, gblSettingsFile
+        sPutINISetting "Software\SteampunkClockCalendar", "widgetPosition", gblWidgetPosition, gblSettingsFile
+        sPutINISetting "Software\SteampunkClockCalendar", "widgetLandscape", gblWidgetLandscape, gblSettingsFile
+        sPutINISetting "Software\SteampunkClockCalendar", "widgetPortrait", gblWidgetPortrait, gblSettingsFile
 
-        sPutINISetting "Software\UBoatStopWatch", "prefsFont", gblPrefsFont, gblSettingsFile
-        sPutINISetting "Software\UBoatStopWatch", "gaugeFont", gblGaugeFont, gblSettingsFile
+        sPutINISetting "Software\SteampunkClockCalendar", "prefsFont", gblPrefsFont, gblSettingsFile
+        sPutINISetting "Software\SteampunkClockCalendar", "clockFont", gblClockFont, gblSettingsFile
         
-        sPutINISetting "Software\UBoatStopWatch", "prefsFontSizeHighDPI", gblPrefsFontSizeHighDPI, gblSettingsFile
-        sPutINISetting "Software\UBoatStopWatch", "prefsFontSizeLowDPI", gblPrefsFontSizeLowDPI, gblSettingsFile
-        sPutINISetting "Software\UBoatStopWatch", "prefsFontItalics", gblPrefsFontItalics, gblSettingsFile
-        sPutINISetting "Software\UBoatStopWatch", "prefsFontColour", gblPrefsFontColour, gblSettingsFile
+        sPutINISetting "Software\SteampunkClockCalendar", "prefsFontSizeHighDPI", gblPrefsFontSizeHighDPI, gblSettingsFile
+        sPutINISetting "Software\SteampunkClockCalendar", "prefsFontSizeLowDPI", gblPrefsFontSizeLowDPI, gblSettingsFile
+        sPutINISetting "Software\SteampunkClockCalendar", "prefsFontItalics", gblPrefsFontItalics, gblSettingsFile
+        sPutINISetting "Software\SteampunkClockCalendar", "prefsFontColour", gblPrefsFontColour, gblSettingsFile
         
-        sPutINISetting "Software\UBoatStopWatch", "displayScreenFont", gblDisplayScreenFont, gblSettingsFile
-        sPutINISetting "Software\UBoatStopWatch", "displayScreenFontSize", gblDisplayScreenFontSize, gblSettingsFile
-        sPutINISetting "Software\UBoatStopWatch", "displayScreenFontItalics", gblDisplayScreenFontItalics, gblSettingsFile
-        sPutINISetting "Software\UBoatStopWatch", "displayScreenFontColour", gblDisplayScreenFontColour, gblSettingsFile
+        sPutINISetting "Software\SteampunkClockCalendar", "displayScreenFont", gblDisplayScreenFont, gblSettingsFile
+        sPutINISetting "Software\SteampunkClockCalendar", "displayScreenFontSize", gblDisplayScreenFontSize, gblSettingsFile
+        sPutINISetting "Software\SteampunkClockCalendar", "displayScreenFontItalics", gblDisplayScreenFontItalics, gblSettingsFile
+        sPutINISetting "Software\SteampunkClockCalendar", "displayScreenFontColour", gblDisplayScreenFontColour, gblSettingsFile
 
         'save the values from the Windows Config Items
-        sPutINISetting "Software\UBoatStopWatch", "windowLevel", gblWindowLevel, gblSettingsFile
-        sPutINISetting "Software\UBoatStopWatch", "preventDragging", gblPreventDragging, gblSettingsFile
+        sPutINISetting "Software\SteampunkClockCalendar", "windowLevel", gblWindowLevel, gblSettingsFile
+        sPutINISetting "Software\SteampunkClockCalendar", "preventDragging", gblPreventDragging, gblSettingsFile
         
-        sPutINISetting "Software\UBoatStopWatch", "opacity", gblOpacity, gblSettingsFile
-        sPutINISetting "Software\UBoatStopWatch", "widgetHidden", gblWidgetHidden, gblSettingsFile
-        sPutINISetting "Software\UBoatStopWatch", "hidingTime", gblHidingTime, gblSettingsFile
-        sPutINISetting "Software\UBoatStopWatch", "ignoreMouse", gblIgnoreMouse, gblSettingsFile
-        sPutINISetting "Software\UBoatStopWatch", "multiMonitorResize", gblMultiMonitorResize, gblSettingsFile
+        sPutINISetting "Software\SteampunkClockCalendar", "opacity", gblOpacity, gblSettingsFile
+        sPutINISetting "Software\SteampunkClockCalendar", "widgetHidden", gblWidgetHidden, gblSettingsFile
+        sPutINISetting "Software\SteampunkClockCalendar", "hidingTime", gblHidingTime, gblSettingsFile
+        sPutINISetting "Software\SteampunkClockCalendar", "ignoreMouse", gblIgnoreMouse, gblSettingsFile
+        sPutINISetting "Software\SteampunkClockCalendar", "multiMonitorResize", gblMultiMonitorResize, gblSettingsFile
         
         
-        sPutINISetting "Software\UBoatStopWatch", "startup", gblStartup, gblSettingsFile
+        sPutINISetting "Software\SteampunkClockCalendar", "startup", gblStartup, gblSettingsFile
 
-        sPutINISetting "Software\UBoatStopWatch", "enableSounds", gblEnableSounds, gblSettingsFile
-'        sPutINISetting "Software\UBoatStopWatch", "enableTicks", gblEnableTicks, gblSettingsFile
-'        sPutINISetting "Software\UBoatStopWatch", "enableChimes", gblEnableChimes, gblSettingsFile
-'        sPutINISetting "Software\UBoatStopWatch", "enableAlarms", gblEnableAlarms, gblSettingsFile
-'        sPutINISetting "Software\UBoatStopWatch", "volumeBoost", gblVolumeBoost, gblSettingsFile
+        sPutINISetting "Software\SteampunkClockCalendar", "enableSounds", gblEnableSounds, gblSettingsFile
+        sPutINISetting "Software\SteampunkClockCalendar", "enableTicks", gblEnableTicks, gblSettingsFile
+        sPutINISetting "Software\SteampunkClockCalendar", "enableChimes", gblEnableChimes, gblSettingsFile
+        sPutINISetting "Software\SteampunkClockCalendar", "enableAlarms", gblEnableAlarms, gblSettingsFile
+        sPutINISetting "Software\SteampunkClockCalendar", "volumeBoost", gblVolumeBoost, gblSettingsFile
         
-        sPutINISetting "Software\UBoatStopWatch", "lastSelectedTab", gblLastSelectedTab, gblSettingsFile
+        sPutINISetting "Software\SteampunkClockCalendar", "lastSelectedTab", gblLastSelectedTab, gblSettingsFile
         
-        sPutINISetting "Software\UBoatStopWatch", "debug", gblDebug, gblSettingsFile
-        sPutINISetting "Software\UBoatStopWatch", "dblClickCommand", gblDblClickCommand, gblSettingsFile
-        sPutINISetting "Software\UBoatStopWatch", "openFile", gblOpenFile, gblSettingsFile
-        sPutINISetting "Software\UBoatStopWatch", "defaultVB6Editor", gblDefaultVB6Editor, gblSettingsFile
-        sPutINISetting "Software\UBoatStopWatch", "defaultTBEditor", gblDefaultTBEditor, gblSettingsFile
+        sPutINISetting "Software\SteampunkClockCalendar", "debug", gblDebug, gblSettingsFile
+        sPutINISetting "Software\SteampunkClockCalendar", "dblClickCommand", gblDblClickCommand, gblSettingsFile
+        sPutINISetting "Software\SteampunkClockCalendar", "openFile", gblOpenFile, gblSettingsFile
+        sPutINISetting "Software\SteampunkClockCalendar", "defaultVB6Editor", gblDefaultVB6Editor, gblSettingsFile
+        sPutINISetting "Software\SteampunkClockCalendar", "defaultTBEditor", gblDefaultTBEditor, gblSettingsFile
         
-        sPutINISetting "Software\UBoatStopWatch", "gaugeHighDpiXPos", gblGaugeHighDpiXPos, gblSettingsFile
-        sPutINISetting "Software\UBoatStopWatch", "gaugeHighDpiYPos", gblGaugeHighDpiYPos, gblSettingsFile
+        sPutINISetting "Software\SteampunkClockCalendar", "clockHighDpiXPos", gblClockHighDpiXPos, gblSettingsFile
+        sPutINISetting "Software\SteampunkClockCalendar", "clockHighDpiYPos", gblClockHighDpiYPos, gblSettingsFile
         
-        sPutINISetting "Software\UBoatStopWatch", "gaugeLowDpiXPos", gblGaugeLowDpiXPos, gblSettingsFile
-        sPutINISetting "Software\UBoatStopWatch", "gaugeLowDpiYPos", gblGaugeLowDpiYPos, gblSettingsFile
-                       
+        sPutINISetting "Software\SteampunkClockCalendar", "clockLowDpiXPos", gblClockLowDpiXPos, gblSettingsFile
+        sPutINISetting "Software\SteampunkClockCalendar", "clockLowDpiYPos", gblClockLowDpiYPos, gblSettingsFile
+        
+        'sPutINISetting "Software\SteampunkClockCalendar", "setToggleEnabled", gblSetToggleEnabled, gblSettingsFile
+        sPutINISetting "Software\SteampunkClockCalendar", "muteToggleEnabled", gblMuteToggleEnabled, gblSettingsFile
+        sPutINISetting "Software\SteampunkClockCalendar", "pendulumToggleEnabled", gblPendulumToggleEnabled, gblSettingsFile
+        sPutINISetting "Software\SteampunkClockCalendar", "pendulumEnabled", gblPendulumEnabled, gblSettingsFile
+        sPutINISetting "Software\SteampunkClockCalendar", "weekdayToggleEnabled", gblWeekdayToggleEnabled, gblSettingsFile
+        sPutINISetting "Software\SteampunkClockCalendar", "displayScreenToggleEnabled", gblDisplayScreenToggleEnabled, gblSettingsFile
+        sPutINISetting "Software\SteampunkClockCalendar", "timeMachineToggleEnabled", gblTimeMachineToggleEnabled, gblSettingsFile
+        sPutINISetting "Software\SteampunkClockCalendar", "backToggleEnabled", gblBackToggleEnabled, gblSettingsFile
+        sPutINISetting "Software\SteampunkClockCalendar", "alarmclapperEnabled", gblAlarmClapperEnabled, gblSettingsFile
+        sPutINISetting "Software\SteampunkClockCalendar", "chimeclapperEnabled", gblChimeClapperEnabled, gblSettingsFile
+        sPutINISetting "Software\SteampunkClockCalendar", "chainEnabled", gblChainEnabled, gblSettingsFile
+        sPutINISetting "Software\SteampunkClockCalendar", "crankEnabled", gblCrankEnabled, gblSettingsFile
+        sPutINISetting "Software\SteampunkClockCalendar", "alarmToggle1Enabled", gblAlarmToggle1Enabled, gblSettingsFile
+        sPutINISetting "Software\SteampunkClockCalendar", "alarmToggle2Enabled", gblAlarmToggle2Enabled, gblSettingsFile
+        sPutINISetting "Software\SteampunkClockCalendar", "alarmToggle3Enabled", gblAlarmToggle3Enabled, gblSettingsFile
+        sPutINISetting "Software\SteampunkClockCalendar", "alarmToggle4Enabled", gblAlarmToggle4Enabled, gblSettingsFile
+        sPutINISetting "Software\SteampunkClockCalendar", "alarmToggle5Enabled", gblAlarmToggle5Enabled, gblSettingsFile
+        
+        sPutINISetting "Software\SteampunkClockCalendar", "alarm1Date", gblAlarm1Date, gblSettingsFile
+        sPutINISetting "Software\SteampunkClockCalendar", "alarm2Date", gblAlarm2Date, gblSettingsFile
+        sPutINISetting "Software\SteampunkClockCalendar", "alarm3Date", gblAlarm3Date, gblSettingsFile
+        sPutINISetting "Software\SteampunkClockCalendar", "alarm4Date", gblAlarm4Date, gblSettingsFile
+        sPutINISetting "Software\SteampunkClockCalendar", "alarm5Date", gblAlarm5Date, gblSettingsFile
+               
+        
+        sPutINISetting "Software\SteampunkClockCalendar", "alarm1Time", gblAlarm1Time, gblSettingsFile
+        sPutINISetting "Software\SteampunkClockCalendar", "alarm2Time", gblAlarm2Time, gblSettingsFile
+        sPutINISetting "Software\SteampunkClockCalendar", "alarm3Time", gblAlarm3Time, gblSettingsFile
+        sPutINISetting "Software\SteampunkClockCalendar", "alarm4Time", gblAlarm4Time, gblSettingsFile
+        sPutINISetting "Software\SteampunkClockCalendar", "alarm5Time", gblAlarm5Time, gblSettingsFile
+               
     End If
     
     ' set the tooltips on the prefs screen
@@ -4279,6 +5344,126 @@ btnSave_Click_Error:
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure btnSave_Click of Form widgetPrefs"
 
 End Sub
+
+
+'---------------------------------------------------------------------------------------
+' Procedure : validateAlarmVars
+' Author    : beededea
+' Date      : 24/07/2024
+' Purpose   : Validate all the alarm variables and FAIL if bad.
+'---------------------------------------------------------------------------------------
+'
+Private Function validateAlarmVars() As Boolean
+        
+    Dim alarmTimeStatus As Boolean: alarmTimeStatus = False
+    Dim alarmDateStatus As Boolean: alarmDateStatus = False
+    Dim answer As VbMsgBoxResult: answer = vbNo
+    Dim answerMsg As String: answerMsg = vbNullString
+     
+    On Error GoTo validateAlarmVars_Error
+
+    validateAlarmVars = True
+        
+    If txtAlarm1Date.Text = vbNullString Then txtAlarm1Date.Text = "Alarm not yet set"
+    If txtAlarm2Date.Text = vbNullString Then txtAlarm2Date.Text = "Alarm not yet set"
+    If txtAlarm3Date.Text = vbNullString Then txtAlarm3Date.Text = "Alarm not yet set"
+    If txtAlarm4Date.Text = vbNullString Then txtAlarm4Date.Text = "Alarm not yet set"
+    If txtAlarm5Date.Text = vbNullString Then txtAlarm5Date.Text = "Alarm not yet set"
+        
+    If txtAlarm1Date.Text <> "Alarm not yet set" Then
+        'alarmDateStatus = fVerifyAlarmDate(txtAlarm1Date.Text)
+        alarmTimeStatus = fVerifyAlarmDateTime(txtAlarm1Date.Text, txtAlarm1Time.Text)
+        If alarmTimeStatus = False Then
+            btnSave.Enabled = False
+            
+            answerMsg = "Alarm no.1 is invalid, saving FAILED. Please correct and re-save."
+            answer = msgBoxA(answerMsg, vbExclamation + vbOK, "Alarm Message", True, "validateAlarmVars1")
+            
+            validateAlarmVars = False
+            Exit Function
+        End If
+    End If
+    gblAlarm1Date = txtAlarm1Date.Text
+    gblAlarm1Time = txtAlarm1Time.Text
+    gblAlarm1 = gblAlarm1Date + " " & gblAlarm1Time
+            
+    If txtAlarm2Date.Text <> "Alarm not yet set" Then
+        ' alarmDateStatusfVerifyAlarmDate(txtAlarm2Date.Text)
+        alarmTimeStatus = fVerifyAlarmDateTime(txtAlarm2Date.Text, txtAlarm2Time.Text)
+        If alarmTimeStatus = False Then
+            btnSave.Enabled = False
+            
+            answerMsg = "Alarm no.2 is invalid, saving FAILED. Please correct and re-save."
+            answer = msgBoxA(answerMsg, vbExclamation + vbOK, "Alarm Message", True, "validateAlarmVars2")
+            
+            validateAlarmVars = False
+            Exit Function
+        End If
+    End If
+    gblAlarm2Date = txtAlarm2Date.Text
+    gblAlarm2Time = txtAlarm2Time.Text
+    gblAlarm2 = gblAlarm2Date + " " & gblAlarm2Time
+    
+    If txtAlarm3Date.Text <> "Alarm not yet set" Then
+        ' alarmDateStatusfVerifyAlarmDate(txtAlarm3Date.Text)
+        alarmTimeStatus = fVerifyAlarmDateTime(txtAlarm3Date.Text, txtAlarm3Time.Text)
+        If alarmTimeStatus = False Then
+            btnSave.Enabled = False
+            
+            answerMsg = "Alarm no.3 is invalid, saving FAILED. Please correct and re-save."
+            answer = msgBoxA(answerMsg, vbExclamation + vbOK, "Alarm Message", True, "validateAlarmVars3")
+            
+            validateAlarmVars = False
+            Exit Function
+        End If
+    End If
+    gblAlarm3Date = txtAlarm3Date.Text
+    gblAlarm3Time = txtAlarm3Time.Text
+    gblAlarm3 = gblAlarm3Date + " " & gblAlarm3Time
+    
+    If txtAlarm4Date.Text <> "Alarm not yet set" Then
+        ' alarmDateStatusfVerifyAlarmDate(txtAlarm4Date.Text)
+        alarmTimeStatus = fVerifyAlarmDateTime(txtAlarm4Date.Text, txtAlarm4Time.Text)
+        If alarmTimeStatus = False Then
+            btnSave.Enabled = False
+            
+            answerMsg = "Alarm no.4 is invalid, saving FAILED. Please correct and re-save."
+            answer = msgBoxA(answerMsg, vbExclamation + vbOK, "Alarm Message", True, "validateAlarmVars4")
+            
+            validateAlarmVars = False
+            Exit Function
+        End If
+    End If
+    gblAlarm4Date = txtAlarm4Date.Text
+    gblAlarm4Time = txtAlarm4Time.Text
+    gblAlarm4 = gblAlarm4Date + " " & gblAlarm4Time
+            
+    If txtAlarm5Date.Text <> "Alarm not yet set" Then
+        ' alarmDateStatusfVerifyAlarmDate(txtAlarm5Date.Text)
+        alarmTimeStatus = fVerifyAlarmDateTime(txtAlarm5Date.Text, txtAlarm5Time.Text)
+        If alarmTimeStatus = False Then
+            btnSave.Enabled = False
+            
+            answerMsg = "Alarm no.5 is invalid, saving FAILED. Please correct and re-save."
+            answer = msgBoxA(answerMsg, vbExclamation + vbOK, "Alarm Message", True, "validateAlarmVars5")
+            
+            validateAlarmVars = False
+            Exit Function
+        End If
+    End If
+    gblAlarm5Date = txtAlarm5Date.Text
+    gblAlarm5Time = txtAlarm5Time.Text
+    gblAlarm5 = gblAlarm5Date + " " & gblAlarm5Time
+
+   On Error GoTo 0
+   Exit Function
+
+validateAlarmVars_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure validateAlarmVars of Form widgetPrefs"
+    
+End Function
+
 
 
 '---------------------------------------------------------------------------------------
@@ -4347,7 +5532,7 @@ Private Sub btnPrefsFont_Click()
     
     ' set the preliminary vars to feed and populate the changefont routine
     fntFont = gblPrefsFont
-    ' gblGaugeFont
+    ' gblClockFont
     
     If gblDpiAwareness = "1" Then
         fntSize = Val(gblPrefsFontSizeHighDPI)
@@ -4362,7 +5547,7 @@ Private Sub btnPrefsFont_Click()
     Call changeFont(widgetPrefs, True, fntFont, fntSize, fntWeight, fntStyle, fntColour, fntItalics, fntUnderline, fntFontResult)
     
     gblPrefsFont = CStr(fntFont)
-    gblGaugeFont = gblPrefsFont
+    gblClockFont = gblPrefsFont
     
     If gblDpiAwareness = "1" Then
         gblPrefsFontSizeHighDPI = CStr(fntSize)
@@ -4378,12 +5563,12 @@ Private Sub btnPrefsFont_Click()
     Call PrefsForm_Resize_Event
 
     If fFExists(gblSettingsFile) Then ' does the tool's own settings.ini exist?
-        sPutINISetting "Software\UBoatStopWatch", "prefsFont", gblPrefsFont, gblSettingsFile
-        sPutINISetting "Software\UBoatStopWatch", "gaugeFont", gblGaugeFont, gblSettingsFile
-        sPutINISetting "Software\UBoatStopWatch", "prefsFontSizeHighDPI", gblPrefsFontSizeHighDPI, gblSettingsFile
-        sPutINISetting "Software\UBoatStopWatch", "prefsFontSizeLowDPI", gblPrefsFontSizeLowDPI, gblSettingsFile
-        sPutINISetting "Software\UBoatStopWatch", "prefsFontItalics", gblPrefsFontItalics, gblSettingsFile
-        sPutINISetting "Software\UBoatStopWatch", "PrefsFontColour", gblPrefsFontColour, gblSettingsFile
+        sPutINISetting "Software\SteampunkClockCalendar", "prefsFont", gblPrefsFont, gblSettingsFile
+        sPutINISetting "Software\SteampunkClockCalendar", "clockFont", gblClockFont, gblSettingsFile
+        sPutINISetting "Software\SteampunkClockCalendar", "prefsFontSizeHighDPI", gblPrefsFontSizeHighDPI, gblSettingsFile
+        sPutINISetting "Software\SteampunkClockCalendar", "prefsFontSizeLowDPI", gblPrefsFontSizeLowDPI, gblSettingsFile
+        sPutINISetting "Software\SteampunkClockCalendar", "prefsFontItalics", gblPrefsFontItalics, gblSettingsFile
+        sPutINISetting "Software\SteampunkClockCalendar", "PrefsFontColour", gblPrefsFontColour, gblSettingsFile
     End If
     
     If fntFont = vbNullString Then fntFont = "arial"
@@ -4443,16 +5628,16 @@ Private Sub btnDisplayScreenFont_Click()
     gblDisplayScreenFontItalics = CStr(fntItalics)
     gblDisplayScreenFontColour = CStr(fntColour)
     
-    If gblFGaugeAvailable = True Then
-        fGauge.gaugeForm.Widgets("lblTerminalText").Widget.FontSize = gblDisplayScreenFontSize
-        fGauge.gaugeForm.Widgets("lblTerminalText").Widget.FontName = gblDisplayScreenFont
+    If gblFClockAvailable = True Then
+        fClock.clockForm.Widgets("lblTerminalText").Widget.FontSize = gblDisplayScreenFontSize
+        fClock.clockForm.Widgets("lblTerminalText").Widget.FontName = gblDisplayScreenFont
     End If
 
     If fFExists(gblSettingsFile) Then ' does the tool's own settings.ini exist?
-        sPutINISetting "Software\UBoatStopWatch", "displayScreenFont", gblDisplayScreenFont, gblSettingsFile
-        sPutINISetting "Software\UBoatStopWatch", "displayScreenFontSize", gblDisplayScreenFontSize, gblSettingsFile
-        sPutINISetting "Software\UBoatStopWatch", "displayScreenFontItalics", gblDisplayScreenFontItalics, gblSettingsFile
-        sPutINISetting "Software\UBoatStopWatch", "displayScreenFontColour", gblDisplayScreenFontColour, gblSettingsFile
+        sPutINISetting "Software\SteampunkClockCalendar", "displayScreenFont", gblDisplayScreenFont, gblSettingsFile
+        sPutINISetting "Software\SteampunkClockCalendar", "displayScreenFontSize", gblDisplayScreenFontSize, gblSettingsFile
+        sPutINISetting "Software\SteampunkClockCalendar", "displayScreenFontItalics", gblDisplayScreenFontItalics, gblSettingsFile
+        sPutINISetting "Software\SteampunkClockCalendar", "displayScreenFontColour", gblDisplayScreenFontColour, gblSettingsFile
     End If
     
     If fntFont = vbNullString Then fntFont = "courier new"
@@ -4493,25 +5678,62 @@ Private Sub adjustPrefsControls(Optional ByVal restartState As Boolean)
     'widgetPrefs.Height = CLng(gblPrefsPrimaryHeightTwips)
             
     ' general tab
-    chkGaugeFunctions.Value = Val(gblGaugeFunctions)
+    chkWidgetFunctions.Value = Val(gblWidgetFunctions)
     chkGenStartup.Value = Val(gblStartup)
-            
-    cmbClockFaceSwitchPref.ListIndex = Val(gblClockFaceSwitchPref)
+        
+    txtAlarm1Date.Text = gblAlarm1Date
+    txtAlarm2Date.Text = gblAlarm2Date
+    txtAlarm3Date.Text = gblAlarm3Date
+    txtAlarm4Date.Text = gblAlarm4Date
+    txtAlarm5Date.Text = gblAlarm5Date
+        
+    txtAlarm1Time.Text = gblAlarm1Time
+    txtAlarm2Time.Text = gblAlarm2Time
+    txtAlarm3Time.Text = gblAlarm3Time
+    txtAlarm4Time.Text = gblAlarm4Time
+    txtAlarm5Time.Text = gblAlarm5Time
     
-    'set the choice for four timezone comboboxes that were populated from file.
-    cmbMainGaugeTimeZone.ListIndex = Val(gblMainGaugeTimeZone)
-    cmbMainDaylightSaving.ListIndex = Val(gblMainDaylightSaving)
-'
-    txtMainBias.Text = tzDelta
-'
-    cmbTickSwitchPref.ListIndex = Val(gblSmoothSecondHand)
-'
-    cmbSecondaryGaugeTimeZone.ListIndex = Val(gblSecondaryGaugeTimeZone)
+    ' fill the comboboxes for the alarms
+        
+    If gblAlarm1Date <> "Alarm not yet set" Then
+        Call setAlarmDayValues(cmbAlarm1Day, gblAlarm1Date)
+        Call setAlarmMonthValues(cmbAlarm1Month, gblAlarm1Date)
+        Call setAlarmYearValues(cmbAlarm1Year, gblAlarm1Date)
+        Call setAlarmHourValues(cmbAlarm1Hours, gblAlarm1Time)
+        Call setAlarmMinuteValues(cmbAlarm1Minutes, gblAlarm1Time)
+   End If
+    If gblAlarm2Date <> "Alarm not yet set" Then
+        Call setAlarmDayValues(cmbAlarm2Day, gblAlarm2Date)
+        Call setAlarmMonthValues(cmbAlarm2Month, gblAlarm2Date)
+        Call setAlarmYearValues(cmbAlarm2Year, gblAlarm2Date)
+        Call setAlarmHourValues(cmbAlarm2Hours, gblAlarm2Time)
+        Call setAlarmMinuteValues(cmbAlarm2Minutes, gblAlarm2Time)
+    End If
+    If gblAlarm3Date <> "Alarm not yet set" Then
+        Call setAlarmDayValues(cmbAlarm3Day, gblAlarm3Date)
+        Call setAlarmMonthValues(cmbAlarm3Month, gblAlarm3Date)
+        Call setAlarmYearValues(cmbAlarm3Year, gblAlarm3Date)
+        Call setAlarmHourValues(cmbAlarm3Hours, gblAlarm3Time)
+        Call setAlarmMinuteValues(cmbAlarm3Minutes, gblAlarm3Time)
+    End If
+    If gblAlarm4Date <> "Alarm not yet set" Then
+        Call setAlarmDayValues(cmbAlarm4Day, gblAlarm4Date)
+        Call setAlarmMonthValues(cmbAlarm4Month, gblAlarm4Date)
+        Call setAlarmYearValues(cmbAlarm4Year, gblAlarm4Date)
+        Call setAlarmHourValues(cmbAlarm4Hours, gblAlarm4Time)
+        Call setAlarmMinuteValues(cmbAlarm4Minutes, gblAlarm4Time)
+    End If
+    If gblAlarm5Date <> "Alarm not yet set" Then
+        Call setAlarmDayValues(cmbAlarm5Day, gblAlarm5Date)
+        Call setAlarmMonthValues(cmbAlarm5Month, gblAlarm5Date)
+        Call setAlarmYearValues(cmbAlarm5Year, gblAlarm5Date)
+        Call setAlarmHourValues(cmbAlarm5Hours, gblAlarm5Time)
+        Call setAlarmMinuteValues(cmbAlarm5Minutes, gblAlarm5Time)
+    End If
     
-    cmbSecondaryDaylightSaving.ListIndex = Val(gblSecondaryDaylightSaving)
     ' configuration tab
    
-    ' ' fGauge.RotateBusyTimer = True
+    fClock.RotateBusyTimer = True
     
     ' check whether the size has been previously altered via ctrl+mousewheel on the widget
     sliGaugeSizeOldValue = sliGaugeSize.Value
@@ -4522,10 +5744,10 @@ Private Sub adjustPrefsControls(Optional ByVal restartState As Boolean)
         
     cmbScrollWheelDirection.ListIndex = Val(gblScrollWheelDirection)
     
-    optGaugeTooltips(CStr(gblGaugeTooltips)).Value = True
-    optGaugeTooltips(0).Tag = CStr(gblGaugeTooltips)
-    optGaugeTooltips(1).Tag = CStr(gblGaugeTooltips)
-    optGaugeTooltips(2).Tag = CStr(gblGaugeTooltips)
+    optClockTooltips(CStr(gblClockTooltips)).Value = True
+    optClockTooltips(0).Tag = CStr(gblClockTooltips)
+    optClockTooltips(1).Tag = CStr(gblClockTooltips)
+    optClockTooltips(2).Tag = CStr(gblClockTooltips)
         
     optPrefsTooltips(CStr(gblPrefsTooltips)).Value = True
     optPrefsTooltips(0).Tag = CStr(gblPrefsTooltips)
@@ -4534,24 +5756,24 @@ Private Sub adjustPrefsControls(Optional ByVal restartState As Boolean)
     
     chkShowTaskbar.Value = Val(gblShowTaskbar)
     chkShowHelp.Value = Val(gblShowHelp)
-'    chkTogglePendulum.Value = Val(gblTogglePendulum)
-'    chk24HourGaugeMode.Value = Val(gbl24HourGaugeMode)
+    chkTogglePendulum.Value = Val(gblTogglePendulum)
+    chk24HourClockMode.Value = Val(gbl24HourClockMode)
     
     chkDpiAwareness.Value = Val(gblDpiAwareness)
-    'chkNumericDisplayRotation.Value = Val(gblNumericDisplayRotation)
+    chkNumericDisplayRotation.Value = Val(gblNumericDisplayRotation)
         
     ' sounds tab
-    ' ' fGauge.RotateBusyTimer = True
+    fClock.RotateBusyTimer = True
 
     chkEnableSounds.Value = Val(gblEnableSounds)
-'    chkEnableTicks.Value = Val(gblEnableTicks)
-'    chkEnableChimes.Value = Val(gblEnableChimes)
-'    chkEnableAlarms.Value = Val(gblEnableAlarms)
-'    chkVolumeBoost.Value = Val(gblVolumeBoost)
+    chkEnableTicks.Value = Val(gblEnableTicks)
+    chkEnableChimes.Value = Val(gblEnableChimes)
+    chkEnableAlarms.Value = Val(gblEnableAlarms)
+    chkVolumeBoost.Value = Val(gblVolumeBoost)
     
     
     ' development
-    ' ' fGauge.RotateBusyTimer = True
+    fClock.RotateBusyTimer = True
     
     cmbDebug.ListIndex = Val(gblDebug)
     txtDblClickCommand.Text = gblDblClickCommand
@@ -4562,7 +5784,7 @@ Private Sub adjustPrefsControls(Optional ByVal restartState As Boolean)
         txtDefaultEditor.Text = gblDefaultVB6Editor
     #End If
     
-    lblGitHub.Caption = "You can find the code for the UBoat StopWatch on github, visit by double-clicking this link https://github.com/yereverluvinunclebert/ UBoat-StopWatch"
+    lblGitHub.Caption = "You can find the code for the Steampunk Clock Calendar on github, visit by double-clicking this link https://github.com/yereverluvinunclebert/ Steampunk-Clock-Calendar"
      
      
      If Not restartState = True Then
@@ -4585,37 +5807,37 @@ Private Sub adjustPrefsControls(Optional ByVal restartState As Boolean)
     End If
     
     ' position tab
-    ' ' fGauge.RotateBusyTimer = True
+    fClock.RotateBusyTimer = True
     
     cmbAspectHidden.ListIndex = Val(gblAspectHidden)
     cmbWidgetPosition.ListIndex = Val(gblWidgetPosition)
         
     If gblPreventDragging = "1" Then
         If gblAspectRatio = "landscape" Then
-'            txtLandscapeHoffset.Text = fGauge.gaugeForm.Left
-'            txtLandscapeVoffset.Text = fGauge.gaugeForm.Top
+'            txtLandscapeHoffset.Text = fClock.clockForm.Left
+'            txtLandscapeVoffset.Text = fClock.clockForm.Top
             If gblDpiAwareness = "1" Then
-                txtLandscapeHoffset.ToolTipText = "Last Sampled Form X Horizontal Position : " & gblGaugeHighDpiXPos & "px"
-                txtLandscapeVoffset.ToolTipText = "Last Sampled Form Y Vertical Position : " & gblGaugeHighDpiYPos & "px"
+                txtLandscapeHoffset.ToolTipText = "Last Sampled Form X Horizontal Position : " & gblClockHighDpiXPos & "px"
+                txtLandscapeVoffset.ToolTipText = "Last Sampled Form Y Vertical Position : " & gblClockHighDpiYPos & "px"
             Else
-                txtLandscapeHoffset.ToolTipText = "Last Sampled Form X Horizontal Position : " & gblGaugeLowDpiXPos & "px"
-                txtLandscapeVoffset.ToolTipText = "Last Sampled Form Y Vertical Position : " & gblGaugeLowDpiYPos & "px"
+                txtLandscapeHoffset.ToolTipText = "Last Sampled Form X Horizontal Position : " & gblClockLowDpiXPos & "px"
+                txtLandscapeVoffset.ToolTipText = "Last Sampled Form Y Vertical Position : " & gblClockLowDpiYPos & "px"
             End If
         Else
-'            txtPortraitHoffset.Text = fGauge.gaugeForm.Left
-'            txtPortraitYoffset.Text = fGauge.gaugeForm.Top
+'            txtPortraitHoffset.Text = fClock.clockForm.Left
+'            txtPortraitYoffset.Text = fClock.clockForm.Top
             If gblDpiAwareness = "1" Then
-                txtPortraitHoffset.ToolTipText = "Last Sampled Form X Horizontal Position : " & gblGaugeHighDpiXPos & "px"
-                txtPortraitYoffset.ToolTipText = "Last Sampled Form Y Vertical Position : " & gblGaugeHighDpiYPos & "px"
+                txtPortraitHoffset.ToolTipText = "Last Sampled Form X Horizontal Position : " & gblClockHighDpiXPos & "px"
+                txtPortraitYoffset.ToolTipText = "Last Sampled Form Y Vertical Position : " & gblClockHighDpiYPos & "px"
             Else
-                txtPortraitHoffset.ToolTipText = "Last Sampled Form X Horizontal Position : " & gblGaugeLowDpiXPos & "px"
-                txtPortraitYoffset.ToolTipText = "Last Sampled Form Y Vertical Position : " & gblGaugeLowDpiYPos & "px"
+                txtPortraitHoffset.ToolTipText = "Last Sampled Form X Horizontal Position : " & gblClockLowDpiXPos & "px"
+                txtPortraitYoffset.ToolTipText = "Last Sampled Form Y Vertical Position : " & gblClockLowDpiYPos & "px"
             End If
         End If
     End If
     
     'cmbWidgetLandscape
-    ' ' fGauge.RotateBusyTimer = True
+    fClock.RotateBusyTimer = True
     
     cmbWidgetLandscape.ListIndex = Val(gblWidgetLandscape)
     cmbWidgetPortrait.ListIndex = Val(gblWidgetPortrait)
@@ -4625,7 +5847,7 @@ Private Sub adjustPrefsControls(Optional ByVal restartState As Boolean)
     txtPortraitYoffset.Text = gblPortraitYoffset
 
     ' Windows tab
-    ' ' fGauge.RotateBusyTimer = True
+    fClock.RotateBusyTimer = True
     
     cmbWindowLevel.ListIndex = Val(gblWindowLevel)
     chkIgnoreMouse.Value = Val(gblIgnoreMouse)
@@ -4645,7 +5867,7 @@ Private Sub adjustPrefsControls(Optional ByVal restartState As Boolean)
         lblWindowLevel(11).Visible = False
     End If
     
-    ' ' fGauge.RotateBusyTimer = True
+    fClock.RotateBusyTimer = True
     
    On Error GoTo 0
    Exit Sub
@@ -4657,6 +5879,182 @@ adjustPrefsControls_Error:
 End Sub
 
 '---------------------------------------------------------------------------------------
+' Procedure : setAlarmHourValues
+' Author    : beededea
+' Date      : 01/11/2024
+' Purpose   : set the alarm values in the specified hour combobox to current hour value
+'---------------------------------------------------------------------------------------
+'
+Private Sub setAlarmHourValues(ByRef thisComboBox As ComboBox, ByVal thisDateString As String)
+    Dim useloop As Integer: useloop = 0
+    Dim thisHour As String: thisHour = vbNullString
+    
+    On Error GoTo setAlarmHourValues_Error
+
+    thisHour = Left$(thisDateString, 2)
+
+    'Iterate through items.
+    For useloop = 0 To thisComboBox.ListCount - 1
+        'Compare value.
+        If thisComboBox.List(useloop) = thisHour Then
+            'Select it and leave loop.
+            thisComboBox.ListIndex = useloop
+            Exit For
+        End If
+    Next useloop
+
+   On Error GoTo 0
+   Exit Sub
+
+setAlarmHourValues_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure setAlarmHourValues of Form widgetPrefs"
+End Sub
+
+
+'---------------------------------------------------------------------------------------
+' Procedure : setAlarmMinuteValues
+' Author    : beededea
+' Date      : 01/11/2024
+' Purpose   : set the alarm values in the specified minute combobox to current minute value
+'---------------------------------------------------------------------------------------
+'
+Private Sub setAlarmMinuteValues(ByRef thisComboBox As ComboBox, ByVal thisDateString As String)
+    Dim useloop As Integer: useloop = 0
+    Dim thisMinutes As String: thisMinutes = vbNullString
+    
+    On Error GoTo setAlarmMinuteValues_Error
+
+    thisMinutes = Right$(thisDateString, 2)
+
+    'Iterate through items.
+    For useloop = 0 To thisComboBox.ListCount - 1
+        'Compare value.
+        If thisComboBox.List(useloop) = thisMinutes Then
+            'Select it and leave loop.
+            thisComboBox.ListIndex = useloop
+            Exit For
+        End If
+    Next useloop
+
+   On Error GoTo 0
+   Exit Sub
+
+setAlarmMinuteValues_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure setAlarmMinuteValues of Form widgetPrefs"
+End Sub
+
+'---------------------------------------------------------------------------------------
+' Procedure : setAlarmYearValues
+' Author    : beededea
+' Date      : 01/11/2024
+' Purpose   : set the alarm values in the specified year combobox to current year value
+'---------------------------------------------------------------------------------------
+'
+Private Sub setAlarmYearValues(ByRef thisComboBox As ComboBox, ByVal thisDateString As String)
+    Dim useloop As Integer: useloop = 0
+    Dim thisYear As String: thisYear = vbNullString
+    
+    On Error GoTo setAlarmYearValues_Error
+
+    thisYear = Right$(thisDateString, 4)
+
+    'Iterate through items.
+    For useloop = 0 To thisComboBox.ListCount - 1
+        'Compare value.
+        If thisComboBox.List(useloop) = thisYear Then
+            'Select it and leave loop.
+            thisComboBox.ListIndex = useloop
+            Exit For
+        End If
+    Next useloop
+
+   On Error GoTo 0
+   Exit Sub
+
+setAlarmYearValues_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure setAlarmYearValues of Form widgetPrefs"
+
+End Sub
+    
+'---------------------------------------------------------------------------------------
+' Procedure : setAlarmDayValues
+' Author    : beededea
+' Date      : 01/11/2024
+' Purpose   : set the alarm values in the specified day combobox to current day value
+'---------------------------------------------------------------------------------------
+'
+Private Sub setAlarmDayValues(ByRef thisComboBox As ComboBox, ByVal thisDateString As String)
+    Dim useloop As Integer: useloop = 0
+    Dim thisDay As String: thisDay = vbNullString
+    
+   On Error GoTo setAlarmDayValues_Error
+
+    thisDay = Left$(thisDateString, 2)
+
+    'Iterate through items.
+    For useloop = 0 To thisComboBox.ListCount - 1
+        'Compare value.
+        If thisComboBox.List(useloop) = thisDay Then
+            'Select it and leave loop.
+            thisComboBox.ListIndex = useloop
+            Exit For
+        End If
+    Next useloop
+
+   On Error GoTo 0
+   Exit Sub
+
+setAlarmDayValues_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure setAlarmDayValues of Form widgetPrefs"
+
+End Sub
+
+
+
+
+    
+'---------------------------------------------------------------------------------------
+' Procedure : setAlarmMonthValues
+' Author    : beededea
+' Date      : 01/11/2024
+' Purpose   : set the alarm values in the specified month combobox to current month value
+'---------------------------------------------------------------------------------------
+'
+Private Sub setAlarmMonthValues(ByRef thisComboBox As ComboBox, ByVal thisDateString As String)
+    Dim useloop As Integer: useloop = 0
+    Dim monthNo As String: monthNo = vbNullString
+    Dim newMonth As String: newMonth = vbNullString
+    Dim thisMonth As String: thisMonth = vbNullString
+    
+    On Error GoTo setAlarmMonthValues_Error
+    
+    monthNo = CStr(DatePart("m", thisDateString)) ' extract the month number integer from the date string
+    newMonth = MonthName(monthNo)  ' convert to full month name
+    thisMonth = Left$(newMonth, 3) ' extract the first three characters
+
+    ' iterate through combobox list
+    For useloop = 0 To thisComboBox.ListCount - 1
+        ' compare values
+        If thisComboBox.List(useloop) = thisMonth Then
+            ' select the value in to the combobox and leave.
+            thisComboBox.ListIndex = useloop
+            Exit For
+        End If
+    Next useloop
+
+   On Error GoTo 0
+   Exit Sub
+
+setAlarmMonthValues_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure setAlarmMonthValues of Form widgetPrefs"
+
+End Sub
+
 
 '
 '---------------------------------------------------------------------------------------
@@ -4674,17 +6072,17 @@ Private Sub populatePrefsComboBoxes()
     
     On Error GoTo populatePrefsComboBoxes_Error
     
-'    With fGauge.gaugeForm.Widgets("busy1").Widget
-'        .Alpha = 1
-'        .Refresh
-'    End With
+    With fClock.clockForm.Widgets("busy1").Widget
+        .Alpha = 1
+        .Refresh
+    End With
     
     cmbScrollWheelDirection.AddItem "up", 0
     cmbScrollWheelDirection.ItemData(0) = 0
     cmbScrollWheelDirection.AddItem "down", 1
     cmbScrollWheelDirection.ItemData(1) = 1
     
-    ' ' fGauge.RotateBusyTimer = True
+    fClock.RotateBusyTimer = True
     
     cmbAspectHidden.AddItem "none", 0
     cmbAspectHidden.ItemData(0) = 0
@@ -4693,14 +6091,14 @@ Private Sub populatePrefsComboBoxes()
     cmbAspectHidden.AddItem "landscape", 2
     cmbAspectHidden.ItemData(2) = 2
 
-    ' ' fGauge.RotateBusyTimer = True
+    fClock.RotateBusyTimer = True
     
     cmbWidgetPosition.AddItem "disabled", 0
     cmbWidgetPosition.ItemData(0) = 0
     cmbWidgetPosition.AddItem "enabled", 1
     cmbWidgetPosition.ItemData(1) = 1
     
-    ' ' fGauge.RotateBusyTimer = True
+    fClock.RotateBusyTimer = True
     
     cmbWidgetLandscape.AddItem "disabled", 0
     cmbWidgetLandscape.ItemData(0) = 0
@@ -4717,7 +6115,7 @@ Private Sub populatePrefsComboBoxes()
     cmbDebug.AddItem "Debug ON", 1
     cmbDebug.ItemData(1) = 1
     
-    ' ' fGauge.RotateBusyTimer = True
+    fClock.RotateBusyTimer = True
     
     ' populate comboboxes in the windows tab
     cmbWindowLevel.AddItem "Keep on top of other windows", 0
@@ -4727,7 +6125,7 @@ Private Sub populatePrefsComboBoxes()
     cmbWindowLevel.AddItem "Keep below all other windows", 0
     cmbWindowLevel.ItemData(2) = 2
 
-    ' ' fGauge.RotateBusyTimer = True
+    fClock.RotateBusyTimer = True
     
     ' populate the hiding timer combobox
     cmbHidingTime.AddItem "1 minute", 0
@@ -4743,7 +6141,7 @@ Private Sub populatePrefsComboBoxes()
     cmbHidingTime.AddItem "I hour", 5
     cmbHidingTime.ItemData(5) = 60
     
-    ' ' fGauge.RotateBusyTimer = True
+    fClock.RotateBusyTimer = True
     
     ' populate the multi monitor combobox
     cmbMultiMonitorResize.AddItem "Disabled", 0
@@ -4752,28 +6150,57 @@ Private Sub populatePrefsComboBoxes()
     cmbMultiMonitorResize.ItemData(1) = 1
     cmbMultiMonitorResize.AddItem "Manual Sizing Stored Per Monitor", 2
     cmbMultiMonitorResize.ItemData(2) = 2
-    
-    ' populate the clock face to show
-    cmbClockFaceSwitchPref.AddItem "stopwatch", 0
-    cmbClockFaceSwitchPref.AddItem "standard", 1
- 
-    'populate one timezone combobox from file.
-    Call readFileWriteComboBox(cmbMainGaugeTimeZone, App.path & "\Resources\txt\timezones.txt")
-    
-    'populate one timezone combobox from file.
-    Call readFileWriteComboBox(cmbMainDaylightSaving, App.path & "\Resources\txt\DLScodesWin.txt")
 
-    'populate one timezone combobox from file.
-    Call readFileWriteComboBox(cmbSecondaryGaugeTimeZone, App.path & "\Resources\txt\timezones.txt")
+    fClock.RotateBusyTimer = True
+
+    ' Originally I filled the alarm comboboxes using code.
+    ' Instead of filling the alarm combo boxes in code, this is now done using the IDE. The reason for this is
+    ' that we have so many comboboxes to fill and multiple values for each that the population takes a long time.
+    ' Filling the IDE in advance is much quicker.
+
+    ' Note: When manually entering the and dates into the combox box list and item data areas
+    ' the IDE keeps turning the numeric values < 10 into square boxes, to avoid this I
+    ' have been copying and pasteing the numbers from cintanotes into both the itemdata and list array boxes
+
+    ' the code below filled the various alarm comboboxes with the correct values, however it is bloody slow so
+    ' commented out. Retained for history.
     
-    'populate one timezone combobox from file.
-    Call readFileWriteComboBox(cmbSecondaryDaylightSaving, App.path & "\Resources\txt\DLScodesWin.txt")
-
-    cmbTickSwitchPref.AddItem "Tick", 0
-    cmbTickSwitchPref.ItemData(0) = 0
-    cmbTickSwitchPref.AddItem "Smooth", 1
-    cmbTickSwitchPref.ItemData(1) = 1
-
+'    #If TWINBASIC Then
+'        ' add the day options to the day combobox
+'        Call fillComboAlarmDay(cmbAlarm1Day)
+'        Call fillComboAlarmDay(cmbAlarm2Day)
+'        Call fillComboAlarmDay(cmbAlarm3Day)
+'        Call fillComboAlarmDay(cmbAlarm4Day)
+'        Call fillComboAlarmDay(cmbAlarm5Day)
+'
+'        ' add the month options to the month combobox
+'        Call fillComboAlarmMonth(cmbAlarm1Month)
+'        Call fillComboAlarmMonth(cmbAlarm2Month)
+'        Call fillComboAlarmMonth(cmbAlarm3Month)
+'        Call fillComboAlarmMonth(cmbAlarm4Month)
+'        Call fillComboAlarmMonth(cmbAlarm5Month)
+'
+'        ' add the next hundred year options to the year combobox
+'        Call fillComboAlarmYear(cmbAlarm1Year)
+'        Call fillComboAlarmYear(cmbAlarm2Year)
+'        Call fillComboAlarmYear(cmbAlarm3Year)
+'        Call fillComboAlarmYear(cmbAlarm4Year)
+'        Call fillComboAlarmYear(cmbAlarm5Year)
+'
+'        ' add the hour options to the hour combobox
+'        Call fillComboAlarmHour(cmbAlarm1Hours)
+'        Call fillComboAlarmHour(cmbAlarm2Hours)
+'        Call fillComboAlarmHour(cmbAlarm3Hours)
+'        Call fillComboAlarmHour(cmbAlarm4Hours)
+'        Call fillComboAlarmHour(cmbAlarm5Hours)
+'
+'        ' add the minute options to the minute combobox
+'        Call fillComboAlarmMinute(cmbAlarm1Minutes)
+'        Call fillComboAlarmMinute(cmbAlarm2Minutes)
+'        Call fillComboAlarmMinute(cmbAlarm3Minutes)
+'        Call fillComboAlarmMinute(cmbAlarm4Minutes)
+'        Call fillComboAlarmMinute(cmbAlarm5Minutes)
+'    #End If
     
     On Error GoTo 0
     Exit Sub
@@ -4789,6 +6216,182 @@ populatePrefsComboBoxes_Error:
                 
 End Sub
 
+'---------------------------------------------------------------------------------------
+' Procedure : fillComboAlarmMinute
+' Author    : beededea
+' Date      : 31/10/2024
+' Purpose   : add the minute options to the minute combobox
+'---------------------------------------------------------------------------------------
+'
+Private Sub fillComboAlarmMinute(ByRef thisComboBox As ComboBox)
+    Dim useloop As Integer: useloop = 0
+    Dim minString As String: minString = vbNullString
+
+    On Error GoTo fillComboAlarmMinute_Error
+
+    thisComboBox.AddItem "", 0
+    thisComboBox.ItemData(0) = 0
+
+    For useloop = 0 To 59
+        minString = CStr(useloop)
+        If useloop <= 9 Then
+            minString = "0" & CStr(useloop)
+        End If
+        thisComboBox.AddItem minString, useloop + 1
+        thisComboBox.ItemData(useloop + 1) = useloop
+        If useloop Mod (5) = 0 Then fClock.RotateBusyTimer = True
+    Next useloop
+
+    fClock.RotateBusyTimer = True
+
+   On Error GoTo 0
+   Exit Sub
+
+fillComboAlarmMinute_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure fillComboAlarmMinute of Form widgetPrefs"
+
+End Sub
+
+
+'---------------------------------------------------------------------------------------
+' Procedure : fillComboAlarmHour
+' Author    : beededea
+' Date      : 31/10/2024
+' Purpose   : add the hour options to the hour combobox
+'---------------------------------------------------------------------------------------
+'
+Private Sub fillComboAlarmHour(ByRef thisComboBox As ComboBox)
+    Dim useloop As Integer: useloop = 0
+    Dim hrsString As String: hrsString = vbNullString
+
+    On Error GoTo fillComboAlarmHour_Error
+
+    thisComboBox.AddItem "", 0
+    thisComboBox.ItemData(0) = 0
+
+    For useloop = 0 To 23
+        hrsString = CStr(useloop)
+        If useloop <= 9 Then
+            hrsString = "0" & CStr(useloop)
+        End If
+        thisComboBox.AddItem hrsString, useloop + 1
+        thisComboBox.ItemData(useloop + 1) = useloop
+    Next useloop
+
+    fClock.RotateBusyTimer = True
+
+   On Error GoTo 0
+   Exit Sub
+
+fillComboAlarmHour_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure fillComboAlarmHour of Form widgetPrefs"
+
+End Sub
+
+
+
+'---------------------------------------------------------------------------------------
+' Procedure : fillComboAlarmYear
+' Author    : beededea
+' Date      : 31/10/2024
+' Purpose   :  add the next hundred year options to the year combobox
+'---------------------------------------------------------------------------------------
+'
+Private Sub fillComboAlarmYear(ByRef thisComboBox As ComboBox)
+    Dim useloop As Integer: useloop = 0
+
+    On Error GoTo fillComboAlarmYear_Error
+
+    thisComboBox.AddItem "", 0
+    thisComboBox.ItemData(0) = 0
+
+    For useloop = 1 To 100
+        thisComboBox.AddItem CStr(Year(Now) + useloop - 1), useloop
+        thisComboBox.ItemData(useloop) = Year(Now) + useloop - 1
+        If useloop Mod (10) = 0 Then fClock.RotateBusyTimer = True
+    Next useloop
+
+    fClock.RotateBusyTimer = True
+
+  On Error GoTo 0
+   Exit Sub
+
+fillComboAlarmYear_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure fillComboAlarmYear of Form widgetPrefs"
+
+End Sub
+'---------------------------------------------------------------------------------------
+' Procedure : fillComboAlarmDay
+' Author    : beededea
+' Date      : 30/10/2024
+' Purpose   : add the day options to the day combobox
+'---------------------------------------------------------------------------------------
+'
+Private Sub fillComboAlarmDay(ByRef thisComboBox As ComboBox)
+    Dim useloop As Integer: useloop = 0
+    Dim dayString As String: dayString = vbNullString
+
+    On Error GoTo fillComboAlarmDay_Error
+
+    thisComboBox.AddItem "", 0
+    thisComboBox.ItemData(0) = 0
+
+    For useloop = 1 To 31
+        dayString = CStr(useloop)
+        If useloop <= 9 Then
+            dayString = "0" & CStr(useloop)
+        End If
+        thisComboBox.AddItem dayString, useloop
+        thisComboBox.ItemData(useloop) = useloop
+
+        If useloop Mod (5) = 0 Then fClock.RotateBusyTimer = True
+    Next useloop
+
+    fClock.RotateBusyTimer = True
+
+   On Error GoTo 0
+   Exit Sub
+
+fillComboAlarmDay_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure fillComboAlarmDay of Form widgetPrefs"
+End Sub
+
+
+'---------------------------------------------------------------------------------------
+' Procedure : fillComboAlarmMonth
+' Author    : beededea
+' Date      : 31/10/2024
+' Purpose   : add the month options to the month combobox
+'---------------------------------------------------------------------------------------
+'
+Private Sub fillComboAlarmMonth(ByRef thisComboBox As ComboBox)
+    Dim useloop As Integer: useloop = 0
+
+    On Error GoTo fillComboAlarmMonth_Error
+
+    thisComboBox.AddItem "", 0
+    thisComboBox.ItemData(0) = 0
+
+    For useloop = 1 To 12
+        thisComboBox.AddItem Left$(MonthName(useloop), 3), useloop
+        thisComboBox.ItemData(useloop) = useloop
+    Next useloop
+
+    fClock.RotateBusyTimer = True
+
+   On Error GoTo 0
+   Exit Sub
+
+fillComboAlarmMonth_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure fillComboAlarmMonth of Form widgetPrefs"
+
+End Sub
+    
     
 '---------------------------------------------------------------------------------------
 ' Procedure : readFileWriteComboBox
@@ -4944,7 +6547,7 @@ Public Sub PrefsForm_Resize_Event()
         Call makeFramesInvisible
         Call resizeControls(Me, prefsControlPositions(), gblPrefsStartWidth, gblPrefsStartHeight, currentFontSize)
 
-        Call tweakPrefsControlPositions(Me, gblPrefsStartWidth, gblPrefsStartHeight)
+        'Call tweakPrefsControlPositions(Me, gblPrefsStartWidth, gblPrefsStartHeight)
         'Call loadHigherResPrefsImages ' if you want higher res icons then load them here, current max. is 1010 twips or 67 pixels
         Call makeFramesVisible
         
@@ -5227,28 +6830,28 @@ End Sub
 '---------------------------------------------------------------------------------------
 
 '---------------------------------------------------------------------------------------
-' Procedure : optGaugeTooltips_MouseMove
+' Procedure : optClockTooltips_MouseMove
 ' Author    : beededea
 ' Date      : 10/01/2025
-' Purpose   : setting the tooltip text for the specific radio button for selecting the gauge/cal tooltip style
+' Purpose   : setting the tooltip text for the specific radio button for selecting the clock/cal tooltip style
 '---------------------------------------------------------------------------------------
 '
-Private Sub optGaugeTooltips_MouseMove(Index As Integer, Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub optClockTooltips_MouseMove(Index As Integer, Button As Integer, Shift As Integer, x As Single, y As Single)
     Dim thisToolTip As String: thisToolTip = vbNullString
-    On Error GoTo optGaugeTooltips_MouseMove_Error
+    On Error GoTo optClockTooltips_MouseMove_Error
 
     If gblPrefsTooltips = "0" Then
         If Index = 0 Then
             thisToolTip = "This setting enables the balloon tooltips for elements within the Steampunk GUI. These tooltips are multi-line and in general more attractive than standard windows style tooltips, note that their font size will match the Windows system font size."
-            CreateToolTip optGaugeTooltips(Index).hWnd, thisToolTip, _
+            CreateToolTip optClockTooltips(Index).hWnd, thisToolTip, _
                   TTIconInfo, "Help on Balloon Tooltips on the GUI", , , , True
         ElseIf Index = 1 Then
             thisToolTip = "This setting enables the RichClient square tooltips for elements within the Steampunk GUI. These tooltips are multi-line and in general more attractive than standard windows style tooltips."
-            CreateToolTip optGaugeTooltips(Index).hWnd, thisToolTip, _
+            CreateToolTip optClockTooltips(Index).hWnd, thisToolTip, _
                   TTIconInfo, "Help on RichClient Tooltips on the GUI", , , , True
         ElseIf Index = 2 Then
             thisToolTip = "This setting disables the balloon tooltips for elements within the Steampunk GUI."
-            CreateToolTip optGaugeTooltips(Index).hWnd, thisToolTip, _
+            CreateToolTip optClockTooltips(Index).hWnd, thisToolTip, _
                   TTIconInfo, "Help on Disabling Tooltips on the GUI", , , , True
         End If
     
@@ -5257,9 +6860,9 @@ Private Sub optGaugeTooltips_MouseMove(Index As Integer, Button As Integer, Shif
    On Error GoTo 0
    Exit Sub
 
-optGaugeTooltips_MouseMove_Error:
+optClockTooltips_MouseMove_Error:
 
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure optGaugeTooltips_MouseMove of Form widgetPrefs"
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure optClockTooltips_MouseMove of Form widgetPrefs"
 End Sub
     
 '---------------------------------------------------------------------------------------
@@ -5290,11 +6893,6 @@ End Sub
 Private Sub chkEnableResizing_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
     If gblPrefsTooltips = "0" Then CreateToolTip chkEnableResizing.hWnd, "This allows you to resize the whole prefs window by dragging the bottom right corner of the window. It provides an alternative method of supporting high DPI screens.", _
                   TTIconInfo, "Help on Resizing", , , , True
-End Sub
-
-Private Sub txtMainBias_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
-    If gblGaugeTooltips = "0" Then CreateToolTip txtMainBias.hWnd, "This field displays the current total bias that will be applied to the current time based upon the timezone and daylight savings selection made, (read only). ", _
-                  TTIconInfo, "Help on the bias field.", , , , True
 End Sub
 
 Private Sub txtPrefsFont_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
@@ -5341,7 +6939,10 @@ Private Sub btnAboutDebugInfo_MouseMove(Button As Integer, Shift As Integer, x A
                   TTIconInfo, "Help on the Debug Info. Buttton", , , , True
 End Sub
 
-
+Private Sub btnclearAlarm_MouseMove(Index As Integer, Button As Integer, Shift As Integer, x As Single, y As Single)
+    If gblPrefsTooltips = "0" Then CreateToolTip btnclearAlarm(Index).hWnd, "Clear all alarm fields in number " & Index & " alarm.", _
+                  TTIconInfo, "Help on the Alarm Clear Buttton", , , , True
+End Sub
 
 Private Sub btnClose_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
     If gblPrefsTooltips = "0" Then CreateToolTip btnClose.hWnd, "Close the Preference Utility", _
@@ -5354,7 +6955,7 @@ Private Sub btnDefaultVB6Editor_MouseMove(Button As Integer, Shift As Integer, x
 End Sub
 
 Private Sub btnDisplayScreenFont_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
-    If gblPrefsTooltips = "0" Then CreateToolTip btnDisplayScreenFont.hWnd, "This is the font selector button, if you click it the font selection window will pop up for you to select your chosen font. When resizing the main gauge the display screen font size will change in relation to gauge size. The base font determines the initial size, the resulting resized font will dynamically change. ", _
+    If gblPrefsTooltips = "0" Then CreateToolTip btnDisplayScreenFont.hWnd, "This is the font selector button, if you click it the font selection window will pop up for you to select your chosen font. When resizing the main clock the display screen font size will change in relation to clock size. The base font determines the initial size, the resulting resized font will dynamically change. ", _
                   TTIconInfo, "Help on the Font Selector Button", , , , True
 End Sub
 
@@ -5378,7 +6979,10 @@ Private Sub btnHelp_MouseMove(Button As Integer, Shift As Integer, x As Single, 
                   TTIconInfo, "Help on the Help Buttton", , , , True
 End Sub
 
-
+Private Sub btnNow_MouseMove(Index As Integer, Button As Integer, Shift As Integer, x As Single, y As Single)
+    If gblPrefsTooltips = "0" Then CreateToolTip btnNow(Index).hWnd, "Pressing this button sets this alarm time to the time now.", _
+                  TTIconInfo, "Help on the Time Now Buttton", , , , True
+End Sub
 
 Private Sub btnOpenFile_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
     If gblPrefsTooltips = "0" Then CreateToolTip btnOpenFile.hWnd, "Clicking on this button will cause a file explorer window to appear allowing you to select any file you would like to execute on a shift+DBlClick. Once selected the adjacent text field will be automatically filled with the chosen path and file.", _
@@ -5399,21 +7003,59 @@ Private Sub btnUpdate_MouseMove(Button As Integer, Shift As Integer, x As Single
     If gblPrefsTooltips = "0" Then CreateToolTip btnUpdate.hWnd, "Here you can able to download a new version of the program from github, when you click the button it will open a browser window and take you to the github page.", _
                   TTIconInfo, "Help on the Update Buttton", , , , True
 End Sub
+Private Sub btnVerifyDateTime1_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
+    If gblPrefsTooltips = "0" Then CreateToolTip btnVerifyDateTime1.hWnd, "Validate a future date and time here in 24hr military format, eg: 23/11/2036 23:45. If the date and time are not valid nor in the future the invalid fields will be highlighted in red.", _
+                  TTIconInfo, "Help on Validating Alarm Number One", , , , True
+End Sub
+Private Sub btnVerifyDateTime2_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
+    If gblPrefsTooltips = "0" Then CreateToolTip btnVerifyDateTime2.hWnd, "Validate a future date and time here in 24hr military format, eg: 23/11/2036 23:45. If the date and time are not valid nor in the future the invalid fields will be highlighted in red.", _
+                  TTIconInfo, "Help on Validating Alarm Number Two", , , True
+End Sub
+Private Sub btnVerifyDateTime3_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
+    If gblPrefsTooltips = "0" Then CreateToolTip btnVerifyDateTime3.hWnd, "Validate a future date and time here in 24hr military format, eg: 23/11/2036 23:45. If the date and time are not valid nor in the future the invalid fields will be highlighted in red.", _
+                  TTIconInfo, "Help on Validating Alarm Number Three", , , , True
+End Sub
+Private Sub btnVerifyDateTime4_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
+    If gblPrefsTooltips = "0" Then CreateToolTip btnVerifyDateTime4.hWnd, "Validate a future date and time here in 24hr military format, eg: 23/11/2036 23:45. If the date and time are not valid nor in the future the invalid fields will be highlighted in red.", _
+                  TTIconInfo, "Help on Validating Alarm Number Four", , , , True
+End Sub
+Private Sub btnVerifyDateTime5_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
+    If gblPrefsTooltips = "0" Then CreateToolTip btnVerifyDateTime5.hWnd, "Validate a future date and time here in 24hr military format, eg: 23/11/2036 23:45. If the date and time are not valid nor in the future the invalid fields will be highlighted in red.", _
+                  TTIconInfo, "Help on Validating Alarm Number Five", , , , True
+End Sub
 
+Private Sub chk24HourClockMode_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
+    If gblPrefsTooltips = "0" Then CreateToolTip chk24HourClockMode.hWnd, "Decide whether the digital clock display should use military/twenty-four hour time or the 12-hour clock.", _
+                  TTIconInfo, "Help on the Digital Clock 24hour Mode", , , , True
+End Sub
 
 Private Sub chkDpiAwareness_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
     If gblPrefsTooltips = "0" Then CreateToolTip chkDpiAwareness.hWnd, "Check here to make the program DPI aware. NOT required on small to medium screens that are less than 1920 bytes wide. Try it and see which suits your system. RESTART required.", _
                   TTIconInfo, "Help on DPI Awareness Mode", , , , True
 End Sub
 
+Private Sub chkEnableChimes_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
+    If gblPrefsTooltips = "0" Then CreateToolTip chkEnableChimes.hWnd, "Check this box to enable or disable the quarterly, half-hour and hourly chimes issued by the clock.", _
+                  TTIconInfo, "Help on Enabling/Disabling Clock Chimes", , , , True
+End Sub
+Private Sub chkenableAlarms_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
+    If gblPrefsTooltips = "0" Then CreateToolTip chkEnableAlarms.hWnd, "Check this box to enable or disable the alarm chimes issued by the clock. Please note disabling this means your alarms will not alert you audibly!", _
+                  TTIconInfo, "Help on Enabling/Disabling Clock Alarm Sounds", , , , True
+End Sub
 
-
+Private Sub chkNumericDisplayRotation_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
+    If gblPrefsTooltips = "0" Then CreateToolTip chkNumericDisplayRotation.hWnd, "Check this box to enable or disable the rotation of the alpha numeric digits in the numeric display .", _
+                  TTIconInfo, "Help on Enabling/Disabling Numeric Display Rotation", , , , True
+End Sub
 Private Sub chkEnableSounds_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
     If gblPrefsTooltips = "0" Then CreateToolTip chkEnableSounds.hWnd, "Check this box to enable or disable all of the sounds used during any animation on the main steampunk GUI, as well as all other chimes, tick sounds &c.", _
                   TTIconInfo, "Help on Enabling/Disabling Sounds", , , , True
 End Sub
 
-
+Private Sub chkEnableTicks_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
+    If gblPrefsTooltips = "0" Then CreateToolTip chkEnableTicks.hWnd, "Check this box to enable or disable only the sound of the clock ticking.", _
+                  TTIconInfo, "Help on Enabling/Disabling Clock Ticking Sound", , , , True
+End Sub
 
 Private Sub chkGenStartup_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
     If gblPrefsTooltips = "0" Then CreateToolTip chkGenStartup.hWnd, "Check this box to enable the automatic start of the program when Windows is started.", _
@@ -5422,7 +7064,7 @@ End Sub
 
 Private Sub chkIgnoreMouse_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
     If gblPrefsTooltips = "0" Then CreateToolTip chkIgnoreMouse.hWnd, "Checking this box causes the program to ignore all mouse events. A strange option, a left-over from the Yahoo Widgets days that offered this additional option. Replicated here as a homage to the old widget platform.", _
-                  TTIconInfo, "Help on the Ignore Mouse optGaugeTooltips", , , , True
+                  TTIconInfo, "Help on the Ignore Mouse optClockTooltips", , , , True
 End Sub
 
 Private Sub chkPreventDragging_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
@@ -5444,11 +7086,18 @@ Private Sub chkShowTaskbar_MouseMove(Button As Integer, Shift As Integer, x As S
                   TTIconInfo, "Help on the Showing Entries in the Taskbar", , , , True
 End Sub
 
+Private Sub chkTogglePendulum_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
+    If gblPrefsTooltips = "0" Then CreateToolTip chkTogglePendulum.hWnd, "Decide whether the pendulum swings or not. The math behind the graphics of a swinging pendulum requires processor power. Older single-core machines may experience a lot of cpu usage.", _
+                  TTIconInfo, "Help on the Pendulum Toggle", , , , True
+End Sub
 
+Private Sub chkVolumeBoost_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
+    If gblPrefsTooltips = "0" Then CreateToolTip chkVolumeBoost.hWnd, "Check this box to enable or disable the sound boost for all sounds made by this program.", _
+                  TTIconInfo, "Help on Enabling/Disabling the Sound Boost", , , , True
+End Sub
 
-
-Private Sub chkGaugeFunctions_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
-    If gblPrefsTooltips = "0" Then CreateToolTip chkGaugeFunctions.hWnd, "When checked this box enables the spinning earth functionality. Any adjustment takes place instantly.", _
+Private Sub chkWidgetFunctions_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
+    If gblPrefsTooltips = "0" Then CreateToolTip chkWidgetFunctions.hWnd, "When checked this box enables the spinning earth functionality. Any adjustment takes place instantly.", _
                   TTIconInfo, "Help on the Widget Function Toggle", , , , True
 End Sub
 
@@ -5608,7 +7257,7 @@ optPrefsTooltips_MouseMove_Error:
 End Sub
 
 Private Sub sliGaugeSize_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
-    If gblPrefsTooltips = "0" Then CreateToolTip sliGaugeSize.hWnd, "Adjust to a percentage of the original size. Any adjustment in size made here takes place instantly (you can also use Ctrl+Mousewheel when hovering over the gauge itself).", _
+    If gblPrefsTooltips = "0" Then CreateToolTip sliGaugeSize.hWnd, "Adjust to a percentage of the original size. Any adjustment in size made here takes place instantly (you can also use Ctrl+Mousewheel when hovering over the clock itself).", _
                   TTIconInfo, "Help on the Size Slider", , , , True
 End Sub
 
@@ -5621,7 +7270,56 @@ Private Sub txtAboutText_MouseMove(Button As Integer, Shift As Integer, x As Sin
     fraScrollbarCover.Visible = False
 End Sub
 
+Private Sub txtAlarm1Time_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
+    If gblPrefsTooltips = "0" Then CreateToolTip txtAlarm1Time.hWnd, "Enter a valid Time here by typing a future time in 24hr military format, eg: 23:45. When you have entered both a date in the previous field and a time here, then click the > key to validate.", _
+                  TTIconInfo, "Help on Alarm Time Number One", , , , True
+End Sub
 
+
+Private Sub txtAlarm2Time_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
+    If gblPrefsTooltips = "0" Then CreateToolTip txtAlarm2Time.hWnd, "Enter a valid Time here by typing a future time in 24hr military format, eg: 23:45. When you have entered both a date in the previous field and a time here, then click the > key to validate.", _
+                  TTIconInfo, "Help on Alarm Time Number Two", , , , True
+End Sub
+
+Private Sub txtAlarm3Time_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
+    If gblPrefsTooltips = "0" Then CreateToolTip txtAlarm3Time.hWnd, "Enter a valid Time here by typing a future time in 24hr military format, eg: 23:45. When you have entered both a date in the previous field and a time here, then click the > key to validate.", _
+                  TTIconInfo, "Help on Alarm Time Number Three", , , , True
+End Sub
+
+Private Sub txtAlarm4Time_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
+    If gblPrefsTooltips = "0" Then CreateToolTip txtAlarm4Time.hWnd, "Enter a valid Time here by typing a future time in 24hr military format, eg: 23:45. When you have entered both a date in the previous field and a time here, then click the > key to validate.", _
+                  TTIconInfo, "Help on Alarm Time Number Four", , , , True
+End Sub
+
+Private Sub txtAlarm5Time_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
+    If gblPrefsTooltips = "0" Then CreateToolTip txtAlarm5Time.hWnd, "Enter a valid Time here by typing a future time in 24hr military format, eg: 23:45. When you have entered both a date in the previous field and a time here, then click the > key to validate.", _
+                  TTIconInfo, "Help on Alarm Time Number Five", , , , True
+End Sub
+
+Private Sub txtAlarm1Date_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
+    If gblPrefsTooltips = "0" Then CreateToolTip txtAlarm1Date.hWnd, "Enter a valid date here by typing a future date in format dd/mm/yyyy. When you have entered both a date here and a time in the adjacent field, then click the > key to validate.", _
+                  TTIconInfo, "Help on Alarm Date Number One", , , , True
+End Sub
+
+Private Sub txtAlarm2Date_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
+    If gblPrefsTooltips = "0" Then CreateToolTip txtAlarm2Date.hWnd, "Enter a valid date here by typing a future date in format dd/mm/yyyy. When you have entered both a date here and a time in the adjacent field, then click the > key to validate.", _
+                  TTIconInfo, "Help on Alarm Date Number Two", , , , True
+End Sub
+
+Private Sub txtAlarm3Date_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
+    If gblPrefsTooltips = "0" Then CreateToolTip txtAlarm3Date.hWnd, "Enter a valid date here by typing a future date in format dd/mm/yyyy. When you have entered both a date here and a time in the adjacent field, then click the > key to validate.", _
+                  TTIconInfo, "Help on Alarm Date Number Three", , , , True
+End Sub
+
+Private Sub txtAlarm4Date_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
+    If gblPrefsTooltips = "0" Then CreateToolTip txtAlarm4Date.hWnd, "Enter a valid date here by typing a future date in format dd/mm/yyyy. When you have entered both a date here and a time in the adjacent field, then click the > key to validate.", _
+                  TTIconInfo, "Help on Alarm Date Number Four", , , , True
+End Sub
+
+Private Sub txtAlarm5Date_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
+    If gblPrefsTooltips = "0" Then CreateToolTip txtAlarm5Date.hWnd, "Enter a valid date here by typing a future date in format dd/mm/yyyy. When you have entered both a date here and a time in the adjacent field, then click the > key to validate.", _
+                  TTIconInfo, "Help on Alarm Date Number Five", , , , True
+End Sub
 
 Private Sub txtDblClickCommand_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
     If gblPrefsTooltips = "0" Then CreateToolTip txtDblClickCommand.hWnd, "Field to hold the any double click command that you have assigned to this widget. For example: taskmgr or %systemroot%\syswow64\ncpa.cpl", _
@@ -5634,7 +7332,7 @@ Private Sub txtDefaultEditor_MouseMove(Button As Integer, Shift As Integer, x As
 End Sub
 
 Private Sub txtDisplayScreenFont_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
-    If gblPrefsTooltips = "0" Then CreateToolTip txtDisplayScreenFont.hWnd, "This is a read-only text box. It displays the current font - as set when you click the font selector button. This field is in operation for informational purposes only. When resizing the main gauge (CTRL+ mouse scroll wheel) the font size will change in relation to gauge size. The base font determines the initial size, the resulting resized font will dynamically change. My preferred font for the display screen is Courier New at 6pt size.", _
+    If gblPrefsTooltips = "0" Then CreateToolTip txtDisplayScreenFont.hWnd, "This is a read-only text box. It displays the current font - as set when you click the font selector button. This field is in operation for informational purposes only. When resizing the main clock (CTRL+ mouse scroll wheel) the font size will change in relation to clock size. The base font determines the initial size, the resulting resized font will dynamically change. My preferred font for the display screen is Courier New at 6pt size.", _
                   TTIconInfo, "Help on the Display Screen Font", , , , True
 End Sub
 
@@ -5878,13 +7576,13 @@ Private Sub lblGitHub_dblClick()
     
     On Error GoTo lblGitHub_dblClick_Error
     
-    If gblGaugeFunctions = "0" Or gblIgnoreMouse = "1" Then Exit Sub
+    If gblWidgetFunctions = "0" Or gblIgnoreMouse = "1" Then Exit Sub
 
     answer = vbYes
     answerMsg = "This option opens a browser window and take you straight to Github. Proceed?"
     answer = msgBoxA(answerMsg, vbExclamation + vbYesNo, "Proceed to Github? ", True, "lblGitHubDblClick")
     If answer = vbYes Then
-        Call ShellExecute(Me.hWnd, "Open", "https://github.com/yereverluvinunclebert/UBoat-StopWatch-" & gblCodingEnvironment, vbNullString, App.path, 1)
+        Call ShellExecute(Me.hWnd, "Open", "https://github.com/yereverluvinunclebert/Steampunk-Clock-Calendar-" & gblCodingEnvironment, vbNullString, App.path, 1)
     End If
 
    On Error GoTo 0
@@ -5918,7 +7616,7 @@ Private Sub tmrPrefsScreenResolution_Timer()
 ''    Static oldPrefsFormMonitorPrimary As Long
 '    Static oldPrefsMonitorStructWidthTwips As Long
 '    Static oldPrefsMonitorStructHeightTwips As Long
-'    Static oldPrefsGaugeLeftPixels As Long
+'    Static oldPrefsClockLeftPixels As Long
 '
 '    Dim prefsFormMonitorID As Long: prefsFormMonitorID = 0
 '    'Dim prefsFormMonitorPrimary As Long: prefsFormMonitorPrimary = 0
@@ -5968,14 +7666,14 @@ Private Sub tmrPrefsScreenResolution_Timer()
 '                ' same with other 'old' vars
 '                If oldPrefsMonitorStructWidthTwips = 0 Then oldPrefsMonitorStructWidthTwips = monitorStructWidthTwips
 '                If oldPrefsMonitorStructHeightTwips = 0 Then oldPrefsMonitorStructHeightTwips = monitorStructHeightTwips
-'                If oldPrefsGaugeLeftPixels = 0 Then oldPrefsGaugeLeftPixels = widgetPrefs.Left
+'                If oldPrefsClockLeftPixels = 0 Then oldPrefsClockLeftPixels = widgetPrefs.Left
 '
 '                ' if the monitor ID has changed
 '                If oldPrefsFormMonitorID <> prefsFormMonitorID Then
 '                'If oldPrefsFormMonitorPrimary <> prefsFormMonitorPrimary Then
 '
-''                    ' screenWrite ("Prefs Stored monitor primary status = " & CBool(oldPrefsFormMonitorPrimary))
-''                    ' screenWrite ("Prefs Current monitor primary status = " & CBool(prefsFormMonitorPrimary))
+''                    screenWrite ("Prefs Stored monitor primary status = " & CBool(oldPrefsFormMonitorPrimary))
+''                    screenWrite ("Prefs Current monitor primary status = " & CBool(prefsFormMonitorPrimary))
 '
 '                    If LTrim$(gblMultiMonitorResize) = "1" Then
 '                        'if the resolution is different then calculate new size proportion
@@ -6002,7 +7700,7 @@ Private Sub tmrPrefsScreenResolution_Timer()
 '                oldPrefsFormMonitorID = prefsFormMonitorID
 '                oldPrefsMonitorStructWidthTwips = monitorStructWidthTwips
 '                oldPrefsMonitorStructHeightTwips = monitorStructHeightTwips
-'                oldPrefsGaugeLeftPixels = widgetPrefs.Left
+'                oldPrefsClockLeftPixels = widgetPrefs.Left
 '            End If
 '
 '    End If
@@ -6152,7 +7850,7 @@ Private Sub sliOpacity_Click()
     If pvtPrefsStartupFlg = False Then
         gblOpacity = CStr(sliOpacity.Value)
     
-        sPutINISetting "Software\UBoatStopWatch", "opacity", gblOpacity, gblSettingsFile
+        sPutINISetting "Software\SteampunkClockCalendar", "opacity", gblOpacity, gblSettingsFile
         
         'Call setOpacity(sliOpacity.Value) ' this works but reveals the background form itself
         
@@ -6180,7 +7878,7 @@ End Sub
 ' Procedure : sliOpacity_Change
 ' Author    : beededea
 ' Date      : 18/02/2025
-' Purpose   : slider to change opacity of the whole gauge.
+' Purpose   : slider to change opacity of the whole clock.
 '---------------------------------------------------------------------------------------
 '
 Private Sub sliOpacity_Change()
@@ -6200,7 +7898,7 @@ End Sub
 ' Procedure : sliGaugeSize_Change
 ' Author    : beededea
 ' Date      : 30/09/2023
-' Purpose   : slider to change the size of the whole gauge.
+' Purpose   : slider to change the size of the whole clock.
 '---------------------------------------------------------------------------------------
 '
 Public Sub sliGaugeSize_Change()
@@ -6208,8 +7906,8 @@ Public Sub sliGaugeSize_Change()
 
     btnSave.Enabled = True ' enable the save button
     
-    'If pvtAllowSizeChangeFlg = True Then Call fGauge.AdjustZoom(sliGaugeSize.Value / 100)
-    If pvtAllowSizeChangeFlg = True Then Me.GaugeSize = sliGaugeSize.Value / 100
+    'If pvtAllowSizeChangeFlg = True Then Call fClock.AdjustZoom(sliGaugeSize.Value / 100)
+    If pvtAllowSizeChangeFlg = True Then Me.ClockSize = sliGaugeSize.Value / 100
     
     Call saveMainRCFormSize
 
@@ -6223,47 +7921,93 @@ sliGaugeSize_Change_Error:
 End Sub
 
 '---------------------------------------------------------------------------------------
-' Property  : GaugeSize
+' Property  : ClockSize
 ' Author    : beededea
 ' Date      : 17/05/2023
-' Purpose   : property to determine (by value) the GaugeSize of the whole widget
+' Purpose   : property to determine (by value) the ClockSize of the whole widget
 '---------------------------------------------------------------------------------------
 '
-Public Property Get GaugeSize() As Single
-   On Error GoTo gaugeSizeGet_Error
+Public Property Get ClockSize() As Single
+   On Error GoTo clockSizeGet_Error
 
-   GaugeSize = mGaugeSize
+   ClockSize = mClockSize
 
    On Error GoTo 0
    Exit Property
 
-gaugeSizeGet_Error:
+clockSizeGet_Error:
 
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property GaugeSize of Class Module cwoverlay"
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property ClockSize of Class Module cwoverlay"
 End Property
 
 '---------------------------------------------------------------------------------------
-' Property  : GaugeSize
+' Property  : ClockSize
 ' Author    : beededea
 ' Date      : 10/05/2023
-' Purpose   : property to determine (by value) the GaugeSize value of the whole widget
+' Purpose   : property to determine (by value) the ClockSize value of the whole widget
 '---------------------------------------------------------------------------------------
 '
-Public Property Let GaugeSize(ByVal newValue As Single)
-   On Error GoTo gaugeSizeLet_Error
+Public Property Let ClockSize(ByVal newValue As Single)
+   On Error GoTo clockSizeLet_Error
 
-    If mGaugeSize <> newValue Then mGaugeSize = newValue Else Exit Property
+    If mClockSize <> newValue Then mClockSize = newValue Else Exit Property
         
-    Call fGauge.AdjustZoom(mGaugeSize)
+    Call fClock.AdjustZoom(mClockSize)
 
    On Error GoTo 0
    Exit Property
 
-gaugeSizeLet_Error:
+clockSizeLet_Error:
 
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property GaugeSize of Class Module cwoverlay"
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property ClockSize of Class Module cwoverlay"
 End Property
 
+
+Private Sub txtAlarm1Date_Change()
+    btnSave.Enabled = True ' enable the save button
+End Sub
+
+Private Sub txtAlarm1Time_Change()
+    btnSave.Enabled = True ' enable the save button
+
+End Sub
+
+Private Sub txtAlarm2Date_Change()
+    btnSave.Enabled = True ' enable the save button
+End Sub
+
+Private Sub txtAlarm2Time_Change()
+    btnSave.Enabled = True ' enable the save button
+
+End Sub
+
+Private Sub txtAlarm3Date_Change()
+    btnSave.Enabled = True ' enable the save button
+End Sub
+
+
+Private Sub txtAlarm3Time_Change()
+    btnSave.Enabled = True ' enable the save button
+
+End Sub
+
+Private Sub txtAlarm4Date_Change()
+    btnSave.Enabled = True ' enable the save button
+End Sub
+
+Private Sub txtAlarm4Time_Change()
+    btnSave.Enabled = True ' enable the save button
+End Sub
+
+Private Sub txtAlarm5Date_Change()
+    btnSave.Enabled = True ' enable the save button
+
+End Sub
+
+Private Sub txtAlarm5Time_Change()
+    btnSave.Enabled = True ' enable the save button
+
+End Sub
 
 Private Sub txtDblClickCommand_Change()
     btnSave.Enabled = True ' enable the save button
@@ -6339,11 +8083,11 @@ Public Sub setPrefsTooltips()
     
     If optPrefsTooltips(0).Value = True Then
         ' module level balloon tooltip variables for subclassed comboBoxes ONLY.
-        pCmbMultiMonitorResizeBalloonTooltip = "This option will only appear on multi-monitor systems. This dropdown has three choices that affect the automatic sizing of both the main gauge and the preference utility. " & vbCrLf & vbCrLf & _
+        pCmbMultiMonitorResizeBalloonTooltip = "This option will only appear on multi-monitor systems. This dropdown has three choices that affect the automatic sizing of both the main clock and the preference utility. " & vbCrLf & vbCrLf & _
             "For monitors of different sizes, this allows you to resize the widget to suit the monitor it is currently sitting on. The automatic option resizes according to the relative proportions of the two screens.  " & vbCrLf & vbCrLf & _
-            "The manual option resizes according to sizes that you set manually. Just resize the gauge on the monitor of your choice and the program will store it. This option only works for no more than TWO monitors."
+            "The manual option resizes according to sizes that you set manually. Just resize the clock on the monitor of your choice and the program will store it. This option only works for no more than TWO monitors."
    
-        pCmbScrollWheelDirectionBalloonTooltip = "This option will allow you to change the direction of the mouse scroll wheel when resizing the gauge gauge. IF you want to resize the gauge on your desktop, hold the CTRL key along with moving the scroll wheel UP/DOWN. Some prefer scrolling UP rather than DOWN. You configure that here."
+        pCmbScrollWheelDirectionBalloonTooltip = "This option will allow you to change the direction of the mouse scroll wheel when resizing the clock gauge. IF you want to resize the clock on your desktop, hold the CTRL key along with moving the scroll wheel UP/DOWN. Some prefer scrolling UP rather than DOWN. You configure that here."
         pCmbWindowLevelBalloonTooltip = "You can determine the window level here. You can keep it above all other windows or you can set it to bottom to keep the widget below all other windows."
         pCmbHidingTimeBalloonTooltip = "The hiding time that you can set here determines how long the widget will disappear when you click the menu option to hide the widget."
         
@@ -6354,6 +8098,11 @@ Public Sub setPrefsTooltips()
         
         pCmbDebugBalloonTooltip = "Here you can set debug mode. This will enable the editor field and allow you to assign a VBP/TwinProj file for the " & gblCodingEnvironment & " IDE editor"
         
+        pCmbAlarmDayBalloonTooltip = "Enter a valid day of the month here. When you have entered both a date here and a time in the adjacent field, then click the > key to validate."
+        pCmbAlarmMonthBalloonTooltip = "Enter a valid month here. When you have entered both a date here and a time in the adjacent field, then click the > key to validate."
+        pCmbAlarmYearBalloonTooltip = "Enter a valid year here. When you have entered both a valid year here and a time in the adjacent fields, then click the > key to validate."
+        pCmbAlarmHoursBalloonTooltip = "Enter a valid hour here by typing a future time in 24hr military format, eg: 23:45. When you have entered both a date in the previous fields and a time here in these two fields, then click the > key to validate."
+        pCmbAlarmMinutesBalloonTooltip = "Enter valid minutes here by typing a future time in 24hr military format, eg: 23:45. When you have entered both a date in the previous fields and a time here, then click the > key to validate."
     Else
         ' module level balloon tooltip variables for subclassed comboBoxes ONLY.
         
@@ -6367,6 +8116,12 @@ Public Sub setPrefsTooltips()
         pCmbWidgetPositionBalloonTooltip = vbNullString
         pCmbAspectHiddenBalloonTooltip = vbNullString
         pCmbDebugBalloonTooltip = vbNullString
+        pCmbAlarmDayBalloonTooltip = vbNullString
+        pCmbAlarmMonthBalloonTooltip = vbNullString
+        pCmbAlarmYearBalloonTooltip = vbNullString
+        
+        pCmbAlarmHoursBalloonTooltip = vbNullString
+        pCmbAlarmMinutesBalloonTooltip = vbNullString
         
         ' for some reason, the balloon tooltip on the checkbox used to dismiss the balloon tooltips does not disappear, this forces it go away.
         CreateToolTip optPrefsTooltips(0).hWnd, "", _
@@ -6403,7 +8158,21 @@ Public Sub setPrefsTooltips()
         imgGeneralClicked.ToolTipText = "Opens the general tab"
         lblPosition(6).ToolTipText = "Tablets only. Don't fiddle with this unless you really know what you are doing. Here you can choose whether this the widget widget is hidden by default in either landscape or portrait mode or not at all. This option allows you to have certain widgets that do not obscure the screen in either landscape or portrait. If you accidentally set it so you can't find your widget on screen then change the setting here to NONE."
         chkGenStartup.ToolTipText = "Check this box to enable the automatic start of the program when Windows is started."
-        chkGaugeFunctions.ToolTipText = "When checked this box enables the spinning earth functionality. Any adjustment takes place instantly. "
+        chkTogglePendulum.ToolTipText = "Decide whether the pendulum swings or not. The math behind the graphics of a swinging pendulum requires processor power. Older single-core machines may experience a lot of cpu usage."
+        chk24HourClockMode.ToolTipText = "Decide whether the digital clock display should use military/twenty-four hour time or the 12-hour clock."
+        chkWidgetFunctions.ToolTipText = "When checked this box enables the spinning earth functionality. Any adjustment takes place instantly. "
+
+        btnNow(1).ToolTipText = "Fill all alarm fields in number 1 alarm with the date and time now."
+        btnNow(2).ToolTipText = "Fill all alarm fields in number 2 alarm with the date and time now."
+        btnNow(3).ToolTipText = "Fill all alarm fields in number 3 alarm with the date and time now."
+        btnNow(4).ToolTipText = "Fill all alarm fields in number 4 alarm with the date and time now."
+        btnNow(5).ToolTipText = "Fill all alarm fields in number 5 alarm with the date and time now."
+        
+        btnclearAlarm(1).ToolTipText = "Clear all alarm fields in number 1 alarm."
+        btnclearAlarm(2).ToolTipText = "Clear all alarm fields in number 2 alarm."
+        btnclearAlarm(3).ToolTipText = "Clear all alarm fields in number 3 alarm."
+        btnclearAlarm(4).ToolTipText = "Clear all alarm fields in number 4 alarm."
+        btnclearAlarm(5).ToolTipText = "Clear all alarm fields in number 5 alarm."
         
         txtPortraitYoffset.ToolTipText = "Field to hold the vertical offset for the widget position in portrait mode."
         txtPortraitHoffset.ToolTipText = "Field to hold the horizontal offset for the widget position in portrait mode."
@@ -6414,11 +8183,12 @@ Public Sub setPrefsTooltips()
         cmbWidgetPosition.ToolTipText = "Tablets only. The widget can be positioned proportionally when switching between portrait/landscape. If you want to enable this, disable the options below."
         cmbAspectHidden.ToolTipText = " Here you can choose whether the widget is hidden by default in either landscape or portrait mode or not at all. This allows you to have certain widgets that do not obscure the screen in one mode or another. If you accidentally set it so you can't find it on screen then change the setting here to none."
         chkEnableSounds.ToolTipText = "Check this box to enable or disable all of the sounds used during any animation on the main steampunk GUI as well as all other chimes, tick sounds."
-'        chkEnableTicks.ToolTipText = "Enables or disables just the sound of the gauge ticking."
-'        chkEnableChimes.ToolTipText = "Enables or disables just the gauge chimes."
-'        chkEnableAlarms.ToolTipText = "Enables or disables the gauge alarm chimes. Please note disabling this means your alarms will not alert you audibly!"
+        chkEnableTicks.ToolTipText = "Enables or disables just the sound of the clock ticking."
+        chkEnableChimes.ToolTipText = "Enables or disables just the clock chimes."
+        chkEnableAlarms.ToolTipText = "Enables or disables the clock alarm chimes. Please note disabling this means your alarms will not alert you audibly!"
+        chkNumericDisplayRotation.ToolTipText = "Check this box to enable or disable the Numeric Display Rotation."
         
-'        chkVolumeBoost.ToolTipText = "Sets the volume of the various sound elements, you can boost from quiet to loud."
+        chkVolumeBoost.ToolTipText = "Sets the volume of the various sound elements, you can boost from quiet to loud."
         btnDefaultEditor.ToolTipText = "Click to select the .vbp file to edit the program - You need to have access to the source!"
         txtDblClickCommand.ToolTipText = "Enter a Windows command for the gauge to operate when double-clicked."
         btnOpenFile.ToolTipText = "Click to select a particular file for the gauge to run or open when double-clicked."
@@ -6430,13 +8200,10 @@ Public Sub setPrefsTooltips()
         txtPrefsFont.ToolTipText = "Disabled for manual input. Choose a font via the font selector to be used only for this preferences window"
         txtPrefsFontSize.ToolTipText = "Disabled for manual input. Choose a font size via the font selector that fits the text boxes"
         
-        lblFontsTab(0).ToolTipText = "We suggest Centurion Light SF at 8pt - which you will find in the FCW program folder"
-        lblFontsTab(6).ToolTipText = "We suggest Centurion Light SF at 8pt - which you will find in the FCW program folder"
-        lblFontsTab(7).ToolTipText = "Choose a font size that fits the text boxes"
-        
-        txtDisplayScreenFontSize.ToolTipText = "Disabled for manual input. Choose a font size using the font selector to be used within the gauge display screen only"
+         
+        txtDisplayScreenFontSize.ToolTipText = "Disabled for manual input. Choose a font size using the font selector to be used within the clock display screen only"
         btnDisplayScreenFont.ToolTipText = "The Font Selector."
-        txtDisplayScreenFont.ToolTipText = "Disabled for manual input. Choose a font size using the font selector to be used within the gauge display screen only"
+        txtDisplayScreenFont.ToolTipText = "Disabled for manual input. Choose a font size using the font selector to be used within the clock display screen only"
         
         cmbWindowLevel.ToolTipText = "You can determine the window position here. Set to bottom to keep the widget below other windows."
         cmbHidingTime.ToolTipText = "The hiding time that you can set here determines how long the widget will disappear when you click the menu option to hide the widget."
@@ -6446,16 +8213,16 @@ Public Sub setPrefsTooltips()
         chkPreventDragging.ToolTipText = "Checking this box turns off the ability to drag the program with the mouse. The locking in position effect takes place instantly."
         chkIgnoreMouse.ToolTipText = "Checking this box causes the program to ignore all mouse events."
         sliOpacity.ToolTipText = "Set the transparency of the program. Any change in opacity takes place instantly."
-        cmbScrollWheelDirection.ToolTipText = "To change the direction of the mouse scroll wheel when resizing the gauge gauge."
+        cmbScrollWheelDirection.ToolTipText = "To change the direction of the mouse scroll wheel when resizing the clock gauge."
         
-        optGaugeTooltips(0).ToolTipText = "Check the box to enable larger balloon tooltips for all controls on the main program"
-        optGaugeTooltips(1).ToolTipText = "Check the box to enable RichClient square tooltips for all controls on the main program"
-        optGaugeTooltips(2).ToolTipText = "Check the box to disable tooltips for all controls on the main program"
+        optClockTooltips(0).ToolTipText = "Check the box to enable larger balloon tooltips for all controls on the main program"
+        optClockTooltips(1).ToolTipText = "Check the box to enable RichClient square tooltips for all controls on the main program"
+        optClockTooltips(2).ToolTipText = "Check the box to disable tooltips for all controls on the main program"
         
         chkShowTaskbar.ToolTipText = "Check the box to show the widget in the taskbar"
         chkShowHelp.ToolTipText = "Check the box to show the help page on startup"
         
-        sliGaugeSize.ToolTipText = "Adjust to a percentage of the original size. Any adjustment in size takes place instantly (you can also use Ctrl+Mousewheel hovering over the gauge itself)."
+        sliGaugeSize.ToolTipText = "Adjust to a percentage of the original size. Any adjustment in size takes place instantly (you can also use Ctrl+Mousewheel hovering over the clock itself)."
         btnFacebook.ToolTipText = "This will link you to the our Steampunk/Dieselpunk program users Group."
         imgAbout.ToolTipText = "Opens the About tab"
         btnAboutDebugInfo.ToolTipText = "This gives access to the debugging tool"
@@ -6475,6 +8242,54 @@ Public Sub setPrefsTooltips()
         optPrefsTooltips(2).ToolTipText = "This setting enables/disables the tooltips for all elements within this Preference Utility."
 
         btnResetMessages.ToolTipText = "This button restores the pop-up messages to their original visible state."
+        
+        cmbAlarm1Day.ToolTipText = "Enter a valid day of the month here. When you have entered both a date here and a time in the adjacent field, then click the > key to validate."
+        cmbAlarm2Day.ToolTipText = "Enter a valid day of the month here. When you have entered both a date here and a time in the adjacent field, then click the > key to validate."
+        cmbAlarm3Day.ToolTipText = "Enter a valid day of the month here. When you have entered both a date here and a time in the adjacent field, then click the > key to validate."
+        cmbAlarm4Day.ToolTipText = "Enter a valid day of the month here. When you have entered both a date here and a time in the adjacent field, then click the > key to validate."
+        cmbAlarm5Day.ToolTipText = "Enter a valid day of the month here. When you have entered both a date here and a time in the adjacent field, then click the > key to validate."
+        
+        cmbAlarm1Month.ToolTipText = "Enter a valid month here. When you have entered both a date here and a time in the adjacent field, then click the > key to validate."
+        cmbAlarm2Month.ToolTipText = "Enter a valid month here. When you have entered both a date here and a time in the adjacent field, then click the > key to validate."
+        cmbAlarm3Month.ToolTipText = "Enter a valid month here. When you have entered both a date here and a time in the adjacent field, then click the > key to validate."
+        cmbAlarm4Month.ToolTipText = "Enter a valid month here. When you have entered both a date here and a time in the adjacent field, then click the > key to validate."
+        cmbAlarm5Month.ToolTipText = "Enter a valid month here. When you have entered both a date here and a time in the adjacent field, then click the > key to validate."
+        
+        cmbAlarm1Year.ToolTipText = "Enter a valid year here. When you have entered both a valid year here and a time in the adjacent fields, then click the > key to validate."
+        cmbAlarm2Year.ToolTipText = "Enter a valid year here. When you have entered both a valid year here and a time in the adjacent fields, then click the > key to validate."
+        cmbAlarm3Year.ToolTipText = "Enter a valid year here. When you have entered both a valid year here and a time in the adjacent fields, then click the > key to validate."
+        cmbAlarm4Year.ToolTipText = "Enter a valid year here. When you have entered both a valid year here and a time in the adjacent fields, then click the > key to validate."
+        cmbAlarm5Year.ToolTipText = "Enter a valid year here. When you have entered both a valid year here and a time in the adjacent fields, then click the > key to validate."
+        
+        cmbAlarm1Hours.ToolTipText = "Enter a valid hour here by typing a future time in 24hr military format, eg: 23:45. When you have entered both a date in the previous fields and a time here in these two fields, then click the > key to validate."
+        cmbAlarm2Hours.ToolTipText = "Enter a valid hour here by typing a future time in 24hr military format, eg: 23:45. When you have entered both a date in the previous fields and a time here in these two fields, then click the > key to validate."
+        cmbAlarm3Hours.ToolTipText = "Enter a valid hour here by typing a future time in 24hr military format, eg: 23:45. When you have entered both a date in the previous fields and a time here in these two fields, then click the > key to validate."
+        cmbAlarm4Hours.ToolTipText = "Enter a valid hour here by typing a future time in 24hr military format, eg: 23:45. When you have entered both a date in the previous fields and a time here in these two fields, then click the > key to validate."
+        cmbAlarm5Hours.ToolTipText = "Enter a valid hour here by typing a future time in 24hr military format, eg: 23:45. When you have entered both a date in the previous fields and a time here in these two fields, then click the > key to validate."
+        
+        cmbAlarm1Minutes.ToolTipText = "Enter valid minutes here by typing a future time in 24hr military format, eg: 23:45. When you have entered both a date in the previous fields and a time here, then click the > key to validate."
+        cmbAlarm2Minutes.ToolTipText = "Enter valid minutes here by typing a future time in 24hr military format, eg: 23:45. When you have entered both a date in the previous fields and a time here, then click the > key to validate."
+        cmbAlarm3Minutes.ToolTipText = "Enter valid minutes here by typing a future time in 24hr military format, eg: 23:45. When you have entered both a date in the previous fields and a time here, then click the > key to validate."
+        cmbAlarm4Minutes.ToolTipText = "Enter valid minutes here by typing a future time in 24hr military format, eg: 23:45. When you have entered both a date in the previous fields and a time here, then click the > key to validate."
+        cmbAlarm5Minutes.ToolTipText = "Enter valid minutes here by typing a future time in 24hr military format, eg: 23:45. When you have entered both a date in the previous fields and a time here, then click the > key to validate."
+        
+        txtAlarm1Date.ToolTipText = "This is alarm number one, set the date here using the alarm toggle and slider or by editing any values shown here."
+        txtAlarm2Date.ToolTipText = "This is alarm number two, set the date here using the alarm toggle and slider or by editing any values shown here."
+        txtAlarm3Date.ToolTipText = "This is alarm number three, set the date here using the alarm toggle and slider or by editing any values shown here."
+        txtAlarm4Date.ToolTipText = "This is alarm number four, set the date here using the alarm toggle and slider or by editing any values shown here."
+        txtAlarm5Date.ToolTipText = "This is alarm number five, set the date here using the alarm toggle and slider or by editing any values shown here."
+        
+        txtAlarm1Time.ToolTipText = "This is alarm number one, set the time here using the alarm toggle and slider or by editing any values shown here."
+        txtAlarm2Time.ToolTipText = "This is alarm number two, set the time here using the alarm toggle and slider or by editing any values shown here."
+        txtAlarm3Time.ToolTipText = "This is alarm number three, set the time here using the alarm toggle and slider or by editing any values shown here."
+        txtAlarm4Time.ToolTipText = "This is alarm number four, set the time here using the alarm toggle and slider or by editing any values shown here."
+        txtAlarm5Time.ToolTipText = "This is alarm number five, set the time here using the alarm toggle and slider or by editing any values shown here."
+        
+        btnVerifyDateTime1.ToolTipText = "Verify Date Time for alarm number 1"
+        btnVerifyDateTime2.ToolTipText = "Verify Date Time for alarm number 2"
+        btnVerifyDateTime3.ToolTipText = "Verify Date Time for alarm number 3"
+        btnVerifyDateTime4.ToolTipText = "Verify Date Time for alarm number 4"
+        btnVerifyDateTime5.ToolTipText = "Verify Date Time for alarm number 5"
         
 
     Else
@@ -6499,8 +8314,23 @@ Public Sub setPrefsTooltips()
         imgGeneral.ToolTipText = vbNullString
         imgGeneralClicked.ToolTipText = vbNullString
         chkGenStartup.ToolTipText = vbNullString
-        chkGaugeFunctions.ToolTipText = vbNullString
-                
+        chkTogglePendulum.ToolTipText = vbNullString
+        chk24HourClockMode.ToolTipText = vbNullString
+        chkWidgetFunctions.ToolTipText = vbNullString
+        
+
+        btnNow(1).ToolTipText = vbNullString
+        btnNow(2).ToolTipText = vbNullString
+        btnNow(3).ToolTipText = vbNullString
+        btnNow(4).ToolTipText = vbNullString
+        btnNow(5).ToolTipText = vbNullString
+        
+        btnclearAlarm(1).ToolTipText = vbNullString
+        btnclearAlarm(2).ToolTipText = vbNullString
+        btnclearAlarm(3).ToolTipText = vbNullString
+        btnclearAlarm(4).ToolTipText = vbNullString
+        btnclearAlarm(5).ToolTipText = vbNullString
+        
         txtPortraitYoffset.ToolTipText = vbNullString
         txtPortraitHoffset.ToolTipText = vbNullString
         txtLandscapeVoffset.ToolTipText = vbNullString
@@ -6510,10 +8340,11 @@ Public Sub setPrefsTooltips()
         cmbWidgetPosition.ToolTipText = vbNullString
         cmbAspectHidden.ToolTipText = vbNullString
         chkEnableSounds.ToolTipText = vbNullString
-'        chkEnableTicks.ToolTipText = vbNullString
-'        chkEnableChimes.ToolTipText = vbNullString
-'        chkEnableAlarms.ToolTipText = vbNullString
-        'chkVolumeBoost.ToolTipText = vbNullString
+        chkEnableTicks.ToolTipText = vbNullString
+        chkEnableChimes.ToolTipText = vbNullString
+        chkEnableAlarms.ToolTipText = vbNullString
+        chkNumericDisplayRotation.ToolTipText = vbNullString
+        chkVolumeBoost.ToolTipText = vbNullString
         
         btnDefaultEditor.ToolTipText = vbNullString
         txtDblClickCommand.ToolTipText = vbNullString
@@ -6540,9 +8371,9 @@ Public Sub setPrefsTooltips()
         sliOpacity.ToolTipText = vbNullString
         cmbScrollWheelDirection.ToolTipText = vbNullString
         
-        optGaugeTooltips(0).ToolTipText = vbNullString
-        optGaugeTooltips(1).ToolTipText = vbNullString
-        optGaugeTooltips(2).ToolTipText = vbNullString
+        optClockTooltips(0).ToolTipText = vbNullString
+        optClockTooltips(1).ToolTipText = vbNullString
+        optClockTooltips(2).ToolTipText = vbNullString
         
         chkShowTaskbar.ToolTipText = vbNullString
         chkShowHelp.ToolTipText = vbNullString
@@ -6564,6 +8395,47 @@ Public Sub setPrefsTooltips()
         
         btnResetMessages.ToolTipText = vbNullString
     
+        cmbAlarm1Day.ToolTipText = vbNullString
+        cmbAlarm2Day.ToolTipText = vbNullString
+        cmbAlarm3Day.ToolTipText = vbNullString
+        cmbAlarm4Day.ToolTipText = vbNullString
+        cmbAlarm5Day.ToolTipText = vbNullString
+        
+        cmbAlarm1Month.ToolTipText = vbNullString
+        cmbAlarm2Month.ToolTipText = vbNullString
+        cmbAlarm3Month.ToolTipText = vbNullString
+        cmbAlarm4Month.ToolTipText = vbNullString
+        cmbAlarm5Month.ToolTipText = vbNullString
+        
+        cmbAlarm1Year.ToolTipText = vbNullString
+        cmbAlarm2Year.ToolTipText = vbNullString
+        cmbAlarm3Year.ToolTipText = vbNullString
+        cmbAlarm4Year.ToolTipText = vbNullString
+        cmbAlarm5Year.ToolTipText = vbNullString
+        
+        cmbAlarm1Hours.ToolTipText = vbNullString
+        cmbAlarm2Hours.ToolTipText = vbNullString
+        cmbAlarm3Hours.ToolTipText = vbNullString
+        cmbAlarm4Hours.ToolTipText = vbNullString
+        cmbAlarm5Hours.ToolTipText = vbNullString
+        
+        cmbAlarm1Minutes.ToolTipText = vbNullString
+        cmbAlarm2Minutes.ToolTipText = vbNullString
+        cmbAlarm3Minutes.ToolTipText = vbNullString
+        cmbAlarm4Minutes.ToolTipText = vbNullString
+        cmbAlarm5Minutes.ToolTipText = vbNullString
+        
+        txtAlarm1Date.ToolTipText = vbNullString
+        txtAlarm2Date.ToolTipText = vbNullString
+        txtAlarm3Date.ToolTipText = vbNullString
+        txtAlarm4Date.ToolTipText = vbNullString
+        txtAlarm5Date.ToolTipText = vbNullString
+    
+        btnVerifyDateTime1.ToolTipText = vbNullString
+        btnVerifyDateTime2.ToolTipText = vbNullString
+        btnVerifyDateTime3.ToolTipText = vbNullString
+        btnVerifyDateTime4.ToolTipText = vbNullString
+        btnVerifyDateTime5.ToolTipText = vbNullString
     End If
 
    On Error GoTo 0
@@ -6586,8 +8458,9 @@ Private Sub setPrefsLabels()
 
     On Error GoTo setPrefsLabels_Error
 
-    lblFontsTab(0).Caption = "When resizing the form (drag bottom right) the font size will in relation to form height. The base font determines the initial size, the resulting resized font will dynamically change." & vbCrLf & vbCrLf & _
-        "My preferred font for this utility is Centurion Light SF at 8pt size."
+'    lblFontsTab(0).Caption = "When resizing the form (drag bottom right) the font size will in relation to form height. The base font determines the initial size, the resulting resized font will dynamically change." & vbCrLf & vbCrLf & _
+'        "" & vbCrLf & vbCrLf & _
+'        "My preferred font for this utility is Centurion Light SF at 8pt size."
 
     On Error GoTo 0
     Exit Sub
@@ -6638,7 +8511,7 @@ Private Sub loadPrefsAboutText()
     
     Call LoadFileToTB(txtAboutText, App.path & "\resources\txt\about.txt", False)
     
-    ' ' fGauge.RotateBusyTimer = True
+    fClock.RotateBusyTimer = True
     
    On Error GoTo 0
    Exit Sub
@@ -6676,7 +8549,7 @@ Private Sub picButtonMouseUpEvent(ByVal thisTabName As String, ByRef thisPicName
     Call clearBorderStyle
 
     gblLastSelectedTab = thisTabName
-    sPutINISetting "Software\UBoatStopWatch", "lastSelectedTab", gblLastSelectedTab, gblSettingsFile
+    sPutINISetting "Software\SteampunkClockCalendar", "lastSelectedTab", gblLastSelectedTab, gblSettingsFile
 
     thisFraName.Visible = True
     
@@ -7010,7 +8883,7 @@ Private Sub setThemeShade(ByVal redC As Integer, ByVal greenC As Integer, ByVal 
     sliOpacity.BackColor = RGB(redC, greenC, blueC)
     txtAboutText.BackColor = RGB(redC, greenC, blueC)
     
-    sPutINISetting "Software\UBoatStopWatch", "skinTheme", gblSkinTheme, gblSettingsFile
+    sPutINISetting "Software\SteampunkClockCalendar", "skinTheme", gblSkinTheme, gblSettingsFile
 
     On Error GoTo 0
     Exit Sub
@@ -7094,7 +8967,7 @@ Private Sub adjustPrefsTheme()
         End If
     End If
     
-    ' ' fGauge.RotateBusyTimer = True
+    fClock.RotateBusyTimer = True
 
    On Error GoTo 0
    Exit Sub
@@ -7183,7 +9056,7 @@ Private Sub loadHigherResPrefsImages()
         Call setPrefsIconImagesLight
     End If
     
-    ' ' fGauge.RotateBusyTimer = True
+    fClock.RotateBusyTimer = True
     
    On Error GoTo 0
    Exit Sub
@@ -7337,110 +9210,110 @@ Private Sub setPrefsIconImagesDark()
 '    #If TWINBASIC Then
 '
 '        Set imgGeneral.Picture = LoadPicture(App.path & "\Resources\images\general-icon-dark-1010.jpg")
-'        ' fGauge.RotateBusyTimer = True
+'        fClock.RotateBusyTimer = True
 '
 '        Set imgConfig.Picture = LoadPicture(App.path & "\Resources\images\config-icon-dark-1010.jpg")
-'        ' fGauge.RotateBusyTimer = True
+'        fClock.RotateBusyTimer = True
 '
 '        Set imgFonts.Picture = LoadPicture(App.path & "\Resources\images\font-icon-dark-1010.jpg")
-'        ' fGauge.RotateBusyTimer = True
+'        fClock.RotateBusyTimer = True
 '
 '        Set imgSounds.Picture = LoadPicture(App.path & "\Resources\images\sounds-icon-dark-1010.jpg")
-'        ' fGauge.RotateBusyTimer = True
+'        fClock.RotateBusyTimer = True
 '
 '        Set imgPosition.Picture = LoadPicture(App.path & "\Resources\images\position-icon-dark-1010.jpg")
-'        ' fGauge.RotateBusyTimer = True
+'        fClock.RotateBusyTimer = True
 '
 '        Set imgDevelopment.Picture = LoadPicture(App.path & "\Resources\images\development-icon-dark-1010.jpg")
-'        ' fGauge.RotateBusyTimer = True
+'        fClock.RotateBusyTimer = True
 '
 '        Set imgWindow.Picture = LoadPicture(App.path & "\Resources\images\windows-icon-dark-1010.jpg")
-'        ' fGauge.RotateBusyTimer = True
+'        fClock.RotateBusyTimer = True
 '
 '        Set imgAbout.Picture = LoadPicture(App.path & "\Resources\images\about-icon-dark-1010.jpg")
-'        ' fGauge.RotateBusyTimer = True
+'        fClock.RotateBusyTimer = True
 '
 '    '
-'        ' fGauge.RotateBusyTimer = True
+'        fClock.RotateBusyTimer = True
 '
 '        Set imgGeneralClicked.Picture = LoadPicture(App.path & "\Resources\images\general-icon-dark-600-clicked.jpg")
-'        ' fGauge.RotateBusyTimer = True
+'        fClock.RotateBusyTimer = True
 '
 '        Set imgConfigClicked.Picture = LoadPicture(App.path & "\Resources\images\config-icon-dark-600-clicked.jpg")
-'        ' fGauge.RotateBusyTimer = True
+'        fClock.RotateBusyTimer = True
 '
 '        Set imgFontsClicked.Picture = LoadPicture(App.path & "\Resources\images\font-icon-dark-600-clicked.jpg")
-'        ' fGauge.RotateBusyTimer = True
+'        fClock.RotateBusyTimer = True
 '
 '        Set imgSoundsClicked.Picture = LoadPicture(App.path & "\Resources\images\sounds-icon-dark-600-clicked.jpg")
-'        ' fGauge.RotateBusyTimer = True
+'        fClock.RotateBusyTimer = True
 '
 '        Set imgPositionClicked.Picture = LoadPicture(App.path & "\Resources\images\position-icon-dark-600-clicked.jpg")
-'        ' fGauge.RotateBusyTimer = True
+'        fClock.RotateBusyTimer = True
 '
 '        Set imgDevelopmentClicked.Picture = LoadPicture(App.path & "\Resources\images\development-icon-dark-600-clicked.jpg")
-'        ' fGauge.RotateBusyTimer = True
+'        fClock.RotateBusyTimer = True
 '
 '        Set imgWindowClicked.Picture = LoadPicture(App.path & "\Resources\images\windows-icon-dark-600-clicked.jpg")
-'        ' fGauge.RotateBusyTimer = True
+'        fClock.RotateBusyTimer = True
 '
 '        Set imgAboutClicked.Picture = LoadPicture(App.path & "\Resources\images\about-icon-dark-600-clicked.jpg")
-'        ' fGauge.RotateBusyTimer = True
+'        fClock.RotateBusyTimer = True
 '
 '
 '    #Else
         
         Set imgGeneral.Picture = Cairo.ImageList("general-icon-dark").Picture
-        ' fGauge.RotateBusyTimer = True
+        fClock.RotateBusyTimer = True
     
         Set imgConfig.Picture = Cairo.ImageList("config-icon-dark").Picture
-        ' fGauge.RotateBusyTimer = True
+        fClock.RotateBusyTimer = True
         
 '        Set imgConfig.Picture = LoadPicture(App.path & "\Resources\images\config-icon-dark-1010.jpg")
-'        ' fGauge.RotateBusyTimer = True
+'        fClock.RotateBusyTimer = True
         
         Set imgFonts.Picture = Cairo.ImageList("font-icon-dark").Picture
-        ' fGauge.RotateBusyTimer = True
+        fClock.RotateBusyTimer = True
         
         Set imgSounds.Picture = Cairo.ImageList("sounds-icon-dark").Picture
-        ' fGauge.RotateBusyTimer = True
+        fClock.RotateBusyTimer = True
         
         Set imgPosition.Picture = Cairo.ImageList("position-icon-dark").Picture
-        ' fGauge.RotateBusyTimer = True
+        fClock.RotateBusyTimer = True
         
         Set imgDevelopment.Picture = Cairo.ImageList("development-icon-dark").Picture
-        ' fGauge.RotateBusyTimer = True
+        fClock.RotateBusyTimer = True
         
         Set imgWindow.Picture = Cairo.ImageList("windows-icon-dark").Picture
-        ' fGauge.RotateBusyTimer = True
+        fClock.RotateBusyTimer = True
         
         Set imgAbout.Picture = Cairo.ImageList("about-icon-dark").Picture
-        ' fGauge.RotateBusyTimer = True
+        fClock.RotateBusyTimer = True
         
     '
         Set imgGeneralClicked.Picture = Cairo.ImageList("general-icon-dark-clicked").Picture
-        ' fGauge.RotateBusyTimer = True
+        fClock.RotateBusyTimer = True
         
         Set imgConfigClicked.Picture = Cairo.ImageList("config-icon-dark-clicked").Picture
-        ' fGauge.RotateBusyTimer = True
+        fClock.RotateBusyTimer = True
         
         Set imgFontsClicked.Picture = Cairo.ImageList("font-icon-dark-clicked").Picture
-        ' fGauge.RotateBusyTimer = True
+        fClock.RotateBusyTimer = True
         
         Set imgSoundsClicked.Picture = Cairo.ImageList("sounds-icon-dark-clicked").Picture
-        ' fGauge.RotateBusyTimer = True
+        fClock.RotateBusyTimer = True
         
         Set imgPositionClicked.Picture = Cairo.ImageList("position-icon-dark-clicked").Picture
-        ' fGauge.RotateBusyTimer = True
+        fClock.RotateBusyTimer = True
         
         Set imgDevelopmentClicked.Picture = Cairo.ImageList("development-icon-dark-clicked").Picture
-        ' fGauge.RotateBusyTimer = True
+        fClock.RotateBusyTimer = True
         
         Set imgWindowClicked.Picture = Cairo.ImageList("windows-icon-dark-clicked").Picture
-        ' fGauge.RotateBusyTimer = True
+        fClock.RotateBusyTimer = True
         
         Set imgAboutClicked.Picture = Cairo.ImageList("about-icon-dark-clicked").Picture
-        ' fGauge.RotateBusyTimer = True
+        fClock.RotateBusyTimer = True
         
     
 '    #End If
@@ -7469,107 +9342,107 @@ Private Sub setPrefsIconImagesLight()
 '    #If TWINBASIC Then
 '
 '        Set imgGeneral.Picture = LoadPicture(App.path & "\Resources\images\general-icon-light-1010.jpg")
-'        ' fGauge.RotateBusyTimer = True
+'        fClock.RotateBusyTimer = True
 '
 '        Set imgConfig.Picture = LoadPicture(App.path & "\Resources\images\config-icon-light-1010.jpg")
-'        ' fGauge.RotateBusyTimer = True
+'        fClock.RotateBusyTimer = True
 '
 '        Set imgFonts.Picture = LoadPicture(App.path & "\Resources\images\font-icon-light-1010.jpg")
-'        ' fGauge.RotateBusyTimer = True
+'        fClock.RotateBusyTimer = True
 '
 '        Set imgSounds.Picture = LoadPicture(App.path & "\Resources\images\sounds-icon-light-1010.jpg")
-'        ' fGauge.RotateBusyTimer = True
+'        fClock.RotateBusyTimer = True
 '
 '        Set imgPosition.Picture = LoadPicture(App.path & "\Resources\images\position-icon-light-1010.jpg")
-'        ' fGauge.RotateBusyTimer = True
+'        fClock.RotateBusyTimer = True
 '
 '        Set imgDevelopment.Picture = LoadPicture(App.path & "\Resources\images\development-icon-light-1010.jpg")
-'        ' fGauge.RotateBusyTimer = True
+'        fClock.RotateBusyTimer = True
 '
 '        Set imgWindow.Picture = LoadPicture(App.path & "\Resources\images\windows-icon-light-1010.jpg")
-'        ' fGauge.RotateBusyTimer = True
+'        fClock.RotateBusyTimer = True
 '
 '        Set imgAbout.Picture = LoadPicture(App.path & "\Resources\images\about-icon-light-1010.jpg")
-'        ' fGauge.RotateBusyTimer = True
+'        fClock.RotateBusyTimer = True
 '
 '        Set imgGeneralClicked.Picture = LoadPicture(App.path & "\Resources\images\general-icon-light-600-clicked.jpg")
-'        ' fGauge.RotateBusyTimer = True
+'        fClock.RotateBusyTimer = True
 '
 '        Set imgConfigClicked.Picture = LoadPicture(App.path & "\Resources\images\config-icon-light-600-clicked.jpg")
-'        ' fGauge.RotateBusyTimer = True
+'        fClock.RotateBusyTimer = True
 '
 '        Set imgFontsClicked.Picture = LoadPicture(App.path & "\Resources\images\font-icon-light-600-clicked.jpg")
-'        ' fGauge.RotateBusyTimer = True
+'        fClock.RotateBusyTimer = True
 '
 '        Set imgSoundsClicked.Picture = LoadPicture(App.path & "\Resources\images\sounds-icon-light-600-clicked.jpg")
-'        ' fGauge.RotateBusyTimer = True
+'        fClock.RotateBusyTimer = True
 '
 '        Set imgPositionClicked.Picture = LoadPicture(App.path & "\Resources\images\position-icon-light-600-clicked.jpg")
-'        ' fGauge.RotateBusyTimer = True
+'        fClock.RotateBusyTimer = True
 '
 '        Set imgDevelopmentClicked.Picture = LoadPicture(App.path & "\Resources\images\development-icon-light-600-clicked.jpg")
-'        ' fGauge.RotateBusyTimer = True
+'        fClock.RotateBusyTimer = True
 '
 '        Set imgWindowClicked.Picture = LoadPicture(App.path & "\Resources\images\windows-icon-light-600-clicked.jpg")
-'        ' fGauge.RotateBusyTimer = True
+'        fClock.RotateBusyTimer = True
 '
 '        Set imgAboutClicked.Picture = LoadPicture(App.path & "\Resources\images\about-icon-light-600-clicked.jpg")
-'        ' fGauge.RotateBusyTimer = True
+'        fClock.RotateBusyTimer = True
 '
 '
 '    #Else
         
         Set imgGeneral.Picture = Cairo.ImageList("general-icon-light").Picture
-        ' fGauge.RotateBusyTimer = True
+        fClock.RotateBusyTimer = True
         
         Set imgConfig.Picture = Cairo.ImageList("config-icon-light").Picture
-        ' fGauge.RotateBusyTimer = True
+        fClock.RotateBusyTimer = True
         
         
 '        Set imgConfig.Picture = LoadPicture(App.path & "\Resources\images\config-icon-light-1010.jpg")
-'        ' fGauge.RotateBusyTimer = True
+'        fClock.RotateBusyTimer = True
         
         Set imgFonts.Picture = Cairo.ImageList("font-icon-light").Picture
-        ' fGauge.RotateBusyTimer = True
+        fClock.RotateBusyTimer = True
         
         Set imgSounds.Picture = Cairo.ImageList("sounds-icon-light").Picture
-        ' fGauge.RotateBusyTimer = True
+        fClock.RotateBusyTimer = True
         
         Set imgPosition.Picture = Cairo.ImageList("position-icon-light").Picture
-        ' fGauge.RotateBusyTimer = True
+        fClock.RotateBusyTimer = True
         
         Set imgDevelopment.Picture = Cairo.ImageList("development-icon-light").Picture
-        ' fGauge.RotateBusyTimer = True
+        fClock.RotateBusyTimer = True
         
         Set imgWindow.Picture = Cairo.ImageList("windows-icon-light").Picture
-        ' fGauge.RotateBusyTimer = True
+        fClock.RotateBusyTimer = True
         
         Set imgAbout.Picture = Cairo.ImageList("about-icon-light").Picture
-        ' fGauge.RotateBusyTimer = True
+        fClock.RotateBusyTimer = True
         
         Set imgGeneralClicked.Picture = Cairo.ImageList("general-icon-light-clicked").Picture
-        ' fGauge.RotateBusyTimer = True
+        fClock.RotateBusyTimer = True
         
         Set imgConfigClicked.Picture = Cairo.ImageList("config-icon-light-clicked").Picture
-        ' fGauge.RotateBusyTimer = True
+        fClock.RotateBusyTimer = True
         
         Set imgFontsClicked.Picture = Cairo.ImageList("font-icon-light-clicked").Picture
-        ' fGauge.RotateBusyTimer = True
+        fClock.RotateBusyTimer = True
         
         Set imgSoundsClicked.Picture = Cairo.ImageList("sounds-icon-light-clicked").Picture
-        ' fGauge.RotateBusyTimer = True
+        fClock.RotateBusyTimer = True
         
         Set imgPositionClicked.Picture = Cairo.ImageList("position-icon-light-clicked").Picture
-        ' fGauge.RotateBusyTimer = True
+        fClock.RotateBusyTimer = True
         
         Set imgDevelopmentClicked.Picture = Cairo.ImageList("development-icon-light-clicked").Picture
-        ' fGauge.RotateBusyTimer = True
+        fClock.RotateBusyTimer = True
         
         Set imgWindowClicked.Picture = Cairo.ImageList("windows-icon-light-clicked").Picture
-        ' fGauge.RotateBusyTimer = True
+        fClock.RotateBusyTimer = True
         
         Set imgAboutClicked.Picture = Cairo.ImageList("about-icon-light-clicked").Picture
-        ' fGauge.RotateBusyTimer = True
+        fClock.RotateBusyTimer = True
             
 '    #End If
         
@@ -7605,10 +9478,10 @@ Private Sub tmrPrefsMonitorSaveHeight_Timer()
  
     If prefsMonitorStruct.IsPrimary = True Then
         gblPrefsPrimaryHeightTwips = Trim$(CStr(widgetPrefs.Height))
-        sPutINISetting "Software\UBoatStopWatch", "prefsPrimaryHeightTwips", gblPrefsPrimaryHeightTwips, gblSettingsFile
+        sPutINISetting "Software\SteampunkClockCalendar", "prefsPrimaryHeightTwips", gblPrefsPrimaryHeightTwips, gblSettingsFile
     Else
         gblPrefsSecondaryHeightTwips = Trim$(CStr(widgetPrefs.Height))
-        sPutINISetting "Software\UBoatStopWatch", "prefsSecondaryHeightTwips", gblPrefsSecondaryHeightTwips, gblSettingsFile
+        sPutINISetting "Software\SteampunkClockCalendar", "prefsSecondaryHeightTwips", gblPrefsSecondaryHeightTwips, gblSettingsFile
     End If
 
    On Error GoTo 0
@@ -7622,6 +9495,147 @@ End Sub
 
 
 
+
+'---------------------------------------------------------------------------------------
+' Procedure : btnNow_Click
+' Author    : beededea
+' Date      : 26/11/2024
+' Purpose   : button array to set the current alarm to current time
+'---------------------------------------------------------------------------------------
+'
+Private Sub btnNow_Click(Index As Integer)
+    Dim dateAndTime As String: dateAndTime = vbNullString
+    Dim alarmDateString As String: alarmDateString = vbNullString
+    Dim alarmTimeString As String: alarmTimeString = vbNullString
+    
+    On Error GoTo btnNow_Click_Error
+
+    dateAndTime = Now()
+    
+    alarmDateString = Left$(dateAndTime, 10)
+    alarmTimeString = Mid$(dateAndTime, 12, 5)
+    
+    ' fill the comboboxes for the current time
+    Select Case Index
+        Case 1
+            Call setAlarmDayValues(cmbAlarm1Day, alarmDateString)
+            Call setAlarmMonthValues(cmbAlarm1Month, alarmDateString)
+            Call setAlarmYearValues(cmbAlarm1Year, alarmDateString)
+            Call setAlarmHourValues(cmbAlarm1Hours, alarmTimeString)
+            Call setAlarmMinuteValues(cmbAlarm1Minutes, alarmTimeString)
+            txtAlarm1Date.Text = "Alarm not yet set"
+            txtAlarm1Time.Text = ""
+        Case 2
+            Call setAlarmDayValues(cmbAlarm2Day, alarmDateString)
+            Call setAlarmMonthValues(cmbAlarm2Month, alarmDateString)
+            Call setAlarmYearValues(cmbAlarm2Year, alarmDateString)
+            Call setAlarmHourValues(cmbAlarm2Hours, alarmTimeString)
+            Call setAlarmMinuteValues(cmbAlarm2Minutes, alarmTimeString)
+            txtAlarm2Date.Text = "Alarm not yet set"
+            txtAlarm2Time.Text = ""
+        Case 3
+            Call setAlarmDayValues(cmbAlarm3Day, alarmDateString)
+            Call setAlarmMonthValues(cmbAlarm3Month, alarmDateString)
+            Call setAlarmYearValues(cmbAlarm3Year, alarmDateString)
+            Call setAlarmHourValues(cmbAlarm3Hours, alarmTimeString)
+            Call setAlarmMinuteValues(cmbAlarm3Minutes, alarmTimeString)
+            txtAlarm3Date.Text = "Alarm not yet set"
+            txtAlarm1Time.Text = ""
+        Case 4
+            Call setAlarmDayValues(cmbAlarm4Day, alarmDateString)
+            Call setAlarmMonthValues(cmbAlarm4Month, alarmDateString)
+            Call setAlarmYearValues(cmbAlarm4Year, alarmDateString)
+            Call setAlarmHourValues(cmbAlarm4Hours, alarmTimeString)
+            Call setAlarmMinuteValues(cmbAlarm4Minutes, alarmTimeString)
+            txtAlarm4Date.Text = "Alarm not yet set"
+            txtAlarm4Time.Text = ""
+        Case 5
+            Call setAlarmDayValues(cmbAlarm5Day, alarmDateString)
+            Call setAlarmMonthValues(cmbAlarm5Month, alarmDateString)
+            Call setAlarmYearValues(cmbAlarm5Year, alarmDateString)
+            Call setAlarmHourValues(cmbAlarm5Hours, alarmTimeString)
+            Call setAlarmMinuteValues(cmbAlarm5Minutes, alarmTimeString)
+            txtAlarm5Date.Text = "Alarm not yet set"
+            txtAlarm5Time.Text = ""
+    
+    End Select
+    
+   On Error GoTo 0
+   Exit Sub
+
+btnNow_Click_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure btnNow_Click of Form widgetPrefs"
+    
+End Sub
+
+
+
+'---------------------------------------------------------------------------------------
+' Procedure : btnclearAlarm_Click
+' Author    : beededea
+' Date      : 26/11/2024
+' Purpose   : button array to clear the chosen alarm
+'---------------------------------------------------------------------------------------
+'
+Private Sub btnclearAlarm_Click(Index As Integer)
+    On Error GoTo btnclearAlarm_Click_Error
+
+    Select Case Index
+        Case 1
+            cmbAlarm1Day.ListIndex = 0
+            cmbAlarm1Month.ListIndex = 0
+            cmbAlarm1Year.ListIndex = 0
+            cmbAlarm1Hours.ListIndex = 0
+            cmbAlarm1Minutes.ListIndex = 0
+            txtAlarm1Date.Text = "Alarm not yet set"
+            txtAlarm1Time.Text = ""
+        Case 2
+            cmbAlarm2Day.ListIndex = 0
+            cmbAlarm2Month.ListIndex = 0
+            cmbAlarm2Year.ListIndex = 0
+            cmbAlarm2Hours.ListIndex = 0
+            cmbAlarm2Minutes.ListIndex = 0
+            txtAlarm2Date.Text = "Alarm not yet set"
+            txtAlarm2Time.Text = ""
+        Case 3
+            cmbAlarm3Day.ListIndex = 0
+            cmbAlarm3Month.ListIndex = 0
+            cmbAlarm3Year.ListIndex = 0
+            cmbAlarm3Hours.ListIndex = 0
+            cmbAlarm3Minutes.ListIndex = 0
+            txtAlarm3Date.Text = "Alarm not yet set"
+            txtAlarm3Time.Text = ""
+            
+        Case 4
+            cmbAlarm4Day.ListIndex = 0
+            cmbAlarm4Month.ListIndex = 0
+            cmbAlarm4Year.ListIndex = 0
+            cmbAlarm4Hours.ListIndex = 0
+            cmbAlarm4Minutes.ListIndex = 0
+            txtAlarm4Date.Text = "Alarm not yet set"
+            txtAlarm4Time.Text = ""
+            
+        Case 5
+            cmbAlarm5Day.ListIndex = 0
+            cmbAlarm5Month.ListIndex = 0
+            cmbAlarm5Year.ListIndex = 0
+            cmbAlarm5Hours.ListIndex = 0
+            cmbAlarm5Minutes.ListIndex = 0
+            txtAlarm5Date.Text = "Alarm not yet set"
+            txtAlarm5Time.Text = ""
+            
+        
+    End Select
+        
+
+   On Error GoTo 0
+   Exit Sub
+
+btnclearAlarm_Click_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure btnclearAlarm_Click of Form widgetPrefs"
+End Sub
 
 
 '\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/

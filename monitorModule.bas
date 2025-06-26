@@ -21,7 +21,7 @@ End Enum
 Public Const MONITORINFOF_PRIMARY As Integer = 1
 
 Public prefsMonitorStruct As UDTMonitor
-Public gaugeMonitorStruct As UDTMonitor
+Public clockMonitorStruct As UDTMonitor
 
 
 Public Type UDTMonitor
@@ -439,7 +439,7 @@ Public Sub positionPrefsByMonitorSize()
     'Static oldPrefsFormMonitorID As Long
     Static oldPrefsMonitorStructWidthTwips As Long
     Static oldPrefsMonitorStructHeightTwips As Long
-    Static oldPrefsGaugeLeftPixels As Long
+    Static oldPrefsClockLeftPixels As Long
         
     Dim prefsFormMonitorID As Long: prefsFormMonitorID = 0
     Dim prefsFormMonitorPrimary As Long: prefsFormMonitorPrimary = 0
@@ -477,13 +477,13 @@ Public Sub positionPrefsByMonitorSize()
         ' store other values as 'old' vars for latter comparison and usage
         If oldPrefsMonitorStructWidthTwips = 0 Then oldPrefsMonitorStructWidthTwips = monitorStructWidthTwips
         If oldPrefsMonitorStructHeightTwips = 0 Then oldPrefsMonitorStructHeightTwips = monitorStructHeightTwips
-        If oldPrefsGaugeLeftPixels = 0 Then oldPrefsGaugeLeftPixels = widgetPrefs.Left
+        If oldPrefsClockLeftPixels = 0 Then oldPrefsClockLeftPixels = widgetPrefs.Left
     
         ' if the monitor ID has changed
         If gblOldPrefsFormMonitorPrimary <> prefsFormMonitorPrimary Then
     
-            ' screenWrite ("Prefs Stored monitor primary status = " & CBool(gblOldPrefsFormMonitorPrimary))
-            ' screenWrite ("Prefs Current monitor primary status = " & CBool(prefsFormMonitorPrimary))
+            screenWrite ("Prefs Stored monitor primary status = " & CBool(gblOldPrefsFormMonitorPrimary))
+            screenWrite ("Prefs Current monitor primary status = " & CBool(prefsFormMonitorPrimary))
            
             If LTrim$(gblMultiMonitorResize) = "1" Then
                 'if the resolution is different then calculate new size proportion
@@ -511,7 +511,7 @@ Public Sub positionPrefsByMonitorSize()
         
         oldPrefsMonitorStructWidthTwips = monitorStructWidthTwips
         oldPrefsMonitorStructHeightTwips = monitorStructHeightTwips
-        oldPrefsGaugeLeftPixels = widgetPrefs.Left
+        oldPrefsClockLeftPixels = widgetPrefs.Left
 
     End If
 
@@ -642,10 +642,10 @@ Public Sub positionRCFormByMonitorSize()
     
     Static oldMonitorStructWidthTwips As Long
     Static oldMonitorStructHeightTwips As Long
-    Static oldGaugeLeftPixels As Long
+    Static oldClockLeftPixels As Long
         
-    Dim gaugeFormMonitorPrimary As Long: gaugeFormMonitorPrimary = 0
-    Dim gaugeFormMonitorID As Long: gaugeFormMonitorID = 0
+    Dim clockFormMonitorPrimary As Long: clockFormMonitorPrimary = 0
+    Dim clockFormMonitorID As Long: clockFormMonitorID = 0
     
     Dim monitorStructWidthTwips As Long: monitorStructWidthTwips = 0
     Dim monitorStructHeightTwips As Long: monitorStructHeightTwips = 0
@@ -655,72 +655,72 @@ Public Sub positionRCFormByMonitorSize()
   
     If gblMonitorCount > 1 And (LTrim$(gblMultiMonitorResize) = "1" Or LTrim$(gblMultiMonitorResize) = "2") Then
                     
-        ' note the monitor ID at gaugeForm form_load and store as the gaugeFormMonitorID
-        gaugeMonitorStruct = cWidgetFormScreenProperties(fGauge.gaugeForm, gaugeFormMonitorID)
+        ' note the monitor ID at clockForm form_load and store as the clockFormMonitorID
+        clockMonitorStruct = cWidgetFormScreenProperties(fClock.clockForm, clockFormMonitorID)
         
-        gaugeFormMonitorPrimary = gaugeMonitorStruct.IsPrimary
+        clockFormMonitorPrimary = clockMonitorStruct.IsPrimary
         
-        If fGauge.gaugeForm.Left = oldGaugeLeftPixels Then Exit Sub ' this can only work if the reposition is being performed by the timer
+        If fClock.clockForm.Left = oldClockLeftPixels Then Exit Sub ' this can only work if the reposition is being performed by the timer
         ' we are also calling it on a mouseUP event, so the comparison to original position is lost to us
     
         ' sample the physical monitor resolution
-        monitorStructWidthTwips = gaugeMonitorStruct.Width
-        monitorStructHeightTwips = gaugeMonitorStruct.Height
+        monitorStructWidthTwips = clockMonitorStruct.Width
+        monitorStructHeightTwips = clockMonitorStruct.Height
                 
         If oldMonitorStructWidthTwips = 0 Then oldMonitorStructWidthTwips = monitorStructWidthTwips
         If oldMonitorStructHeightTwips = 0 Then oldMonitorStructHeightTwips = monitorStructHeightTwips
-        If oldGaugeLeftPixels = 0 Then oldGaugeLeftPixels = fGauge.gaugeForm.Left
+        If oldClockLeftPixels = 0 Then oldClockLeftPixels = fClock.clockForm.Left
     
-        If gblOldgaugeFormMonitorPrimary <> gaugeFormMonitorPrimary Then
+        If gblOldClockFormMonitorPrimary <> clockFormMonitorPrimary Then
             
-            ' screenWrite ("Stored monitor primary status = " & CBool(gblOldgaugeFormMonitorPrimary))
-            ' screenWrite ("Current monitor primary status = " & CBool(gaugeFormMonitorPrimary))
+            screenWrite ("Stored monitor primary status = " & CBool(gblOldClockFormMonitorPrimary))
+            screenWrite ("Current monitor primary status = " & CBool(clockFormMonitorPrimary))
             
             If LTrim$(gblMultiMonitorResize) = "1" Then
                 'if the resolution is different then calculate new size proportion
                 If monitorStructWidthTwips <> oldMonitorStructWidthTwips Or monitorStructHeightTwips <> oldMonitorStructHeightTwips Then
-                    ' screenWrite ("Resizing by proportion per monitor ")
+                    screenWrite ("Resizing by proportion per monitor ")
                     
                     'now calculate the size of the widget according to the screen HeightTwips.
-                    resizeProportion = gaugeMonitorStruct.Height / oldMonitorStructHeightTwips
+                    resizeProportion = clockMonitorStruct.Height / oldMonitorStructHeightTwips
                     resizeProportion = (Val(gblGaugeSize) / 100) * resizeProportion
                     
                     'if  dragging from right to left then reposition
-                    If fGauge.gaugeForm.Left > oldGaugeLeftPixels Then
-                        fGauge.gaugeForm.Left = fGauge.gaugeForm.Left + fGauge.gaugeForm.Widgets("maincasingsurround").Widget.Left
+                    If fClock.clockForm.Left > oldClockLeftPixels Then
+                        fClock.clockForm.Left = fClock.clockForm.Left + fClock.clockForm.Widgets("maincasingsurround").Widget.Left
                     Else
-                        fGauge.gaugeForm.Left = fGauge.gaugeForm.Left - fGauge.gaugeForm.Widgets("maincasingsurround").Widget.Left
+                        fClock.clockForm.Left = fClock.clockForm.Left - fClock.clockForm.Widgets("maincasingsurround").Widget.Left
                     End If
-                    fGauge.gaugeForm.Refresh
-                    Call fGauge.AdjustZoom(resizeProportion)
+                    fClock.clockForm.Refresh
+                    Call fClock.AdjustZoom(resizeProportion)
                 End If
             ElseIf LTrim$(gblMultiMonitorResize) = "2" Then
-                ' screenWrite ("Resizing per monitor stored size ")
-                If gaugeMonitorStruct.IsPrimary = True Then
-                    If gblGaugePrimaryHeightRatio = "" Then gblGaugePrimaryHeightRatio = "1"
-                    resizeProportion = Val(gblGaugePrimaryHeightRatio)
+                screenWrite ("Resizing per monitor stored size ")
+                If clockMonitorStruct.IsPrimary = True Then
+                    If gblClockPrimaryHeightRatio = "" Then gblClockPrimaryHeightRatio = "1"
+                    resizeProportion = Val(gblClockPrimaryHeightRatio)
                 Else
-                    If gblGaugeSecondaryHeightRatio = "" Then gblGaugeSecondaryHeightRatio = "1"
-                    resizeProportion = Val(gblGaugeSecondaryHeightRatio)
+                    If gblClockSecondaryHeightRatio = "" Then gblClockSecondaryHeightRatio = "1"
+                    resizeProportion = Val(gblClockSecondaryHeightRatio)
                 End If
                 
                                     
                 'if  dragging from right to left then reposition
-                If fGauge.gaugeForm.Left > oldGaugeLeftPixels Then
-                    fGauge.gaugeForm.Left = fGauge.gaugeForm.Left + fGauge.gaugeForm.Widgets("maincasingsurround").Widget.Left
+                If fClock.clockForm.Left > oldClockLeftPixels Then
+                    fClock.clockForm.Left = fClock.clockForm.Left + fClock.clockForm.Widgets("maincasingsurround").Widget.Left
                 Else
-                    fGauge.gaugeForm.Left = fGauge.gaugeForm.Left - fGauge.gaugeForm.Widgets("maincasingsurround").Widget.Left
+                    fClock.clockForm.Left = fClock.clockForm.Left - fClock.clockForm.Widgets("maincasingsurround").Widget.Left
                 End If
-                fGauge.gaugeForm.Refresh
-                Call fGauge.AdjustZoom(resizeProportion)
+                fClock.clockForm.Refresh
+                Call fClock.AdjustZoom(resizeProportion)
             End If
         End If
     
-        gblOldgaugeFormMonitorPrimary = gaugeFormMonitorPrimary
+        gblOldClockFormMonitorPrimary = clockFormMonitorPrimary
         
         oldMonitorStructWidthTwips = monitorStructWidthTwips
         oldMonitorStructHeightTwips = monitorStructHeightTwips
-        oldGaugeLeftPixels = fGauge.gaugeForm.Left
+        oldClockLeftPixels = fClock.clockForm.Left
     End If
 
    On Error GoTo 0
