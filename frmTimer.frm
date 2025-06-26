@@ -108,10 +108,10 @@ Private Sub revealWidgetTimer_Timer()
     If revealWidgetTimerCount >= (gblMinutesToHide * 12) Then
         revealWidgetTimerCount = 0
 
-        fGauge.gaugeForm.Visible = True
+        fClock.clockForm.Visible = True
         revealWidgetTimer.Enabled = False
         gblWidgetHidden = "0"
-        sPutINISetting "Software\UBoatStopWatch", "widgetHidden", gblWidgetHidden, gblSettingsFile
+        sPutINISetting "Software\SteampunkClockCalendar", "widgetHidden", gblWidgetHidden, gblSettingsFile
     End If
 
     On Error GoTo 0
@@ -191,11 +191,11 @@ Private Sub unhideTimer_Timer()
     
     On Error GoTo unhideTimer_Timer_Error
 
-    gblUnhide = fGetINISetting("Software\UBoatStopWatch", "unhide", gblSettingsFile)
+    gblUnhide = fGetINISetting("Software\SteampunkClockCalendar", "unhide", gblSettingsFile)
 
     If gblUnhide = "true" Then
-        fGauge.gaugeForm.Visible = True
-        sPutINISetting "Software\UBoatStopWatch", "unhide", vbNullString, gblSettingsFile
+        fClock.clockForm.Visible = True
+        sPutINISetting "Software\SteampunkClockCalendar", "unhide", vbNullString, gblSettingsFile
     End If
 
     On Error GoTo 0
@@ -240,23 +240,23 @@ Private Sub sleepTimer_Timer()
 
     If lngSecondsGap > 60 Then
       
-        gblFGaugeAvailable = True
-        ' Call ' screenWrite("system has just woken up from a sleep at " & Now() & vbCrLf & "updating digital gauges... ")
+        gblFClockAvailable = True
+        Call screenWrite("system has just woken up from a sleep at " & Now() & vbCrLf & "updating digital clocks... ")
         
-        'overlayWidget.BaseDate = Now()
-        'gblTriggerDigitalGaugePopulation = True
+        overlayWidget.BaseDate = Now()
+        gblTriggerDigitalClockPopulation = True
         
-        fGauge.gaugeForm.Refresh
+        fClock.clockForm.Refresh
         
-'        If gblNumericDisplayRotation = "1" Then
-'            overlayWidget.TmrDigitRotatorTicking = True
-'        End If
-'
-'        '  clear any existing weekday indicator after a wake from sleep
-'        If fGauge.weekdayToggleEnabled = True Then
-'            Call hideDayOfWeek
-'            fGauge.gaugeForm.Widgets(fDayOfWeek).Widget.Alpha = 1
-'        End If
+        If gblNumericDisplayRotation = "1" Then
+            overlayWidget.TmrDigitRotatorTicking = True
+        End If
+        
+        '  clear any existing weekday indicator after a wake from sleep
+        If fClock.weekdayToggleEnabled = True Then
+            Call hideDayOfWeek
+            fClock.clockForm.Widgets(fDayOfWeek).Widget.Alpha = 1
+        End If
         
         overlayWidget.Widget.Parent.Refresh
         

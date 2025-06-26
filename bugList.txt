@@ -1,83 +1,498 @@
-' added comboboxes for the secondary gauges - done
-' added secondary gauge timezone calculations - done
-' added textbox to display secondary bias - done
-' switch button code added - done
-' added CAIRO-OPERATOR code to all cwPaint functions to remove deeper shadows - done
-' placed secondary hands in correct positions when faces switched - done
-' added specific tooltips - done
-' refreshes the day/month if there is a day change over - done
-' removed lots of unwanted images - done
-' added FaceMode property to avoid using globals in a class - done
-' if DST option is not selected then DST is not calculated - done
-' updateDLS merged with updateDaylightSavings - done
-' secondary gauge tzDelta calculation - done
-' Added function to check and write the Trinkets File - done
-' restart.exe takes a parameter which is the binary to restart, fix it - done
+Tasks Complete:
+=================
 
-' clock mode - secondary gauge must use tzdelta1  - done
+dealing with increased density shadows, the simple PSD parser function seems to increase to opacity of shadows in the transparent regions. Sent PSD to Olaf - done
 
-' new code and a new timer to rotate swhourhand, swminutehand and swsecondhand according to a newly calculated set of degrees of rotation from
-'    the point the timer starts - done
+help image cut off - done
+help pin added - done
+mute button balloon text - done
+mute button code - done
+about us PNG updated - done
+mute button on startup - done
+add percentage in text - done
+sliderset - constrain within current Y axis - done
+sliderset - constrain within bounds left/right - done
+stretch the cable to match the sliderset - done
+slider in relation to external sound changes - done
+add frequent timer to detect change to system volume state and set button state automatically - done
+add keypress commands L/R U & D - done
+create HTML documentation - done
+create CHM documentation - done
+width of the help in low dpi mode - done
+removal of prefs positioning to top, bottom &c - done
+update html code documentation using MZTools code documenter  - done
+setup2go create setup.exe  - done
+Prefs scale altered from 5-100 - done
+fmrMessage unloaded - done
+startup - done
 
-' If button 1 is pressed for a second time, this just stops the hands rotating, the secondary timer itself continues - done
-' stopwatch mode press once on button 1 set and store a start point and start a timing run - done
-' stopwatch mode press twice on button 1 pauses the hands on any current timing run but the run continues - done
-' stopwatch mode press once on button 3 resets the hands and stops the timing run - done
-' stopwatch mode press once on switch faces button resets the hands and stops the timing run - done
-' the stopwatch second hand rotates smoothly from paused location to actual elapsed time - done
-' When the timer is reset using the lower b, the timer will stop rotating the hands and a secondary timer will rotate them backward and reset the start point - done
+add optional alarm variable for the day/month and year digital displays
+same for AM/PM
+add graphical sparkles
 
+msgbox to msgboxA
 
+on alarm toggle click - use the associated glbl alarm value and override the digital display
+weekday till toggle - not closing
+have separate solid red till backgrounds for transparent text overlays as per the YWE version of the widget - this should fix the mouseLeave bug where the red bit stays
+alarm 1 toggle popping up when background help disabled
+pendulum - convert the original js.
+add pendulum toggle control to the prefs
+quiet/loud sounds
 
+' resizing of main clock on multi-monitor systems with different sizes
+' resizing of preferences on multi-monitor systems with different sizes
+' test usage of RC6 for 2nd monitor awareness 
+
+' weekday till refresh at midnight
+
+' fix the slider cable
+
+' prefs, have a save size for each monitor encountered
+' subclass the scrollbar in the about window to allow it to be scrolled using the scrollwheel - not required, works already
+' add subclassing to allow the balloon tooltips to appear on all prefs comboboxes
+' added sleeptimer 
+' implement sleep timer refresh
+
+' fix recent control tooltips
+' startup crank handle
+' add method to feed messages to the screen 
+' screenwrite on all major controls
+' screenwrite on startup and alarms
+' clock, have a save size for each monitor encountered
+
+ add balloon tooltips to all prefs controls - abandoned  - Elroy's subclassing VB^6 comboboxes do not work alongside an RC form, tooltips will not appear, OK in firecall with no RC forms
+
+' HTML documentation WIP
+' create CHM
+' resize the prefs on startup
+
+' create an image array/list and populate that with the date/time images that need to be displayed,
+' always display the contents of that list on each paint event.
+
+' de-couple the routines that populate the digital clocks so we can run those on a separate timer
+' so that the code to determine the month year does not run on each and every PAINT event consuming unnecessary CPU 
+' remove the weekday timer when setting an alarm
+
+' test the various auto-resizing options
+' added trigger of digital clocks on awake from sleep
+
+' add 24hr clock check box in prefs, plus, storing/reading/validation &c
+' prevent spurious clicks on tills that have alpha of 0
+' alarm toggles indicate alarm state
+' screenwrite when awoken from sleep
+
+' digital counter animation from zero
+
+' when you click on A alarm toggle, it should not set to 01Jan 1970 as it needs to start at the current date/time to set the next alarm
+' click on alarm till deletes alarm with confirmation pop-up
+' if in alarm mode, when you delete the alarm it also cancels alarm mode, moving slider back in
+
+' subclassing comboboxes Elroy's subclasser
+' Added Olaf tooltips for the UI controls
+' tooltips for the prefs multi monitor combo
+
+' cancel an automatic resize after a wake from sleep, due to Windows sometimes pushing all windows onto one monitor, after a wake from sleep
+' Added Elroy's subclassing code to assist in capturing WM_MOVE and WM_MOVED.
+' Added subclassing to remaining prefs comboboxes to capture mouseOver and generate balloon tooltips
+' Add balloon tooltips to all comboboxes, vars and assignments
+' at mouseUP test current monitor using isPrimary instead of monitorIDs.
+
+' balloon tooltips font size - not possible unless I roll my own
+' all remaining controls, text, buttons,  chk boxes, scrollbars and image boxes to receive balloon tooltips - wip
+' general tab added balloon tooltips
+' windows tab added balloon tooltips
+' fonts tab added balloon tooltips
+' sounds tab added balloon tooltips
+' position tab added balloon tooltips
+' config tab added balloon tooltips
+' about tab added balloon tooltips
+
+' code to save, validate and restore prefs balloon tooltip config.
+' tooltips for recent controls, missing tooltips
+
+' digital display indicators, respect opacity
+' T toggle crank, hinges, respect opacity
+
+' prefs intercept WM_EXITSIZEMOVE WM_MOVED via subclassing
+' prefs auto resizing, fix since isPrimary
+' create a new subroutine that both the timer and mouseUP can call?
+
+' use the new wm_moved to call the resizing on the form on mouseUP.
+
+' fix prefs show when minimised
+' help dropdown 1,2 & 3
+
+' change the check boxes that control tooltips to radio buttons
+' add 12/24hr code in overlay 
+
+' text screenWrite alternative method - have one text widget and fill that - it will fit behind the weekday and alarm tills, whereas the text form has to be 'lifted' above 
+' investigate use of alpha img instead when creating the cwlabel widget - not relevant
+' the handwritten font text incorrect on the help dropdowns
+
+' add zOrder divination to the console text label holder
+' add inIDE call to prevent unexpected IDE crash caused by the addition of the cwLabel
+
+' add a font configuration fields to the prefs for the console text size and font
+' add balloon and standard tooltips to the console font configuration controls
+
+' updated about text
+' removed dead files and references
+' Added MP3 sound files for later conversion
+' Added time machine images
+' changes to the about text
+
+' add global vars for storing the console text vars, read/write/vaidate &c
+' add github home
+' add github menu option
+' convert all mp3 to .wav
+' added chiming for all the 1/4 hrs
+' add chiming for the hour using shortened bell toll 1.5s
+' clapper enabled in adjustControls
+
+' added alarms for all five toggles
+' update HTML code for all recent changes
+' reducing cpu overhead of testing for alarms
+' removed redundant code
+
+' add new globals for the date + times combined and set them elsewhere to reduce the overhead on each second sweep  
+' 1.75s length chime bell
+' longer final chime with revurb
+' fixed the tab order on the general page for the alarm fields
+
+' time validity check not working
+
+' fontDialog - corrected default font from centurion to last opened
+' add code to support the setting of the font characteristics for the console display - wip
+' when user changes prefs font in high DPI mode, a quick resize is required to obtain the new resized font again.
+' width/height of messageboxA, stored after resize
+
+' replace cwlabel with another RC control and re-test too see if it crashes - it does
+' not always showing the currently used font for the screen display
+' centre the clock hands more accurately, remove the hole and see what it is doing
+' not writing the wake after sleep to the screen display
+
+' fix IDE crash with creating label widget- forum post raised
+' add a sound to the clockset dblclick
+
+' add the date/time picker FOSS code to the prefs - abandoned ucJLDatePicker, strange errors and no instructions
+' number of writeable lines in the label widget according to the font size to ensure the text appears on screen - not required
+
+' separate the date into three separate boxes, perhaps a dropdown for each and validation - wip
+' add three separate boxes for alarm 1- wip
+' add code to fill the date and month with values for alarm 1- wip
+' add code to fill the date and month with values for alarm 1- wip
+' add balloon tooltips for day and month for alarm 1- wip
+
+' separate the time into two fields and add validation
+
+' courier new problem
+' set the display console font to the chosen font in the font field
+' standard tooltips for the alarm combo boxes
+' bottom of the form has been truncated slightly
+' won't ring one o'clcck AM
+
+' dbl clicking on the screen causes a CR
+' mute button not toggling out after a press in and reload
+
+' DPI switch off and back on loses high DPI size, document, no change.
+' preferences get focus when behind and visible
+' why is the RC5 prefs drag and resize so much smoother than the RC6 version? because it auto-resizes the top icons on each and every resize
+
+' switch off all function menu option to stop all timers
+' switch on all function menu option to restart all timers
+' enable all controls to avoid mouse events when set in the prefs Window tab - clock still operates
+
+' get the sound working on the old Konfab. widget
+
+' tooltip changes
+' countdown fix
+
+' added closing of all timers to the unload event - TwinBasic caused errors when the program quit
+' made some timers public in fClock to allow them to be closed externally
+' fixed type mismatch when building the rotator string and the alarm strings
+
+' added coding environment variable VB6/TwinBasic
+' Changes to display TwinBasic in menu, text &c when compiled with TB
+' TwinBasic workaround for dark icon images showing upside down when loaded from an RC collection
+' TwinBasic workaround for light icon images showing upside down when loaded from an RC collection
+
+' create a property in cwOverlay and pass the time deviation to it.
+o added a blank value to all combobox alarm dates and times
+o add clear buttons for all five alarms
+o add now() button logic for all alarms
+' does time reset after a sleep? - test
+
+' when alarms are saved/cleared &c the alarm toggles are not refreshed, call the existing code to refresh their state
+' changes to validate alarms and reload alarms after a prefs close
+' now and alarm clear buttons given tooltips
+' re-read alarms each time the prefs is opened from the menu
+' right and left keys when the alarm is raised, control the slider - already done
+' add keypresses to control the other controls, when clock has focus
+
+' weekday till red flag, properly made to disappear when mouse leaves, using lblterminaltxt mouseOver
+' alarm till red flag, properly made to disappear when mouse leaves, using lblterminaltxt mouseOver
+' slider mouse Move advancing/retarding time using timeShiftPercent modified to shift time logarithmically
+' instead  of sliderSet_Moving event, use the relative position of the slider to determine the amount of advance/retard and have a timer forward that to the overlay
+
+' alarmMode variable renamed to sliderInTransit
+
+' added isLoaded property to widgetPrefs
+' replace global var with isLoaded
+' add isLoaded test to isVisible property 
+' add isLoaded test to all calls to widgetPrefs controls from other locations during main
+' load the sand timer images to the PSD
+' create six busy widgets at different angles
+' create a property in fclock to .RotateBusyTimer
+' add a call to RotateBusyTimer in each widgetPrefs loop which is adding to the population of comboboxe
+' for each call of RotateBusyTimer, increment a private var in fclock holding the rotate angle
+' when in alarm mode, the analogue clock now displays the time as stated on the alarm shown
+
+' change the upper S toggle to a D toggle, D for Display
+' change the help background
+
+' test and modify the slider with negative values
+' move the code run in the tmrTimeShift timer to a subroutine
+' in the timer and call that subroutine
+' create a property let/get that also triggers the subroutine
+' in sliderSet_moving set that property causing the routine to run
+
+' identify remaining numeric indicator related code that is currently in timers to routines that can be called manually from the UI
+' call them from the _MOVING event and test
+
+' when idle in Alarm set mode with the slider in 0 position, no CPU should be used.
+
+' fix the slider and numeric rotation speed to a useful amount
+
+' add new property to tell the overlay that the slider is freed but in idle position to retain the current date/time as selected
+' alarm set - accept an indicated time as the current alarm date/time
+' add more sand timer rotations
+' move the busyTimer clear to a separate routine run at the end of the widgetPrefs form_load
+
+' The S key down does not operate the S toggle
+
+' F5 error, menu reload works but F5 fails.
+' added alarm set msgboxa
+
+' the right left keys are allowed to drag the slider even when the A toggle has not been pressed.
+' when an alarm is set via the GUI the widgetPrefs, all alarm setting fields should be zeroed.
+' alter the speed of the numeric display rotation and test - minumum of 14
+
+' generate XML documentation
+
+' busyblur persisting on occasion. Identify when and fix
+
+' widgetPrefs, config, added code for the disable option to the clock tooltips
+' widgetPrefs, config, add code for the disable option to the prefs tooltips - wip
+' widgetPrefs, modify the onMouseOver tooltip code to handle the different index options for both the clock and the prefs
+
+' reload when prefs change, make sure all reloadWidget set the same gbl flag to prevent screenWrite errors
+
+' find a TB workaround for the onMouseOver not working when an image is disabled
+' TB bug frame in prefs icons not showing
+
+' test a recent alarm in VB6 and TB, tested seems to be working
+' the time is not displayed in the numeric time field when an alarm is ringing
+' clicking on the alarm Toggle raised closes the alarm but does not turn off a ringing alarm
+
+' the PSD for the helpBottom needs to be updated - set key and the close Diamond
+' change the HTML help to match the new functionality
+' add visualstyles = false to all controls on the prefs form using beta 645
+' about text VB6 / Twinbasic wip, check if the PSD is on the e6410. Nope
+
+' if the alarm has a date/time already set, then the alarm set start time should be the current alarm date/time as set
+
+' add preliminary code to reset to the current time, via a double click on the clock face
+' when selecting a project file VBP to run, allow selection of a different file for TwinBasic and VB6 using the same settings.ini file WIP
+
+' bugfix to project file selection button
+' alarm toggles now change toggle image dynamically when alarm set
+o changed gblRaisedAlarm to gblAlarmTogglePressed
+o added control and variables to handle Numeric Display Rotation
+o changes in populateDigitalClockCache to handle dates/times in a consistent manner
+o fixed a potential mismatch of values in the tmrClock_TimerRoutine
+o fixed the three quarter hour chiming 1 minute late
+o alarms now display the current time as start time when no alarm set, not 1970
+o added code when un-setting all alarms to specifically reverse the alarm function and display the current time
+
+' CHM update and path in the s2g file
+' added comments to important places
+
+' fix to wake from sleep
+' balloon tooltips to the overlay widget - temporary solution, place items underneath the overlay images and capture the events on those instead.
+' swap the crank sounds
+' console screen font size 5pt
+' add main code to reset to the current time, via a double click on the clock face
+' ting and tingting added
+
+' speed up population of the comboboxes by doing it at design time
+
+' preference position on first run fixed. Now centred.
+' clockform now a decent size on startup 100%
+' moved hideBusyTimer to a public location, called in mainRoutine
+' added balloon tooltip text to the now() alarm buttons.   
+' weekday toggle on?
+' always show help on widget first start
+' when switching from low to high DPI the prefs left position is lost and should be recalculated
+' after very first install preference size is not saving
+' resize before prefs is visible prevents user observing the resize event.
+
+' big screens start with DPI ON
+' on very first install if big screen then size of the clockForm as a proportion of the screen size
+' if the alarmtoggle is pressed and the alarm chosen is toggled off by user input, then the alarm toggle should pop out
+
+' on very first install if big screen and high DPI ON then size of the prefs as a proportion of the screen size - check
+' subclass the font dialog non-modal pop up to centre it on screen
+
+' ticking using mciSendString API will not play ticktock.wav on Win 11
+' implemented new method of playing sounds asynchronously
+' changed major sounds to asynch operation.
+' fixed corrupt ticktock.wav file
+' descriptions on all routines on the cwOverlay
+' create setup.exe with a different name.
+
+' moved the clock timer start to a position later in the main_routine
+' fixed github removing linebreaks from repos by:  git config --global core.autocrlf true
+' updated release text
+' zipped the source folder and uploaded manually.
+
+' tick chain is not saving and restoring its position when pulled
+
+' mute button mutes playSound WAV files but not those played asynchronously
+
+' descriptions on all routines in cfClock
+
+' descriptions on all routines in cfMain - WIP
+' removed references to clockForm_BubblingEvent
+' removed licenceform _move event
+' fixed all error messages incorrectly pointing to cfMain
+' descriptions on all routines in cwAbout
+' descriptions on all routines in cwLicence
+' hook and release hook, document
+
+' initialise all vars in cfClock and add comments to all vars
+' initialise all vars in cwAbout and add comments to all vars
+' initialise all vars in cwLicence and add comments to all vars
+' initialise all vars in cwOverlay and add comments to all vars
+' gblSmoothSecondHand removed
+' gblOldClockFormMonitorPrimary
+
+' module1.bas - renamed all global vars, now starting with gbl to identify - and tested
+' descriptions on all routines in module1
+' renamed some routines to reflect their function
+
+' descriptions on all routines in module2
+' descriptions on all routines in modResize 
+' revealWidgetTimerCount as static
+
+' descriptions on all routines in modMain -
+' globals on all routines in modMain -
+
+' descriptions on all routines in widgetPrefs
+
+' tidy widgetPrefs form_load
+' added several names to credits in about.txt
+' tidy main_routine
+' descriptions on all routines in menuForm
+' descriptions on all routines in frmTimer
+' descriptions on all routines in frmMessage
+' tmrZZZZSound to be replaced with asynchronous playing sounds
+' tmrTILLSound to be replaced with asynchronous playing sounds
+
+' Performing a hard restart, message box added to F5
+
+' resizing the main form via ctrl+mousewheel feeds back into prefs slider via a property
+
+' resizing bug, (going small) when the automatic resize across screens is enabled
+' widgetPrefs slider gauge corresponds always
+' when a full chime is sounding, a mute does not mute it.
+' changes for saving and reading specifically only the alarm state on the right hand clapper,
+' new VB6 control on the prefs for the chimes only - ready for new UI control
+' new UI left hand clapper control on the clock for the chimes
+' changes for saving and reading specifically only the chime state on the left hand clapper,
+' check correct use of all properties to minimise CPU usage, locally should always be using the Version of a variable rather than the property LET/SET itself
+' cfClock.cls references to fclock.clockform. to just clockform
+
+' find and replace three timers within fClock class with property GET/LETs
+' find and replace three timers within overlay class with property GET/LETs
+' change the internal calling of the three timers within the fClock class to call the properties and not the timers themselves for enabling and disabling
+' change the internal calling of the three timers within the overlay class to call the properties and not the timers themselves for enabling and disabling
+' find and replace remaining four timers within overlay class with property GET/LETs
+' make all overlay timers private and convert all references to the timers to use the properties instead of directly accessing
+' make all cfClock timers private and convert all references to the timers to use the properties instead of directly accessing
+' find and identify globals within about class with property GET/LETs
+' find and identify globals within licence class with property GET/LETs
+
+' fix class timers not starting within properties when values are the same as current
+' change the main clock form time slider values to make hour/minute/date/year changes more practical
+
+' weekday till flag, the text 'only' sometimes doubles up, possibly after a refresh after midnight when the till has been showing - identify the scenario
+'     the weekday had not changed overnight and the previous transparent day indicator was left on screen, pressing the weekday toggle caused the new weekday
+'     to appear but the previous one persists
+
+TwinBasic crash after reload due to RC message pump
+mute cancel causes ticking, no longer
+
+rationalise SliderFreed,  SliderEnabled, SliderInTransit
+
+upscale the images
+
+update XML documentation
 
 ' -oOo-
 
 NOTE:
 
-When the RC6.DLL and RC6widgets.dll are registered elsewhere within another widget, then this widget will compile but not run.
+When the RC6.DLL and RC6widgets.dll are registered elsewhere within another widget, then this widget will compile but not run. 
 In this case, the two DLLs in the local BIN folder need to be registered using the two Olaf-supplied scripts.
 
-NOTE: When editing using the VB6 IDE started from the widget right click menu itself, it may not compile and run correctly.
-- it may well run in the IDE but not as an .EXE run via the IDE 'run' button.
-FIX: Initiate the IDE from the VBP file in the folder itself, opened using explorer
-     Compile and then run from explorer. 
-     Do not know why it only affects this widget alone.
-     
 
 Tasks to do:
-============     
+============
 
-' adapt a completely new help HTML from the Pz Just Clock with new information pertaining to the stopwatch functionality.
-' CHM build
-' github synch CHM manually
+' when an alarm has been raised and an alarm toggle selected, if you move the slider forward to a future date/time, a double click does not revert the time to the current time.
+- confirmed
 
-' the stopwatch main hour hand and shadow rotates smoothly from normal time to parked location
-' the stopwatch main minute hand and shadow rotates smoothly from normal time to parked location
-' the stopwatch main second hand and shadow rotates smoothly from normal time to parked location
+' 00xx issue on small slider movements just trying to change the time
 
-' change recent globals to properties
+' add time machine functionality
 
-' loop counters changed to STATIC vars
+' about text VB6 / Twinbasic wip, check if the PSD is on the G5.
 
-' prefs restart bug
+' combine a new counter-rotating sound recording the current Konfabulator widget.
 
-' changing large tooltips added to button 1 - wip
+' clockform.refresh or overlaywidget.refresh?
 
-' https://www.vbforums.com/showthread.php?900892-VB6-Simple-way-to-make-your-VB6-application-quot-Per-Monitor-DPI-Aware-quot
+' sliderSet movement should cause asynch. sounds rather than causing a timer to call the sound in the background.
 
+' add another overlay that handles the animation of the pendulum alone that can run at a much higher frequency and reducing CPU usage overall.
 
+' tmrTickingSound_Timer timer, a sound sequence of ticks to be played, needs replacing with a timed tick that corresponds with pendulum movement
 
-update XML documentation
+' replace the dropdown comboxes for the date selection with Krool's date/time calendar
 
 ' create diagram of the program flow.
 
+' .VAlign on the label? not working, raised as a bug with Olaf? 0=Top, -1 and 1=Middle
+
+' after a digital reset set each to -- --  and ** *** **** one by one - wip
+'      possibly do the hrs, mins, days, month and years separately
+
 ' investigate the accumulating shadow when moving across the transparent surface of the screen
+
+' shadow behind cwlabel background when background screen lowered, 1. try adding a refresh, 2, try another control
 
 ' rubberduck the code
 
+' look at Olaf's pendulum code - if the pendulum swinging is still using too much CPU after the new overlay
+
+' the asynch sounds will not currently operate outside a timer, confirmed - research as to why
+
+' Test the help drop down, the weekday and alarm tills and other items that have other items below them to see how they react with this code in cwAlpha.cls:
+' If W.Alpha = 0 Or W.Enabled = False Then Exit Sub
+
 ' Create a XP /ReactOS version using old APIs and RC5 - no DPI awareness, as XP does not have the API nor the capability.
-         no simplePSD layer extraction
-         https://www.vbforums.com/showthread.php?896944-VB6-QUESTION-Check-if-API-exists
+        https://www.vbforums.com/showthread.php?896944-VB6-QUESTION-Check-if-API-exists
 
 ' obtain a XP test system - wip
 
@@ -93,6 +508,15 @@ update XML documentation
 ' adjustFormPositionToCorrectMonitor - about form
 ' adjustFormPositionToCorrectMonitor - help form
 
+' identify the resizing code changes/additions for multi monitor systems so the code can be back-ported to older VB6 widgets
+
+' reduce CPU usage to less than one percent
+
+' console, retain the complete history in the screen array
+
+' console, allow scroll up and down through the console messages
+
+
 
 ' -oOo-
 
@@ -105,12 +529,14 @@ update XML documentation
 ' 32x32 (32 bit)
 ' 16x16 (32 bit)
 
-' patch a 256 bit icon into the VB6 binary        VBAdvance?
+' patch a 256 bit icon into the VB6 binary
 ' https://www.vbforums.com/showthread.php?858347-RESOLVED-How-to-create-and-connect-quality-icon-group-to-your-VB6-app
 
  or this:
 
  file:///E:/vb6/vbAccelerator%20-%20Providing%20a%20proper%20VB%20Application%20Icon,%20Including%20Large%20Icons%20and%2032-Bit%20Alpha%20Images.html
+
+' recreate the clock imagery using a large scale version of the PSD
 
 Static Linking in TB only.
          In TwinBasic static library linking is possible allowing incorporation of DLLs into the misc section and compiling into the finished binary
