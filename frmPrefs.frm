@@ -3556,7 +3556,7 @@ Private Sub Form_Load()
     
     ' load the preference icons from a previously populated CC imageList
     Call loadHigherResPrefsImages
-    
+         
     ' set the height of the whole form not higher than the screen size, cause a form_resize event
     Call setPrefsHeight
     
@@ -3704,9 +3704,6 @@ End Sub
 Private Sub setPrefsHeight()
 
    On Error GoTo setPrefsHeight_Error
-   
-    ' constrain the height/width ratio
-    gblConstraintRatio = pvtcPrefsFormHeight / pvtcPrefsFormWidth
 
     If gblDpiAwareness = "1" Then
         gblPrefsFormResizedInCode = True
@@ -4943,6 +4940,9 @@ Private Sub positionPrefsFramesButtons()
     'Dim currentFrameHeight As Integer: currentFrameHeight = 0
     Dim rightHandAlignment As Long: rightHandAlignment = 0
     Dim leftHandGutterWidth As Long: leftHandGutterWidth = 0
+    
+    ' constrain the height/width ratio
+    gblConstraintRatio = pvtcPrefsFormHeight / pvtcPrefsFormWidth
     
     ' align frames rightmost and leftmost to the buttons at the top
     buttonTop = -15
@@ -6710,6 +6710,8 @@ Public Sub Form_Moved(sForm As String)
                 Else
                     widgetPrefsOldHeight = widgetPrefs.Height
                     widgetPrefsOldWidth = widgetPrefs.Width
+                    
+                    btnSave.Enabled = True
                     
                     Call PrefsForm_Resize_Event
                     pvtPrefsFormResizedByDrag = False
