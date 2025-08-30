@@ -74,9 +74,9 @@ Private Sub W_Paint(CC As RC6.cCairoContext, ByVal xAbs As Single, ByVal yAbs As
 
    CC.RenderSurfaceContent Srf, 0, 0, W.Width, W.Height, , W.Alpha 'render the current W.ImageKey-Surface (as loaded priorily into the ImageList)
 
-  If W.MouseOver And W.HoverColor <> -1 Then 'render a colored, slightly blurred copy of the Srf with 25% Alpha (in case of being hovered)
-     CC.RenderSurfaceContent Srf.GaussianBlur(0.1, , True, W.HoverColor), 0, 0, W.Width, W.Height, , W.Tag
-  End If
+  'If W.MouseOver And W.HoverColor <> -1 Then 'render a colored, slightly blurred copy of the Srf with 25% Alpha (in case of being hovered)
+     'CC.RenderSurfaceContent Srf.GaussianBlur(0.1, , True, W.HoverColor), 0, 0, W.Width, W.Height, , W.Tag
+  'End If
 
     On Error GoTo 0
     Exit Sub

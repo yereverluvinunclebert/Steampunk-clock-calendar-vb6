@@ -516,7 +516,9 @@ Tasks to do:
 
 ' console, allow scroll up and down through the console messages
 
-
+' convert the old settings.ini to JSON using RC's built-in capability
+   New_C.JSONDecodeToCollection or New_C.JSONDecodeToCollectionUTF8 (for deserializing from JSON) and cCollection.SerializeToJSONString
+/cCollection.SerializeToJSONUTF8 (for serializing back to JSON).
 
 ' -oOo-
 
