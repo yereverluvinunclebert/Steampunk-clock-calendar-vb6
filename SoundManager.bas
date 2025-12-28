@@ -135,7 +135,7 @@ Private Const MMIOM_OPEN As Long = 3
 Private Const MMIOM_READ As Long = MMIO_READ
 Private Const MMIOM_RENAME As Long = 6
 Private Const MMIOM_SEEK As Long = 2
-Private Const MMIOM_USER As Long = &H8000
+Private Const MMIOM_USER As Long = &H8000&
 Private Const MMIOM_WRITE As Long = MMIO_WRITE
 Private Const MMIOM_WRITEFLUSH As Long = 5
 
