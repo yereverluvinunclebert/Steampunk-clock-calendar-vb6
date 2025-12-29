@@ -2815,6 +2815,9 @@ Private Sub btnSetAlarm_Click(Index As Integer)
         
         btnSetAlarm(Index).Enabled = False
         
+        ' replace the widget's default image to another image also in the PSD file and now in the individual widget collection
+        Call setAlarmTogglePositions
+        
     On Error GoTo 0
     Exit Sub
 

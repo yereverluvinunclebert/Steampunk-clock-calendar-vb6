@@ -1958,8 +1958,13 @@ Private Sub tmrClock_TimerRoutine()
                 
             End If
         
+            
+        End If
+        
+        If fClock.alarmclapperEnabled = True Then
             Call ShallWeRingAlarm
         End If
+
     End If
     
     ' only a few routines are called from this timer but instead this subsequent refresh will trigger a PAINT event
@@ -2573,7 +2578,7 @@ End Property
 ' Property  : TmrPendulumTicking
 ' Author    : beededea
 ' Date      : 17/05/2023
-' Purpose   : property to determine (by value) externally the interval of a private timer
+' Purpose   : property to determine (by value) externally the state of a private timer
 '---------------------------------------------------------------------------------------
 '
 Public Property Get TmrPendulumTicking() As Boolean
@@ -2592,7 +2597,7 @@ End Property
 ' Property  : TmrPendulumTicking
 ' Author    : beededea
 ' Date      : 17/05/2023
-' Purpose   : property to determine (by value) externally the interval of a private timer
+' Purpose   : property to determine (by value) externally the state of a private timer
 '---------------------------------------------------------------------------------------
 '
 Public Property Let TmrPendulumTicking(ByVal newValue As Boolean)
@@ -2615,7 +2620,7 @@ End Property
 ' Property  : TmrTollingTicking
 ' Author    : beededea
 ' Date      : 17/05/2023
-' Purpose   : property to determine (by value) externally the interval of a private timer
+' Purpose   : property to determine (by value) externally the state of a private timer
 '---------------------------------------------------------------------------------------
 '
 Public Property Get TmrTollingTicking() As Boolean
@@ -2634,7 +2639,7 @@ End Property
 ' Property  : TmrTollingTicking
 ' Author    : beededea
 ' Date      : 17/05/2023
-' Purpose   : property to determine (by value) externally the interval of a private timer
+' Purpose   : property to determine (by value) externally the state of a private timer
 '---------------------------------------------------------------------------------------
 '
 Public Property Let TmrTollingTicking(ByVal newValue As Boolean)
@@ -2657,7 +2662,7 @@ End Property
 ' Property  : TmrCountdownToTollTicking
 ' Author    : beededea
 ' Date      : 17/05/2023
-' Purpose   : property to determine (by value) externally the interval of a private timer
+' Purpose   : property to determine (by value) externally the state of a private timer
 '---------------------------------------------------------------------------------------
 '
 Public Property Get TmrCountdownToTollTicking() As Boolean
@@ -2676,7 +2681,7 @@ End Property
 ' Property  : TmrCountdownToTollTicking
 ' Author    : beededea
 ' Date      : 17/05/2023
-' Purpose   : property to determine (by value) externally the interval of a private timer
+' Purpose   : property to determine (by value) externally the state of a private timer
 '---------------------------------------------------------------------------------------
 '
 Public Property Let TmrCountdownToTollTicking(ByVal newValue As Boolean)
@@ -2701,7 +2706,7 @@ End Property
 ' Property  : TmrTimeShiftTicking
 ' Author    : beededea
 ' Date      : 17/05/2023
-' Purpose   : property to determine (by value) externally the interval of a private timer
+' Purpose   : property to determine (by value) externally the state of a private timer
 '---------------------------------------------------------------------------------------
 '
 Public Property Get TmrTimeShiftTicking() As Boolean
@@ -2720,7 +2725,7 @@ End Property
 ' Property  : TmrTimeShiftTicking
 ' Author    : beededea
 ' Date      : 17/05/2023
-' Purpose   : property to determine (by value) externally the interval of a private timer
+' Purpose   : property to determine (by value) externally the state of a private timer
 '---------------------------------------------------------------------------------------
 '
 Public Property Let TmrTimeShiftTicking(ByVal newValue As Boolean)
@@ -2744,7 +2749,7 @@ End Property
 ' Property  : TmrDigitRotatorTicking
 ' Author    : beededea
 ' Date      : 17/05/2023
-' Purpose   : property to determine (by value) externally the interval of a private timer
+' Purpose   : property to determine (by value) externally the state of a private timer
 '---------------------------------------------------------------------------------------
 '
 Public Property Get TmrDigitRotatorTicking() As Boolean
@@ -2763,7 +2768,7 @@ End Property
 ' Property  : TmrDigitRotatorTicking
 ' Author    : beededea
 ' Date      : 17/05/2023
-' Purpose   : property to determine (by value) externally the interval of a private timer
+' Purpose   : property to determine (by value) externally the state of a private timer
 '---------------------------------------------------------------------------------------
 '
 Public Property Let TmrDigitRotatorTicking(ByVal newValue As Boolean)
@@ -2785,7 +2790,7 @@ End Property
 ' Property  : TmrAlarmRingingTicking
 ' Author    : beededea
 ' Date      : 17/05/2023
-' Purpose   : property to determine (by value) externally the interval of a private timer
+' Purpose   : property to determine (by value) externally the state of a private timer
 '---------------------------------------------------------------------------------------
 '
 Public Property Get TmrAlarmRingingTicking() As Boolean
@@ -2805,13 +2810,15 @@ End Property
 ' Property  : TmrAlarmRingingTicking
 ' Author    : beededea
 ' Date      : 17/05/2023
-' Purpose   : property to determine (by value) externally the interval of a private timer
+' Purpose   : property to determine (by value) externally the state of a private timer
 '---------------------------------------------------------------------------------------
 '
 Public Property Let TmrAlarmRingingTicking(ByVal newValue As Boolean)
    On Error GoTo TmrAlarmRingingTickingLet_Error
 
    If mTmrAlarmRingingTicking <> newValue Then mTmrAlarmRingingTicking = newValue Else Exit Property
+   
+   tmrAlarmRinging.Enabled = mTmrAlarmRingingTicking
 
    On Error GoTo 0
    Exit Property

@@ -1162,36 +1162,8 @@ Public Sub adjustMainControls(Optional ByVal licenceState As Integer)
         fClock.alarmtoggle5Enabled = True
     End If
     
-    ' replace the widget's default image to another image also in the PSD file and now in the individual widget collection
-    If gblAlarm1Date <> "Alarm not yet set" Then
-        fClock.clockForm.Widgets("alarmtoggle1").Widget.ImageKey = "alarmtoggle1armed"
-    Else
-        fClock.clockForm.Widgets("alarmtoggle1").Widget.ImageKey = "alarmtoggle1"
-    End If
-
-    If gblAlarm2Date <> "Alarm not yet set" Then
-        fClock.clockForm.Widgets("alarmtoggle2").Widget.ImageKey = "alarmtoggle2armed"
-    Else
-        fClock.clockForm.Widgets("alarmtoggle2").Widget.ImageKey = "alarmtoggle2"
-    End If
-    
-    If gblAlarm3Date <> "Alarm not yet set" Then
-        fClock.clockForm.Widgets("alarmtoggle3").Widget.ImageKey = "alarmtoggle3armed"
-    Else
-        fClock.clockForm.Widgets("alarmtoggle3").Widget.ImageKey = "alarmtoggle3"
-    End If
-    
-    If gblAlarm4Date <> "Alarm not yet set" Then
-        fClock.clockForm.Widgets("alarmtoggle4").Widget.ImageKey = "alarmtoggle4armed"
-    Else
-        fClock.clockForm.Widgets("alarmtoggle4").Widget.ImageKey = "alarmtoggle4"
-    End If
-
-    If gblAlarm5Date <> "Alarm not yet set" Then
-        fClock.clockForm.Widgets("alarmtoggle5").Widget.ImageKey = "alarmtoggle5armed"
-    Else
-        fClock.clockForm.Widgets("alarmtoggle5").Widget.ImageKey = "alarmtoggle5"
-    End If
+    '  replace the widget's default image to another image also in the PSD file and now in the individual widget collection
+    Call setAlarmTogglePositions
     
     ' ensure the background help displays on startup
     If gblShowHelp = "1" Then
@@ -1225,6 +1197,59 @@ adjustMainControls_Error:
         & " Most likely one of the layers above is named incorrectly."
 
 End Sub
+
+'---------------------------------------------------------------------------------------
+' Procedure : setAlarmTogglePositions
+' Author    : beededea
+' Date      : 29/12/2025
+' Purpose   : replace the widget's default image to another image also in the PSD file and now in the individual widget collection
+'---------------------------------------------------------------------------------------
+'
+Public Sub setAlarmTogglePositions()
+
+    On Error GoTo setAlarmTogglePositions_Error
+
+    If gblAlarm1Date <> "Alarm not yet set" Then
+        fClock.clockForm.Widgets("alarmtoggle1").Widget.ImageKey = "alarmtoggle1armed"
+    Else
+        fClock.clockForm.Widgets("alarmtoggle1").Widget.ImageKey = "alarmtoggle1"
+    End If
+
+    If gblAlarm2Date <> "Alarm not yet set" Then
+        fClock.clockForm.Widgets("alarmtoggle2").Widget.ImageKey = "alarmtoggle2armed"
+    Else
+        fClock.clockForm.Widgets("alarmtoggle2").Widget.ImageKey = "alarmtoggle2"
+    End If
+    
+    If gblAlarm3Date <> "Alarm not yet set" Then
+        fClock.clockForm.Widgets("alarmtoggle3").Widget.ImageKey = "alarmtoggle3armed"
+    Else
+        fClock.clockForm.Widgets("alarmtoggle3").Widget.ImageKey = "alarmtoggle3"
+    End If
+    
+    If gblAlarm4Date <> "Alarm not yet set" Then
+        fClock.clockForm.Widgets("alarmtoggle4").Widget.ImageKey = "alarmtoggle4armed"
+    Else
+        fClock.clockForm.Widgets("alarmtoggle4").Widget.ImageKey = "alarmtoggle4"
+    End If
+
+    If gblAlarm5Date <> "Alarm not yet set" Then
+        fClock.clockForm.Widgets("alarmtoggle5").Widget.ImageKey = "alarmtoggle5armed"
+    Else
+        fClock.clockForm.Widgets("alarmtoggle5").Widget.ImageKey = "alarmtoggle5"
+    End If
+
+    On Error GoTo 0
+    Exit Sub
+
+setAlarmTogglePositions_Error:
+
+     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure setAlarmTogglePositions of Module modMain"
+
+End Sub
+    
+
+
 
 '---------------------------------------------------------------------------------------
 ' Procedure : setAlphaFormZordering
