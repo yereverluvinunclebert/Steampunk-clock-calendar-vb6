@@ -9791,10 +9791,10 @@ Private Sub btnclearAlarm_Click(Index As Integer)
             cmbAlarm5Minutes.ListIndex = 0
             txtAlarm5Date.Text = "Alarm not yet set"
             txtAlarm5Time.Text = ""
-            
-        
     End Select
         
+    ' call the routine that sets the global params, writes the values and sets the state of the toggles on the GUI
+    Call btnSetAlarm_Click(Index)
 
    On Error GoTo 0
    Exit Sub
